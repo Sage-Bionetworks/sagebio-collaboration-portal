@@ -23,4 +23,4 @@ Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks and Roche/G
 
 ## Testing
 
-Running `npm test` will run the unit tests with karma.
+Running `npm test` will run the unit tests with karma. 
