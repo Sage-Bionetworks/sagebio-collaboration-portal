@@ -31,4 +31,4 @@ import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
         OauthButtonsComponent,
     ]
 })
-export class DirectivesModule {}
+export class DirectivesModule { }
