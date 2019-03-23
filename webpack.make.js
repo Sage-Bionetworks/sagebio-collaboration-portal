@@ -8,6 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+var GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -26,9 +27,9 @@ module.exports = function makeWebpackConfig(options) {
      */
     const config = {};
 
-    config.mode = BUILD
-        ? 'production'
-        : 'development';
+    config.mode = BUILD ?
+        'production' :
+        'development';
 
     /**
      * Entry
@@ -36,7 +37,7 @@ module.exports = function makeWebpackConfig(options) {
      * Should be an empty object if it's generating a test build
      * Karma will set this when it's a test build
      */
-    if(!TEST) {
+    if (!TEST) {
         config.entry = {
             app: './client/app/app.ts',
             polyfills: './client/app/polyfills.ts',
@@ -52,7 +53,7 @@ module.exports = function makeWebpackConfig(options) {
      * Should be an empty object if it's generating a test build
      * Karma will handle setting it up for you when it's a test build
      */
-    if(TEST) {
+    if (TEST) {
         config.output = {};
     } else {
         config.output = {
@@ -82,7 +83,7 @@ module.exports = function makeWebpackConfig(options) {
         }
     };
 
-    if(TEST) {
+    if (TEST) {
         config.resolve = {
             modules: [
                 'node_modules'
@@ -100,9 +101,9 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/configuration.html#devtool
      * Type of sourcemap to use per build type
      */
-    if(TEST) {
+    if (TEST) {
         config.devtool = 'inline-source-map';
-    } else if(BUILD || DEV) {
+    } else if (BUILD || DEV) {
         config.devtool = 'source-map';
     } else {
         config.devtool = 'eval';
@@ -235,6 +236,7 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/configuration.html#plugins
      * List: http://webpack.github.io/docs/list-of-plugins.html
      */
+    var gitRevisionPlugin = new GitRevisionPlugin();
     config.plugins = [
         // Hides the 'the request of a dependency is an expression' warnings
         new webpack.ContextReplacementPlugin(
@@ -252,10 +254,18 @@ module.exports = function makeWebpackConfig(options) {
                 sourceComments: false
             },
 
-        })
+        }),
+
+        new webpack.DefinePlugin({
+            'process.env': {
+                'gitVersion': JSON.stringify(gitRevisionPlugin.version()),
+                'gitCommitHash': JSON.stringify(gitRevisionPlugin.commithash()),
+                'gitBranch': JSON.stringify(gitRevisionPlugin.branch())
+            }
+        }),
     ];
 
-    if(BUILD) {
+    if (BUILD) {
         config.plugins.push(
             new CompressionPlugin({}),
             // https://github.com/webpack-contrib/mini-css-extract-plugin
@@ -269,7 +279,7 @@ module.exports = function makeWebpackConfig(options) {
     // Skip rendering app.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render app.html
-    if(!TEST) {
+    if (!TEST) {
         config.plugins.push(
             new HtmlWebpackPlugin({
                 template: 'client/app.template.html',
@@ -283,24 +293,21 @@ module.exports = function makeWebpackConfig(options) {
     let localEnv;
     try {
         localEnv = require('./server/config/local.env').default;
-    } catch(e) {
+    } catch (e) {
         localEnv = {};
     }
     localEnv = _.mapValues(localEnv, value => `"${value}"`);
     localEnv = _.mapKeys(localEnv, (value, key) => `process.env.${key}`);
 
     let env = _.merge({
-        'process.env.NODE_ENV': DEV ? '"development"'
-            : BUILD ? '"production"'
-            : TEST ? '"test"'
-            : '"development"'
+        'process.env.NODE_ENV': DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"'
     }, localEnv);
 
     // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     // Define free global variables
     config.plugins.push(new webpack.DefinePlugin(env));
 
-    if(DEV) {
+    if (DEV) {
         config.plugins.push(
             new webpack.HotModuleReplacementPlugin(),
         );
@@ -308,7 +315,7 @@ module.exports = function makeWebpackConfig(options) {
 
     config.cache = DEV;
 
-    if(BUILD) {
+    if (BUILD) {
         config.optimization = {
             splitChunks: {
                 cacheGroups: {
@@ -331,7 +338,7 @@ module.exports = function makeWebpackConfig(options) {
         };
     }
 
-    if(TEST) {
+    if (TEST) {
         config.stats = {
             colors: true,
             reasons: true
@@ -344,7 +351,7 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/webpack-dev-server.html
      */
     config.devServer = {
-	host: '0.0.0.0',
+        host: '0.0.0.0',
         port: 3000,
         contentBase: './client/',
         hot: true,

@@ -37,7 +37,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     addThing() {
-        if(this.newThing) {
+        if (this.newThing) {
             let text = this.newThing;
             this.newThing = '';
 
