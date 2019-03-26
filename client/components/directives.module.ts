@@ -7,8 +7,8 @@ import { MaterialModule } from './material/material.module';
 import { CollapseModule } from 'ngx-bootstrap';
 
 import { AuthModule } from './auth/auth.module';
+import { NavbarModule } from './navbar/navbar.module';
 
-import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
 
@@ -16,18 +16,18 @@ import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
     imports: [
         CommonModule,
         CollapseModule,
-        AuthModule,
         MaterialModule,
+        AuthModule,
+        NavbarModule,
 
         RouterModule,
     ],
     declarations: [
-        NavbarComponent,
         FooterComponent,
         OauthButtonsComponent,
     ],
     exports: [
-        NavbarComponent,
+        NavbarModule,
         FooterComponent,
         OauthButtonsComponent,
     ]

@@ -9,6 +9,7 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -273,6 +274,10 @@ module.exports = function makeWebpackConfig(options) {
                 filename: '[name].[hash].css',
                 chunkFilename: '[id].[hash].css',
             }),
+            // (“en” is built into Moment and can’t be removed)
+            new MomentLocalesPlugin({
+                // localesToKeep: ['fr'],
+            }),
         );
     }
 
@@ -310,6 +315,10 @@ module.exports = function makeWebpackConfig(options) {
     if (DEV) {
         config.plugins.push(
             new webpack.HotModuleReplacementPlugin(),
+            // (“en” is built into Moment and can’t be removed)
+            new MomentLocalesPlugin({
+                // localesToKeep: ['fr'],
+            }),
         );
     }
 

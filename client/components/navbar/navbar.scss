@@ -1,0 +1,61 @@
+@import '../../styles/constants';
+
+.app-navbar-header {
+  display: flex;
+  height: $navbar-height;
+  padding: 0 16px;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+
+  > div {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .app-navbar-item-container-right {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+  }
+
+  .app-button {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .app-logo {
+    height: 26px;
+    margin: 0 4px 3px 0;
+    vertical-align: middle;
+  }
+
+  .app-navbar-show-small {
+    display: none;
+  }
+
+  navbar-search {
+    max-width: 400px;
+    flex-grow: 1;
+  }
+
+  @media (max-width: $small-breakpoint-width) {
+    height: $navbar-height-sm;
+    padding-right: 6px;
+
+    .app-navbar-hide-small {
+      display: none;
+    }
+
+    .app-navbar-show-small {
+      display: flex;
+    }
+  }
+}

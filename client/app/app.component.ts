@@ -2,8 +2,19 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app',
-    template: `<navbar></navbar>
-    <router-outlet></router-outlet>
-    <footer></footer>`
+    template: `
+    <mat-sidenav-container class="app-sidenav-container">
+        <mat-sidenav #sidenav>
+            <!--<app-sidenav></app-sidenav>-->
+        </mat-sidenav>
+
+        <mat-sidenav-content class="app-sidenav-content">
+            <app-navbar class="mat-elevation-z6"></app-navbar>
+            <div class="content">
+                <!--<router-outlet></router-outlet>-->
+            </div>
+            <!--<app-footer></app-footer>-->
+        </mat-sidenav-content>
+    </mat-sidenav-container>`
 })
 export class AppComponent { }

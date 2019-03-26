@@ -1,203 +1,163 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
-import { safeCb } from '../util';
-import { userRoles } from '../../app/app.constants';
+import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { UserService, TokenResponse } from './user.service';
+import { TokenService } from './token.service';
+import { User } from '../../../shared/interfaces/user.model';
 
-// @flow
-class User {
-    _id = '';
-    name = '';
-    email = '';
-    role = '';
+class AuthInfo {
+
+  constructor(public user: User) { }
+
+  isLoggedIn() {
+    return !!(this.user && this.user._id);
+  }
+
+  isAdmin(): boolean {
+    return this.user && this.user.role === 'admin';
+  }
 }
+
+class AppUser implements User { }
 
 @Injectable()
 export class AuthService {
-    _currentUser: User = new User();
-    @Output() currentUserChanged = new EventEmitter(true);
-    userRoles = userRoles || [];
-    UserService;
+  private uuid; // TODO: remove
 
-    static parameters = [HttpClient, UserService];
-    constructor(private http: HttpClient, private userService: UserService) {
-        this.http = http;
-        this.UserService = userService;
+  static UNKNOWN_USER = new AuthInfo(null);
+  private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
 
-        if(localStorage.getItem('id_token')) {
-            this.UserService.get().toPromise()
-                .then((user: User) => {
-                    this.currentUser = user;
-                })
-                .catch(err => {
-                    console.log(err);
+  static parameters = [HttpClient, UserService, TokenService];
+  constructor(private httpClient: HttpClient, private userService: UserService,
+    private tokenService: TokenService) {
+    this.getAuthInfo();
+    this.uuid = Math.floor(Math.random() * 100) + 1;
+  }
 
-                    localStorage.removeItem('id_token');
-                });
-        }
+  /**
+   * Updates and returns the authentification information.
+   * @return {Observable<AuthInfo>}
+   */
+  getAuthInfo(): Observable<AuthInfo> {
+    if (this.tokenService.get()) {
+      return this.userService.get()
+        .pipe(
+          map(user => {
+            this.setUser(user);
+            return this._authInfo.getValue();
+          }),
+          catchError(err => {
+            this.tokenService.deleteToken();
+            this.setUser(AuthService.UNKNOWN_USER);
+            return this._authInfo.asObservable();
+          })
+        );
+    } else {
+      this.tokenService.deleteToken();
+      this.setUser(AuthService.UNKNOWN_USER);
+      return this._authInfo.asObservable();
     }
+  }
 
-    /**
-     * Check if userRole is >= role
-     * @param {String} userRole - role of current user
-     * @param {String} role - role to check against
-     */
-    static hasRole(userRole, role) {
-        return userRoles.indexOf(userRole) >= userRoles.indexOf(role);
-    }
+  /**
+   * Sets the user specified as the current user.
+   */
+  setUser(user): void {
+    this._authInfo.next(new AuthInfo(user));
+  }
 
-    get currentUser() {
-        return this._currentUser;
-    }
+  /**
+   * Authenticates user and save token.
+   *
+   * @param {Object} credentials Login info
+   * @return {Observable<User>}
+   */
+  login({ email, password }): Observable<User> {
+    return this.httpClient.post<TokenResponse>('/auth/local', {
+      email,
+      password
+    })
+      .pipe(
+      mergeMap(res => {
+        this.tokenService.set(res.token, res.expiresIn);
+        return this.userService.get();
+      }),
+      map(user => {
+        this.setUser(user);
+        return user;
+      }),
+      catchError(err => {
+        this.logout();
+        return throwError(err);
+      })
+      );
+  }
 
-    set currentUser(user) {
-        this._currentUser = user;
-        this.currentUserChanged.emit(user);
-    }
+  /**
+   * Deletes access token and user info.
+   * @return {Observable}
+   */
+  logout(): Observable<null> {
+    this.tokenService.deleteToken();
+    this.setUser(AuthService.UNKNOWN_USER);
+    return of(null);
+  }
 
-    /**
-     * Authenticate user and save token
-     *
-     * @param  {Object}   user     - login info
-     * @param  {Function} [callback] - function(error, user)
-     * @return {Promise}
-     */
-    login({email, password}, callback) {
-        return this.http.post('/auth/local', {
-            email,
-            password
-        })
-            .toPromise()
-            .then((res: {token: string}) => {
-                localStorage.setItem('id_token', res.token);
-                return this.UserService.get().toPromise();
-            })
-            .then((user: User) => {
-                this.currentUser = user;
-                localStorage.setItem('user', JSON.stringify(user));
-                safeCb(callback)(null, user);
-                return user;
-            })
-            .catch(err => {
-                this.logout();
-                safeCb(callback)(err);
-                return Promise.reject(err);
-            });
-    }
+  /**
+   * Creates a new user.
+   * @param {Object} user User info
+   * @return {Observable<User>}
+   */
+  createUser(user): Observable<User> {
+    return this.userService.create(user)
+      .pipe(
+      mergeMap((res: TokenResponse) => {
+        this.tokenService.set(res.token, res.expiresIn);
+        return this.userService.get();
+      }),
+      map(createdUser => {
+        this.setUser(createdUser);
+        return createdUser;
+      }),
+      catchError(err => {
+        this.logout();
+        return throwError(err);
+      })
+      );
+  }
 
-    /**
-     * Delete access token and user info
-     * @return {Promise}
-     */
-    logout() {
-        localStorage.removeItem('user');
-        localStorage.removeItem('id_token');
-        this.currentUser = new User();
-        return Promise.resolve();
-    }
+  /**
+   * Changes password.
+   * @param {String} oldPassword
+   * @param {String} newPassword
+   * @return {Observable<User>}
+   */
+  changePassword(oldPassword, newPassword): Observable<User> {
+    return this.userService.changePassword({ id: this._authInfo.getValue().user._id }, oldPassword, newPassword);
+  }
 
-    /**
-     * Create a new user
-     *
-     * @param  {Object}   user     - user info
-     * @param  {Function} callback - optional, function(error, user)
-     * @return {Promise}
-     */
-    createUser(user, callback) {
-        return this.UserService.create(user).toPromise()
-            .then(data => {
-                localStorage.setItem('id_token', data.token);
-                return this.UserService.get().toPromise();
-            })
-            .then((_user: User) => {
-                this.currentUser = _user;
-                return safeCb(callback)(null, _user);
-            })
-            .catch(err => {
-                this.logout();
-                safeCb(callback)(err);
-                return Promise.reject(err);
-            });
-    }
+  /**
+   * Returns the authentification information.
+   * @return {Observable<AuthInfo>}
+   */
+  authInfo(): Observable<AuthInfo> {
+    // return this._authInfo;
+    return this._authInfo.asObservable();
+  }
 
-    /**
-     * Change password
-     *
-     * @param  {String}   oldPassword
-     * @param  {String}   newPassword
-     * @param  {Function} [callback] - function(error, user)
-     * @return {Promise}
-     */
-    changePassword(oldPassword, newPassword, callback) {
-        return this.UserService.changePassword({id: this.currentUser._id}, oldPassword, newPassword)
-            .toPromise()
-            .then(() => safeCb(callback)(null))
-            .catch(err => safeCb(callback)(err));
-    }
+  /**
+   * Returns the current authentification information value.
+   */
+  authInfoValue(): AuthInfo {
+    return this._authInfo.getValue();
+  }
 
-    /**
-     * Gets all available info on a user
-     *
-     * @param  {Function} [callback] - function(user)
-     * @return {Promise}
-     */
-    getCurrentUser(callback?) {
-        safeCb(callback)(this.currentUser);
-        return Promise.resolve(this.currentUser);
-    }
-
-    /**
-     * Gets all available info on a user
-     *
-     * @return {Object}
-     */
-    getCurrentUserSync() {
-        return this.currentUser;
-    }
-
-    /**
-     * Checks if user is logged in
-     * @param {function} [callback]
-     * @returns {Promise}
-     */
-    isLoggedIn(callback?) {
-        let is = !!this.currentUser._id;
-        safeCb(callback)(is);
-        return Promise.resolve(is);
-    }
-
-    /**
-     * Checks if user is logged in
-     * @returns {Boolean}
-     */
-    isLoggedInSync() {
-        return !!this.currentUser._id;
-    }
-
-    /**
-     * Check if a user is an admin
-     *
-     * @param  {Function|*} [callback] - optional, function(is)
-     * @return {Promise}
-     */
-    isAdmin(callback?) {
-        return this.getCurrentUser().then(user => {
-            var is = user.role === 'admin';
-            safeCb(callback)(is);
-            return is;
-        });
-    }
-
-    isAdminSync() {
-        return this.currentUser.role === 'admin';
-    }
-
-    /**
-     * Get auth token
-     *
-     * @return {String} - a token string used for authenticating
-     */
-    getToken() {
-        return localStorage.getItem('id_token');
-    }
+  /**
+   * Gets auth token.
+   * @return {string} A token string used for authenticating
+   */
+  getToken(): string {
+    return this.tokenService.get();
+  }
 }

@@ -38,7 +38,7 @@ function patchUpdates(patches) {
 function removeEntity(res) {
     return function (entity) {
         if (entity) {
-            return entity.deleteMany()
+            return entity.remove()
                 .then(() => res.status(204).end());
         }
     };

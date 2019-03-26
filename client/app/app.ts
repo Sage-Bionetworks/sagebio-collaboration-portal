@@ -1,4 +1,4 @@
-import './app.scss';
+import 'style-loader!./app.scss';
 
 import './polyfills';
 

@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import './app-theme';
 @import '../styles/general';
+@import '../styles/constants';
 
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
@@ -26,3 +27,61 @@ $theme: mat-light-theme($primary, $accent);
 [hidden] {
   display: none !important;
 }
+
+app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  app-sidenav {
+    display: flex;
+    flex: 1;
+    width: 250px;
+  }
+
+  .app-sidenav-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .app-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-top: $navbar-height;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+
+  @media (max-width: $small-breakpoint-width) {
+    .app-sidenav-content {
+      padding-top: $navbar-height-sm;
+    }
+
+    app-footer {
+      display: none;
+    }
+  }
+
+  // .app-sidenav-content {
+  //   overflow-y: scroll;
+  // }
+}
+
+app-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+// @media (max-width: 720px) {
+//   .app-sidenav-content {
+//     overflow-y: visible; // the entire content is made visible without scroll
+//   }
+// }
