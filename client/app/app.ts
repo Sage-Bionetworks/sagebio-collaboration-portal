@@ -4,20 +4,21 @@ import './polyfills';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'hammerjs';
 
 // depending on the env mode, enable prod mode or add debugging modules
-if(process.env.NODE_ENV === 'production') {
-    enableProdMode();
+if (process.env.NODE_ENV === 'production') {
+  enableProdMode();
 }
 
 import { AppModule } from './app.module';
 
 export function main() {
-    return platformBrowserDynamic().bootstrapModule(AppModule);
+  return platformBrowserDynamic().bootstrapModule(AppModule);
 }
 
-if(document.readyState === 'complete') {
-    main();
+if (document.readyState === 'complete') {
+  main();
 } else {
-    document.addEventListener('DOMContentLoaded', main);
+  document.addEventListener('DOMContentLoaded', main);
 }

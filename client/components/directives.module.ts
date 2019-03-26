@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { MaterialModule } from './material/material.module';
 
 import { CollapseModule } from 'ngx-bootstrap';
-
-
-import { RouterModule } from '@angular/router';
 
 import { AuthModule } from './auth/auth.module';
 
@@ -17,6 +17,7 @@ import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
         CommonModule,
         CollapseModule,
         AuthModule,
+        MaterialModule,
 
         RouterModule,
     ],

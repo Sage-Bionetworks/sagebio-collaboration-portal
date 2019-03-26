@@ -12,6 +12,9 @@ import {
 
 import { RouterModule, Routes } from '@angular/router';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../components/material/material.module';
+
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
 import { DirectivesModule } from '../components/directives.module';
@@ -23,7 +26,8 @@ export function tokenGetter() {
     return localStorage.getItem('id_token');
 }
 
-const appRoutes: Routes = [{ path: '',
+const appRoutes: Routes = [{
+    path: '',
     redirectTo: '/home',
     pathMatch: 'full'
 }];
@@ -37,6 +41,9 @@ const appRoutes: Routes = [{ path: '',
                 tokenGetter,
             }
         }),
+
+        BrowserAnimationsModule,
+        MaterialModule,
 
         RouterModule.forRoot(appRoutes, { enableTracing: process.env.NODE_ENV === 'development' }),
         MainModule,
@@ -76,7 +83,7 @@ export class AppModule {
         store.disposeOldHosts = createNewHosts(cmpLocation);
         // inject your AppStore and grab state then set it on store
         // var appState = this.AppStore.get()
-        store.state = {data: 'yolo'};
+        store.state = { data: 'yolo' };
         // store.state = Object.assign({}, appState)
         // save input values
         store.restoreInputValues = createInputTransfer();

@@ -1,0 +1,42 @@
+@import "../../node_modules/@angular/material/theming";
+
+@import './main/main-theme';
+// @import '../components/footer/footer-theme';
+// @import '../components/navbar/navbar-theme';
+// @import '../components/navbar-search/navbar-search-theme';
+// @import '../components/sidenav/sidenav-theme';
+
+// Styles for the app that are based on the current theme.
+@mixin app-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  // .app-background {
+  //   background: mat-color($background, background);
+  // }
+
+  .app-primary-header {
+    background: mat-color($primary);
+
+    h1 {
+      color: mat-color($primary, default-contrast);
+    }
+
+    .app-nav-back-icon {
+      color: mat-color($primary, default-contrast);
+    }
+  }
+
+  .app-footer {
+    background: mat-color($primary);
+    color: mat-color($primary, default-contrast);
+  }
+
+  @include main-theme($theme);
+  // @include navbar-theme($theme);
+  // @include navbar-search-theme($theme);
+  // @include sidenav-theme($theme);
+}

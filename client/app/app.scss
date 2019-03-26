@@ -1,14 +1,20 @@
-$icon-font-path: '/assets/fonts/bootstrap/';
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
-@import '~bootstrap-social/bootstrap-social.scss';
-$fa-font-path: '/assets/fonts/font-awesome/';
-@import '~font-awesome/scss/font-awesome';
+@import '~@angular/material/theming';
+@import './app-theme';
+@import '../styles/general';
 
-// @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,900|Roboto:300,500,700,900);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-/**
- * App-wide Styles
- */
+// Include material core styles.
+@include mat-core();
+
+// Define the light theme (default theme)
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include app-theme($theme);
+
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -17,15 +23,6 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   padding: 0.2em 0;
 }
 
-
 [hidden] {
   display: none !important;
-}
-
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
-}
-
-.ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
 }
