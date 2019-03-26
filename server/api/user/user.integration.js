@@ -4,12 +4,12 @@ import app from '../..';
 import User from './user.model';
 import request from 'supertest';
 
-describe('User API:', function() {
+describe('User API:', function () {
     var user;
 
     // Clear users before testing
-    before(function() {
-        return User.remove().then(function() {
+    before(function () {
+        return User.deleteMany().then(function () {
             user = new User({
                 name: 'Fake User',
                 email: 'test@example.com',
@@ -21,14 +21,14 @@ describe('User API:', function() {
     });
 
     // Clear users after testing
-    after(function() {
-        return User.remove();
+    after(function () {
+        return User.deleteMany();
     });
 
-    describe('GET /api/users/me', function() {
+    describe('GET /api/users/me', function () {
         var token;
 
-        before(function(done) {
+        before(function (done) {
             request(app)
                 .post('/auth/local')
                 .send({
@@ -43,7 +43,7 @@ describe('User API:', function() {
                 });
         });
 
-        it('should respond with a user profile when authenticated', function(done) {
+        it('should respond with a user profile when authenticated', function (done) {
             request(app)
                 .get('/api/users/me')
                 .set('authorization', `Bearer ${token}`)
@@ -55,7 +55,7 @@ describe('User API:', function() {
                 });
         });
 
-        it('should respond with a 401 when not authenticated', function(done) {
+        it('should respond with a 401 when not authenticated', function (done) {
             request(app)
                 .get('/api/users/me')
                 .expect(401)

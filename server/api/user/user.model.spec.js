@@ -1,7 +1,7 @@
 import app from '../..';
 import User from './user.model';
 var user;
-var genUser = function() {
+var genUser = function () {
     user = new User({
         provider: 'local',
         name: 'Fake User',
@@ -11,127 +11,127 @@ var genUser = function() {
     return user;
 };
 
-describe('User Model', function() {
-    before(function() {
+describe('User Model', function () {
+    before(function () {
         // Clear users before testing
-        return User.remove();
+        return User.deleteMany();
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
         genUser();
     });
 
-    afterEach(function() {
-        return User.remove();
+    afterEach(function () {
+        return User.deleteMany();
     });
 
-    it('should begin with no users', function() {
+    it('should begin with no users', function () {
         return expect(User.find({}).exec()).to
             .eventually.have.length(0);
     });
 
-    it('should fail when saving a duplicate user', function() {
+    it('should fail when saving a duplicate user', function () {
         return expect(user.save()
-            .then(function() {
+            .then(function () {
                 var userDup = genUser();
                 return userDup.save();
             })).to.be.rejected;
     });
 
-    describe('#email', function() {
-        it('should fail when saving with a blank email', function() {
+    describe('#email', function () {
+        it('should fail when saving with a blank email', function () {
             user.email = '';
             return expect(user.save()).to.be.rejected;
         });
 
-        it('should fail when saving with a null email', function() {
+        it('should fail when saving with a null email', function () {
             user.email = null;
             return expect(user.save()).to.be.rejected;
         });
 
-        it('should fail when saving without an email', function() {
+        it('should fail when saving without an email', function () {
             user.email = undefined;
             return expect(user.save()).to.be.rejected;
         });
 
-        describe('given user provider is google', function() {
-            beforeEach(function() {
+        describe('given user provider is google', function () {
+            beforeEach(function () {
                 user.provider = 'google';
             });
 
-            it('should succeed when saving without an email', function() {
+            it('should succeed when saving without an email', function () {
                 user.email = null;
                 return expect(user.save()).to.be.fulfilled;
             });
         });
 
-        describe('given user provider is github', function() {
-            beforeEach(function() {
+        describe('given user provider is github', function () {
+            beforeEach(function () {
                 user.provider = 'github';
             });
 
-            it('should succeed when saving without an email', function() {
+            it('should succeed when saving without an email', function () {
                 user.email = null;
                 return expect(user.save()).to.be.fulfilled;
             });
         });
     });
 
-    describe('#password', function() {
-        it('should fail when saving with a blank password', function() {
+    describe('#password', function () {
+        it('should fail when saving with a blank password', function () {
             user.password = '';
             return expect(user.save()).to.be.rejected;
         });
 
-        it('should fail when saving with a null password', function() {
+        it('should fail when saving with a null password', function () {
             user.password = null;
             return expect(user.save()).to.be.rejected;
         });
 
-        it('should fail when saving without a password', function() {
+        it('should fail when saving without a password', function () {
             user.password = undefined;
             return expect(user.save()).to.be.rejected;
         });
 
-        describe('given the user has been previously saved', function() {
-            beforeEach(function() {
+        describe('given the user has been previously saved', function () {
+            beforeEach(function () {
                 return user.save();
             });
 
-            it('should authenticate user if valid', function() {
+            it('should authenticate user if valid', function () {
                 expect(user.authenticate('password')).to.be.true;
             });
 
-            it('should not authenticate user if invalid', function() {
+            it('should not authenticate user if invalid', function () {
                 expect(user.authenticate('blah')).to.not.be.true;
             });
 
-            it('should remain the same hash unless the password is updated', function() {
+            it('should remain the same hash unless the password is updated', function () {
                 user.name = 'Test User';
                 return expect(user.save()
-                    .then(function(u) {
+                    .then(function (u) {
                         return u.authenticate('password');
                     })).to.eventually.be.true;
             });
         });
 
-        describe('given user provider is google', function() {
-            beforeEach(function() {
+        describe('given user provider is google', function () {
+            beforeEach(function () {
                 user.provider = 'google';
             });
 
-            it('should succeed when saving without a password', function() {
+            it('should succeed when saving without a password', function () {
                 user.password = null;
                 return expect(user.save()).to.be.fulfilled;
             });
         });
 
-        describe('given user provider is github', function() {
-            beforeEach(function() {
+        describe('given user provider is github', function () {
+            beforeEach(function () {
                 user.provider = 'github';
             });
 
-            it('should succeed when saving without a password', function() {
+            it('should succeed when saving without a password', function () {
                 user.password = null;
                 return expect(user.save()).to.be.fulfilled;
             });
