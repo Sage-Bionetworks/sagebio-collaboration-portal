@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
         <mat-sidenav-content class="app-sidenav-content">
             <app-navbar class="mat-elevation-z6"></app-navbar>
             <div class="content">
-                <!--<router-outlet></router-outlet>-->
+                <router-outlet></router-outlet>
             </div>
             <!--<app-footer></app-footer>-->
         </mat-sidenav-content>

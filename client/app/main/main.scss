@@ -1,32 +1,115 @@
-.thing-form {
-  margin: 20px 0;
+// The margin between two sections
+$margin-promotion-sections: 60px;
+$margin-promotion-sections-small: 15px;
+
+// :host {
+//   display: flex;
+//   flex-direction: column;
+//   flex-grow: 1;
+// }
+
+.app-header-background {
+  overflow: hidden;
 }
 
-#banner {
-  border-bottom: none;
-  margin-top: -20px;
-}
-
-#banner h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-.hero-unit {
-  position: relative;
-  padding: 30px 15px;
-  color: #F5F5F5;
+.app-header-section {
   text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #4393B9;
+  padding-top: $margin-promotion-sections;
 }
 
-.navbar-text {
-  margin-left: 15px;
+.app-header-headline {
+  h1 {
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 56px;
+    margin: 15px 5px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 28px;
+    margin: 15px 0 25px 0;
+  }
 }
+
+.app-main-promo {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+
+  h2 {
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0 0 16px 0;
+    padding: 0;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0 0 24px 0;
+    padding: 0;
+  }
+}
+
+.app-main-row {
+  display: flex;
+  max-width: 920px;
+  margin: $margin-promotion-sections 0;
+}
+
+.app-main-row .app-svg-image{
+  max-width: 90%;
+}
+
+// .docs-main-reverse-row {
+//   flex-direction: row-reverse;
+// }
+
+.app-header-start,
+.app-main-bottom-start {
+  text-align: center;
+  margin: $margin-promotion-sections 0;
+}
+
+// .docs-main-promo-img,
+// .docs-main-promo-desc {
+//   width: 50%;
+// }
+//
+// .docs-main-promo-img {
+//   text-align: center;
+// }
+//
+// .docs-main-promo-desc {
+//   line-height: 2;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// }
 
 .app-logo {
   width: 100px;
   height: 100px;
+}
+
+/**
+  * Rules for when the device is detected to be a small screen.
+  */
+@media (max-width: 720px) {
+  .app-header-section {
+    padding-top: $margin-promotion-sections-small;
+  }
+
+  .app-header-start,
+  .app-main-bottom-start {
+    margin: $margin-promotion-sections-small 0;
+  }
+
+  .app-main-row {
+    margin: $margin-promotion-sections-small 0;
+  }
 }

@@ -1,33 +1,13 @@
-<header class="hero-unit" id="banner">
-    <div class="container">
-        <h1>PHC Collaboration Portal</h1>
-        <p class="lead">by Sage Bionetworks</p>
-        <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks">
-    </div>
-</header>
-
-<a mat-raised-button class="app-button" color="primary" routerLink="/signup">Get started</a>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Features:</h1>
-            <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" *ngFor="let thing of awesomeThings">
-                <li><a>
-                        {{thing.name}}
-                        <button type="button" class="close" (click)="deleteThing(thing)">&times;</button>
-                    </a></li>
-            </ul>
+<header class="app-header-background">
+    <div class="app-header-section">
+        <div class="app-header-headline">
+            <h1 class="mat-h1">PHC Collaboration Portal</h1>
+            <h2>by Sage Bionetworks</h2>
+            <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks">
+        </div>
+        <div class="app-header-start">
+            <a mat-raised-button class="app-button" routerLink="/signup">Get started</a>
         </div>
     </div>
-
-    <form class="thing-form">
-        <label>Syncs in realtime across clients</label>
-        <p class="input-group">
-            <input type="text" class="form-control" placeholder="Add a new thing here." [(ngModel)]="newThing" name="thing">
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary" (click)="addThing()">Add New</button>
-            </span>
-        </p>
-    </form>
-</div>
+</header>
+<div style="width: 10px; height: 600px; background: black;"></div>

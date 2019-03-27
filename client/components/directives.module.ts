@@ -12,6 +12,8 @@ import { NavbarModule } from './navbar/navbar.module';
 import { FooterComponent } from './footer/footer.component';
 import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
 
+import { PageTitleService } from './page-title/page-title.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -21,6 +23,9 @@ import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
         NavbarModule,
 
         RouterModule,
+    ],
+    providers: [
+        PageTitleService
     ],
     declarations: [
         FooterComponent,
