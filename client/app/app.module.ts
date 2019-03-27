@@ -17,6 +17,7 @@ import { MaterialModule } from '../components/material/material.module';
 
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
+import { DatasetModule } from './dataset/dataset.module';
 import { DirectivesModule } from '../components/directives.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AccountModule } from './account/account.module';
@@ -47,6 +48,7 @@ const appRoutes: Routes = [{
 
         RouterModule.forRoot(appRoutes, { enableTracing: process.env.NODE_ENV === 'development' }),
         MainModule,
+        DatasetModule,
         DirectivesModule,
         AccountModule,
         AdminModule,

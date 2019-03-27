@@ -6,6 +6,16 @@ import {
     isFunction,
     noop,
 } from 'lodash';
+import { Response } from '@angular/http';
+const queryString = require('query-string');
+
+export function stringifyQuery(query: {}) {
+    var queryStr = queryString.stringify(query);
+    if ((queryStr || []).length > 0 && queryStr.indexOf('?') === -1) {
+        queryStr = `?${queryStr}`;
+    }
+    return queryStr;
+}
 
 /**
  * Return a callback or noop function
@@ -29,7 +39,6 @@ export function urlParse(url) {
 
     // Special treatment for IE, see http://stackoverflow.com/a/13405933 for details
     if (a.host === '') {
-        // eslint-disable-next-line no-self-assign
         a.href = a.href;
     }
 
@@ -60,3 +69,10 @@ export function isSameOrigin(url, origins) {
     });
     return origins.length >= 1;
 }
+
+// export function extractData(res: Response) {
+//     if (!res.text()) {
+//         return {};
+//     }
+//     return res.json() || {};
+// }

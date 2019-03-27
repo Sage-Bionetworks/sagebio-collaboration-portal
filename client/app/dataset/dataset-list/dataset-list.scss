@@ -1,0 +1,32 @@
+// :host {
+//   display: flex;
+//   flex-direction: column;
+//   flex-grow: 1;
+// }
+
+.app-dataset-list {
+  margin: 50px;
+  flex-grow: 1;
+}
+
+.app-dataset-item,
+.app-dataset-item:hover {
+  text-decoration: none;
+}
+
+.app-dataset-list-container {
+  display: flex;
+  flex-flow: row nowrap;
+
+  .filter-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 280px;
+    margin: 25px;
+  }
+
+  .results-container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}
