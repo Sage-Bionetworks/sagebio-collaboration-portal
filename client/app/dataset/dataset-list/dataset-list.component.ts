@@ -25,7 +25,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private datasetService: DatasetService) {
-        // TODO List dataset
+        this.datasets = this.datasetService.getDatasets();
     }
 
     ngOnInit() {

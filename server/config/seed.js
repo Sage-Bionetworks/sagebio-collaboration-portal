@@ -3,17 +3,27 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+import Dataset from '../api/dataset/dataset.model';
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
 import config from './environment/';
+
+import {
+    datasets
+} from './seeds/datasets'
 
 export default function seedDatabaseIfNeeded() {
     if (!config.seedDB) {
         return Promise.resolve();
     }
 
-
     let promises = [];
+
+    let datasetPromise = Dataset.find({}).deleteMany()
+        .then(() => Dataset.create(datasets))
+        .then(() => console.log('finished populating datasets'))
+        .catch(err => console.log('error populating datasets', err));
+    promises.push(datasetPromise);
 
     let thingPromise = Thing.find({}).deleteMany()
         .then(() => Thing.create({

@@ -11,7 +11,10 @@
     <dataset-order-filters [filters]="orderFilters" group="orderedBy"></dataset-order-filters>
   </div> -->
 
-    <!-- <div class="results-container">
-    <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view>
-  </div> -->
+    <div class="results-container">
+      <ul *ngFor="let dataset of datasets | async">
+        <li>{{dataset.name}}</li>
+      </ul>
+        <!-- <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view> -->
+    </div>
 </div>
