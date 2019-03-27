@@ -1,6 +1,8 @@
 import express from 'express';
 import passport from 'passport';
-import {setTokenCookie} from '../auth.service';
+import {
+    setTokenCookie
+} from '../auth.service';
 
 var router = express.Router();
 

@@ -8,8 +8,8 @@ import { CollapseModule } from 'ngx-bootstrap';
 
 import { AuthModule } from './auth/auth.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { FooterModule } from './footer/footer.module';
 
-import { FooterComponent } from './footer/footer.component';
 import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
 
 import { PageTitleService } from './page-title/page-title.service';
@@ -21,6 +21,7 @@ import { PageTitleService } from './page-title/page-title.service';
         MaterialModule,
         AuthModule,
         NavbarModule,
+        FooterModule,
 
         RouterModule,
     ],
@@ -28,12 +29,11 @@ import { PageTitleService } from './page-title/page-title.service';
         PageTitleService
     ],
     declarations: [
-        FooterComponent,
         OauthButtonsComponent,
     ],
     exports: [
         NavbarModule,
-        FooterComponent,
+        FooterModule,
         OauthButtonsComponent,
     ]
 })

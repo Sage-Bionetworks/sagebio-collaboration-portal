@@ -1,9 +1,9 @@
 @import "../../node_modules/@angular/material/theming";
 
-@import './main/main-theme';
-@import './dataset/dataset-theme';
-// @import '../components/footer/footer-theme';
-@import '../components/navbar/navbar-theme';
+@import "./main/main-theme";
+@import "./dataset/dataset-theme";
+@import "../components/navbar/navbar-theme";
+@import "../components/footer/footer-theme";
 // @import '../components/navbar-search/navbar-search-theme';
 // @import '../components/sidenav/sidenav-theme';
 
@@ -39,6 +39,7 @@
   @include main-theme($theme);
   @include dataset-theme($theme);
   @include navbar-theme($theme);
+  @include footer-theme($theme);
   // @include navbar-search-theme($theme);
   // @include sidenav-theme($theme);
 }

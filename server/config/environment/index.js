@@ -38,7 +38,6 @@ var all = {
     // MongoDB connection options
     mongo: {
         options: {
-            safe: true,
             useNewUrlParser: true
         }
     },

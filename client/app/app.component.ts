@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
             <div class="content">
                 <router-outlet></router-outlet>
             </div>
-            <!--<app-footer></app-footer>-->
+            <app-footer></app-footer>
         </mat-sidenav-content>
     </mat-sidenav-container>`
 })
