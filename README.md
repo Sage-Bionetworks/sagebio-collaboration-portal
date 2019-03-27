@@ -1,6 +1,6 @@
 # PHC Collaboration Portal
 
-Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks and Roche/Genentech
+Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks for Roche/Genentech
 
 ## Getting Started
 
