@@ -9,6 +9,8 @@ export const gitVersion = process.env.gitVersion;
 export const gitCommitHash = process.env.gitCommitHash;
 export const gitBranch = process.env.gitBranch;
 
+export const ckanApiBaseUrl = 'http://54.166.200.47/api/3';
+
 export default {
     env,
     port,

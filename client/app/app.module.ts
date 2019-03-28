@@ -1,9 +1,16 @@
 import {
     NgModule,
     ApplicationRef,
+    Provider
 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {
+    HttpClientModule,
+    HTTP_INTERCEPTORS
+} from '@angular/common/http';
+import { HttpErrorInterceptor } from '../components/http/http-error.interceptor';
+import { JwtInterceptor } from '../components/http/jwt.interceptor';
+
 import {
     removeNgStyles,
     createNewHosts,
@@ -27,6 +34,16 @@ export function tokenGetter() {
     return localStorage.getItem('id_token');
 }
 
+let providers: Provider[] = [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptor,
+    multi: true
+}, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true,
+}];
+
 const appRoutes: Routes = [{
     path: '',
     redirectTo: '/home',
@@ -34,14 +51,15 @@ const appRoutes: Routes = [{
 }];
 
 @NgModule({
+    providers,
     imports: [
         BrowserModule,
         HttpClientModule,
-        JwtModule.forRoot({
-            config: {
-                tokenGetter,
-            }
-        }),
+        // JwtModule.forRoot({
+        //     config: {
+        //         tokenGetter,
+        //     }
+        // }),
 
         BrowserAnimationsModule,
         MaterialModule,
