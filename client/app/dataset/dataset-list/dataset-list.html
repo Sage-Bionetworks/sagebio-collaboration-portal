@@ -12,9 +12,6 @@
   </div> -->
 
     <div class="results-container">
-      <ul *ngFor="let dataset of datasets | async">
-        <li>{{dataset.name}}</li>
-      </ul>
-        <!-- <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view> -->
+        <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view>
     </div>
 </div>

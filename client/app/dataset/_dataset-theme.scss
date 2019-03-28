@@ -1,4 +1,5 @@
-@import './dataset-list/dataset-list-theme';
+@import "./dataset-list/dataset-list-theme";
+@import "./dataset-page/dataset-page-theme";
 
 @mixin dataset-theme($theme) {
   $primary: map-get($theme, primary);
@@ -8,4 +9,5 @@
   $foreground: map-get($theme, foreground);
 
   @include dataset-list-theme($theme);
+  @include dataset-page-theme($theme);
 }
