@@ -27,7 +27,7 @@ describe('Component: MainComponent', function() {
             ],
             declarations: [ MainComponent ], // declare the test component
             providers: [
-                { provide: SocketService, useClass: SocketServiceStub },
+                { provide: SocketService, useClass: SocketServiceStub }
             ],
         }).compileComponents();
 

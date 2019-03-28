@@ -42,6 +42,8 @@
         "primus": "^7.3.2",
         "primus-emit": "^1.0.0",
         "serve-favicon": "^2.5.0",
+        "swagger-jsdoc": "^3.2.8",
+        "swagger-ui-express": "^4.0.2",
         "ws": "^6.2.0"
     },
     "devDependencies": {
