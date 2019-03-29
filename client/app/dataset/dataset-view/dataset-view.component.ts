@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DatasetService } from '../dataset.service';
-import { Dataset } from '../../../../shared/interfaces/dataset.model';
+import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
 
 @Component({
     selector: 'dataset-view',
@@ -10,7 +10,7 @@ import { Dataset } from '../../../../shared/interfaces/dataset.model';
     styles: [require('./dataset-view.scss')],
 })
 export class DatasetViewComponent {
-    private _dataset: Dataset;
+    private _dataset: CkanDataset;
 
     static parameters = [Router];
     constructor(private router: Router) { }

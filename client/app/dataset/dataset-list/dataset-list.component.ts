@@ -3,7 +3,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DatasetService } from '../dataset.service';
-import { Dataset } from '../../../../shared/interfaces/dataset.model';
+import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 // import constants from '../../../app/app.constants';
@@ -19,7 +19,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
     styles: [require('./dataset-list.scss')],
 })
 export class DatasetListComponent implements OnInit, AfterViewInit {
-    private datasets: Observable<Dataset[]>;
+    private datasets: Observable<CkanDataset[]>;
 
     static parameters = [Router, FormBuilder, PageTitleService, DatasetService];
     constructor(private router: Router, private formBuilder: FormBuilder,

@@ -18,22 +18,22 @@ export class DatasetComponent implements OnInit, OnDestroy {
         private pageTitleService: PageTitleService, private datasetService: DatasetService) { }
 
     ngOnInit() {
-        // this.route.params.subscribe(res => {
-        //     this.datasetService.getDataset(res.id).subscribe(dataset => {
-        //         // // Get the instances of this dataset available to the user
-        //         // this.AuthService.isLoggedIn().subscribe(is => {
-        //         //   if (is) {
-        //         //     this.InstanceService.queryBydataset(dataset)
-        //         //       .subscribe(instances => {
-        //         //         this.instances = instances;
-        //         //         this.SocketService.syncUpdates('instance', this.instances);
-        //         //       })
-        //         //   }
-        //         // });
-        //         this.pageTitleService.title = dataset.name;
-        //         this.dataset = dataset;
-        //     });
-        // });
+        this.route.params.subscribe(res => {
+            this.datasetService.getDataset(res.id).subscribe(dataset => {
+                // // Get the instances of this dataset available to the user
+                // this.AuthService.isLoggedIn().subscribe(is => {
+                //   if (is) {
+                //     this.InstanceService.queryBydataset(dataset)
+                //       .subscribe(instances => {
+                //         this.instances = instances;
+                //         this.SocketService.syncUpdates('instance', this.instances);
+                //       })
+                //   }
+                // });
+                this.pageTitleService.title = dataset.name;
+                this.dataset = dataset;
+            });
+        });
     }
 
     ngOnDestroy() { }

@@ -1,8 +1,8 @@
-<div>  <!-- *ngIf="dataset" -->
+<div *ngIf="dataset">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/datasets">keyboard_arrow_left</mat-icon>
         <!-- <h1>{{dataset.title}}</h1> -->
-        <h1>Dataset name</h1>
+        <h1>{{dataset.title}}</h1>
     </div>
     <mat-card class="dataset-container">
         <picture>
@@ -10,7 +10,7 @@
         </picture>
         <div class="dataset-metadata-container">
             <h1>{{dataset.title}}</h1>
-            <!-- <span>By {{dataset.publisher}}.</span> -->
+            <span>License: {{dataset.license_title}}.</span>
             <!-- <span class="dataset-description">{{dataset.description}}</span> -->
         </div>
         <div class="dataset-actions-container">
