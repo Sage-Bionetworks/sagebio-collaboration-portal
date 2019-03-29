@@ -22,7 +22,7 @@ export default function(app) {
         info: {
             title: 'PHC Collaboration Portal API',
             version: '1.0.0',
-            description: 'Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks for Roche/Genentech',
+            description: 'Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech',
         },
         // host: 'localhost:3000',
         basePath: '/api',

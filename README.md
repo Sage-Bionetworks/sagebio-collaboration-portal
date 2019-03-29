@@ -1,6 +1,6 @@
 # PHC Collaboration Portal
 
-Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks for Roche/Genentech
+Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech
 
 ## Getting Started
 
@@ -23,4 +23,4 @@ Primary Health Care Collaboration Portal (PHCCP) by Sage Bionetworks for Roche/G
 
 ## Testing
 
-Running `npm test` will run the unit tests with karma. 
+Running `npm test` will run the unit tests with karma.
