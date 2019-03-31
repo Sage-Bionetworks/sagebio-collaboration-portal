@@ -1,13 +1,18 @@
 {
     "presets": [
-        ["babel-preset-env", {
+        ["@babel/preset-env", {
             "targets": {
-                "node": "8.11.3"
+                "node": "current"
             }
         }]
     ],
     "plugins": [
-      "transform-runtime",
-      "transform-decorators-legacy"
+        "@babel/plugin-transform-runtime",
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
     ]
 }

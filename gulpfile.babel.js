@@ -119,8 +119,10 @@ let transpileServer = lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(plugins.babel, {
         plugins: [
-            'transform-class-properties',
-            'transform-runtime'
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-transform-runtime'
+            // 'transform-class-properties',
+            // 'transform-runtime'
         ]
     })
     .pipe(plugins.sourcemaps.write, '.');

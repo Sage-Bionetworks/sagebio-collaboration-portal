@@ -1,4 +1,5 @@
 import Primus from 'primus';
+// const Primus = require('primus');
 import primusEmit from 'primus-emit';
 import { Injectable } from '@angular/core';
 import { noop, find, remove } from 'lodash';
@@ -8,24 +9,26 @@ export class SocketService {
     primus;
 
     constructor() {
-        const primus = (Primus as any).connect(); // cast to avoid TS compile
-        primus.plugin('emit', primusEmit);
+        console.log('PRIMUS', Primus);
+        // (Primus as any).sayHi();
+        // const primus = (undefined as any).connect(); // cast to avoid TS compile
+        // primus.plugin('emit', primusEmit);
+        //
+        // primus.on('open', function open() {
+        //     console.log('Connection opened');
+        // });
+        //
+        // if (process.env.NODE_ENV === 'development') {
+        //     primus.on('data', function message(data) {
+        //         console.log('Socket:', data);
+        //     });
+        // }
+        //
+        // primus.on('info', data => {
+        //     console.log('info:', data);
+        // });
 
-        primus.on('open', function open() {
-            console.log('Connection opened');
-        });
-
-        if (process.env.NODE_ENV === 'development') {
-            primus.on('data', function message(data) {
-                console.log('Socket:', data);
-            });
-        }
-
-        primus.on('info', data => {
-            console.log('info:', data);
-        });
-
-        this.primus = primus;
+        // this.primus = primus;
     }
 
     /**

@@ -24,3 +24,10 @@ Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Gen
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
+
+## Production
+
+```
+npm run build
+NODE_ENV=production node dist/server/
+```
