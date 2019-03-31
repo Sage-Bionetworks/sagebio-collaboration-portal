@@ -9,6 +9,9 @@ import User from '../api/user/user.model';
 import config from './environment/';
 
 import {
+    users
+} from './seeds/users';
+import {
     datasets
 } from './seeds/datasets'
 
@@ -18,6 +21,12 @@ export default function seedDatabaseIfNeeded() {
     }
 
     let promises = [];
+
+    let userPromise = User.find({}).deleteMany()
+        .then(() => User.create(users))
+        .then(() => console.log('finished populating users'))
+        .catch(err => console.log('error populating users', err));
+    promises.push(userPromise);
 
     let datasetPromise = Dataset.find({}).deleteMany()
         .then(() => Dataset.create(datasets))
@@ -51,23 +60,6 @@ export default function seedDatabaseIfNeeded() {
         .then(() => console.log('finished populating things'))
         .catch(err => console.log('error populating things', err));
     promises.push(thingPromise);
-
-    let userPromise = User.find({}).deleteMany()
-        .then(() => User.create({
-                provider: 'local',
-                name: 'Test User',
-                email: 'test@example.com',
-                password: 'test'
-            }, {
-                provider: 'local',
-                role: 'admin',
-                name: 'Admin',
-                email: 'admin@example.com',
-                password: 'admin'
-            })
-            .then(() => console.log('finished populating users'))
-            .catch(err => console.log('error populating users', err)));
-    promises.push(userPromise);
 
     return Promise.all(promises);
 }

@@ -1,5 +1,4 @@
 import Primus from 'primus';
-// const Primus = require('primus');
 import primusEmit from 'primus-emit';
 import { Injectable } from '@angular/core';
 import { noop, find, remove } from 'lodash';

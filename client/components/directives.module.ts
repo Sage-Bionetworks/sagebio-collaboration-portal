@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { FooterModule } from './footer/footer.module';
 
-import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
+// import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
 
 import { PageTitleService } from './page-title/page-title.service';
 
@@ -26,12 +26,12 @@ import { PageTitleService } from './page-title/page-title.service';
         PageTitleService
     ],
     declarations: [
-        OauthButtonsComponent,
+        // OauthButtonsComponent,
     ],
     exports: [
         NavbarModule,
         FooterModule,
-        OauthButtonsComponent,
+        // OauthButtonsComponent,
     ]
 })
 export class DirectivesModule { }

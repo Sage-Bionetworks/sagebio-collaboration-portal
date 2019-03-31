@@ -153,7 +153,7 @@ module.exports = function makeWebpackConfig(options) {
                     //     }]
                     // ],
                     plugins: [
-                        // ['@babel/plugin-transform-runtime', {
+                        // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
                         //     "corejs": 2,
                         // }],
                         // ['@babel/plugin-proposal-decorators', {

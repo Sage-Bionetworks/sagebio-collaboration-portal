@@ -1,64 +1,73 @@
-// @flow
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ValidationError } from 'mongoose';
 import { AuthService } from '../../../components/auth/auth.service';
-
-interface User {
-    name: string;
-    email: string;
-    password: string;
-}
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PasswordValidation } from '../../../components/validation/password-validation';
+import { PageTitleService } from '../../../components/page-title/page-title.service';
 
 @Component({
     selector: 'signup',
     template: require('./signup.html'),
+    styles: [require('./signup.scss')]
 })
-export class SignupComponent {
-    user: User = {
-        name: '',
-        email: '',
-        password: ''
+export class SignupComponent implements OnInit {
+    userRegistrationForm: FormGroup;
+    errors = {
+        email: undefined,
+        other: undefined
     };
-    errors: {field?: Error} = {};
     submitted = false;
-    AuthService;
-    Router;
 
+    static parameters = [AuthService, Router, FormBuilder, PageTitleService];
+    constructor(private authService: AuthService, private router: Router,
+        private formBuilder: FormBuilder, private pageTitleService: PageTitleService) {
+        this.userRegistrationForm = this.formBuilder.group({
+            name: ['plop', [
+                Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(128)
+            ]],
+            email: ['plop@plop.ch', [
+                Validators.required,
+                Validators.email
+            ]],
+            passwordGroup: formBuilder.group({
+                password: ['plop', [
+                    Validators.required,
+                ]],
+                confirmPassword: ['plop', [
+                    Validators.required,
+                ]],
+            }, { validator: PasswordValidation.matchPassword })
+        });
+    }
 
-    static parameters = [AuthService, Router];
-    constructor(_AuthService_: AuthService, router: Router) {
-        this.AuthService = _AuthService_;
-        this.Router = router;    }
+    ngOnInit() {
+        this.pageTitleService.title = 'Sign up';
+    }
 
-    register(form) {
-        if(form.invalid) return;
-
+    register(): void {
+        if (this.userRegistrationForm.invalid) {
+            return;
+        }
         this.submitted = true;
 
-        return this.AuthService.createUser({
-            name: this.user.name,
-            email: this.user.email,
-            password: this.user.password
-        })
-            .then(() => {
-                // Account created, redirect to home
-                this.Router.navigateByUrl('/home');
-            })
-            .catch((err: {errors: {field: ValidationError}}) => {
-                this.errors = err.errors;
-
-                // Update validity of form fields that match the mongoose errors
-                Object.entries(err.errors).forEach(([field, error]: [string, ValidationError]) => {
-                    this.errors[field] = error.message;
-
-                    if(field === 'email' && error.kind === 'user defined') {
-                    form.form.controls[field].setErrors({inUse: true});
-                }
-                });
-
-                this.submitted = false;
-            });
+        this.errors.other = undefined;
+        let values = this.userRegistrationForm.value;
+        this.authService.createUser({
+            name: values.name,
+            email: values.email,
+            password: values.passwordGroup.password
+        }).subscribe(() => {
+            // Account created, redirect to home
+            this.router.navigateByUrl('/home');
+        }, err => {
+            if (err.errors.email) { // mongoose error;
+                this.errors.email = err.errors.email.message;
+                this.userRegistrationForm.controls.email.setErrors({ serverError: true });
+            } else {
+                this.errors.other = err;
+            }
+        });
     }
 }

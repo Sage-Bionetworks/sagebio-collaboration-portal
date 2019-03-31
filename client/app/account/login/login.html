@@ -1,53 +1,46 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Login</h1>
-      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
-      <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
-    </div>
-    <div class="col-sm-12">
-      <form class="form" name="loginForm" (ngSubmit)="login(loginForm)" novalidate #loginForm="ngForm">
-
-        <div class="form-group">
-          <label>Email</label>
-
-          <input type="email" name="email" class="form-control" [(ngModel)]="user.email" required #email="ngModel">
-        </div>
-
-        <div class="form-group">
-          <label>Password</label>
-
-          <input type="password" name="password" class="form-control" [(ngModel)]="user.password" required #password="ngModel">
-        </div>
-
-        <div class="form-group has-error">
-          <p class="help-block" [hidden]="(email.value && password.value) || !loginForm.submitted">
-             Please enter your email and password.
-          </p>
-          <p class="help-block" [hidden]="email.valid || (email.pristine && !loginForm.submitted)">
-             Please enter a valid email.
-          </p>
-
-          <p class="help-block">{{ errors.login }}</p>
-        </div>
-
-        <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit" [disabled]="!loginForm.form.valid">
+<div class="page-content" fxFlexOffset.gt-xs="10" fxFlex.gt-xs="80">
+    <mat-card>
+        <mat-card-title>
             Login
-          </button>
-          <a class="btn btn-default btn-lg btn-register" href="/signup">
-            Register
-          </a>
-        </div>
-
-        <hr/>
-        <div class="row">
-          <div class="col-sm-4 col-md-3">
-            <oauth-buttons classes="btn-block"></oauth-buttons>
-          </div>
-        </div>
-      </form>
+        </mat-card-title>
+        <mat-card-content>
+            <form class="form-container" [formGroup]="loginForm" novalidate>
+                <mat-form-field class="form-field-full-width">
+                    <input matInput placeholder="Email" type="email" formControlName="email" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="loginForm.controls.email.invalid && !loginForm.controls.email.errors?.unknownEmail">
+                        Please enter a valid email.
+                    </mat-error>
+                    <mat-error *ngIf="loginForm.controls.email.errors?.unknownEmail">
+                        This email is not registered.
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-field-full-width">
+                    <input matInput placeholder="Password" type="password" formControlName="password" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="loginForm.controls.password.errors?.required && !loginForm.controls.password.errors?.incorrect">
+                        Please enter the password.
+                    </mat-error>
+                    <mat-error *ngIf="loginForm.controls.password.errors?.incorrect">
+                        Wrong password. Try again of click Forgot password to reset it.
+                    </mat-error>
+                </mat-form-field>
+                <mat-error *ngIf="errors.login">
+                    {{errors.login}}
+                </mat-error>
+                <div class="form-button-container">
+                    <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="login()">Login</button>
+                    <button mat-button type="button" (click)="goToPasswordRecovery()">Forgot password?</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <div>
+        <br>
+        <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
+        <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
     </div>
-  </div>
-  <hr>
+    <div class="login-as-container">
+        <button mat-raised-button color="primary" (click)="loginAs('thomas@test.com')">Login as Thomas</button>
+        <button mat-raised-button color="primary" (click)="loginAs('james@test.com')">Login as James</button>
+        <button mat-raised-button color="primary" (click)="loginAs('kim@test.com')">Login as Kim</button>
+    </div>
 </div>
