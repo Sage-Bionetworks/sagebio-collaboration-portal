@@ -1,12 +1,29 @@
-<div class="container">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
-  <ul class="list-group user-list">
-    <li class="list-group-item" *ngFor="let user of users">
-      <div class="user-info">
-          <strong>{{user.name}}</strong><br>
-          <span class="text-muted">{{user.email}}</span>
-      </div>
-        <a (click)="delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
-    </li>
-  </ul>
+<div class="app-primary-header">
+    <h1>Admin</h1>
 </div>
+
+<mat-list class="app-user-list">
+    <mat-list-item class="app-user-item" *ngFor="let user of users">
+        <picture matListAvatar>
+            <!-- <source [srcset]="user.face | webp: 'small'" type="image/webp"> -->
+            <!-- <img class="app-avatar" [src]="user.face | image: 'small'" aria-label="User avatar"> -->
+            <img class="app-avatar" src="assets/images/accounts/avatars/avatar-1.png" aria-label="User avatar">
+        </picture>
+        <h3 matLine>{{user.name}}</h3>
+        <h3 matLine>{{user.role}}</h3>
+        <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{user.name}}" matTooltipPosition="before">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button> -->
+        <!-- <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="deleteUser(user)">Remove</button>
+      <button mat-menu-item (click)="setUserRole(user)">Make Admin</button>
+    </mat-menu> -->
+    </mat-list-item>
+</mat-list>
+
+<ul>
+    <li>Changes do no persists after the app is restarted.</li>
+</ul>

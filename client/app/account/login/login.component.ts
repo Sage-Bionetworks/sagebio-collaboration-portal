@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
             // Logged in, redirect to home
             this.router.navigateByUrl('');
         }, err => {
+            console.log('ERROR', err);
             if (err.field === 'email') {
                 this.loginForm.controls.email.setErrors({ unknownEmail: true });
             } else if (err.field === 'password') {

@@ -2,6 +2,7 @@
 
 @import "./main/main-theme";
 @import "./dataset/dataset-theme";
+@import "./admin/admin-theme";
 @import "../components/navbar/navbar-theme";
 @import "../components/footer/footer-theme";
 // @import '../components/navbar-search/navbar-search-theme';
@@ -38,6 +39,7 @@
 
   @include main-theme($theme);
   @include dataset-theme($theme);
+  @include admin-theme($theme);
   @include navbar-theme($theme);
   @include footer-theme($theme);
   // @include navbar-search-theme($theme);

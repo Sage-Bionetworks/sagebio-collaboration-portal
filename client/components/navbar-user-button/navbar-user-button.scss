@@ -1,0 +1,51 @@
+@import "../../styles/constants";
+@import "../../styles/general";
+
+.user-button {
+  height: 100%;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    max-height: 100%;
+  }
+
+  picture {
+    display: flex;
+    margin-right: 16px;
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  span {
+    margin-right: 12px;
+  }
+
+  mat-icon {
+    @include mat-icon-size(16px);
+  }
+  @media (max-width: $small-breakpoint-width) {
+    padding-left: 6px;
+    padding-right: 6px;
+    min-width: 60px;
+    max-width: 60px;
+
+    .app-hide-small {
+      display: none;
+    }
+
+    picture {
+      margin-right: 0;
+
+      img {
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 32px;
+        max-height: 32px;
+      }
+    }
+  }
+}

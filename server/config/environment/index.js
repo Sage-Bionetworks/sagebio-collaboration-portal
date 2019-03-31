@@ -35,6 +35,11 @@ var all = {
         session: 'phccp-secret'
     },
 
+    // Lifetime for session
+    expiresIn: {
+        session: 6 * 60 * 60
+    },
+
     // MongoDB connection options
     mongo: {
         options: {

@@ -1,20 +1,21 @@
-.trash { color:rgb(209, 91, 71); }
-
-.user-list {
-	li {
-		display: flex;
-		border: none;
-		border-bottom: 1px lightgray solid;
-		margin-bottom: 0;
-		&:last-child { border-bottom: none; }
-
-		.user-info {
-			flex-grow: 1;
-		}
-		.trash {
-			display: flex;
-			align-items: center;
-			text-decoration: none;
-		}
-	}
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
+
+.app-user-list {
+  margin: 50px;
+  flex-grow: 1;
+}
+
+.app-user-item,
+.app-user-item:hover {
+  text-decoration: none;
+}
+
+// .app-user-item-avatar img {
+//   object-fit: cover;
+//   height: auto;
+//   width: 100%;
+// }
