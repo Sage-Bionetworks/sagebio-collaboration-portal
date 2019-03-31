@@ -25,13 +25,13 @@ describe('Component: OauthButtonsComponent', () => {
         // el = de.nativeElement;
     });
 
-    it('should have a Google+ button', () => {
-        const a = fixture.debugElement.query(By.css('i.fa-google-plus')).parent.nativeElement;
-
-        fixture.detectChanges();
-
-        expect(a.textContent).to.contain('Connect with Google+');
-    });
+    // it('should have a Google+ button', () => {
+    //     const a = fixture.debugElement.query(By.css('i.fa-google-plus')).parent.nativeElement;
+    //
+    //     fixture.detectChanges();
+    //
+    //     expect(a.textContent).to.contain('Connect with Google+');
+    // });
 
     // it('should contain anchor buttons', function() {
     //   compileDirective('<oauth-buttons></oauth-buttons>');

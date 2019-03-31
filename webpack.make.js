@@ -128,33 +128,45 @@ module.exports = function makeWebpackConfig(options) {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: [
-                        ['@babel/preset-env', {
-                            targets: {
-                                browsers: ['last 2 versions', 'not dead'],
-                                node: '10.15.3'
-                            },
-                            // useBuiltIns: false, // or false or 'usage' or 'entry'
-                            // corejs: '3.0',
-                            debug: true,
-                            modules: false,
-                        }]
-                    ],
+                  // ['babel-preset-env', {
+                  presets: [
+                      // ['babel-preset-env', {
+                      ['@babel/preset-env', {
+                          // debug: true,
+                          targets: {
+                              browsers: ['last 2 versions', 'not dead'],
+                          },
+                          debug: true,
+                          modules: false,
+                      }]
+                  ],
+                    // presets: [
+                    //     ['@babel/preset-env', {
+                    //         targets: {
+                    //             browsers: ['last 2 versions', 'not dead'],
+                    //             node: '10.15.3'
+                    //         },
+                    //         // useBuiltIns: false, // or false or 'usage' or 'entry'
+                    //         // corejs: '3.0',
+                    //         debug: true,
+                    //         modules: false,
+                    //     }]
+                    // ],
                     plugins: [
-                        ['@babel/plugin-transform-runtime', {
-                            "corejs": 2,
-                        }],
-                        ['@babel/plugin-proposal-decorators', {
-                            legacy: true
-                        }],
-                        '@babel/plugin-proposal-class-properties', // must be after decorators
-                        // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
-                        '@babel/plugin-proposal-export-default-from',
-                        '@babel/plugin-proposal-export-namespace-from',
-                        '@babel/plugin-syntax-export-default-from',
-                        '@babel/plugin-transform-async-to-generator',
-                        '@babel/plugin-syntax-dynamic-import',
-                        '@babel/plugin-proposal-object-rest-spread'
+                        // ['@babel/plugin-transform-runtime', {
+                        //     "corejs": 2,
+                        // }],
+                        // ['@babel/plugin-proposal-decorators', {
+                        //     legacy: true
+                        // }],
+                        // '@babel/plugin-proposal-class-properties', // must be after decorators
+                        // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
+                        // '@babel/plugin-proposal-export-default-from',
+                        // '@babel/plugin-proposal-export-namespace-from',
+                        // '@babel/plugin-syntax-export-default-from',
+                        // '@babel/plugin-transform-async-to-generator',
+                        // '@babel/plugin-syntax-dynamic-import',
+                        // '@babel/plugin-proposal-object-rest-spread'
                     ].concat(TEST ? ['istanbul'] : []),
                 }
             }].concat(DEV ? '@angularclass/hmr-loader' : []),

@@ -1,7 +1,7 @@
 // Protractor configuration
 // https://github.com/angular/protractor/blob/master/referenceConf.js
 
-require('babel-register');
+require('@babel/register');
 
 var config = {
   // The timeout for each script run on the browser. This should be longer
@@ -56,7 +56,7 @@ var config = {
   },
 
   onPrepare: function() {
-    require('babel-register');
+    require('@babel/register');
     // Load Mocha and Chai + plugins
     require('./mocha.conf');
 
