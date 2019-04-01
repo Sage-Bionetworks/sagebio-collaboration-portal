@@ -1,22 +1,20 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/things              ->  index
- * POST    /api/things              ->  create
- * GET     /api/things/:id          ->  show
- * PUT     /api/things/:id          ->  upsert
- * PATCH   /api/things/:id          ->  patch
- * DELETE  /api/things/:id          ->  destroy
+ * GET     /api/insights              ->  index
+ * POST    /api/insights              ->  create
+ * GET     /api/insights/:id          ->  show
+ * PUT     /api/insights/:id          ->  upsert
+ * PATCH   /api/insights/:id          ->  patch
+ * DELETE  /api/insights/:id          ->  destroy
  */
 
-import {
-    applyPatch
-} from 'fast-json-patch';
-import Thing from './thing.model';
+import { applyPatch } from 'fast-json-patch';
+import Insight from './insight.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
+    return function(entity) {
+        if(entity) {
             return res.status(statusCode).json(entity);
         }
         return null;
@@ -24,10 +22,10 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-    return function (entity) {
+    return function(entity) {
         try {
             applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
+        } catch(err) {
             return Promise.reject(err);
         }
 
@@ -36,8 +34,8 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-    return function (entity) {
-        if (entity) {
+    return function(entity) {
+        if(entity) {
             return entity.remove()
                 .then(() => res.status(204).end());
         }
@@ -45,8 +43,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-    return function (entity) {
-        if (!entity) {
+    return function(entity) {
+        if(!entity) {
             res.status(404).end();
             return null;
         }
@@ -56,65 +54,58 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
-    return function (err) {
+    return function(err) {
         res.status(statusCode).send(err);
     };
 }
 
-// Gets a list of Things
+// Gets a list of Insights
 export function index(req, res) {
-    return Thing.find().exec()
+    return Insight.find().exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Gets a single Thing from the DB
+// Gets a single Insight from the DB
 export function show(req, res) {
-    return Thing.findById(req.params.id).exec()
+    return Insight.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Creates a new Thing in the DB
+// Creates a new Insight in the DB
 export function create(req, res) {
-    return Thing.create(req.body)
+    return Insight.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
-// Upserts the given Thing in the DB at the specified ID
+// Upserts the given Insight in the DB at the specified ID
 export function upsert(req, res) {
-    if (req.body._id) {
+    if(req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Thing.findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
+    return Insight.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Updates an existing Thing in the DB
+// Updates an existing Insight in the DB
 export function patch(req, res) {
-    if (req.body._id) {
+    if(req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Thing.findById(req.params.id).exec()
+    return Insight.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Deletes a Thing from the DB
+// Deletes a Insight from the DB
 export function destroy(req, res) {
-    return Thing.findById(req.params.id).exec()
+    return Insight.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));

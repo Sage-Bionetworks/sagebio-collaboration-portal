@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import ThingEvents from './thing.events';
+import InsightEvents from './insight.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -10,9 +10,9 @@ var events = ['save', 'remove'];
 export function register(spark) {
     // Bind model events to socket events
     for(let event of events) {
-        var listener = createListener(`thing:${event}`, spark);
+        var listener = createListener(`insight:${event}`, spark);
 
-        ThingEvents.on(event, listener);
+        InsightEvents.on(event, listener);
         spark.on('disconnect', removeListener(event, listener));
     }
 }
@@ -26,6 +26,6 @@ function createListener(event, spark) {
 
 function removeListener(event, listener) {
     return function() {
-        ThingEvents.removeListener(event, listener);
+        InsightEvents.removeListener(event, listener);
     };
 }

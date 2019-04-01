@@ -8,11 +8,11 @@
             <img class="app-logo" [src]="'assets/images/app-logo.svg'" alt="PHCCP logo">
             <span>PHCCP</span>
         </a>
+        <a mat-button class="app-button" routerLink="/insights" aria-label="Insights">Insights</a>
         <a mat-button class="app-button" routerLink="/datasets" aria-label="Datasets">Datasets</a>
         <a mat-button class="app-button" *ngIf="isAdmin" routerLink="/admin" aria-label="Admin">Admin</a>
         <!-- <div class="flex-spacer"></div> -->
         <div class="app-navbar-item-container-right">
-            <a mat-button class="app-button" *ngIf="!isLoggedIn" routerLink="/signup" aria-label="Sign up">Sign up</a>
             <a mat-button class="app-button" *ngIf="!isLoggedIn" routerLink="/login" aria-label="Login">Login</a>
             <navbar-user-button class="app-button" *ngIf="isLoggedIn"></navbar-user-button>
         </div>

@@ -12,8 +12,8 @@ const swaggerUi = require('swagger-ui-express');
 
 export default function(app) {
     // Insert routes below
+    app.use('/api/insights', require('./api/insight'));
     app.use('/api/datasets', require('./api/dataset'));
-    app.use('/api/things', require('./api/thing'));
     app.use('/api/users', require('./api/user'));
     app.use('/auth', require('./auth').default);
 
@@ -21,7 +21,7 @@ export default function(app) {
     var swaggerDefinition = {
         info: {
             title: 'PHC Collaboration Portal API',
-            version: '1.0.0',
+            version: '0.0.1',
             description: 'Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech',
         },
         // host: 'localhost:3000',

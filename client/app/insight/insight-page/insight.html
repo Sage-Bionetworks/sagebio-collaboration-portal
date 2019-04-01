@@ -1,0 +1,22 @@
+<div *ngIf="insight">
+    <div class="app-primary-header">
+        <mat-icon class="app-nav-back-icon" routerLink="/insights">keyboard_arrow_left</mat-icon>
+        <!-- <h1>{{insight.title}}</h1> -->
+        <h1>{{insight.name}}</h1>
+    </div>
+    <mat-card class="insight-container">
+        <picture>
+            <img src="http://via.placeholder.com/200x200" aria-label="insight preview">
+        </picture>
+        <div class="insight-metadata-container">
+            <h1>{{insight.name}}</h1>
+            <!-- <span>License: {{insight.license_title}}.</span> -->
+            <!-- <span class="insight-description">{{insight.description}}</span> -->
+        </div>
+        <div class="insight-actions-container">
+            <button mat-raised-button color="primary" (click)="openCkan(insight)">Open CKAN Page</button>
+            <button mat-raised-button color="primary" (click)="openFacileExplorer(insight)">Open in Facile Explorer</button>
+            <!-- <a mat-raised-button color="primary" target="_blank" rel="noopener noreferrer" href="{{insight.manualUrl}}">Manual</a> -->
+        </div>
+    </mat-card>
+</div>

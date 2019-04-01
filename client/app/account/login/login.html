@@ -33,11 +33,12 @@
             </form>
         </mat-card-content>
     </mat-card>
-    <div>
-        <br>
-        <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
-        <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
-    </div>
+
+    <ul>
+        <li>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></li>
+        <li>Admin account is <code>admin@example.com</code> / <code>admin</code></li>
+    </ul>
+
     <div class="login-as-container">
         <button mat-raised-button color="primary" (click)="loginAs('thomas@test.com')">Login as Thomas</button>
         <button mat-raised-button color="primary" (click)="loginAs('james@test.com')">Login as James</button>

@@ -1,0 +1,11 @@
+<mat-card *ngIf="insight" class="insight-container" [routerLink]="[insight.name]">
+    <picture>
+        <img src="https://www.snopes.com/tachyon/2017/12/science-stock-image.png" aria-label="insight preview">
+    </picture>
+    <div class="insight-metadata-container">
+        <h3 class="insight-name">{{insight.name}}</h3>
+        <div class="insight-metadata-row-container">
+            <span>Ryan</span>
+        </div>
+    </div>
+</mat-card>
