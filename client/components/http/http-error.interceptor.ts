@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-    static parameters = [Router]; // Do not inject AuthService (cyclic dependencies)
+    static parameters = [Router, AuthService];
     constructor(private router: Router, private authService: AuthService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -36,7 +36,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         return throwError(err.error);
                     } else {
                         // The backend returned an unsuccessful response code.
-                        // The response body may contain clues as to what went wrong,
+                        // The response body may contain clues as to what went wrong
                         console.log('HttpErrorInterceptor', err);
                         if (err.status === 401) { // 401: Unauthorized (but used for authentification error)
                             console.log('INTERCEPTOR 401');

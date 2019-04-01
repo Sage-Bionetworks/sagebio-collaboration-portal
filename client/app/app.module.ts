@@ -31,7 +31,7 @@ import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 
 export function tokenGetter() {
-    return localStorage.getItem('id_token');
+    return localStorage.getItem('access_token');
 }
 
 let providers: Provider[] = [{
@@ -46,7 +46,7 @@ let providers: Provider[] = [{
 
 const appRoutes: Routes = [{
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/home', // was /home
     pathMatch: 'full'
 }];
 

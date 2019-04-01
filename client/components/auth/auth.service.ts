@@ -33,6 +33,7 @@ export class AuthService {
         private tokenService: TokenService) {
         this.getAuthInfo();
         this.uuid = Math.floor(Math.random() * 100) + 1;
+        console.log('UUID', this.uuid);
     }
 
     /**
@@ -41,6 +42,7 @@ export class AuthService {
      */
     getAuthInfo(): Observable<AuthInfo> {
         if (this.tokenService.get()) {
+            console.log('HAS TOKEN');
             return this.userService.get()
                 .pipe(
                     map(user => {
@@ -54,6 +56,7 @@ export class AuthService {
                     })
                 );
         } else {
+            console.log('HAS NO TOKEN');
             this.tokenService.deleteToken();
             this.setUser(AuthService.UNKNOWN_USER);
             return this._authInfo.asObservable();
