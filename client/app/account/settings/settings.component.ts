@@ -1,46 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../components/auth/auth.service';
-
-// @flow
-interface User {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-}
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PasswordValidation } from '../../../components/validation/password-validation';
+import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'settings',
     template: require('./settings.html'),
+    styles: [require('./settings.scss')]
 })
-export class SettingsComponent {
-    user: User = {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-    };
-    errors = {other: undefined};
-    message = '';
+export class SettingsComponent implements OnInit {
+    changePasswordForm: FormGroup;
     submitted = false;
-    AuthService;
 
-    static parameters = [AuthService];
-    constructor(_AuthService_: AuthService) {
-        this.AuthService = _AuthService_;
+    static parameters = [AuthService, FormBuilder, MatSnackBar, PageTitleService];
+    constructor(private authService: AuthService, private formBuilder: FormBuilder,
+        private snackBar: MatSnackBar, private pageTitleService: PageTitleService) {
+        this.changePasswordForm = this.formBuilder.group({
+            oldPassword: ['', [
+                Validators.required,
+            ]],
+            newPasswordGroup: formBuilder.group({
+                password: ['', [
+                    Validators.required,
+                ]],
+                confirmPassword: ['', [
+                    Validators.required,
+                ]],
+            }, { validator: PasswordValidation.matchPassword })
+        });
     }
 
-    changePassword(form) {
-        if(form.invalid) return;
+    ngOnInit() {
+        this.pageTitleService.title = 'Settings';
+    }
 
+    changePassword(): void {
+        if (this.changePasswordForm.invalid) {
+            return;
+        }
         this.submitted = true;
 
-        return this.AuthService.changePassword(this.user.oldPassword, this.user.newPassword)
-            .then(() => {
-                this.message = 'Password successfully changed.';
-            })
-            .catch(() => {
-                // form.password.$setValidity('mongoose', false);
-                this.errors.other = 'Incorrect password';
-                this.message = '';
+        let values = this.changePasswordForm.value;
+        this.authService.changePassword(values.oldPassword, values.newPasswordGroup.password)
+            .subscribe(() => {
+                this.snackBar.open('Password successfully changed', undefined, {
+                    duration: 2000
+                });
+            }, err => {
+                this.changePasswordForm.controls.oldPassword.setErrors({ incorrect: true });
             });
     }
 }

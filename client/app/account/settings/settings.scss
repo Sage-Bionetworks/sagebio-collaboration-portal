@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  // flex-wrap: nowrap;
+}
+
+.form-field-full-width {
+  width: 100%;
+}
+
+.form-password-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 20px;
+}

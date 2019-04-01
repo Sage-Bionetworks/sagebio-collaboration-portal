@@ -1,0 +1,15 @@
+@import "./login/login-theme";
+@import "./settings/settings-theme";
+@import "./signup/signup-theme";
+
+@mixin account-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  @include login-theme($theme);
+  @include settings-theme($theme);
+  @include signup-theme($theme);
+}
