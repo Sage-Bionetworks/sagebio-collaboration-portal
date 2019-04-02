@@ -20,6 +20,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.route.params.subscribe(res => {
             this.datasetService.getDataset(res.id).subscribe(dataset => {
+                console.log('dataset', dataset);
                 // // Get the instances of this dataset available to the user
                 // this.AuthService.isLoggedIn().subscribe(is => {
                 //   if (is) {

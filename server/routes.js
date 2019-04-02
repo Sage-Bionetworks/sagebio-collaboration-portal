@@ -5,10 +5,10 @@
 import errors from './components/errors';
 import path from 'path';
 
-var swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
-// const host = `http://${process.env.IP}:${process.env.PORT}`;
+// const swaggerDocument = require('./swagger/swagger.json');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load(path.join(__dirname,'./swagger/swagger.yaml'));
 
 export default function(app) {
     // Insert routes below
@@ -34,9 +34,7 @@ export default function(app) {
         apis: ['./**/api/**/index.js']
     };
 
-    // initialize swagger-jsdoc
-    const swaggerSpec = swaggerJSDoc(swaggerJSDocOptions);
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|auth|components|app|bower_components|assets|api-docs)/*')

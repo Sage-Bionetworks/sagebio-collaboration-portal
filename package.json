@@ -35,9 +35,9 @@
         "primus-emit": "^1.0.0",
         "regenerator-runtime": "^0.13.2",
         "serve-favicon": "^2.5.0",
-        "swagger-jsdoc": "^3.2.8",
         "swagger-ui-express": "^4.0.2",
-        "ws": "^6.2.1"
+        "ws": "^6.2.1",
+        "yamljs": "^0.3.0"
     },
     "devDependencies": {
         "@angular/animations": "7.2.11",

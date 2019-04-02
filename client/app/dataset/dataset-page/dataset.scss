@@ -57,3 +57,13 @@
 a {
   margin-bottom: 10px;
 }
+
+.app-dataset-resource-list {
+  margin: 50px;
+  flex-grow: 1;
+}
+
+.app-dataset-resource-item,
+.app-dataset-resource-item:hover {
+  text-decoration: none;
+}

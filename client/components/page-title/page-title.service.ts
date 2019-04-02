@@ -34,6 +34,6 @@ export class PageTitleService {
     renderTitle(): void {
         const title = (this._title !== '') ? `${this._title} | ` : '';
         const notification = (this._numNotifications > 0) ? `(${this._numNotifications}) ` : '';
-        this.bodyTitle.setTitle(`${notification}${title}PHCCP`);
+        this.bodyTitle.setTitle(`${notification}${title}PHC Collaboration Portal`);
     }
 }
