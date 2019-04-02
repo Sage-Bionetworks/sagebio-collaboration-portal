@@ -17,23 +17,7 @@ export default function(app) {
     app.use('/api/users', require('./api/user'));
     app.use('/auth', require('./auth').default);
 
-    // swagger definition
-    var swaggerDefinition = {
-        info: {
-            title: 'PHC Collaboration Portal API',
-            version: '0.0.1',
-            description: 'Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech',
-        },
-        // host: 'localhost:3000',
-        basePath: '/api',
-    };
-
-    // options for the swagger docs
-    var swaggerJSDocOptions = {
-        swaggerDefinition: swaggerDefinition,
-        apis: ['./**/api/**/index.js']
-    };
-
+    // Swagger
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // All undefined asset or api routes should return a 404
