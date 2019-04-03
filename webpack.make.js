@@ -40,11 +40,11 @@ module.exports = function makeWebpackConfig(options) {
      */
     if (!TEST) {
         config.entry = {
-            app: './client/app/app.ts',
             polyfills: './client/app/polyfills.ts',
             vendor: [
                 'lodash'
-            ]
+            ],
+            app: './client/app/app.ts'
         };
     }
 
@@ -137,7 +137,8 @@ module.exports = function makeWebpackConfig(options) {
                               browsers: ['last 2 versions', 'not dead'],
                           },
                           debug: true,
-                          modules: false,
+                          modules: false
+                          // useBuiltIns: 'usage'
                       }]
                   ],
                     // presets: [

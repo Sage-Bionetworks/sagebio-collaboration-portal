@@ -32,7 +32,7 @@ import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 
 export function tokenGetter() {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('access_token');  // was 'id_token'
 }
 
 let providers: Provider[] = [{
