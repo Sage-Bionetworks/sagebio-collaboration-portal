@@ -80,7 +80,7 @@ UserSchema
 // Validate empty email
 UserSchema
     .path('email')
-    .validate(email => {
+    .validate(function (email) {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
@@ -90,7 +90,7 @@ UserSchema
 // Validate empty password
 UserSchema
     .path('password')
-    .validate(password => {
+    .validate(function (password) {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
@@ -100,7 +100,7 @@ UserSchema
 // Validate email is not taken
 UserSchema
     .path('email')
-    .validate(value => {
+    .validate(function (value) {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
@@ -130,7 +130,7 @@ var validatePresenceOf = value =>
  * Pre-save hook
  */
 UserSchema
-    .pre('save', next => {
+    .pre('save', function (next) {
         // Handle new/update passwords
         if (!this.isModified('password')) {
             return next();

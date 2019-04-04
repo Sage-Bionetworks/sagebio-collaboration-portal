@@ -172,7 +172,7 @@ let istanbul = lazypipe()
  * Env
  ********************/
 
-gulp.task('env:all', () => {
+gulp.task('env:all', (cb) => {
     let localConfig;
     try {
         localConfig = require(`./${serverPath}/config/local.env`);
@@ -182,6 +182,7 @@ gulp.task('env:all', () => {
     plugins.env({
         vars: localConfig
     });
+    cb();
 });
 gulp.task('env:test', () => {
     plugins.env({
@@ -221,10 +222,10 @@ gulp.task('inject:scss', () => {
         .pipe(gulp.dest(`${clientPath}/app`));
 });
 
-gulp.task('inject', (cb) =>
+gulp.task('inject',
     gulp.series(
         'inject:scss',
-        cb
+        cb => cb()
     ));
 
 function webpackCompile(options, cb) {
@@ -538,16 +539,16 @@ gulp.task('my', gulp.series('plop', gulp.parallel('hello', 'plop')), done);
 
 gulp.task('serve',
     gulp.series(
-        // gulp.parallel(
-        'clean:tmp',
-        'lint:scripts',
-        'inject',
-        // 'copy:fonts:dev',
-        // 'env:all'
-        // ),
+        gulp.parallel(
+            'clean:tmp',
+            'lint:scripts',
+            'inject',
+            'copy:fonts:dev',
+            'env:all'
+        ),
         // 'webpack:dev',
-        // gulp.parallel('start:server', 'start:client'),
-        // 'watch'
+        gulp.parallel('start:server', 'start:client'),
+        'watch'
     )
 );
 
