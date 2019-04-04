@@ -64,17 +64,6 @@ describe('User Model', function () {
                 return expect(user.save()).to.be.fulfilled;
             });
         });
-
-        describe('given user provider is github', function () {
-            beforeEach(function () {
-                user.provider = 'github';
-            });
-
-            it('should succeed when saving without an email', function () {
-                user.email = null;
-                return expect(user.save()).to.be.fulfilled;
-            });
-        });
     });
 
     describe('#password', function () {

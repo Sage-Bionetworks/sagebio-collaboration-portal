@@ -41,15 +41,13 @@ var UserSchema = new Schema({
     provider: String,
     salt: String,
     google: {},
-    github: {},
     createdAt: {
         type: Date,
         default: Date.now
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     }
 });
 

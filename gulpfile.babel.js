@@ -184,19 +184,21 @@ gulp.task('env:all', (cb) => {
     });
     cb();
 });
-gulp.task('env:test', () => {
+gulp.task('env:test', (cb) => {
     plugins.env({
         vars: {
             NODE_ENV: 'test'
         }
     });
+    cb();
 });
-gulp.task('env:prod', () => {
+gulp.task('env:prod', (cb) => {
     plugins.env({
         vars: {
             NODE_ENV: 'production'
         }
     });
+    cb();
 });
 
 /********************
@@ -347,24 +349,22 @@ gulp.task('watch', () => {
         .pipe(lintServerTestScripts());
 });
 
-gulp.task('mocha:unit', gulp.series(() => {
+gulp.task('mocha:unit', () => {
     return gulp.src(paths.server.test.unit)
         .pipe(mocha());
-}));
+});
 
-gulp.task('mocha:integration', gulp.series(() => {
+gulp.task('mocha:integration', () => {
     return gulp.src(paths.server.test.integration)
         .pipe(mocha());
-}));
+});
 
-gulp.task('test:server', (cb) =>
-    gulp.series(
-        'env:all',
-        'env:test',
-        'mocha:unit',
-        'mocha:integration',
-        cb
-    ));
+gulp.task('test:server', gulp.series(
+    'env:all',
+    'env:test',
+    'mocha:unit',
+    'mocha:integration'
+));
 
 gulp.task('coverage:pre', () => {
     return gulp.src(paths.server.scripts)
@@ -437,12 +437,10 @@ gulp.task('test:client', done => {
     }).start();
 });
 
-gulp.task('test', (cb) =>
-    gulp.series(
-        'test:server',
-        'test:client',
-        cb
-    ));
+gulp.task('test', gulp.series(
+    'test:server',
+    'test:client'
+));
 
 /********************
  * Build
