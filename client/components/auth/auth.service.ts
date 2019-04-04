@@ -49,7 +49,7 @@ export class AuthService {
                         this.setUser(user);
                         return this._authInfo.getValue();
                     }),
-                    catchError(err => {
+                    catchError(() => {
                         this.tokenService.deleteToken();
                         this.setUser(AuthService.UNKNOWN_USER);
                         return this._authInfo.asObservable();

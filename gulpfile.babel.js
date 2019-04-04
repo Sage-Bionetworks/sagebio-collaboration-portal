@@ -224,8 +224,7 @@ gulp.task('inject:scss', () => {
 
 gulp.task('inject',
     gulp.series(
-        'inject:scss',
-        cb => cb()
+        'inject:scss'
     ));
 
 function webpackCompile(options, cb) {
