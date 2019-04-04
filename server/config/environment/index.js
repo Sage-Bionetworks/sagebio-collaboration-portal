@@ -43,7 +43,8 @@ var all = {
     // MongoDB connection options
     mongo: {
         options: {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useFindAndModify: false
         }
     },
 
