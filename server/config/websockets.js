@@ -1,9 +1,9 @@
 /**
  * Socket.io configuration
  */
-import path from "path";
-import Primus from "primus";
-import primusEmit from "primus-emit";
+import path from 'path';
+import Primus from 'primus';
+import primusEmit from 'primus-emit';
 
 const registerFunctions = [
     // Insert sockets below
@@ -25,7 +25,7 @@ function onConnect(spark) {
     );
 
     // When the client emits 'info', this listens and executes
-    spark.on("info", data => {
+    spark.on('info', data => {
         spark.log(JSON.stringify(data, null, 2));
     });
 
@@ -39,26 +39,26 @@ let primus;
 
 export function broadcast(message) {
     primus.forEach(spark => {
-        spark.emit("broadcast", message);
+        spark.emit('broadcast', message);
     });
 }
 
 export default function initWebSocketServer(server) {
     primus = new Primus(server, {
-        transformer: "websockets" // uws
+        transformer: 'websockets' // uws
     });
-    primus.plugin("emit", primusEmit);
+    primus.plugin('emit', primusEmit);
 
-    primus.on("connection", onConnect);
-    primus.on("disconnection", onDisconnect);
+    primus.on('connection', onConnect);
+    primus.on('disconnection', onDisconnect);
 
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
         return new Promise((resolve, reject) => {
             // Save the primus client library configured for our server settings
             primus.save(
                 path.join(
                     __dirname,
-                    "../../client/components/socket/primus.js"
+                    '../../client/components/socket/primus.js'
                 ),
                 err => {
                     if (err) return reject(err);

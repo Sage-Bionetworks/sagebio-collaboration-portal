@@ -8,13 +8,15 @@
  * DELETE  /api/insights/:id          ->  destroy
  */
 
-import { applyPatch } from 'fast-json-patch';
+import {
+    applyPatch
+} from 'fast-json-patch';
 import Insight from './insight.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
-    return function(entity) {
-        if(entity) {
+    return entity => {
+        if (entity) {
             return res.status(statusCode).json(entity);
         }
         return null;
@@ -22,10 +24,10 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-    return function(entity) {
+    return entity => {
         try {
             applyPatch(entity, patches, /*validate*/ true);
-        } catch(err) {
+        } catch (err) {
             return Promise.reject(err);
         }
 
@@ -34,8 +36,8 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-    return function(entity) {
-        if(entity) {
+    return entity => {
+        if (entity) {
             return entity.remove()
                 .then(() => res.status(204).end());
         }
@@ -43,8 +45,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-    return function(entity) {
-        if(!entity) {
+    return entity => {
+        if (!entity) {
             res.status(404).end();
             return null;
         }
@@ -54,7 +56,7 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
-    return function(err) {
+    return err => {
         res.status(statusCode).send(err);
     };
 }
@@ -83,17 +85,25 @@ export function create(req, res) {
 
 // Upserts the given Insight in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body._id) {
+    if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Insight.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+    return Insight
+        .findOneAndUpdate({
+            _id: req.params.id
+        }, req.body, {
+            new: true,
+            upsert: true,
+            setDefaultsOnInsert: true,
+            runValidators: true
+        }).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Updates an existing Insight in the DB
 export function patch(req, res) {
-    if(req.body._id) {
+    if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
     return Insight.findById(req.params.id).exec()

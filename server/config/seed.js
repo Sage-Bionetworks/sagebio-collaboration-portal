@@ -13,10 +13,10 @@ import {
 } from './seeds/users';
 import {
     datasets
-} from './seeds/datasets'
+} from './seeds/datasets';
 import {
     insights
-} from './seeds/insights'
+} from './seeds/insights';
 
 export default function seedDatabaseIfNeeded() {
     if (!config.seedDB) {

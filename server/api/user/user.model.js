@@ -1,4 +1,5 @@
-/*eslint no-invalid-this:0*/
+/* eslint no-invalid-this:0 */
+/* eslint no-sync:0 */
 import crypto from 'crypto';
 mongoose.Promise = require('bluebird');
 import mongoose, {
@@ -59,22 +60,18 @@ var UserSchema = new Schema({
 // Public profile information
 UserSchema
     .virtual('profile')
-    .get(function () {
-        return {
-            name: this.name,
-            role: this.role
-        };
-    });
+    .get(() => ({
+        name: this.name,
+        role: this.role
+    }));
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
     .virtual('token')
-    .get(function () {
-        return {
-            _id: this._id,
-            role: this.role
-        };
-    });
+    .get(() => ({
+        _id: this._id,
+        role: this.role
+    }));
 
 /**
  * Validations
@@ -83,7 +80,7 @@ UserSchema
 // Validate empty email
 UserSchema
     .path('email')
-    .validate(function (email) {
+    .validate(email => {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
@@ -93,7 +90,7 @@ UserSchema
 // Validate empty password
 UserSchema
     .path('password')
-    .validate(function (password) {
+    .validate(password => {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
@@ -103,12 +100,13 @@ UserSchema
 // Validate email is not taken
 UserSchema
     .path('email')
-    .validate(function (value) {
+    .validate(value => {
         if (authTypes.indexOf(this.provider) !== -1) {
             return true;
         }
 
-        return this.constructor.findOne({
+        return this.constructor
+            .findOne({
                 email: value
             }).exec()
             .then(user => {
@@ -125,15 +123,14 @@ UserSchema
             });
     }, 'The specified email address is already in use.');
 
-var validatePresenceOf = function (value) {
-    return value && value.length;
-};
+var validatePresenceOf = value =>
+    value && value.length;
 
 /**
  * Pre-save hook
  */
 UserSchema
-    .pre('save', function (next) {
+    .pre('save', next => {
         // Handle new/update passwords
         if (!this.isModified('password')) {
             return next();

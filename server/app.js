@@ -15,7 +15,7 @@ import seedDatabaseIfNeeded from './config/seed';
 
 // Connect to MongoDB
 const mongooseConnectionPromise = mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', function (err) {
+mongoose.connection.on('error', err => {
     console.error(`MongoDB connection error: ${err}`);
     process.exit(-1); // eslint-disable-line no-process-exit
 });
@@ -29,7 +29,7 @@ registerRoutes(app);
 
 // Start server
 function startServer() {
-    app.angularFullstack = server.listen(config.port, config.ip, function () {
+    app.angularFullstack = server.listen(config.port, config.ip, () => {
         console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
     });
 }

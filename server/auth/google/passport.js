@@ -4,13 +4,15 @@ import {
 } from 'passport-google-oauth20';
 
 export function setup(User, config) {
-    passport.use(new GoogleStrategy({
-            clientID: config.google.clientID,
-            clientSecret: config.google.clientSecret,
-            callbackURL: config.google.callbackURL
-        },
-        function (accessToken, refreshToken, profile, done) {
-            User.findOne({
+    let googleConfig = {
+        clientID: config.google.clientID,
+        clientSecret: config.google.clientSecret,
+        callbackURL: config.google.callbackURL
+    };
+    passport.use(new GoogleStrategy(googleConfig,
+        (accessToken, refreshToken, profile, done) => {
+            User
+                .findOne({
                     'google.id': profile.id
                 }).exec()
                 .then(user => {

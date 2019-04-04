@@ -9,7 +9,7 @@ var events = ['save', 'remove'];
 
 export function register(spark) {
     // Bind model events to socket events
-    for(let event of events) {
+    for (let event of events) {
         var listener = createListener(`insight:${event}`, spark);
 
         InsightEvents.on(event, listener);
@@ -19,13 +19,13 @@ export function register(spark) {
 
 
 function createListener(event, spark) {
-    return function(doc) {
+    return doc => {
         spark.emit(event, doc);
     };
 }
 
 function removeListener(event, listener) {
-    return function() {
+    return () => {
         InsightEvents.removeListener(event, listener);
     };
 }

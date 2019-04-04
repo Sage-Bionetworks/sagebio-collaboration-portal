@@ -8,9 +8,9 @@ import path from 'path';
 const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./swagger/swagger.json');
 const YAML = require('yamljs');
-const swaggerDocument = YAML.load(path.join(__dirname,'./swagger/swagger.yaml'));
+const swaggerDocument = YAML.load(path.join(__dirname, './swagger/swagger.yaml'));
 
-export default function(app) {
+export default app => {
     // Insert routes below
     app.use('/api/insights', require('./api/insight'));
     app.use('/api/datasets', require('./api/dataset'));
@@ -29,4 +29,4 @@ export default function(app) {
         .get((req, res) => {
             res.sendFile(path.resolve(`${app.get('appPath')}/app.html`));
         });
-}
+};
