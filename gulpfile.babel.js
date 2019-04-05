@@ -13,7 +13,6 @@ import nodemon from 'nodemon';
 import {
     Server as KarmaServer
 } from 'karma';
-// import runSequence from 'run-sequence';
 import {
     protractor,
     webdriver_update
@@ -172,7 +171,7 @@ let istanbul = lazypipe()
  * Env
  ********************/
 
-gulp.task('env:all', (cb) => {
+gulp.task('env:all', cb => {
     let localConfig;
     try {
         localConfig = require(`./${serverPath}/config/local.env`);
@@ -184,7 +183,7 @@ gulp.task('env:all', (cb) => {
     });
     cb();
 });
-gulp.task('env:test', (cb) => {
+gulp.task('env:test', cb => {
     plugins.env({
         vars: {
             NODE_ENV: 'test'
@@ -192,7 +191,7 @@ gulp.task('env:test', (cb) => {
     });
     cb();
 });
-gulp.task('env:prod', (cb) => {
+gulp.task('env:prod', cb => {
     plugins.env({
         vars: {
             NODE_ENV: 'production'
@@ -244,13 +243,13 @@ function webpackCompile(options, cb) {
     });
 }
 
-gulp.task('webpack:dev', (cb) => webpackCompile({
+gulp.task('webpack:dev', cb => webpackCompile({
     DEV: true
 }, cb));
-gulp.task('webpack:dist', (cb) => webpackCompile({
+gulp.task('webpack:dist', cb => webpackCompile({
     BUILD: true
 }, cb));
-gulp.task('webpack:test', (cb) => webpackCompile({
+gulp.task('webpack:test', cb => webpackCompile({
     TEST: true
 }, cb));
 
@@ -308,7 +307,7 @@ gulp.task('clean:tmp', () => del(['.tmp/**/*'], {
     dot: true
 }));
 
-gulp.task('start:client', (cb) => {
+gulp.task('start:client', cb => {
     return require('./webpack.server').start(config.clientPort).then(() => {
         open(`http://localhost:${config.clientPort}`);
         cb();
@@ -391,7 +390,7 @@ gulp.task('coverage:integration', () => {
     // Creating the reports after tests ran
 });
 
-gulp.task('test:server:coverage', (cb) =>
+gulp.task('test:server:coverage', cb =>
     gulp.series(
         'coverage:pre',
         'env:all',
@@ -413,7 +412,7 @@ gulp.task('test:e2e',
             'start:server',
             'webdriver_update'
         ),
-        (cb) => {
+        () => {
             gulp.src(paths.client.e2e)
                 .pipe(protractor({
                     configFile: 'protractor.conf.js',
@@ -525,14 +524,14 @@ gulp.task('copy:fonts:dist', () => {
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`));
 });
 
-gulp.task('plop', cb => cb());
-gulp.task('hello', cb => cb());
-
-var done = (cb) => {
-    console.log('calling cb');
-    cb();
-};
-gulp.task('my', gulp.series('plop', gulp.parallel('hello', 'plop')), done);
+// gulp.task('plop', cb => cb());
+// gulp.task('hello', cb => cb());
+//
+// var done = (cb) => {
+//     console.log('calling cb');
+//     cb();
+// };
+// gulp.task('my', gulp.series('plop', gulp.parallel('hello', 'plop')), done);
 
 gulp.task('serve',
     gulp.series(

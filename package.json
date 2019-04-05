@@ -151,6 +151,7 @@
         "postcss-loader": "^3.0.0",
         "protractor": "^5.4.2",
         "proxyquire": "^2.1.0",
+        "puppeteer": "^1.14.0",
         "raw-loader": "^2.0.0",
         "reflect-metadata": "^0.1.13",
         "run-sequence": "^2.2.1",
