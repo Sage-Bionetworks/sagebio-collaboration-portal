@@ -579,7 +579,7 @@ gulp.task('copy:server', () => {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', (cb) =>
+gulp.task('build',
     gulp.series(
         gulp.parallel(
             'clean:dist',
@@ -587,21 +587,18 @@ gulp.task('build', (cb) =>
         ),
         'inject',
         'transpile:server',
-        gulp.parallel(
-            'build:images'
-        ),
+        'build:images',
         gulp.parallel(
             'copy:extras',
             'copy:assets',
             'copy:fonts:dist',
-            'copy:server',
-            'webpack:dist'
+            'copy:server'
         ),
-        'revReplaceWebpack',
-        cb
+        'webpack:dist',
+        'revReplaceWebpack'
     ));
 
-gulp.task('serve:dist', (cb) =>
+gulp.task('serve:dist', cb =>
     gulp.series(
         'build',
         'env:all',

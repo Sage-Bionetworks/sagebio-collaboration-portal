@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'oauth-buttons',
-    template: require('./oauth-buttons.html'),
-    styles: [require('./oauth-buttons.scss')],
+    template: './oauth-buttons.html',
+    styles: ['./oauth-buttons.scss'],
 })
 export class OauthButtonsComponent {
     loginOauth(provider) {

@@ -128,20 +128,20 @@ module.exports = function makeWebpackConfig(options) {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                  // ['babel-preset-env', {
-                  presets: [
-                      // ['babel-preset-env', {
-                      ['@babel/preset-env', {
-                          // debug: true,
-                          targets: {
-                              browsers: ['last 2 versions', 'not dead'],
-                          },
-                          debug: true,
-                          modules: false,
-                          // corejs: 3,
-                          // useBuiltIns: 'usage'
-                      }]
-                  ],
+                    // ['babel-preset-env', {
+                    presets: [
+                        // ['babel-preset-env', {
+                        ['@babel/preset-env', {
+                            // debug: true,
+                            targets: {
+                                browsers: ['last 2 versions', 'not dead'],
+                            },
+                            debug: true,
+                            modules: false,
+                            // corejs: 3,
+                            // useBuiltIns: 'usage'
+                        }]
+                    ],
                     // presets: [
                     //     ['@babel/preset-env', {
                     //         targets: {
@@ -186,7 +186,7 @@ module.exports = function makeWebpackConfig(options) {
                 loader: 'awesome-typescript-loader',
                 options: {
                     tsconfig: path.resolve(__dirname, 'tsconfig.json')
-                },
+                }
             }].concat(DEV ? '@angularclass/hmr-loader' : []),
             include: [
                 path.resolve(__dirname, 'client/')
@@ -201,12 +201,16 @@ module.exports = function makeWebpackConfig(options) {
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
             use: 'file-loader'
         }, {
-
             // HTML LOADER
             // Reference: https://github.com/webpack/raw-loader
             // Allow loading html through js
             test: /\.html$/,
-            use: 'raw-loader'
+            use: {
+                loader: 'html-loader',
+                options: {
+                    attrs: false
+                }
+            }
         }, {
             // CSS LOADER
             // Reference: https://github.com/webpack/css-loader
@@ -235,7 +239,7 @@ module.exports = function makeWebpackConfig(options) {
                 'sass-loader',
             ],
             include: [
-                path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
+                // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
                 path.resolve(__dirname, 'client/app/app.scss')
             ]
         }, {
