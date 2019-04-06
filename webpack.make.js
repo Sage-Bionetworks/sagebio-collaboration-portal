@@ -138,7 +138,7 @@ module.exports = function makeWebpackConfig(options) {
                             },
                             debug: true,
                             modules: false,
-                            // corejs: 3,
+                            corejs: 3
                             // useBuiltIns: 'usage'
                         }]
                     ],
