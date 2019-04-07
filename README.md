@@ -12,37 +12,26 @@ Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Gen
 
 ### Developing
 
-1. Run `npm install` to install server dependencies.
+1. Run `npm install` to install all dependencies.
 
 2. Run `docker run -p 27017:27017 --name afs-mongo -d mongo` to start the MongoDB service.
 
 3. Run `npm run start:server` and `npm run start:client` to start the dev server.
 
-## Build & development
-
-
 ## Testing
 
-Karma uses ChromeHeadless to test the client. The dependencies required to run Chrome are listed [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#chrome-headless-doesnt-launch).
+Run `npm test` to run the server and client unit tests.
 
-At this time, the following dependencies are required to run Chrome:
+## Building for Production
 
-```
-sudo apt-get install -y  gconf-service libasound2 libatk1.0-0 \
-  libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 \
-  libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 \
-  libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 \
-  libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 \
-  libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
-  ca-certificates fonts-liberation libappindicator1 libnss3 \
-  lsb-release xdg-utils wget
-```
+1. Run `npm install` to install all dependencies.
 
-Running `npm test` will run the unit tests with karma.
+2. Run `npm run build` to build the app and save the files into `./dist/`.
 
-## Production
+### Deploying manually
 
-```
-npm run build
-NODE_ENV=production node dist/server/
-```
+- Run `NODE_ENV=production node dist/server/` to deploy the app (requires an instance of MongoDB to be already running).
+
+### Deploying using `docker-compose`
+
+- Run `docker-compose up -d` to automatically deploy the app and an instance of MongoDB.

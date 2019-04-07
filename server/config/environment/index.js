@@ -41,7 +41,9 @@ var all = {
     mongo: {
         options: {
             useNewUrlParser: true,
-            useFindAndModify: false
+            useFindAndModify: false,
+            reconnectTries: 30,
+            reconnectInterval: 500  // in ms
         }
     },
 

@@ -136,9 +136,9 @@ module.exports = function makeWebpackConfig(options) {
                             targets: {
                                 browsers: ['last 2 versions', 'not dead'],
                             },
-                            debug: true,
-                            modules: false,
-                            corejs: 3
+                            debug: true,  // TODO: set to false in production
+                            modules: false
+                            // corejs: 3
                             // useBuiltIns: 'usage'
                         }]
                     ],

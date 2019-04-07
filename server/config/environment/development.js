@@ -6,6 +6,6 @@ module.exports = {
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_URI || 'mongodb://localhost/phccp-dev'
+        uri: process.env.MONGODB_URI || 'mongodb://localhost/phccp'
     }
 };

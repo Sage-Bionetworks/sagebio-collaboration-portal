@@ -1,16 +1,17 @@
-version: '2'
+version: '3'
 services:
   phccp:
     build: .
+    image: phccp
     container_name: 'phccp'
+    environment:
+        MONGODB_URI: 'mongodb://mongo:27017/phccp'
     ports:
-        - 8080:8080
-    links:
-        - mongo
+        - '80:8080'
     depends_on:
         - mongo
   mongo:
     image: mongo
     container_name: 'mongo'
     ports:
-        - 27017:27017
+        - '27017:27017'

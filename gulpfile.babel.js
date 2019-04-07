@@ -539,7 +539,7 @@ gulp.task('serve',
             'clean:tmp',
             'lint:scripts',
             'inject',
-            'copy:fonts:dev',
+            // 'copy:fonts:dev',
             'env:all'
         ),
         // 'webpack:dev',
@@ -554,7 +554,7 @@ gulp.task('serve:debug', (cb) =>
             'clean:tmp',
             'lint:scripts',
             'inject',
-            'copy:fonts:dev',
+            // 'copy:fonts:dev',
             'env:all'
         ),
         'webpack:dev',
@@ -591,7 +591,7 @@ gulp.task('build',
         gulp.parallel(
             'copy:extras',
             'copy:assets',
-            'copy:fonts:dist',
+            // 'copy:fonts:dist',
             'copy:server'
         ),
         'webpack:dist',
