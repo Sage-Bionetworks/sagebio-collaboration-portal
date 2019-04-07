@@ -28,10 +28,14 @@ Run `npm test` to run the server and client unit tests.
 
 2. Run `npm run build` to build the app and save the files into `./dist/`.
 
-### Deploying manually
+## Deploying manually
+
+After building the app,
 
 - Run `NODE_ENV=production node dist/server/` to deploy the app (requires an instance of MongoDB to be already running).
 
-### Deploying using `docker-compose`
+## Deploying using Docker
+
+After building the app,
 
 - Run `docker-compose up -d` to automatically deploy the app and an instance of MongoDB.
