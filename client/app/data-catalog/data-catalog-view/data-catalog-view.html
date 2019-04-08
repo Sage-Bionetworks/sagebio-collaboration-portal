@@ -1,0 +1,11 @@
+<mat-card *ngIf="dataCatalog" class="data-catalog-container" [routerLink]="[dataCatalog._id]">
+    <picture>
+        <img src="https://www.snopes.com/tachyon/2017/12/science-stock-image.png" aria-label="Data catalog preview">
+    </picture>
+    <div class="data-catalog-metadata-container">
+        <h3 class="data-catalog-name">{{dataCatalog.name}}</h3>
+        <div class="data-catalog-metadata-row-container">
+            <!-- <span>Ryan</span> -->
+        </div>
+    </div>
+</mat-card>

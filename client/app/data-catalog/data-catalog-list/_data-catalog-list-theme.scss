@@ -1,0 +1,11 @@
+@mixin data-catalog-list-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .app-data-catalog-list .app-data-catalog-item {
+    color: mat-color($primary);
+  }
+}

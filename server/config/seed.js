@@ -34,7 +34,7 @@ export default function seedDatabaseIfNeeded() {
         let promise = DataCatalog.find({}).deleteMany()
             .then(() => DataCatalog.create(seeds.dataCatalogs))
             .then(() => console.log('finished populating data catalogs'))
-            .catch(err => console.log('error populating catalogs', err));
+            .catch(err => console.log('error populating data catalogs', err));
         promises.push(promise);
     }
 

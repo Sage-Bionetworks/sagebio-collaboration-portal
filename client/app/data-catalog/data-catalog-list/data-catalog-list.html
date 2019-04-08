@@ -1,0 +1,17 @@
+<div class="app-primary-header">
+    <h1>Data Catalogs</h1>
+</div>
+
+<div class="app-data-catalog-list-container">
+    <!-- <div class="filter-container">
+    <h3>Tags</h3>
+    <data-catalog-tag-filters [filters]="tagFilters" group="tagged"></data-catalog-tag-filters>
+
+    <h3>Order by</h3>
+    <data-catalog-order-filters [filters]="orderFilters" group="orderedBy"></data-catalog-order-filters>
+  </div> -->
+
+    <div class="results-container">
+        <data-catalog-view *ngFor="let dataCatalog of dataCatalogs | async" [dataCatalog]="dataCatalog"></data-catalog-view>
+    </div>
+</div>

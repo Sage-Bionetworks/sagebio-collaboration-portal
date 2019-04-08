@@ -1,0 +1,13 @@
+@import "./data-catalog-list/data-catalog-list-theme";
+@import "./data-catalog-page/data-catalog-page-theme";
+
+@mixin data-catalog-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  @include data-catalog-list-theme($theme);
+  @include data-catalog-page-theme($theme);
+}

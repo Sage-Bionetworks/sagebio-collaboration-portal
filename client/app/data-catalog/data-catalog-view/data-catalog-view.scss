@@ -1,0 +1,56 @@
+.data-catalog-container {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 200px;
+  margin: 25px;
+}
+
+.data-catalog-container:hover {
+  cursor: pointer;
+}
+
+.data-catalog-container > picture {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+
+  img {
+    display: block;
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    align-self: center;
+  }
+}
+
+.data-catalog-name {
+  font-size: 15px;
+  line-height: 20px;
+  overflow: hidden;
+  box-sizing: content-box;
+  max-height: 60px;
+  font-weight: 600;
+  opacity: 0.95;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  white-space: normal;
+  position: relative;
+}
+
+.data-catalog-metadata-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.data-catalog-metadata-row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.data-catalog-metadata-row-container > mat-icon {
+  margin-right: 10px;
+}
