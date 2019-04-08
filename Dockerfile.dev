@@ -1,0 +1,8 @@
+#
+# ---- Base Node ----
+FROM node:10.15-stretch as base
+# Create app directory
+WORKDIR /usr/src/app
+# Copy project file
+COPY . .
+RUN npm install

@@ -1,0 +1,40 @@
+version: '3.2'
+
+# TODO: Fix communication between server and client container
+
+services:
+  phccp-dev-client:
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    image: phccp-dev-client
+    command: npm run start:client
+    container_name: phccp-dev-client
+    ports:
+        - '3000:3000'
+    environment:
+        NODE_ENV: development
+    depends_on:
+        - phccp-dev-server
+
+  phccp-dev-server:
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    image: phccp-dev-server
+    command: npm run start:server
+    container_name: phccp-dev-server
+    ports:
+        - '9000:9000'
+    environment:
+        NODE_ENV: development
+        MONGODB_URI: 'mongodb://mongo-dev:27018/phccp-dev'
+    depends_on:
+        - mongo-dev
+
+  mongo-dev:
+    image: mongo
+    command: mongod --port 27018
+    container_name: mongo-dev
+    ports:
+        - '27018:27018'

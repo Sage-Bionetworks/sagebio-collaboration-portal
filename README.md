@@ -22,20 +22,23 @@ Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Gen
 
 Run `npm test` to run the server and client unit tests.
 
-## Building for Production
+## Production
+### Manual Deployment
 
 1. Run `npm install` to install all dependencies.
 
 2. Run `npm run build` to build the app and save the files into `./dist/`.
 
-## Deploying manually
+3. Run an instance of MongoDB.
 
-After building the app,
+4. Run the production server with (after updating the env vars):
 
-- Run `NODE_ENV=production node dist/server/` to deploy the app (requires an instance of MongoDB to be already running).
+```
+NODE_ENV=production \
+    MONGODB_URI=mongodb://mongo:27017/phccp \
+    node dist/server/`
+```
 
-## Deploying using Docker
+### Deploying using Docker
 
-After building the app,
-
-- Run `docker-compose up -d` to automatically deploy the app and an instance of MongoDB.
+- Run `docker-compose up --build` to deploy the stack.
