@@ -7,6 +7,8 @@ import primusEmit from 'primus-emit';
 
 const registerFunctions = [
     // Insert sockets below
+    require('../api/data-catalog/data-catalog.socket').register,
+    require('../api/tool/tool.socket').register,
     require('../api/insight/insight.socket').register,
     require('../api/dataset/dataset.socket').register
 ];

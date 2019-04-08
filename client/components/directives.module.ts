@@ -8,8 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { NavbarUserButtonModule } from './navbar-user-button/navbar-user-button.module';
 import { FooterModule } from './footer/footer.module';
-
-// import { OauthButtonsComponent } from './oauth-buttons/oauth-buttons.component';
+import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 
 import { PageTitleService } from './page-title/page-title.service';
 
@@ -21,6 +20,7 @@ import { PageTitleService } from './page-title/page-title.service';
         NavbarModule,
         NavbarUserButtonModule,
         FooterModule,
+        OAuthButtonsModule,
 
         RouterModule,
     ],
@@ -34,7 +34,7 @@ import { PageTitleService } from './page-title/page-title.service';
         NavbarModule,
         NavbarUserButtonModule,
         FooterModule,
-        // OauthButtonsComponent,
+        OAuthButtonsModule
     ]
 })
 export class DirectivesModule { }

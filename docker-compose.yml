@@ -3,7 +3,8 @@ version: '3.2'
 services:
   phccp:
     build: .
-    image: phccp
+    image: phc-collaboration-portal
+    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:v0.1
     container_name: phccp
     environment:
         NODE_ENV: production

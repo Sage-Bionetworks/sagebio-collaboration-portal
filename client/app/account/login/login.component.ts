@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../components/auth/auth.service';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OAuthButtonsComponent } from '../../../components/oauth-buttons/oauth-buttons.component';
 
 @Component({
     selector: 'login',

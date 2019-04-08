@@ -40,8 +40,9 @@
     </ul>
 
     <div class="login-as-container">
-        <button mat-raised-button color="primary" (click)="loginAs('thomas@test.com')">Login as Thomas</button>
-        <button mat-raised-button color="primary" (click)="loginAs('james@test.com')">Login as James</button>
-        <button mat-raised-button color="primary" (click)="loginAs('kim@test.com')">Login as Kim</button>
+        <a mat-raised-button class="app-button app-login-button" color="primary" (click)="loginAs('thomas@test.com')">Login as Thomas</a>
+        <a mat-raised-button class="app-button app-login-button" color="primary" (click)="loginAs('james@test.com')">Login as James</a>
+        <a mat-raised-button class="app-button app-login-button" color="primary" (click)="loginAs('kim@test.com')">Login as Kim</a>
+        <oauth-buttons class="app-login-button"></oauth-buttons>
     </div>
 </div>

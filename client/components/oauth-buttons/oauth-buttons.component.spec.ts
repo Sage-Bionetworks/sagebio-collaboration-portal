@@ -3,22 +3,22 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { expect } from 'chai';
 
-import { OauthButtonsComponent } from './oauth-buttons.component';
+import { OAuthButtonsComponent } from './oauth-buttons.component';
 
-describe('Component: OauthButtonsComponent', () => {
-    let comp: OauthButtonsComponent;
-    let fixture: ComponentFixture<OauthButtonsComponent>;
+describe('Component: OAuthButtonsComponent', () => {
+    let comp: OAuthButtonsComponent;
+    let fixture: ComponentFixture<OAuthButtonsComponent>;
     let de: DebugElement;
     let el: HTMLElement;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ OauthButtonsComponent ], // declare the test component
+            declarations: [ OAuthButtonsComponent ], // declare the test component
         });
 
-        fixture = TestBed.createComponent(OauthButtonsComponent);
+        fixture = TestBed.createComponent(OAuthButtonsComponent);
 
-        comp = fixture.componentInstance; // OauthButtonsComponent test instance
+        comp = fixture.componentInstance; // OAuthButtonsComponent test instance
 
         // query for the title <h1> by CSS element selector
         // de = fixture.debugElement.query(By.css('a'));

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'oauth-buttons',
-    template: './oauth-buttons.html',
-    styles: ['./oauth-buttons.scss'],
+    template: require('./oauth-buttons.html'),
+    styles: [require('./oauth-buttons.scss')],
 })
-export class OauthButtonsComponent {
+export class OAuthButtonsComponent {
     loginOauth(provider) {
         window.location.href = `/auth/${provider}`;
     }

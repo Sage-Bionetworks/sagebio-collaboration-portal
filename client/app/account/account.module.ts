@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from '../../components/material/material.module';
+import { OAuthButtonsModule } from '../../components/oauth-buttons/oauth-buttons.module';
 
 import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -27,6 +28,7 @@ const accountRoutes: Routes = [{
         BrowserModule,
         RouterModule.forChild(accountRoutes),
         MaterialModule,
+        OAuthButtonsModule
     ],
     declarations: [
         LoginComponent,
