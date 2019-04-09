@@ -10,12 +10,8 @@ import {
     catchError
 } from 'rxjs/operators';
 import { User } from '../../../shared/interfaces/user.model';
+import { TokenResponse } from '../../../shared/interfaces/token-response.model';
 // import { PreSignedPostURL } from '../../../shared/interfaces/pre-signed-post-url';
-
-export interface TokenResponse {
-    token: string;
-    expiresIn: number;
-}
 
 @Injectable()
 export class UserService {

@@ -1,10 +1,11 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, of, pipe, throwError } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { UserService, TokenResponse } from './user.service';
+import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { User } from '../../../shared/interfaces/user.model';
+import { TokenResponse } from '../../../shared/interfaces/token-response.model';
 
 class AuthInfo {
 
@@ -18,6 +19,21 @@ class AuthInfo {
         return this.user && this.user.role === 'admin';
     }
 }
+
+const loginWithTokenResponse = (authService) => pipe(
+    mergeMap((res: TokenResponse) => {
+        authService.tokenService.set(res.token, res.expiresIn);
+        return authService.userService.get();
+    }),
+    map(user => {
+        authService.setUser(user);
+        return user;
+    }),
+    catchError(err => {
+        authService.logout();
+        return throwError(err);
+    })
+);
 
 class AppUser implements User { }
 
@@ -82,20 +98,63 @@ export class AuthService {
             password
         })
             .pipe(
-                mergeMap(res => {
-                    this.tokenService.set(res.token, res.expiresIn);
-                    return this.userService.get();
-                }),
-                map(user => {
-                    this.setUser(user);
-                    return user;
-                }),
-                catchError(err => {
-                    this.logout();
-                    return throwError(err);
-                })
+                loginWithTokenResponse(this)
+                //     // mergeMap(res => {
+                //     //     this.tokenService.set(res.token, res.expiresIn);
+                //     //     return this.userService.get();
+                //     // }),
+                //     // map(user => {
+                //     //     this.setUser(user);
+                //     //     return user;
+                //     // }),
+                //     // catchError(err => {
+                //     //     this.logout();
+                //     //     return throwError(err);
+                //     // })
             );
     }
+
+    loginWithTokenResponse(tokenResponse: TokenResponse): Observable<User> {
+        return of(tokenResponse)
+            .pipe(
+                loginWithTokenResponse(this)
+            );
+    }
+
+    // loginWithTokenResponse() {
+    //     pipe(
+    //         mergeMap((res: TokenResponse) => {
+    //             this.tokenService.set(res.token, res.expiresIn);
+    //             return this.userService.get();
+    //         }),
+    //         map(user => {
+    //             this.setUser(user);
+    //             return user;
+    //         }),
+    //         catchError(err => {
+    //             this.logout();
+    //             return throwError(err);
+    //         })
+    //     );
+    // }
+
+    // loginWithTokenResponse(tokenResponse: Observable<TokenResponse>): Observable<User> {
+    //     return tokenResponse
+    //         .pipe(
+    //             mergeMap(res => {
+    //                 this.tokenService.set(res.token, res.expiresIn);
+    //                 return this.userService.get();
+    //             }),
+    //             map(user => {
+    //                 this.setUser(user);
+    //                 return user;
+    //             }),
+    //             catchError(err => {
+    //                 this.logout();
+    //                 return throwError(err);
+    //             })
+    //         );
+    // }
 
     /**
      * Deletes access token and user info.
@@ -145,7 +204,6 @@ export class AuthService {
      * @return {Observable<AuthInfo>}
      */
     authInfo(): Observable<AuthInfo> {
-        // return this._authInfo;
         return this._authInfo.asObservable();
     }
 

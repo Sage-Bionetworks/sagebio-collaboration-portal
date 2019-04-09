@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../components/auth/auth.service';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { OAuthButtonsComponent } from '../../../components/oauth-buttons/oauth-buttons.component';
+// import { has } from 'lodash/fp';
 
 @Component({
     selector: 'login',
@@ -17,9 +18,25 @@ export class LoginComponent implements OnInit {
     };
     submitted = false;
 
-    static parameters = [AuthService, Router, FormBuilder, PageTitleService];
-    constructor(private authService: AuthService, private router: Router, formBuilder: FormBuilder,
+    static parameters = [AuthService, Router, ActivatedRoute, FormBuilder, PageTitleService];
+    constructor(private authService: AuthService, private router: Router,
+        private route: ActivatedRoute, formBuilder: FormBuilder,
         private pageTitleService: PageTitleService) {
+
+        // OAuth login callback
+        this.route.queryParams.subscribe(res => {
+            if (res.token && res.expiresIn) {
+                authService.loginWithTokenResponse({
+                    token: res.token,
+                    expiresIn: res.expiresIn
+                }).subscribe(user => {
+                    this.router.navigateByUrl('');
+                }, err => {
+                    console.log('ERROR', err);
+                });
+            }
+        });
+
         this.loginForm = formBuilder.group({
             email: ['admin@example.com', [
                 Validators.required,

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+const url = require('url');
 
 var validateJwt = expressJwt({
     secret: config.secrets.session
@@ -80,6 +81,11 @@ export function setTokenCookie(req, res) {
         return res.status(404).send('It looks like you aren\'t logged in, please try again.');
     }
     var token = signToken(req.user._id, req.user.role);
-    res.cookie('token', token);
-    res.redirect('/');
+    res.redirect(url.format({
+        pathname: "/login",
+        query: {
+            token,
+            expiresIn: config.expiresIn.session
+        }
+    }));
 }

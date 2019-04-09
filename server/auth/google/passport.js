@@ -13,7 +13,7 @@ export function setup(User, config) {
         (accessToken, refreshToken, profile, done) => {
             User
                 .findOne({
-                    'google.id': profile.id
+                    'google.sub': profile.id
                 }).exec()
                 .then(user => {
                     if (user) {
@@ -24,11 +24,11 @@ export function setup(User, config) {
                         name: profile.displayName,
                         email: profile.emails[0].value,
                         role: 'user',
-                        username: profile.emails[0].value.split('@')[0],
+                        // username: profile.emails[0].value.split('@')[0],
                         provider: 'google',
                         google: profile._json
                     });
-                    user.save()
+                    return user.save()
                         .then(savedUser => done(null, savedUser))
                         .catch(err => done(err));
                 })

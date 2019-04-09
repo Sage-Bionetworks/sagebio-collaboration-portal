@@ -35,8 +35,9 @@ export class NavbarComponent {
     static parameters = [AuthService, Router, PageTitleService];
     constructor(private authService: AuthService, private router: Router,
         private pageTitleService: PageTitleService) {
-        this.authInfoSub = this.authService.authInfo()
+        this.authInfoSub = this.authService.getAuthInfo()  // was authInfo()
             .subscribe(authInfo => {
+                console.log('NAVBAR AUTH INFO', authInfo);
                 this.currentUser = authInfo.user;
                 this.isLoggedIn = authInfo.isLoggedIn();
                 this.isAdmin = authInfo.isAdmin();
