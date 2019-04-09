@@ -24,6 +24,9 @@ var UserSchema = new Schema({
             }
         }
     },
+    picture: {
+        type: String
+    },
     role: {
         type: String,
         default: 'user'
