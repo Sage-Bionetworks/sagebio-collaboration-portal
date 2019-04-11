@@ -1,0 +1,9 @@
+<form class="dataset-search-form" [formGroup]="searchForm" novalidate>
+    <mat-form-field class="dataset-search-field" floatLabel="never">
+        <input class="dataset-search-field-input" matInput type="type" autocomplete="off" formControlName="search">
+        <mat-placeholder class="dataset-search-field-placehold">Search</mat-placeholder>
+    </mat-form-field>
+    <button mat-icon-button aria-label="Search" (click)="getResults()">
+        <mat-icon>search</mat-icon>
+    </button>
+</form>

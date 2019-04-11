@@ -4,12 +4,15 @@ services:
   phccp:
     build: .
     image: phc-collaboration-portal
-    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:v0.1
+    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:v0.2
     container_name: phccp
     environment:
         NODE_ENV: production
         PORT: '8080'
         MONGODB_URI: 'mongodb://mongo:27017/phccp'
+        DOMAIN: 'http://phc.sagesandbox.org'
+        GOOGLE_ID: '<GOOGLE_ID>'
+        GOOGLE_SECRET: '<GOOGLE_SECRET>'
     ports:
         - '80:8080'
     depends_on:

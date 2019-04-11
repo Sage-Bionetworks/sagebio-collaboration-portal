@@ -6,6 +6,7 @@ import { DatasetService } from '../dataset.service';
 import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { DatasetSearchComponent } from '../dataset-search/dataset-search.component';
 // import constants from '../../../app/app.constants';
 // import { values } from 'lodash/fp';
 // import { Filter } from '../../../components/filters/filter';

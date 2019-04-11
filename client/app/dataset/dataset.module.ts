@@ -7,10 +7,12 @@ import { MaterialModule } from '../../components/material/material.module';
 
 import { RouterModule, Routes } from '@angular/router';
 
+import { DataCatalogModule } from '../data-catalog/data-catalog.module';
+
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetViewComponent } from './dataset-view/dataset-view.component';
 import { DatasetComponent } from './dataset-page/dataset.component';
-
+import { DatasetSearchComponent } from './dataset-search/dataset-search.component';
 import { DatasetService } from './dataset.service';
 import { SocketService } from '../../components/socket/socket.service';
 
@@ -26,12 +28,14 @@ export const ROUTES: Routes = [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
+        DataCatalogModule
         // ImageModule
     ],
     declarations: [
         DatasetListComponent,
         DatasetViewComponent,
-        DatasetComponent
+        DatasetComponent,
+        DatasetSearchComponent
     ],
     providers: [
         SocketService,
@@ -40,7 +44,8 @@ export const ROUTES: Routes = [
     exports: [
         DatasetListComponent,
         DatasetViewComponent,
-        DatasetComponent
+        DatasetComponent,
+        DatasetSearchComponent
     ],
 })
 export class DatasetModule { }

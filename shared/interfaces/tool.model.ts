@@ -10,6 +10,7 @@ export interface Tool {
     apiBaseUri: string;
     webpage: string;
     supportedFormats: string[];
+    // supportedDataTyoes: string[];
     createdAt: string;
     createdBy?: User;
 }

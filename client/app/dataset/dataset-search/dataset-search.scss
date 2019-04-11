@@ -1,0 +1,40 @@
+// @import '../../styles/constants';
+
+// .dataset-search-form {
+//   display: flex;
+//   flex-flow: row nowrap;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
+//
+// .dataset-search-field {
+//   display: flex;
+//   flex-flow: column nowrap;
+//   justify-content: center;
+//   flex-grow: 1;
+//   min-width: 200px;
+//   height: 34px;
+//   border-width: 1px;
+//   border-style: solid;
+//   border-radius: 2px 2px 2px 2px;
+//   box-sizing: border-box;
+// }
+
+// :host /deep/ .mat-form-field-wrapper {
+//   // includes div.mat-form-field-flex and div.mat-form-field-underline
+//   padding-bottom: 0;
+// }
+//
+// :host /deep/ .mat-form-field-flex {
+//   // includes div.mat-form-field-infix
+//   padding: 0 9px;
+// }
+//
+// :host /deep/ .mat-form-field-infix {
+//   // includes <input> and div.mat-form-field-label-wrapper
+//   border: none;
+// }
+//
+// :host /deep/ .mat-form-field-underline {
+//   display: none;
+// }

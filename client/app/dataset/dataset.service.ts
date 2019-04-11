@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import {
     debounceTime,
     distinctUntilChanged,
     map,
     switchMap,
-    tap
+    tap,
+    mergeMap,
+    reduce,
+    concatMap,
+    toArray
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { CkanDataset } from '../../../shared/interfaces/ckan/ckan-dataset.model';
@@ -17,19 +21,36 @@ import {
 } from '../../../shared/interfaces/ckan/ckan-dataset-response.model';
 import { stringifyQuery } from '../../components/util';
 import { ckanApiBaseUrl } from '../app.constants';
+import { DataCatalogService } from '../data-catalog/data-catalog.service';
+import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
 
 @Injectable()
 export class DatasetService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, DataCatalogService];
+    constructor(private httpClient: HttpClient,
+        private catalogService: DataCatalogService) { }
 
     getDatasets(query?: {}): Observable<CkanDataset[]> {
-        // return this.httpClient.get<Dataset[]>(`/api/datasets${stringifyQuery(query)}`);
-        return this.httpClient.get<CkanDatasetListResponse>(`${ckanApiBaseUrl}/action/current_package_list_with_resources`)
+        return this.catalogService.getDataCatalogs()
             .pipe(
-                map(res => res.result),
-                tap(result => console.log('CKAN result', result))
+                concatMap(catalogs => {
+                    const obs = catalogs.map(c => this.getDatasetsByCatalog(c));
+                    return forkJoin(obs, (...results) =>
+                        results.map((result, i) =>
+                            result.map(dataset => ({ ...dataset, catalog: catalogs[i] }))
+                        )
+                    );
+                }),
+                map(datasetsArray => [].concat(...datasetsArray)),
+                tap(res => console.log('DATASETS', res))
+            );
+    }
+
+    getDatasetsByCatalog(catalog: DataCatalog): Observable<CkanDataset[]> {
+        return this.httpClient.get<CkanDatasetListResponse>(`${catalog.apiBaseUri}/action/current_package_list_with_resources`)
+            .pipe(
+                map(res => res.result)
             );
     }
 

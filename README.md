@@ -35,7 +35,10 @@ Run `npm test` to run the server and client unit tests.
 
 ```
 NODE_ENV=production \
-    MONGODB_URI=mongodb://mongo:27017/phccp \
+    DOMAIN=http://dev.phc.sagesandbox.org \
+    GOOGLE_ID=<GOOGLE_ID> \
+    GOOGLE_SECRET=<GOOGLE_SECRET> \
+    MONGODB_URI=mongodb://mongo:27017/phccp
     node dist/server/`
 ```
 

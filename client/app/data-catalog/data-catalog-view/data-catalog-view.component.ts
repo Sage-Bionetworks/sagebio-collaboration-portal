@@ -23,4 +23,8 @@ export class DataCatalogViewComponent {
     set dataCatalog(dataCatalog) {
         this._dataCatalog = dataCatalog;
     }
+
+    openCatalogWebsite(website): void {
+        window.open(website, '_blank').opener = null;  // 'noopener,noreferrer'
+    }
 }

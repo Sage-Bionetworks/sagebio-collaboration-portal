@@ -6,9 +6,13 @@ export interface DataCatalog {
     _id?: string;
     name: string;
     description: string;
+    apiType: string;
     image?: string;
     apiBaseUri: string;
     webpage: string;
+    // active: boolean;
+    organizationName: string;
+    organizationUrl: string;
     createdAt: string;
     createdBy?: User;
 }
