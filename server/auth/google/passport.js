@@ -16,19 +16,24 @@ export function setup(User, config) {
                     'google.sub': profile.id
                 }).exec()
                 .then(user => {
-                    if (user) {
-                        return done(null, user);
-                    }
-
-                    user = new User({
+                    const userDataFromProvider = {
                         name: profile.displayName,
                         email: profile.emails[0].value,
                         picture: profile._json.picture,
-                        role: 'user',
-                        // username: profile.emails[0].value.split('@')[0],
                         provider: 'google',
-                        google: profile._json
-                    });
+                        google: profile._json,
+                        // username: profile.emails[0].value.split('@')[0],
+                    };
+
+                    if (user) {
+                        user = Object.assign(user, userDataFromProvider);
+                    } else {
+                        user = new User(userDataFromProvider);
+                        user = Object.assign(user, {
+                            role: 'user'
+                        })
+                    }
+
                     return user.save()
                         .then(savedUser => done(null, savedUser))
                         .catch(err => done(err));
