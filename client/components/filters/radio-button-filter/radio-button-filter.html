@@ -1,0 +1,5 @@
+<mat-radio-group class="radio-button-filter-radio-group" aria-label="Radio button filter" (change)="select($event)">
+    <mat-radio-button class="radio-button-filter-radio-button" *ngFor="let filter of filters" [value]="filter.value" [checked]="filter.active">
+        {{filter.title}}
+    </mat-radio-button>
+</mat-radio-group>

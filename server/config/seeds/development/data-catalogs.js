@@ -3,7 +3,7 @@ import { adminUserId } from './users';
 
 let dataCatalogs = [{
     _id: new mongoose.Types.ObjectId(),
-    name: 'Roche Data Portal (Beta)',
+    name: 'Roche Data Portal',  // (Beta)
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
     image: 'assets/images/320px-Roche_Logo.svg.png',

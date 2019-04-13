@@ -4,10 +4,10 @@
 //   flex-grow: 1;
 // }
 
-.app-dataset-list {
-  margin: 50px;
-  flex-grow: 1;
-}
+// .app-dataset-list {
+//   margin: 50px;
+//   flex-grow: 1;
+// }
 
 .app-dataset-item,
 .app-dataset-item:hover {
@@ -21,7 +21,9 @@
   .filter-container {
     display: flex;
     flex-flow: column nowrap;
-    width: 280px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    // min-width: 300px;
     margin: 25px;
   }
 

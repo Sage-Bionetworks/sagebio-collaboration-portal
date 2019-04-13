@@ -11,6 +11,7 @@ import { FooterModule } from './footer/footer.module';
 import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 
 import { PageTitleService } from './page-title/page-title.service';
+import { FiltersModule } from './filters/filters.module';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { PageTitleService } from './page-title/page-title.service';
         NavbarModule,
         NavbarUserButtonModule,
         FooterModule,
-        OAuthButtonsModule
+        OAuthButtonsModule,
+        FiltersModule
     ]
 })
 export class DirectivesModule { }

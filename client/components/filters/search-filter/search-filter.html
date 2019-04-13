@@ -1,0 +1,9 @@
+<form class="search-filter-form" [formGroup]="searchForm" novalidate>
+    <mat-form-field class="search-filter-form-field" floatLabel="never">
+        <input class="search-filter-input" matInput type="type" autocomplete="off" formControlName="search">
+        <mat-placeholder class="search-filter-placehold">Search</mat-placeholder>
+    </mat-form-field>
+    <a mat-icon-button aria-label="Search" (click)="emitSearchTerms()">
+        <mat-icon>search</mat-icon>
+    </a>
+</form>

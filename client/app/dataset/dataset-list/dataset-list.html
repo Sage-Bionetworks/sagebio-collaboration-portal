@@ -3,17 +3,16 @@
 </div>
 
 <div>
-    <dataset-search></dataset-search>
+    <search-filter group="searchTerms"></search-filter>
 </div>
 
 <div class="app-dataset-list-container">
-    <!-- <div class="filter-container">
-    <h3>Tags</h3>
-    <dataset-tag-filters [filters]="tagFilters" group="tagged"></dataset-tag-filters>
-
+    <div class="filter-container">
+    <h3>Catalogs</h3>
+    <radio-button-filter [filters]="catalogFilters" group="catalog"></radio-button-filter>
     <h3>Order by</h3>
-    <dataset-order-filters [filters]="orderFilters" group="orderedBy"></dataset-order-filters>
-  </div> -->
+    <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
+  </div>
 
     <div class="results-container">
         <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view>

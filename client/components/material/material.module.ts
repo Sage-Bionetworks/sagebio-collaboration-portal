@@ -27,6 +27,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { PassiveMatCheckboxComponent } from './passive-mat-checkbox/passive-mat-checkbox.component';
@@ -61,6 +62,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'; // not part of material
     MatPaginatorModule,
     MatTabsModule,
     MatSliderModule,
+    MatRadioModule,
 
     FormsModule,
     ReactiveFormsModule,
@@ -97,6 +99,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'; // not part of material
     MatPaginatorModule,
     MatTabsModule,
     MatSliderModule,
+    MatRadioModule,
 
     FormsModule,
     ReactiveFormsModule,

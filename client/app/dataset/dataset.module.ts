@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../components/material/material.module';
+import { FiltersModule } from '../../components/filters/filters.module';
 
 import { RouterModule, Routes } from '@angular/router';
 
@@ -12,7 +13,6 @@ import { DataCatalogModule } from '../data-catalog/data-catalog.module';
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetViewComponent } from './dataset-view/dataset-view.component';
 import { DatasetComponent } from './dataset-page/dataset.component';
-import { DatasetSearchComponent } from './dataset-search/dataset-search.component';
 import { DatasetService } from './dataset.service';
 import { SocketService } from '../../components/socket/socket.service';
 
@@ -27,6 +27,7 @@ export const ROUTES: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
+        FiltersModule,
         RouterModule.forChild(ROUTES),
         DataCatalogModule
         // ImageModule
@@ -34,8 +35,7 @@ export const ROUTES: Routes = [
     declarations: [
         DatasetListComponent,
         DatasetViewComponent,
-        DatasetComponent,
-        DatasetSearchComponent
+        DatasetComponent
     ],
     providers: [
         SocketService,
@@ -44,8 +44,7 @@ export const ROUTES: Routes = [
     exports: [
         DatasetListComponent,
         DatasetViewComponent,
-        DatasetComponent,
-        DatasetSearchComponent
+        DatasetComponent
     ],
 })
 export class DatasetModule { }
