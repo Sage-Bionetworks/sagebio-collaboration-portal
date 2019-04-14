@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SocketService } from '../../components/socket/socket.service';
 import { PageTitleService } from '../../components/page-title/page-title.service';
+import { NotificationService } from '../../components/notification/notification.service';
 
 @Component({
     selector: 'app-main',
@@ -17,9 +18,11 @@ export class MainComponent implements OnInit, OnDestroy {
     token;
     socketSub;
 
-    static parameters = [HttpClient, SocketService, PageTitleService];
+    static parameters = [HttpClient, SocketService, PageTitleService,
+        NotificationService];
     constructor(private http: HttpClient, private socketService: SocketService,
-        private pageTitleService: PageTitleService) {
+        private pageTitleService: PageTitleService,
+        private notificationService: NotificationService) {
         this.Http = http;
         this.SocketService = socketService;
         this.token = localStorage.getItem('access_token');
@@ -34,5 +37,10 @@ export class MainComponent implements OnInit, OnDestroy {
             // this.SocketService.unsyncUpdates('thing');
             // this.socketSub.unsubscribe();
         }
+    }
+
+    plop(): void {
+      console.log('plop');
+      this.notificationService.success('Plop');
     }
 }

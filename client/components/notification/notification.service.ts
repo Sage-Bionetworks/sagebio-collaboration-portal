@@ -9,7 +9,8 @@ export class NotificationService {
     public subject = new Subject<Notification>();
     public keepAfterRouteChange = true;
 
-    constructor(public router: Router) {
+    static parameters = [Router];
+    constructor(private router: Router) {
         // clear alert messages on route change unless 'keepAfterRouteChange' flag is true
         router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
@@ -26,25 +27,30 @@ export class NotificationService {
         return this.subject.asObservable();
     }
 
-    success(message: string, keepAfterRouteChange = false) {
-        this.showNotification(NotificationType.Success, message, keepAfterRouteChange);
+    success(message: string, action = 'Close', keepAfterRouteChange = false) {
+        this.showNotification(NotificationType.Success, message, action, keepAfterRouteChange);
     }
 
-    error(message: string, keepAfterRouteChange = false) {
-        this.showNotification(NotificationType.Error, message, keepAfterRouteChange);
+    error(message: string, action = 'Close', keepAfterRouteChange = false) {
+        this.showNotification(NotificationType.Error, message, action, keepAfterRouteChange);
     }
 
-    info(message: string, keepAfterRouteChange = false) {
-        this.showNotification(NotificationType.Info, message, keepAfterRouteChange);
+    info(message: string, action = 'Close', keepAfterRouteChange = false) {
+        this.showNotification(NotificationType.Info, message, action, keepAfterRouteChange);
     }
 
-    warn(message: string, keepAfterRouteChange = false) {
-        this.showNotification(NotificationType.Warning, message, keepAfterRouteChange);
+    warn(message: string, action = 'Close', keepAfterRouteChange = false) {
+        this.showNotification(NotificationType.Warning, message, action, keepAfterRouteChange);
     }
 
-    showNotification(type: NotificationType, message: string, keepAfterRouteChange = false) {
+    showNotification(type: NotificationType, message: string, action: string,
+        keepAfterRouteChange = false) {
         this.keepAfterRouteChange = keepAfterRouteChange;
-        this.subject.next(<Notification>{ type: type, message: message });
+        this.subject.next(<Notification>{
+            type: type,
+            message: message,
+            action: action
+        });
     }
 
     clear() {

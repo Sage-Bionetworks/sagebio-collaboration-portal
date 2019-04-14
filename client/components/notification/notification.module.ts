@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MaterialModule } from '../../components/material/material.module';
 import { NotificationComponent } from './notification.component';
 import { NotificationService } from './notification.service';
+// import { SnackBarComponent } from './snack-bar/snack-bar.component';
 
-// Adapted from https://www.c-sharpcorner.com/article/toastr-like-notification-component-in-angular-7/
 @NgModule({
     imports: [
-        BrowserModule
+        BrowserModule,
+        MaterialModule
     ],
     declarations: [
-        NotificationComponent
+        NotificationComponent,
+        // SnackBarComponent
+    ],
+    entryComponents: [
+        // SnackBarComponent
     ],
     providers: [
         NotificationService

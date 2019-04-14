@@ -10,4 +10,9 @@
         </div>
     </div>
 </header>
-<div style="width: 10px; height: 600px; background: black;"></div>
+<!-- <div style="width: 10px; height: 600px; background: black;"></div> -->
+
+<a mat-button type="button" (click)="notificationService.info('INFO')">Info</a>
+<a mat-button type="button" (click)="notificationService.error('ERROR')">Error</a>
+<a mat-button type="button" (click)="notificationService.warn('WARNING')">Warning</a>
+<a mat-button type="button" (click)="notificationService.success('SUCCESS')">Success</a>

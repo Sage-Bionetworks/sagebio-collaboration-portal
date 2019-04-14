@@ -20,10 +20,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     currentUser: User;
     authInfoSub: Subscription;
 
-    static parameters = [AuthService, UserService, PageTitleService, NotificationService];
+    static parameters = [AuthService, UserService, PageTitleService];
     constructor(private authService: AuthService, private userService: UserService,
-        private pageTitleService: PageTitleService,
-        private notificationService: NotificationService) {
+        private pageTitleService: PageTitleService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
@@ -36,10 +35,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.authInfoSub.unsubscribe();
-    }
-
-    plop(): void {
-      console.log('plop');
-      this.notificationService.success('Plop');
     }
 }

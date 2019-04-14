@@ -14,6 +14,7 @@ import { Component } from '@angular/core';
                 <router-outlet></router-outlet>
             </div>
             <app-footer></app-footer>
+            <app-notification></app-notification>
         </mat-sidenav-content>
     </mat-sidenav-container>`
 })
