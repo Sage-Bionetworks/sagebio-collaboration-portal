@@ -22,7 +22,7 @@ export function setup(User, config) {
                         picture: profile._json.picture,
                         provider: 'google',
                         google: profile._json,
-                        // username: profile.emails[0].value.split('@')[0],
+                        username: profile.emails[0].value.split('@')[0]
                     };
 
                     if (user) {

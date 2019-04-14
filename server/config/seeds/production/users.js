@@ -7,6 +7,7 @@ let users = [{
     provider: 'local',
     role: 'admin',
     name: 'Admin',
+    username: 'admin',
     email: 'admin@example.com',
     password: 'admin'
 }];

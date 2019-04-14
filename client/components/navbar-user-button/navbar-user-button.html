@@ -13,6 +13,11 @@
     </div>
 </button>
 <mat-menu #userMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+    <div class="user-account-preview">
+        Signed in as
+        <span class="username">{{currentUser.username}}</span>
+    </div>
+    <mat-divider></mat-divider>
     <button mat-menu-item routerLink="/profile" aria-label="My Profile">
         <mat-icon aria-hidden="true">account_circle</mat-icon>
         <span>Profile</span>

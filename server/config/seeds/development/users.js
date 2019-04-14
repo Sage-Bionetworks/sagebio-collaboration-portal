@@ -10,6 +10,7 @@ let users = [{
     _id: testUserId,
     provider: 'local',
     name: 'Test User',
+    username: 'test',
     email: 'test@example.com',
     password: 'test',
     createdBy: adminUserId
@@ -18,40 +19,14 @@ let users = [{
     provider: 'local',
     role: 'admin',
     name: 'Admin',
+    username: 'admin',
     email: 'admin@example.com',
     password: 'admin',
     createdBy: adminUserId
-}, {
-    _id: thomasUserId,
-    provider: 'local',
-    role: 'admin',
-    name: 'Thomas',
-    email: 'thomas@test.com',
-    password: 'test',
-    createdBy: adminUserId
-}, {
-    _id: jamesUserId,
-    provider: 'local',
-    role: 'admin',
-    name: 'James',
-    email: 'james@test.com',
-    password: 'test',
-    createdBy: thomasUserId
-}, {
-    _id: kimUserId,
-    provider: 'local',
-    role: 'admin',
-    name: 'Kim',
-    email: 'kim@test.com',
-    password: 'test',
-    createdBy: thomasUserId
 }];
 
 export {
     users,
     testUserId,
-    adminUserId,
-    thomasUserId,
-    jamesUserId,
-    kimUserId,
+    adminUserId
 };
