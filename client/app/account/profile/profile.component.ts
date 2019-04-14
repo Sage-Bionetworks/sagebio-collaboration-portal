@@ -8,6 +8,7 @@ import { tap, switchMap, map, last } from 'rxjs/operators';
 import { HttpEventType } from '@angular/common/http';
 import { User } from '../../../../shared/interfaces/user.model';
 // import constants from '../../app.constants';
+import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
     selector: 'profile',
@@ -19,9 +20,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     currentUser: User;
     authInfoSub: Subscription;
 
-    static parameters = [AuthService, UserService, PageTitleService];
+    static parameters = [AuthService, UserService, PageTitleService, NotificationService];
     constructor(private authService: AuthService, private userService: UserService,
-        private pageTitleService: PageTitleService) {
+        private pageTitleService: PageTitleService,
+        private notificationService: NotificationService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
@@ -34,5 +36,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.authInfoSub.unsubscribe();
+    }
+
+    plop(): void {
+      console.log('plop');
+      this.notificationService.success('Plop');
     }
 }

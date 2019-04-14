@@ -7,6 +7,7 @@ import { MaterialModule } from './material/material.module';
 import { AuthModule } from './auth/auth.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { NavbarUserButtonModule } from './navbar-user-button/navbar-user-button.module';
+import { NotificationModule } from './notification/notification.module';
 import { FooterModule } from './footer/footer.module';
 import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 
@@ -20,6 +21,7 @@ import { FiltersModule } from './filters/filters.module';
         AuthModule,
         NavbarModule,
         NavbarUserButtonModule,
+        NotificationModule,
         FooterModule,
         OAuthButtonsModule,
 
@@ -34,6 +36,7 @@ import { FiltersModule } from './filters/filters.module';
     exports: [
         NavbarModule,
         NavbarUserButtonModule,
+        NotificationModule,
         FooterModule,
         OAuthButtonsModule,
         FiltersModule
