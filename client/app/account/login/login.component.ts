@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
                 Validators.required,
                 Validators.email
             ]],
-            password: ['test', [
+            password: ['admin', [
                 Validators.required,
             ]]
         });

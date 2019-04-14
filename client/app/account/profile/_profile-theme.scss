@@ -1,7 +1,11 @@
+@import "./user-card/user-card-theme";
+
 @mixin profile-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
+
+  @include user-card-theme($theme);
 }

@@ -13,6 +13,7 @@ let users = [{
     username: 'test',
     email: 'test@example.com',
     password: 'test',
+    orcid: 'https://orcid.org/0000-0002-8242-9462',
     createdBy: adminUserId
 }, {
     _id: adminUserId,
@@ -21,7 +22,9 @@ let users = [{
     name: 'Admin',
     username: 'admin',
     email: 'admin@example.com',
+    position: 'Research Scientist',
     password: 'admin',
+    orcid: 'https://orcid.org/0000-0002-8242-9462',
     createdBy: adminUserId
 }];
 

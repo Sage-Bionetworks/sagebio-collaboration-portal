@@ -1,0 +1,58 @@
+<mat-card class="app-user-card" *ngIf="user">
+    <div class="app-user-card-header">
+        <picture *ngIf="user.picture; else letterAvatar">
+            <!-- <source [srcset]="currentUser.face | webp: 'small'" type="image/webp"> -->
+            <img class="app-user-card-avatar" [src]="user.picture" aria-label="User avatar">
+        </picture>
+        <ng-template #letterAvatar>
+            <avatar class="app-user-card-avatar" size="80" background="#e87629" [name]="user.username" [displayType]="'circle'"></avatar>
+        </ng-template>
+        <div class="app-user-card-header-text">
+            <h1>{{user.name}}</h1>
+            <span>{{user.position}}</span>
+            <a [href]="'mailto:'+user.email">{{user.email}}</a>
+        </div>
+    </div>
+    <div class="app-user-card-content">
+        <div class="app-user-card-content-meta">
+            <div class="app-user-card-content-meta-group">
+                <p class="app-user-card-content-meta-title">More Info</p>
+                <p class="app-user-card-content-meta-value">Value</p>
+            </div>
+            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </div>
+        <div class="app-user-card-content-meta">
+            <div class="app-user-card-content-meta-group">
+                <p class="app-user-card-content-meta-title">Industry</p>
+                <p class="app-user-card-content-meta-value">Value</p>
+            </div>
+            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </div>
+        <div class="app-user-card-content-meta">
+            <div class="app-user-card-content-meta-group">
+                <p class="app-user-card-content-meta-title">Location</p>
+                <p class="app-user-card-content-meta-value">Value</p>
+            </div>
+            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </div>
+    </div>
+    <hr class="app-user-card-content-divider">
+    <div class="app-user-card-content">
+        <div class="app-user-card-content-meta-orcid">
+            <div class="app-user-card-content-meta-group">
+                <a [href]="user.orcid" target="_blank">
+                    {{user.orcid}}
+                </a>
+            </div>
+            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+                <mat-icon>edit</mat-icon>
+            </a>
+        </div>
+    </div>
+</mat-card>

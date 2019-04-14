@@ -50,6 +50,14 @@ var UserSchema = new Schema({
     provider: String,
     salt: String,
     google: {},
+    position: {
+      type: String,
+      default: '<Current Position>'
+    },
+    orcid: {
+      type: String,
+      default: '<orcid url>'
+    },
     createdAt: {
         type: Date,
         default: Date.now
