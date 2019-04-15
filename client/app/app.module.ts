@@ -18,6 +18,7 @@ import {
 } from '@angularclass/hmr';
 
 import { RouterModule, Routes } from '@angular/router';
+import { NgxMdModule } from 'ngx-md';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../components/material/material.module';
@@ -67,6 +68,7 @@ const appRoutes: Routes = [{
 
         BrowserAnimationsModule,
         MaterialModule,
+        NgxMdModule.forRoot(),
 
         RouterModule.forRoot(appRoutes, { enableTracing: process.env.NODE_ENV === 'development' }),
         MainModule,

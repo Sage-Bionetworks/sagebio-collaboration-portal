@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         // OAuth login callback
         this.route.queryParams.subscribe(res => {
             if (res.message) {
-                this.notificationService.error(res.message);
+                this.notificationService.info(res.message);
             }
             if (res.token && res.expiresIn) {
                 authService.loginWithTokenResponse({

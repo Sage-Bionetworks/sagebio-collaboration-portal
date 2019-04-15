@@ -8,6 +8,9 @@ var InsightSchema = new mongoose.Schema({
         type: String
     },
     name: String,
+    description: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now

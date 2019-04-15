@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../components/material/material.module';
 
 import { RouterModule, Routes } from '@angular/router';
+import { NgxMdModule } from 'ngx-md';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
@@ -26,6 +27,7 @@ export const ROUTES: Routes = [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
+        NgxMdModule.forRoot(),
         // ImageModule
     ],
     declarations: [

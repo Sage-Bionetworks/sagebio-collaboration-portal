@@ -23,7 +23,7 @@ import { Filter } from '../../../components/filters/filter.model';
 import { FiltersComponent } from '../../../components/filters/filters.component';
 import { flow, keyBy, mapValues, values, find } from 'lodash/fp';
 import { datasetOrders } from '../../app.constants';
-// import { NotificationService } from '../../components/notification/notification.service';
+import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
     selector: 'dataset-list',
@@ -37,59 +37,21 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     private catalogFilters: Filter[] = [];
     private orderFilters: Filter[] = [];
 
-    private numDatasetsPerPage = 4;
+    private numDatasetsPerPage = 3;
     private searchData: any;
     private searchPageIndex: number;
 
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
     static parameters = [Router, FormBuilder, PageTitleService, DatasetService,
-        DataCatalogService];
+        DataCatalogService, NotificationService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private datasetService: DatasetService,
-        private catalogService: DataCatalogService) {
+        private catalogService: DataCatalogService,
+        private notificationService: NotificationService) {
 
         this.orderFilters = values(datasetOrders);
-        // catalogService.getDataCatalogs()
-        //     .subscribe(catalogs => {
-        //         this.catalogs = catalogs;
-        //         this.catalogFilters = catalogs.map((c, i) => ({
-        //             value: c._id,
-        //             title: c.name,
-        //             active: i === 0
-        //         }));
-        //         console.log('CATALOG SUBSCRIBE DONE');
-        //     });
-
-        console.log('CONSTRUCTOR DONE');
-
-        // catalogService.getDataCatalogs()
-        //     .pipe(
-        //         concatMap(catalogs => {
-        //             return forkJoin(
-        //                 of(catalogs),
-        //                 datasetService.getDatasets(catalogs)
-        //             );
-        //         })
-        //     )
-        //     .subscribe(([catalogs, datasets]) => {
-        //         this.catalogs = catalogs;
-        //         this.catalogFilters = catalogs.map((c, i) => ({
-        //             value: c._id,
-        //             title: c.name,
-        //             active: i === 0
-        //         }));
-        //
-        //         console.log('SUBSCRIBE');
-        //         // this.datasets = datasets;
-        //         // console.log('datasets', datasets);
-        //         // datasetService.getAllDatasetsByCatalog(catalogs[1])
-        //         //     .subscribe(d => console.log('NUM DATASETS', datasets.length));
-        //     });
-
-
-        // this.catalogs = values(constants.gameTags);
     }
 
     ngOnInit() {
@@ -158,9 +120,9 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
             this.searchPageIndex + 1
         )
             .subscribe(res => {
-                // if (res.result.results.length === 0) {
-                //     this.notificationService.info('No more results');
-                // }
+                if (res.result.results.length === 0) {
+                    this.notificationService.info('No more results');
+                }
                 this.datasets.push(...res.result.results);
                 this.searchPageIndex = this.searchPageIndex + 1;
             });
