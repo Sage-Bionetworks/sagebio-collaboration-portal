@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChildren, QueryList, forwardRef } from '@angular/core';
 import { Observable, forkJoin, combineLatest, of } from 'rxjs';
-import { map, switchMap, tap, concatMap, mergeMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, concatMap, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DatasetService } from '../dataset.service';
 import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
@@ -23,6 +23,7 @@ import { Filter } from '../../../components/filters/filter.model';
 import { FiltersComponent } from '../../../components/filters/filters.component';
 import { flow, keyBy, mapValues, values, find } from 'lodash/fp';
 import { datasetOrders } from '../../app.constants';
+// import { NotificationService } from '../../components/notification/notification.service';
 
 @Component({
     selector: 'dataset-list',
@@ -30,11 +31,15 @@ import { datasetOrders } from '../../app.constants';
     styles: [require('./dataset-list.scss')],
 })
 export class DatasetListComponent implements OnInit, AfterViewInit {
-    private datasets: Observable<CkanDataset[]>;
+    private datasets: CkanDataset[];
     private catalogs: DataCatalog[] = [];
 
     private catalogFilters: Filter[] = [];
     private orderFilters: Filter[] = [];
+
+    private numDatasetsPerPage = 4;
+    private searchData: any;
+    private searchPageIndex: number;
 
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
@@ -42,7 +47,8 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
         DataCatalogService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private datasetService: DatasetService, private catalogService: DataCatalogService) {
+        private datasetService: DatasetService,
+        private catalogService: DataCatalogService) {
 
         this.orderFilters = values(datasetOrders);
         // catalogService.getDataCatalogs()
@@ -91,9 +97,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // const filters = this.filters.map(filter => filter.getSelectedFilter());
-
-        this.datasets = this.catalogService.getDataCatalogs()
+        this.catalogService.getDataCatalogs()
             .pipe(
                 map(catalogs => {
                     this.catalogs = catalogs;
@@ -102,13 +106,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                         title: c.name,
                         active: i === 0
                     }));
-                    console.log('filter internal', this.catalogFilters);
-                    let plop = this.filters.map(filter => {
-                        console.log('filter value', filter);
-                        return filter.getSelectedFilter();
-                    });
-                    console.log('plop', plop);
-                    return plop;
+                    return this.filters.map(f => f.getSelectedFilter());
                 }),
                 mergeMap(f => {
                     console.log('combineLatest');
@@ -123,111 +121,48 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                             tap(query => console.log('QUERY', query))
                         );
                 }),
-                switchMap(() => ([])),
-                tap(query => console.log('query', query))
-            );
-        // console.log('filters', filters);
+                filter(query => !!query.catalog),
+                tap(query => {
+                    console.log('query', query);
+                    this.searchData = query;
+                }),
+                switchMap(query => {
+                    console.log('DO QUERY', query);
+                    const catalog = this.catalogs.find(c => c._id === query.catalog);
+                    console.log('catalog', catalog);
+                    var x = this.datasetService.searchDatasetsByCatalog(
+                        catalog,
+                        query.searchTerms,
+                        query.orderedBy,
+                        this.numDatasetsPerPage
+                    );
+                    console.log('X', x);
+                    return x;
+                }),
+                tap(shouldBeDataset => console.log('should be dataset', shouldBeDataset))
+            )
+            .subscribe(res => {
+                console.log('res', res);
+                this.datasets = res.result.results;
+                this.searchPageIndex = 1;
+            });
+    }
 
-        // combineLatest(...filters);
-
-
-        // this.datasets = combineLatest(...filters)
-        //     .pipe(
-        //         map(myFilters =>
-        //             flow([
-        //                 keyBy('group'),
-        //                 mapValues('value')
-        //             ])(myFilters)
-        //         ),
-        //         tap(query => console.log('QUERY', query)),
-        //         switchMap(query => {
-        //             console.log('catalogs', this.catalogs);
-        //             let catalog = find({ '_id': query.catalog }, this.catalogs);
-        //             console.log('Selected catalog', catalog);
-        //             return [];
-        //             // return catalog ? this.datasetService.getDatasetsByCatalog(catalog) : [];
-        //             // return this.datasetService.getDatasetsByCatalog(catalog);                    // return [];
-        //         })
-        //     );
-
-        // const filters = this.filters.map(filter => filter.getSelectedFilter());
-        //
-        // const filters = this.catalogService.getDataCatalogs()
-        //     .pipe(
-        //         map(catalogs => {
-        //             this.catalogs = catalogs;
-        //             this.catalogFilters = catalogs.map((c, i) => ({
-        //                 value: c._id,
-        //                 title: c.name,
-        //                 active: i === 0
-        //             }));
-        //             return this.filters.map(filter => filter.getSelectedFilter());
-        //         })
-        //     );
-        //
-        //     this.datasets = combineLatest(...filters)
-        //         .pipe(
-        //             map(myFilters =>
-        //                 flow([
-        //                     keyBy('group'),
-        //                     mapValues('value')
-        //                 ])(myFilters)
-        //             ),
-        //             tap(query => console.log('QUERY', query)),
-        //             switchMap(query => {
-        //                 console.log('catalogs', this.catalogs);
-        //                 let catalog = find({ '_id': query.catalog }, this.catalogs);
-        //                 console.log('Selected catalog', catalog);
-        //                 return [];
-        //                 // return catalog ? this.datasetService.getDatasetsByCatalog(catalog) : [];
-        //                 // return this.datasetService.getDatasetsByCatalog(catalog);                    // return [];
-        //             })
-        //         );
-
-
-
-
-        // this.catalogService.getDataCatalogs(),
-        //     combineLatest(...filters)
-        //         .pipe(
-        //             map(myFilters =>
-        //                 flow([
-        //                     keyBy('group'),
-        //                     mapValues('value')
-        //                 ])(myFilters)
-        //             ),
-        //             tap(query => console.log('QUERY', query)),
-        //     ))
-        //     .pipe(
-        //     switchMap(res => {
-        //         let catalogs = res[0];
-        //         let query = res[1];
-        //         console.log('catalogs', catalogs);
-        //         console.log('query', query);
-        //         return [];
-        //     })
-        // );
-
-        // this.datasets = combineLatest(
-        //     this.catalogService.getDataCatalogs(),
-        //     combineLatest(...filters)
-        //         .pipe(
-        //             map(myFilters =>
-        //                 flow([
-        //                     keyBy('group'),
-        //                     mapValues('value')
-        //                 ])(myFilters)
-        //             ),
-        //             tap(query => console.log('QUERY', query)),
-        //     ))
-        //     .pipe(
-        //         switchMap(res => {
-        //             let catalogs = res[0];
-        //             let query = res[1];
-        //             console.log('catalogs', catalogs);
-        //             console.log('query', query);
-        //             return [];
-        //         })
-        //     );
+    showMoreResults(): void {
+        const catalog = this.catalogs.find(c => c._id === this.searchData.catalog);
+        this.datasetService.searchDatasetsByCatalog(
+            catalog,
+            this.searchData.searchTerms,
+            this.searchData.orderedBy,
+            this.numDatasetsPerPage,
+            this.searchPageIndex + 1
+        )
+            .subscribe(res => {
+                // if (res.result.results.length === 0) {
+                //     this.notificationService.info('No more results');
+                // }
+                this.datasets.push(...res.result.results);
+                this.searchPageIndex = this.searchPageIndex + 1;
+            });
     }
 }

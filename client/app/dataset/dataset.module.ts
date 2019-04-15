@@ -9,6 +9,7 @@ import { FiltersModule } from '../../components/filters/filters.module';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DataCatalogModule } from '../data-catalog/data-catalog.module';
+// import { NotificationModule } from '../../components/notification/notification.module';
 
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetViewComponent } from './dataset-view/dataset-view.component';
@@ -29,7 +30,8 @@ export const ROUTES: Routes = [
         MaterialModule,
         FiltersModule,
         RouterModule.forChild(ROUTES),
-        DataCatalogModule
+        DataCatalogModule,
+        // NotificationModule
         // ImageModule
     ],
     declarations: [

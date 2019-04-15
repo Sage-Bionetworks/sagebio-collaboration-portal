@@ -18,7 +18,7 @@
   display: flex;
   flex-flow: row nowrap;
 
-  .filter-container {
+  .app-dataset-list-filters-container {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 0;
@@ -27,8 +27,19 @@
     margin: 25px;
   }
 
-  .results-container {
+  .app-dataset-list-content-container {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
+    margin-top: 20px;
+    margin-left: 50px;
+
+    .app-dataset-list-search-filter {
+      width: 600px;
+    }
+
+    .app-dataset-list-results {
+      display: flex;
+      flex-flow: row wrap;
+    }
   }
 }

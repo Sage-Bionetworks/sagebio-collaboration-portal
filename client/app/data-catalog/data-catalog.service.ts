@@ -10,7 +10,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
 import { stringifyQuery } from '../../components/util';
-import { ckanApiBaseUrl } from '../app.constants';
 
 @Injectable()
 export class DataCatalogService {

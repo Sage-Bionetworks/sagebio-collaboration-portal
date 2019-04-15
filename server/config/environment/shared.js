@@ -13,32 +13,26 @@ export const ckanApiBaseUrl = 'http://54.166.200.47/api/3';
 // export const ckanApiBaseUrl = 'http://data.roche.com/api/3';
 
 export const datasetOrders = {
-    ALPHA: {
-        value: 'name',
-        title: 'Alphabetical',
+    // ALPHA: {  // Sorting by title doesn't seem to work
+    //     value: 'title asc',
+    //     title: 'Alphabetical',
+    //     active: true
+    // },
+    NEWEST: {
+        value: 'metadata_created desc',
+        title: 'Newest Datasets',
         active: true
     },
-    NEWEST: {
-      value: 'metadata_created',
-      title: 'Newest Datasets',
-      active: true
+    OLDEST: {
+        value: 'metadata_created asc',
+        title: 'Oldest Datasets',
+        active: false
+    },
+    RELEVANCE: {
+        value: 'relevance asc',
+        title: 'Relevance',
+        active: false
     }
-    // MIN_PLAY_TIME_ASC: {
-    //   value: 'minPlayingTime',
-    //   title: 'Min Playing Time (Low to High)'
-    // },
-    // MIN_PLAY_TIME_DESC: {
-    //   value: '-minPlayingTime',
-    //   title: 'Min Playing Time (High to Low)'
-    // },
-    // MAX_PLAY_TIME_ASC: {
-    //   value: 'maxPlayingTime',
-    //   title: 'Max Playing Time (Low to High)'
-    // },
-    // MAX_PLAY_TIME_DESC: {
-    //   value: '-maxPlayingTime',
-    //   title: 'Max Playing Time (High to Low)'
-    // },
 };
 
 export default {

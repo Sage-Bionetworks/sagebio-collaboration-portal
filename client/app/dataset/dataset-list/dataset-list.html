@@ -2,19 +2,20 @@
     <h1>Datasets</h1>
 </div>
 
-<div>
-    <search-filter group="searchTerms"></search-filter>
-</div>
-
 <div class="app-dataset-list-container">
-    <div class="filter-container">
-    <h3>Catalogs</h3>
-    <radio-button-filter [filters]="catalogFilters" group="catalog"></radio-button-filter>
-    <h3>Order by</h3>
-    <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
-  </div>
+    <div class="app-dataset-list-filters-container">
+        <h3>Catalogs</h3>
+        <radio-button-filter [filters]="catalogFilters" group="catalog"></radio-button-filter>
+        <h3>Order by</h3>
+        <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
+    </div>
 
-    <div class="results-container">
-        <dataset-view *ngFor="let dataset of datasets | async" [dataset]="dataset"></dataset-view>
+    <div class="app-dataset-list-content-container">
+        <search-filter class="app-dataset-list-search-filter" group="searchTerms"></search-filter>
+        <span>Data: {{searchData | json}}</span>
+        <div class="app-dataset-list-results">
+            <dataset-view *ngFor="let dataset of datasets" [dataset]="dataset"></dataset-view>
+        </div>
+        <a mat-button color="primary" (click)="showMoreResults()">More Results</a>
     </div>
 </div>
