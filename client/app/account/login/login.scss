@@ -4,10 +4,20 @@
   flex-grow: 1;
 }
 
+.app-login-page {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  .app-login-card {
+    width: 400px;
+    margin: 60px 0 40px 0;
+  }
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
-  // flex-wrap: nowrap;
 }
 
 .form-field-full-width {
@@ -28,14 +38,4 @@
 
 .app-login-button {
   margin: 10px;
-}
-
-.login-as-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.login-as-container > button {
-  margin: 10px 25px;
 }

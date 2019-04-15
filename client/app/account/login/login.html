@@ -1,8 +1,9 @@
-<div class="page-content" fxFlexOffset.gt-xs="10" fxFlex.gt-xs="80" *ngIf="loginForm">
-    <mat-card>
-        <mat-card-title>
-            Login
-        </mat-card-title>
+<div class="app-primary-header">
+    <h1>Login</h1>
+</div>
+
+<div class="app-login-page">
+    <mat-card class="app-login-card">
         <mat-card-content>
             <form class="form-container" [formGroup]="loginForm" novalidate>
                 <mat-form-field class="form-field-full-width">
@@ -34,12 +35,5 @@
         </mat-card-content>
     </mat-card>
 
-    <ul>
-        <li>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></li>
-        <li>Admin account is <code>admin@example.com</code> / <code>admin</code></li>
-    </ul>
-
-    <div class="login-as-container">
-        <oauth-buttons class="app-login-button"></oauth-buttons>
-    </div>
+    <oauth-buttons class="app-login-button"></oauth-buttons>
 </div>

@@ -65,6 +65,9 @@ export default app => {
         })
     }));
 
+    // Enable flash message to pass server messages to the client
+    // app.use(flash());
+
     /**
      * Lusca - express server security
      * https://github.com/krakenjs/lusca

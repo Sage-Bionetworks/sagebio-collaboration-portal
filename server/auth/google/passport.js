@@ -2,6 +2,9 @@ import passport from 'passport';
 import {
     Strategy as GoogleStrategy
 } from 'passport-google-oauth20';
+import {
+    some
+} from 'lodash/fp';
 
 export function setup(User, config) {
     let googleConfig = {
@@ -32,6 +35,13 @@ export function setup(User, config) {
                         user = Object.assign(user, {
                             role: 'user'
                         })
+                    }
+
+                    var authorized = some((regexp) => {
+                        return user.email.toLowerCase().match(regexp);
+                    }, config.userAccount.authorizedEmails);
+                    if (!authorized) {
+                        return done(null, null, 'Unauthorized email address');
                     }
 
                     return user.save()

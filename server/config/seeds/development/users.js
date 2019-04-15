@@ -11,7 +11,7 @@ let users = [{
     provider: 'local',
     name: 'Test User',
     username: 'test',
-    email: 'test@example.com',
+    email: 'test@sagebase.org',
     password: 'test',
     orcid: 'https://orcid.org/0000-0002-8242-9462',
     createdBy: adminUserId
@@ -21,7 +21,7 @@ let users = [{
     role: 'admin',
     name: 'Admin',
     username: 'admin',
-    email: 'admin@example.com',
+    email: 'admin@sagebase.org',
     position: 'Research Scientist',
     password: 'admin',
     orcid: 'https://orcid.org/0000-0002-8242-9462',

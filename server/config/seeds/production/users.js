@@ -8,7 +8,7 @@ let users = [{
     role: 'admin',
     name: 'Admin',
     username: 'admin',
-    email: 'admin@example.com',
+    email: 'admin@sagebase.org',
     password: 'admin'
 }];
 

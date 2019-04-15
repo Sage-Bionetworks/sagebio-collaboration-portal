@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../components/auth/auth.service';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { OAuthButtonsComponent } from '../../../components/oauth-buttons/oauth-buttons.component';
-// import { has } from 'lodash/fp';
+import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
     selector: 'login',
@@ -18,13 +18,18 @@ export class LoginComponent implements OnInit {
     };
     submitted = false;
 
-    static parameters = [AuthService, Router, ActivatedRoute, FormBuilder, PageTitleService];
+    static parameters = [AuthService, Router, ActivatedRoute, FormBuilder,
+        PageTitleService, NotificationService];
     constructor(private authService: AuthService, private router: Router,
         private route: ActivatedRoute, formBuilder: FormBuilder,
-        private pageTitleService: PageTitleService) {
+        private pageTitleService: PageTitleService,
+        private notificationService: NotificationService) {
 
         // OAuth login callback
         this.route.queryParams.subscribe(res => {
+            if (res.message) {
+                this.notificationService.error(res.message);
+            }
             if (res.token && res.expiresIn) {
                 authService.loginWithTokenResponse({
                     token: res.token,
@@ -38,7 +43,7 @@ export class LoginComponent implements OnInit {
         });
 
         this.loginForm = formBuilder.group({
-            email: ['admin@example.com', [
+            email: ['admin@sagebase.org', [
                 Validators.required,
                 Validators.email
             ]],
@@ -75,13 +80,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    // TODO: For development only
-    loginAs(email): void {
-        this.loginForm.setValue({ email, password: 'test' });
-        this.login();
-    }
-
     goToPasswordRecovery(): void {
-        console.log('Password recovery (not implemented)');
+        this.notificationService.info('Password recovery not implemented');
     }
 }
