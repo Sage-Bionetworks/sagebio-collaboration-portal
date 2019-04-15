@@ -79,32 +79,18 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                                     keyBy('group'),
                                     mapValues('value')
                                 ])(myFilters)
-                            ),
-                            tap(query => console.log('QUERY', query))
+                            )
                         );
                 }),
                 filter(query => !!query.catalog),
-                tap(query => {
-                    console.log('query', query);
-                    this.searchData = query;
-                }),
-                switchMap(query => {
-                    console.log('DO QUERY', query);
-                    const catalog = this.catalogs.find(c => c._id === query.catalog);
-                    console.log('catalog', catalog);
-                    var x = this.datasetService.searchDatasetsByCatalog(
-                        catalog,
-                        query.searchTerms,
-                        query.orderedBy,
-                        this.numDatasetsPerPage
-                    );
-                    console.log('X', x);
-                    return x;
-                }),
-                tap(shouldBeDataset => console.log('should be dataset', shouldBeDataset))
+                switchMap(query => this.datasetService.searchDatasetsByCatalog(
+                    this.catalogs.find(c => c._id === query.catalog),
+                    query.searchTerms,
+                    query.orderedBy,
+                    this.numDatasetsPerPage
+                ))
             )
             .subscribe(res => {
-                console.log('res', res);
                 this.datasets = res.result.results;
                 this.searchPageIndex = 1;
             });

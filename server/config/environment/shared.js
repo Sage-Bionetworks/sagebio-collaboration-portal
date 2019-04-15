@@ -18,19 +18,19 @@ export const datasetOrders = {
     //     title: 'Alphabetical',
     //     active: true
     // },
+    RELEVANCE: {
+        value: 'relevance asc',
+        title: 'Relevance',
+        active: true
+    },
     NEWEST: {
         value: 'metadata_created desc',
         title: 'Newest Datasets',
-        active: true
+        active: false
     },
     OLDEST: {
         value: 'metadata_created asc',
         title: 'Oldest Datasets',
-        active: false
-    },
-    RELEVANCE: {
-        value: 'relevance asc',
-        title: 'Relevance',
         active: false
     }
 };
