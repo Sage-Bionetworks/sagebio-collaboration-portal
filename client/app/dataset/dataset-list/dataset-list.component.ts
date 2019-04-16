@@ -86,7 +86,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                     .pipe(
                         catchError(err => {
                             console.log(err);
-                            this.notificationService.error(err.message);
+                            this.notificationService.error('Unable to connect to Data Catalog');
                             this.clearResults();
                             return empty();
                         })
