@@ -10,19 +10,19 @@ import { DataCatalog } from '../../../../shared/interfaces/data-catalog.model';
     styles: [require('./data-catalog-view.scss')],
 })
 export class DataCatalogViewComponent {
-    private _dataCatalog: DataCatalog;
+    @Input() private catalog: DataCatalog;
 
     static parameters = [Router];
     constructor(private router: Router) { }
 
-    get dataCatalog() {
-        return this._dataCatalog;
-    }
-
-    @Input()
-    set dataCatalog(dataCatalog) {
-        this._dataCatalog = dataCatalog;
-    }
+    // get dataCatalog() {
+    //     return this._dataCatalog;
+    // }
+    //
+    // @Input()
+    // set dataCatalog(dataCatalog) {
+    //     this._dataCatalog = dataCatalog;
+    // }
 
     openCatalogWebsite(website): void {
         window.open(website, '_blank').opener = null;  // 'noopener,noreferrer'

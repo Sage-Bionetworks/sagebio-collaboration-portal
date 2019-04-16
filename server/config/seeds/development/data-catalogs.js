@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { adminUserId } from './users';
+import { sageId, geneId } from './organizations';
 
 let dataCatalogs = [{
     _id: new mongoose.Types.ObjectId(),
@@ -10,8 +11,7 @@ let dataCatalogs = [{
     apiServerUrl: 'http://data.roche.com/api/3',
     website: 'http://data.roche.com',
     // active: true,
-    organizationName: 'Roche/Genentech',
-    organizationUrl: 'https://www.roche.com',
+    organization: geneId,
     createdBy: adminUserId
 }, {
     _id: new mongoose.Types.ObjectId(),
@@ -22,8 +22,7 @@ let dataCatalogs = [{
     apiServerUrl: 'http://54.166.200.47/api/3',
     website: 'http://54.166.200.47',
     // active: true,
-    organizationName: 'Sage Bionetworks',
-    organizationUrl: 'http://sagebionetworks.org',
+    organization: sageId,
     createdBy: adminUserId
 }];
 

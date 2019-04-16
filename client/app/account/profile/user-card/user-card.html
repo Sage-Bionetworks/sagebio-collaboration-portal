@@ -19,27 +19,27 @@
                 <p class="app-user-card-content-meta-title">More Info</p>
                 <p class="app-user-card-content-meta-value">Value</p>
             </div>
-            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+            <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                 <mat-icon>edit</mat-icon>
-            </a>
+            </a> -->
         </div>
         <div class="app-user-card-content-meta">
             <div class="app-user-card-content-meta-group">
                 <p class="app-user-card-content-meta-title">Industry</p>
                 <p class="app-user-card-content-meta-value">Value</p>
             </div>
-            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+            <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                 <mat-icon>edit</mat-icon>
-            </a>
+            </a> -->
         </div>
         <div class="app-user-card-content-meta">
             <div class="app-user-card-content-meta-group">
                 <p class="app-user-card-content-meta-title">Location</p>
                 <p class="app-user-card-content-meta-value">Value</p>
             </div>
-            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+            <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                 <mat-icon>edit</mat-icon>
-            </a>
+            </a> -->
         </div>
     </div>
     <hr class="app-user-card-content-divider">
@@ -50,9 +50,10 @@
                     {{user.orcid}}
                 </a>
             </div>
-            <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
+            <a mat-raised-button type="button" color='primary' (click)="edit()">Edit Profile</a>
+            <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                 <mat-icon>edit</mat-icon>
-            </a>
+            </a> -->
         </div>
     </div>
 </mat-card>

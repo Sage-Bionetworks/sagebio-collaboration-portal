@@ -1,4 +1,5 @@
 import { User } from './user.model';
+import { Organization } from './organization.model';
 
 // @flow
 export interface DataCatalog {
@@ -11,8 +12,7 @@ export interface DataCatalog {
     apiServerUrl: string;
     webpage: string;
     // active: boolean;
-    organizationName: string;
-    organizationUrl: string;
+    organization: Organization;
     createdAt: string;
     createdBy?: User;
 }

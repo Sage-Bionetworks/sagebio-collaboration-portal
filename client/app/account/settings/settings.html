@@ -2,43 +2,43 @@
     <h1>Settings</h1>
 </div>
 
-<div class="page-content" fxFlexOffset.gt-xs="10" fxFlex.gt-xs="80">
-    <mat-card>
-        <mat-card-title>
-            Password
-        </mat-card-title>
-        <mat-card-content>
-            <form class="form-container" [formGroup]="changePasswordForm" novalidate>
-                <mat-form-field class="form-field-full-width">
-                    <input matInput placeholder="Current password" type="password" formControlName="oldPassword" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="changePasswordForm.controls.oldPassword.errors?.required">
-                        Please enter your current password.
-                    </mat-error>
-                    <mat-error *ngIf="changePasswordForm.controls.oldPassword.errors?.incorrect">
-                        Incorrect password.
-                    </mat-error>
-                </mat-form-field>
-                <div formGroupName="newPasswordGroup" class="form-password-container">
-                    <mat-form-field class="form-field-full-width">
-                        <input matInput placeholder="New password" type="password" formControlName="password" [errorStateMatcher]="matcher">
-                        <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.password.errors?.required">
-                            A password is required.
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="form-field-full-width">
-                        <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
-                        <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.confirmPassword.errors?.required">
-                            A password is required.
-                        </mat-error>
-                        <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.confirmPassword.errors?.matchPassword">
-                            Passwords don't match.
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="form-button-container">
-                    <button mat-raised-button color="primary" [disabled]="changePasswordForm.invalid" (click)="changePassword()">Save</button>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
+<div class="app-settings-content">
+  <mat-card class="app-settings-card">
+      <mat-card-title>
+          Password
+      </mat-card-title>
+      <mat-card-content>
+          <form class="form-container" [formGroup]="changePasswordForm" novalidate>
+              <mat-form-field class="form-field-full-width">
+                  <input matInput placeholder="Current password" type="password" formControlName="oldPassword" [errorStateMatcher]="matcher">
+                  <mat-error *ngIf="changePasswordForm.controls.oldPassword.errors?.required">
+                      Please enter your current password.
+                  </mat-error>
+                  <mat-error *ngIf="changePasswordForm.controls.oldPassword.errors?.incorrect">
+                      Incorrect password.
+                  </mat-error>
+              </mat-form-field>
+              <div formGroupName="newPasswordGroup" class="form-password-container">
+                  <mat-form-field class="form-field-full-width">
+                      <input matInput placeholder="New password" type="password" formControlName="password" [errorStateMatcher]="matcher">
+                      <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.password.errors?.required">
+                          A password is required.
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="form-field-full-width">
+                      <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+                      <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.confirmPassword.errors?.required">
+                          A password is required.
+                      </mat-error>
+                      <mat-error *ngIf="changePasswordForm.controls.newPasswordGroup.controls.confirmPassword.errors?.matchPassword">
+                          Passwords don't match.
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="form-button-container">
+                  <button mat-raised-button color="primary" [disabled]="changePasswordForm.invalid" (click)="changePassword()">Save</button>
+              </div>
+          </form>
+      </mat-card-content>
+  </mat-card>
 </div>

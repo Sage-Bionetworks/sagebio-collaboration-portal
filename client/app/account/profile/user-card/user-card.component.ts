@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { MatDialog, MatDialogConfig } from '@angular/material';
 import { User } from '../../../../../shared/interfaces/user.model';
+import { NotificationService } from '../../../../components/notification/notification.service';
 
 @Component({
     selector: 'user-card',
@@ -11,8 +11,9 @@ import { User } from '../../../../../shared/interfaces/user.model';
 export class UserCardComponent {
     private _user: User;
 
-    static parameters = [Router];
-    constructor(private router: Router) { }
+    static parameters = [Router, NotificationService];
+    constructor(private router: Router,
+        private notificationService: NotificationService) { }
 
     get user() {
         return this._user;
@@ -21,5 +22,9 @@ export class UserCardComponent {
     @Input()
     set user(user) {
         this._user = user;
+    }
+
+    edit(): void {
+        this.notificationService.info('Edit Profile not implemented');
     }
 }

@@ -7,7 +7,6 @@ import { Subject, forkJoin, Subscription } from 'rxjs';
 import { tap, switchMap, map, last } from 'rxjs/operators';
 import { HttpEventType } from '@angular/common/http';
 import { User } from '../../../../shared/interfaces/user.model';
-// import constants from '../../app.constants';
 import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({

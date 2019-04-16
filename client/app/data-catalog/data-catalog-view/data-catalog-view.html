@@ -1,13 +1,14 @@
-<!-- [routerLink]="[dataCatalog._id]" -->
-<mat-card *ngIf="dataCatalog" class="data-catalog-container" (click)="openCatalogWebsite(dataCatalog.website)">
+<!-- [routerLink]="[catalog._id]" -->
+<!-- (click)="openCatalogWebsite(catalog.website)" -->
+<mat-card *ngIf="catalog" class="data-catalog-container" [routerLink]="[catalog._id]">
     <picture>
-        <img [src]="dataCatalog.image" aria-label="Data catalog preview">
+        <img [src]="catalog.image" aria-label="Data catalog preview">
     </picture>
     <div class="data-catalog-metadata-container">
-        <h3 class="data-catalog-name">{{dataCatalog.name}}</h3>
+        <h3 class="data-catalog-name">{{catalog.name}}</h3>
         <div class="data-catalog-metadata-row-container">
-          <mat-icon>home</mat-icon>
-          <span>organization name</span>
+            <mat-icon>home</mat-icon>
+            <span>{{catalog.organization.name}}</span>
         </div>
     </div>
 </mat-card>

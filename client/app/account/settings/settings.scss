@@ -4,6 +4,17 @@
   flex-grow: 1;
 }
 
+.app-settings-content {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  .app-settings-card {
+    width: 400px;
+    margin: 60px 0 40px 0;
+  }
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
