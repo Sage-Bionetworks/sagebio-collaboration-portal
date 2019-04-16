@@ -43,7 +43,7 @@ var all = {
             useNewUrlParser: true,
             useFindAndModify: false,
             reconnectTries: 30,
-            reconnectInterval: 500  // in ms
+            reconnectInterval: 500 // in ms
         }
     },
 
@@ -56,6 +56,7 @@ var all = {
     userAccount: {
         authorizedEmails: [
             '@gene.com$',
+            '@roche.com$',
             '@sagebase.org$'
         ]
     }

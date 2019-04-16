@@ -19,7 +19,7 @@ import { SocketService } from '../../components/socket/socket.service';
 
 export const ROUTES: Routes = [
     { path: 'datasets', component: DatasetListComponent, data: {} },
-    { path: 'datasets/:id', component: DatasetComponent, data: {} }
+    { path: 'datasets/:catalogId/:datasetId', component: DatasetComponent, data: {} }
 ];
 
 @NgModule({

@@ -7,8 +7,7 @@ let dataCatalogs = [{
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
     image: 'assets/images/320px-Roche_Logo.svg.png',
-    // apiBaseUri: 'http://data.roche.com/api/3',
-    apiBaseUri: 'http://54.166.200.47/api/3',
+    apiServerUrl: 'http://data.roche.com/api/3',
     website: 'http://data.roche.com',
     // active: true,
     organizationName: 'Roche/Genentech',
@@ -16,11 +15,11 @@ let dataCatalogs = [{
     createdBy: adminUserId
 }, {
     _id: new mongoose.Types.ObjectId(),
-    name: 'Sage Data Portal',
+    name: 'Sage Catalog',
     description: 'A test instance of CKAN',
     apiType: 'CKAN',
     image: 'assets/images/320px-SageBionetworks_LogoShape.png',
-    apiBaseUri: 'http://54.166.200.47/api/3',
+    apiServerUrl: 'http://54.166.200.47/api/3',
     website: 'http://54.166.200.47',
     // active: true,
     organizationName: 'Sage Bionetworks',

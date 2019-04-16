@@ -12,5 +12,5 @@ export interface CkanDataset {
     organization: CkanOrganizationPreview;
     resources: CkanDatasetResource[];
     // Portal specific
-    catalog: DataCatalog
+    // catalog: DataCatalog
 }

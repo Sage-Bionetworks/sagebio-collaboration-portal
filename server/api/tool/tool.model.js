@@ -16,7 +16,7 @@ var ToolSchema = new mongoose.Schema({
         required: false
     },
     image: String,
-    apiBaseUri: String,
+    apiServerUrl: String,
     website: String,
     createdAt: {
         type: Date,

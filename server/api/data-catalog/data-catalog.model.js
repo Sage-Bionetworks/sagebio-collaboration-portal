@@ -16,7 +16,7 @@ var DataCatalogSchema = new mongoose.Schema({
         required: true
     },
     image: String,
-    apiBaseUri: String,
+    apiServerUrl: String,
     website: String,
     createdAt: {
         type: Date,

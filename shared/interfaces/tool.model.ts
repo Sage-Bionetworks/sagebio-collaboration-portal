@@ -7,7 +7,7 @@ export interface Tool {
     name: string;
     description: string;
     image?: string;
-    apiBaseUri: string;
+    apiServerUrl: string;
     webpage: string;
     supportedFormats: string[];
     // supportedDataTyoes: string[];

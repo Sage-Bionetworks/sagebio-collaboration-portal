@@ -24,7 +24,6 @@ import {
     CkanDatasetSearchResponse
 } from '../../../shared/interfaces/ckan/ckan-dataset-search-response.model';
 import { stringifyQuery } from '../../components/util';
-import { ckanApiBaseUrl } from '../app.constants';
 import { DataCatalogService } from '../data-catalog/data-catalog.service';
 import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
 
@@ -35,43 +34,9 @@ export class DatasetService {
     constructor(private httpClient: HttpClient,
         private catalogService: DataCatalogService) { }
 
-    getDatasets(catalogs: DataCatalog[], query?: {}): Observable<CkanDataset[]> {
-        const obs = catalogs.map(c => this.getDatasetsByCatalog(c));
-        return forkJoin(obs, (...results) =>
-            results.map((result, i) =>
-                result.map(dataset => ({ ...dataset, catalog: catalogs[i] }))
-            )
-        )
-            .pipe(
-                map(datasetsArray => [].concat(...datasetsArray))
-            );
-        // return this.catalogService.getDataCatalogs()
-        //     .pipe(
-        //         concatMap(catalogs => {
-        //             const obs = catalogs.map(c => this.getDatasetsByCatalog(c));
-        //             return forkJoin(obs, (...results) =>
-        //                 results.map((result, i) =>
-        //                     result.map(dataset => ({ ...dataset, catalog: catalogs[i] }))
-        //                 )
-        //             );
-        //         }),
-        //         map(datasetsArray => [].concat(...datasetsArray)),
-        //         tap(res => console.log('DATASETS', res))
-        //     );
-    }
-
-    getDatasetsByCatalog(catalog: DataCatalog): Observable<CkanDataset[]> {
-        return this.httpClient.get<CkanDatasetListResponse>(
-            `${catalog.apiBaseUri}/action/current_package_list_with_resources`
-        )
-            .pipe(
-                map(res => res.result)
-            );
-    }
-
     searchDatasetsByCatalog(catalog: DataCatalog, searchTerms?: string,
         sort = 'metadata_created desc', limit = 4, page = 1): Observable<CkanDatasetSearchResponse> {
-        var req = `${catalog.apiBaseUri}/action/package_search` +
+        var req = `${catalog.apiServerUrl}/action/package_search` +
             `?rows=${limit}` +
             `&sort=${sort}` +
             `&start=${(page - 1) * limit}` +
@@ -80,45 +45,14 @@ export class DatasetService {
                 .join(' +')}` : '');
         console.log('my query', req);
         return this.httpClient.get<CkanDatasetSearchResponse>(req);
-        //     .pipe(
-        //         map(res => res.result.results),
-        //         tap(res => console.log('res from search', res)),
-        // );
     }
 
-    getAllDatasetsByCatalog(catalog: DataCatalog): Observable<CkanDataset[]> {
-        return this.httpClient.get<CkanDatasetListResponse>(
-            `${catalog.apiBaseUri}/action/current_package_list_with
-                _resources?limit=1000`)  // TODO: would miss results if CKAN max limit is smaller
-            .pipe(
-                expand((res, i) => {
-                    return res.result.length > 0 ?
-                        this.httpClient.get<CkanDatasetListResponse>(
-                            `${catalog.apiBaseUri}/action/current_package_list_
-                              with_resources?limit=1000&page=${i + 2}`) :
-                        empty();  // TODO: check if res is an array
-                }),
-                reduce((acc, data: CkanDatasetListResponse) => {
-                    return acc.concat(data.result);
-                }, []),
-        );
-    }
-
-    getDataset(datasetId: string): Observable<CkanDataset> {
-        // return this.httpClient.get<CkanDataset>(`/api/datasets/${datasetId}`);
-        return this.httpClient.get<CkanDatasetResponse>(`${ckanApiBaseUrl}/action/package_show?id=${datasetId}`)
+    getDataset(catalog: DataCatalog, datasetId: string): Observable<CkanDataset> {
+        var req = `${catalog.apiServerUrl}/action/package_show?id=${datasetId}`;
+        return this.httpClient.get<CkanDatasetResponse>(req)
             .pipe(
                 map(res => res.result),
                 tap(result => console.log('CKAN result', result))
             );
     }
-
-    // searchDatasetsByName(terms: Observable<string>): Observable<CkanDataset[] | null> {
-    //     return terms
-    //         .pipe(
-    //             debounceTime(400),
-    //             distinctUntilChanged(),
-    //             switchMap(term => term ? this.getDatasets({ searchTerms: term }) : of(null))
-    //         );
-    // }
 }
