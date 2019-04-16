@@ -15,6 +15,11 @@ var DataCatalogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    apiType: {
+        type: String,
+        enum: ['CKAN'],
+        required: true
+    },
     image: String,
     apiServerUrl: String,
     website: String,

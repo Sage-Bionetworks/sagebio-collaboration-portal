@@ -6,7 +6,7 @@ export interface DataCatalog {
     _id?: string;
     name: string;
     description: string;
-    apiType: string;
+    apiType: DataCatalogApiType;
     image?: string;
     apiServerUrl: string;
     webpage: string;
@@ -15,4 +15,7 @@ export interface DataCatalog {
     organizationUrl: string;
     createdAt: string;
     createdBy?: User;
+}
+export enum DataCatalogApiType {
+    CKAN = 'CKAN',
 }
