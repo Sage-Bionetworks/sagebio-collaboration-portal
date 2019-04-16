@@ -6,7 +6,8 @@ var genUser = function () {
         provider: 'local',
         name: 'Fake User',
         email: 'test@example.com',
-        password: 'password'
+        password: 'password',
+        username: 'test'
     });
     return user;
 };

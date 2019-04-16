@@ -36,7 +36,8 @@ describe('DataCatalog API:', function () {
                 .send({
                     _id: new mongoose.Types.ObjectId(),
                     name: 'New DataCatalog',
-                    description: 'New description'
+                    description: 'New description',
+                    apiType: 'CKAN'
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
