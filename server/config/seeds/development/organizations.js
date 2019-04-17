@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const sageId = new mongoose.Types.ObjectId();
-const geneId = new mongoose.Types.ObjectId();
+const sageId = '5cb6a048e7bdc7740874fd87';
+const geneId = '5cb6a048e7bdc7740874fd88';
 
 let organizations = [{
     _id: sageId,

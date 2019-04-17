@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 import { sageId, geneId } from './organizations';
 
 let tools = [{
-    _id: new mongoose.Types.ObjectId(),
+    _id: '5cb6a048e7bdc7740874fd93',
     name: 'Facile Explorer',
     description: 'Add description',
     picture: 'assets/images/320px-shinyLogo.png',
-    website: '',
+    website: '5cb6a048e7bdc7740874fd94',
     apiServerUrl: '',
     organization: geneId
 }, {
-    _id: new mongoose.Types.ObjectId(),
+    _id: '',
     name: 'FE Lite',
     description: 'Add description',
     picture: 'assets/images/320px-shinyLogo.png',
@@ -18,7 +18,7 @@ let tools = [{
     apiServerUrl: '',
     organization: sageId
 }, {
-    _id: new mongoose.Types.ObjectId(),
+    _id: '5cb6a048e7bdc7740874fd95',
     name: 'IRIS Image Explorer',
     description: 'Missing description',
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
@@ -26,7 +26,7 @@ let tools = [{
     apiServerUrl: '',
     organization: geneId
 }, {
-    _id: new mongoose.Types.ObjectId(),
+    _id: '5cb6a048e7bdc7740874fd96',
     name: 'RStudio',
     description: `RStudio is a free and open-source integrated development
         environment for R, a programming language for statistical computing
@@ -36,7 +36,7 @@ let tools = [{
     apiServerUrl: '',
     organization: geneId
 }, {
-    _id: new mongoose.Types.ObjectId(),
+    _id: '5cb6a048e7bdc7740874fd97',
     name: 'Jupyter',
     description: `Project Jupyter exists to develop open-source software,
         open-standards, and services for interactive computing across dozens
@@ -46,7 +46,7 @@ let tools = [{
     apiServerUrl: '',
     organization: geneId
 }, {
-    _id: new mongoose.Types.ObjectId(),
+    _id: '5cb6a048e7bdc7740874fd98',
     name: 'PHC Advanced Analytics',
     description: 'Add description',
     picture: 'assets/images/320px-Roche_Logo.svg.png',
