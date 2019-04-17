@@ -35,11 +35,17 @@ export const datasetOrders = {
     }
 };
 
+export const discourse = {
+    webiste: 'http://phc-discourse.sagesandbox.org',
+    apiServerUrl: 'http://phc-discourse.sagesandbox.org'
+};
+
 export default {
     env,
     port,
     userRoles,
     gitVersion,
     gitCommitHash,
-    gitBranch
+    gitBranch,
+    discourse
 };

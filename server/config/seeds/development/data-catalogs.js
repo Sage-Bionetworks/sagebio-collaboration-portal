@@ -19,8 +19,8 @@ let dataCatalogs = [{
     description: 'A test instance of CKAN',
     apiType: 'CKAN',
     picture: 'assets/images/320px-SageBionetworks_LogoShape.png',
-    apiServerUrl: 'http://54.166.200.47/api/3',
-    website: 'http://54.166.200.47',
+    apiServerUrl: 'http://phc-ckan.sagesandbox.org/api/3',
+    website: 'http://phc-ckan.sagesandbox.org',
     // active: true,
     organization: sageId,
     createdBy: adminUserId

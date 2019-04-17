@@ -29,6 +29,7 @@ import { DatasetModule } from './dataset/dataset.module';
 import { DataCatalogModule } from './data-catalog/data-catalog.module';
 import { ToolModule } from './tool/tool.module';
 import { InsightModule } from './insight/insight.module';
+import { DiscussionModule } from './discussion/discussion.module';
 
 import { DirectivesModule } from '../components/directives.module';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -76,6 +77,7 @@ const appRoutes: Routes = [{
         DataCatalogModule,
         ToolModule,
         InsightModule,
+        DiscussionModule,
 
         DirectivesModule,
         AccountModule,
