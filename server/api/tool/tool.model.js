@@ -15,9 +15,14 @@ var ToolSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    image: String,
+    picture: String,
     apiServerUrl: String,
     website: String,
+    organization: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        // required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

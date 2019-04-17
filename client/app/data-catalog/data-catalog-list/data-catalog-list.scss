@@ -1,14 +1,3 @@
-// :host {
-//   display: flex;
-//   flex-direction: column;
-//   flex-grow: 1;
-// }
-
-.app-data-catalog-list {
-  margin: 50px;
-  flex-grow: 1;
-}
-
 .app-data-catalog-item,
 .app-data-catalog-item:hover {
   text-decoration: none;
@@ -19,14 +8,7 @@
   flex-flow: row nowrap;
   margin: 20px;
 
-  .filter-container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 280px;
-    margin: 25px;
-  }
-
-  .results-container {
+  .app-data-catalog-list-results {
     display: flex;
     flex-flow: row wrap;
   }

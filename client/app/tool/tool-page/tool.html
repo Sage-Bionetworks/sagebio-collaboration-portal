@@ -1,22 +1,35 @@
 <div *ngIf="tool">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
-        <!-- <h1>{{tool.title}}</h1> -->
         <h1>{{tool.name}}</h1>
     </div>
-    <mat-card class="tool-container">
-        <picture>
-            <img src="http://via.placeholder.com/200x200" aria-label="tool preview">
-        </picture>
-        <div class="tool-metadata-container">
-            <h1>{{tool.name}}</h1>
-            <!-- <span>License: {{tool.license_title}}.</span> -->
-            <!-- <span class="tool-description">{{tool.description}}</span> -->
-        </div>
-        <div class="tool-actions-container">
-            <button mat-raised-button color="primary" (click)="openCkan(tool)">Open CKAN Page</button>
-            <button mat-raised-button color="primary" (click)="openFacileExplorer(tool)">Open in Facile Explorer</button>
-            <!-- <a mat-raised-button color="primary" target="_blank" rel="noopener noreferrer" href="{{tool.manualUrl}}">Manual</a> -->
-        </div>
-    </mat-card>
+
+    <div class="tool-content">
+        <mat-card class="tool-card">
+            <picture>
+                <img [src]="tool.picture" aria-label="Data tool preview">
+            </picture>
+            <div class="tool-metadata">
+                <h1>{{tool.name}}</h1>
+                <div class="tool-metadata-row">
+                    <mat-icon>home</mat-icon>
+                    <span>{{tool.organization.name}}</span>
+                </div>
+                <div *ngIf="toolHealth && toolHealth.version" class="data-catalog-metadata-row">
+                    <mat-icon>storage</mat-icon>
+                    <span>Version {{toolHealth.version}}</span>
+                </div>
+                <div *ngIf="!toolHealth.version" class="tool-metadata-row">
+                    <mat-icon>cloud_off</mat-icon>
+                    <span>This tool can not be reached.</span>
+                </div>
+                <div class="tool-metadata-description">
+                    <span>{{tool.description}}</span>
+                </div>
+            </div>
+            <div class="tool-actions">
+                <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
+            </div>
+        </mat-card>
+    </div>
 </div>

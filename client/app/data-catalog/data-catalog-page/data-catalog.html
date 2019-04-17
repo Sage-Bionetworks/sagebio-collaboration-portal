@@ -7,7 +7,7 @@
     <div class="data-catalog-content">
         <mat-card class="data-catalog-card">
             <picture>
-                <img [src]="catalog.image" aria-label="Data catalog preview">
+                <img [src]="catalog.picture" aria-label="Data catalog preview">
             </picture>
             <div class="data-catalog-metadata">
                 <h1>{{catalog.name}}</h1>
@@ -23,16 +23,11 @@
                     <mat-icon>cloud_off</mat-icon>
                     <span>This data catalog can not be reached.</span>
                 </div>
-                <!-- <div class="data-catalog-metadata-row-container">
-                    <mat-icon>home</mat-icon>
-                    <span>{{catalog.apiType}}</span>
-                </div> -->
                 <div class="data-catalog-metadata-description">
                     <span>{{catalog.description}}</span>
                 </div>
             </div>
             <div class="data-catalog-actions">
-                <!-- <a mat-raised-button color="primary" [href]="catalog.organization.website">Open Organization Website</a> -->
                 <a mat-raised-button color="primary" [href]="catalog.website" target="_blank">Open Data Catalog</a>
             </div>
         </mat-card>

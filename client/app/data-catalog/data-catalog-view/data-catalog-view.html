@@ -2,7 +2,7 @@
 <!-- (click)="openCatalogWebsite(catalog.website)" -->
 <mat-card *ngIf="catalog" class="data-catalog-container" [routerLink]="[catalog._id]">
     <picture>
-        <img [src]="catalog.image" aria-label="Data catalog preview">
+        <img [src]="catalog.picture" aria-label="Data catalog preview">
     </picture>
     <div class="data-catalog-metadata-container">
         <h3 class="data-catalog-name">{{catalog.name}}</h3>

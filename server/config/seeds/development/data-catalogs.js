@@ -7,7 +7,7 @@ let dataCatalogs = [{
     name: 'Roche Data Portal',  // (Beta)
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
-    image: 'assets/images/320px-Roche_Logo.svg.png',
+    picture: 'assets/images/320px-Roche_Logo.svg.png',
     apiServerUrl: 'http://data.roche.com/api/3',
     website: 'http://data.roche.com',
     // active: true,
@@ -18,7 +18,7 @@ let dataCatalogs = [{
     name: 'Sage Catalog',
     description: 'A test instance of CKAN',
     apiType: 'CKAN',
-    image: 'assets/images/320px-SageBionetworks_LogoShape.png',
+    picture: 'assets/images/320px-SageBionetworks_LogoShape.png',
     apiServerUrl: 'http://54.166.200.47/api/3',
     website: 'http://54.166.200.47',
     // active: true,

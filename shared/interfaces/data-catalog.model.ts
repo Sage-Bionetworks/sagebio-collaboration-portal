@@ -8,7 +8,7 @@ export interface DataCatalog {
     name: string;
     description: string;
     apiType: DataCatalogApiType;
-    image?: string;
+    picture?: string;
     apiServerUrl: string;
     webpage: string;
     // active: boolean;

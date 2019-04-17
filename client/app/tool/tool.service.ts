@@ -9,8 +9,9 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Tool } from '../../../shared/interfaces/tool.model';
+import { ToolHealth } from '../../../shared/interfaces/tool-health.model';
 import { stringifyQuery } from '../../components/util';
-import { ckanApiBaseUrl } from '../app.constants';
+
 
 @Injectable()
 export class ToolService {
@@ -26,12 +27,16 @@ export class ToolService {
         return this.httpClient.get<Tool>(`/api/tools/${toolId}`);
     }
 
-    searchToolsByName(terms: Observable<string>): Observable<Tool[] | null> {
-        return terms
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                switchMap(term => term ? this.getTools({ searchTerms: term }) : of(null))
-            );
+    // searchToolsByName(terms: Observable<string>): Observable<Tool[] | null> {
+    //     return terms
+    //         .pipe(
+    //             debounceTime(400),
+    //             distinctUntilChanged(),
+    //             switchMap(term => term ? this.getTools({ searchTerms: term }) : of(null))
+    //         );
+    // }
+
+    getToolHealth(tool: Tool): Observable<ToolHealth> {
+        return this.httpClient.get<ToolHealth>(`${tool.apiServerUrl}/health`);
     }
 }

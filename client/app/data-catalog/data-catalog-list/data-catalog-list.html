@@ -3,15 +3,7 @@
 </div>
 
 <div class="app-data-catalog-list-content">
-    <!-- <div class="filter-container">
-    <h3>Tags</h3>
-    <data-catalog-tag-filters [filters]="tagFilters" group="tagged"></data-catalog-tag-filters>
-
-    <h3>Order by</h3>
-    <data-catalog-order-filters [filters]="orderFilters" group="orderedBy"></data-catalog-order-filters>
-  </div> -->
-
-    <div class="results-container">
+    <div class="app-data-catalog-list-results">
         <data-catalog-view *ngFor="let catalog of catalogs | async" [catalog]="catalog"></data-catalog-view>
     </div>
 </div>

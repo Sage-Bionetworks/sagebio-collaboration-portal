@@ -46,8 +46,7 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
                         // this.notificationService.error('Unable to connect to Data Catalog');
                         return of(<CkanDatasetSearchResponse>{});
                     })
-            )),
-            tap(res => console.log('RES', res)),
+                )),
             map(res => ({
                 live: !!res.result,
                 datasetCount: res.result ? res.result.count : undefined
@@ -60,35 +59,7 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
                 this.catalog = catalog;
                 this.pageTitleService.title = catalog.name;
             });
-
-
-
-        // this.route.params.subscribe(res => {
-        //     this.catalogService.getDataCatalog(res.id).subscribe(catalog => {
-        //         // // Get the instances of this data-catalog available to the user
-        //         // this.AuthService.isLoggedIn().subscribe(is => {
-        //         //   if (is) {
-        //         //     this.InstanceService.queryBydata-catalog(data-catalog)
-        //         //       .subscribe(instances => {
-        //         //         this.instances = instances;
-        //         //         this.SocketService.syncUpdates('instance', this.instances);
-        //         //       })
-        //         //   }
-        //         // });
-        //         this.pageTitleService.title = catalog.name;
-        //         this.catalog = catalog;
-        //         console.log('catalog', catalog);
-        //     });
-        // });
     }
 
     ngOnDestroy() { }
-
-    // openCkan(data-catalog: DataCatalog): void {
-    //     console.log('Not implemented.');
-    // }
-    //
-    // openFacileExplorer(data-catalog: DataCatalog): void {
-    //     console.log('Not implemented');
-    // }
 }

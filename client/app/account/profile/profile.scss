@@ -1,10 +1,22 @@
-.app-profile-page {
+.app-profile-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin: 20px;
 }
 
 .app-user-card {
     width: 480px;
     margin: 25px;
 }
+
+// .app-profile-content {
+//   display: flex;
+//   flex-flow: column nowrap;
+//   align-items: center;
+// }
+//
+// .app-user-card {
+//   width: 480px;
+//   margin: 60px 0 40px 0;
+// }

@@ -1,11 +1,12 @@
 <mat-card *ngIf="tool" class="tool-container" [routerLink]="[tool._id]">
     <picture>
-        <img src="https://www.snopes.com/tachyon/2017/12/science-stock-image.png" aria-label="tool preview">
+        <img [src]="tool.picture" aria-label="tool preview">
     </picture>
     <div class="tool-metadata-container">
         <h3 class="tool-name">{{tool.name}}</h3>
         <div class="tool-metadata-row-container">
-            <!-- <span>Ryan</span> -->
+            <mat-icon>home</mat-icon>
+            <span>{{tool.organization.name}}</span>
         </div>
     </div>
 </mat-card>
