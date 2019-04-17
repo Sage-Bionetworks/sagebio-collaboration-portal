@@ -16,7 +16,12 @@ export class MainComponent implements OnInit, OnDestroy {
     Http;
     SocketService;
     token;
-    socketSub;
+
+    neo4jframe;
+    viz;
+    emptyObj1;
+    emptyObj;
+    info;
 
     static parameters = [HttpClient, SocketService, PageTitleService,
         NotificationService];
@@ -33,14 +38,42 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.socketSub) {
-            // this.SocketService.unsyncUpdates('thing');
-            // this.socketSub.unsubscribe();
-        }
     }
 
-    plop(): void {
-      console.log('plop');
-      this.notificationService.success('Plop');
-    }
+    // viewNodesStart() {
+    //
+    //     // console.log("INSIDE viewNodesStart()")
+    //
+    //     // Nodes Value
+    //
+    //     // console.log("inside Nodes Value");
+    //     var data = localStorage.getItem('token');
+    //
+    //     // console.log("data is=>", data + "emptyobj1 = " + this.emptyObj1);
+    //
+    //     var url = config.url;
+    //     var port = config.port;
+    //
+    //     var object = {
+    //         emptyObj: this.emptyObj
+    //     }
+    //
+    //     this.http.post('http://' + url + ':' + port + '/viewNodesStart', this.emptyObj1)
+    //         .map(Response => Response)
+    //         .subscribe((res: Response) => {
+    //
+    //             // console.log('XXXXXXXXXXXX Response on /viewNodesStart', res);
+    //
+    //             this.info = res;
+    //             if (this.info.statusCode == 200) {
+    //                 console.log("Data added successfully");
+    //
+    //             } else {
+    //                 console.log("Data is not inserted")
+    //
+    //             }
+    //
+    //         });
+    //
+    // }
 }

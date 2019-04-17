@@ -4,23 +4,35 @@ import { sageId, geneId } from './organizations';
 let tools = [{
     _id: '5cb6a048e7bdc7740874fd93',
     name: 'Facile Explorer',
-    description: 'Add description',
+    description: `A Shiny App for self-service and exploratory analytics.
+        It empowers users to compute over data and is designed to enable
+        sustained independent data exploration. The FacileData ecosystem was
+        designed to support exploration of clinical trial data and facilitate
+        communication between bench and computational scientists to accelerate
+        discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
     website: '5cb6a048e7bdc7740874fd94',
     apiServerUrl: '',
     organization: geneId
 }, {
-    _id: '',
+    _id: '5cb7acb3167e4f14b29dfb1b',
     name: 'FE Lite',
-    description: 'Add description',
+    description: `A Shiny App for demonstrating features of this collaboration
+        portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
     website: '',
     apiServerUrl: '',
     organization: sageId
 }, {
     _id: '5cb6a048e7bdc7740874fd95',
-    name: 'IRIS Image Explorer',
-    description: 'Missing description',
+    name: 'IRIS Enterprise Explorer',
+    description: `IRIS Enterprise (IRISe) is a scalable cloud-based solution
+        designed to aggregate digital pathology images and derived
+        high-dimensional biomarker data collected in cancer immunotherapy
+        trials across Roche Pharma. It aims to assist pathologists and
+        biomarker scientists within Roche by providing visualized, contextual
+        insights into cancer and immune biology, and the mechanism of action of
+        new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-e-explorer.navify.com',
     apiServerUrl: '',
@@ -48,8 +60,14 @@ let tools = [{
 }, {
     _id: '5cb6a048e7bdc7740874fd98',
     name: 'PHC Advanced Analytics',
-    description: 'Add description',
-    picture: 'assets/images/320px-Roche_Logo.svg.png',
+    description: `PHC Advanced Analytics Platform is a scalable analytics
+        platform allowing users (Data Scientists, Clinical/Statistical
+        Programmers, Statisticians and Epidemiologists) to establish their own
+        baseline analytics environments ("containers"). The containerized,
+        cloud-based environments provide a collection of statistical
+        programming and data visualization tools to support advanced analytic
+        tools (RStudio Pro, RSConnect, Jupyter).`,
+    picture: 'assets/images/320px-PHC_IX.png',
     website: '',
     apiServerUrl: '',
     organization: geneId

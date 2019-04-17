@@ -15,11 +15,13 @@ export class JwtInterceptor implements HttpInterceptor {
     static parameters = [TokenService];
     constructor(private tokenService: TokenService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        request = request.clone({
-            setHeaders: {
-                Authorization: `Bearer ${this.tokenService.get()}`
-            }
-        });
+        if (request.url.startsWith('/')) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${this.tokenService.get()}`
+                }
+            });
+        }
         return next.handle(request);
     }
 }

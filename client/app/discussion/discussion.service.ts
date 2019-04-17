@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DiscourseCategory } from '../../../shared/interfaces/discourse/discourse-category.model';
 import { DiscourseTopic } from '../../../shared/interfaces/discourse/discourse-topic.model';
 import { DiscoursePost } from '../../../shared/interfaces/discourse/discourse-post.model';
+import { DiscourseLatestPostsResponse } from '../../../shared/interfaces/discourse/discourse-latest-posts-response.model';
 import { stringifyQuery } from '../../components/util';
 import { discourse } from '../../app/app.constants';
 
@@ -28,8 +29,12 @@ export class DiscussionService {
     getLatestPosts(): Observable<DiscoursePost[]> {
         let req = `${discourse.apiServerUrl}/posts`;
         let headers = new HttpHeaders()
-            .set('content-type', 'application/json');
-        return this.httpClient.get<DiscoursePost[]>(req, { headers });
+            .set('accept', 'application/json');
+        return this.httpClient.get<DiscourseLatestPostsResponse>(req, { headers })
+            .pipe(
+                map(res => res.latest_posts),
+                tap(posts => console.log('posts', posts))
+            );
     }
 
     // getTopics(query?: {}): Observable<DiscourseTopic[]> {

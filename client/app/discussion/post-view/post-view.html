@@ -1,12 +1,6 @@
-<!-- <mat-card *ngIf="tool" class="tool-container" [routerLink]="[tool._id]">
-    <picture>
-        <img [src]="tool.picture" aria-label="tool preview">
-    </picture>
-    <div class="tool-metadata-container">
-        <h3 class="tool-name">{{tool.name}}</h3>
-        <div class="tool-metadata-row-container">
-            <mat-icon>home</mat-icon>
-            <span>{{tool.organization.name}}</span>
-        </div>
-    </div>
-</mat-card> -->
+<!-- <picture matListAvatar>
+    <source [srcset]="inst.game.face | webp: 'small'" type="image/webp">
+    <img class="app-avatar" [src]="inst.game.face | image: 'small'" aria-label="Game preview">
+</picture> -->
+<h3 matLine>{{post.topic_title}}</h3>
+<!-- <p matLine>{{inst.game.name}}</p> -->

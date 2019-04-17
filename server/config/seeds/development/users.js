@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const testUserId = new mongoose.Types.ObjectId();
-const adminUserId = new mongoose.Types.ObjectId();
+const testUserId = '5cb7acea2d718614d81bb97e';  // new mongoose.Types.ObjectId();
+const adminUserId = '5cb7acea2d718614d81bb97f';  // new mongoose.Types.ObjectId();
 
 let users = [{
     _id: testUserId,
