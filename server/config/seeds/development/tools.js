@@ -47,7 +47,7 @@ let tools = [{
         insights into cancer and immune biology, and the mechanism of action of
         new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
-    website: 'https://iris-e-explorer.navify.com',
+    website: 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId

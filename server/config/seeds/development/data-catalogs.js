@@ -24,6 +24,17 @@ let dataCatalogs = [{
     // active: true,
     organization: sageId,
     createdBy: adminUserId
+}, {
+    _id: '5cb6a048e7bdc7740874f356',
+    name: 'PHC-IX Data Catalogue',
+    description: 'A PHC-IX Advanced Analytics data source',
+    apiType: 'CKAN',
+    picture: 'assets/images/320px-Roche_Logo.svg.png',
+    apiServerUrl: 'http://phc-ckan.aws.science.roche.com/api/3',
+    website: 'http://phc-ckan.aws.science.roche.com',
+    // active: true,
+    organization: geneId,
+    createdBy: adminUserId
 }];
 
 export {

@@ -8,6 +8,7 @@ var StateSchema = new mongoose.Schema({
         type: String
     },
     name: String,
+    data: String,
     createdAt: {
         type: Date,
         default: Date.now
