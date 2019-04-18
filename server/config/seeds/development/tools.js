@@ -11,22 +11,24 @@ let tools = [{
         communication between bench and computational scientists to accelerate
         discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: '',
+    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId
-}, {
-    _id: '5cb6a048e7bdc7740874fe42',
-    name: 'TCGA Shiny',
-    description: `An R Shiny app to explore data from The Cancer Genome Atlas
-        (TCGA). The data used has been processed with scripts from
-        https://github.com/arnijohnsen/tcga-analysis`,
-    picture: 'assets/images/320px-shinyLogo.png',
-    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
-    apiServerUrl: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
-    resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
-    organization: geneId
-}, {
+},
+// {
+//     _id: '5cb6a048e7bdc7740874fe42',
+//     name: 'TCGA Shiny',
+//     description: `An R Shiny app to explore data from The Cancer Genome Atlas
+//         (TCGA). The data used has been processed with scripts from
+//         https://github.com/arnijohnsen/tcga-analysis`,
+//     picture: 'assets/images/320px-shinyLogo.png',
+//     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+//     apiServerUrl: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+//     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
+//     organization: geneId
+// },
+{
     _id: '5cb7acb3167e4f14b29dfb1b',
     name: 'FE Lite',
     description: `A Shiny App for demonstrating features of this collaboration

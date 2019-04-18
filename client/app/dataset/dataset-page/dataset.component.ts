@@ -66,7 +66,19 @@ export class DatasetComponent implements OnInit, OnDestroy {
     }
 
     getToolsByDataset(dataset: CkanDataset): Tool[] {
-        return this.tools.filter(tool => ['TCGA Shiny'].includes(tool.name));  // FOR_DEMO_APR18
+        if (this.catalog._id === '5cb6a048e7bdc7740874fd91' &&  // Roche Data Portal
+            dataset.id === 'b9096985-1ae9-43f8-8276-3bf194c4ce59') {  // search "IMvigor Bladder 211"
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874fd91/b9096985-1ae9-43f8-8276-3bf194c4ce59
+            return this.tools.filter(tool => ['Facile Explorer'].includes(tool.name));
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            dataset.id === '6622834c-0bb8-43df-ab1d-203b0a7bc8fb') {  // IRIS Image Analysis Dataset
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/6622834c-0bb8-43df-ab1d-203b0a7bc8fb
+            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.name));
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            dataset.id === '011e7b1a-87a3-459d-baa9-49a689d261e7') {  // Picnic Health Data
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/011e7b1a-87a3-459d-baa9-49a689d261e7
+            return this.tools.filter(tool => ['RStudio', 'Jupyter'].includes(tool.name));
+        }
     }
 
     openResourceWithTool(resource: CkanDatasetResource, tool: Tool): void {
@@ -74,10 +86,22 @@ export class DatasetComponent implements OnInit, OnDestroy {
     }
 
     openDatasetWithTool(dataset: CkanDataset, tool: Tool): void {
-        if (dataset.id === 'b9096985-1ae9-43f8-8276-3bf194c4ce59') {  // FOR_DEMO_APR18
-          window.open('http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8', '_blank');
-        } else {
-          window.open(tool.website, '_blank');
+        if (this.catalog._id === '5cb6a048e7bdc7740874fd91' &&  // Roche Data Portal
+            dataset.id === 'b9096985-1ae9-43f8-8276-3bf194c4ce59') {  // search "IMvigor Bladder 211"
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874fd91/b9096985-1ae9-43f8-8276-3bf194c4ce59
+            window.open('http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8', '_blank');
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            dataset.id === '6622834c-0bb8-43df-ab1d-203b0a7bc8fb') {  // IRIS Image Analysis Dataset
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/6622834c-0bb8-43df-ab1d-203b0a7bc8fb
+            window.open('https://iris-stage.navify.com/studies', '_blank');
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            dataset.id === '011e7b1a-87a3-459d-baa9-49a689d261e7') {  // Picnic Health Data
+            // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/011e7b1a-87a3-459d-baa9-49a689d261e7
+            if (tool.name === 'RStudio') {
+                window.open('https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in', '_blank');
+            } else if (tool.name === 'Jupyter') {
+                window.open('https://ksuruli-6c8242.jh.phcaa.science.roche.com/', '_blank');
+            }
         }
     }
 }

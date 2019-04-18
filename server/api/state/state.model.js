@@ -4,9 +4,6 @@ import {
 } from './state.events';
 
 var StateSchema = new mongoose.Schema({
-    _id: {
-        type: String
-    },
     name: String,
     data: String,
     createdAt: {

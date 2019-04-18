@@ -26,7 +26,7 @@ let dataCatalogs = [{
     createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874f356',
-    name: 'PHC-IX Data Catalogue',
+    name: 'PHC-IX Data Catalog',
     description: 'A PHC-IX Advanced Analytics data source',
     apiType: 'CKAN',
     picture: 'assets/images/320px-Roche_Logo.svg.png',
