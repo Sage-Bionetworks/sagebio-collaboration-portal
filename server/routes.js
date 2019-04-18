@@ -12,6 +12,7 @@ const swaggerDocument = YAML.load(path.join(__dirname, './swagger/swagger.yaml')
 
 export default app => {
     // Insert routes below
+    app.use('/api/states', require('./api/state'));
     app.use('/api/organizations', require('./api/organization'));
     app.use('/api/data-catalogs', require('./api/data-catalog'));
     app.use('/api/tools', require('./api/tool'));

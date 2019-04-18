@@ -18,6 +18,9 @@ import {
 import {
     insights
 } from './insights';
+import {
+    states
+} from './states';
 
 module.exports = {
     organizations: organizations,
@@ -25,5 +28,6 @@ module.exports = {
     datasets: datasets,
     dataCatalogs: dataCatalogs,
     tools: tools,
-    insights: insights
+    insights: insights,
+    states: states
 };

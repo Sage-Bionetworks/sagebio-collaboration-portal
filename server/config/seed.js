@@ -8,6 +8,7 @@ import User from '../api/user/user.model';
 import Dataset from '../api/dataset/dataset.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Tool from '../api/tool/tool.model';
+import State from '../api/state/state.model';
 import Insight from '../api/insight/insight.model';
 import seeds from './seeds'
 
@@ -52,6 +53,14 @@ export default function seedDatabaseIfNeeded() {
             .then(() => Tool.create(seeds.tools))
             .then(() => console.log('finished populating tools'))
             .catch(err => console.log('error populating tools', err));
+        promises.push(promise);
+    }
+
+    if (seeds.states) {
+        let promise = State.find({}).deleteMany()
+            .then(() => State.create(seeds.states))
+            .then(() => console.log('finished populating states'))
+            .catch(err => console.log('error populating states', err));
         promises.push(promise);
     }
 

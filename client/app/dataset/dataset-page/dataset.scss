@@ -1,8 +1,8 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
+// :host {
+//   display: flex;
+//   flex-direction: column;
+//   flex-grow: 1;
+// }
 
 .dataset-content {
   display: flex;
@@ -93,4 +93,20 @@ a {
   .app-dataset-resource-open-with-button {
     width: 120px;
   }
+
+  // > div {
+  //   display: flex;
+  //   flex-flow: column nowrap;
+  //   flex-grow: 1;
+  // }
+
+  // .app-dataset-resources-list-item {
+  //   display: flex;
+  //   flex-flow: row nowrap;
+  //   align-items: center;
+  //
+  //   .app-dataset-resources-list-item-formats {
+  //     // flex-grow: 1;
+  //   }
+  // }
 }

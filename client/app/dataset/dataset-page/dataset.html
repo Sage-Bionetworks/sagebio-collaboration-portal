@@ -35,13 +35,16 @@
         <mat-card class="app-dataset-resources-card">
             <h2>Resources</h2>
             <mat-list class="app-dataset-resources-list" *ngIf="dataset.num_resources > 0; else noResources">
-                <mat-list-item *ngFor="let resource of resources">
+                <mat-list-item class="app-dataset-resources-list-item" *ngFor="let resource of resources">
                     <!-- <picture matListAvatar>
                     <source [srcset]="inst.game.face | webp: 'small'" type="image/webp">
                     <img class="app-avatar" [src]="inst.game.face | image: 'small'" aria-label="Game preview">
                 </picture> -->
                     <mat-icon matListIcon>description</mat-icon>
                     <h3 matLine>{{resource.name}}</h3>
+                    <!-- <mat-chip-list class="app-dataset-resources-list-item-formats">
+                        <mat-chip color="primary" selected>{{resource.format}}</mat-chip>
+                    </mat-chip-list> -->
                     <a mat-flat-button color="primary" class="app-dataset-resource-open-with-button" [matMenuTriggerFor]="menu" *ngIf="getToolsByResource(resource).length > 0">
                         Open With
                     </a>
