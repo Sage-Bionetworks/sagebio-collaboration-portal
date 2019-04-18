@@ -22,7 +22,7 @@ export class DataCatalogListComponent implements OnInit, AfterViewInit {
         private catalogService: DataCatalogService) {
         this.catalogs = catalogService.getDataCatalogs()
             .pipe(
-                map(catalogs => orderBy('name', 'asc', catalogs))  // TODO Set to desc after the first demo
+                map(catalogs => orderBy('name', 'asc', catalogs))
             );
     }
 

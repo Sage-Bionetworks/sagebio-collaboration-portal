@@ -2,6 +2,7 @@
 
 var app = require('../..');
 import request from 'supertest';
+import mongoose from 'mongoose';
 
 var newOrganization;
 
@@ -33,6 +34,7 @@ describe('Organization API:', function() {
       request(app)
         .post('/api/organizations')
         .send({
+          _id: new mongoose.Types.ObjectId(),
           name: 'New Organization'
         })
         .expect(201)

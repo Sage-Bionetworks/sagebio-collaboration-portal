@@ -1,7 +1,8 @@
 <mat-card *ngIf="dataset" class="dataset-container" [routerLink]="[catalog._id, dataset.id]">
     <picture>
-        <img *ngIf="!dataset.organization || !dataset.organization.image_url" src="http://via.placeholder.com/200x200" aria-label="dataset preview">
-        <img *ngIf="dataset.organization && dataset.organization.image_url" [src]="dataset.organization.image_url" aria-label="dataset preview">
+        <!-- <img *ngIf="!dataset.organization || dataset.organization.image_url === ''" [src]="catalog.organization.picture" aria-label="Dataset preview">
+        <img *ngIf="dataset.organization && dataset.organization.image_url !== ''" [src]="dataset.organization.image_url" aria-label="Dataset preview"> -->
+        <img [src]="catalog.organization.picture" aria-label="Dataset preview">
     </picture>
     <div class="dataset-metadata-container">
         <h3 class="dataset-name">{{dataset.title}}</h3>

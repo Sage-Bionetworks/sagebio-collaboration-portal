@@ -1,40 +1,56 @@
 <div *ngIf="dataset">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/datasets">keyboard_arrow_left</mat-icon>
-        <!-- <h1>{{dataset.title}}</h1> -->
         <h1>{{dataset.title}}</h1>
     </div>
 
-    <mat-card class="dataset-container">
-        <picture>
-            <img src="http://via.placeholder.com/200x200" aria-label="dataset preview">
-        </picture>
-        <div class="dataset-metadata-container">
-            <h1>{{dataset.title}}</h1>
-            <span>License: {{dataset.license_title}}.</span>
-            <!-- <span class="dataset-description">{{dataset.description}}</span> -->
-        </div>
-        <div class="dataset-actions-container">
-            <button mat-raised-button color="primary" (click)="openCkan(dataset)">Open CKAN Page</button>
-            <button mat-raised-button color="primary" (click)="openFacileExplorer(dataset)">Open in Facile Explorer</button>
-            <!-- <a mat-raised-button color="primary" target="_blank" rel="noopener noreferrer" href="{{dataset.manualUrl}}">Manual</a> -->
-        </div>
-    </mat-card>
+    <div class="dataset-content">
+        <mat-card class="dataset-card">
+            <picture>
+                <img [src]="catalog.picture" aria-label="Data catalog picture">
+            </picture>
+            <div class="dataset-metadata">
+                <h1>{{dataset.title}}</h1>
+                <div class="dataset-metadata-row">
+                    <mat-icon>home</mat-icon>
+                    <span>{{catalog.organization.name}}</span>
+                </div>
+                <div class="dataset-metadata-row">
+                    <mat-icon>folder</mat-icon>
+                    <span>{{catalog.name}}</span>
+                </div>
+                <!-- <div class="dataset-metadata-row">
+                    <mat-icon>access_time</mat-icon>
+                    <span>{{dataset.metadata_created | date}}</span>
+                </div> -->
+                <div class="dataset-metadata-description">
+                    <span>{{dataset.notes}}</span>
+                </div>
+            </div>
+            <div class="dataset-actions">
+                <a mat-raised-button color="primary" [href]="catalog.website+'/dataset/'+dataset.name" target="_blank">Open in Data Catalog</a>
+            </div>
+        </mat-card>
 
-    <mat-card class="dataset-container">
-        <mat-list class="app-dataset-resource-list">
-            <mat-list-item class="app-dataset-resource-item" *ngFor="let resource of dataset.resources">
-                <picture matListAvatar>
-                    <!-- <source [srcset]="user.face | webp: 'small'" type="image/webp"> -->
-                    <!-- <img class="app-avatar" src="" aria-label="Resource avatar"> -->
-                </picture>
-                <h3 matLine>{{resource.name}}</h3>
-                <h3 matLine>Format: {{resource.format}}</h3>
-                <!-- <h3 matLine>{{user.role}}</h3> -->
-                <!-- <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{user.name}}" matTooltipPosition="before">
-                    <mat-icon>clear</mat-icon>
-                </button> -->
-            </mat-list-item>
-        </mat-list>
-    </mat-card>
+        <mat-card class="app-dataset-resources-card">
+            <h2>Resources</h2>
+            <mat-list class="app-dataset-resources-list" *ngIf="dataset.num_resources > 0; else noResources">
+                <mat-list-item *ngFor="let resource of resources">
+                    <!-- <picture matListAvatar>
+                    <source [srcset]="inst.game.face | webp: 'small'" type="image/webp">
+                    <img class="app-avatar" [src]="inst.game.face | image: 'small'" aria-label="Game preview">
+                </picture> -->
+                    <mat-icon matListIcon>description</mat-icon>
+                    <h3 matLine>{{resource.name}}</h3>
+                    <a mat-flat-button color="primary" class="app-dataset-resource-open-with-button" [matMenuTriggerFor]="menu" *ngIf="getToolsByResource(resource).length > 0">
+                        Open With
+                    </a>
+                    <mat-menu #menu="matMenu">
+                        <a mat-menu-item *ngFor="let tool of getToolsByResource(resource)" (click)="openResourceWithTool(resource, tool)">{{tool.name}}</a>
+                    </mat-menu>
+                </mat-list-item>
+            </mat-list>
+            <ng-template #noResources>This dataset does not have resources.</ng-template>
+        </mat-card>
+    </div>
 </div>

@@ -57,3 +57,14 @@
   margin-top: 25px;
   width: 400px;
 }
+
+.app-dataset-list-metadata-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.app-dataset-list-metadata-row > mat-icon {
+  margin-right: 10px;
+}

@@ -13,6 +13,7 @@ let tools = [{
     picture: 'assets/images/320px-shinyLogo.png',
     website: '5cb6a048e7bdc7740874fd94',
     apiServerUrl: '',
+    resourceFormats: [],
     organization: geneId
 }, {
     _id: '5cb7acb3167e4f14b29dfb1b',
@@ -22,6 +23,7 @@ let tools = [{
     picture: 'assets/images/320px-shinyLogo.png',
     website: '',
     apiServerUrl: '',
+    resourceFormats: ['CSV', 'JSON', 'plain text'],
     organization: sageId
 }, {
     _id: '5cb6a048e7bdc7740874fd95',
@@ -36,6 +38,7 @@ let tools = [{
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-e-explorer.navify.com',
     apiServerUrl: '',
+    resourceFormats: [],
     organization: geneId
 }, {
     _id: '5cb6a048e7bdc7740874fd96',
@@ -46,6 +49,7 @@ let tools = [{
     picture: 'assets/images/320px-RStudio-Logo.png',
     website: 'https://www.rstudio.com',
     apiServerUrl: '',
+    resourceFormats: [],
     organization: geneId
 }, {
     _id: '5cb6a048e7bdc7740874fd97',
@@ -56,6 +60,7 @@ let tools = [{
     picture: 'assets/images/320px-Jupyter_logo.svg.png',
     website: 'https://jupyter.org',
     apiServerUrl: '',
+    resourceFormats: [],
     organization: geneId
 }, {
     _id: '5cb6a048e7bdc7740874fd98',
@@ -70,6 +75,7 @@ let tools = [{
     picture: 'assets/images/320px-PHC_IX.png',
     website: '',
     apiServerUrl: '',
+    resourceFormats: [],
     organization: geneId
 }];
 

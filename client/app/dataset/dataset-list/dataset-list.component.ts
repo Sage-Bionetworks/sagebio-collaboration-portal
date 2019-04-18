@@ -26,10 +26,11 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     private catalogFilters: Filter[] = [];
     private orderFilters: Filter[] = [];
 
-    private numDatasetsPerPage = 3;
+    private numDatasetsPerPage = 8;
     private searchData: any;
     private searchPageIndex: number;
     private searchResultCount = 0;
+    private catalogNotReached = false;
 
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
@@ -52,7 +53,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
         this.catalogService.getDataCatalogs()
             .pipe(
                 map(catalogs => {
-                    this.catalogs = orderBy('name', 'desc', catalogs);
+                    this.catalogs = orderBy('name', 'asc', catalogs);
                     console.log('catalog', this.catalogs);
                     this.catalogFilters = this.catalogs.map((c, i) => ({
                         value: c._id,
@@ -76,6 +77,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                 tap(query => {
                     // console.log('query', query);
                     this.searchData = query;
+                    this.catalogNotReached = false;
                 }),
                 switchMap(query => this.datasetService.searchDatasetsByCatalog(
                     this.catalogs.find(c => c._id === query.catalog),
@@ -86,8 +88,9 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                     .pipe(
                         catchError(err => {
                             console.log(err);
-                            this.notificationService.error('Unable to connect to Data Catalog');
+                            // this.notificationService.error('Unable to connect to Data Catalog');
                             this.clearResults();
+                            this.catalogNotReached = true;
                             return empty();
                         })
                     ))
@@ -97,6 +100,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
                 this.datasets = res.result.results;
                 this.searchResultCount = res.result.count;
                 this.searchPageIndex = 1;
+                console.log('datasets', this.datasets);
             }, err => {
                 console.log(err);
                 this.notificationService.error(err.message);

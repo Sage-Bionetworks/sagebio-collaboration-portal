@@ -9,8 +9,8 @@ export interface Tool {
     description: string;
     picture?: string;
     apiServerUrl: string;
-    webpage: string;
-    supportedFormats: string[];
+    website: string;
+    resourceFormats: string[];
     // supportedDataTyoes: string[];
     organization: Organization;
     createdAt: string;

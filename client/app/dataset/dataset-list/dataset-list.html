@@ -13,6 +13,15 @@
     <div class="app-dataset-list-content-container">
         <search-filter class="app-dataset-list-search-filter" group="searchTerms"></search-filter>
         <span class="app-dataset-list-result-count" *ngIf="searchResultCount">{{searchResultCount}} results</span>
+        <div *ngIf="catalogNotReached" class="app-dataset-list-metadata-row">
+            <mat-icon>cloud_off</mat-icon>
+            <span>This data catalog can not be reached.</span>
+        </div>
+        <!-- <div *ngIf="searchResultCount" class="app-dataset-list-metadata-row">
+            <mat-icon>storage</mat-icon>
+            <span>{{searchResultCount}} datasets</span>
+        </div> -->
+
         <div class="app-dataset-list-results">
             <dataset-view *ngFor="let dataset of datasets" [catalog]="catalog" [dataset]="dataset"></dataset-view>
         </div>

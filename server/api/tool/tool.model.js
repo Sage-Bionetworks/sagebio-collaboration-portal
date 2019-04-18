@@ -17,6 +17,9 @@ var ToolSchema = new mongoose.Schema({
     },
     picture: String,
     apiServerUrl: String,
+    resourceFormats: [{
+        type: String
+    }],
     website: String,
     organization: {
         type: mongoose.Schema.Types.ObjectId,

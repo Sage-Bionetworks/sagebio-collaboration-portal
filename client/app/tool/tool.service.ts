@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { Tool } from '../../../shared/interfaces/tool.model';
 import { ToolHealth } from '../../../shared/interfaces/tool-health.model';
 import { stringifyQuery } from '../../components/util';
+import { some, orderBy } from 'lodash/fp';
 
 
 @Injectable()
@@ -26,6 +27,14 @@ export class ToolService {
     getTool(toolId: string): Observable<Tool> {
         return this.httpClient.get<Tool>(`/api/tools/${toolId}`);
     }
+
+    // getToolsByResourceFormat(resourceFormat: string): Observable<Tool[]> {
+    //     return this.httpClient.get<Tool[]>(`/api/tools`)
+    //         .pipe(
+    //             map(tools => tools.filter(tool => some(resourceFormat, tool.resourceFormats))),
+    //             map(tools => orderBy('name', 'asc', tools))
+    //         );
+    // }
 
     // searchToolsByName(terms: Observable<string>): Observable<Tool[] | null> {
     //     return terms
