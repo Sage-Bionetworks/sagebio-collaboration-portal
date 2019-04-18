@@ -22,7 +22,7 @@ export class ToolListComponent implements OnInit, AfterViewInit {
         private toolService: ToolService) {
         this.tools = this.toolService.getTools()
             .pipe(
-                map(tools => orderBy('name', 'desc', tools))  // TODO Set to desc after the first demo
+                map(tools => orderBy('name', 'asc', tools))
             );
     }
 

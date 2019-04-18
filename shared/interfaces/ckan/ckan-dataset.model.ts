@@ -5,6 +5,7 @@ import { DataCatalog } from '../data-catalog.model';
 
 // @flow
 export interface CkanDataset {
+    id: string;
     license_title: string;
     maintainer: string;
     name: string;

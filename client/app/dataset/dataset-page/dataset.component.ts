@@ -65,7 +65,19 @@ export class DatasetComponent implements OnInit, OnDestroy {
         return x;
     }
 
+    getToolsByDataset(dataset: CkanDataset): Tool[] {
+        return this.tools.filter(tool => ['TCGA Shiny'].includes(tool.name));  // FOR_DEMO_APR18
+    }
+
     openResourceWithTool(resource: CkanDatasetResource, tool: Tool): void {
         window.open(tool.website, '_blank');
+    }
+
+    openDatasetWithTool(dataset: CkanDataset, tool: Tool): void {
+        if (dataset.id === 'b9096985-1ae9-43f8-8276-3bf194c4ce59') {  // FOR_DEMO_APR18
+          window.open('http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8', '_blank');
+        } else {
+          window.open(tool.website, '_blank');
+        }
     }
 }

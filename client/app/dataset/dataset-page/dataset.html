@@ -29,6 +29,12 @@
             </div>
             <div class="dataset-actions">
                 <a mat-raised-button color="primary" [href]="catalog.website+'/dataset/'+dataset.name" target="_blank">Open in Data Catalog</a>
+                <a mat-flat-button color="primary" [matMenuTriggerFor]="toolMenuForDataset">
+                    Open With
+                </a>
+                <mat-menu #toolMenuForDataset="matMenu">
+                    <a mat-menu-item *ngFor="let tool of getToolsByDataset(dataset)" (click)="openDatasetWithTool(dataset, tool)">{{tool.name}}</a>
+                </mat-menu>
             </div>
         </mat-card>
 
@@ -45,10 +51,10 @@
                     <!-- <mat-chip-list class="app-dataset-resources-list-item-formats">
                         <mat-chip color="primary" selected>{{resource.format}}</mat-chip>
                     </mat-chip-list> -->
-                    <a mat-flat-button color="primary" class="app-dataset-resource-open-with-button" [matMenuTriggerFor]="menu" *ngIf="getToolsByResource(resource).length > 0">
+                    <a mat-flat-button color="primary" class="app-dataset-resource-open-with-button" [matMenuTriggerFor]="toolMenuForRsc" *ngIf="getToolsByResource(resource).length > 0">
                         Open With
                     </a>
-                    <mat-menu #menu="matMenu">
+                    <mat-menu #toolMenuForRsc="matMenu">
                         <a mat-menu-item *ngFor="let tool of getToolsByResource(resource)" (click)="openResourceWithTool(resource, tool)">{{tool.name}}</a>
                     </mat-menu>
                 </mat-list-item>
