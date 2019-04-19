@@ -59,6 +59,10 @@ var all = {
             '@roche.com$',
             '@sagebase.org$'
         ]
+    },
+
+    provenance: {
+        apiServerUrl: 'localhost:8081/prov/v1'
     }
 };
 

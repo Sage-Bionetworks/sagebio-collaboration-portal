@@ -37,6 +37,7 @@
         "primus": "^7.3.2",
         "primus-emit": "^1.0.0",
         "regenerator-runtime": "^0.13.2",
+        "request": "^2.88.0",
         "serve-favicon": "^2.5.0",
         "swagger-ui-express": "^4.0.2",
         "ws": "^6.2.1",

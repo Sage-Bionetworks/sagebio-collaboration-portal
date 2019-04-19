@@ -14,18 +14,11 @@
   text-decoration: none;
 }
 
-.app-insight-list-container {
+.app-insight-list-content {
   display: flex;
   flex-flow: row nowrap;
 
-  .filter-container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 280px;
-    margin: 25px;
-  }
-
-  .results-container {
+  .app-insight-list-results {
     display: flex;
     flex-flow: row wrap;
   }

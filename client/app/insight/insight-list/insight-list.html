@@ -2,16 +2,8 @@
     <h1>Insights</h1>
 </div>
 
-<div class="app-insight-list-container">
-    <!-- <div class="filter-container">
-    <h3>Tags</h3>
-    <insight-tag-filters [filters]="tagFilters" group="tagged"></insight-tag-filters>
-
-    <h3>Order by</h3>
-    <insight-order-filters [filters]="orderFilters" group="orderedBy"></insight-order-filters>
-  </div> -->
-
-    <div class="results-container">
-        <insight-view *ngFor="let insight of insights | async" [insight]="insight"></insight-view>
+<div class="app-insight-list-content">
+    <div class="app-insight-list-results">
+        <insight-view *ngFor="let insight of insights" [insight]="insight"></insight-view>
     </div>
 </div>

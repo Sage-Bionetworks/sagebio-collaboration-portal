@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-height: 200px;
+  // min-height: 200px;
 
   img {
     display: block;
@@ -26,12 +26,19 @@
   }
 }
 
+.insight-card-footer {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+}
+
 .insight-name {
   font-size: 15px;
   line-height: 20px;
   overflow: hidden;
   box-sizing: content-box;
-  max-height: 60px;
+  height: 40px;
+  // max-height: 60px;
   font-weight: 600;
   opacity: 0.95;
   padding-top: 5px;
@@ -53,4 +60,9 @@
 
 .insight-metadata-row-container > mat-icon {
   margin-right: 10px;
+}
+
+.insight-metadata-row-container-date {
+  @extend .insight-metadata-row-container;
+  margin-bottom: 10px;
 }

@@ -1,11 +1,21 @@
 <mat-card *ngIf="insight" class="insight-container" [routerLink]="[insight._id]">
     <picture>
-        <img src="https://www.snopes.com/tachyon/2017/12/science-stock-image.png" aria-label="insight preview">
+        <img src="assets/images/320px-insight_logo.png" aria-label="Insight logo">
     </picture>
     <div class="insight-metadata-container">
         <h3 class="insight-name">{{insight.name}}</h3>
-        <div class="insight-metadata-row-container">
-            <span>Ryan</span>
+        <!-- <div class="insight-metadata-row-container-date">
+            <mat-icon>access_time</mat-icon>
+            <span>{{insight.createdAt | date}}</span>
+        </div> -->
+        <div class="insight-card-footer">
+            <div class="insight-metadata-row-container">
+                <span>Ryan</span>
+            </div>
+            <mat-chip-list>
+                <mat-chip *ngIf="insight.data" selectable="false" color="primary" selected>State</mat-chip>
+                <mat-chip *ngIf="!insight.data" selectable="false" color="accent" selected>Report</mat-chip>
+            </mat-chip-list>
         </div>
     </div>
 </mat-card>

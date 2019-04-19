@@ -3,15 +3,12 @@ import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { InsightService } from '../insight.service';
+import { StateService } from '../../state/state.service';
+import { State } from '../../../../shared/interfaces/state.model';
 import { Insight } from '../../../../shared/interfaces/insight.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-// import constants from '../../../app/app.constants';
-// import { values } from 'lodash/fp';
-// import { Filter } from '../../../components/filters/filter';
-// import { FiltersComponent } from '../../../components/filters/filters.component';
-// import { ActiveFilter } from '../../../components/filters/active-filter';
-// import { flow, keyBy, mapValues } from 'lodash/fp';
+import { orderBy } from 'lodash/fp';
 
 @Component({
     selector: 'insight-list',
@@ -19,13 +16,32 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
     styles: [require('./insight-list.scss')],
 })
 export class InsightListComponent implements OnInit, AfterViewInit {
-    private insights: Observable<Insight[]>;
+    private states: State[];
+    private reports: Insight[];
+    private insights: Insight[];
 
-    static parameters = [Router, FormBuilder, PageTitleService, InsightService];
+    static parameters = [Router, FormBuilder, PageTitleService, InsightService,
+        StateService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private insightService: InsightService) {
-        this.insights = this.insightService.getInsights();
+        private insightService: InsightService,
+        private stateService: StateService) {
+        // this.insights = this.insightService.getInsights();
+
+        const myStates = this.stateService.getStates();
+
+        combineLatest(
+            this.stateService.getStates(),
+            this.insightService.getInsights()
+        )
+            .pipe(
+                map(([states, reports]) => {
+                    this.states = states;
+                    this.reports = reports;
+                    this.insights = orderBy('createdAt', 'desc', reports.concat(states));
+                })
+            )
+            .subscribe(res => console.log('done', res));
     }
 
     ngOnInit() {
