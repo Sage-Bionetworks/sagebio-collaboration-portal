@@ -12,10 +12,18 @@ import {
 import {
     tools
 } from './tools';
+import {
+    insights
+} from './insights';
+import {
+    states
+} from './states';
 
 module.exports = {
     organizations: organizations,
     users: users,
     dataCatalogs: dataCatalogs,
-    tools: tools
+    tools: tools,
+    insights: insights,
+    states: states
 };

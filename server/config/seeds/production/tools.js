@@ -10,7 +10,7 @@ let tools = [{
         designed to support exploration of clinical trial data and facilitate
         communication between bench and computational scientists to accelerate
         discovery.`,
-    picture: 'assets/images/320px-shinyLogo.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-shinyLogo.png',
     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     apiServerUrl: '',
     resourceFormats: [],
@@ -33,7 +33,7 @@ let tools = [{
     name: 'FE Lite',
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
-    picture: 'assets/images/320px-shinyLogo.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-shinyLogo.png',
     website: '',
     apiServerUrl: '',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
@@ -48,7 +48,7 @@ let tools = [{
         biomarker scientists within Roche by providing visualized, contextual
         insights into cancer and immune biology, and the mechanism of action of
         new cancer treatments.`,
-    picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
     apiServerUrl: '',
     resourceFormats: [],
@@ -59,7 +59,7 @@ let tools = [{
     description: `RStudio is a free and open-source integrated development
         environment for R, a programming language for statistical computing
         and graphics.`,
-    picture: 'assets/images/320px-RStudio-Logo.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-RStudio-Logo.png',
     website: 'https://www.rstudio.com',
     apiServerUrl: '',
     resourceFormats: [],
@@ -70,7 +70,7 @@ let tools = [{
     description: `Project Jupyter exists to develop open-source software,
         open-standards, and services for interactive computing across dozens
         of programming languages.`,
-    picture: 'assets/images/320px-Jupyter_logo.svg.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-Jupyter_logo.svg.png',
     website: 'https://jupyter.org',
     apiServerUrl: '',
     resourceFormats: [],
@@ -85,7 +85,7 @@ let tools = [{
         cloud-based environments provide a collection of statistical
         programming and data visualization tools to support advanced analytic
         tools (RStudio Pro, RSConnect, Jupyter).`,
-    picture: 'assets/images/320px-PHC_IX.png',
+    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-PHC_IX.png',
     website: '',
     apiServerUrl: '',
     resourceFormats: [],
