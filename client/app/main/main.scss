@@ -8,8 +8,34 @@ $margin-promotion-sections-small: 15px;
 //   flex-grow: 1;
 // }
 
-.app-red {
-  background-color: coral;
+.app-main-fair-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.app-main-connecting-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  // flex-grow: 1;
+
+  > h2 {
+    margin-bottom: 5px;
+  }
+
+  .app-main-connecting-images {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+
+    > img {
+      width: 300px;
+      height: 200px;
+      padding: 20px;
+    }
+  }
 }
 
 .app-header-background {
@@ -33,7 +59,7 @@ $margin-promotion-sections-small: 15px;
     font-size: 18px;
     font-weight: 300;
     line-height: 28px;
-    margin: 15px 0 25px 0;
+    margin: 25px 0 25px 0;
   }
 }
 
@@ -65,7 +91,7 @@ $margin-promotion-sections-small: 15px;
   margin: $margin-promotion-sections 0;
 }
 
-.app-main-row .app-svg-image{
+.app-main-row .app-svg-image {
   max-width: 90%;
 }
 
