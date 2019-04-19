@@ -8,4 +8,6 @@ export interface Insight {
     description: string;
     createdAt: string;
     createdBy?: User;
+
+    data: string;  // TODO: remove
 }

@@ -1,26 +1,43 @@
 <div *ngIf="insight">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/insights">keyboard_arrow_left</mat-icon>
-        <!-- <h1>{{insight.title}}</h1> -->
         <h1>{{insight.name}}</h1>
     </div>
-    <mat-card class="insight-container">
-        <picture>
-            <img src="http://via.placeholder.com/200x200" aria-label="insight preview">
-        </picture>
-        <div class="insight-metadata-container">
-            <h1>{{insight.name}}</h1>
-            <!-- <span>License: {{insight.license_title}}.</span> -->
-            <!-- <span class="insight-description">{{insight.description}}</span> -->
-        </div>
-        <div class="insight-actions-container">
-            <button mat-raised-button color="primary" (click)="openCkan(insight)">Open CKAN Page</button>
-            <button mat-raised-button color="primary" (click)="openFacileExplorer(insight)">Open in Facile Explorer</button>
-            <!-- <a mat-raised-button color="primary" target="_blank" rel="noopener noreferrer" href="{{insight.manualUrl}}">Manual</a> -->
-        </div>
-    </mat-card>
 
-    <div class="app-markdown" Markdown>
-        {{insight.description}}
+    <div class="insight-content">
+        <mat-card class="insight-card">
+            <div class="insight-card-top">
+                <div class="insight-card-left-container">
+                    <h3>Description</h3>
+                    <div class="insight-card-description" Markdown>
+                        {{insight.description}}
+                    </div>
+                    <div class="insight-card-description-edit-button-container">
+                      <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Edit Description</a>
+                    </div>
+                    <div class="insight-card-info">
+                        <span><b>Created by:</b> Ryan</span>
+                        <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
+                        <span *ngIf="insight.data !== undefined"><b>Type:</b> State</span>
+                        <span><b>Tool:</b> FE Lite</span>
+                    </div>
+                </div>
+                <div class="insight-card-right-container">
+                    <h3>Recent Activity</h3>
+                    <div class="insight-card-prov-graph-panel">
+                        <img src="assets/images/insight-prov-graph-placeholder.png">
+                    </div>
+                    <div class="insight-card-prov-graph-actions">
+                        <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">View Full Provenance</a>
+                    </div>
+                </div>
+            </div>
+            <div class="app-insight-actions">
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Open With FE Lite</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
+                <a *ngIf="insight.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Report</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Share</a>
+            </div>
+        </mat-card>
     </div>
 </div>

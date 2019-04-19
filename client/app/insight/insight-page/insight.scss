@@ -1,64 +1,93 @@
-:host {
+.insight-content {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  flex-flow: column nowrap;
+  padding: 20px;
 }
 
-.insight-container {
+.insight-card {
   display: flex;
-  flex-flow: row; // nowrap;
-  align-items: center;
-  padding: 25px;
+  flex-flow: column nowrap;
+  // flex-grow: 1;
+  padding: 5px 25px 25px 25px;
   margin: 25px;
-}
 
-.insight-container > picture {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  padding: 25px;
+  .insight-card-top {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    // align-items: flex-start;
 
-  img {
-    display: block;
-    max-width: 200px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    align-self: center;
+
+    .insight-card-left-container {
+      display: flex;
+      flex-flow: column nowrap;
+      flex-grow: 1;
+      width: 48%;
+      min-height: 500px;
+
+      .insight-card-description {
+        flex-grow: 1;
+        // border: 1px solid #6c6c6c;
+        // min-height: 200px;
+        // margin-right: 20px;
+      }
+
+      .insight-card-description-edit-button-container {
+        display: flex;
+        flex-flow: row nowrap;
+      }
+
+      .insight-card-info {
+        display: flex;
+        flex-flow: column nowrap;
+        margin-top: 20px;
+        > span {
+          margin-bottom: 7px;
+        }
+      }
+    }
+
+    .insight-card-right-container {
+      display: flex;
+      flex-flow: column nowrap;
+      flex-grow: 1;
+      width: 52%;
+
+      .insight-card-prov-graph-panel {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #6c6c6c;
+        height: 300px;
+
+        > img {
+          width: 300px;
+        }
+      }
+
+      .insight-card-prov-graph-actions {
+        display: flex;
+        flex-flow: row nowrap;
+        // justify-content: center;
+        margin-top: 10px;
+      }
+    }
   }
-}
 
-.insight-metadata-container {
-  display: flex;
-  flex-flow: column nowrap;
-  flex-grow: 1;
-  justify-content: flex-start;
-  padding: 25px 10px;
-}
+  .app-insight-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-top: 40px;
 
-.insight-metadata-container > h1 {
-  margin-top: 0px;
-}
-
-.insight-description {
-  padding-top: 20px;
-}
-
-.insight-actions-container {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  padding: 25px 10px;
-}
-
-.insight-actions-container > button,
-a {
-  margin-bottom: 10px;
-}
-
-.app-markdown {
-  display: flex;
-  flex-flow: column wrap;
+    > a {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      padding: 0 10px;
+      margin: 0 5px;
+    }
+  }
 }
