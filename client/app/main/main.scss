@@ -12,7 +12,12 @@ $margin-promotion-sections-small: 15px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  margin: 20px 0;
+  margin: 60px 0 60px 0;
+
+  > img {
+    width: 700;
+    height: 221px;
+  }
 }
 
 .app-main-connecting-container {

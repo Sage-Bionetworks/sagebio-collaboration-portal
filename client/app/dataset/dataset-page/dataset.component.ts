@@ -13,6 +13,8 @@ import { NotificationService } from '../../../components/notification/notificati
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import { some, orderBy } from 'lodash/fp';
+import { feliteWebsite } from '../../app.constants';
+import { discourse } from '../../app.constants';
 
 @Component({
     selector: 'dataset',
@@ -55,14 +57,23 @@ export class DatasetComponent implements OnInit, OnDestroy {
                 this.dataset = dataset;
                 this.pageTitleService.title = dataset.title;
             });
+        console.log('FELITE', feliteWebsite);
+        console.log('discourse', discourse);
     }
 
     ngOnDestroy() { }
 
     // TODO: Remove, insteade generate list of compatible tool for each resrouce in ngOnInit()
     getToolsByResource(resource: CkanDatasetResource): Tool[] {
-        var x = this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
-        return x;
+        if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
+            resource.id === 'cf4b928f-06e7-4049-aa46-06a88dc36830') {  // airway.RDS
+            return this.tools.filter(tool => ['FE Lite'].includes(tool.name));
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
+            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.name));
+        } else {
+            return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
+        }
     }
 
     getToolsByDataset(dataset: CkanDataset): Tool[] {
@@ -78,11 +89,22 @@ export class DatasetComponent implements OnInit, OnDestroy {
             dataset.id === '011e7b1a-87a3-459d-baa9-49a689d261e7') {  // Picnic Health Data
             // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/011e7b1a-87a3-459d-baa9-49a689d261e7
             return this.tools.filter(tool => ['RStudio', 'Jupyter'].includes(tool.name));
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
+            dataset.id === 'fc0633f8-6a9d-4cb7-896d-186d0db19ff8') {  // Airway Smooth Muscle Cell Line RNA-seq
+            return this.tools.filter(tool => ['FE Lite'].includes(tool.name));
         }
     }
 
     openResourceWithTool(resource: CkanDatasetResource, tool: Tool): void {
-        window.open(tool.website, '_blank');
+        if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
+            resource.id === 'cf4b928f-06e7-4049-aa46-06a88dc36830') {  // airway.RDS
+            window.open(`${feliteWebsite}/felite`, '_blank');
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
+            resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
+            window.open('https://iris-stage.navify.com/studies', '_blank');
+        } else {
+            window.open(tool.website, '_blank');
+        }
     }
 
     openDatasetWithTool(dataset: CkanDataset, tool: Tool): void {
@@ -102,6 +124,9 @@ export class DatasetComponent implements OnInit, OnDestroy {
             } else if (tool.name === 'Jupyter') {
                 window.open('https://ksuruli-6c8242.jh.phcaa.science.roche.com/', '_blank');
             }
+        } else if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
+            dataset.id === 'fc0633f8-6a9d-4cb7-896d-186d0db19ff8') {
+            window.open(`${feliteWebsite}/felite`, '_blank');
         }
     }
 }
