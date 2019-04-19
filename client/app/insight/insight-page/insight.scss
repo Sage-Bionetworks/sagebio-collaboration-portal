@@ -22,11 +22,12 @@
       display: flex;
       flex-flow: column nowrap;
       flex-grow: 1;
-      width: 48%;
+      width: 50%;
       min-height: 500px;
 
       .insight-card-description {
         flex-grow: 1;
+        margin-right: 20px;
         // border: 1px solid #6c6c6c;
         // min-height: 200px;
         // margin-right: 20px;
@@ -51,7 +52,7 @@
       display: flex;
       flex-flow: column nowrap;
       flex-grow: 1;
-      width: 52%;
+      width: 50%;
 
       .insight-card-prov-graph-panel {
         display: flex;

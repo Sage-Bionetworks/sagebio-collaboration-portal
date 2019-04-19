@@ -5,7 +5,7 @@
 <div class="app-post-list-content">
     <mat-nav-list *ngIf="posts">
         <!-- (click)="goToInstance(inst)" -->
-        <mat-list-item *ngFor="let post of posts | async">
+        <mat-list-item *ngFor="let post of posts">
             <mat-icon matListIcon>message</mat-icon>
             <h3 matLine>{{post.topic_title}}</h3>
             <p mat-line>{{post.name}}</p>

@@ -5,6 +5,7 @@ import {
 
 var StateSchema = new mongoose.Schema({
     name: String,
+    description: String,
     data: String,
     createdAt: {
         type: Date,

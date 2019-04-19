@@ -16,16 +16,38 @@ import { orderBy } from 'lodash/fp';
     styles: [require('./post-list.scss')],
 })
 export class PostListComponent implements OnInit, AfterViewInit {
-    private posts: Observable<DiscoursePost[]>;
+    private posts: any[];
 
     static parameters = [Router, FormBuilder, PageTitleService, DiscussionService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private discussionService: DiscussionService) {
-        this.posts = this.discussionService.getLatestPosts();
-            // .pipe(
-            //     map(posts => orderBy('name', 'asc', posts))
-            // );
+        // this.posts = this.discussionService.getLatestPosts();
+        // .pipe(
+        //     map(posts => orderBy('name', 'asc', posts))
+        // );
+        this.posts = [{
+            topic_title: 'Tips for interpreting heatmaps in Facile Explorer',
+            name: 'Yooree'
+        }, {
+            topic_title: 'How were the expression values in the FacileAtezoDatasetv0.7.8 normalized?',
+            name: 'Kumar'
+        }, {
+            topic_title: 'Has anyone done a STAR alignment on the NSCLC RNAseq datasets? If so, are the STAR alignment log files available?',
+            name: 'Alpna'
+        }, {
+            topic_title: 'Statistician looking for help from a clinician to make sense of IMvigor Bladder Cancer image sets in IRISe!',
+            name: 'Tom'
+        }, {
+            topic_title: 'How to reproduce the PCA on TCGA breast cancer dataset?',
+            name: 'Kim'
+        }, {
+            topic_title: 'Diff express cancer indication breast/NSCLC',
+            name: 'James'
+        }, {
+            topic_title: 'Welcome to PHC-IX Collaboration Portal',
+            name: 'Thomas'
+        }];
     }
 
     ngOnInit() {

@@ -80,43 +80,46 @@ export function show(req, res) {
 
 // Creates a new State in the DB
 export function create(req, res) {
-    State.create(req.body)
-        .then(state => {
-            console.log(state);
-            var url = `${config.provenance.apiServerUrl}/activities`;
-
-            var resourceName = 'airway.RDS';
-            var resourceId = 'cf4b928f-06e7-4049-aa46-06a88dc36830';  // from CKAN
-            var resourceVersionId = 'v1';
-            var toolId = '5cb7acb3167e4f14b29dfb1b';  // from mongodb
-            var toolVersionId = 'v1';
-            var stateVersionId = 'v1';
-            var userId = '5cb7acea2d718614d81bb97f';  // adminId but could be anything for now
-
-            var body = {
-                name: `${resourceName}->${state.name}`,
-                description: state.description,
-                used: [{
-                        'targetId': resourceId,
-                        'targetVersionId': resourceVersionId
-                    },
-                    {
-                        'targetId': toolId,
-                        'targetVersionId': toolVersionId
-                    }
-                ],
-                generated: [{
-                    'targetId': state._id,
-                    'targetVersionId': stateVersionId
-                }],
-                agent: [{
-                    'agentId': userId
-                }]
-            };
-            return request.post(url).form(body);
-        })
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+  State.create(req.body)
+      .then(respondWithResult(res, 201))
+      .catch(handleError(res));
+    // State.create(req.body)
+    //     .then(state => {
+    //         console.log(state);
+    //         var url = `${config.provenance.apiServerUrl}/activities`;
+    //
+    //         var resourceName = 'airway.RDS';
+    //         var resourceId = 'cf4b928f-06e7-4049-aa46-06a88dc36830';  // from CKAN
+    //         var resourceVersionId = 'v1';
+    //         var toolId = '5cb7acb3167e4f14b29dfb1b';  // from mongodb
+    //         var toolVersionId = 'v1';
+    //         var stateVersionId = 'v1';
+    //         var userId = '5cb7acea2d718614d81bb97f';  // adminId but could be anything for now
+    //
+    //         var body = {
+    //             name: `${resourceName}->${state.name}`,
+    //             description: state.description,
+    //             used: [{
+    //                     'targetId': resourceId,
+    //                     'targetVersionId': resourceVersionId
+    //                 },
+    //                 {
+    //                     'targetId': toolId,
+    //                     'targetVersionId': toolVersionId
+    //                 }
+    //             ],
+    //             generated: [{
+    //                 'targetId': state._id,
+    //                 'targetVersionId': stateVersionId
+    //             }],
+    //             agent: [{
+    //                 'agentId': userId
+    //             }]
+    //         };
+    //         return request.post(url).form(body);
+    //     })
+    //     .then(respondWithResult(res, 201))
+    //     .catch(handleError(res));
 
 
     // return State.create(req.body)
