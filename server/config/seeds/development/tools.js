@@ -34,7 +34,9 @@ let tools = [{
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app',
+    // TODO: change website to the domain name running FE Lite.
+    // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
+    website: 'http://dev.phc.sagesandbox.org:8082/felite', // 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app',
     apiServerUrl: '',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
     organization: sageId
