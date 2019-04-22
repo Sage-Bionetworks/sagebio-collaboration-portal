@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="app-insight-actions">
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Open With FE Lite</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInFe(insight)">Open With FE Lite</a>
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
                 <a *ngIf="insight.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Report</a>
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Share</a>

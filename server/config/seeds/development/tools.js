@@ -11,7 +11,7 @@ let tools = [{
         communication between bench and computational scientists to accelerate
         discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId
@@ -34,7 +34,7 @@ let tools = [{
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: '',
+    website: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app',
     apiServerUrl: '',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
     organization: sageId
@@ -49,7 +49,7 @@ let tools = [{
         insights into cancer and immune biology, and the mechanism of action of
         new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
-    website: 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
+    website: 'https://iris-stage.navify.com/viewer/e22734db-f807-490c-9747-1bef4768040d/1',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId
@@ -60,7 +60,7 @@ let tools = [{
         environment for R, a programming language for statistical computing
         and graphics.`,
     picture: 'assets/images/320px-RStudio-Logo.png',
-    website: 'https://www.rstudio.com',
+    website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId
@@ -71,7 +71,7 @@ let tools = [{
         open-standards, and services for interactive computing across dozens
         of programming languages.`,
     picture: 'assets/images/320px-Jupyter_logo.svg.png',
-    website: 'https://jupyter.org',
+    website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
     apiServerUrl: '',
     resourceFormats: [],
     organization: geneId

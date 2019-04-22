@@ -40,7 +40,7 @@ export const discourse = {
     apiServerUrl: 'http://phc-discourse.sagesandbox.org'
 };
 
-export const feliteWebsite = 'http://dev.phc.sagesandbox.org:8082'; // process.env.FELITE_WEBSITE;
+// export const feliteWebsite = 'http://dev.phc.sagesandbox.org:8082'; // process.env.FELITE_WEBSITE;
 
 export default {
     env,
@@ -49,6 +49,6 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
-    discourse,
-    feliteWebsite
+    discourse
+    // feliteWebsite
 };

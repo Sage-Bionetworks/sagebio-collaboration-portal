@@ -81,6 +81,10 @@ export class InsightComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
+    openInFe(insight): void {
+      window.open(insight.data, '_blank');
+    }
+
     // openCkan(insight: Insight): void {
     //     console.log('Not implemented.');
     // }

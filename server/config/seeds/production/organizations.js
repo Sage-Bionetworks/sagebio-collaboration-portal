@@ -7,12 +7,12 @@ let organizations = [{
     _id: sageId,
     name: 'Sage Bionetworks',
     website: 'http://sagebionetworks.org',
-    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-SageBionetworks_LogoShape.png'
+    picture: 'assets/images/320px-SageBionetworks_LogoShape.png'
 }, {
     _id: geneId,
     name: 'Roche/Genentech',
     website: 'https://www.gene.com',
-    picture: 'http://dev.phc.sagesandbox.org/assets/images/320px-Roche_Logo.svg.png'
+    picture: 'assets/images/320px-Roche_Logo.svg.png'
 }];
 
 export {
