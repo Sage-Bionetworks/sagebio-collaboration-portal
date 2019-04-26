@@ -3,18 +3,17 @@ version: '3.2'
 services:
   phccp:
     build: .
-    image: phc-collaboration-portal
-    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:v0.2
+    image: docker.synapse.org/syn18489221/phc-collaboration-portal:v0.3
     container_name: phccp
     environment:
       NODE_ENV: production
-      PORT: '8080'
+      PORT: 8080
       MONGODB_URI: 'mongodb://mongo:27017/phccp'
       # DOMAIN: 'http://phc.sagesandbox.org'
       GOOGLE_ID: '<GOOGLE_ID>'
       GOOGLE_SECRET: '<GOOGLE_SECRET>'
     ports:
-      - '80:8080'
+      - 80:8080
     depends_on:
       - mongo
       - provenance
@@ -26,7 +25,7 @@ services:
     environment:
       MONGODB_URI: 'mongodb://mongo:27017/provDB'
     ports:
-      - '8081:8080'
+      - 8081:8080
     depends_on:
       - mongo
 
@@ -34,7 +33,7 @@ services:
     image: mongo
     container_name: 'mongo'
     ports:
-      - '27017:27017'
+      - 27017:27017
     #volumes:
     #    - mongo-data:/data/db
     #deploy:
@@ -44,13 +43,3 @@ services:
 
     #volumes:
     #    mongo-data:
-
-  felite:
-    image: docker.synapse.org/syn18489221/felite
-    container_name: felite
-    environment:
-      PHCCP_API_SERVER_URL: 'http://phccp:8080/api'  # 'http://dev.phc.sagesandbox.org/api'
-    ports:
-      - '8082:80'
-    depends_on:
-      - phccp
