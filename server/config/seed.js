@@ -5,7 +5,6 @@
 
 import Organization from '../api/organization/organization.model';
 import User from '../api/user/user.model';
-import Dataset from '../api/dataset/dataset.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Tool from '../api/tool/tool.model';
 import State from '../api/state/state.model';
@@ -29,14 +28,6 @@ export default function seedDatabaseIfNeeded() {
             .then(() => User.create(seeds.users))
             .then(() => console.log('finished populating users'))
             .catch(err => console.log('error populating users', err));
-        promises.push(promise);
-    }
-
-    if (seeds.datasets) {
-        let promise = Dataset.find({}).deleteMany()
-            .then(() => Dataset.create(seeds.datasets))
-            .then(() => console.log('finished populating datasets'))
-            .catch(err => console.log('error populating datasets', err));
         promises.push(promise);
     }
 

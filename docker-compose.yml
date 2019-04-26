@@ -49,7 +49,7 @@ services:
     image: docker.synapse.org/syn18489221/felite
     container_name: felite
     environment:
-      PHCCP_API_SERVER_URL: 'http://dev.phc.sagesandbox.org/api'
+      PHCCP_API_SERVER_URL: 'http://phccp:8080/api'  # 'http://dev.phc.sagesandbox.org/api'
     ports:
       - '8082:80'
     depends_on:
