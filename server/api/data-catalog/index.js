@@ -46,8 +46,8 @@ router.get('/', controller.index);
  *         description: A Data Catalog
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/DataCatalog'
+ *             schema:
+ *               $ref: '#/components/schemas/DataCatalog'
  *       '400':
  *         description: Invalid ID supplied
  *       '404':
@@ -75,8 +75,8 @@ router.get('/:id', controller.show);
  *         description: The Data Catalog created
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/DataCatalog'
+ *             schema:
+ *               $ref: '#/components/schemas/DataCatalog'
  *       '400':
  *         description: Invalid Data Catalog
  */
@@ -102,8 +102,8 @@ router.post('/', controller.create);
  *         description: The Data Catalog upserted
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/DataCatalog'
+ *             schema:
+ *               $ref: '#/components/schemas/DataCatalog'
  *       '400':
  *         description: Invalid Data Catalog supplied
  *       '404':
@@ -131,8 +131,8 @@ router.put('/:id', controller.upsert);
  *         description: The Data Catalog updated
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/DataCatalog'
+ *             schema:
+ *               $ref: '#/components/schemas/DataCatalog'
  *       '400':
  *         description: Invalid Data Catalog supplied
  *       '404':

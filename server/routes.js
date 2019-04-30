@@ -28,7 +28,7 @@ export default app => {
         info: {
             title: 'PHC Collaboration Portal API',
             version: '1.0.0',
-            description: 'Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks and Roche/Genentech',
+            description: 'Primary Health Care (PHC) Collaboration Portal developed by Sage Bionetworks and Roche/Genentech',
         },
         // host: 'localhost:3000',
         basePath: '/api',
@@ -46,6 +46,7 @@ export default app => {
         swaggerDefinition: swaggerDefinition,
         apis: [
             './**/api/**/index.js',
+            './**/auth/**/*.js',
             './shared/interfaces/*.ts'
             // './**/swagger/**/*.ts'
         ]

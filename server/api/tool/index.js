@@ -46,8 +46,8 @@ router.get('/', controller.index);
  *         description: A Tool
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Tool'
+ *             schema:
+ *               $ref: '#/components/schemas/Tool'
  *       '400':
  *         description: Invalid ID supplied
  *       '404':
@@ -75,8 +75,8 @@ router.get('/:id', controller.show);
  *         description: The Tool created
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Tool'
+ *             schema:
+ *               $ref: '#/components/schemas/Tool'
  *       '400':
  *         description: Invalid Tool
  */
@@ -102,8 +102,8 @@ router.post('/', controller.create);
  *         description: The Tool upserted
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Tool'
+ *             schema:
+ *               $ref: '#/components/schemas/Tool'
  *       '400':
  *         description: Invalid Tool supplied
  *       '404':
@@ -131,8 +131,8 @@ router.put('/:id', controller.upsert);
  *         description: The Tool updated
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Tool'
+ *             schema:
+ *               $ref: '#/components/schemas/Tool'
  *       '400':
  *         description: Invalid Tool supplied
  *       '404':

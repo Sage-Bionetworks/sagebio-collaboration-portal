@@ -46,8 +46,8 @@ router.get('/', controller.index);
  *         description: An Organization
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Organization'
+ *             schema:
+ *               $ref: '#/components/schemas/Organization'
  *       '400':
  *         description: Invalid ID supplied
  *       '404':
@@ -75,8 +75,8 @@ router.get('/:id', controller.show);
  *         description: The Organization created
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Organization'
+ *             schema:
+ *               $ref: '#/components/schemas/Organization'
  *       '400':
  *         description: Invalid Organization
  */
@@ -102,8 +102,8 @@ router.post('/', controller.create);
  *         description: The Organization upserted
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Organization'
+ *             schema:
+ *               $ref: '#/components/schemas/Organization'
  *       '400':
  *         description: Invalid Organization supplied
  *       '404':
@@ -131,8 +131,8 @@ router.put('/:id', controller.upsert);
  *         description: The Organization updated
  *         content:
  *           application/json:
- *         schema:
- *           $ref: '#/components/schemas/Organization'
+ *             schema:
+ *               $ref: '#/components/schemas/Organization'
  *       '400':
  *         description: Invalid Organization supplied
  *       '404':
