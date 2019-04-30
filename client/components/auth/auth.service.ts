@@ -20,10 +20,10 @@ class AuthInfo {
     }
 }
 
-const loginWithTokenResponse = (authService) => pipe(
+const loginWithTokenResponse = (authService: AuthService) => pipe(
     mergeMap((res: TokenResponse) => {
-        authService.tokenService.set(res.token, res.expiresIn);
-        return authService.userService.get();
+        authService.getTokenService().set(res.token, res.expiresIn);
+        return authService.getUserService().get();
     }),
     map(user => {
         authService.setUser(user);
@@ -35,7 +35,7 @@ const loginWithTokenResponse = (authService) => pipe(
     })
 );
 
-class AppUser implements User { }
+// class AppUser implements User { }
 
 @Injectable()
 export class AuthService {
@@ -125,7 +125,7 @@ export class AuthService {
     //     pipe(
     //         mergeMap((res: TokenResponse) => {
     //             this.tokenService.set(res.token, res.expiresIn);
-    //             return this.userService.get();
+    //             return this.userService.(get)();
     //         }),
     //         map(user => {
     //             this.setUser(user);
@@ -196,7 +196,7 @@ export class AuthService {
      * @return {Observable<User>}
      */
     changePassword(oldPassword, newPassword): Observable<User> {
-        return this.userService.changePassword({ id: this._authInfo.getValue().user._id }, oldPassword, newPassword);
+        return this.userService.changePassword(this._authInfo.getValue().user._id, oldPassword, newPassword);
     }
 
     /**
@@ -220,5 +220,13 @@ export class AuthService {
      */
     getToken(): string {
         return this.tokenService.get();
+    }
+
+    getTokenService(): TokenService {
+        return this.tokenService;
+    }
+
+    getUserService(): UserService {
+        return this.userService;
     }
 }

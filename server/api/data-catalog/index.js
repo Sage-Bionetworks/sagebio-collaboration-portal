@@ -3,11 +3,169 @@ var controller = require('./data-catalog.controller');
 
 var router = express.Router();
 
+/**
+ * @swagger
+ * /data-catalogs:
+ *   get:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Returns all data catalogs.
+ *     description: Returns all data catalogs.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: An array of Data Catalogs
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/DataCatalog'
+ */
 router.get('/', controller.index);
+
+/**
+ * @swagger
+ * /data-catalogs/{id}:
+ *   get:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Gets a data catalog by ID.
+ *     description: Gets a data catalog by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: Data Catalog ID
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '200':
+ *         description: A Data Catalog
+ *         content:
+ *           application/json:
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *       '400':
+ *         description: Invalid ID supplied
+ *       '404':
+ *         description: Data Catalog not found
+ */
 router.get('/:id', controller.show);
+
+/**
+ * @swagger
+ * /data-catalogs:
+ *   post:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Creates a data catalog.
+ *     description: Creates a data catalog.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Data Catalog to create
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *     responses:
+ *       '201':
+ *         description: The Data Catalog created
+ *         content:
+ *           application/json:
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *       '400':
+ *         description: Invalid Data Catalog
+ */
 router.post('/', controller.create);
+
+/**
+ * @swagger
+ * /data-catalogs:
+ *   put:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Upserts a data catalog in the DB at the specified ID.
+ *     description: Upserts a data catalog in the DB at the specified ID.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Data Catalog to upsert
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *     responses:
+ *       '201':
+ *         description: The Data Catalog upserted
+ *         content:
+ *           application/json:
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *       '400':
+ *         description: Invalid Data Catalog supplied
+ *       '404':
+ *         description: Data Catalog not found
+ */
 router.put('/:id', controller.upsert);
+
+/**
+ * @swagger
+ * /data-catalogs:
+ *   patch:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Updates a data catalog.
+ *     description: Updates a data catalog.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Data Catalog to update
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *     responses:
+ *       '201':
+ *         description: The Data Catalog updated
+ *         content:
+ *           application/json:
+ *         schema:
+ *           $ref: '#/components/schemas/DataCatalog'
+ *       '400':
+ *         description: Invalid Data Catalog supplied
+ *       '404':
+ *         description: Data Catalog not found
+ */
 router.patch('/:id', controller.patch);
+
+/**
+ * @swagger
+ * /data-catalogs/{id}:
+ *   delete:
+ *     tags:
+ *       - Data catalogs
+ *     summary: Deletes a data catalog by ID.
+ *     description: Deletes a data catalog by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the Data Catalog that needs to be deleted
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '204':
+ *         description: Data Catalog successfully removed
+ *       '400':
+ *         description: Invalid Data Catalog supplied
+ *       '404':
+ *         description: Data Catalog not found
+ */
 router.delete('/:id', controller.destroy);
 
 module.exports = router;

@@ -12,7 +12,10 @@ import {
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
-    name: String,
+    name: {
+      type: String,
+      required: true
+    },
     username: {
         type: String,
         lowercase: true,
@@ -35,6 +38,7 @@ var UserSchema = new Schema({
     },
     role: {
         type: String,
+        enum: ['user', 'admin'],
         default: 'user'
     },
     password: {
@@ -64,7 +68,12 @@ var UserSchema = new Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: false
+    },
+    __v: {
+        type: Number,
+        select: false
     }
 });
 

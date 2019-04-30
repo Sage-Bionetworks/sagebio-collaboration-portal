@@ -2,11 +2,9 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './data-catalog.events';
+// import { DataCatalog } from "../../../shared/interfaces/data-catalogs.model";
 
 var DataCatalogSchema = new mongoose.Schema({
-    _id: {
-        type: String
-    },
     name: {
         type: String,
         required: true
@@ -15,18 +13,27 @@ var DataCatalogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    picture: {
+        type: String,
+        default: 'https://via.placeholder.com/200x150'
+    },
+    website: {
+        type: String,
+        required: true
+    },
+    organization: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: true
+    },
     apiType: {
         type: String,
         enum: ['CKAN'],
         required: true
     },
-    picture: String,
-    apiServerUrl: String,
-    website: String,
-    organization: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Organization',
-        // required: true
+    apiServerUrl: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
@@ -35,7 +42,11 @@ var DataCatalogSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: true
+    },
+    __v: {
+        type: Number,
+        select: false
     }
 });
 

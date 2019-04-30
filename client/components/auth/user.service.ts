@@ -11,7 +11,6 @@ import {
 } from 'rxjs/operators';
 import { User } from '../../../shared/interfaces/user.model';
 import { TokenResponse } from '../../../shared/interfaces/token-response.model';
-// import { PreSignedPostURL } from '../../../shared/interfaces/pre-signed-post-url';
 
 @Injectable()
 export class UserService {
@@ -22,20 +21,20 @@ export class UserService {
         return this.httpClient.get<User[]>('/api/users/');
     }
 
-    get(user: User = { id: 'me' }): Observable<User> {
-        return this.httpClient.get<User>(`/api/users/${user.id || user._id}`);
+    get(userId = 'me'): Observable<User> {
+        return this.httpClient.get<User>(`/api/users/${userId}`);
     }
 
     create(user: User): Observable<TokenResponse> {
         return this.httpClient.post<TokenResponse>('/api/users/', user);
     }
 
-    changePassword(user: User, oldPassword: string, newPassword: string): Observable<User> {
-        return this.httpClient.put(`/api/users/${user.id || user._id}/password`, { oldPassword, newPassword });
+    changePassword(userId: string, oldPassword: string, newPassword: string): Observable<User> {
+        return this.httpClient.put<User>(`/api/users/${userId}/password`, { oldPassword, newPassword });
     }
 
     remove(user: User): Observable<User> {
-        return this.httpClient.delete(`/api/users/${user.id || user._id}`)
+        return this.httpClient.delete(`/api/users/${user._id}`)
             .pipe(
                 map(() => user)
             );

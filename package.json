@@ -39,6 +39,7 @@
         "regenerator-runtime": "^0.13.2",
         "request": "^2.88.0",
         "serve-favicon": "^2.5.0",
+        "swagger-jsdoc": "^3.2.9",
         "swagger-ui-express": "^4.0.2",
         "ws": "^6.2.1",
         "yamljs": "^0.3.0"
@@ -76,6 +77,8 @@
         "@types/chai": "^4.1.7",
         "@types/lodash": "^4.14.123",
         "@types/mocha": "^5.2.6",
+        "@types/mongodb": "^3.1.25",
+        "@types/mongoose": "^5.3.27",
         "@types/node": "^11.13.7",
         "@types/selenium-webdriver": "^4.0.0",
         "@types/sinon": "^7.0.11",
