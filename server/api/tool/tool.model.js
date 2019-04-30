@@ -4,28 +4,34 @@ import {
 } from './tool.events';
 
 var ToolSchema = new mongoose.Schema({
-    _id: {
-        type: String
-    },
     name: {
         type: String,
         required: true
     },
     description: {
         type: String,
-        required: false
+        required: true
     },
-    picture: String,
-    apiServerUrl: String,
-    resourceFormats: [{
-        type: String
-    }],
-    website: String,
+    picture: {
+        type: String,
+        default: 'https://via.placeholder.com/200x150'
+    },
+    website: {
+        type: String,
+        required: true
+    },
     organization: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization',
-        // required: true
+        required: true
     },
+    apiServerUrl: {
+        type: String,
+        required: true
+    },
+    resourceFormats: [{
+        type: String
+    }],
     createdAt: {
         type: Date,
         default: Date.now
@@ -33,7 +39,11 @@ var ToolSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: true
+    },
+    __v: {
+        type: Number,
+        select: false
     }
 });
 

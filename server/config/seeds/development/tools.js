@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { sageId, geneId } from './organizations';
+import { adminUserId } from './users';
 
 let tools = [{
     _id: '5cb6a048e7bdc7740874fd93',
@@ -12,9 +13,10 @@ let tools = [{
         discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
-    apiServerUrl: '',
+    apiServerUrl: 'plop',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 },
 // {
 //     _id: '5cb6a048e7bdc7740874fe42',
@@ -37,9 +39,10 @@ let tools = [{
     // TODO: change website to the domain name running FE Lite.
     // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
     website: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app/',
-    apiServerUrl: '',
+    apiServerUrl: 'TBA',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
-    organization: sageId
+    organization: sageId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd95',
     name: 'IRIS Enterprise Explorer',
@@ -52,9 +55,10 @@ let tools = [{
         new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-stage.navify.com/viewer/e22734db-f807-490c-9747-1bef4768040d/1',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
-    apiServerUrl: '',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd96',
     name: 'RStudio',
@@ -63,9 +67,10 @@ let tools = [{
         and graphics.`,
     picture: 'assets/images/320px-RStudio-Logo.png',
     website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
-    apiServerUrl: '',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd97',
     name: 'Jupyter',
@@ -74,9 +79,10 @@ let tools = [{
         of programming languages.`,
     picture: 'assets/images/320px-Jupyter_logo.svg.png',
     website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
-    apiServerUrl: '',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd98',
     name: 'PHC Advanced Analytics',
@@ -88,10 +94,11 @@ let tools = [{
         programming and data visualization tools to support advanced analytic
         tools (RStudio Pro, RSConnect, Jupyter).`,
     picture: 'assets/images/320px-PHC_IX.png',
-    website: '',
-    apiServerUrl: '',
+    website: 'TBA',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }];
 
 export {

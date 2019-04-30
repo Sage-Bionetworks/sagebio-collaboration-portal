@@ -38,6 +38,7 @@ export default app => {
     const swaggerOptions = {
         customSiteTitle: 'PHC Collaboration Portal API',
         customCss: '.topbar { display: none }',
+        // docExpansion: 'none'
     };
 
     // options for the swagger docs

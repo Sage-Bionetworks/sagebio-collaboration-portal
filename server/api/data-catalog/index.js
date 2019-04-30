@@ -9,8 +9,8 @@ var router = express.Router();
  *   get:
  *     tags:
  *       - Data catalogs
- *     summary: Returns all data catalogs.
- *     description: Returns all data catalogs.
+ *     summary: Returns all the Data Catalogs.
+ *     description: Returns all the Data Catalogs.
  *     produces:
  *       - application/json
  *     responses:
@@ -29,8 +29,8 @@ router.get('/', controller.index);
  *   get:
  *     tags:
  *       - Data catalogs
- *     summary: Gets a data catalog by ID.
- *     description: Gets a data catalog by ID.
+ *     summary: Gets a Data Catalog by ID.
+ *     description: Gets a Data Catalog by ID.
  *     produces:
  *       - application/json
  *     parameters:
@@ -61,8 +61,8 @@ router.get('/:id', controller.show);
  *   post:
  *     tags:
  *       - Data catalogs
- *     summary: Creates a data catalog.
- *     description: Creates a data catalog.
+ *     summary: Creates a Data Catalog.
+ *     description: Creates a Data Catalog.
  *     parameters:
  *       - in: body
  *         name: body
@@ -88,8 +88,8 @@ router.post('/', controller.create);
  *   put:
  *     tags:
  *       - Data catalogs
- *     summary: Upserts a data catalog in the DB at the specified ID.
- *     description: Upserts a data catalog in the DB at the specified ID.
+ *     summary: Upserts a Data Catalog in the DB at the specified ID.
+ *     description: Upserts a Data Catalog in the DB at the specified ID.
  *     parameters:
  *       - in: body
  *         name: body
@@ -117,8 +117,8 @@ router.put('/:id', controller.upsert);
  *   patch:
  *     tags:
  *       - Data catalogs
- *     summary: Updates a data catalog.
- *     description: Updates a data catalog.
+ *     summary: Updates a Data Catalog.
+ *     description: Updates a Data Catalog.
  *     parameters:
  *       - in: body
  *         name: body
@@ -146,8 +146,8 @@ router.patch('/:id', controller.patch);
  *   delete:
  *     tags:
  *       - Data catalogs
- *     summary: Deletes a data catalog by ID.
- *     description: Deletes a data catalog by ID.
+ *     summary: Deletes a Data Catalog by ID.
+ *     description: Deletes a Data Catalog by ID.
  *     produces:
  *       - application/json
  *     parameters:

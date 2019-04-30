@@ -34,11 +34,11 @@ export interface DataCatalog {
     _id?: string;
     name: string;
     description: string;
-    apiType: DataCatalogApiType;
-    apiServerUrl: string;
     picture: string;
     website: string;
     organization: Organization;
+    apiType: DataCatalogApiType;
+    apiServerUrl: string;
     createdAt: string;
     createdBy: User;
 }
