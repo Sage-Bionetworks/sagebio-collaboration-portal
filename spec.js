@@ -17,10 +17,13 @@ testsContext('./app/main/main.component.spec.ts');
 testsContext('./components/util.spec.ts');
 testsContext('./components/oauth-buttons/oauth-buttons.component.spec.ts');
 
-import { TestBed, getTestBed } from '@angular/core/testing';
 import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
+    TestBed,
+    getTestBed
+} from '@angular/core/testing';
+import {
+    BrowserDynamicTestingModule,
+    platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
 TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());

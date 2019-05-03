@@ -120,145 +120,131 @@ module.exports = function makeWebpackConfig(options) {
     // Initialize module
     config.module = {
         rules: [{
-            // JS LOADER
-            // Reference: https://github.com/babel/babel-loader
-            // Transpile .js files using babel-loader
-            // Compiles ES6 and ES7 into ES5 code
-            test: /\.js$/,
-            use: [{
-                loader: 'babel-loader',
-                options: {
-                    // ['babel-preset-env', {
-                    presets: [
-                        // ['babel-preset-env', {
-                        ['@babel/preset-env', {
-                            // debug: true,
-                            targets: {
-                                browsers: ['last 2 versions', 'not dead'],
-                            },
-                            debug: true,  // TODO: set to false in production
-                            modules: false
-                            // corejs: 3
-                            // useBuiltIns: 'usage'
-                        }]
-                    ],
-                    // presets: [
-                    //     ['@babel/preset-env', {
-                    //         targets: {
-                    //             browsers: ['last 2 versions', 'not dead'],
-                    //             node: '10.15.3'
-                    //         },
-                    //         // useBuiltIns: false, // or false or 'usage' or 'entry'
-                    //         // corejs: '3.0',
-                    //         debug: true,
-                    //         modules: false,
-                    //     }]
-                    // ],
-                    plugins: [
-                        // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
-                        //     "corejs": 2,
-                        // }],
-                        // ['@babel/plugin-proposal-decorators', {
-                        //     legacy: true
-                        // }],
-                        // '@babel/plugin-proposal-class-properties', // must be after decorators
-                        // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
-                        // '@babel/plugin-proposal-export-default-from',
-                        // '@babel/plugin-proposal-export-namespace-from',
-                        // '@babel/plugin-syntax-export-default-from',
-                        // '@babel/plugin-transform-async-to-generator',
-                        // '@babel/plugin-syntax-dynamic-import',
-                        // '@babel/plugin-proposal-object-rest-spread'
-                    ].concat(TEST ? ['istanbul'] : []),
+                // JS LOADER
+                // Reference: https://github.com/babel/babel-loader
+                // Transpile .js files using babel-loader
+                // Compiles ES6 and ES7 into ES5 code
+                test: /\.js$/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['@babel/preset-env', {
+                                targets: {
+                                    browsers: ['last 2 versions', 'not dead'],
+                                },
+                                debug: BUILD,
+                                modules: false
+                                // corejs: 3
+                                // useBuiltIns: 'usage'
+                            }]
+                        ],
+                        plugins: [
+                            // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
+                            //     "corejs": 2,
+                            // }],
+                            // ['@babel/plugin-proposal-decorators', {
+                            //     legacy: true
+                            // }],
+                            // '@babel/plugin-proposal-class-properties', // must be after decorators
+                            // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
+                            // '@babel/plugin-proposal-export-default-from',
+                            // '@babel/plugin-proposal-export-namespace-from',
+                            // '@babel/plugin-syntax-export-default-from',
+                            // '@babel/plugin-transform-async-to-generator',
+                            // '@babel/plugin-syntax-dynamic-import',
+                            // '@babel/plugin-proposal-object-rest-spread'
+                        ].concat(TEST ? ['istanbul'] : []),
+                    }
+                }].concat(DEV ? '@angularclass/hmr-loader' : []),
+                include: [
+                    path.resolve(__dirname, 'client/'),
+                    path.resolve(__dirname, 'server/config/environment/shared.js'),
+                    path.resolve(__dirname, 'node_modules/lodash-es/'),
+                ]
+            }, {
+                // TS LOADER
+                // Reference: https://github.com/s-panferov/awesome-typescript-loader
+                // Transpile .ts files using awesome-typescript-loader
+                test: /\.ts$/,
+                use: [{
+                    loader: 'awesome-typescript-loader',
+                    options: {
+                        tsconfig: path.resolve(__dirname, 'tsconfig.json')
+                    }
+                }].concat(DEV ? '@angularclass/hmr-loader' : []),
+                include: [
+                    path.resolve(__dirname, 'client/')
+                ]
+            },
+            // {
+            //     // ASSET LOADER
+            //     // Reference: https://github.com/webpack/file-loader
+            //     // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
+            //     // Rename the file using the asset hash
+            //     // Pass along the updated reference to your code
+            //     // You can add here any file extension you want to get copied to your output
+            //     test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
+            //     use: 'file-loader'
+            // },
+            {
+                // HTML LOADER
+                // Reference: https://github.com/webpack/raw-loader
+                // Allow loading html through js
+                test: /\.html$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: false
+                    }
                 }
-            }].concat(DEV ? '@angularclass/hmr-loader' : []),
-            include: [
-                path.resolve(__dirname, 'client/'),
-                path.resolve(__dirname, 'server/config/environment/shared.js'),
-                path.resolve(__dirname, 'node_modules/lodash-es/'),
-            ]
-        }, {
-            // TS LOADER
-            // Reference: https://github.com/s-panferov/awesome-typescript-loader
-            // Transpile .ts files using awesome-typescript-loader
-            test: /\.ts$/,
-            use: [{
-                loader: 'awesome-typescript-loader',
-                options: {
-                    tsconfig: path.resolve(__dirname, 'tsconfig.json')
-                }
-            }].concat(DEV ? '@angularclass/hmr-loader' : []),
-            include: [
-                path.resolve(__dirname, 'client/')
-            ]
-        },
-        // {
-        //     // ASSET LOADER
-        //     // Reference: https://github.com/webpack/file-loader
-        //     // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-        //     // Rename the file using the asset hash
-        //     // Pass along the updated reference to your code
-        //     // You can add here any file extension you want to get copied to your output
-        //     test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
-        //     use: 'file-loader'
-        // },
-        {
-            // HTML LOADER
-            // Reference: https://github.com/webpack/raw-loader
-            // Allow loading html through js
-            test: /\.html$/,
-            use: {
-                loader: 'html-loader',
-                options: {
-                    attrs: false
-                }
+            }, {
+                // CSS LOADER
+                // Reference: https://github.com/webpack/css-loader
+                // Allow loading css through js
+                //
+                // Reference: https://github.com/postcss/postcss-loader
+                // Postprocess your css with PostCSS plugins
+                test: /\.css$/,
+                use: [
+                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                ],
+                include: [
+                    path.resolve(__dirname, 'node_modules/bootstrap/dist/css/*.css'),
+                    path.resolve(__dirname, 'client/app/app.css')
+                ]
+            }, {
+                // SASS LOADER
+                // Reference: https://github.com/jtangelder/sass-loader
+                test: /\.(scss|sass)$/,
+                use: [
+                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader?sourceMap',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+                include: [
+                    // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
+                    path.resolve(__dirname, 'client/app/app.scss')
+                ]
+            }, {
+                // SASS LOADER
+                // Reference: https://github.com/jtangelder/sass-loader
+                test: /\.(scss|sass)$/,
+                use: [
+                    'to-string-loader?sourceMap',
+                    'css-loader?sourceMap',
+                    'postcss-loader',
+                    'sass-loader?sourceMap',
+                ],
+                include: [
+                    path.resolve(__dirname, 'client')
+                ],
+                exclude: [/app\.scss$/]
             }
-        }, {
-            // CSS LOADER
-            // Reference: https://github.com/webpack/css-loader
-            // Allow loading css through js
-            //
-            // Reference: https://github.com/postcss/postcss-loader
-            // Postprocess your css with PostCSS plugins
-            test: /\.css$/,
-            use: [
-                DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                'css-loader',
-                'postcss-loader',
-            ],
-            include: [
-                path.resolve(__dirname, 'node_modules/bootstrap/dist/css/*.css'),
-                path.resolve(__dirname, 'client/app/app.css')
-            ]
-        }, {
-            // SASS LOADER
-            // Reference: https://github.com/jtangelder/sass-loader
-            test: /\.(scss|sass)$/,
-            use: [
-                DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                'css-loader?sourceMap',
-                'postcss-loader',
-                'sass-loader',
-            ],
-            include: [
-                // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
-                path.resolve(__dirname, 'client/app/app.scss')
-            ]
-        }, {
-            // SASS LOADER
-            // Reference: https://github.com/jtangelder/sass-loader
-            test: /\.(scss|sass)$/,
-            use: [
-                'to-string-loader?sourceMap',
-                'css-loader?sourceMap',
-                'postcss-loader',
-                'sass-loader?sourceMap',
-            ],
-            include: [
-                path.resolve(__dirname, 'client')
-            ],
-            exclude: [/app\.scss$/]
-        }]
+        ]
     };
 
     //TODO: TS Instrumenter
@@ -393,7 +379,7 @@ module.exports = function makeWebpackConfig(options) {
     config.devServer = {
         host: '0.0.0.0',
         port: 80,
-        disableHostCheck: true,  // not secure
+        disableHostCheck: true, // not secure
         contentBase: './client/',
         hot: true,
         proxy: {

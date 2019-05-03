@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { sageId, geneId } from './organizations';
+import { adminUserId } from './users';
 
 let tools = [{
     _id: '5cb6a048e7bdc7740874fd93',
@@ -11,20 +12,37 @@ let tools = [{
         communication between bench and computational scientists to accelerate
         discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
-    apiServerUrl: '',
+    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+    apiServerUrl: 'plop',
     resourceFormats: [],
-    organization: geneId
-}, {
+    organization: geneId,
+    createdBy: adminUserId
+},
+// {
+//     _id: '5cb6a048e7bdc7740874fe42',
+//     name: 'TCGA Shiny',
+//     description: `An R Shiny app to explore data from The Cancer Genome Atlas
+//         (TCGA). The data used has been processed with scripts from
+//         https://github.com/arnijohnsen/tcga-analysis`,
+//     picture: 'assets/images/320px-shinyLogo.png',
+//     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+//     apiServerUrl: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+//     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
+//     organization: geneId
+// },
+{
     _id: '5cb7acb3167e4f14b29dfb1b',
     name: 'FE Lite',
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
+    // TODO: change website to the domain name running FE Lite.
+    // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
     website: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app/',
-    apiServerUrl: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app/',
+    apiServerUrl: 'TBA',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
-    organization: sageId
+    organization: sageId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd95',
     name: 'IRIS Enterprise Explorer',
@@ -36,10 +54,11 @@ let tools = [{
         insights into cancer and immune biology, and the mechanism of action of
         new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
-    website: 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
-    apiServerUrl: '',
+    website: 'https://iris-stage.navify.com/viewer/e22734db-f807-490c-9747-1bef4768040d/1',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd96',
     name: 'RStudio',
@@ -47,10 +66,11 @@ let tools = [{
         environment for R, a programming language for statistical computing
         and graphics.`,
     picture: 'assets/images/320px-RStudio-Logo.png',
-    website: 'https://www.rstudio.com',
-    apiServerUrl: '',
+    website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd97',
     name: 'Jupyter',
@@ -58,10 +78,11 @@ let tools = [{
         open-standards, and services for interactive computing across dozens
         of programming languages.`,
     picture: 'assets/images/320px-Jupyter_logo.svg.png',
-    website: 'https://jupyter.org',
-    apiServerUrl: '',
+    website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }, {
     _id: '5cb6a048e7bdc7740874fd98',
     name: 'PHC Advanced Analytics',
@@ -73,10 +94,11 @@ let tools = [{
         programming and data visualization tools to support advanced analytic
         tools (RStudio Pro, RSConnect, Jupyter).`,
     picture: 'assets/images/320px-PHC_IX.png',
-    website: '',
-    apiServerUrl: '',
+    website: 'TBA',
+    apiServerUrl: 'TBA',
     resourceFormats: [],
-    organization: geneId
+    organization: geneId,
+    createdBy: adminUserId
 }];
 
 export {
