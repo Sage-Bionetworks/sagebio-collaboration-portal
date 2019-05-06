@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../components/material/material.module';
+import { AuthGuard } from '../../components/auth/auth-guard.service';
 
 import { RouterModule, Routes } from '@angular/router';
 import { NgxMdModule } from 'ngx-md';
@@ -15,10 +16,17 @@ import { InsightComponent } from './insight-page/insight.component';
 import { InsightService } from './insight.service';
 import { SocketService } from '../../components/socket/socket.service';
 
-export const ROUTES: Routes = [
-    { path: 'insights', component: InsightListComponent, data: {} },
-    { path: 'insights/:id', component: InsightComponent, data: {} }
-];
+export const ROUTES: Routes = [{
+    path: 'insights',
+    component: InsightListComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}, {
+    path: 'insights/:id',
+    component: InsightComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}];
 
 @NgModule({
     imports: [
@@ -27,8 +35,7 @@ export const ROUTES: Routes = [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
-        NgxMdModule.forRoot(),
-        // ImageModule
+        NgxMdModule.forRoot()
     ],
     declarations: [
         InsightListComponent,

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../components/material/material.module';
+import { AuthGuard } from '../../components/auth/auth-guard.service';
 
 import { RouterModule, Routes } from '@angular/router';
 
@@ -12,9 +13,12 @@ import { PostViewComponent } from './post-view/post-view.component';
 
 import { DiscussionService } from './discussion.service';
 
-export const ROUTES: Routes = [
-    { path: 'discussion', component: PostListComponent, data: {} }
-];
+export const ROUTES: Routes = [{
+    path: 'discussion',
+    component: PostListComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}];
 
 @NgModule({
     imports: [

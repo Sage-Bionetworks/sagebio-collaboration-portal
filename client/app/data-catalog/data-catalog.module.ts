@@ -13,11 +13,19 @@ import { DataCatalogComponent } from './data-catalog-page/data-catalog.component
 
 import { DataCatalogService } from './data-catalog.service';
 import { SocketService } from '../../components/socket/socket.service';
+import { AuthGuard } from '../../components/auth/auth-guard.service';
 
-export const ROUTES: Routes = [
-    { path: 'data-catalogs', component: DataCatalogListComponent, data: {} },
-    { path: 'data-catalogs/:id', component: DataCatalogComponent, data: {} }
-];
+export const ROUTES: Routes = [{
+    path: 'data-catalogs',
+    component: DataCatalogListComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}, {
+    path: 'data-catalogs/:id',
+    component: DataCatalogComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}];
 
 @NgModule({
     imports: [

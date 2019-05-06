@@ -10,17 +10,25 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DataCatalogModule } from '../data-catalog/data-catalog.module';
 import { NotificationModule } from '../../components/notification/notification.module';
+import { AuthGuard } from '../../components/auth/auth-guard.service';
+import { SocketService } from '../../components/socket/socket.service';
 
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetViewComponent } from './dataset-view/dataset-view.component';
 import { DatasetComponent } from './dataset-page/dataset.component';
 import { DatasetService } from './dataset.service';
-import { SocketService } from '../../components/socket/socket.service';
 
-export const ROUTES: Routes = [
-    { path: 'datasets', component: DatasetListComponent, data: {} },
-    { path: 'datasets/:catalogId/:datasetId', component: DatasetComponent, data: {} }
-];
+export const ROUTES: Routes = [{
+    path: 'datasets',
+    component: DatasetListComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}, {
+    path: 'datasets/:catalogId/:datasetId',
+    component: DatasetComponent,
+    canActivate: [AuthGuard],
+    data: {}
+}];
 
 @NgModule({
     imports: [
