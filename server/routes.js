@@ -23,16 +23,42 @@ export default app => {
     app.use('/auth', require('./auth').default);
 
     // swagger definition
+    // maps to https://swagger.io/specification/#oasObject
     var swaggerDefinition = {
         openapi: '3.0.2',
         info: {
             title: 'PHC Collaboration Portal API',
             version: '1.0.0',
-            description: 'Primary Health Care (PHC) Collaboration Portal developed by Sage Bionetworks and Roche/Genentech',
+            description: `Primary Health Care (PHC) Collaboration Portal
+                developed by Sage Bionetworks and Roche/Genentech`,
+            contact: {
+                name: 'API Support',
+                url: 'https://www.synapse.org',
+                email: 'thomas.schaffter@sagebase.org'
+            },
+            license: {
+                name: 'CC BY-NC 3.0',
+                url: 'https://creativecommons.org/licenses/by-nc/3.0/'
+            }
         },
-        // host: 'localhost:3000',
-        basePath: '/api',
-        // for securityDefinitions, see https://itnext.io/setting-up-swagger-in-a-node-js-application-d3c4d7aa56d4
+        servers: [{
+            url: 'http://dev.phc.sagesandbox.org/api',
+            description: 'Development server'
+        }],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            },
+            responses: {
+                UnauthorizedError: {
+                    description: 'Access token is missing or invalid'
+                }
+            }
+        }
     };
 
     const swaggerOptions = {

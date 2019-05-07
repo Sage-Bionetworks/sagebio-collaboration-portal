@@ -21,6 +21,10 @@ var router = Router();
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/User'
+ *       '401':
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *     security:
+ *       - BearerAuth: []
  */
 router.get('/', auth.hasRole('admin'), controller.index);
 
