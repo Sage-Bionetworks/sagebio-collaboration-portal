@@ -13,6 +13,7 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 export default app => {
     // Insert routes below
+    app.use('/api/projects', require('./api/project'));
     app.use('/api/states', require('./api/state'));
     app.use('/api/organizations', require('./api/organization'));
     app.use('/api/data-catalogs', require('./api/data-catalog'));
