@@ -1,5 +1,11 @@
 # PHC Collaboration Portal
 
+
+ CI | Branch  | Build Status
+ ---|---------|-------------
+Travis | develop | [![Build Status develop branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal)
+Travis | master  | [![Build Status master branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal)
+
 Primary Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech
 
 ## Getting Started
