@@ -2,7 +2,6 @@
 
   var app = require('../..');
   import request from 'supertest';
-  import mongoose from 'mongoose';
   import User from '../user/user.model';
   import Organization from '../organization/organization.model';
 
