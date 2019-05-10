@@ -1,0 +1,106 @@
+openapi: '3.0.2'
+info:
+  version: 1.0.0
+  title: PHC Collaboration Portal - Tool API
+  description: This API must be implemented by Tools in order for them to be
+    accessible from the PHC Collaboration Portal.
+  contact:
+    name: API Support
+    url: 'https://www.synapse.org'
+  license:
+    name: CC BY-NC 3.0
+    url: https://creativecommons.org/licenses/by-nc/3.0/
+servers:
+  - url: http://petstore.swagger.io/v1
+paths:
+  /status:
+    get:
+      summary: Returns information on Tool availability and configuration.
+      operationId: getStatus
+      tags:
+        - Status
+      responses:
+        '200':
+          description: Information on Tool availability and configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceStatus'
+  /input/formats:
+    get:
+      summary: Returns supported input file formats.
+      operationId: getSupportedInputFileFormats
+      tags:
+        - Input
+      responses:
+        '200':
+          description: Supported inputfile formats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileFormat'
+  /states/:
+    post:
+      summary: Creates a new state.
+      operationId: createState
+      tags:
+        - States
+      requestBody:
+        description: Information used to create this new State.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inputFiles:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+      responses:
+        '201':
+          description: The State created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+components:
+  schemas:
+    ServiceStatus:
+      required:
+        - name
+        - description
+        - version
+        - toolApiVersion
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+        toolApiVersion:
+          type: string
+    FileFormat:
+      type: string
+      enum: ['text/plain', 'text/csv']
+    State:
+      required:
+        - name
+        - description
+        - url
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          description: URL to follow to open the State in the Tool.
+          type: string
+          format: uri
+        createdAt:
+          type: string
+          format: date-time
