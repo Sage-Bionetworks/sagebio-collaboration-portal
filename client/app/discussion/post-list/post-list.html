@@ -3,12 +3,12 @@
 </div>
 
 <div class="app-post-list-content">
-    <mat-nav-list *ngIf="posts">
+    <mat-nav-list>
         <!-- (click)="goToInstance(inst)" -->
-        <mat-list-item *ngFor="let post of posts">
+        <mat-list-item *ngFor="let post of posts | async" (click)="goToPost(post)">
             <mat-icon matListIcon>message</mat-icon>
             <h3 matLine>{{post.topic_title}}</h3>
-            <p mat-line>{{post.name}}</p>
+            <p mat-line>{{getPostUrl(post)}}</p>
             <!-- <post-view [post]="post"></post-view> -->
         </mat-list-item>
     </mat-nav-list>

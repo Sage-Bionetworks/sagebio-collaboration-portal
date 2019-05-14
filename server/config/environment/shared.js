@@ -36,7 +36,7 @@ export const datasetOrders = {
 };
 
 export const discourse = {
-    webiste: 'http://phc-discourse.sagesandbox.org',
+    website: 'http://phc-discourse.sagesandbox.org',
     apiServerUrl: 'http://phc-discourse.sagesandbox.org'
 };
 

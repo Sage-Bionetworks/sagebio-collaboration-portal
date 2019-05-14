@@ -13,6 +13,7 @@ import { DiscourseTopic } from '../../../shared/interfaces/discourse/discourse-t
 import { DiscoursePost } from '../../../shared/interfaces/discourse/discourse-post.model';
 import { DiscourseLatestPostsResponse } from '../../../shared/interfaces/discourse/discourse-latest-posts-response.model';
 import { stringifyQuery } from '../../components/util';
+import { orderBy } from 'lodash/fp';
 import { discourse } from '../../app/app.constants';
 
 @Injectable()
@@ -33,6 +34,7 @@ export class DiscussionService {
         return this.httpClient.get<DiscourseLatestPostsResponse>(req, { headers })
             .pipe(
                 map(res => res.latest_posts),
+                map(posts => orderBy('updated_at', 'desc', posts)),
                 tap(posts => console.log('posts', posts))
             );
     }

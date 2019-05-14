@@ -9,6 +9,7 @@ import { DiscoursePost } from '../../../../shared/interfaces/discourse/discourse
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
+import { discourse } from '../../app.constants';
 
 @Component({
     selector: 'post-list',
@@ -16,38 +17,13 @@ import { orderBy } from 'lodash/fp';
     styles: [require('./post-list.scss')],
 })
 export class PostListComponent implements OnInit, AfterViewInit {
-    private posts: any[];
+    private posts: Observable<DiscoursePost[]>;  // any[];
 
     static parameters = [Router, FormBuilder, PageTitleService, DiscussionService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private discussionService: DiscussionService) {
-        // this.posts = this.discussionService.getLatestPosts();
-        // .pipe(
-        //     map(posts => orderBy('name', 'asc', posts))
-        // );
-        this.posts = [{
-            topic_title: 'Tips for interpreting heatmaps in Facile Explorer',
-            name: 'Yooree'
-        }, {
-            topic_title: 'How were the expression values in the FacileAtezoDatasetv0.7.8 normalized?',
-            name: 'Kumar'
-        }, {
-            topic_title: 'Has anyone done a STAR alignment on the NSCLC RNAseq datasets? If so, are the STAR alignment log files available?',
-            name: 'Alpna'
-        }, {
-            topic_title: 'Statistician looking for help from a clinician to make sense of IMvigor Bladder Cancer image sets in IRISe!',
-            name: 'Tom'
-        }, {
-            topic_title: 'How to reproduce the PCA on TCGA breast cancer dataset?',
-            name: 'Kim'
-        }, {
-            topic_title: 'Diff express cancer indication breast/NSCLC',
-            name: 'James'
-        }, {
-            topic_title: 'Welcome to PHC-IX Collaboration Portal',
-            name: 'Thomas'
-        }];
+        this.posts = this.discussionService.getLatestPosts();
     }
 
     ngOnInit() {
@@ -55,5 +31,13 @@ export class PostListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
+    }
+
+    getPostUrl(post: DiscoursePost): string {
+        return `${discourse.website}/t/${post.topic_slug}/${post.topic_id}/${post.post_number}`;
+    }
+
+    goToPost(post: DiscoursePost): void {
+        window.open(this.getPostUrl(post), '_blank');
     }
 }
