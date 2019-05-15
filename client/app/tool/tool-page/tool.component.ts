@@ -23,7 +23,7 @@ export class ToolComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const tool$ = this.route.params.pipe(
-            switchMap(res => this.toolService.getTool(res.id))
+            switchMap(res => this.toolService.getToolBySlug(res.slug))
         );
         const toolHealth$ = tool$.pipe(
             switchMap(tool => this.toolService.getToolHealth(tool)

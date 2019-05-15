@@ -3,7 +3,8 @@ import { sageId, geneId } from './organizations';
 import { adminUserId } from './users';
 
 let tools = [{
-    _id: '5cb6a048e7bdc7740874fd93',
+    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd93'),
+    slug: 'facile-explorer',
     name: 'Facile Explorer',
     description: `A Shiny App for self-service and exploratory analytics.
         It empowers users to compute over data and is designed to enable
@@ -31,8 +32,9 @@ let tools = [{
 //     organization: geneId
 // },
 {
-    _id: '5cb7acb3167e4f14b29dfb1b',
+    _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
     name: 'FE Lite',
+    slug: 'fe-lite',
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
@@ -44,7 +46,8 @@ let tools = [{
     organization: sageId,
     createdBy: adminUserId
 }, {
-    _id: '5cb6a048e7bdc7740874fd95',
+    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd95'),
+    slug: 'iris-enterprise-explorer',
     name: 'IRIS Enterprise Explorer',
     description: `IRIS Enterprise (IRISe) is a scalable cloud-based solution
         designed to aggregate digital pathology images and derived
@@ -60,7 +63,8 @@ let tools = [{
     organization: geneId,
     createdBy: adminUserId
 }, {
-    _id: '5cb6a048e7bdc7740874fd96',
+    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd96'),
+    slug: 'rstudio',
     name: 'RStudio',
     description: `RStudio is a free and open-source integrated development
         environment for R, a programming language for statistical computing
@@ -72,7 +76,8 @@ let tools = [{
     organization: geneId,
     createdBy: adminUserId
 }, {
-    _id: '5cb6a048e7bdc7740874fd97',
+    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd97'),
+    slug: 'jupyter',
     name: 'Jupyter',
     description: `Project Jupyter exists to develop open-source software,
         open-standards, and services for interactive computing across dozens
@@ -84,7 +89,8 @@ let tools = [{
     organization: geneId,
     createdBy: adminUserId
 }, {
-    _id: '5cb6a048e7bdc7740874fd98',
+    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd98'),
+    slug: 'phcaa',
     name: 'PHC Advanced Analytics',
     description: `PHC Advanced Analytics Platform is a scalable analytics
         platform allowing users (Data Scientists, Clinical/Statistical

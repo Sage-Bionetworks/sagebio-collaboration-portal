@@ -91,6 +91,7 @@
               request(app)
                   .post('/api/tools')
                   .send({
+                      slug: 'new-slug',
                       name: 'New name',
                       description: 'New description',
                       website: 'New website',
@@ -110,6 +111,7 @@
           });
 
           it('should respond with the newly created tool', function () {
+              expect(newTool.slug).to.equal('new-slug');
               expect(newTool.name).to.equal('New name');
               expect(newTool.description).to.equal('New description');
               expect(newTool.website).to.equal('New website');
@@ -141,6 +143,7 @@
           });
 
           it('should respond with the requested tool', function () {
+              expect(tool.slug).to.equal('new-slug');
               expect(tool.name).to.equal('New name');
               expect(tool.description).to.equal('New description');
               expect(tool.website).to.equal('New website');
@@ -157,6 +160,7 @@
               request(app)
                   .put(`/api/tools/${newTool._id}`)
                   .send({
+                      slug: 'updated-slug',
                       name: 'Updated name',
                       description: 'Updated description',
                       website: 'Updated website',
@@ -180,6 +184,7 @@
           });
 
           it('should respond with the updated tool', function () {
+              expect(updatedTool.slug).to.equal('updated-slug');
               expect(updatedTool.name).to.equal('Updated name');
               expect(updatedTool.description).to.equal('Updated description');
               expect(updatedTool.website).to.equal('Updated website');
@@ -199,6 +204,7 @@
                       }
                       let tool = res.body;
 
+                      expect(tool.slug).to.equal('updated-slug');
                       expect(tool.name).to.equal('Updated name');
                       expect(tool.description).to.equal('Updated description');
                       expect(tool.website).to.equal('Updated website');
@@ -218,6 +224,10 @@
               request(app)
                   .patch(`/api/tools/${newTool._id}`)
                   .send([{
+                      op: 'replace',
+                      path: '/slug',
+                      value: 'patched-slug'
+                  }, {
                       op: 'replace',
                       path: '/name',
                       value: 'Patched name'
@@ -258,6 +268,7 @@
           });
 
           it('should respond with the patched tool', function () {
+              expect(patchedTool.slug).to.equal('patched-slug');
               expect(patchedTool.name).to.equal('Patched name');
               expect(patchedTool.description).to.equal('Patched description');
               expect(patchedTool.website).to.equal('Patched website');

@@ -10,6 +10,8 @@ import { Organization } from './organization.model';
  *       properties:
  *         _id:
  *           type: string
+ *         slug:
+ *           type: string
  *         name:
  *           type: string
  *         description:
@@ -34,6 +36,7 @@ import { Organization } from './organization.model';
  */
 export interface Tool {
     _id?: string;
+    slug: string;
     name: string;
     description: string;
     picture: string;

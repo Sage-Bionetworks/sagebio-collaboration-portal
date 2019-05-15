@@ -1,4 +1,4 @@
-<mat-card *ngIf="tool" class="tool-container" [routerLink]="[tool._id]">
+<mat-card *ngIf="tool" class="tool-container" [routerLink]="[tool.slug]">
     <picture>
         <img [src]="tool.picture" aria-label="tool preview">
     </picture>

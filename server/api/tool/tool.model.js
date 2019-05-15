@@ -4,6 +4,11 @@ import {
 } from './tool.events';
 
 var ToolSchema = new mongoose.Schema({
+    slug: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
         type: String,
         required: true
