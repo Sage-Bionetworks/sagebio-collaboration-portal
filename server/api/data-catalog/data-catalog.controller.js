@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of DataCatalogs
 export function index(req, res) {
-    return DataCatalog.find()
+    return DataCatalog.find(req.query)
         .populate('organization')
         .exec()
         .then(respondWithResult(res))

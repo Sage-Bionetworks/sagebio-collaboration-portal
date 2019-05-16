@@ -21,7 +21,7 @@ export const ROUTES: Routes = [{
     canActivate: [AuthGuard],
     data: {}
 }, {
-    path: 'data-catalogs/:id',
+    path: 'data-catalogs/:slug',
     component: DataCatalogComponent,
     canActivate: [AuthGuard],
     data: {}

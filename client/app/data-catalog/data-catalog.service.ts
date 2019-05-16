@@ -10,6 +10,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
 import { stringifyQuery } from '../../components/util';
+import { head } from 'lodash/fp';
 
 @Injectable()
 export class DataCatalogService {
@@ -23,6 +24,13 @@ export class DataCatalogService {
 
     getDataCatalog(dataCatalogId: string): Observable<DataCatalog> {
         return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${dataCatalogId}`);
+    }
+
+    getDataCatalogBySlug(slug: string): Observable<DataCatalog> {
+        return this.getDataCatalogs({ slug: slug })
+            .pipe(
+                map(catalogs => head(catalogs))
+            );
     }
 
     searchDataCatalogsByName(terms: Observable<string>): Observable<DataCatalog[] | null> {

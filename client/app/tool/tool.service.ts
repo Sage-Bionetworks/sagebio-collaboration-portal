@@ -13,7 +13,6 @@ import { ToolHealth } from '../../../shared/interfaces/tool-health.model';
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
-
 @Injectable()
 export class ToolService {
 

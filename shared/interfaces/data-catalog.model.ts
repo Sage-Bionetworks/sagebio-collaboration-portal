@@ -10,6 +10,8 @@ import { Organization } from './organization.model';
  *       properties:
  *         _id:
  *           type: string
+ *         slug:
+ *           type: string
  *         name:
  *           type: string
  *         description:
@@ -32,6 +34,7 @@ import { Organization } from './organization.model';
  */
 export interface DataCatalog {
     _id?: string;
+    slug: string;
     name: string;
     description: string;
     picture: string;
@@ -56,6 +59,6 @@ export interface DataCatalog {
  */
 export enum DataCatalogApiType {
     CKAN = 'CKAN',
-    GEN3 = 'GEN3',  // or GDC portal is theoretically (or eventually) built on top of the ‘Gen3’ framework/stack
+    GEN3 = 'GEN3',
     SYNAPSE = 'SYNAPSE'
 }

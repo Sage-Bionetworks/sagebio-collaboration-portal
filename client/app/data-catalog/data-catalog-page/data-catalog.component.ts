@@ -36,7 +36,7 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const dataCatalog = this.route.params.pipe(
-            switchMap(res => this.catalogService.getDataCatalog(res.id))
+            switchMap(res => this.catalogService.getDataCatalogBySlug(res.slug))
         );
         const catalogStats = dataCatalog.pipe(
             switchMap(catalog => this.datasetService.searchDatasetsByCatalog(catalog)

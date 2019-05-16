@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Tools
 export function index(req, res) {
-    return Tool.find()
+    return Tool.find(req.query)
         .populate('organization')
         .exec()
         .then(respondWithResult(res))

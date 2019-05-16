@@ -1,6 +1,6 @@
 <!-- [routerLink]="[catalog._id]" -->
 <!-- (click)="openCatalogWebsite(catalog.website)" -->
-<mat-card *ngIf="catalog" class="data-catalog-container" [routerLink]="[catalog._id]">
+<mat-card *ngIf="catalog" class="data-catalog-container" [routerLink]="[catalog.slug]">
     <picture>
         <img [src]="catalog.picture" aria-label="Data catalog preview">
     </picture>

@@ -5,6 +5,11 @@ import {
 // import { DataCatalog } from "../../../shared/interfaces/data-catalogs.model";
 
 var DataCatalogSchema = new mongoose.Schema({
+    slug: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
         type: String,
         required: true

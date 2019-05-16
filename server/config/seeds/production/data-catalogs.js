@@ -4,6 +4,7 @@ import { sageId, geneId } from './organizations';
 
 let dataCatalogs = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd91'),
+    slug: 'roche-data-portal',
     name: 'Roche Data Portal',  // (Beta)
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
@@ -14,6 +15,7 @@ let dataCatalogs = [{
     createdBy: adminUserId
 }, {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd92'),
+    slug: 'sage',
     name: 'Sage Catalog',
     description: 'A test instance of CKAN',
     apiType: 'CKAN',
@@ -24,6 +26,7 @@ let dataCatalogs = [{
     createdBy: adminUserId
 }, {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874f356'),
+    slug: 'phc-ix',
     name: 'PHC-IX Data Catalog',
     description: 'A PHC-IX Advanced Analytics data source',
     apiType: 'CKAN',

@@ -92,6 +92,7 @@ describe('DataCatalog API:', function () {
             request(app)
                 .post('/api/data-catalogs')
                 .send({
+                    slug: 'new-slug',
                     name: 'New name',
                     description: 'New description',
                     website: 'New website',
@@ -112,6 +113,7 @@ describe('DataCatalog API:', function () {
         });
 
         it('should respond with the newly created dataCatalog', function () {
+            expect(newDataCatalog.slug).to.equal('new-slug');
             expect(newDataCatalog.name).to.equal('New name');
             expect(newDataCatalog.description).to.equal('New description');
             expect(newDataCatalog.website).to.equal('New website');
@@ -144,6 +146,7 @@ describe('DataCatalog API:', function () {
         });
 
         it('should respond with the requested dataCatalog', function () {
+            expect(dataCatalog.slug).to.equal('new-slug');
             expect(dataCatalog.name).to.equal('New name');
             expect(dataCatalog.description).to.equal('New description');
             expect(dataCatalog.website).to.equal('New website');
@@ -161,6 +164,7 @@ describe('DataCatalog API:', function () {
             request(app)
                 .put(`/api/data-catalogs/${newDataCatalog._id}`)
                 .send({
+                    slug: 'updated-slug',
                     name: 'Updated name',
                     description: 'Updated description',
                     website: 'Updated website',
@@ -185,6 +189,7 @@ describe('DataCatalog API:', function () {
         });
 
         it('should respond with the updated dataCatalog', function () {
+            expect(updatedDataCatalog.slug).to.equal('updated-slug');
             expect(updatedDataCatalog.name).to.equal('Updated name');
             expect(updatedDataCatalog.description).to.equal('Updated description');
             expect(updatedDataCatalog.website).to.equal('Updated website');
@@ -205,6 +210,7 @@ describe('DataCatalog API:', function () {
                     }
                     let dataCatalog = res.body;
 
+                    expect(dataCatalog.slug).to.equal('updated-slug');
                     expect(dataCatalog.name).to.equal('Updated name');
                     expect(dataCatalog.description).to.equal('Updated description');
                     expect(dataCatalog.website).to.equal('Updated website');
@@ -225,6 +231,10 @@ describe('DataCatalog API:', function () {
             request(app)
                 .patch(`/api/data-catalogs/${newDataCatalog._id}`)
                 .send([{
+                    op: 'replace',
+                    path: '/slug',
+                    value: 'patched-slug'
+                }, {
                     op: 'replace',
                     path: '/name',
                     value: 'Patched name'
@@ -269,6 +279,7 @@ describe('DataCatalog API:', function () {
         });
 
         it('should respond with the patched dataCatalog', function () {
+            expect(patchedDataCatalog.slug).to.equal('patched-slug');
             expect(patchedDataCatalog.name).to.equal('Patched name');
             expect(patchedDataCatalog.description).to.equal('Patched description');
             expect(patchedDataCatalog.website).to.equal('Patched website');
