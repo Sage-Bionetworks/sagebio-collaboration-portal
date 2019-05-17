@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChildren, QueryList, forwardRef } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DiscussionService } from '../discussion.service';
 import { DiscourseCategory } from '../../../../shared/interfaces/discourse/discourse-category.model';
@@ -10,6 +10,7 @@ import { PageTitleService } from '../../../components/page-title/page-title.serv
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
 import { discourse } from '../../app.constants';
+import { QuillEditorComponent } from 'ngx-quill';
 
 @Component({
     selector: 'post-list',
@@ -17,6 +18,10 @@ import { discourse } from '../../app.constants';
     styles: [require('./post-list.scss')],
 })
 export class PostListComponent implements OnInit, AfterViewInit {
+    @ViewChild('editor') editor: QuillEditorComponent;
+    private hide = false;
+    private form: FormGroup;
+
     private posts: Observable<DiscoursePost[]>;  // any[];
 
     static parameters = [Router, FormBuilder, PageTitleService, DiscussionService];
@@ -24,10 +29,25 @@ export class PostListComponent implements OnInit, AfterViewInit {
         private pageTitleService: PageTitleService,
         private discussionService: DiscussionService) {
         this.posts = this.discussionService.getLatestPosts();
+
+        this.form = formBuilder.group({
+            editor: ['test']
+        });
     }
 
     ngOnInit() {
         this.pageTitleService.title = 'Discussion';
+
+        this.form
+            .controls
+            .editor
+            .valueChanges.pipe(
+                debounceTime(400),
+                distinctUntilChanged()
+            )
+            .subscribe((data) => {
+                console.log('native fromControl value changes with debounce', data);
+            });
     }
 
     ngAfterViewInit() {
@@ -40,4 +60,6 @@ export class PostListComponent implements OnInit, AfterViewInit {
     goToPost(post: DiscoursePost): void {
         window.open(this.getPostUrl(post), '_blank');
     }
+
+
 }
