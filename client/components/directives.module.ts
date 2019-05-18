@@ -13,19 +13,17 @@ import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 
 import { PageTitleService } from './page-title/page-title.service';
 import { FiltersModule } from './filters/filters.module';
+import { DiscussionModule } from './discussion/discussion.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        RouterModule,
+
         MaterialModule,
         AuthModule,
-        NavbarModule,
         NavbarUserButtonModule,
-        NotificationModule,
-        FooterModule,
         OAuthButtonsModule,
-
-        RouterModule,
     ],
     providers: [
         PageTitleService
@@ -34,12 +32,13 @@ import { FiltersModule } from './filters/filters.module';
         // OauthButtonsComponent,
     ],
     exports: [
+        DiscussionModule,
+        FiltersModule,
+        FooterModule,
         NavbarModule,
         NavbarUserButtonModule,
         NotificationModule,
-        FooterModule,
         OAuthButtonsModule,
-        FiltersModule
     ]
 })
 export class DirectivesModule { }

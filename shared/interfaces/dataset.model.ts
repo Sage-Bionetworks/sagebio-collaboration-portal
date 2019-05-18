@@ -1,4 +1,3 @@
-// @flow
 export interface Dataset {
     id?: string;
     _id?: string;

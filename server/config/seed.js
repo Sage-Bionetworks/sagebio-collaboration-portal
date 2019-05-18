@@ -3,9 +3,11 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+import Article from '../api/article/article.model';
 import Organization from '../api/organization/organization.model';
 import User from '../api/user/user.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
+import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
 import State from '../api/state/state.model';
 import Insight from '../api/insight/insight.model';
@@ -14,6 +16,14 @@ import seeds from './seeds'
 export default function seedDatabaseIfNeeded() {
 
     let promises = [];
+
+    if (seeds.articles) {
+        let promise = Article.find({}).deleteMany()
+            .then(() => Article.create(seeds.articles))
+            .then(() => console.log('finished populating articles'))
+            .catch(err => console.log('error populating articles', err));
+        promises.push(promise);
+    }
 
     if (seeds.organizations) {
         let promise = Organization.find({}).deleteMany()
@@ -36,6 +46,14 @@ export default function seedDatabaseIfNeeded() {
             .then(() => DataCatalog.create(seeds.dataCatalogs))
             .then(() => console.log('finished populating data catalogs'))
             .catch(err => console.log('error populating data catalogs', err));
+        promises.push(promise);
+    }
+
+    if (seeds.tags) {
+        let promise = Tag.find({}).deleteMany()
+            .then(() => Tag.create(seeds.tags))
+            .then(() => console.log('finished populating tags'))
+            .catch(err => console.log('error populating tags', err));
         promises.push(promise);
     }
 
