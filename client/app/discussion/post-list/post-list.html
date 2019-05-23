@@ -3,13 +3,21 @@
 </div>
 
 <div class="app-post-list-content">
+
+    <mat-chip-list>
+        <mat-chip *ngFor="let tag of tags">{{ tag.name }}</mat-chip>
+    </mat-chip-list>
+
+    <!-- <div class="tag-list">
+        <a *ngFor="let tag of tags" class="tag-default tag-pill">
+            {{ tag }}
+        </a>
+    </div> -->
+
+
     <form [formGroup]="form">
         {{ form.get('editor').value | json }}
-        <quill-editor
-            #editor [style.display]="hide ? 'none' : 'block'"
-            format="object"
-            (keydown.enter)="$event.stopPropagation()"
-            [formControl]="form.controls['editor']">
+        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['editor']">
         </quill-editor>
     </form>
 

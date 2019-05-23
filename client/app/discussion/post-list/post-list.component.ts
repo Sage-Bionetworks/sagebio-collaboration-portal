@@ -7,6 +7,8 @@ import { DiscourseCategory } from '../../../../shared/interfaces/discourse/disco
 import { DiscourseTopic } from '../../../../shared/interfaces/discourse/discourse-topic.model';
 import { DiscoursePost } from '../../../../shared/interfaces/discourse/discourse-post.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { Tag } from '../../../../shared/interfaces/tag.model';
+import { TagService } from '../../../components/discussion/tag.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
 import { discourse } from '../../app.constants';
@@ -21,18 +23,24 @@ export class PostListComponent implements OnInit, AfterViewInit {
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
-
     private posts: Observable<DiscoursePost[]>;  // any[];
 
-    static parameters = [Router, FormBuilder, PageTitleService, DiscussionService];
+    private tags: Tag[] = [];
+
+    static parameters = [Router, FormBuilder, PageTitleService, DiscussionService,
+        TagService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private discussionService: DiscussionService) {
+        private discussionService: DiscussionService,
+        private tagService: TagService) {
         this.posts = this.discussionService.getLatestPosts();
 
         this.form = formBuilder.group({
             editor: ['test']
         });
+
+        this.tagService.getTags()
+            .subscribe(tags => this.tags = tags);
     }
 
     ngOnInit() {

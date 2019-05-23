@@ -9,6 +9,8 @@ services:
       NODE_ENV: production
       PORT: 8080
       MONGODB_URI: 'mongodb://mongo:27017/phccp'
+      # MONGODB_USER: ''
+      # MONGODB_PASS: ''
       # DOMAIN: 'http://phc.sagesandbox.org'
       GOOGLE_ID: '<GOOGLE_ID>'
       GOOGLE_SECRET: '<GOOGLE_SECRET>'

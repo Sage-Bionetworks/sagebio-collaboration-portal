@@ -66,6 +66,16 @@ var all = {
     }
 };
 
+// Add MongoDB credentials if specified
+Object.assign(all.mongo.options,
+    process.env.MONGODB_USER ? {
+        user: process.env.MONGODB_USER
+    } : null,
+    process.env.MONGODB_PASS ? {
+        pass: process.env.MONGODB_PASS
+    } : null
+);
+
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
