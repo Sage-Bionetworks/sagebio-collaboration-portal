@@ -4,13 +4,15 @@
  */
 
 import Article from '../api/article/article.model';
-import Organization from '../api/organization/organization.model';
-import User from '../api/user/user.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
+import Insight from '../api/insight/insight.model';
+import Organization from '../api/organization/organization.model';
+import Project from '../api/project/project.model';
+import State from '../api/state/state.model';
 import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
-import State from '../api/state/state.model';
-import Insight from '../api/insight/insight.model';
+import User from '../api/user/user.model';
+
 import seeds from './seeds'
 
 export default function seedDatabaseIfNeeded() {
@@ -25,6 +27,22 @@ export default function seedDatabaseIfNeeded() {
         promises.push(promise);
     }
 
+    if (seeds.dataCatalogs) {
+        let promise = DataCatalog.find({}).deleteMany()
+            .then(() => DataCatalog.create(seeds.dataCatalogs))
+            .then(() => console.log('finished populating data catalogs'))
+            .catch(err => console.log('error populating data catalogs', err));
+        promises.push(promise);
+    }
+
+    if (seeds.insights) {
+        let promise = Insight.find({}).deleteMany()
+            .then(() => Insight.create(seeds.insights))
+            .then(() => console.log('finished populating insights'))
+            .catch(err => console.log('error populating insights', err));
+        promises.push(promise);
+    }
+
     if (seeds.organizations) {
         let promise = Organization.find({}).deleteMany()
             .then(() => Organization.create(seeds.organizations))
@@ -33,19 +51,19 @@ export default function seedDatabaseIfNeeded() {
         promises.push(promise);
     }
 
-    if (seeds.users) {
-        let promise = User.find({}).deleteMany()
-            .then(() => User.create(seeds.users))
-            .then(() => console.log('finished populating users'))
-            .catch(err => console.log('error populating users', err));
+    if (seeds.projects) {
+        let promise = Project.find({}).deleteMany()
+            .then(() => Project.create(seeds.projects))
+            .then(() => console.log('finished populating projects'))
+            .catch(err => console.log('error populating projects', err));
         promises.push(promise);
     }
 
-    if (seeds.dataCatalogs) {
-        let promise = DataCatalog.find({}).deleteMany()
-            .then(() => DataCatalog.create(seeds.dataCatalogs))
-            .then(() => console.log('finished populating data catalogs'))
-            .catch(err => console.log('error populating data catalogs', err));
+    if (seeds.states) {
+        let promise = State.find({}).deleteMany()
+            .then(() => State.create(seeds.states))
+            .then(() => console.log('finished populating states'))
+            .catch(err => console.log('error populating states', err));
         promises.push(promise);
     }
 
@@ -65,19 +83,11 @@ export default function seedDatabaseIfNeeded() {
         promises.push(promise);
     }
 
-    if (seeds.states) {
-        let promise = State.find({}).deleteMany()
-            .then(() => State.create(seeds.states))
-            .then(() => console.log('finished populating states'))
-            .catch(err => console.log('error populating states', err));
-        promises.push(promise);
-    }
-
-    if (seeds.insights) {
-        let promise = Insight.find({}).deleteMany()
-            .then(() => Insight.create(seeds.insights))
-            .then(() => console.log('finished populating insights'))
-            .catch(err => console.log('error populating insights', err));
+    if (seeds.users) {
+        let promise = User.find({}).deleteMany()
+            .then(() => User.create(seeds.users))
+            .then(() => console.log('finished populating users'))
+            .catch(err => console.log('error populating users', err));
         promises.push(promise);
     }
 

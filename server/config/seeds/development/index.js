@@ -13,6 +13,9 @@ import {
     organizations
 } from './organizations'
 import {
+    projects
+} from './projects'
+import {
     states
 } from './states';
 import {
@@ -30,6 +33,7 @@ module.exports = {
     dataCatalogs: dataCatalogs,
     insights: insights,
     organizations: organizations,
+    projects: projects,
     states: states,
     tags: tags,
     tools: tools,

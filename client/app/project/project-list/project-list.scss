@@ -1,0 +1,15 @@
+.app-project-item,
+.app-project-item:hover {
+  text-decoration: none;
+}
+
+.app-project-list-content {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 20px;
+
+  .app-project-list-results {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}

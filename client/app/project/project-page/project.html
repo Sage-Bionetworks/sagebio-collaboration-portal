@@ -1,0 +1,35 @@
+<div *ngIf="project">
+    <div class="app-primary-header">
+        <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
+        <h1>{{project.name}}</h1>
+    </div>
+
+    <div class="project-content">
+        <mat-card class="project-card">
+            <picture>
+                <img [src]="project.picture" aria-label="Data project preview">
+            </picture>
+            <div class="project-metadata">
+                <h1>{{project.name}}</h1>
+                <!-- <div class="project-metadata-row">
+                    <mat-icon>home</mat-icon>
+                    <span>{{project.organization.name}}</span>
+                </div> -->
+                <!-- <div *ngIf="projectHealth && projectHealth.version" class="data-catalog-metadata-row">
+                    <mat-icon>storage</mat-icon>
+                    <span>Version {{projectHealth.version}}</span>
+                </div>
+                <div *ngIf="!projectHealth.version" class="project-metadata-row">
+                    <mat-icon>cloud_off</mat-icon>
+                    <span>This project can not be reached.</span>
+                </div> -->
+                <div class="project-metadata-description">
+                    <span>{{project.description}}</span>
+                </div>
+            </div>
+            <!-- <div class="project-actions">
+                <a mat-raised-button color="primary" [href]="project.website" target="_blank">Open Project</a>
+            </div> -->
+        </mat-card>
+    </div>
+</div>

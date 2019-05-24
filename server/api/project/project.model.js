@@ -12,6 +12,10 @@ var ProjectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    picture: {
+        type: String,
+        default: 'https://via.placeholder.com/200x150'
+    },
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,0 +1,9 @@
+<div class="app-primary-header">
+    <h1>Projects</h1>
+</div>
+
+<div class="app-project-list-content">
+    <div class="app-project-list-results">
+        <project-view *ngFor="let project of projects | async" [project]="project"></project-view>
+    </div>
+</div>

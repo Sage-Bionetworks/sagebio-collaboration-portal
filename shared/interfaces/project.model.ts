@@ -13,6 +13,8 @@ import { User } from './user.model';
  *           type: string
  *         description:
  *           type: string
+ *         picture:
+ *           type: string
  *         public:
  *           type: boolean
  *         createdAt:
@@ -25,6 +27,7 @@ export interface Project {
     _id?: string;
     name: string;
     description: string;
+    picture: string;
     public: boolean;
     createdAt: string;
     createdBy: User;
