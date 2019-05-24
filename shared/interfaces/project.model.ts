@@ -13,14 +13,6 @@ import { User } from './user.model';
  *           type: string
  *         description:
  *           type: string
- *         members:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/User'
- *         admins:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/User'
  *         public:
  *           type: boolean
  *         createdAt:
@@ -33,8 +25,6 @@ export interface Project {
     _id?: string;
     name: string;
     description: string;
-    members: User[];
-    admins: User[];
     public: boolean;
     createdAt: string;
     createdBy: User;
