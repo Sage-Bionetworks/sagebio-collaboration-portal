@@ -1,0 +1,19 @@
+.app-project-create-card {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 40px;
+
+  .app-project-create-card-form {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 20px;
+  }
+
+  .app-project-create-form-field {
+    margin-bottom: 10px;
+  }
+
+  .app-project-create-form-actions {
+    margin-top: 20px;
+  }
+}

@@ -1,9 +1,18 @@
-<div class="app-primary-header">
-    <h1>Projects</h1>
-</div>
+<div *ngIf="!createNewProject; else showNewProjectForm">
+    <div class="app-primary-header">
+        <h1>Projects</h1>
+    </div>
 
-<div class="app-project-list-content">
-    <div class="app-project-list-results">
-        <project-view *ngFor="let project of projects | async" [project]="project"></project-view>
+    <div class="app-project-list-content">
+        <div class="app-project-list-results">
+            <project-view *ngFor="let project of projects | async" [project]="project"></project-view>
+        </div>
+        <div class="app-project-list-actions">
+            <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="createNewProject=true" aria-label="Create project">Create a New Project</a>
+        </div>
     </div>
 </div>
+
+<ng-template #showNewProjectForm>
+    <project-create (newProject)="onNewProject($event)" (close)="createNewProject=false"></project-create>
+</ng-template>

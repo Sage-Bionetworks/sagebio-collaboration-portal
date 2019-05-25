@@ -67,6 +67,7 @@ describe('Project API:', function () {
                 .send({
                     name: 'New name',
                     description: 'New description',
+                    visibility: 'Private',
                     createdBy: user._id.toString()
                 })
                 .expect(201)
@@ -83,6 +84,7 @@ describe('Project API:', function () {
         it('should respond with the newly created project', function () {
             expect(newProject.name).to.equal('New name');
             expect(newProject.description).to.equal('New description');
+            expect(newProject.visibility).to.equal('Private');
             expect(newProject.createdBy).to.equal(user._id.toString());
         });
     });
@@ -111,6 +113,7 @@ describe('Project API:', function () {
         it('should respond with the requested project', function () {
             expect(project.name).to.equal('New name');
             expect(project.description).to.equal('New description');
+            expect(project.visibility).to.equal('Private');
             expect(project.createdBy).to.equal(user._id.toString());
         });
     });
@@ -124,6 +127,7 @@ describe('Project API:', function () {
                 .send({
                     name: 'Updated name',
                     description: 'Updated description',
+                    visibility: 'Public',
                     createdBy: anotherUser._id.toString()
                 })
                 .expect(200)
@@ -144,6 +148,7 @@ describe('Project API:', function () {
         it('should respond with the updated project', function () {
             expect(updatedProject.name).to.equal('Updated name');
             expect(updatedProject.description).to.equal('Updated description');
+            expect(updatedProject.visibility).to.equal('Public');
             expect(updatedProject.createdBy).to.equal(anotherUser._id.toString());
         });
 
@@ -160,6 +165,7 @@ describe('Project API:', function () {
 
                     expect(project.name).to.equal('Updated name');
                     expect(project.description).to.equal('Updated description');
+                    expect(project.visibility).to.equal('Public');
                     expect(project.createdBy).to.equal(anotherUser._id.toString());
 
                     done();
@@ -181,6 +187,10 @@ describe('Project API:', function () {
                         op: 'replace',
                         path: '/description',
                         value: 'Patched description'
+                    }, {
+                        op: 'replace',
+                        path: '/visibility',
+                        value: 'Public'
                     }, {
                         op: 'replace',
                         path: '/createdBy',
@@ -205,6 +215,7 @@ describe('Project API:', function () {
         it('should respond with the patched project', function () {
             expect(patchedProject.name).to.equal('Patched name');
             expect(patchedProject.description).to.equal('Patched description');
+            expect(patchedProject.visibility).to.equal('Public');
             expect(patchedProject.createdBy).to.equal(anotherUser._id.toString());
         });
     });

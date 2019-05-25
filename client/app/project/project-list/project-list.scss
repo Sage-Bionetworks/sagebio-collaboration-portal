@@ -5,11 +5,22 @@
 
 .app-project-list-content {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   margin: 20px;
 
   .app-project-list-results {
     display: flex;
     flex-flow: row wrap;
+  }
+
+  .app-project-list-actions {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+
+  .app-project-list-new-project {
+    margin-top: 25px;
+    width: 400px;
   }
 }

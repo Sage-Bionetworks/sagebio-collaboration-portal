@@ -12,6 +12,24 @@ export const gitBranch = process.env.gitBranch;
 export const ckanApiBaseUrl = 'http://54.166.200.47/api/3';
 // export const ckanApiBaseUrl = 'http://data.roche.com/api/3';
 
+
+export const models = {
+    project: {
+        name: {
+            minlength: 3,
+            maxlength: 30
+        },
+        description: {
+            minlength: 5,
+            maxlength: 50
+        },
+        visibility: {
+            values: ['Private', 'Public'],
+            default: 'Private'
+        }
+    }
+};
+
 export const datasetOrders = {
     // ALPHA: {  // Sorting by title doesn't seem to work
     //     value: 'title asc',
@@ -49,6 +67,8 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
-    discourse
+    discourse,
     // feliteWebsite
+
+    models
 };

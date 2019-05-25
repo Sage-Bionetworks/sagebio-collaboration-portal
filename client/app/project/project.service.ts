@@ -25,4 +25,8 @@ export class ProjectService {
     getProject(projectId: string): Observable<Project> {
         return this.httpClient.get<Project>(`/api/projects/${projectId}`);
     }
+
+    create(project: Project): Observable<Project> {
+        return this.httpClient.post<Project>('/api/projects/', project);
+    }
 }

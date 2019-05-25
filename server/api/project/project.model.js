@@ -2,19 +2,31 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './project.events';
+import config from '../../config/environment';
 
 var ProjectSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: config.models.project.name.minlength,
+        maxlength: config.models.project.name.maxlength
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        minlength: config.models.project.description.minlength,
+        maxlength: config.models.project.description.maxlength
     },
     picture: {
         type: String,
         default: 'https://via.placeholder.com/200x150'
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: config.models.project.visibility.values,
+        default: config.models.project.visibility.default
     },
     createdAt: {
         type: Date,
@@ -22,8 +34,7 @@ var ProjectSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     __v: {
         type: Number,

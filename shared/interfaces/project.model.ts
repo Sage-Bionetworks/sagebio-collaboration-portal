@@ -15,8 +15,8 @@ import { User } from './user.model';
  *           type: string
  *         picture:
  *           type: string
- *         public:
- *           type: boolean
+ *         visibility:
+ *           $ref: '#/components/schemas/ProjectVisibility'
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -28,7 +28,22 @@ export interface Project {
     name: string;
     description: string;
     picture: string;
-    public: boolean;
+    visibility: ProjectVisibility;
     createdAt: string;
     createdBy: User;
+}
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ProjectVisibility:
+ *       type: string
+ *       enum:
+ *         - Public
+ *         - Private
+ */
+export enum ProjectVisibility {
+    PUBLIC = 'Public',
+    PRIVATE = 'Private'
 }
