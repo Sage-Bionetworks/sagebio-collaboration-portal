@@ -6,12 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
 
 import { MaterialModule } from '../../components/material/material.module';
+import { MessagingModule } from '../../components/messaging/messaging.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
 
 import { PostListComponent } from './post-list/post-list.component';
 import { PostViewComponent } from './post-view/post-view.component';
+// import { MessageComponent } from '../../components/discussion/message/message.component';
 
-import { DiscussionService } from '../../components/discussion/discussion.service';
+// import { DiscussionModule } from '../../components/discussion/discussion.module';
 
 export const ROUTES: Routes = [{
     path: 'discussion',
@@ -26,6 +28,7 @@ export const ROUTES: Routes = [{
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
+        MessagingModule,
         RouterModule.forChild(ROUTES),
         QuillModule.forRoot({
             modules: {
@@ -39,7 +42,6 @@ export const ROUTES: Routes = [{
         PostViewComponent
     ],
     providers: [
-        DiscussionService
     ],
     exports: [
         // ToolListComponent,

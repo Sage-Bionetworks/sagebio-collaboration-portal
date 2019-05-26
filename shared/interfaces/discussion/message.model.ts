@@ -1,4 +1,4 @@
-import { User } from '../user.model';
+import { UserProfile } from '../user-profile.model';
 import { Tag } from './tag.model';
 
 export interface Message {
@@ -8,5 +8,5 @@ export interface Message {
     body: string;
     tags: Tag[];
     createdAt: string;
-    createdBy: User;
+    createdBy: UserProfile;
 }

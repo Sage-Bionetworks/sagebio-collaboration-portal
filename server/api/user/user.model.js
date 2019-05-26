@@ -86,7 +86,9 @@ UserSchema
     .virtual('profile')
     .get(() => ({
         name: this.name,
-        role: this.role
+        username: this.username,
+        picture: this.picture,
+        role: this.role,
     }));
 
 // Non-sensitive info we'll be putting in the token
@@ -286,4 +288,8 @@ UserSchema.methods = {
 };
 
 registerEvents(UserSchema);
-export default mongoose.model('User', UserSchema);
+
+var User = mongoose.model('User', UserSchema);
+User.profile = 'name username picture role';
+
+export default User;

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AvatarModule } from 'ng2-avatar';
 import { MaterialModule } from '../../components/material/material.module';
-import { DiscussionService } from './discussion.service';
+import { MessagingService } from './messaging.service';
+import { MessageComponent } from './message/message.component';
 import { TagService } from './tag.service';
 
 @NgModule({
@@ -10,12 +12,17 @@ import { TagService } from './tag.service';
         CommonModule,
         RouterModule,
         MaterialModule,
+        AvatarModule
     ],
     providers: [
-        DiscussionService,
+        MessagingService,
         TagService
     ],
-    declarations: [],
-    exports: []
+    declarations: [
+        MessageComponent
+    ],
+    exports: [
+        MessageComponent
+    ]
 })
-export class DiscussionModule { }
+export class MessagingModule { }

@@ -13,7 +13,7 @@ import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 
 import { PageTitleService } from './page-title/page-title.service';
 import { FiltersModule } from './filters/filters.module';
-import { DiscussionModule } from './discussion/discussion.module';
+import { MessagingModule } from './messaging/messaging.module';
 
 @NgModule({
     imports: [
@@ -32,9 +32,9 @@ import { DiscussionModule } from './discussion/discussion.module';
         // OauthButtonsComponent,
     ],
     exports: [
-        DiscussionModule,
         FiltersModule,
         FooterModule,
+        MessagingModule,
         NavbarModule,
         NavbarUserButtonModule,
         NotificationModule,

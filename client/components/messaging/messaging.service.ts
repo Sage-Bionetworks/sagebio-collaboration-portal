@@ -13,7 +13,7 @@ import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
 @Injectable()
-export class DiscussionService {
+export class MessagingService {
 
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }

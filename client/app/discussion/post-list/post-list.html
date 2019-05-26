@@ -30,4 +30,6 @@
             <!-- <post-view [post]="post"></post-view> -->
         </mat-list-item>
     </mat-nav-list>
+
+    <message *ngFor="let message of posts | async" [message]="message"></message>
 </div>

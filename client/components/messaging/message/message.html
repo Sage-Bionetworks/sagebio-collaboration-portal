@@ -1,0 +1,19 @@
+<div class="app-message">
+    <div class="app-message-header">
+        <div class="app-message-header-avatar">
+            <picture *ngIf="message.createdBy.picture; else letterAvatar">
+                <img class="app-avatar-small" [src]="message.createdBy.picture" aria-label="User picture">
+            </picture>
+            <ng-template #letterAvatar>
+                <avatar class="app-avatar-small" size="50" background="#e87629" [name]="message.createdBy.username" displayType="circle"></avatar>
+            </ng-template>
+        </div>
+        <div class="app-message-header-metadata">
+
+        </div>
+        <div class="app-message-header-actions">
+        </div>
+    </div>
+    <div class="app-message-body">
+    </div>
+</div>

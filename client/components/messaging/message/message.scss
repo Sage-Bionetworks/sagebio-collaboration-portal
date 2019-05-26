@@ -1,0 +1,30 @@
+.app-message {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0;
+  margin: 0;
+
+  .app-message-header {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #cccccc;
+
+    .app-message-header-avatar {
+
+    }
+
+    .app-message-header-metadata {
+
+    }
+
+    .app-message-header-actions {
+
+    }
+  }
+
+  .app-message-body {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #e6e6e6;
+  }
+}
