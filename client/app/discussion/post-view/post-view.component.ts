@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { DiscussionService } from '../discussion.service';
-import { DiscoursePost } from '../../../../shared/interfaces/discourse/discourse-post.model';
+
+import { DiscussionService } from '../../../components/discussion/discussion.service';
+import { Message } from '../../../../shared/interfaces/discussion/message.model';
 
 @Component({
     selector: 'post-view',
@@ -10,7 +11,7 @@ import { DiscoursePost } from '../../../../shared/interfaces/discourse/discourse
     styles: [require('./post-view.scss')],
 })
 export class PostViewComponent {
-    @Input() private post: DiscoursePost;
+    @Input() private post: Message;
 
     static parameters = [Router];
     constructor(private router: Router) { }

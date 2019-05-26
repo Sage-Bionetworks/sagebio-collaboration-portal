@@ -7,10 +7,10 @@ import {
     feLiteTagId
 } from './tags';
 
-let articles = [{
+let messages = [{
     slug: 'about-tools',
     title: 'Which tools can be used for gene expression analysis?',
-    body: '',
+    body: 'a body',
     tags: [
         toolTagId
     ],
@@ -18,7 +18,7 @@ let articles = [{
 }, {
     slug: 'about-fe-lite',
     title: 'How to open a file in FE Lite?',
-    body: '',
+    body: 'another body',
     tags: [
         toolTagId,
         feLiteTagId
@@ -27,5 +27,5 @@ let articles = [{
 }];
 
 export {
-    articles
+    messages
 };

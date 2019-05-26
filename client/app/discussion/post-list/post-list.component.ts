@@ -2,12 +2,10 @@ import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChild
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { DiscussionService } from '../discussion.service';
-import { DiscourseCategory } from '../../../../shared/interfaces/discourse/discourse-category.model';
-import { DiscourseTopic } from '../../../../shared/interfaces/discourse/discourse-topic.model';
-import { DiscoursePost } from '../../../../shared/interfaces/discourse/discourse-post.model';
+import { DiscussionService } from '../../../components/discussion/discussion.service';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { Tag } from '../../../../shared/interfaces/tag.model';
+import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Tag } from '../../../../shared/interfaces/discussion/tag.model';
 import { TagService } from '../../../components/discussion/tag.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
@@ -23,7 +21,7 @@ export class PostListComponent implements OnInit, AfterViewInit {
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
-    private posts: Observable<DiscoursePost[]>;  // any[];
+    private posts: Observable<Message[]>;  // any[];
 
     private tags: Tag[] = [];
 
@@ -33,7 +31,9 @@ export class PostListComponent implements OnInit, AfterViewInit {
         private pageTitleService: PageTitleService,
         private discussionService: DiscussionService,
         private tagService: TagService) {
-        this.posts = this.discussionService.getLatestPosts();
+
+        this.posts = this.discussionService.getMessages();
+        // this.posts = this.discussionService.getLatestPosts();
 
         this.form = formBuilder.group({
             editor: ['test']
@@ -61,13 +61,11 @@ export class PostListComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
     }
 
-    getPostUrl(post: DiscoursePost): string {
-        return `${discourse.website}/t/${post.topic_slug}/${post.topic_id}/${post.post_number}`;
-    }
-
-    goToPost(post: DiscoursePost): void {
-        window.open(this.getPostUrl(post), '_blank');
-    }
-
-
+    // getPostUrl(post: DiscoursePost): string {
+    //     return `${discourse.website}/t/${post.topic_slug}/${post.topic_id}/${post.post_number}`;
+    // }
+    //
+    // goToPost(post: DiscoursePost): void {
+    //     window.open(this.getPostUrl(post), '_blank');
+    // }
 }

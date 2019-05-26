@@ -1,9 +1,6 @@
 /*eslint no-process-env:0*/
 
 import {
-    articles
-} from './articles';
-import {
     dataCatalogs
 } from './data-catalogs';
 import {
@@ -29,7 +26,6 @@ import {
 } from './users';
 
 module.exports = {
-    articles: articles,
     dataCatalogs: dataCatalogs,
     insights: insights,
     organizations: organizations,

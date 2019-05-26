@@ -1,12 +1,12 @@
 /**
- * Article model events
+ * Message model events
  */
 
 import {EventEmitter} from 'events';
-var ArticleEvents = new EventEmitter();
+var MessageEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ArticleEvents.setMaxListeners(0);
+MessageEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -15,19 +15,19 @@ var events = {
 };
 
 // Register the event emitter to the model events
-function registerEvents(Article) {
+function registerEvents(Message) {
   for(var e in events) {
     let event = events[e];
-    Article.post(e, emitEvent(event));
+    Message.post(e, emitEvent(event));
   }
 }
 
 function emitEvent(event) {
   return function(doc) {
-    ArticleEvents.emit(event + ':' + doc._id, doc);
-    ArticleEvents.emit(event, doc);
+    MessageEvents.emit(event + ':' + doc._id, doc);
+    MessageEvents.emit(event, doc);
   };
 }
 
 export {registerEvents};
-export default ArticleEvents;
+export default MessageEvents;

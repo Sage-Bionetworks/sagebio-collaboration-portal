@@ -3,9 +3,9 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
-import Article from '../api/article/article.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Insight from '../api/insight/insight.model';
+import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
 import State from '../api/state/state.model';
@@ -18,14 +18,6 @@ import seeds from './seeds'
 export default function seedDatabaseIfNeeded() {
 
     let promises = [];
-
-    if (seeds.articles) {
-        let promise = Article.find({}).deleteMany()
-            .then(() => Article.create(seeds.articles))
-            .then(() => console.log('finished populating articles'))
-            .catch(err => console.log('error populating articles', err));
-        promises.push(promise);
-    }
 
     if (seeds.dataCatalogs) {
         let promise = DataCatalog.find({}).deleteMany()
@@ -40,6 +32,14 @@ export default function seedDatabaseIfNeeded() {
             .then(() => Insight.create(seeds.insights))
             .then(() => console.log('finished populating insights'))
             .catch(err => console.log('error populating insights', err));
+        promises.push(promise);
+    }
+
+    if (seeds.messages) {
+        let promise = Message.find({}).deleteMany()
+            .then(() => Message.create(seeds.messages))
+            .then(() => console.log('finished populating messages'))
+            .catch(err => console.log('error populating messages', err));
         promises.push(promise);
     }
 

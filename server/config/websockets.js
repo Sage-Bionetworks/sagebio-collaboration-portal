@@ -7,8 +7,9 @@ import primusEmit from 'primus-emit';
 
 const registerFunctions = [
     // Insert sockets below
+    require('../api/reply/reply.socket').register,
+    require('../api/message/message.socket').register,
     require('../api/tag/tag.socket').register,
-    require('../api/article/article.socket').register,
     require('../api/project/project.socket').register,
     require('../api/state/state.socket').register,
     require('../api/organization/organization.socket').register,

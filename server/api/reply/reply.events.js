@@ -1,0 +1,33 @@
+/**
+ * Reply model events
+ */
+
+import {EventEmitter} from 'events';
+var ReplyEvents = new EventEmitter();
+
+// Set max event listeners (0 == unlimited)
+ReplyEvents.setMaxListeners(0);
+
+// Model events
+var events = {
+  save: 'save',
+  remove: 'remove'
+};
+
+// Register the event emitter to the model events
+function registerEvents(Reply) {
+  for(var e in events) {
+    let event = events[e];
+    Reply.post(e, emitEvent(event));
+  }
+}
+
+function emitEvent(event) {
+  return function(doc) {
+    ReplyEvents.emit(event + ':' + doc._id, doc);
+    ReplyEvents.emit(event, doc);
+  };
+}
+
+export {registerEvents};
+export default ReplyEvents;

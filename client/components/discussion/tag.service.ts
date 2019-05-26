@@ -8,7 +8,7 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Tag } from '../../../shared/interfaces/tag.model';
+import { Tag } from '../../../shared/interfaces/discussion/tag.model';
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 

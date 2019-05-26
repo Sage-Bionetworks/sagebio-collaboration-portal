@@ -11,7 +11,7 @@ import { AuthGuard } from '../../components/auth/auth-guard.service';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostViewComponent } from './post-view/post-view.component';
 
-import { DiscussionService } from './discussion.service';
+import { DiscussionService } from '../../components/discussion/discussion.service';
 
 export const ROUTES: Routes = [{
     path: 'discussion',

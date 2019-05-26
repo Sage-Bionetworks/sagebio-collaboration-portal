@@ -8,7 +8,7 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Article } from '../../../shared/interfaces/article.model';
+import { Message } from '../../../shared/interfaces/discussion/message.model';
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
@@ -18,7 +18,7 @@ export class DiscussionService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getArticles(query?: {}): Observable<Article[]> {
-        return this.httpClient.get<Article[]>(`/api/articles${stringifyQuery(query)}`);
+    getMessages(query?: {}): Observable<Message[]> {
+        return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
     }
 }
