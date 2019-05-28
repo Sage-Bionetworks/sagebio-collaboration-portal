@@ -2,27 +2,31 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
+import { QuillModule } from 'ngx-quill';
 import { MaterialModule } from '../../components/material/material.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
-import { TagService } from './tag.service';
+import { MessageNewComponent } from './message-new/message-new.component';
+import { TagService } from '../tag/tag.service';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
         MaterialModule,
-        AvatarModule
+        AvatarModule,
+        QuillModule
     ],
     providers: [
-        MessagingService,
-        TagService
+        MessagingService
     ],
     declarations: [
-        MessageComponent
+        MessageComponent,
+        MessageNewComponent
     ],
     exports: [
-        MessageComponent
+        MessageComponent,
+        MessageNewComponent
     ]
 })
 export class MessagingModule { }

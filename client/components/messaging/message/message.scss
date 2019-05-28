@@ -2,29 +2,72 @@
   display: flex;
   flex-flow: column nowrap;
   padding: 0;
-  margin: 0;
+  margin: 0 0 10px 0;
 
   .app-message-header {
     display: flex;
     flex-flow: row nowrap;
-    background-color: #cccccc;
+    border-width: 1px;
+    border-style: solid;
 
     .app-message-header-avatar {
-
+      padding: 8px;
     }
 
     .app-message-header-metadata {
-
+      display: flex;
+      flex-flow: column nowrap;
+      flex-grow: 1;
+      padding: 8px;
     }
 
     .app-message-header-actions {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: stretch;
+      position: relative;
+      height: 32px;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 8px;
 
+      // mat-icon {
+      //   font-size: 18px;
+      // }
     }
   }
 
   .app-message-body {
     display: flex;
     flex-flow: column nowrap;
-    background-color: #e6e6e6;
   }
+
+  .app-message-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 42px;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .border-right {
+    border-right-width: 1px;
+    border-right-style: solid;
+  }
+
+  .centered ::ng-deep .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // .center-line {
+  //   position: absolute;
+  //   top: 20px;
+  //   height: 2px;
+  //   right: 0;
+  //   left: 0;
+  //   background: red;
+  // }
 }

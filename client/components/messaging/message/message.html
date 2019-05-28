@@ -9,9 +9,27 @@
             </ng-template>
         </div>
         <div class="app-message-header-metadata">
-
+            <span>{{ message.createdBy.username }}</span>
+            <span>{{ message.createdAt | date: 'shortTime' }}</span>
         </div>
         <div class="app-message-header-actions">
+            <a mat-button class="app-message-btn border-right centered" matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread">
+                <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
+            </a>
+            <a mat-button class="app-message-btn border-right centered" matTooltip="Star message" [matTooltipPosition]="tooltipPosition" aria-label="Star message">
+                <mat-icon aria-label="Icon of a star outline">star_outline</mat-icon>
+            </a>
+            <a mat-button [matMenuTriggerFor]="moreActionsMenu" class="app-message-btn centered" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
+                <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+            </a>
+            <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+                <button mat-menu-item aria-label="Edit message" (click)="editMessage()">
+                    <span>Edit message</span>
+                </button>
+                <button mat-menu-item aria-label="Delete message" (click)="deleteMessage()">
+                    <span class="app-message-delete-btn-label">Delete message</span>
+                </button>
+            </mat-menu>
         </div>
     </div>
     <div class="app-message-body">

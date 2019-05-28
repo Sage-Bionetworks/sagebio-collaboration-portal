@@ -74,6 +74,7 @@ export function index(req, res) {
 // Gets a single Message from the DB
 export function show(req, res) {
     return Message.findById(req.params.id)
+        .populate('createdBy', User.profile)
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))

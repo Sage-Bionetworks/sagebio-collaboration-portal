@@ -1,0 +1,11 @@
+@import "./message/message-theme";
+
+@mixin messaging-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  @include message-theme($theme);
+}
