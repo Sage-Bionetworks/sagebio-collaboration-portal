@@ -4,15 +4,6 @@ import {
 } from './message.events';
 
 var MessageSchema = new mongoose.Schema({
-    slug: {
-        type: String,
-        required: false,
-        unique: false
-    },
-    title: {
-        type: String,
-        required: false
-    },
     body: {
         type: String,
         required: true
