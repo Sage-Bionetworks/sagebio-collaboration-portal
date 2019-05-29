@@ -1,5 +1,5 @@
-import { UserProfile } from '../user-profile.model';
-import { Tag } from './tag.model';
+import { UserProfile } from './user-profile.model';
+import { Tag } from '../tag.model';
 
 export interface Message {
     id_?: string;
