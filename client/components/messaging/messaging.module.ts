@@ -15,7 +15,12 @@ import { TagService } from '../tag/tag.service';
         RouterModule,
         MaterialModule,
         AvatarModule,
-        QuillModule
+        QuillModule.forRoot({
+            modules: {
+                // syntax: true,
+                // toolbar: [...]
+            }
+        }),
     ],
     providers: [
         MessagingService

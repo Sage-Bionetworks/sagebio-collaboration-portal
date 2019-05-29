@@ -24,12 +24,11 @@
     .app-message-header-actions {
       display: flex;
       flex-flow: row nowrap;
-      align-items: stretch;
-      position: relative;
-      height: 32px;
-      border-width: 1px;
-      border-style: solid;
-      border-radius: 8px;
+      justify-content: flex-end;
+      // position: relative;
+      // height: 32px;
+      // border-width: 1px;
+      // border-style: solid;
 
       // mat-icon {
       //   font-size: 18px;
@@ -40,27 +39,38 @@
   .app-message-body {
     display: flex;
     flex-flow: column nowrap;
+    padding: 8px;
+    border-width: 1px;
+    border-style: solid;
   }
 
-  .app-message-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 42px;
-    border-radius: 0;
-    padding: 0;
+  .ql-container {
+    border: 0;
   }
 
-  .border-right {
-    border-right-width: 1px;
-    border-right-style: solid;
+  .ql-editor {
+    // padding: 0;
   }
 
-  .centered ::ng-deep .mat-button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  // .app-message-btn {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   min-width: 42px;
+  //   border-radius: 0;
+  //   padding: 0;
+  // }
+
+  // .border-right {
+  //   border-right-width: 1px;
+  //   border-right-style: solid;
+  // }
+
+  // .centered ::ng-deep .mat-button-wrapper {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
 
   // .center-line {
   //   position: absolute;

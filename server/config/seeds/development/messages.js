@@ -10,7 +10,7 @@ import {
 let messages = [{
     slug: 'about-tools',
     title: 'Which tools can be used for gene expression analysis?',
-    body: 'a body',
+    body: `{\"ops\":[{\"insert\":\"a body\\n\"}]}`,
     tags: [
         toolTagId
     ],
@@ -18,7 +18,7 @@ let messages = [{
 }, {
     slug: 'about-fe-lite',
     title: 'How to open a file in FE Lite?',
-    body: 'another body',
+    body: `{\"ops\":[{\"insert\":\"another body\\n\"}]}`,
     tags: [
         toolTagId,
         feLiteTagId

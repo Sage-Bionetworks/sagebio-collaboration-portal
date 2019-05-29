@@ -21,4 +21,8 @@ export class MessagingService {
     getMessages(query?: {}): Observable<Message[]> {
         return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
     }
+
+    createMessage(message: Message): Observable<Message> {
+        return this.httpClient.post<Message>('/api/messages/', message);
+    }
 }

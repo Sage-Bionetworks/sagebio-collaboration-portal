@@ -3,12 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { QuillModule } from 'ngx-quill';
 
 import { MaterialModule } from '../../components/material/material.module';
 import { MessagingModule } from '../../components/messaging/messaging.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
-
 import { PostListComponent } from './post-list/post-list.component';
 import { PostViewComponent } from './post-view/post-view.component';
 // import { MessageComponent } from '../../components/discussion/message/message.component';
@@ -29,13 +27,7 @@ export const ROUTES: Routes = [{
         ReactiveFormsModule,
         MaterialModule,
         MessagingModule,
-        RouterModule.forChild(ROUTES),
-        QuillModule.forRoot({
-            modules: {
-                // syntax: true,
-                // toolbar: [...]
-            }
-        }),
+        RouterModule.forChild(ROUTES)
     ],
     declarations: [
         PostListComponent,

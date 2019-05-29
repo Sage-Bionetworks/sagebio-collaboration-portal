@@ -1,13 +1,7 @@
-@import './message/message-theme';
-@import './message-new/message-new-theme';
-
-@mixin messaging-theme($theme) {
+@mixin message-new-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
-
-  @include message-theme($theme);
-  @include message-new-theme($theme);
 }

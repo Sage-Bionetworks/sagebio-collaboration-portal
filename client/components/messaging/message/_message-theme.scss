@@ -14,14 +14,14 @@
 
     .app-message-header-actions {
       border-color: #cccccc;
+    }
 
-      .border-right {
-        border-right-color: #cccccc;
-      }
+    .app-message-body {
+      border-color: #cccccc;
+    }
+
+    .app-message-delete-btn-label {
+      color: #ce375c;
     }
   }
-}
-
-.app-message-delete-btn-label {
-  color: #ce375c;
 }

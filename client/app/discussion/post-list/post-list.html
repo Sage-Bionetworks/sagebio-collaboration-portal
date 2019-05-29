@@ -14,22 +14,6 @@
         </a>
     </div> -->
 
-
-    <form [formGroup]="form">
-        {{ form.get('editor').value | json }}
-        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['editor']">
-        </quill-editor>
-    </form>
-
-    <mat-nav-list>
-        <!-- (click)="goToInstance(inst)" -->
-        <mat-list-item *ngFor="let post of posts | async">
-            <mat-icon matListIcon>message</mat-icon>
-            <h3 matLine>{{post.title}}</h3>
-            <!-- <p mat-line>{{getPostUrl(post)}}</p> -->
-            <!-- <post-view [post]="post"></post-view> -->
-        </mat-list-item>
-    </mat-nav-list>
-
     <message *ngFor="let message of posts | async" [message]="message"></message>
+    <message-new></message-new>
 </div>

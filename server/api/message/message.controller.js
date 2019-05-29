@@ -83,7 +83,14 @@ export function show(req, res) {
 
 // Creates a new Message in the DB
 export function create(req, res) {
-    return Message.create(req.body)
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            let message = req.body;
+            message.createdBy = user._id;
+            return Message.create(message);
+        })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }

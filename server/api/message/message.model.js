@@ -6,12 +6,12 @@ import {
 var MessageSchema = new mongoose.Schema({
     slug: {
         type: String,
-        required: true,
-        unique: true
+        required: false,
+        unique: false
     },
     title: {
         type: String,
-        required: true
+        required: false
     },
     body: {
         type: String,
