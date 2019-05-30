@@ -8,7 +8,8 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
-
+import { MessagingService } from '../messaging.service';
+import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
 @Component({
     selector: 'message',
@@ -25,9 +26,10 @@ export class MessageComponent implements OnInit {
     private form: FormGroup;
     private isReadOnly = true;
 
-    static parameters = [FormBuilder, NotificationService];
+    static parameters = [FormBuilder, NotificationService, MessagingService];
     constructor(private formBuilder: FormBuilder,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private messagingService: MessagingService) {
 
         this.form = formBuilder.group({
             editor: ['']
@@ -38,19 +40,19 @@ export class MessageComponent implements OnInit {
     // read from message.body
 
     ngOnInit() {
-      // this.editor.format = 'html';
-      // console.log('EDITOR FORMAT', this.editor.format);
+        // this.editor.format = 'html';
+        // console.log('EDITOR FORMAT', this.editor.format);
 
-      this.form
-          .controls
-          .editor
-          .valueChanges.pipe(
-              debounceTime(400),
-              distinctUntilChanged()
-          )
-          .subscribe((data) => {
-              console.log('native fromControl value changes with debounce', data);
-          });
+        this.form
+            .controls
+            .editor
+            .valueChanges.pipe(
+                debounceTime(400),
+                distinctUntilChanged()
+            )
+            .subscribe((data) => {
+                console.log('native fromControl value changes with debounce', data);
+            });
     }
 
     get message() {
@@ -64,12 +66,20 @@ export class MessageComponent implements OnInit {
         this.form.get('editor').setValue(message.body);
     }
 
-    showMessageEditor(): void {
-        this.notificationService.info('Not yet implemented');
+    editMessage(): void {
+        this.isReadOnly = false;
+
+        // this.notificationService.info('Not yet implemented');
     }
 
-    deleteMessage(): void {
-        this.notificationService.info('Not yet implemented');
+    removeMessage(): void {
+        this.messagingService.removeMessage(this.message)
+            .subscribe(message => {
+                console.log('This message has been removed', message);
+            }, err => {
+                console.log('Unable to remove the message', err);
+                this.notificationService.error('Unable to remove the message');
+            });
     }
 
     ngAfterViewInit() {

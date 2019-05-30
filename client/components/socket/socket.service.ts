@@ -28,6 +28,25 @@ export class SocketService {
         // });
 
         // this.primus = primus;
+
+        const primus = (Primus as any).connect();
+        primus.plugin('emit', primusEmit);
+
+        primus.on('open', function open() {
+            console.log('Connection opened');
+        });
+
+        if (process.env.NODE_ENV === 'development') {
+            primus.on('data', function message(data) {
+                console.log('Socket:', data);
+            });
+        }
+
+        primus.on('info', data => {
+            console.log('info:', data);
+        });
+
+        this.primus = primus;
     }
 
     /**

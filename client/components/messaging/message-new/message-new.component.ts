@@ -43,17 +43,11 @@ export class MessageNewComponent implements OnInit {
           });
     }
 
-    createNewMessage(): void {
-
-
-      // slug: string;
-      // title: string;
-      // body: string;
-
+    addMessage(): void {
       let newMessage = this.form.value;
       newMessage.body = JSON.stringify(this.form.get('body').value);
       console.log('Message to POST', newMessage);
-      this.messagingService.createMessage(newMessage)
+      this.messagingService.addMessage(newMessage)
           .subscribe(message => {
               // this.newProject.emit(project);
           }, err => {

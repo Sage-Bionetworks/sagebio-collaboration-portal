@@ -9,7 +9,7 @@ import { Tag } from '../../../../shared/interfaces/tag.model';
 import { TagService } from '../../../components/tag/tag.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
-// import { MessageComponent } from '../../../components/discussion/message/message.component';
+import { SocketService } from '../../../components/socket/socket.service';
 
 
 @Component({
@@ -18,18 +18,22 @@ import { orderBy } from 'lodash/fp';
     styles: [require('./post-list.scss')],
 })
 export class PostListComponent implements OnInit, AfterViewInit {
-    private posts: Observable<Message[]>;  // any[];
+    private posts: Message[];  // any[];
     private tags: Tag[] = [];
 
-    static parameters = [Router, FormBuilder, PageTitleService, MessagingService,
-        TagService];
+    static parameters = [Router, FormBuilder, PageTitleService,
+        MessagingService, TagService, SocketService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private messagingService: MessagingService,
-        private tagService: TagService) {
+        private tagService: TagService,
+        private socketService: SocketService) {
 
-        this.posts = this.messagingService.getMessages();
-        // this.posts = this.discussionService.getLatestPosts();
+        this.messagingService.getMessages()
+            .subscribe(messages => {
+                this.posts = messages;
+                this.socketService.syncUpdates('message', this.posts);
+            });
 
         this.tagService.getTags()
             .subscribe(tags => this.tags = tags);

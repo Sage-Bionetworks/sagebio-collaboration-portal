@@ -2,9 +2,9 @@
     <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['body']">
     </quill-editor>
 
-    {{ form.get('body').value | json }}
+    <!-- {{ form.get('body').value | json }} -->
 
     <div class="app-message-new-actions">
-        <a mat-raised-button color="primary" [disabled]="form.invalid" (click)="createNewMessage()">Push</a>
+        <a mat-raised-button color="primary" [disabled]="form.invalid" (click)="addMessage()">Push</a>
     </div>
 </form>

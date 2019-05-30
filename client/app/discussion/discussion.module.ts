@@ -9,9 +9,7 @@ import { MessagingModule } from '../../components/messaging/messaging.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostViewComponent } from './post-view/post-view.component';
-// import { MessageComponent } from '../../components/discussion/message/message.component';
-
-// import { DiscussionModule } from '../../components/discussion/discussion.module';
+import { SocketService } from '../../components/socket/socket.service';
 
 export const ROUTES: Routes = [{
     path: 'discussion',
@@ -34,6 +32,7 @@ export const ROUTES: Routes = [{
         PostViewComponent
     ],
     providers: [
+        SocketService
     ],
     exports: [
         // ToolListComponent,

@@ -22,7 +22,14 @@ export class MessagingService {
         return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
     }
 
-    createMessage(message: Message): Observable<Message> {
+    addMessage(message: Message): Observable<Message> {
         return this.httpClient.post<Message>('/api/messages/', message);
+    }
+
+    removeMessage(message: Message): Observable<Message> {
+        return this.httpClient.delete<Message>(`/api/messages/${message._id}`);
+          // .pipe(
+          //     map(() => message)
+          // );
     }
 }
