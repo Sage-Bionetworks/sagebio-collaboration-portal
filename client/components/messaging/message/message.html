@@ -12,6 +12,9 @@
             <span>{{ message.createdBy.username }}</span>
             <span>{{ message.createdAt | date: 'shortTime' }}</span>
             <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of message.tags">{{ tag.name }}</mat-chip>
+            </mat-chip-list>
         </div>
         <div class="app-message-header-actions">
             <a mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread" (click)="replyToMessage()">

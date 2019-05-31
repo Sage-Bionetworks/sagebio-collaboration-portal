@@ -35,7 +35,9 @@ var MessageSchema = new mongoose.Schema({
  * Middlewares
  */
 const autoPopulatePre = function (next) {
-    this.populate('createdBy', User.profileProperties);
+    this
+        .populate('createdBy', User.profileProperties)
+        .populate('tags');
     next();
 };
 
@@ -45,7 +47,9 @@ const updateUpdatedAt = function (next) {
 };
 
 const autoPopulatePost = function (doc) {
-    return doc.populate('createdBy', User.profileProperties)
+    return doc
+        .populate('createdBy', User.profileProperties)
+        .populate('tags')
         .execPopulate();
 };
 

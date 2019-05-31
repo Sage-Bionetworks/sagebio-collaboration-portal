@@ -66,6 +66,7 @@ export class MessageComponent implements OnInit {
     @Input()
     set message(message) {
         this._message = message;
+        console.log('message', message);
         this.form.get('_id').setValue(message._id);
         this.form.get('body').setValue(JSON.parse(message.body));
 

@@ -4,16 +4,11 @@
 
 <div class="app-post-list-content">
 
-    <mat-chip-list>
-        <mat-chip *ngFor="let tag of tags">{{ tag.name }}</mat-chip>
-    </mat-chip-list>
-
     <!-- <div class="tag-list">
         <a *ngFor="let tag of tags" class="tag-default tag-pill">
             {{ tag }}
         </a>
     </div> -->
 
-    <message *ngFor="let message of posts" [message]="message"></message>
-    <message-new></message-new>
+    <messaging-view [tags]="tags"></messaging-view>
 </div>

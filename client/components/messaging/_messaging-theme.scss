@@ -1,5 +1,6 @@
 @import './message/message-theme';
 @import './message-new/message-new-theme';
+@import './messaging-view/messaging-view-theme';
 
 @mixin messaging-theme($theme) {
   $primary: map-get($theme, primary);
@@ -10,4 +11,5 @@
 
   @include message-theme($theme);
   @include message-new-theme($theme);
+  @include messaging-view-theme($theme);
 }

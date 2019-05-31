@@ -8,6 +8,7 @@ import { MaterialModule } from '../../components/material/material.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
+import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { TagService } from '../tag/tag.service';
 
 @NgModule({
@@ -29,11 +30,13 @@ import { TagService } from '../tag/tag.service';
     ],
     declarations: [
         MessageComponent,
-        MessageNewComponent
+        MessageNewComponent,
+        MessagingViewComponent
     ],
     exports: [
         MessageComponent,
-        MessageNewComponent
+        MessageNewComponent,
+        MessagingViewComponent
     ]
 })
 export class MessagingModule { }
