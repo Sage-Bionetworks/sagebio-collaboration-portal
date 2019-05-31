@@ -6,5 +6,6 @@ export interface Message {
     body: string;
     tags: Tag[];
     createdAt: string;
+    updatedAt: string;
     createdBy: UserProfile;
 }

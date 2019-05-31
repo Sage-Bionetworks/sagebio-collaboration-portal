@@ -11,7 +11,7 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import Message from './message.model';
+import Message from './message.model'
 import User from '../user/user.model';
 
 function respondWithResult(res, statusCode) {
@@ -65,7 +65,6 @@ function handleError(res, statusCode) {
 // Gets a list of Messages
 export function index(req, res) {
     return Message.find(req.query)
-        .populate('createdBy', User.profile)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -74,7 +73,6 @@ export function index(req, res) {
 // Gets a single Message from the DB
 export function show(req, res) {
     return Message.findById(req.params.id)
-        .populate('createdBy', User.profile)
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -96,28 +94,29 @@ export function create(req, res) {
 }
 
 // Upserts the given Message in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Message.findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
+// export function upsert(req, res) {
+//     if (req.body._id) {
+//         Reflect.deleteProperty(req.body, '_id');
+//     }
+//     return Message.findOneAndUpdate({
+//             _id: req.params.id
+//         }, req.body, {
+//             new: true,
+//             upsert: true,
+//             setDefaultsOnInsert: true,
+//             runValidators: true
+//         }).exec()
+//         .then(respondWithResult(res))
+//         .catch(handleError(res));
+// }
 
 // Updates an existing Message in the DB
 export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Message.findById(req.params.id).exec()
+    return Message.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))

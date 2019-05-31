@@ -1,5 +1,6 @@
 <form [formGroup]="form">
     <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['body']">
+        <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
     </quill-editor>
 
     <!-- {{ form.get('body').value | json }} -->

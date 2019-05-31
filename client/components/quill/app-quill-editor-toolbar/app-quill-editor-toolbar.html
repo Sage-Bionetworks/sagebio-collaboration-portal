@@ -1,19 +1,39 @@
 <div quill-editor-toolbar>
     <span class="ql-formats">
         <button class="ql-bold" [title]="'Bold'"></button>
+        <button class="ql-italic" [title]="'Italic'"></button>
+        <button class="ql-underline" [title]="'Underline'"></button>
+        <button class="ql-strike" [title]="'Strike'"></button>
     </span>
     <span class="ql-formats">
-        <select class="ql-align" [title]="'Aligment'">
-            <option selected></option>
-            <option value="center"></option>
-            <option value="right"></option>
-            <option value="justify"></option>
-        </select>
-        <select class="ql-align" [title]="'Aligment2'">
-            <option selected></option>
-            <option value="center"></option>
-            <option value="right"></option>
-            <option value="justify"></option>
-        </select>
+        <button class="ql-blockquote" [title]="'Blockquote'"></button>
+        <button class="ql-code-block" [title]="'Code block'"></button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-header" value="1" [title]="'Header 1'"></button>
+        <button class="ql-header" value="2" [title]="'Header 2'"></button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-list" value="ordered" [title]="'Ordered list'"></button>
+        <button class="ql-list" value="bullet" [title]="'Bullet list'"></button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-script" value="sub" [title]="'Subscript'"></button>
+        <button class="ql-script" value="super" [title]="'Superscript'"></button>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-indent" value="-1" [title]="'Remove indent'"></button>
+        <button class="ql-indent" value="+1" [title]="'Add indent'"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-color" [title]="'Color'">
+      </select>
+      <select class="ql-background" [title]="'Background color'">
+      </select>
+    </span>
+    <span class="ql-formats">
+        <button class="ql-link" [title]="'Add link'"></button>
+        <button class="ql-image" [title]="'Add image'"></button>
+        <!-- <button class="ql-video" [title]="'Add video'"></button> -->
     </span>
 </div>

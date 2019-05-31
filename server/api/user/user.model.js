@@ -290,6 +290,6 @@ UserSchema.methods = {
 registerEvents(UserSchema);
 
 var User = mongoose.model('User', UserSchema);
-User.profile = 'name username picture role';
+User.profileProperties = 'name username picture role';
 
 export default User;

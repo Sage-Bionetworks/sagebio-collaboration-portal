@@ -11,19 +11,20 @@
         <div class="app-message-header-metadata">
             <span>{{ message.createdBy.username }}</span>
             <span>{{ message.createdAt | date: 'shortTime' }}</span>
+            <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
         </div>
         <div class="app-message-header-actions">
-            <a mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread">
+            <a mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread" (click)="replyToMessage()">
                 <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
             </a>
-            <a mat-icon-button matTooltip="Star message" [matTooltipPosition]="tooltipPosition" aria-label="Star message">
+            <a mat-icon-button matTooltip="Star message" [matTooltipPosition]="tooltipPosition" aria-label="Star message" (click)="starMessage()">
                 <mat-icon aria-label="Icon of a star outline">star_outline</mat-icon>
             </a>
             <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
                 <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
             </a>
             <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
-                <button mat-menu-item aria-label="Edit message" (click)="editMessage()">
+                <button mat-menu-item aria-label="Edit message" (click)="isReadOnly = false">
                     <span>Edit message</span>
                 </button>
                 <button mat-menu-item aria-label="Delete message" (click)="removeMessage()">
@@ -33,22 +34,12 @@
         </div>
     </div>
 
-    <!-- <app-quill-editor-toolbar></app-quill-editor-toolbar> -->
-    <!-- <div app-quill-editor-toolbar></div> -->
     <form [formGroup]="form" class="app-message-body">
-        <!-- [modules]="{toolbar: !isReadOnly}" -->
-        <quill-editor class="app-message-ql-editor" #editor [readOnly]="isReadOnly" format="json" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['editor']">
-            <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
+        <quill-editor class="app-message-ql-editor" #editor [readOnly]="isReadOnly" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['body']">
+            <div [hidden]="isReadOnly" quill-editor-toolbar class="app-quill-editor-toolbar"></div>
         </quill-editor>
+        <div class="app-message-actions">
+            <a mat-raised-button [hidden]="isReadOnly" color="primary" [disabled]="form.invalid" (click)="updateMessage()">Update</a>
+        </div>
     </form>
-
-    <!-- <quill-editor format="json" [(ngModel)]="jsonFormat">
-    </quill-editor> -->
-
-    <!-- <div *ngIf="!editMessage; else showMessageEditor" class="app-message-body">
-
-    </div>
-    <ng-template #showMessageEditor>
-        Message editor
-    </ng-template> -->
 </div>

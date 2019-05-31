@@ -11,6 +11,8 @@ import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
 import { MessagingService } from '../messaging.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
+const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
+
 @Component({
     selector: 'message',
     template: require('./message.html'),
@@ -25,6 +27,7 @@ export class MessageComponent implements OnInit {
     private hide = false;
     private form: FormGroup;
     private isReadOnly = true;
+    private edited = false;
 
     static parameters = [FormBuilder, NotificationService, MessagingService];
     constructor(private formBuilder: FormBuilder,
@@ -32,7 +35,8 @@ export class MessageComponent implements OnInit {
         private messagingService: MessagingService) {
 
         this.form = formBuilder.group({
-            editor: ['']
+            _id: [''],
+            body: ['']
         });
     }
 
@@ -45,7 +49,7 @@ export class MessageComponent implements OnInit {
 
         this.form
             .controls
-            .editor
+            .body
             .valueChanges.pipe(
                 debounceTime(400),
                 distinctUntilChanged()
@@ -62,14 +66,29 @@ export class MessageComponent implements OnInit {
     @Input()
     set message(message) {
         this._message = message;
-        console.log('message', message);
-        this.form.get('editor').setValue(message.body);
+        this.form.get('_id').setValue(message._id);
+        this.form.get('body').setValue(JSON.parse(message.body));
+
+        let createdAt = new Date(message.createdAt);
+        let updatedAt = new Date(message.updatedAt);
+        this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
     }
 
-    editMessage(): void {
-        this.isReadOnly = false;
+    updateMessage(): void {
+        let updatedMessage = this.form.value;
+        updatedMessage.body = JSON.stringify(this.form.get('body').value);
+        console.log('Message to UPDATE', updatedMessage);
+        this.messagingService.updateMessage(updatedMessage)
+            .subscribe(message => {
+                console.log('message successfully updated', message);
+                // this.newProject.emit(project);
+            }, err => {
+                console.log('ERROR', err);
+                // this.errors.createNewMessage = err.message;
+            });
 
-        // this.notificationService.info('Not yet implemented');
+
+        this.isReadOnly = true;
     }
 
     removeMessage(): void {
@@ -80,6 +99,14 @@ export class MessageComponent implements OnInit {
                 console.log('Unable to remove the message', err);
                 this.notificationService.error('Unable to remove the message');
             });
+    }
+
+    replyToMessage(): void {
+        this.notificationService.info('Not yet implemented');
+    }
+
+    starMessage(): void {
+        this.notificationService.info('Not yet implemented');
     }
 
     ngAfterViewInit() {
