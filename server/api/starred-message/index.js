@@ -1,5 +1,5 @@
 var express = require('express');
-var controller = require('./reply.controller');
+var controller = require('./starred-message.controller');
 
 var router = express.Router();
 

@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import ReplyEvents from './reply.events';
+import StarredMessageEvents from './starred-message.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -10,9 +10,9 @@ var events = ['save', 'remove'];
 export function register(spark) {
     // Bind model events to socket events
     for(let event of events) {
-        var listener = createListener(`reply:${event}`, spark);
+        var listener = createListener(`starredMessage:${event}`, spark);
 
-        ReplyEvents.on(event, listener);
+        StarredMessageEvents.on(event, listener);
         spark.on('disconnect', removeListener(event, listener));
     }
 }
@@ -26,6 +26,6 @@ function createListener(event, spark) {
 
 function removeListener(event, listener) {
     return function() {
-        ReplyEvents.removeListener(event, listener);
+        StarredMessageEvents.removeListener(event, listener);
     };
 }

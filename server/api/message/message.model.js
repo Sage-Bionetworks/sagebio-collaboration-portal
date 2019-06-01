@@ -4,6 +4,11 @@ import {
 } from './message.events';
 import User from '../user/user.model';
 
+const messageOptions = {
+  discriminatorKey: 'messageType',
+  collection: 'messages',
+};
+
 var MessageSchema = new mongoose.Schema({
     body: {
         type: String,
@@ -29,7 +34,7 @@ var MessageSchema = new mongoose.Schema({
         type: Number,
         select: false
     }
-});
+}, messageOptions);
 
 /**
  * Middlewares

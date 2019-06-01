@@ -8,6 +8,8 @@ import Insight from '../api/insight/insight.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
+import Reply from '../api/message/reply.model';
+import StarredMessage from '../api/starred-message/starred-message.model';
 import State from '../api/state/state.model';
 import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
@@ -56,6 +58,22 @@ export default function seedDatabaseIfNeeded() {
             .then(() => Project.create(seeds.projects))
             .then(() => console.log('finished populating projects'))
             .catch(err => console.log('error populating projects', err));
+        promises.push(promise);
+    }
+
+    if (seeds.replies) {
+        let promise = Reply.find({}).deleteMany()
+            .then(() => Reply.create(seeds.replies))
+            .then(() => console.log('finished populating replies'))
+            .catch(err => console.log('error populating replies', err));
+        promises.push(promise);
+    }
+
+    if (seeds.starredMessages) {
+        let promise = StarredMessage.find({}).deleteMany()
+            .then(() => StarredMessage.create(seeds.starredMessages))
+            .then(() => console.log('finished populating starred messages'))
+            .catch(err => console.log('error populating starred messages', err));
         promises.push(promise);
     }
 

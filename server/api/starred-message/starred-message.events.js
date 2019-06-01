@@ -1,12 +1,12 @@
 /**
- * Reply model events
+ * StarredMessage model events
  */
 
 import {EventEmitter} from 'events';
-var ReplyEvents = new EventEmitter();
+var StarredMessageEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ReplyEvents.setMaxListeners(0);
+StarredMessageEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -15,19 +15,19 @@ var events = {
 };
 
 // Register the event emitter to the model events
-function registerEvents(Reply) {
+function registerEvents(StarredMessage) {
   for(var e in events) {
     let event = events[e];
-    Reply.post(e, emitEvent(event));
+    StarredMessage.post(e, emitEvent(event));
   }
 }
 
 function emitEvent(event) {
   return function(doc) {
-    ReplyEvents.emit(event + ':' + doc._id, doc);
-    ReplyEvents.emit(event, doc);
+    StarredMessageEvents.emit(event + ':' + doc._id, doc);
+    StarredMessageEvents.emit(event, doc);
   };
 }
 
 export {registerEvents};
-export default ReplyEvents;
+export default StarredMessageEvents;

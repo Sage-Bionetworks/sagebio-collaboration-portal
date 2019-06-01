@@ -16,6 +16,12 @@ import {
     projects
 } from './projects'
 import {
+    replies
+} from './replies';
+import {
+    starredMessages
+} from './starred-messages';
+import {
     states
 } from './states';
 import {
@@ -34,6 +40,8 @@ module.exports = {
     messages: messages,
     organizations: organizations,
     projects: projects,
+    replies: replies,
+    starredMessages: starredMessages,
     states: states,
     tags: tags,
     tools: tools,
