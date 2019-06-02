@@ -3,10 +3,12 @@ import {
     registerEvents
 } from './message.events';
 import User from '../user/user.model';
+import StarredMessage from '../starred-message/starred-message.model';
 
 const messageOptions = {
-  discriminatorKey: 'messageType',
-  collection: 'messages',
+    discriminatorKey: 'messageType',
+    collection: 'messages',
+    // getters: true
 };
 
 var MessageSchema = new mongoose.Schema({
@@ -37,8 +39,23 @@ var MessageSchema = new mongoose.Schema({
 }, messageOptions);
 
 /**
+ * Virtuals
+ */
+
+// Whether the current user has starred the message.
+// MessageSchema
+//     .virtual('starred')
+//     .get(() => {
+//
+//     });
+
+// MessageSchema.set('toObject', { getters: true });
+// MessageSchema.set('toJSON', { getters: true });
+
+/**
  * Middlewares
  */
+
 const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)

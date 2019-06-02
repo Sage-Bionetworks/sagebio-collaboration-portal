@@ -107,6 +107,11 @@ export class MessageComponent implements OnInit {
     }
 
     starMessage(): void {
+        // this.notificationService.info('Not yet implemented');
+        this.messagingService.starMessage(this.message);
+    }
+
+    unstarMessage(): void {
         this.notificationService.info('Not yet implemented');
     }
 

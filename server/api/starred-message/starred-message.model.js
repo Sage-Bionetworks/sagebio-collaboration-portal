@@ -11,6 +11,10 @@ var StarredMessageSchema = new mongoose.Schema({
     starredBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    archived: {
+        type: Boolean,
+        default: false
     }
 });
 

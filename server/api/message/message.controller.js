@@ -12,6 +12,7 @@ import {
     applyPatch
 } from 'fast-json-patch';
 import Message from './message.model'
+import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
 function respondWithResult(res, statusCode) {
@@ -64,6 +65,48 @@ function handleError(res, statusCode) {
 
 // Gets a list of Messages
 export function index(req, res) {
+    var userId = req.user._id;
+    console.log('get all messages, user:', userId);
+
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            if (!user) {
+                return res.status(404).end(); // change to invalid parameter code
+            }
+            console.log('user', user);
+            // res.json(user.profile);
+            return Message.find(req.query)
+                .lean()
+                .exec()
+                .then(messages => {
+
+                    let promises = messages.map(message => {
+                        return StarredMessage.findOne({
+                                message: message._id,
+                                starredBy: user._id
+                            })
+                            .exec()
+                            .then(starredMessage => {
+                                let a = {
+                                    ...message,
+                                    starred: !!starredMessage
+                                };
+                                console.log('A', a);
+                                return a;
+                            });
+                        // .then(starredMessage => ({
+                        //     ...message,
+                        //     starred: !!starredMessage
+                        // }));
+                    });
+                    return Promise.all(promises);
+                });
+        })
+        // .catch(err => next(err));
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
     return Message.find(req.query)
         .exec()
         .then(respondWithResult(res))
@@ -128,5 +171,46 @@ export function destroy(req, res) {
     return Message.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
+// Stars a message by the current user
+export function star(req, res) {
+    var userId = req.user._id;
+    console.log('Starting to star, user', userId);
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            StarredMessage.findOne({
+                message: req.params.id,
+                starredBy: userId
+            })
+            .lean()
+            .exec()
+            .then(star => {
+                if (!star) {
+                    return StarredMessage.create({
+                        message: req.params.id,
+                        starredBy: userId
+                    })
+                    .then(star => star.message)
+                } else {
+                  return star.message;
+                }
+            })
+            .then(messageId => {
+                return Message.findOne(messageId)
+                  .lean()
+                  .exec()
+                  .then(message => ({
+                    ...message,
+                    starred: true
+                  }));
+            })
+            // let message = req.body;
+            // message.createdBy = user._id;
+            // return Message.create(message);
+        })
+        .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }

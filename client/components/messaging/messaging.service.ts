@@ -9,6 +9,8 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
+import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
+
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
@@ -39,5 +41,10 @@ export class MessagingService {
         // .pipe(
         //     map(() => message)
         // );
+    }
+
+    starMessage(message: Message): Observable<Message> {
+        console.log(`/api/messages/${message._id}/star`);
+        return this.httpClient.post<Message>(`/api/messages/${message._id}/star`, message);
     }
 }
