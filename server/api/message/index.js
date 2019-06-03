@@ -11,7 +11,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
 router.patch('/:id', controller.patch);
 router.delete('/:id', controller.destroy);
 
-// router.post('/:id/star', auth.isAuthenticated(), controller.star);
-// router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
+router.post('/:id/star', auth.isAuthenticated(), controller.star);
+router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
 
 module.exports = router;

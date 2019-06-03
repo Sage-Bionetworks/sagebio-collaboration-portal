@@ -128,49 +128,53 @@ export function patch(req, res) {
 
 // Deletes a Message from the DB
 export function destroy(req, res) {
-    return Message.findById(req.params.id).exec()
+    return Message.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
 }
 
-// // Stars a message by the current user
-// export function star(req, res) {
-//     var userId = req.user._id;
-//     console.log('Starting to star, user', userId);
-//     return User.findById(userId)
-//         .exec()
-//         .then(user => {
-//             StarredMessage.findOne({
-//                 message: req.params.id,
-//                 starredBy: userId
-//             })
-//             .lean()
-//             .exec()
-//             .then(star => {
-//                 if (!star) {
-//                     return StarredMessage.create({
-//                         message: req.params.id,
-//                         starredBy: userId
-//                     })
-//                     .then(star => star.message)
-//                 } else {
-//                   return star.message;
-//                 }
-//             })
-//             .then(messageId => {
-//                 return Message.findOne(messageId)
-//                   .lean()
-//                   .exec()
-//                   .then(message => ({
-//                     ...message,
-//                     starred: true
-//                   }));
-//             })
-//             // let message = req.body;
-//             // message.createdBy = user._id;
-//             // return Message.create(message);
-//         })
-//         .then(respondWithResult(res, 201))
-//         .catch(handleError(res));
-// }
+// Stars a message by the current user
+export function star(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            StarredMessage.findOne({
+                    message: req.params.id,
+                    starredBy: userId
+                })
+                .lean()
+                .exec()
+                .then(star => {
+                    if (!star) {
+                        return StarredMessage.create({
+                            message: req.params.id,
+                            starredBy: userId
+                        });
+                    } else {
+                        return star;
+                    }
+                });
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// Unstars a message by the current user
+export function unstar(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            return StarredMessage.findOne({
+                    message: req.params.id,
+                    starredBy: userId
+                })
+                .exec();
+        })
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}

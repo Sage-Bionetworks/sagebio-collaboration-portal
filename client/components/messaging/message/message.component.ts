@@ -116,12 +116,21 @@ export class MessageComponent implements OnInit {
     }
 
     starMessage(): void {
-        // this.notificationService.info('Not yet implemented');
-        this.messagingService.starMessage(this.message);
+        this.messagingService.starMessage(this.message)
+            .subscribe(() => { },
+                err => {
+                    console.log(err);
+                    this.notificationService.error('Unable to star message');
+                });
     }
 
     unstarMessage(): void {
-        this.notificationService.info('Not yet implemented');
+        this.messagingService.unstarMessage(this.message)
+            .subscribe(() => { },
+                err => {
+                    console.log(err);
+                    this.notificationService.error('Unable to unstar message');
+                });
     }
 
     ngAfterViewInit() {

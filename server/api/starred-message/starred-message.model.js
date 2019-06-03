@@ -22,5 +22,6 @@ var StarredMessageSchema = new mongoose.Schema({
     },
 });
 
+StarredMessageSchema.index({ message: 1, starredBy: 1}, { unique: true });
 registerEvents(StarredMessageSchema);
 export default mongoose.model('StarredMessage', StarredMessageSchema);

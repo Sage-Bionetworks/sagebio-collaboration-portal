@@ -47,9 +47,12 @@ export class MessagingService {
         // );
     }
 
-    starMessage(message: Message): Observable<Message> {
-        console.log(`/api/messages/${message._id}/star`);
-        return this.httpClient.post<Message>(`/api/messages/${message._id}/star`, message);
+    starMessage(message: Message): Observable<StarredMessage> {
+        return this.httpClient.post<StarredMessage>(`/api/messages/${message._id}/star`, {});
+    }
+
+    unstarMessage(message: Message): Observable<StarredMessage> {
+        return this.httpClient.delete<StarredMessage>(`/api/messages/${message._id}/unstar`);
     }
 
     getStarredMessages(query?: {}): Observable<StarredMessage[]> {
