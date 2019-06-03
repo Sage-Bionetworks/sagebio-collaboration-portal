@@ -10,6 +10,10 @@ import {
 let starredMessages = [{
     message: message1Id,
     starredBy: adminUserId
+}, {
+    message: message2Id,
+    starredBy: adminUserId,
+    archived: true
 }];
 
 export {

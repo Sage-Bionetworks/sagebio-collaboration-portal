@@ -24,6 +24,10 @@ export class MessagingService {
         return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
     }
 
+    getMessage(messageId: string): Observable<Message> {
+        return this.httpClient.get<Message>(`/api/messages/${messageId}`);
+    }
+
     addMessage(message: Message): Observable<Message> {
         return this.httpClient.post<Message>('/api/messages/', message);
     }
@@ -46,5 +50,9 @@ export class MessagingService {
     starMessage(message: Message): Observable<Message> {
         console.log(`/api/messages/${message._id}/star`);
         return this.httpClient.post<Message>(`/api/messages/${message._id}/star`, message);
+    }
+
+    getStarredMessages(query?: {}): Observable<StarredMessage[]> {
+        return this.httpClient.get<StarredMessage[]>(`/api/starred-messages${stringifyQuery(query)}`);
     }
 }

@@ -9,7 +9,11 @@ import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
+import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
+
+import { MessagingDataService } from './messaging-data.service';
 import { TagService } from '../tag/tag.service';
+
 
 @NgModule({
     imports: [
@@ -26,17 +30,20 @@ import { TagService } from '../tag/tag.service';
         }),
     ],
     providers: [
-        MessagingService
+        MessagingService,
+        MessagingDataService
     ],
     declarations: [
         MessageComponent,
         MessageNewComponent,
-        MessagingViewComponent
+        MessagingViewComponent,
+        StarredMessageListComponent
     ],
     exports: [
         MessageComponent,
         MessageNewComponent,
-        MessagingViewComponent
+        MessagingViewComponent,
+        StarredMessageListComponent
     ]
 })
 export class MessagingModule { }

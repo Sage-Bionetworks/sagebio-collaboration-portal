@@ -4,6 +4,7 @@
 import path from 'path';
 import Primus from 'primus';
 import primusEmit from 'primus-emit';
+import app from '../primus/primus-app';
 
 const registerFunctions = [
     // Insert sockets below
@@ -37,6 +38,14 @@ function onConnect(spark) {
         spark.log(JSON.stringify(data, null, 2));
     });
 
+    spark.on('data', data => {
+        console.log('Spark data:', data);
+    });
+
+    spark.on('error', err => {
+        console.log('Spark error', err);
+    });
+
     // Register the spark with each WebSocket event handler
     for (let register of registerFunctions) {
         register(spark);
@@ -53,9 +62,10 @@ export function broadcast(message) {
 
 export default function initWebSocketServer(server) {
     primus = new Primus(server, {
-        transformer: 'websockets' // uws
+        transformer: 'websockets'
     });
     primus.plugin('emit', primusEmit);
+    primus.plugin('app', app);
 
     primus.on('connection', onConnect);
     primus.on('disconnection', onDisconnect);

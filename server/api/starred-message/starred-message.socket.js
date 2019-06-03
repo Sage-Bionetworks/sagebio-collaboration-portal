@@ -9,7 +9,7 @@ var events = ['save', 'remove'];
 
 export function register(spark) {
     // Bind model events to socket events
-    for(let event of events) {
+    for (let event of events) {
         var listener = createListener(`starredMessage:${event}`, spark);
 
         StarredMessageEvents.on(event, listener);
@@ -19,13 +19,20 @@ export function register(spark) {
 
 
 function createListener(event, spark) {
-    return function(doc) {
-        spark.emit(event, doc);
+    return function (doc) {
+        if (isAuthorized(doc, spark.userId)) {
+            spark.emit(event, doc);
+        }
     };
 }
 
 function removeListener(event, listener) {
-    return function() {
+    return function () {
         StarredMessageEvents.removeListener(event, listener);
     };
+}
+
+// Returns true if the user specified is the user who starred the message.
+function isAuthorized(doc, userId) {
+    return userId ? doc.starredBy == userId : false;
 }

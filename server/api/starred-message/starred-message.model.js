@@ -15,7 +15,11 @@ var StarredMessageSchema = new mongoose.Schema({
     archived: {
         type: Boolean,
         default: false
-    }
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 registerEvents(StarredMessageSchema);

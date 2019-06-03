@@ -1,4 +1,4 @@
-<div class="app-message">
+<div class="app-message" *ngIf="message">
     <div class="app-message-header">
         <div class="app-message-header-avatar">
             <picture *ngIf="message.createdBy.picture; else letterAvatar">

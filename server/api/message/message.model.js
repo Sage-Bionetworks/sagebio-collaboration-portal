@@ -82,7 +82,6 @@ const autoPopulatePost = function (doc) {
 
 MessageSchema
     .pre('find', autoPopulatePre)
-    .pre('findById', autoPopulatePre)
     .pre('save', updateUpdatedAt);
 
 MessageSchema

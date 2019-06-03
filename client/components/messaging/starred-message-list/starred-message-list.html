@@ -1,0 +1,12 @@
+<div *ngIf="messages">
+  <span>There are {{ messages.length }} starred messages</span>
+</div>
+
+<!-- <mat-list>
+    <mat-list-item *ngFor="let message of messages">
+        <h3 matLine>MessageID: {{ message.message }}</h3>
+        <h3 matLine>Archived: {{ message.archived }}</h3>
+    </mat-list-item>
+</mat-list> -->
+
+<message *ngFor="let star of stars" [messageId]="star.message"></message>

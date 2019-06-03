@@ -75,6 +75,15 @@ export class MessageComponent implements OnInit {
         this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
     }
 
+    @Input()
+    set messageId(messageId) {
+        this.messagingService.getMessage(messageId)
+            .subscribe(message => {  // fix multiple subscription
+                this._message = message;
+                console.log('message get by ID', message);
+            });
+    }
+
     updateMessage(): void {
         let updatedMessage = this.form.value;
         updatedMessage.body = JSON.stringify(this.form.get('body').value);
