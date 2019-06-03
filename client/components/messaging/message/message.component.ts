@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { NotificationService } from '../../../components/notification/notification.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
-import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
 import { MessagingService } from '../messaging.service';
+import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
@@ -20,95 +19,113 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     encapsulation: ViewEncapsulation.None
 })
 export class MessageComponent implements OnInit {
-    private _message: Message;
+    private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
+    private starred = false;
     private tooltipPosition = 'above';
-
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
     private isReadOnly = true;
     private edited = false;
+    private messageSub: Subscription;
+    private getMessageSub: Subscription;
+    private starredSub: Subscription;
 
-    static parameters = [FormBuilder, NotificationService, MessagingService];
+    static parameters = [FormBuilder, NotificationService, MessagingService,
+        MessagingDataService];
     constructor(private formBuilder: FormBuilder,
         private notificationService: NotificationService,
-        private messagingService: MessagingService) {
+        private messagingService: MessagingService,
+        private messagingDataService: MessagingDataService) {
 
         this.form = formBuilder.group({
             _id: [''],
             body: ['']
         });
+
+        this.messageSub = this._message
+            .subscribe(message => {
+                if (message) {
+                    this.form.get('_id').setValue(message._id);
+                    this.form.get('body').setValue(JSON.parse(message.body));
+
+                    let createdAt = new Date(message.createdAt);
+                    let updatedAt = new Date(message.updatedAt);
+                    this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
+                }
+            });
+
+        this.starredSub = combineLatest(
+            this._message,
+            this.messagingDataService.getStarredMessages()
+        )
+            .pipe(
+                filter(([msg, stars]) => !!msg),
+                map(([msg, stars]) => stars.map(star => star.message).includes(msg._id)),
+        )
+            .subscribe(starred => this.starred = starred);
     }
 
-    // save JSON.stringify(this.form.get('editor').value)
-    // read from message.body
-
     ngOnInit() {
-        // this.editor.format = 'html';
-        // console.log('EDITOR FORMAT', this.editor.format);
+        // this.form
+        //     .controls
+        //     .body
+        //     .valueChanges.pipe(
+        //         debounceTime(400),
+        //         distinctUntilChanged()
+        //     )
+        //     .subscribe((data) => {
+        //         console.log('native fromControl value changes with debounce', data);
+        //     });
+    }
 
-        this.form
-            .controls
-            .body
-            .valueChanges.pipe(
-                debounceTime(400),
-                distinctUntilChanged()
-            )
-            .subscribe((data) => {
-                console.log('native fromControl value changes with debounce', data);
-            });
+    ngOnDestroy() {
+        if (this.messageSub) this.messageSub.unsubscribe();
+        if (this.starredSub) this.starredSub.unsubscribe();
+        if (this.getMessageSub) this.getMessageSub.unsubscribe();
     }
 
     get message() {
-        return this._message;
+        return this._message.getValue();
     }
 
     @Input()
     set message(message) {
-        this._message = message;
-        console.log('message', message);
-        this.form.get('_id').setValue(message._id);
-        this.form.get('body').setValue(JSON.parse(message.body));
-
-        let createdAt = new Date(message.createdAt);
-        let updatedAt = new Date(message.updatedAt);
-        this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
+        this._message.next(message);
     }
 
     @Input()
     set messageId(messageId) {
-        this.messagingService.getMessage(messageId)
-            .subscribe(message => {  // fix multiple subscription
-                this._message = message;
-                console.log('message get by ID', message);
-            });
+        if (!this.getMessageSub) {
+            this.getMessageSub.unsubscribe();
+        }
+        this.getMessageSub = this.messagingService.getMessage(messageId)
+            .subscribe(message => this._message.next(message),
+                err => {
+                    console.log(err);
+                    console.log('Unable to get message', err);
+                });
     }
 
     updateMessage(): void {
         let updatedMessage = this.form.value;
         updatedMessage.body = JSON.stringify(this.form.get('body').value);
-        console.log('Message to UPDATE', updatedMessage);
         this.messagingService.updateMessage(updatedMessage)
-            .subscribe(message => {
-                console.log('message successfully updated', message);
-                // this.newProject.emit(project);
-            }, err => {
-                console.log('ERROR', err);
-                // this.errors.createNewMessage = err.message;
-            });
-
-
+            .subscribe(message => { },
+                err => {
+                    console.log(err);
+                    this.notificationService.error('Unable to update the message');
+                });
         this.isReadOnly = true;
     }
 
     removeMessage(): void {
         this.messagingService.removeMessage(this.message)
-            .subscribe(message => {
-                console.log('This message has been removed', message);
-            }, err => {
-                console.log('Unable to remove the message', err);
-                this.notificationService.error('Unable to remove the message');
-            });
+            .subscribe(message => { },
+                err => {
+                    console.log(err);
+                    this.notificationService.error('Unable to remove the message');
+                });
     }
 
     replyToMessage(): void {
@@ -131,9 +148,5 @@ export class MessageComponent implements OnInit {
                     console.log(err);
                     this.notificationService.error('Unable to unstar message');
                 });
-    }
-
-    ngAfterViewInit() {
-
     }
 }

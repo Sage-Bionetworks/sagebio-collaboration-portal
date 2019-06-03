@@ -20,12 +20,10 @@
             <a mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread" (click)="replyToMessage()">
                 <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
             </a>
-            <!-- *ngIf="!message.starred" -->
-            <a mat-icon-button matTooltip="Star message" [matTooltipPosition]="tooltipPosition" aria-label="Star message" (click)="starMessage()">
+            <a mat-icon-button *ngIf="!starred" matTooltip="Star message" [matTooltipPosition]="tooltipPosition" aria-label="Star message" (click)="starMessage()">
                 <mat-icon aria-label="Icon of a star outline">star_outline</mat-icon>
             </a>
-            <!-- *ngIf="message.starred" -->
-            <a mat-icon-button matTooltip="Unstar message" [matTooltipPosition]="tooltipPosition" aria-label="Unstare message" (click)="unstarMessage()">
+            <a mat-icon-button *ngIf="starred" matTooltip="Unstar message" [matTooltipPosition]="tooltipPosition" aria-label="Unstare message" (click)="unstarMessage()">
                 <mat-icon aria-label="Icon of a plain star">star</mat-icon>
             </a>
             <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
