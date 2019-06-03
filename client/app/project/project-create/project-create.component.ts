@@ -21,7 +21,7 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
     private errors = {
         newProject: undefined
     };
-    private submitted = false;
+    // private submitted = false;
 
     @Output() newProject: EventEmitter<Project> = new EventEmitter<Project>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
@@ -35,12 +35,12 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
 
         this.projectSpecs = models.project;
         this.newForm = this.formBuilder.group({
-            name: ['a name', [
+            name: ['', [
                 Validators.required,
                 Validators.minLength(models.project.name.minlength),
                 Validators.maxLength(models.project.name.maxlength)
             ]],
-            description: ['description', [
+            description: ['', [
                 Validators.required,
                 Validators.minLength(models.project.description.minlength),
                 Validators.maxLength(models.project.description.maxlength)
@@ -58,7 +58,7 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy() { }
 
     createNewProject(): void {
-        this.submitted = true;
+        // this.submitted = true;
 
         let newProject = this.newForm.value;
         this.projectService.create(newProject)

@@ -6,8 +6,10 @@ import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/op
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { NotificationService } from '../../../components/notification/notification.service';
+import { ObjectValidators } from '../../validation/object-validators';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
+import { models } from '../../../app/app.constants';
 
 
 @Component({
@@ -26,37 +28,44 @@ export class MessageNewComponent implements OnInit {
         private messagingService: MessagingService) {
 
         this.form = formBuilder.group({
-            body: ['test']
+            body: ['', [
+                Validators.required,
+                ObjectValidators.jsonStringifyMinLength(models.message.body.minlength),
+                ObjectValidators.jsonStringifyMaxLength(models.message.body.maxlength)
+            ]]
         });
     }
 
     ngOnInit() {
-      this.form
-          .controls
-          .body
-          .valueChanges.pipe(
-              debounceTime(400),
-              distinctUntilChanged()
-          )
-          .subscribe((data) => {
-              console.log('native fromControl value changes with debounce', data);
-          });
+        this.form
+            .controls
+            .body
+            .valueChanges.pipe(
+                debounceTime(50),
+                distinctUntilChanged()
+            )
+            .subscribe((data) => {
+                console.log('value of body', this.form.get('body').value);
+
+                // console.log('native fromControl value changes with debounce', data);
+                // console.log(JSON.stringify(data).length);
+            });
     }
 
     addMessage(): void {
-      let newMessage = this.form.value;
-      newMessage.body = JSON.stringify(this.form.get('body').value);
-      console.log('Message to POST', newMessage);
-      this.messagingService.addMessage(newMessage)
-          .subscribe(message => {
-              // this.newProject.emit(project);
-          }, err => {
-              console.log('ERROR', err);
-              // this.errors.createNewMessage = err.message;
-          });
+        let newMessage = this.form.value;
+        newMessage.body = JSON.stringify(this.form.get('body').value);
+        console.log('Message to POST', newMessage);
+        this.messagingService.addMessage(newMessage)
+            .subscribe(message => {
+                // this.newProject.emit(project);
+            }, err => {
+                console.log('ERROR', err);
+                // this.errors.createNewMessage = err.message;
+            });
 
 
 
-      // console.log('stringify', JSON.stringify(this.form.get('editor').value));
+        // console.log('stringify', JSON.stringify(this.form.get('editor').value));
     }
 }

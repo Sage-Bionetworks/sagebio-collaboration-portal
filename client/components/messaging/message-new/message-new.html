@@ -1,11 +1,16 @@
-<form [formGroup]="form">
-    <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['body']">
+<form [formGroup]="form" novalidate>
+    <!-- (keydown.enter)="$event.stopPropagation()" -->
+    <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['body']">
         <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
     </quill-editor>
+    <mat-error *ngIf="form.controls.body.errors?.jsonStringifyMaxLength">
+        This message must be smaller than {{ form.controls.body.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value: {{ form.controls.body.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
+    </mat-error>
 
     <!-- {{ form.get('body').value | json }} -->
 
+
     <div class="app-message-new-actions">
-        <a mat-raised-button color="primary" [disabled]="form.invalid" (click)="addMessage()">Push</a>
+        <a mat-raised-button color="primary" [disabled]="form.invalid" (click)="form.invalid || addMessage()">Push</a>
     </div>
 </form>

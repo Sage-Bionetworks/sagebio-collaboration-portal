@@ -9,6 +9,8 @@ import { Message } from '../../../../shared/interfaces/discussion/message.model'
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
+import { models } from '../../../app/app.constants';
+
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 
@@ -40,7 +42,11 @@ export class MessageComponent implements OnInit {
 
         this.form = formBuilder.group({
             _id: [''],
-            body: ['']
+            body: ['', [
+                Validators.required,
+                Validators.minLength(models.message.body.minlength),
+                Validators.maxLength(models.message.body.maxlength)
+            ]]
         });
 
         this.messageSub = this._message
