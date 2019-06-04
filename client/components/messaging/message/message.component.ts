@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 
@@ -22,8 +22,6 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 })
 export class MessageComponent implements OnInit {
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
-    private starred = false;
-    private numStars = 0;
     private tooltipPosition = 'above';
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
@@ -32,7 +30,6 @@ export class MessageComponent implements OnInit {
     private edited = false;
     private messageSub: Subscription;
     private getMessageSub: Subscription;
-    private starredSub: Subscription;
 
     static parameters = [FormBuilder, NotificationService, MessagingService,
         MessagingDataService];
@@ -55,28 +52,10 @@ export class MessageComponent implements OnInit {
                 if (message) {
                     this.form.get('_id').setValue(message._id);
                     this.form.get('body').setValue(JSON.parse(message.body));
-
-                    this.messagingService.getNumStars(message)
-                        .subscribe(numStars => this.numStars = numStars);
-
                     let createdAt = new Date(message.createdAt);
                     let updatedAt = new Date(message.updatedAt);
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
                 }
-            });
-
-        this.starredSub = combineLatest(
-            this._message,
-            this.messagingDataService.getStarredMessages()
-        )
-            .pipe(
-                filter(([msg, stars]) => !!msg),
-                map(([msg, stars]) => stars.map(star => star.message).includes(msg._id)),
-        )
-            .subscribe(starred => {
-                this.starred = starred;
-                this.messagingService.getNumStars(this.message)
-                    .subscribe(numStars => this.numStars = numStars);
             });
     }
 
@@ -95,7 +74,7 @@ export class MessageComponent implements OnInit {
 
     ngOnDestroy() {
         if (this.messageSub) this.messageSub.unsubscribe();
-        if (this.starredSub) this.starredSub.unsubscribe();
+        // if (this.starredSub) this.starredSub.unsubscribe();
         if (this.getMessageSub) this.getMessageSub.unsubscribe();
     }
 
@@ -144,23 +123,5 @@ export class MessageComponent implements OnInit {
 
     replyToMessage(): void {
         this.notificationService.info('Not yet implemented');
-    }
-
-    starMessage(): void {
-        this.messagingService.starMessage(this.message)
-            .subscribe(() => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to star message');
-                });
-    }
-
-    unstarMessage(): void {
-        this.messagingService.unstarMessage(this.message)
-            .subscribe(() => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to unstar message');
-                });
     }
 }

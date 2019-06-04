@@ -8,6 +8,7 @@ import { MaterialModule } from '../../components/material/material.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
+import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 
@@ -36,6 +37,7 @@ import { TagService } from '../tag/tag.service';
     declarations: [
         MessageComponent,
         MessageNewComponent,
+        MessageStarButtonComponent,
         MessagingViewComponent,
         StarredMessageListComponent
     ],
