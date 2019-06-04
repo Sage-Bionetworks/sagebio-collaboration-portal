@@ -10,6 +10,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
+import { Count } from '../../../shared/interfaces/count.model';
 
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
@@ -35,7 +36,7 @@ export class MessagingService {
     updateMessage(message: Message): Observable<Message> {
         return this.httpClient.patch<Message>(`/api/messages/${message._id}`,
             [
-              { op: 'replace', path: '/body', value: message.body }
+                { op: 'replace', path: '/body', value: message.body }
             ]
         );
     }
@@ -57,5 +58,12 @@ export class MessagingService {
 
     getStarredMessages(query?: {}): Observable<StarredMessage[]> {
         return this.httpClient.get<StarredMessage[]>(`/api/starred-messages${stringifyQuery(query)}`);
+    }
+
+    getNumStars(message: Message): Observable<number> {
+        return this.httpClient.get<Count>(`/api/messages/${message._id}/star/count`)
+            .pipe(
+                map(count => count.value)
+            );
     }
 }

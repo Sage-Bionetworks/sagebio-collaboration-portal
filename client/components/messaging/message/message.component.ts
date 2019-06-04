@@ -23,6 +23,7 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 export class MessageComponent implements OnInit {
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private starred = false;
+    private numStars = 0;
     private tooltipPosition = 'above';
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
@@ -55,6 +56,9 @@ export class MessageComponent implements OnInit {
                     this.form.get('_id').setValue(message._id);
                     this.form.get('body').setValue(JSON.parse(message.body));
 
+                    this.messagingService.getNumStars(message)
+                        .subscribe(numStars => this.numStars = numStars);
+
                     let createdAt = new Date(message.createdAt);
                     let updatedAt = new Date(message.updatedAt);
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
@@ -69,7 +73,11 @@ export class MessageComponent implements OnInit {
                 filter(([msg, stars]) => !!msg),
                 map(([msg, stars]) => stars.map(star => star.message).includes(msg._id)),
         )
-            .subscribe(starred => this.starred = starred);
+            .subscribe(starred => {
+                this.starred = starred;
+                this.messagingService.getNumStars(this.message)
+                    .subscribe(numStars => this.numStars = numStars);
+            });
     }
 
     ngOnInit() {

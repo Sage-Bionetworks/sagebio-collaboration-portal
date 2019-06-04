@@ -178,3 +178,15 @@ export function unstar(req, res) {
         .then(removeEntity(res))
         .catch(handleError(res));
 }
+
+// Returns the number of users who have starred a message
+export function starCount(req, res) {
+    StarredMessage.count({
+        message: req.params.id
+    }, function (err, count) {
+        if (err) {
+            res.status(404).json({ error: err });
+        }
+        res.status(200).json({ value: count });
+    });
+}

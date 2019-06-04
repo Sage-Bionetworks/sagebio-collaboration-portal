@@ -13,5 +13,6 @@ router.delete('/:id', controller.destroy);
 
 router.post('/:id/star', auth.isAuthenticated(), controller.star);
 router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
+router.get('/:id/star/count', controller.starCount);
 
 module.exports = router;
