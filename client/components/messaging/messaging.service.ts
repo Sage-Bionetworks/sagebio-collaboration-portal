@@ -10,7 +10,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
-import { Count } from '../../../shared/interfaces/count.model';
+import { NumberValue } from '../../../shared/interfaces/number-value.model';
 
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
@@ -41,11 +41,8 @@ export class MessagingService {
         );
     }
 
-    removeMessage(message: Message): Observable<Message> {
-        return this.httpClient.delete<Message>(`/api/messages/${message._id}`);
-        // .pipe(
-        //     map(() => message)
-        // );
+    removeMessage(message: Message): Observable<void> {
+        return this.httpClient.delete<void>(`/api/messages/${message._id}`);
     }
 
     starMessage(message: Message): Observable<StarredMessage> {
@@ -56,14 +53,14 @@ export class MessagingService {
         return this.httpClient.delete<StarredMessage>(`/api/messages/${message._id}/unstar`);
     }
 
-    getStarredMessages(query?: {}): Observable<StarredMessage[]> {
-        return this.httpClient.get<StarredMessage[]>(`/api/starred-messages${stringifyQuery(query)}`);
-    }
-
     getNumStars(message: Message): Observable<number> {
-        return this.httpClient.get<Count>(`/api/messages/${message._id}/star/count`)
+        return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/stars/count`)
             .pipe(
                 map(count => count.value)
             );
+    }
+
+    getStarredMessages(query?: {}): Observable<StarredMessage[]> {
+        return this.httpClient.get<StarredMessage[]>(`/api/messages/stars/mine${stringifyQuery(query)}`);
     }
 }

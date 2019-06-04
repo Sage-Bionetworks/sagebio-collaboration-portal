@@ -40,8 +40,10 @@ var all = {
     // MongoDB connection options
     mongo: {
         options: {
+            // https://mongoosejs.com/docs/deprecations.html
             useNewUrlParser: true,
             useFindAndModify: false,
+            useCreateIndex: true,
             reconnectTries: 30,
             reconnectInterval: 500 // in ms
         }

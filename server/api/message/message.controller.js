@@ -41,10 +41,25 @@ function removeEntity(res) {
     return function (entity) {
         if (entity) {
             return entity.remove()
+                .then(() => {
+                    return StarredMessage.deleteMany({
+                            message: entity._id
+                        });
+                })
                 .then(() => res.status(204).end());
         }
     };
 }
+
+// function removeMessageStars(res) {
+//     return function (message) {
+//         if (message) {
+//             console.log('removing message', message);
+//             return StarredMessage.deleteMany({ message: message._id })
+//                 .then(() => message);  // return the message
+//         }
+//     }
+// }
 
 function handleEntityNotFound(res) {
     return function (entity) {
@@ -185,8 +200,32 @@ export function starCount(req, res) {
         message: req.params.id
     }, function (err, count) {
         if (err) {
-            res.status(404).json({ error: err });
+            res.status(404).json({
+                error: err
+            });
         }
-        res.status(200).json({ value: count });
+        res.status(200).json({
+            value: count
+        });
     });
+}
+
+// Returns the messages starred by the user.
+export function indexMyStars(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(user => {
+            if (!user) {
+                return res.status(404).end(); // TODO: return auth error code
+            }
+            return StarredMessage
+                .find({
+                    starredBy: userId
+                })
+                .select('-starredBy')
+                .exec();
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
 }

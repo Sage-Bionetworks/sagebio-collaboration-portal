@@ -23,7 +23,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return next.handle(request)
             .pipe(
                 tap((event: HttpEvent<any>) => {
-                    console.log('INTERCEPTOR event', event);
+                    // console.log('INTERCEPTOR event', event);
                     if (event instanceof HttpResponse) {
                         // do stuff with response if you want
                     }

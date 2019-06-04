@@ -5,7 +5,7 @@
 import MessageEvents from './message.events';
 
 // Model events to emit
-var events = ['save', 'remove'];
+var events = ['save', 'remove', 'deleteMany'];
 
 export function register(spark) {
     // Bind model events to socket events

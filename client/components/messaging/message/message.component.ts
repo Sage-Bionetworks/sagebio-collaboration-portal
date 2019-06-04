@@ -114,7 +114,7 @@ export class MessageComponent implements OnInit {
 
     removeMessage(): void {
         this.messagingService.removeMessage(this.message)
-            .subscribe(message => { },
+            .subscribe(() => { },
                 err => {
                     console.log(err);
                     this.notificationService.error('Unable to remove the message');

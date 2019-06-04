@@ -8,7 +8,7 @@ import { MaterialModule } from '../../components/material/material.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
 import { SocketService } from '../../components/socket/socket.service';
 
-import { ProjectCreateComponent } from './project-create/project-create.component';
+import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectComponent } from './project-page/project.component';
@@ -35,7 +35,7 @@ export const ROUTES: Routes = [{
         RouterModule.forChild(ROUTES)
     ],
     declarations: [
-        ProjectCreateComponent,
+        ProjectNewComponent,
         ProjectListComponent,
         ProjectViewComponent,
         ProjectComponent

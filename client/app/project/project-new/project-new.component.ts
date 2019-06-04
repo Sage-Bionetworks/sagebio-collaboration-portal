@@ -11,11 +11,11 @@ import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rx
 import { models } from '../../app.constants';
 
 @Component({
-    selector: 'project-create',
-    template: require('./project-create.html'),
-    styles: [require('./project-create.scss')],
+    selector: 'project-new',
+    template: require('./project-new.html'),
+    styles: [require('./project-new.scss')],
 })
-export class ProjectCreateComponent implements OnInit, OnDestroy {
+export class ProjectNewComponent implements OnInit, OnDestroy {
     private projectSpecs: {};
     private newForm: FormGroup;
     private errors = {
