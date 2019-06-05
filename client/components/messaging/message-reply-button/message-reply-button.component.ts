@@ -5,6 +5,7 @@ import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators'
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { NotificationService } from '../../../components/notification/notification.service';
+import { SidenavService } from '../../sidenav/sidenav.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
@@ -25,10 +26,11 @@ export class MessageReplyButtonComponent implements OnInit {
     // private tooltipPosition = 'above';
 
     static parameters = [MessagingService, MessagingDataService,
-        NotificationService];
+        NotificationService, SidenavService];
     constructor(private messagingService: MessagingService,
         private messagingDataService: MessagingDataService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private sidenavService: SidenavService) {
     }
 
     ngOnInit() {
@@ -44,6 +46,7 @@ export class MessageReplyButtonComponent implements OnInit {
     ngOnDestroy() { }
 
     showReplies(): void {
-        this.notificationService.info('Not yet implemented');
+        this.sidenavService.toggle();
+        // this.notificationService.info('Not yet implemented');
     }
 }

@@ -6,6 +6,7 @@ import { QuillModule } from 'ngx-quill';
 
 import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
+import { SidenavModule } from '../../components/sidenav/sidenav.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
@@ -23,6 +24,7 @@ import { TagService } from '../tag/tag.service';
         RouterModule,
         AppQuillModule,
         MaterialModule,
+        SidenavModule,
         AvatarModule,
         QuillModule.forRoot({
             modules: {

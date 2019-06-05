@@ -223,6 +223,7 @@ function removeMessage(res) {
 function removeStars() {
     return function (message) {
         if (message) {
+            // remove the star one by one to fire websocket hook
             return StarredMessage.find({
                     message: message._id
                 })

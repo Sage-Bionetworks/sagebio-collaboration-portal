@@ -1,12 +1,12 @@
-@import '~@angular/material/theming';
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.bubble.css';
-@import '~quill/dist/quill.snow.css';
-@import '~quill-emoji/dist/quill-emoji.css';
-@import '~quill-mention/dist/quill.mention.min.css';
-@import './app-theme';
-@import '../styles/general';
-@import '../styles/constants';
+@import "~@angular/material/theming";
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
+@import "~quill-emoji/dist/quill-emoji.css";
+@import "~quill-mention/dist/quill.mention.min.css";
+@import "./app-theme";
+@import "../styles/general";
+@import "../styles/constants";
 
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
@@ -20,7 +20,6 @@ $accent: mat-palette($mat-pink, A200, A100, A400);
 $theme: mat-light-theme($primary, $accent);
 @include angular-material-theme($theme);
 @include app-theme($theme);
-
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -38,11 +37,11 @@ app {
   flex-direction: column;
   height: 100vh;
 
-  app-sidenav {
-    display: flex;
-    flex: 1;
-    width: 250px;
-  }
+  // app-sidenav {
+  //   display: flex;
+  //   flex: 1;
+  //   width: 250px;
+  // }
 
   .app-sidenav-container {
     display: flex;
@@ -61,6 +60,16 @@ app {
     flex: 1;
   }
 
+  .app-sidenav-secondary {
+    display: flex;
+    flex: 1;
+    width: 250px;
+    // padding-top: $navbar-height;
+  }
+
+  // .app-sidenav-content {
+  //   padding-top: $navbar-height-sm;
+  // }
 
   @media (max-width: $small-breakpoint-width) {
     .app-sidenav-content {
