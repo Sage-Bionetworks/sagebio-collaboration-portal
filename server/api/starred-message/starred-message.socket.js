@@ -20,7 +20,6 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return function (doc) {
-        console.log('testing if can emit star save', doc);
         if (isAuthorized(doc, spark.userId)) {
             spark.emit(event, doc);
         }

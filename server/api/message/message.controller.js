@@ -16,85 +16,6 @@ import Reply from './reply.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
-}
-
-function patchUpdates(patches) {
-    return function (entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-        return entity.save();
-    };
-}
-
-// Removes a message and its stars.
-function removeEntity(res) {
-    return function (entity) {
-        if (entity) {
-            return entity.remove()
-                .then(() => {
-                    // remove stars individually to fire StarredMessage hook
-                    return StarredMessage.find({
-                            message: entity._id
-                        })
-                        .exec()
-                        .then(stars => Promise.all(
-                            stars.map(star => star.remove())
-                        ));
-                })
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-// function removeMessageStars(res) {
-//     return function (message) {
-//         if (message) {
-//             console.log('removing message', message);
-//             return StarredMessage.deleteMany({ message: message._id })
-//                 .then(() => message);  // return the message
-//         }
-//     }
-// }
-
-function handleEntityNotFound(res) {
-    return function (entity) {
-        console.log('entity', entity);
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleUserNotFound(res) {
-    return function (user) {
-        if (!user) {
-            res.status(404).end(); // TODO replace by auth error code
-            return null;
-        }
-        return user;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function (err) {
-        res.status(statusCode).send(err);
-    };
-}
-
 // Gets a list of Messages
 export function index(req, res) {
     return Message.find(req.query)
@@ -119,31 +40,16 @@ export function create(req, res) {
     var userId = req.user._id;
     return User.findById(userId)
         .exec()
+        .then(handleUserNotFound(res))
         .then(user => {
-            let message = req.body;
-            message.createdBy = user._id;
-            return Message.create(message);
+            return Message.create({
+                ...req.body,
+                createdBy: user._id
+            });
         })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
-
-// Upserts the given Message in the DB at the specified ID
-// export function upsert(req, res) {
-//     if (req.body._id) {
-//         Reflect.deleteProperty(req.body, '_id');
-//     }
-//     return Message.findOneAndUpdate({
-//             _id: req.params.id
-//         }, req.body, {
-//             new: true,
-//             upsert: true,
-//             setDefaultsOnInsert: true,
-//             runValidators: true
-//         }).exec()
-//         .then(respondWithResult(res))
-//         .catch(handleError(res));
-// }
 
 // Updates an existing Message in the DB
 export function patch(req, res) {
@@ -163,7 +69,7 @@ export function destroy(req, res) {
     return Message.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
+        .then(removeMessage(res))
         .catch(handleError(res));
 }
 
@@ -172,24 +78,8 @@ export function star(req, res) {
     var userId = req.user._id;
     return User.findById(userId)
         .exec()
-        .then(user => {
-            StarredMessage.findOne({
-                    message: req.params.id,
-                    starredBy: userId
-                })
-                .lean()
-                .exec()
-                .then(star => {
-                    if (!star) {
-                        return StarredMessage.create({
-                            message: req.params.id,
-                            starredBy: userId
-                        });
-                    } else {
-                        return star;
-                    }
-                });
-        })
+        .then(handleUserNotFound(res))
+        .then(createStar(res, req))
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -199,15 +89,10 @@ export function unstar(req, res) {
     var userId = req.user._id;
     return User.findById(userId)
         .exec()
-        .then(user => {
-            return StarredMessage.findOne({
-                    message: req.params.id,
-                    starredBy: userId
-                })
-                .exec();
-        })
+        .then(handleUserNotFound(res))
+        .then(findStar(req))
         .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
+        .then(removeStar(res))
         .catch(handleError(res));
 }
 
@@ -246,40 +131,13 @@ export function indexMyStars(req, res) {
         .catch(handleError(res));
 }
 
-function findStarByUser(res, req) {
-    return function (user) {
-        if (user) {
-            console.log('before searching star');
-            console.log('message id', req.params.id);
-            console.log('user id', user._id);
-            return StarredMessage
-                .findOne({
-                    message: req.params.id,
-                    starredBy: user._id
-                })
-                .exec();
-        }
-        return null;
-    };
-}
-
-function setStarArchiveValue(archived) {
-    return function (star) {
-        if (!star) {
-            star.archived = archived;
-            return star.save();
-        }
-        return null;
-    };
-}
-
 // Archives the star of the user.
 export function archiveStar(req, res) {
     var userId = req.user._id;
     return User.findById(userId)
         .exec()
         .then(handleUserNotFound(res))
-        .then(findStarByUser(res, req))
+        .then(findStar(res, req))
         .then(handleEntityNotFound(res))
         .then(setStarArchived(true))
         .then(respondWithResult(res))
@@ -292,22 +150,11 @@ export function unarchiveStar(req, res) {
     return User.findById(userId)
         .exec()
         .then(handleUserNotFound(res))
-        .then(findStarByUser(res, req))
+        .then(findStar(res, req))
         .then(handleEntityNotFound(res))
         .then(setStarArchived(false))
         .then(respondWithResult(res))
         .catch(handleError(res));
-}
-
-// Set whether a message starred is archived.
-function setStarArchived(archived) {
-    return function (star) {
-        if (star) {
-            star.archived = archived;
-            return star.save();
-        }
-        return null;
-    };
 }
 
 // Returns the replies of a message.
@@ -336,4 +183,126 @@ export function repliesCount(req, res) {
         }
         return null;
     });
+}
+
+/**
+ * Helper functions
+ */
+
+function respondWithResult(res, statusCode) {
+    statusCode = statusCode || 200;
+    return function (entity) {
+        if (entity) {
+            return res.status(statusCode).json(entity);
+        }
+        return null;
+    };
+}
+
+function patchUpdates(patches) {
+    return function (entity) {
+        try {
+            applyPatch(entity, patches, /*validate*/ true);
+        } catch (err) {
+            return Promise.reject(err);
+        }
+        return entity.save();
+    };
+}
+
+function removeMessage(res) {
+    return function (entity) {
+        if (entity) {
+            return entity.remove()
+                .then(removeStars(entity))
+                .then(() => res.status(204).end());
+        }
+    };
+}
+
+function removeStars() {
+    return function (message) {
+        if (message) {
+            return StarredMessage.find({
+                    message: message._id
+                })
+                .exec()
+                .then(stars => Promise.all(
+                    stars.map(star => star.remove())
+                ));
+        }
+        return null;
+    }
+}
+
+function handleEntityNotFound(res) {
+    return function (entity) {
+        if (!entity) {
+            res.status(404).end();
+            return null;
+        }
+        return entity;
+    };
+}
+
+function handleUserNotFound(res) {
+    return function (user) {
+        if (!user) {
+            res.status(401).end();
+            return null;
+        }
+        return user;
+    };
+}
+
+function handleError(res, statusCode) {
+    statusCode = statusCode || 500;
+    return function (err) {
+        res.status(statusCode).send(err);
+    };
+}
+
+function createStar(res, req) {
+    return function (user) {
+        if (user) {
+            return StarredMessage.create({
+                message: req.params.id,
+                starredBy: user._id
+            });
+        }
+        return null;
+    }
+}
+
+function removeStar(res, req) {
+    return function (star) {
+        if (star) {
+            return star.remove()
+        }
+        return null;
+    }
+}
+
+function findStar(req) {
+    return function (user) {
+        if (user) {
+            return StarredMessage
+                .findOne({
+                    message: req.params.id,
+                    starredBy: user._id
+                })
+                .exec();
+        }
+        return null;
+    };
+}
+
+function setStarArchived(archived) {
+    return function (star) {
+        if (star) {
+            star.archived = archived;
+            return star.save();
+        }
+        return null;
+    };
 }
