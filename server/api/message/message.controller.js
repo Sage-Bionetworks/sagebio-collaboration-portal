@@ -19,7 +19,6 @@ import User from '../user/user.model';
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
-      console.log('entity saved', entity);
         if (entity) {
             return res.status(statusCode).json(entity);
         }
@@ -38,6 +37,7 @@ function patchUpdates(patches) {
     };
 }
 
+// Removes a message and its stars.
 function removeEntity(res) {
     return function (entity) {
         if (entity) {
@@ -80,12 +80,10 @@ function handleEntityNotFound(res) {
 
 function handleUserNotFound(res) {
     return function (user) {
-        console.log('user object', user);
         if (!user) {
             res.status(404).end(); // TODO replace by auth error code
             return null;
         }
-        console.log('user continue')
         return user;
     };
 }
@@ -242,7 +240,6 @@ export function indexMyStars(req, res) {
                 .find({
                     starredBy: userId
                 })
-                .select('-starredBy')
                 .exec();
         })
         .then(respondWithResult(res))
@@ -260,7 +257,6 @@ function findStarByUser(res, req) {
                     message: req.params.id,
                     starredBy: user._id
                 })
-                .select('-starredBy')
                 .exec();
         }
         return null;
@@ -303,6 +299,7 @@ export function unarchiveStar(req, res) {
         .catch(handleError(res));
 }
 
+// Set whether a message starred is archived.
 function setStarArchived(archived) {
     return function (star) {
         if (star) {
@@ -313,8 +310,7 @@ function setStarArchived(archived) {
     };
 }
 
-// Unarchive the star of the user.
-
+// Returns the replies of a message.
 export function indexReplies(req, res) {
     return Reply.find({
             thread: req.params.id
@@ -324,6 +320,7 @@ export function indexReplies(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the number of replies of a message.
 export function repliesCount(req, res) {
     Reply.countDocuments({
         thread: req.params.id
@@ -332,9 +329,11 @@ export function repliesCount(req, res) {
             res.status(404).json({
                 error: err
             });
+        } else {
+            res.status(200).json({
+                value: count
+            });
         }
-        res.status(200).json({
-            value: count
-        });
+        return null;
     });
 }
