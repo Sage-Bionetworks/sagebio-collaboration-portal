@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 
-import { NotificationService } from '../../../components/notification/notification.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
+import { NotificationService } from '../../../components/notification/notification.service';
+import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
-import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { models } from '../../../app/app.constants';
 
 
@@ -20,10 +21,12 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     styles: [require('./message.scss')],
     encapsulation: ViewEncapsulation.None
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, AfterViewInit {
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private tooltipPosition = 'above';
     @ViewChild('editor') editor: QuillEditorComponent;
+    @ViewChild(MessageStarButtonComponent) starButton: MessageStarButtonComponent;
+    private starred: Observable<boolean>;
     private hide = false;
     private form: FormGroup;
     private isReadOnly = true;
@@ -60,6 +63,7 @@ export class MessageComponent implements OnInit {
     }
 
     ngOnInit() {
+
         // this.form
         //     .controls
         //     .body
@@ -70,6 +74,15 @@ export class MessageComponent implements OnInit {
         //     .subscribe((data) => {
         //         console.log('native fromControl value changes with debounce', data);
         //     });
+    }
+
+    ngAfterViewInit() {
+        this.starred = this.starButton.isStarred()
+            .pipe(
+                startWith(null),
+                delay(0)
+            );
+            // .subscribe(starred => this.starred = starred);
     }
 
     ngOnDestroy() {

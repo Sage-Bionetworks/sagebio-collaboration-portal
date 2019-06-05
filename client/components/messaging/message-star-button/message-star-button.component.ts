@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { NotificationService } from '../../../components/notification/notification.service';
@@ -18,22 +18,10 @@ import { models } from '../../../app/app.constants';
 })
 export class MessageStarButtonComponent implements OnInit {
     @Input() private message: Message;
-    private starred = false;
+    private starred: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private starredSub: Subscription;
     private numStars = 0;
     private tooltipPosition = 'above';
-    // private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
-    // private starred = false;
-    // private numStars = 0;
-    // private tooltipPosition = 'above';
-    // @ViewChild('editor') editor: QuillEditorComponent;
-    // private hide = false;
-    // private form: FormGroup;
-    // private isReadOnly = true;
-    // private edited = false;
-    // private messageSub: Subscription;
-    // private getMessageSub: Subscription;
-    // private starredSub: Subscription;
 
     static parameters = [MessagingService, MessagingDataService,
         NotificationService];
@@ -48,7 +36,7 @@ export class MessageStarButtonComponent implements OnInit {
                 map(stars => stars.map(star => star.message).includes(this.message._id))
             )
             .subscribe(starred => {
-                this.starred = starred;
+                this.starred.next(starred);
                 this.messagingService.getNumStars(this.message)
                     .subscribe(numStars => this.numStars = numStars);
             });
@@ -74,5 +62,13 @@ export class MessageStarButtonComponent implements OnInit {
                     console.log(err);
                     this.notificationService.error('Unable to unstar message');
                 });
+    }
+
+    /**
+     * Returns wether the message is starred by the user.
+     * @return {Observable<boolean>}
+     */
+    isStarred(): Observable<boolean> {
+        return this.starred.asObservable();
     }
 }

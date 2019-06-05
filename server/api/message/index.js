@@ -13,8 +13,13 @@ router.delete('/:id', controller.destroy);
 
 router.post('/:id/star', auth.isAuthenticated(), controller.star);
 router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
-router.get('/:id/stars/count', controller.starCount);
-
+router.get('/:id/stars/count', controller.starsCount);
 router.get('/stars/mine', auth.isAuthenticated(), controller.indexMyStars);
+router.patch('/:id/star/archive', auth.isAuthenticated(), controller.archiveStar);
+router.patch('/:id/star/unarchive', auth.isAuthenticated(), controller.unarchiveStar);
+
+router.get('/:id/replies', controller.indexReplies);
+router.get('/:id/replies/count', controller.repliesCount);
+// router.post('/:id/replies', controller.createReply);
 
 module.exports = router;

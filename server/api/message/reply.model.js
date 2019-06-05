@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import Message from './message.model';
+import BaseMessage from './base-message.model';
 
 var ReplySchema = new mongoose.Schema({
-    // message: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Message'
-    // },
+    thread: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Message'
+    }
 });
 
-export default Message.discriminator('Reply', ReplySchema);
+export default BaseMessage.discriminator('Reply', ReplySchema);

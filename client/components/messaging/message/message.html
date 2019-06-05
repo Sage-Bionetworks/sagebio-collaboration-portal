@@ -16,6 +16,9 @@
                 <mat-chip *ngFor="let tag of message.tags">{{ tag.name }}</mat-chip>
             </mat-chip-list>
         </div>
+        <div>
+            <message-reply-button [message]="message"></message-reply-button>
+        </div>
         <div class="app-message-header-actions">
             <a mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" aria-label="Start a thread" (click)="replyToMessage()">
                 <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
@@ -27,6 +30,7 @@
                 <mat-icon aria-label="Icon of a plain star">star</mat-icon>
             </a>
             <div>{{ numStars }}</div> -->
+            <!-- [starred]="onStarredChange($event)" -->
             <message-star-button [message]="message"></message-star-button>
             <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
                 <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
@@ -38,6 +42,7 @@
                 <button mat-menu-item aria-label="Delete message" (click)="removeMessage()">
                     <span class="app-message-delete-btn-label">Delete message</span>
                 </button>
+                <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button>
             </mat-menu>
         </div>
     </div>

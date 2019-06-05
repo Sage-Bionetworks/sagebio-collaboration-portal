@@ -1,0 +1,6 @@
+<button *ngIf="!archived" mat-menu-item aria-label="Archive message" (click)="archive()">
+    <span>Archive message</span>
+</button>
+<button *ngIf="archived" mat-menu-item aria-label="Unarchive message" (click)="unarchive()">
+    <span>Unarchive message</span>
+</button>

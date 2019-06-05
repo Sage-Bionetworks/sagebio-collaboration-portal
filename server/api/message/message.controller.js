@@ -12,12 +12,14 @@ import {
     applyPatch
 } from 'fast-json-patch';
 import Message from './message.model'
+import Reply from './reply.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
+      console.log('entity saved', entity);
         if (entity) {
             return res.status(statusCode).json(entity);
         }
@@ -32,7 +34,6 @@ function patchUpdates(patches) {
         } catch (err) {
             return Promise.reject(err);
         }
-
         return entity.save();
     };
 }
@@ -42,9 +43,14 @@ function removeEntity(res) {
         if (entity) {
             return entity.remove()
                 .then(() => {
-                    return StarredMessage.deleteMany({
+                    // remove stars individually to fire StarredMessage hook
+                    return StarredMessage.find({
                             message: entity._id
-                        });
+                        })
+                        .exec()
+                        .then(stars => Promise.all(
+                            stars.map(star => star.remove())
+                        ));
                 })
                 .then(() => res.status(204).end());
         }
@@ -63,11 +69,24 @@ function removeEntity(res) {
 
 function handleEntityNotFound(res) {
     return function (entity) {
+        console.log('entity', entity);
         if (!entity) {
             res.status(404).end();
             return null;
         }
         return entity;
+    };
+}
+
+function handleUserNotFound(res) {
+    return function (user) {
+        console.log('user object', user);
+        if (!user) {
+            res.status(404).end(); // TODO replace by auth error code
+            return null;
+        }
+        console.log('user continue')
+        return user;
     };
 }
 
@@ -195,8 +214,8 @@ export function unstar(req, res) {
 }
 
 // Returns the number of users who have starred a message
-export function starCount(req, res) {
-    StarredMessage.count({
+export function starsCount(req, res) {
+    StarredMessage.countDocuments({
         message: req.params.id
     }, function (err, count) {
         if (err) {
@@ -228,4 +247,94 @@ export function indexMyStars(req, res) {
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
+}
+
+function findStarByUser(res, req) {
+    return function (user) {
+        if (user) {
+            console.log('before searching star');
+            console.log('message id', req.params.id);
+            console.log('user id', user._id);
+            return StarredMessage
+                .findOne({
+                    message: req.params.id,
+                    starredBy: user._id
+                })
+                .select('-starredBy')
+                .exec();
+        }
+        return null;
+    };
+}
+
+function setStarArchiveValue(archived) {
+    return function (star) {
+        if (!star) {
+            star.archived = archived;
+            return star.save();
+        }
+        return null;
+    };
+}
+
+// Archives the star of the user.
+export function archiveStar(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(findStarByUser(res, req))
+        .then(handleEntityNotFound(res))
+        .then(setStarArchived(true))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Unarchives the star of the user.
+export function unarchiveStar(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(findStarByUser(res, req))
+        .then(handleEntityNotFound(res))
+        .then(setStarArchived(false))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+function setStarArchived(archived) {
+    return function (star) {
+        if (star) {
+            star.archived = archived;
+            return star.save();
+        }
+        return null;
+    };
+}
+
+// Unarchive the star of the user.
+
+export function indexReplies(req, res) {
+    return Reply.find({
+            thread: req.params.id
+        })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function repliesCount(req, res) {
+    Reply.countDocuments({
+        thread: req.params.id
+    }, function (err, count) {
+        if (err) {
+            res.status(404).json({
+                error: err
+            });
+        }
+        res.status(200).json({
+            value: count
+        });
+    });
 }

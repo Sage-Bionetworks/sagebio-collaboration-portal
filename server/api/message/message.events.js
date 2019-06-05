@@ -13,8 +13,7 @@ MessageEvents.setMaxListeners(0);
 // Model events
 var events = {
     save: 'save',
-    remove: 'remove',
-    deleteMany: 'deleteMany'
+    remove: 'remove'
 };
 
 // Register the event emitter to the model events
@@ -27,7 +26,6 @@ function registerEvents(Message) {
 
 function emitEvent(event) {
     return function (doc) {
-        console.log('doc', doc);
         console.log(`${event}:${doc._id}`);
         MessageEvents.emit(`${event}:${doc._id}`, doc);
         MessageEvents.emit(event, doc);

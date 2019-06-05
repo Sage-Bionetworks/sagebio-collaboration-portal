@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
+import { Reply } from '../../../shared/interfaces/discussion/reply.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
 
@@ -20,6 +21,10 @@ export class MessagingService {
 
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
+
+    /**
+     * Messages
+     */
 
     getMessages(query?: {}): Observable<Message[]> {
         return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
@@ -45,6 +50,10 @@ export class MessagingService {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);
     }
 
+    /**
+     * Stars
+     */
+
     starMessage(message: Message): Observable<StarredMessage> {
         return this.httpClient.post<StarredMessage>(`/api/messages/${message._id}/star`, {});
     }
@@ -62,5 +71,29 @@ export class MessagingService {
 
     getStarredMessages(query?: {}): Observable<StarredMessage[]> {
         return this.httpClient.get<StarredMessage[]>(`/api/messages/stars/mine${stringifyQuery(query)}`);
+    }
+
+    archiveStar(message: Message): Observable<StarredMessage> {
+        console.log(`/api/messages/${message._id}/star/archive`);
+        return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/archive`, []);
+    }
+
+    unarchiveStar(message: Message): Observable<StarredMessage> {
+        return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/unarchive`, []);
+    }
+
+    /**
+     * Replies
+     */
+
+    getReplies(message: Message, query?: {}): Observable<Reply[]> {
+        return this.httpClient.get<Reply[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`);
+    }
+
+    getNumReplies(message: Message): Observable<number> {
+        return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/replies/count`)
+            .pipe(
+                map(count => count.value)
+            );
     }
 }
