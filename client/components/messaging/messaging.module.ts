@@ -13,6 +13,7 @@ import { MessageNewComponent } from './message-new/message-new.component';
 import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
+import { MessageThreadComponent } from './message-thread/message-thread.component';
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
@@ -43,6 +44,7 @@ import { TagService } from '../tag/tag.service';
         MessageReplyButtonComponent,
         MessageStarArchiveButtonComponent,
         MessageStarButtonComponent,
+        MessageThreadComponent,
         MessagingViewComponent,
         StarredMessageListComponent
     ],

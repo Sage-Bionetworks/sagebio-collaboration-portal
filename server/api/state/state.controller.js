@@ -59,7 +59,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
-        res.status(statusCode).send(err);
+        res.status(statusCode).json({ message: err });
     };
 }
 
@@ -80,9 +80,11 @@ export function show(req, res) {
 
 // Creates a new State in the DB
 export function create(req, res) {
-  State.create(req.body)
-      .then(respondWithResult(res, 201))
-      .catch(handleError(res));
+  res.status(500).json({ message: 'Internal Server Error' });
+
+  // State.create(req.body)
+  //     .then(respondWithResult(res, 201))
+  //     .catch(handleError(res));
     // State.create(req.body)
     //     .then(state => {
     //         console.log(state);

@@ -61,6 +61,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Projects
 export function index(req, res) {
+    // res.status(500).json({ message: 'You can not list the projects' });
     return Project.find().exec()
         .then(respondWithResult(res))
         .catch(handleError(res));

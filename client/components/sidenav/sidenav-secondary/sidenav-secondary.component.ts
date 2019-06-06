@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 
 @Component({
     selector: 'app-sidenav-secondary',
@@ -6,6 +6,8 @@ import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular
     styles: [require('./sidenav-secondary.scss')]
 })
 export class SidenavSecondaryComponent implements OnInit, OnDestroy {
+    private template: TemplateRef<any>;
+    // @ContentChild
 
     static parameters = [];
     constructor() { }
@@ -13,4 +15,8 @@ export class SidenavSecondaryComponent implements OnInit, OnDestroy {
     ngOnInit() { }
 
     ngOnDestroy() { }
+
+    public setTemplate(template: TemplateRef<any>): void {
+        this.template = template;
+    }
 }
