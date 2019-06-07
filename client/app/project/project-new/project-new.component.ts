@@ -8,7 +8,7 @@ import { Project } from '../../../../shared/interfaces/project.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
-import { models } from '../../app.constants';
+import config from '../../app.constants';
 
 @Component({
     selector: 'project-new',
@@ -33,19 +33,19 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
         private pageTitleService: PageTitleService,
         private projectService: ProjectService) {
 
-        this.projectSpecs = models.project;
+        this.projectSpecs = config.models.project;
         this.newForm = this.formBuilder.group({
             name: ['', [
                 Validators.required,
-                Validators.minLength(models.project.name.minlength),
-                Validators.maxLength(models.project.name.maxlength)
+                Validators.minLength(config.models.project.name.minlength),
+                Validators.maxLength(config.models.project.name.maxlength)
             ]],
             description: ['', [
                 Validators.required,
-                Validators.minLength(models.project.description.minlength),
-                Validators.maxLength(models.project.description.maxlength)
+                Validators.minLength(config.models.project.description.minlength),
+                Validators.maxLength(config.models.project.description.maxlength)
             ]],
-            visibility: [models.project.visibility.default, [
+            visibility: [config.models.project.visibility.default, [
                 Validators.required
             ]],
         });

@@ -10,7 +10,7 @@ import { DataCatalogService } from '../../data-catalog/data-catalog.service';
 import { Filter } from '../../../components/filters/filter.model';
 import { FiltersComponent } from '../../../components/filters/filters.component';
 import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
-import { datasetOrders } from '../../app.constants';
+import config from '../../app.constants';
 import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
         private catalogService: DataCatalogService,
         private notificationService: NotificationService) {
 
-        this.orderFilters = values(datasetOrders);
+        this.orderFilters = values(config.datasetOrders);
     }
 
     ngOnInit() {

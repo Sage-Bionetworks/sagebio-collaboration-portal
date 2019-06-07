@@ -30,11 +30,17 @@ export const models = {
     },
     message: {
         body: {
-            minlength: 26,  // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024  // allows for 500 KB (Unicode: 1 character = 2 bytes)
+            minlength: 26, // 1 character when stringifying Quill content
+            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
         }
     }
 };
+
+export const ui = {
+    tooltip: {
+        showDelay: 0
+    }
+}
 
 export const datasetOrders = {
     // ALPHA: {  // Sorting by title doesn't seem to work
@@ -76,5 +82,6 @@ export default {
     discourse,
     // feliteWebsite
 
-    models
+    models,
+    ui
 };

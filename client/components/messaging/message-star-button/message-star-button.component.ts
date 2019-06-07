@@ -3,13 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
-
 import { NotificationService } from '../../../components/notification/notification.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
-import { models } from '../../../app/app.constants';
 
 @Component({
     selector: 'message-star-button',

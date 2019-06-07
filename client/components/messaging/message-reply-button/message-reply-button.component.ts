@@ -3,14 +3,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
-
 import { NotificationService } from '../../notification/notification.service';
 import { SidenavService } from '../../sidenav/sidenav.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
-import { models } from '../../../app/app.constants';
 import { SidenavItem } from '../../sidenav/sidenav-item';
 import { MessageThreadComponent } from '../message-thread/message-thread.component';
 

@@ -10,7 +10,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Insight } from '../../../shared/interfaces/insight.model';
 import { stringifyQuery } from '../../components/util';
-import { ckanApiBaseUrl } from '../app.constants';
 
 @Injectable()
 export class InsightService {

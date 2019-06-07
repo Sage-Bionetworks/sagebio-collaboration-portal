@@ -13,8 +13,6 @@ import { NotificationService } from '../../../components/notification/notificati
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import { some, orderBy } from 'lodash/fp';
-// import { feliteWebsite } from '../../app.constants';
-import { discourse } from '../../app.constants';
 
 @Component({
     selector: 'dataset',

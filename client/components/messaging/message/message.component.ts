@@ -3,15 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
-
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
-import { models } from '../../../app/app.constants';
-
+import config from '../../../app/app.constants';
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 
@@ -22,6 +20,9 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     encapsulation: ViewEncapsulation.None
 })
 export class MessageComponent implements OnInit, AfterViewInit {
+    @Input('showReplyButton') private showReplyButton = true;
+    @Input('showStartThreadButton') private showStartThreadButton = true;
+
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private tooltipPosition = 'above';
     @ViewChild('editor') editor: QuillEditorComponent;
@@ -33,6 +34,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
     private edited = false;
     private messageSub: Subscription;
     private getMessageSub: Subscription;
+    private tooltipShowDelay: number;
 
     static parameters = [FormBuilder, NotificationService, MessagingService,
         MessagingDataService];
@@ -45,8 +47,8 @@ export class MessageComponent implements OnInit, AfterViewInit {
             _id: [''],
             body: ['', [
                 Validators.required,
-                Validators.minLength(models.message.body.minlength),
-                Validators.maxLength(models.message.body.maxlength)
+                Validators.minLength(config.models.message.body.minlength),
+                Validators.maxLength(config.models.message.body.maxlength)
             ]]
         });
 
@@ -60,6 +62,8 @@ export class MessageComponent implements OnInit, AfterViewInit {
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
                 }
             });
+
+        this.tooltipShowDelay = config.ui.tooltip.showDelay;
     }
 
     ngOnInit() {

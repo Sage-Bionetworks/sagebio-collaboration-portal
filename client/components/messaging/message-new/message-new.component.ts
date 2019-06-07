@@ -8,7 +8,7 @@ import { NotificationService } from '../../../components/notification/notificati
 import { ObjectValidators } from '../../validation/object-validators';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
-import { models } from '../../../app/app.constants';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'message-new',
@@ -29,8 +29,8 @@ export class MessageNewComponent implements OnInit {
         this.form = formBuilder.group({
             body: ['', [
                 Validators.required,
-                ObjectValidators.jsonStringifyMinLength(models.message.body.minlength),
-                ObjectValidators.jsonStringifyMaxLength(models.message.body.maxlength)
+                ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
+                ObjectValidators.jsonStringifyMaxLength(config.models.message.body.maxlength)
             ]]
         });
     }

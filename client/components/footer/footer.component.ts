@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 // import constants from '../../app/app.constants';
-import { gitVersion, gitBranch } from '../../app/app.constants';
+import config from '../../app/app.constants';
 
 @Component({
     selector: 'app-footer',
@@ -12,8 +12,8 @@ export class FooterComponent {
     gitBranch;
 
     constructor() {
-        this.gitVersion = gitVersion;
-        this.gitBranch = gitBranch;
+        this.gitVersion = config.gitVersion;
+        this.gitBranch = config.gitBranch;
         // version = `1.0.0 (${constants.BRANCH}-${constants.VERSION})`;
     }
 }
