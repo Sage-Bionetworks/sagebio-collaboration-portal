@@ -1,3 +1,14 @@
-<ng-template #thread>
+<div class="app-message-thread-header">
+    <div class="app-message-thread-header-title">
+        <h2>Thread</h2>
+    </div>
+    <a class="app-message-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the thread" (click)="hideThread()">
+        <mat-icon aria-label="Icon of cross">close</mat-icon>
+    </a>
+</div>
+
+<!-- <ng-template #thread>
   Thread
-</ng-template>
+</ng-template> -->
+
+Message Thread {{ title }}

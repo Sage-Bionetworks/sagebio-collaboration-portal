@@ -12,6 +12,7 @@ import { Message } from '../../../shared/interfaces/discussion/message.model';
 import { Reply } from '../../../shared/interfaces/discussion/reply.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
+import { SidenavService } from '../sidenav/sidenav.service';
 
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
@@ -19,8 +20,9 @@ import { some, orderBy, head } from 'lodash/fp';
 @Injectable()
 export class MessagingService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, SidenavService];
+    constructor(private httpClient: HttpClient,
+        private sidenavService: SidenavService) { }
 
     /**
      * Messages
@@ -95,5 +97,9 @@ export class MessagingService {
             .pipe(
                 map(count => count.value)
             );
+    }
+
+    showThread(): void {
+        this.sidenavService.toggle();
     }
 }

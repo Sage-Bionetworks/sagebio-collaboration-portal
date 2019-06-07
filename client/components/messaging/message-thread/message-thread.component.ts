@@ -6,7 +6,8 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
     styles: [require('./message-thread.scss')]
 })
 export class MessageThreadComponent implements OnInit, AfterViewInit {
-    @ViewChild('thread') threadTemplate;
+    // @ViewChild('thread') threadTemplate;
+    public title = '';
 
     static parameters = [];
     constructor() { }
@@ -14,8 +15,12 @@ export class MessageThreadComponent implements OnInit, AfterViewInit {
     ngOnInit() { }
 
     ngAfterViewInit() {
-        console.log(this.threadTemplate);
+        // console.log(this.threadTemplate);
     }
 
     ngOnDestroy() { }
+
+    hideThread(): void {
+
+    }
 }

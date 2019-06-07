@@ -1,16 +1,18 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 
-import { NotificationService } from '../../../components/notification/notification.service';
+import { NotificationService } from '../../notification/notification.service';
 import { SidenavService } from '../../sidenav/sidenav.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { models } from '../../../app/app.constants';
+import { SidenavItem } from '../../sidenav/sidenav-item';
+import { MessageThreadComponent } from '../message-thread/message-thread.component';
 
 @Component({
     selector: 'message-reply-button',
@@ -26,11 +28,12 @@ export class MessageReplyButtonComponent implements OnInit {
     // private tooltipPosition = 'above';
 
     static parameters = [MessagingService, MessagingDataService,
-        NotificationService, SidenavService];
+        NotificationService, SidenavService, ComponentFactoryResolver];
     constructor(private messagingService: MessagingService,
         private messagingDataService: MessagingDataService,
         private notificationService: NotificationService,
-        private sidenavService: SidenavService) {
+        private sidenavService: SidenavService,
+        private componentFactoryResolver: ComponentFactoryResolver) {
     }
 
     ngOnInit() {
@@ -46,7 +49,11 @@ export class MessageReplyButtonComponent implements OnInit {
     ngOnDestroy() { }
 
     showReplies(): void {
-        this.sidenavService.toggle();
+      let sidenavContent = new SidenavItem(MessageThreadComponent, { title: 'YOOO' });
+      this.sidenavService.show(sidenavContent);
+        // let componentFactory = this.componentFactoryResolver.resolveComponentFactory(adItem.component);
+
+        // this.messagingService.showThread();
         // this.notificationService.info('Not yet implemented');
     }
 }
