@@ -49,11 +49,12 @@ export class MessageReplyButtonComponent implements OnInit {
     ngOnDestroy() { }
 
     showReplies(): void {
-      let sidenavContent = new SidenavItem(MessageThreadComponent, { title: 'YOOO' });
-      this.sidenavService.show(sidenavContent);
-        // let componentFactory = this.componentFactoryResolver.resolveComponentFactory(adItem.component);
-
-        // this.messagingService.showThread();
-        // this.notificationService.info('Not yet implemented');
+      // let sidenavContent = new SidenavItem(MessageThreadComponent, { title: 'YOOO' });
+      // this.sidenavService.show(sidenavContent);
+      let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MessageThreadComponent);
+      let viewContainerRef = this.sidenavService.getSecondarySidenavHost().viewContainerRef;
+      viewContainerRef.clear();
+      let componentRef = viewContainerRef.createComponent(componentFactory);
+      this.sidenavService.open();
     }
 }

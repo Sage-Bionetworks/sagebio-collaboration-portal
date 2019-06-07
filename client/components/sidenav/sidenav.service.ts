@@ -3,6 +3,7 @@ import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SidenavSecondaryComponent } from './sidenav-secondary/sidenav-secondary.component';
 import { SidenavItem } from './sidenav-item';
+import { SidenavHostDirective } from './sidenav-host.directive';
 
 @Injectable()
 export class SidenavService {
@@ -24,10 +25,20 @@ export class SidenavService {
         return this.sidenav.toggle();
     }
 
-    public show(sidenavItem: SidenavItem) {
-        this.sidenavContent.loadComponent(sidenavItem);
-        this.open();
-    }
+    /**
+     * Secondary sidenav
+     */
+
+     public getSecondarySidenavHost(): SidenavHostDirective {
+       return this.sidenavContent.getSidenavHost();
+     }
+
+
+
+    // public show(sidenavItem: SidenavItem) {
+    //     this.sidenavContent.loadComponent(sidenavItem);
+    //     this.open();
+    // }
 
     // public setSidenavContent() {
     //

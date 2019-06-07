@@ -9,7 +9,7 @@ import { AppSidenav } from '../sidenav.model';
     styles: [require('./sidenav-secondary.scss')]
 })
 export class SidenavSecondaryComponent implements OnInit, OnDestroy {
-    @ViewChild(SidenavHostDirective) sidenavHost: SidenavHostDirective;
+    @ViewChild(SidenavHostDirective) private sidenavHost: SidenavHostDirective;
 
     static parameters = [ComponentFactoryResolver];
     constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
@@ -18,13 +18,17 @@ export class SidenavSecondaryComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
-    loadComponent(sidenavItem: SidenavItem) {
-        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(sidenavItem.component);
-
-        let viewContainerRef = this.sidenavHost.viewContainerRef;
-        viewContainerRef.clear();
-
-        let componentRef = viewContainerRef.createComponent(componentFactory);
-        (<AppSidenav>componentRef.instance).data = sidenavItem.data;
+    getSidenavHost(): SidenavHostDirective {
+        return this.sidenavHost;
     }
+
+    // loadComponent(sidenavItem: SidenavItem) {
+    //     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(sidenavItem.component);
+    //
+    //     let viewContainerRef = this.sidenavHost.viewContainerRef;
+    //     viewContainerRef.clear();
+    //
+    //     let componentRef = viewContainerRef.createComponent(componentFactory);
+    //     (<AppSidenav>componentRef.instance).data = sidenavItem.data;
+    // }
 }

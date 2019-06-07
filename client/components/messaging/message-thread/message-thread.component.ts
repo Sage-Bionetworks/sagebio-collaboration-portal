@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { SidenavService } from '../../sidenav/sidenav.service';
 
 @Component({
     selector: 'message-thread',
@@ -9,8 +10,8 @@ export class MessageThreadComponent implements OnInit, AfterViewInit {
     // @ViewChild('thread') threadTemplate;
     public title = '';
 
-    static parameters = [];
-    constructor() { }
+    static parameters = [SidenavService];
+    constructor(private sidenavService: SidenavService) { }
 
     ngOnInit() { }
 
@@ -20,7 +21,7 @@ export class MessageThreadComponent implements OnInit, AfterViewInit {
 
     ngOnDestroy() { }
 
-    hideThread(): void {
-
+    close(): void {
+        this.sidenavService.close();
     }
 }

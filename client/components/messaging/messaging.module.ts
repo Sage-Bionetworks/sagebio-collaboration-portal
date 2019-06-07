@@ -53,6 +53,9 @@ import { TagService } from '../tag/tag.service';
         MessageNewComponent,
         MessagingViewComponent,
         StarredMessageListComponent
+    ],
+    entryComponents: [
+        MessageThreadComponent
     ]
 })
 export class MessagingModule { }

@@ -23,8 +23,8 @@ import { MessageThreadComponent } from '../messaging/message-thread/message-thre
     exports: [
         SidenavSecondaryComponent
     ],
-    entryComponents: [
-        MessageThreadComponent
-    ]
+    // entryComponents: [
+    //     MessageThreadComponent
+    // ]
 })
 export class SidenavModule { }
