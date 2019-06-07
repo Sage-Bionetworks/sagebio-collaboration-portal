@@ -142,6 +142,8 @@ export class SocketService {
         if (this.primus && this.primus.getValue()) {
             const primus = this.primus.getValue();
 
+            console.log('SYNC ', modelName);
+
             primus.on(`${modelName}:save`, item => {
                 let items = subject.getValue();
                 let oldItem = find(items, { _id: item._id });

@@ -4,8 +4,7 @@ import { Tag } from '../tag.model';
 export interface Message {
     _id?: string;
     body: string;
-    starred: boolean;
-    tags: Tag[];
+    thread?: string;
     createdAt: string;
     updatedAt: string;
     createdBy: UserProfile;

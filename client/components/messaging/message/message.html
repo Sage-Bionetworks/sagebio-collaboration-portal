@@ -12,9 +12,9 @@
             <span>{{ message.createdBy.username }}</span>
             <span>{{ message.createdAt | date: 'shortTime' }}</span>
             <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
-            <mat-chip-list>
+            <!-- <mat-chip-list>
                 <mat-chip *ngFor="let tag of message.tags">{{ tag.name }}</mat-chip>
-            </mat-chip-list>
+            </mat-chip-list> -->
         </div>
         <div>
             <message-reply-button [message]="message"></message-reply-button>

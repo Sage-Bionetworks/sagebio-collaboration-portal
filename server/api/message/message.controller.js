@@ -12,13 +12,16 @@ import {
     applyPatch
 } from 'fast-json-patch';
 import Message from './message.model'
-import Reply from './reply.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
 // Gets a list of Messages
 export function index(req, res) {
-    return Message.find(req.query)
+    return Message.find({
+            thread: {
+                $exists: false
+            }
+        })
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -27,8 +30,7 @@ export function index(req, res) {
 // Gets a single Message from the DB
 export function show(req, res) {
     return Message.findById(req.params.id)
-        .populate('createdBy', User.profileProperties)
-        .populate('tags')
+        .populate('createdBy', User.profileProperties)  // hook not available
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -159,7 +161,7 @@ export function unarchiveStar(req, res) {
 
 // Returns the replies of a message.
 export function indexReplies(req, res) {
-    return Reply.find({
+    return Message.find({
             thread: req.params.id
         })
         .exec()
@@ -169,7 +171,7 @@ export function indexReplies(req, res) {
 
 // Returns the number of replies of a message.
 export function repliesCount(req, res) {
-    Reply.countDocuments({
+    Message.countDocuments({
         thread: req.params.id
     }, function (err, count) {
         if (err) {

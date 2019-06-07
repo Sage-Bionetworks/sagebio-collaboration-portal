@@ -9,8 +9,7 @@
   </div>
 
   <message [message]="message"></message>
-
-
+  <message *ngFor="let reply of replies | async" [message]="reply"></message>
   <message-new [thread]="message"></message-new>
 
   <div>

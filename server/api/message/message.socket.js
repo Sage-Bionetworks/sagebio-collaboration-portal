@@ -20,7 +20,11 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return function(doc) {
+        console.log('REALLY emitting', event);
         spark.emit(event, doc);
+        if (doc.thread) {
+            spark.emit(`thread:${doc.thread}:${event}`, doc);
+        }
     };
 }
 

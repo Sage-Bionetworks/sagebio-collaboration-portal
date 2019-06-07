@@ -9,7 +9,6 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
-import { Reply } from '../../../shared/interfaces/discussion/reply.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
 import { SidenavService } from '../sidenav/sidenav.service';
@@ -88,8 +87,8 @@ export class MessagingService {
      * Replies
      */
 
-    getReplies(message: Message, query?: {}): Observable<Reply[]> {
-        return this.httpClient.get<Reply[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`);
+    getReplies(message: Message, query?: {}): Observable<Message[]> {
+        return this.httpClient.get<Message[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`);
     }
 
     getNumReplies(message: Message): Observable<number> {
@@ -99,8 +98,8 @@ export class MessagingService {
             );
     }
 
-    addReply(thread: Message, reply: Reply): Observable<Reply> {
-        return this.httpClient.post<Reply>(`/api/messages/${thread._id}/replies`, reply);
+    addReply(thread: Message, reply: Message): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/messages/${thread._id}/replies`, reply);
     }
 
 

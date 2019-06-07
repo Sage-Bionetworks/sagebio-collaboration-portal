@@ -12,29 +12,40 @@ const message2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3ea');
 const message3Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3e4');
 
 let messages = [{
-    _id: message1Id,
-    body: `{\"ops\":[{\"insert\":\"a body\\n\"}]}`,
-    tags: [
-        toolTagId
-    ],
-    createdBy: adminUserId
-}, {
-    _id: message2Id,
-    body: `{\"ops\":[{\"insert\":\"another body\\n\"}]}`,
-    tags: [
-        toolTagId,
-        feLiteTagId
-    ],
-    createdBy: adminUserId
-}, {
-    _id: message3Id,
-    body: `{\"ops\":[{\"insert\":\"yet another body\\n\"}]}`,
-    tags: [
-        toolTagId,
-        feLiteTagId
-    ],
-    createdBy: adminUserId
-}];
+        _id: message1Id,
+        body: `{\"ops\":[{\"insert\":\"a body\\n\"}]}`,
+        tags: [
+            toolTagId
+        ],
+        createdBy: adminUserId
+    }, {
+        _id: message2Id,
+        body: `{\"ops\":[{\"insert\":\"another body\\n\"}]}`,
+        tags: [
+            toolTagId,
+            feLiteTagId
+        ],
+        createdBy: adminUserId
+    }, {
+        _id: message3Id,
+        body: `{\"ops\":[{\"insert\":\"yet another body\\n\"}]}`,
+        tags: [
+            toolTagId,
+            feLiteTagId
+        ],
+        createdBy: adminUserId
+    },
+    // REPLIES
+    {
+        body: `{\"ops\":[{\"insert\":\"Reply to a body\\n\"}]}`,
+        thread: message1Id,
+        createdBy: adminUserId
+    }, {
+        body: `{\"ops\":[{\"insert\":\"Reply to another body\\n\"}]}`,
+        thread: message2Id,
+        createdBy: adminUserId
+    }
+];
 
 export {
     messages,

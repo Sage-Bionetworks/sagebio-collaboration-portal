@@ -20,7 +20,6 @@ var events = {
 function registerEvents(StarredMessage) {
     for (var e in events) {
         let event = events[e];
-        console.log('registering event stars', e);
         StarredMessage.post(e, emitEvent(event));
     }
 }
