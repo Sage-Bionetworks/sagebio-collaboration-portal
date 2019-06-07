@@ -4,13 +4,11 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
-
 import { NotificationService } from '../../../components/notification/notification.service';
 import { ObjectValidators } from '../../validation/object-validators';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { models } from '../../../app/app.constants';
-
 
 @Component({
     selector: 'message-new',
@@ -21,6 +19,7 @@ export class MessageNewComponent implements OnInit {
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
+    @Input('thread') private thread: Message;
 
     static parameters = [FormBuilder, NotificationService, MessagingService];
     constructor(private formBuilder: FormBuilder,

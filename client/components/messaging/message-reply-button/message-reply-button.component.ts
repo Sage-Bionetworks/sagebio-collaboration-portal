@@ -55,6 +55,7 @@ export class MessageReplyButtonComponent implements OnInit {
       let viewContainerRef = this.sidenavService.getSecondarySidenavHost().viewContainerRef;
       viewContainerRef.clear();
       let componentRef = viewContainerRef.createComponent(componentFactory);
+      componentRef.instance.setMessage(this.message);
       this.sidenavService.open();
     }
 }

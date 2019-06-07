@@ -1,12 +1,19 @@
-<div class="app-message-thread-header">
-    <div class="app-message-thread-header-title">
-        <h2>Thread</h2>
-    </div>
-    <a class="app-message-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the thread" (click)="close()">
-        <mat-icon aria-label="Icon of cross">close</mat-icon>
-    </a>
+<div *ngIf="message">
+  <div class="app-message-thread-header">
+      <div class="app-message-thread-header-title">
+          <h2>Thread</h2>
+      </div>
+      <a class="app-message-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the thread" (click)="close()">
+          <mat-icon aria-label="Icon of cross">close</mat-icon>
+      </a>
+  </div>
+
+  <message [message]="message"></message>
+
+
+  <message-new [thread]="message"></message-new>
+
+  <div>
+    Username: {{ message.createdBy.username}}
+  </div>
 </div>
-
-
-
-Message Thread {{ title }}

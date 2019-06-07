@@ -99,7 +99,12 @@ export class MessagingService {
             );
     }
 
-    showThread(): void {
-        this.sidenavService.toggle();
+    addReply(thread: Message, reply: Reply): Observable<Reply> {
+        return this.httpClient.post<Reply>(`/api/messages/${thread._id}/replies`, reply);
     }
+
+
+    // showThread(): void {
+    //     this.sidenavService.toggle();
+    // }
 }
