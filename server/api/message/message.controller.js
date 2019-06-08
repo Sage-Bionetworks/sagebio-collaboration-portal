@@ -17,6 +17,7 @@ import User from '../user/user.model';
 
 // Gets a list of Messages
 export function index(req, res) {
+    req.query
     return Message.find({
             thread: {
                 $exists: false
@@ -30,7 +31,7 @@ export function index(req, res) {
 // Gets a single Message from the DB
 export function show(req, res) {
     return Message.findById(req.params.id)
-        .populate('createdBy', User.profileProperties)  // hook not available
+        .populate('createdBy', User.profileProperties) // hook not available
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -161,9 +162,13 @@ export function unarchiveStar(req, res) {
 
 // Returns the replies of a message.
 export function indexReplies(req, res) {
-    return Message.find({
-            thread: req.params.id
-        })
+    let query = Message.find({
+        thread: req.params.id
+    });
+    if (req.query.select) {
+        query = query.select(req.query.select);
+    }
+    return query
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));

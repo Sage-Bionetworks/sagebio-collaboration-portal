@@ -1,14 +1,6 @@
 <button mat-button class="user-button" [matMenuTriggerFor]="userMenu">
     <div>
-        <picture *ngIf="currentUser.picture; else letterAvatar">
-            <!-- <source [srcset]="currentUser.face | webp: 'small'" type="image/webp"> -->
-            <img class="app-avatar" [src]="currentUser.picture" aria-label="User avatar">
-        </picture>
-        <ng-template #letterAvatar>
-            <avatar class="app-avatar" size="40" background="#e87629" [name]="currentUser.name" [displayType]="'circle'"></avatar>
-        </ng-template>
-
-        <!-- <span class="app-hide-small">{{currentUser.name}}</span> -->
+        <user-avatar [user]="currentUser" [size]="avatarSize"></user-avatar>
         <mat-icon class="app-hide-small" aria-hidden="true">keyboard_arrow_down</mat-icon>
     </div>
 </button>

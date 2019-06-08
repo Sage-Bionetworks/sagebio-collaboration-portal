@@ -36,12 +36,6 @@ export const models = {
     }
 };
 
-export const ui = {
-    tooltip: {
-        showDelay: 0
-    }
-}
-
 export const datasetOrders = {
     // ALPHA: {  // Sorting by title doesn't seem to work
     //     value: 'title asc',
@@ -82,6 +76,5 @@ export default {
     discourse,
     // feliteWebsite
 
-    models,
-    ui
+    models
 };

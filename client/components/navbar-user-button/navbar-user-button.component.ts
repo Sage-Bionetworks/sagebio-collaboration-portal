@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../../../shared/interfaces/user.model';
 import { AuthService } from '../auth/auth.service';
-// import { ImagePipe, WebpPipe } from '../image/image.pipe';
+import config from '../../app/app.constants';
 
 @Component({
     selector: 'navbar-user-button',
@@ -15,6 +15,7 @@ export class NavbarUserButton implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private isAdmin = false;
     private authInfoSub: Subscription;
+    private avatarSize = 40;
 
     static parameters = [Router, AuthService];
     constructor(private router: Router, private authService: AuthService) { }
@@ -26,6 +27,8 @@ export class NavbarUserButton implements OnInit, OnDestroy {
                 this.isLoggedIn = authInfo.isLoggedIn();
                 this.isAdmin = authInfo.isAdmin();
             }, err => console.log(err));
+
+        this.avatarSize = config.avatar.size.small;
     }
 
     ngOnDestroy() {

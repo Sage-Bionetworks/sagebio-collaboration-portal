@@ -1,2 +1,5 @@
 <a mat-button *ngIf="(numReplies | async) == 1" type="button" (click)="showReplies()">1 reply</a>
 <a mat-button *ngIf="(numReplies | async) > 1" type="button" (click)="showReplies()">{{ numReplies }} replies</a>
+<div *ngIf="updatedAt | async">
+  Last reply {{ updatedAt | async | lastUpdated }}
+</div>

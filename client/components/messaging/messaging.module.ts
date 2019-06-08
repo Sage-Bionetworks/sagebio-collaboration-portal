@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
 import { QuillModule } from 'ngx-quill';
-
 import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
 import { SidenavModule } from '../../components/sidenav/sidenav.module';
 import { PipesModule } from '../pipes/pipes.module';
+import { UserAvatarModule } from '../user-avatar/user-avatar.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
@@ -35,7 +35,8 @@ import { MessageDateSeparatorComponent } from './message-date-separator/message-
                 // toolbar: [...]
             }
         }),
-        PipesModule
+        PipesModule,
+        UserAvatarModule
     ],
     providers: [
         MessagingService,
