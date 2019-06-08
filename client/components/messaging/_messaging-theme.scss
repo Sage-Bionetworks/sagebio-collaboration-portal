@@ -1,7 +1,8 @@
 @import './message/message-theme';
 @import './message-new/message-new-theme';
 @import './messaging-view/messaging-view-theme';
-@import './message-thread/message-thread-theme.scss';
+@import './message-thread/message-thread-theme';
+@import './message-date-separator/message-date-separator-theme';
 
 @mixin messaging-theme($theme) {
   $primary: map-get($theme, primary);
@@ -14,4 +15,5 @@
   @include message-new-theme($theme);
   @include messaging-view-theme($theme);
   @include message-thread-theme($theme);
+  @include message-date-separator-theme($theme);
 }

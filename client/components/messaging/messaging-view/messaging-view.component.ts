@@ -10,7 +10,10 @@ import { Tag } from '../../../../shared/interfaces/tag.model';
 // import { TagService } from '../../../components/tag/tag.service';
 // import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 // import { orderBy } from 'lodash/fp';
-
+// import moment from 'moment';
+import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
+import { DateLongPipe } from '../../pipes/date/date-long.pipe';
+import { SameDayPipe } from '../../pipes/date/same-day.pipe';
 
 @Component({
     selector: 'messaging-view',
@@ -63,5 +66,12 @@ export class MessagingViewComponent implements OnInit, AfterViewInit {
     //
     // goToPost(post: DiscoursePost): void {
     //     window.open(this.getPostUrl(post), '_blank');
+    // }
+
+    // getDateString(isoDateString: string): string {
+    //   let date = new Date(isoDateString);
+    //   let currentYear = new Date().getFullYear() === date.getFullYear();
+    //   let format = currentYear ? 'dddd, MMMM Do' : 'dddd, MMMM Do, YYYY';
+    //   return moment(date).format(format);
     // }
 }

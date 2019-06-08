@@ -7,6 +7,7 @@ import { QuillModule } from 'ngx-quill';
 import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
 import { SidenavModule } from '../../components/sidenav/sidenav.module';
+import { PipesModule } from '../pipes/pipes.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
@@ -18,6 +19,7 @@ import { MessagingViewComponent } from './messaging-view/messaging-view.componen
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
 import { TagService } from '../tag/tag.service';
+import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 
 @NgModule({
     imports: [
@@ -33,6 +35,7 @@ import { TagService } from '../tag/tag.service';
                 // toolbar: [...]
             }
         }),
+        PipesModule
     ],
     providers: [
         MessagingService,
@@ -46,7 +49,8 @@ import { TagService } from '../tag/tag.service';
         MessageStarButtonComponent,
         MessageThreadComponent,
         MessagingViewComponent,
-        StarredMessageListComponent
+        StarredMessageListComponent,
+        MessageDateSeparatorComponent
     ],
     exports: [
         MessageComponent,

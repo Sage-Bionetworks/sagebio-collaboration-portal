@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
 import { AppQuillModule } from './quill/app-quill.module';
 import { AuthModule } from './auth/auth.module';
 import { FiltersModule } from './filters/filters.module';
@@ -14,7 +13,6 @@ import { NotificationModule } from './notification/notification.module';
 import { OAuthButtonsModule } from './oauth-buttons/oauth-buttons.module';
 import { SidenavModule } from './sidenav/sidenav.module';
 import { SocketModule } from './socket/socket.module';
-
 import { PageTitleService } from './page-title/page-title.service';
 import { TagService } from './tag/tag.service';
 
@@ -46,7 +44,7 @@ import { TagService } from './tag/tag.service';
         NavbarUserButtonModule,
         NotificationModule,
         OAuthButtonsModule,
-        SidenavModule
+        SidenavModule,
     ]
 })
 export class DirectivesModule { }
