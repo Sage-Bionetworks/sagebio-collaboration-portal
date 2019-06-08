@@ -7,6 +7,7 @@ import { Message } from '../../../../shared/interfaces/discussion/message.model'
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
+import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import config from '../../../app/app.constants';
@@ -27,7 +28,11 @@ export class MessageComponent implements OnInit, AfterViewInit {
     private tooltipPosition = 'above';
     @ViewChild('editor') editor: QuillEditorComponent;
     @ViewChild(MessageStarButtonComponent) starButton: MessageStarButtonComponent;
+    @ViewChild(MessageReplyButtonComponent) replyButton: MessageReplyButtonComponent;
+
     private starred: Observable<boolean>;
+    private numReplies: Observable<number>;
+
     private hide = false;
     private form: FormGroup;
     private isReadOnly = true;
@@ -86,7 +91,11 @@ export class MessageComponent implements OnInit, AfterViewInit {
                 startWith(null),
                 delay(0)
             );
-            // .subscribe(starred => this.starred = starred);
+        this.numReplies = this.replyButton.getNumReplies()
+            .pipe(
+                startWith(null),
+                delay(0)
+            );
     }
 
     ngOnDestroy() {

@@ -10,7 +10,7 @@
         </div>
         <div class="app-message-header-metadata">
             <span>{{ message.createdBy.username }}</span>
-            <span>{{ message.createdAt | date: 'shortTime' }}</span>
+            <span matTooltip="{{ message.createdAt | date: 'MMM d' }} at {{ message.createdAt | date: 'h:mm:ss a' }}">{{ message.createdAt | date: 'shortTime' }}</span>
             <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
             <!-- <mat-chip-list>
                 <mat-chip *ngFor="let tag of message.tags">{{ tag.name }}</mat-chip>
@@ -20,7 +20,7 @@
             <message-reply-button *ngIf="showReplyButton" [message]="message"></message-reply-button>
         </div>
         <div class="app-message-header-actions">
-            <a *ngIf="showStartThreadButton" mat-icon-button matTooltip="Start a thread" [matTooltipPosition]="tooltipPosition" [matTooltipShowDelay]="tooltipShowDelay" aria-label="Start a thread" (click)="replyToMessage()">
+            <a *ngIf="showStartThreadButton" mat-icon-button [matTooltip]="(numReplies | async) == 0 ? 'Start a thread' : 'Reply to thread'" [matTooltipPosition]="tooltipPosition" [matTooltipShowDelay]="tooltipShowDelay" aria-label="Start a thread" (click)="replyToMessage()">
                 <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
             </a>
 

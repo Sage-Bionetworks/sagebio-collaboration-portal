@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 import { NotificationService } from '../../notification/notification.service';
@@ -19,7 +19,9 @@ import { MessageThreadComponent } from '../message-thread/message-thread.compone
 })
 export class MessageReplyButtonComponent implements OnInit {
     @Input() private message: Message;
-    private numReplies = 0;
+    private numReplies: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+    // private numReplies = 0;
     // private starred = false;
     // private starredSub: Subscription;
     // private numStars = 0;
@@ -37,7 +39,7 @@ export class MessageReplyButtonComponent implements OnInit {
     ngOnInit() {
         if (this.message) {
             this.messagingService.getNumReplies(this.message)
-                .subscribe(numReplies => this.numReplies = numReplies,
+                .subscribe(numReplies => this.numReplies.next(numReplies),
                     err => {
                         console.log(err);
                     });
@@ -55,5 +57,13 @@ export class MessageReplyButtonComponent implements OnInit {
       let componentRef = viewContainerRef.createComponent(componentFactory);
       componentRef.instance.setMessage(this.message);
       this.sidenavService.open();
+    }
+
+    /**
+     * Returns the number of replies to the message.
+     * @return {Observable<number>}
+     */
+    getNumReplies(): Observable<number> {
+        return this.numReplies.asObservable();
     }
 }

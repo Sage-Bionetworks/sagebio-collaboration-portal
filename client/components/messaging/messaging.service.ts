@@ -28,7 +28,10 @@ export class MessagingService {
      */
 
     getMessages(query?: {}): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`);
+        return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`)
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
+            );
     }
 
     getMessage(messageId: string): Observable<Message> {
@@ -88,7 +91,10 @@ export class MessagingService {
      */
 
     getReplies(message: Message, query?: {}): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`);
+        return this.httpClient.get<Message[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`)
+            .pipe(
+                map(replies => orderBy(['createdAt'], ['asc'], replies))
+            );
     }
 
     getNumReplies(message: Message): Observable<number> {

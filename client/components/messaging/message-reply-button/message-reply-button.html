@@ -1,2 +1,2 @@
-<a mat-button *ngIf="numReplies == 1" type="button" (click)="showReplies()">1 reply</a>
-<a mat-button *ngIf="numReplies > 1" type="button" (click)="showReplies()">{{ numReplies }} replies</a>
+<a mat-button *ngIf="(numReplies | async) == 1" type="button" (click)="showReplies()">1 reply</a>
+<a mat-button *ngIf="(numReplies | async) > 1" type="button" (click)="showReplies()">{{ numReplies }} replies</a>
