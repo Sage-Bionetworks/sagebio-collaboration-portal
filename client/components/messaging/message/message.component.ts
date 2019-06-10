@@ -22,8 +22,8 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     encapsulation: ViewEncapsulation.None
 })
 export class MessageComponent implements OnInit, AfterViewInit {
-    @Input('showReplyButton') private showReplyButton = true;
-    @Input('showStartThreadButton') private showStartThreadButton = true;
+    @Input() private showReplyButton = true;
+    @Input() private showStartThreadButton = true;
 
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private tooltipPosition = 'above';
@@ -74,19 +74,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
         this.avatarSize = config.avatar.size.mini;
     }
 
-    ngOnInit() {
-
-        // this.form
-        //     .controls
-        //     .body
-        //     .valueChanges.pipe(
-        //         debounceTime(400),
-        //         distinctUntilChanged()
-        //     )
-        //     .subscribe((data) => {
-        //         console.log('native fromControl value changes with debounce', data);
-        //     });
-    }
+    ngOnInit() { }
 
     ngAfterViewInit() {
         this.starred = this.starButton.isStarred()
@@ -154,5 +142,9 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     replyToMessage(): void {
         this.notificationService.info('Not yet implemented');
+    }
+
+    showThread(): void {
+        this.messagingService.showThread(this.message);
     }
 }

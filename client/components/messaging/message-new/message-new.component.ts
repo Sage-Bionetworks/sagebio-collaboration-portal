@@ -19,7 +19,10 @@ export class MessageNewComponent implements OnInit {
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
-    @Input('thread') private thread: Message;
+    @Input() private thread: Message;
+    private errors = {
+        createNewMessage: undefined
+    };
 
     static parameters = [FormBuilder, NotificationService, MessagingService];
     constructor(private formBuilder: FormBuilder,
@@ -44,10 +47,7 @@ export class MessageNewComponent implements OnInit {
                 distinctUntilChanged()
             )
             .subscribe((data) => {
-                console.log('value of body', this.form.get('body').value);
-
-                // console.log('native fromControl value changes with debounce', data);
-                // console.log(JSON.stringify(data).length);
+                this.errors.createNewMessage = undefined;
             });
     }
 
@@ -57,17 +57,12 @@ export class MessageNewComponent implements OnInit {
         if (this.thread) {
             newMessage.thread = this.thread._id;
         }
-        console.log('Message to POST', newMessage);
         this.messagingService.addMessage(newMessage)
             .subscribe(message => {
-                // this.newProject.emit(project);
+              this.form.reset();
             }, err => {
                 console.log('ERROR', err);
-                // this.errors.createNewMessage = err.message;
+                this.errors.createNewMessage = err.message;
             });
-
-
-
-        // console.log('stringify', JSON.stringify(this.form.get('editor').value));
     }
 }

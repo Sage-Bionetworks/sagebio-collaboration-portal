@@ -13,12 +13,15 @@ import { StarredMessage } from '../../../shared/interfaces/discussion/starred-me
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
+import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
 
 @Injectable()
 export class MessagingService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, SecondarySidenavService];
+    constructor(private httpClient: HttpClient,
+        private secondarySidenavService: SecondarySidenavService) { }
 
     /**
      * Messages
@@ -49,6 +52,17 @@ export class MessagingService {
 
     removeMessage(message: Message): Observable<void> {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);
+    }
+
+    showThread(message: Message): void {
+        let sidenavContentId = `thread:${message._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            let threadSidenav = <ThreadSidenavComponent>this.secondarySidenavService
+                .loadComponent(ThreadSidenavComponent);
+            threadSidenav.setMessage(message);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
     }
 
     /**

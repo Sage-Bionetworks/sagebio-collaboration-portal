@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, ComponentFactoryResolver, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
@@ -7,8 +7,9 @@ import { Message } from '../../../../shared/interfaces/discussion/message.model'
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.component';
-import { flow, orderBy, last, map as mapFp, takeRight } from 'lodash/fp';
+import { flow, orderBy, last, map as mapFp, takeRight, uniqBy } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
+import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
 import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
 import config from '../../../app/app.constants';
 
@@ -20,12 +21,14 @@ import config from '../../../app/app.constants';
 })
 export class MessageReplyButtonComponent implements OnInit {
     @Input() private message: Message;
+    @Output() click: EventEmitter<any> = new EventEmitter<any>();
+
     private numReplies: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private lastReplyAt: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
     private contributors: UserProfile[] = [];
     private avatarSize: number;
     private mouseOver = false;
-    private maxNumContributorsInPreview = 10;
+    private maxNumContributorsInPreview = 5;
 
     static parameters = [MessagingService, MessagingDataService,
         NotificationService, SecondarySidenavService, ComponentFactoryResolver];
@@ -40,15 +43,12 @@ export class MessageReplyButtonComponent implements OnInit {
 
     ngOnInit() {
         if (this.message) {
-            this.messagingService.getNumReplies(this.message)
-                .subscribe(numReplies => this.numReplies.next(numReplies),
-                    err => {
-                        console.log(err);
-                    });
-
             this.messagingService.getReplies(this.message, { select: 'createdBy createdAt updatedAt' })
                 .subscribe(replies => {
+                    this.numReplies.next(replies.length);
                     this.contributors = flow([
+                        orderBy(['createdAt'], ['desc']),
+                        uniqBy('createdBy.username'),  // we have their most recent reply
                         orderBy(['createdAt'], ['asc']),
                         takeRight(this.maxNumContributorsInPreview),
                         mapFp((reply: Message) => reply.createdBy)
@@ -68,17 +68,6 @@ export class MessageReplyButtonComponent implements OnInit {
     }
 
     ngOnDestroy() { }
-
-    showReplies(): void {
-        let sidenavContentId = `thread:${this.message._id}`;
-        if (this.sidenavService.getContentId() !== sidenavContentId) {
-            let threadSidenav = <ThreadSidenavComponent>this.sidenavService
-                .loadComponent(ThreadSidenavComponent);
-            threadSidenav.setMessage(this.message);
-            this.sidenavService.setContentId(sidenavContentId);
-            this.sidenavService.open();
-        }
-    }
 
     /**
      * Returns the number of replies to the message.

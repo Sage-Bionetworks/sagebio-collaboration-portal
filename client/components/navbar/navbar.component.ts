@@ -8,6 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { PageTitleService } from '../page-title/page-title.service';
 import { NavbarUserButton } from '../navbar-user-button/navbar-user-button.component';
 // import { AppImagePipe } from '../image/image.pipe';
+import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
 
 @Component({
     selector: 'app-navbar',
@@ -32,9 +33,9 @@ export class NavbarComponent {
     private authInfoSub: Subscription;
     private invitesSub: Subscription;
 
-    static parameters = [AuthService, Router, PageTitleService];
+    static parameters = [AuthService, Router, PageTitleService, SecondarySidenavService];
     constructor(private authService: AuthService, private router: Router,
-        private pageTitleService: PageTitleService) {
+        private pageTitleService: PageTitleService, private secondarySidenavService: SecondarySidenavService) {
         this.authInfoSub = this.authService.getAuthInfo()  // was authInfo()
             .subscribe(authInfo => {
                 console.log('NAVBAR AUTH INFO', authInfo);
@@ -50,6 +51,7 @@ export class NavbarComponent {
 
     logout() {
         this.authService.logout().subscribe(() => {
+            this.secondarySidenavService.close();
             this.router.navigateByUrl('');
         }, err => console.log(err));
     }

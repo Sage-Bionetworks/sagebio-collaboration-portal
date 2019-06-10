@@ -1,12 +1,9 @@
-<a class="app-message-reply-button" mat-button *ngIf="(numReplies | async) == 1" type="button" (click)="showReplies()">
+<a class="app-message-reply-button" *ngIf="(numReplies | async) > 0; else noReplies" mat-button type="button" (click)="click.emit(null)" matTooltip="Last reply on {{ lastReplyAt | async | dateAndTime }}" matTooltipPosition="above">
     <user-avatar *ngFor="let user of contributors" [user]="user" [size]="avatarSize"></user-avatar>
-    <div *ngIf="(numReplies | async) == 1; else multipleReplies">
-
-    </div>
-    <ng-template #multipleReplies>{{ numReplies }} replies</ng-template>
-    <div class="app-message-reply-button-label">
-        <span>Last reply {{ lastReplyAt | async | lastUpdated }}</span>
-        <!-- <span *ngIf="!mouseOver; else viewThread">Last reply {{ updatedAt | async | lastUpdated }}</span> -->
-        <!-- <ng-template #viewThread>View thread</ng-template> -->
-    </div>
+    <span class="app-message-reply-button-label">{{ lastReplyAt | async | lastUpdated }}</span>
 </a>
+<ng-template #noReplies>
+    <a mat-button type="button" (click)="click.emit(null)">
+        <span>Start a thread</span>
+    </a>
+</ng-template>

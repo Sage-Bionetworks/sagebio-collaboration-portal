@@ -24,6 +24,8 @@ export class MessagingViewComponent implements OnInit, AfterViewInit {
     private _tags: Tag[] = [];
     private messages: Message[];
 
+    private plop = '';
+
     static parameters = [Router,
         MessagingService, SocketService];
     constructor(private router: Router,
@@ -38,6 +40,8 @@ export class MessagingViewComponent implements OnInit, AfterViewInit {
 
         // this.tagService.getTags()
         //     .subscribe(tags => this.tags = tags);
+
+        this.plop = new Date().toString();
     }
 
     ngOnInit() { }

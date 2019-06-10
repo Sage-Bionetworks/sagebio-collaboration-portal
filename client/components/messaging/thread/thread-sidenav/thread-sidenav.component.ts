@@ -23,7 +23,9 @@ export class ThreadSidenavComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() { }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+      console.log('Destroy sidenav content');
+    }
 
     setMessage(message: Message): void {
       if (message) {

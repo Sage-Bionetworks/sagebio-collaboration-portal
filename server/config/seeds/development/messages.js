@@ -17,7 +17,9 @@ let messages = [{
         tags: [
             toolTagId
         ],
-        createdBy: adminUserId
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 4, 27, 12, 56),
+        updatedAt: new Date(2019, 4, 27, 12, 56)
     }, {
         _id: message2Id,
         body: `{\"ops\":[{\"insert\":\"another body\\n\"}]}`,
@@ -25,7 +27,9 @@ let messages = [{
             toolTagId,
             feLiteTagId
         ],
-        createdBy: adminUserId
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 5, 10, 14, 32),
+        updatedAt: new Date(2019, 5, 10, 14, 32)
     }, {
         _id: message3Id,
         body: `{\"ops\":[{\"insert\":\"yet another body\\n\"}]}`,
@@ -33,17 +37,25 @@ let messages = [{
             toolTagId,
             feLiteTagId
         ],
-        createdBy: adminUserId
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 5, 10, 16, 32),
+        updatedAt: new Date(2019, 5, 10, 16, 32)
     },
+    //
     // REPLIES
+    //
     {
         body: `{\"ops\":[{\"insert\":\"Reply to a body\\n\"}]}`,
         thread: message1Id,
-        createdBy: adminUserId
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 4, 28, 12, 57),
+        updatedAt: new Date(2019, 4, 28, 12, 57)
     }, {
         body: `{\"ops\":[{\"insert\":\"Reply to another body\\n\"}]}`,
         thread: message2Id,
-        createdBy: adminUserId
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 5, 10, 14, 36),
+        updatedAt: new Date(2019, 5, 10, 14, 36)
     }
 ];
 
