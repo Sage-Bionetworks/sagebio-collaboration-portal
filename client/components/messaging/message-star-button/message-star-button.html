@@ -5,5 +5,5 @@
     <a mat-icon-button *ngIf="(starred | async)" matTooltip="Unstar message" [matTooltipPosition]="tooltipPosition" aria-label="Unstare message" (click)="unstarMessage()">
         <mat-icon aria-label="Icon of a plain star">star</mat-icon>
     </a>
-    <div>{{ numStars }}</div>
+    <span>{{ numStars }}</span>
 </div>

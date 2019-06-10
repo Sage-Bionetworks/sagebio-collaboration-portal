@@ -1,45 +1,56 @@
 .app-message {
   display: flex;
   flex-flow: column nowrap;
-  padding: 0;
-  margin: 0 0 10px 0;
+  margin: 16px 0 16px 0;
 
   .app-message-header {
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
     border-width: 1px;
     border-style: solid;
+    padding: 6px 12px 6px 12px;
 
     .app-message-header-avatar {
-      padding: 8px;
+      padding-right: 10px;
     }
 
     .app-message-header-metadata {
       display: flex;
       flex-flow: column nowrap;
-      flex-grow: 1;
-      padding: 8px;
+      align-items: flex-start;
+      padding-right: 8px;
+    }
+
+    .app-message-header-metadata-line {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: flex-end;
+    }
+
+    .app-message-header-author {
+      font-size: 14px;
+      font-weight: bold;
+      padding-right: 6px;
+    }
+
+    .app-message-header-time {
+      font-size: 13px;
     }
 
     .app-message-header-actions {
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-end;
-      // position: relative;
-      // height: 32px;
-      // border-width: 1px;
-      // border-style: solid;
-
-      // mat-icon {
-      //   font-size: 18px;
-      // }
     }
   }
 
   .app-message-body {
     display: flex;
     flex-flow: column nowrap;
-    padding: 8px;
+    padding: 8px 12px 8px 12px;
+    // padding: 12px 26px 12px 15px;
+    // margin-bottom: 10px;
     border-width: 1px;
     border-style: solid;
   }
@@ -48,36 +59,28 @@
     border: 0;
   }
 
-  .ql-editor {
-    // padding: 0;
+  .ql-toolbar {
+    margin-bottom: 12px;
   }
 
-  // .app-message-btn {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   min-width: 42px;
-  //   border-radius: 0;
-  //   padding: 0;
-  // }
+  .ql-editor {
+    // padding: 12px 0 12px 10px;
+    // padding: 0px 0 0px 0px;
+    padding: 6px 0 6px 10px;
+    // margin-bottom: 12px;
+  }
+}
 
-  // .border-right {
-  //   border-right-width: 1px;
-  //   border-right-style: solid;
-  // }
+.app-message-actions {
+  // padding: 20px 0 12px 0;
+}
 
-  // .centered ::ng-deep .mat-button-wrapper {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
+.app-message-header-reply-button {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
 
-  // .center-line {
-  //   position: absolute;
-  //   top: 20px;
-  //   height: 2px;
-  //   right: 0;
-  //   left: 0;
-  //   background: red;
-  // }
+.app-message-actions-update-btn {
+  margin: 10px 0 6px 0;
 }

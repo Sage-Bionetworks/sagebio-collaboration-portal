@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
@@ -8,18 +8,25 @@ import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { SidenavItem } from '../../sidenav/sidenav-item';
 import { MessageThreadComponent } from '../message-thread/message-thread.component';
-import { flow, orderBy, last } from 'lodash/fp';
+import { flow, orderBy, last, map as mapFp, takeRight } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
+import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'message-reply-button',
     template: require('./message-reply-button.html'),
-    styles: [require('./message-reply-button.scss')]
+    styles: [require('./message-reply-button.scss')],
+    encapsulation: ViewEncapsulation.None
 })
 export class MessageReplyButtonComponent implements OnInit {
     @Input() private message: Message;
     private numReplies: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-    private updatedAt: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+    private lastReplyAt: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+    private contributors: UserProfile[] = [];
+    private avatarSize: number;
+    private mouseOver = false;
+    private maxNumContributorsInPreview = 10;
 
     static parameters = [MessagingService, MessagingDataService,
         NotificationService, SidenavService, ComponentFactoryResolver];
@@ -28,6 +35,8 @@ export class MessageReplyButtonComponent implements OnInit {
         private notificationService: NotificationService,
         private sidenavService: SidenavService,
         private componentFactoryResolver: ComponentFactoryResolver) {
+
+        this.avatarSize = config.avatar.size.nano;
     }
 
     ngOnInit() {
@@ -40,23 +49,22 @@ export class MessageReplyButtonComponent implements OnInit {
 
             this.messagingService.getReplies(this.message, { select: 'createdBy createdAt updatedAt' })
                 .subscribe(replies => {
-                    let lastUpdated = flow([
-                        orderBy(['updatedAt'], ['asc']),
+                    this.contributors = flow([
+                        orderBy(['createdAt'], ['asc']),
+                        takeRight(this.maxNumContributorsInPreview),
+                        mapFp((reply: Message) => reply.createdBy)
+                    ])(replies);
+
+                    let lastReplyAt = flow([
+                        orderBy(['createddAt'], ['asc']),
                         last
                     ])(replies);
-                    if (lastUpdated) {
-                        this.updatedAt.next(lastUpdated.updatedAt);
+                    if (lastReplyAt) {
+                        this.lastReplyAt.next(lastReplyAt.createdAt);
                     }
-
-
-
-                    console.log('LAST updated', lastUpdated);
-
-                    console.log('REPLIES', replies);
-                },
-                    err => {
-                        console.log(err);
-                    });
+                }, err => {
+                    console.log(err);
+                });
         }
     }
 

@@ -11,6 +11,7 @@ import { MessageReplyButtonComponent } from '../message-reply-button/message-rep
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import config from '../../../app/app.constants';
+import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 
@@ -40,6 +41,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
     private messageSub: Subscription;
     private getMessageSub: Subscription;
     private tooltipShowDelay: number;
+    private avatarSize = 40;
 
     static parameters = [FormBuilder, NotificationService, MessagingService,
         MessagingDataService];
@@ -68,7 +70,8 @@ export class MessageComponent implements OnInit, AfterViewInit {
                 }
             });
 
-        this.tooltipShowDelay = config.ui.tooltip.showDelay;
+        this.tooltipShowDelay = config.tooltip.showDelay;
+        this.avatarSize = config.avatar.size.mini;
     }
 
     ngOnInit() {
@@ -91,11 +94,13 @@ export class MessageComponent implements OnInit, AfterViewInit {
                 startWith(null),
                 delay(0)
             );
-        this.numReplies = this.replyButton.getNumReplies()
-            .pipe(
-                startWith(null),
-                delay(0)
-            );
+        if (this.replyButton) {
+            this.numReplies = this.replyButton.getNumReplies()
+                .pipe(
+                    startWith(null),
+                    delay(0)
+                );
+        }
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DateLongPipe } from '../../pipes/date/date-long.pipe';
 
 @Component({
@@ -6,15 +6,9 @@ import { DateLongPipe } from '../../pipes/date/date-long.pipe';
     template: require('./message-date-separator.html'),
     styles: [require('./message-date-separator.scss')],
 })
-export class MessageDateSeparatorComponent implements OnInit {
+export class MessageDateSeparatorComponent {
     @Input('isoDate') private isoDate: string;
 
     static parameters = [];
-    constructor() {
-
-    }
-
-    ngOnInit() {
-
-    }
+    constructor() { }
 }

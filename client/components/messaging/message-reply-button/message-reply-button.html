@@ -1,5 +1,12 @@
-<a mat-button *ngIf="(numReplies | async) == 1" type="button" (click)="showReplies()">1 reply</a>
-<a mat-button *ngIf="(numReplies | async) > 1" type="button" (click)="showReplies()">{{ numReplies }} replies</a>
-<div *ngIf="updatedAt | async">
-  Last reply {{ updatedAt | async | lastUpdated }}
-</div>
+<a class="app-message-reply-button" mat-button *ngIf="(numReplies | async) == 1" type="button" (click)="showReplies()">
+    <user-avatar *ngFor="let user of contributors" [user]="user" [size]="avatarSize"></user-avatar>
+    <div *ngIf="(numReplies | async) == 1; else multipleReplies">
+
+    </div>
+    <ng-template #multipleReplies>{{ numReplies }} replies</ng-template>
+    <div class="app-message-reply-button-label">
+        <span>Last reply {{ lastReplyAt | async | lastUpdated }}</span>
+        <!-- <span *ngIf="!mouseOver; else viewThread">Last reply {{ updatedAt | async | lastUpdated }}</span> -->
+        <!-- <ng-template #viewThread>View thread</ng-template> -->
+    </div>
+</a>

@@ -3,4 +3,4 @@
     <message-date-separator *ngIf="!first && !(message.createdAt | sameDay: messages[i-1].createdAt)" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
     <message [message]="message"></message>
 </ng-template>
-<message-new></message-new>
+<message-new class="app-messaging-new"></message-new>

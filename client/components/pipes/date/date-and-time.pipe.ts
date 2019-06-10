@@ -8,7 +8,7 @@ export class DateAndTimePipe implements PipeTransform {
     transform(isoDate: string): string {
         let date = new Date(isoDate);
         let currentYear = new Date().getFullYear() === date.getFullYear();
-        let dateFormat = currentYear ? `MMM Do` : `MMM Do, YYYY`;
+        let dateFormat = currentYear ? `MMM D` : `MMM D, YYYY`;
         return `${moment(date).format(dateFormat)} at ${moment(date).format(`LTS`)}`;
     }
 }

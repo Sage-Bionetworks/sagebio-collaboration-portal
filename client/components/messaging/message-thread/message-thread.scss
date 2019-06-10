@@ -1,8 +1,9 @@
 .app-message-thread-header {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  padding: 0 0 0 10px;
+  // display: flex;
+  // flex-flow: row nowrap;
+  // align-items: center;
+  // padding: 0 0 0 10px;
+  padding-left: 10px;
 }
 
 .app-message-thread-header-title {
@@ -14,4 +15,12 @@
 
 .app-message-thread-header-close {
   margin: 0 10px 0 0;
+}
+
+.message-date-separator {
+  margin: 20px 0 20px 0;
+}
+
+.app-message-thread-body {
+  margin: 10px 10px 10px 10px
 }

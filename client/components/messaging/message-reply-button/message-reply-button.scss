@@ -1,0 +1,18 @@
+.app-message-reply-button {
+  // width: 100%;
+
+  .mat-button-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  user-avatar {
+    margin-right: 6px;
+  }
+}
+
+.app-message-reply-button-label {
+  font-size: 13px;
+}

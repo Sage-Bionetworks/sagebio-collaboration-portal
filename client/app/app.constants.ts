@@ -5,7 +5,8 @@ import shared from '../../server/config/environment/shared';
 var config = {
     avatar: {
         size: {
-            mini: 20,
+            nano: 26,
+            mini: 30,
             small: 40
         }
     },

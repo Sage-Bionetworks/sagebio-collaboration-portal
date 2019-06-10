@@ -1,26 +1,21 @@
 <div class="app-message" *ngIf="message">
     <div class="app-message-header">
-        <div class="app-message-header-avatar">
-            <picture *ngIf="message.createdBy.picture; else letterAvatar">
-                <img class="app-avatar-small" [src]="message.createdBy.picture" aria-label="User picture">
-            </picture>
-            <ng-template #letterAvatar>
-                <avatar size="40" background="#e87629" [name]="message.createdBy.username" displayType="circle"></avatar>
-            </ng-template>
-        </div>
+        <user-avatar class="app-message-header-avatar" [user]="message.createdBy" [size]="avatarSize"></user-avatar>
         <div class="app-message-header-metadata">
-            <span>{{ message.createdBy.username }}</span>
-            <span matTooltip="{{ message.createdAt | date: 'MMM d' }} at {{ message.createdAt | date: 'h:mm:ss a' }}">{{ message.createdAt | date: 'shortTime' }}</span>
-            <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
-            <!-- <mat-chip-list>
-                <mat-chip *ngFor="let tag of message.tags">{{ tag.name }}</mat-chip>
-            </mat-chip-list> -->
+            <div class="app-message-header-metadata-line">
+                <span class="app-message-header-author">{{ message.createdBy.username }}</span>
+                <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.createdAt | date: 'shortTime' }}</span>
+                <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
+            </div>
         </div>
-        <div>
+
+        <div class="app-message-header-reply-button">
             <message-reply-button *ngIf="showReplyButton" [message]="message"></message-reply-button>
         </div>
+
         <div class="app-message-header-actions">
-            <a *ngIf="showStartThreadButton" mat-icon-button [matTooltip]="(numReplies | async) == 0 ? 'Start a thread' : 'Reply to thread'" [matTooltipPosition]="tooltipPosition" [matTooltipShowDelay]="tooltipShowDelay" aria-label="Start a thread" (click)="replyToMessage()">
+            <a *ngIf="showStartThreadButton" mat-icon-button [matTooltip]="(numReplies | async) == 0 ? 'Start a thread' : 'Reply to thread'" [matTooltipPosition]="tooltipPosition" [matTooltipShowDelay]="tooltipShowDelay" aria-label="Start a thread"
+              (click)="replyToMessage()">
                 <mat-icon aria-label="Icon of a chat bubble outline">chat_bubble_outline</mat-icon>
             </a>
 
@@ -46,7 +41,7 @@
             <div [hidden]="isReadOnly" quill-editor-toolbar class="app-quill-editor-toolbar"></div>
         </quill-editor>
         <div class="app-message-actions">
-            <a mat-raised-button [hidden]="isReadOnly" color="primary" [disabled]="form.invalid" (click)="updateMessage()">Update</a>
+            <a class="app-message-actions-update-btn" mat-raised-button [hidden]="isReadOnly" color="primary" [disabled]="form.invalid" (click)="updateMessage()">Update</a>
         </div>
     </form>
 </div>

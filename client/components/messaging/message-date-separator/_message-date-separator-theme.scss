@@ -5,7 +5,11 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
+  .date {
+    color: #333333;
+  }
+
   .dash {
-    border-color: mat-color($foreground, lighter);
+    border-color: #cccccc;
   }
 }
