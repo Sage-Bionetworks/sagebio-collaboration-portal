@@ -1,4 +1,4 @@
-@mixin message-thread-theme($theme) {
+@mixin thread-sidenav-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
@@ -6,8 +6,8 @@
   $foreground: map-get($theme, foreground);
 
   .app-message-thread-header {
-    background: mat-color($primary);
-    // background: #f2f2f2;
+    // background: mat-color($primary);
+    background: #717171;
   }
 
   .app-message-thread-header-close {

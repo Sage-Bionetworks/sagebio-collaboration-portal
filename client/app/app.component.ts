@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SidenavService } from '../components/sidenav/sidenav.service';
-import { SidenavSecondaryComponent } from '../components/sidenav/sidenav-secondary/sidenav-secondary.component';
+import { SecondarySidenavComponent } from '../components/sidenav/secondary-sidenav/secondary-sidenav.component';
+import { SecondarySidenavService } from '../components/sidenav/secondary-sidenav/secondary-sidenav.service';
 
 @Component({
     selector: 'app',
@@ -20,25 +20,24 @@ import { SidenavSecondaryComponent } from '../components/sidenav/sidenav-seconda
             <app-notification></app-notification>
         </mat-sidenav-content>
 
-        <mat-sidenav #sidenavSecondary position="end" class="app-sidenav-secondary">
-            <app-sidenav-secondary #sidenavSecondaryContent></app-sidenav-secondary>
+        <mat-sidenav #secondarySidenav position="end" class="app-sidenav-secondary">
+            <app-secondary-sidenav #secondarySidenavContent></app-secondary-sidenav>
         </mat-sidenav>
     </mat-sidenav-container>`
 })
 export class AppComponent implements OnInit, AfterViewInit {
-    @ViewChild('sidenavSecondary') private sidenavSecondary: MatSidenav;
-    @ViewChild('sidenavSecondaryContent') private sidenavSecondaryContent: SidenavSecondaryComponent;
+    @ViewChild('secondarySidenav') private secondarySidenav: MatSidenav;
+    @ViewChild('secondarySidenavContent') private secondarySidenavContent: SecondarySidenavComponent;
 
-    static parameters = [SidenavService];
-    constructor(private sidenavService: SidenavService) { }
+    static parameters = [SecondarySidenavService];
+    constructor(private secondarySidenavService: SecondarySidenavService) { }
 
     ngOnInit() {
-        this.sidenavSecondary.mode = 'side';
-        this.sidenavSecondary.autoFocus = false;
-        this.sidenavService.sidenav = this.sidenavSecondary;
-        this.sidenavService.sidenavContent = this.sidenavSecondaryContent;
+        this.secondarySidenav.mode = 'side';
+        this.secondarySidenav.autoFocus = false;
+        this.secondarySidenavService.sidenav = this.secondarySidenav;
+        this.secondarySidenavService.sidenavContent = this.secondarySidenavContent;
     }
 
-    ngAfterViewInit() {
-    }
+    ngAfterViewInit() { }
 }

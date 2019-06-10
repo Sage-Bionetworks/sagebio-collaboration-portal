@@ -10,8 +10,8 @@
         <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
         <message [message]="message" [showReplyButton]="false" [showStartThreadButton]="false"></message>
         <ng-template ngFor let-reply let-i="index" let-first="first" [ngForOf]="replies | async">
-            <message-date-separator *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
-            <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: replies[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
+            <!-- <message-date-separator *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator> -->
+            <!-- <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: replies[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator> -->
             <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false"></message>
         </ng-template>
         <message-new class="app-messaging-new" [thread]="message"></message-new>

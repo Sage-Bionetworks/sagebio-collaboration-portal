@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MaterialModule } from '../../components/material/material.module';
-import { SidenavSecondaryComponent } from './sidenav-secondary/sidenav-secondary.component';
-import { SidenavService } from './sidenav.service';
+import { SecondarySidenavComponent } from './secondary-sidenav/secondary-sidenav.component';
+import { SecondarySidenavService } from './secondary-sidenav/secondary-sidenav.service';
 import { SidenavHostDirective } from './sidenav-host.directive';
-
-import { MessageThreadComponent } from '../messaging/message-thread/message-thread.component';
+import { ThreadSidenavComponent } from '../messaging/thread/thread-sidenav/thread-sidenav.component';
 
 @NgModule({
     imports: [
@@ -14,17 +12,17 @@ import { MessageThreadComponent } from '../messaging/message-thread/message-thre
         MaterialModule
     ],
     providers: [
-        SidenavService
+        SecondarySidenavService
     ],
     declarations: [
-        SidenavSecondaryComponent,
+        SecondarySidenavComponent,
         SidenavHostDirective
     ],
     exports: [
-        SidenavSecondaryComponent
+        SecondarySidenavComponent
     ],
-    // entryComponents: [
-    //     MessageThreadComponent
-    // ]
+    entryComponents: [
+        ThreadSidenavComponent
+    ]
 })
 export class SidenavModule { }

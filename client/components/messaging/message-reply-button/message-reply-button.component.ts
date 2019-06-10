@@ -2,12 +2,11 @@ import { Component, OnInit, Input, ComponentFactoryResolver, ViewEncapsulation }
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
-import { SidenavService } from '../../sidenav/sidenav.service';
+import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
-import { SidenavItem } from '../../sidenav/sidenav-item';
-import { MessageThreadComponent } from '../message-thread/message-thread.component';
+import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.component';
 import { flow, orderBy, last, map as mapFp, takeRight } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
 import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
@@ -29,11 +28,11 @@ export class MessageReplyButtonComponent implements OnInit {
     private maxNumContributorsInPreview = 10;
 
     static parameters = [MessagingService, MessagingDataService,
-        NotificationService, SidenavService, ComponentFactoryResolver];
+        NotificationService, SecondarySidenavService, ComponentFactoryResolver];
     constructor(private messagingService: MessagingService,
         private messagingDataService: MessagingDataService,
         private notificationService: NotificationService,
-        private sidenavService: SidenavService,
+        private sidenavService: SecondarySidenavService,
         private componentFactoryResolver: ComponentFactoryResolver) {
 
         this.avatarSize = config.avatar.size.nano;
@@ -71,14 +70,14 @@ export class MessageReplyButtonComponent implements OnInit {
     ngOnDestroy() { }
 
     showReplies(): void {
-        // let sidenavContent = new SidenavItem(MessageThreadComponent, { title: 'YOOO' });
-        // this.sidenavService.show(sidenavContent);
-        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MessageThreadComponent);
-        let viewContainerRef = this.sidenavService.getSecondarySidenavHost().viewContainerRef;
-        viewContainerRef.clear();
-        let componentRef = viewContainerRef.createComponent(componentFactory);
-        componentRef.instance.setMessage(this.message);
-        this.sidenavService.open();
+        let sidenavContentId = `thread:${this.message._id}`;
+        if (this.sidenavService.getContentId() !== sidenavContentId) {
+            let threadSidenav = <ThreadSidenavComponent>this.sidenavService
+                .loadComponent(ThreadSidenavComponent);
+            threadSidenav.setMessage(this.message);
+            this.sidenavService.setContentId(sidenavContentId);
+            this.sidenavService.open();
+        }
     }
 
     /**

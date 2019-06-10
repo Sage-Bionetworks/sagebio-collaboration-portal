@@ -11,17 +11,14 @@ import { HttpClient } from '@angular/common/http';
 import { Message } from '../../../shared/interfaces/discussion/message.model';
 import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
-import { SidenavService } from '../sidenav/sidenav.service';
-
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
 @Injectable()
 export class MessagingService {
 
-    static parameters = [HttpClient, SidenavService];
-    constructor(private httpClient: HttpClient,
-        private sidenavService: SidenavService) { }
+    static parameters = [HttpClient];
+    constructor(private httpClient: HttpClient) { }
 
     /**
      * Messages

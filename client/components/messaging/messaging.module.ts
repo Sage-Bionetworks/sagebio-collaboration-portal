@@ -14,7 +14,7 @@ import { MessageNewComponent } from './message-new/message-new.component';
 import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
-import { MessageThreadComponent } from './message-thread/message-thread.component';
+import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
@@ -48,7 +48,7 @@ import { MessageDateSeparatorComponent } from './message-date-separator/message-
         MessageReplyButtonComponent,
         MessageStarArchiveButtonComponent,
         MessageStarButtonComponent,
-        MessageThreadComponent,
+        ThreadSidenavComponent,
         MessagingViewComponent,
         StarredMessageListComponent,
         MessageDateSeparatorComponent
@@ -60,7 +60,7 @@ import { MessageDateSeparatorComponent } from './message-date-separator/message-
         StarredMessageListComponent
     ],
     entryComponents: [
-        MessageThreadComponent
+        // MessageThreadComponent
     ]
 })
 export class MessagingModule { }
