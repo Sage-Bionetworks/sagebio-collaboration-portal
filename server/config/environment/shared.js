@@ -73,8 +73,9 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
-    discourse,
+    // discourse,
     // feliteWebsite
 
-    models
+    models,
+    datasetOrders
 };
