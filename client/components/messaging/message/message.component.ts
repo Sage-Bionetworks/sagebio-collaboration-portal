@@ -93,7 +93,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     ngOnDestroy() {
         if (this.messageSub) this.messageSub.unsubscribe();
-        // if (this.starredSub) this.starredSub.unsubscribe();
         if (this.getMessageSub) this.getMessageSub.unsubscribe();
     }
 
@@ -114,7 +113,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
         this.getMessageSub = this.messagingService.getMessage(messageId)
             .subscribe(message => this._message.next(message),
                 err => {
-                    console.log(err);
                     console.log('Unable to get message', err);
                 });
     }

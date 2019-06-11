@@ -63,7 +63,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
     getToolsByResource(resource: CkanDatasetResource): Tool[] {
         if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
             resource.id === 'cf4b928f-06e7-4049-aa46-06a88dc36830') {  // airway.RDS
-            return this.tools.filter(tool => ['FE Lite'].includes(tool.name));
+            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.name));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
             resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
             return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.name));
@@ -87,7 +87,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
             return this.tools.filter(tool => ['RStudio', 'Jupyter'].includes(tool.name));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
             dataset.id === 'fc0633f8-6a9d-4cb7-896d-186d0db19ff8') {  // Airway Smooth Muscle Cell Line RNA-seq
-            return this.tools.filter(tool => ['FE Lite'].includes(tool.name));
+            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.name));
         }
     }
 

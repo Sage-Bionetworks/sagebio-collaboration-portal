@@ -9,14 +9,32 @@
             <div class="insight-card-top">
                 <div class="insight-card-left-container">
                     <h3>Description</h3>
-                    <div class="insight-card-description" Markdown>
+
+                    <form [formGroup]="form" novalidate>
+                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
+                            <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
+                        </quill-editor>
+                        <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
+                            This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value: {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
+                        </mat-error>
+                        <mat-error *ngIf="errors.updateDescription">
+                            {{ errors.updateDescription }}
+                        </mat-error>
+                        <div class="app-insight-description-actions">
+                            <a mat-raised-button color="primary" [disabled]="form.invalid" (click)="form.invalid || updateDescription()">Update Description</a>
+                        </div>
+                    </form>
+
+
+
+                    <!-- <div class="insight-card-description" Markdown>
                         {{insight.description}}
-                    </div>
-                    <div class="insight-card-description-edit-button-container">
+                    </div> -->
+                    <!-- <div class="insight-card-description-edit-button-container">
                       <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Edit Description</a>
-                    </div>
+                    </div> -->
                     <div class="insight-card-info">
-                        <span><b>Created by:</b> James E.</span>
+                        <span><b>Created by:</b> Thomas</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="insight.data !== undefined"><b>Type:</b> State</span>
                         <span><b>Tool:</b> FE Lite</span>
@@ -33,7 +51,7 @@
                 </div>
             </div>
             <div class="app-insight-actions">
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInFe(insight)">Open With FE Lite</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInFe(insight)">Open With PHCCP Shiny Tool Example</a>
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
                 <a *ngIf="insight.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Report</a>
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Share</a>

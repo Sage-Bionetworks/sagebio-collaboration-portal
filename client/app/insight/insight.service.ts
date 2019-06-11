@@ -33,4 +33,20 @@ export class InsightService {
                 switchMap(term => term ? this.getInsights({ searchTerms: term }) : of(null))
             );
     }
+
+    updateInsightDescription(insight: Insight, description: string): Observable<Insight> {
+        return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
+            [
+                { op: 'replace', path: '/description', value: description }
+            ]
+        );
+    }
+
+    updateStateDescription(insight: Insight, description: string): Observable<Insight> {
+        return this.httpClient.patch<Insight>(`/api/states/${insight._id}`,  // HACK
+            [
+                { op: 'replace', path: '/description', value: description }
+            ]
+        );
+    }
 }

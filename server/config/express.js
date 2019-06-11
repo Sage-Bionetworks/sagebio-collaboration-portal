@@ -46,7 +46,9 @@ export default app => {
     app.use(bodyParser.urlencoded({
         extended: false
     }));
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({
+      limit: '10mb'
+    }));
     app.use(methodOverride());
     app.use(cookieParser());
     app.use(passport.initialize());

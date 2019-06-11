@@ -33,8 +33,8 @@ let tools = [{
 // },
 {
     _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
-    name: 'FE Lite',
-    slug: 'fe-lite',
+    name: 'PHCCP Shiny Tool Example',
+    slug: 'phccp-shiny-tool-example',
     description: `A Shiny App for demonstrating features of this collaboration
         portal.`,
     picture: 'assets/images/320px-shinyLogo.png',

@@ -16,10 +16,10 @@ import config from '../../../app/app.constants';
     styles: [require('./message-new.scss')],
 })
 export class MessageNewComponent implements OnInit {
+    @Input() private thread: Message;
     @ViewChild('editor') editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
-    @Input() private thread: Message;
     private errors = {
         createNewMessage: undefined
     };
