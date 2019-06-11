@@ -6,7 +6,7 @@ import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/op
 import { QuillEditorComponent } from 'ngx-quill';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { ObjectValidators } from '../../validation/object-validators';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import config from '../../../app/app.constants';
 

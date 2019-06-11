@@ -20,9 +20,9 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return function (doc) {
-        if (isAuthorized(doc, spark.userId)) {
+        // if (isAuthorized(doc, spark.userId)) {
             spark.emit(event, doc);
-        }
+        // }
     };
 }
 
@@ -33,6 +33,6 @@ function removeListener(event, listener) {
 }
 
 // Returns true if the user specified is the user who starred the message.
-function isAuthorized(doc, userId) {
-    return userId ? doc.starredBy == userId : false;
-}
+// function isAuthorized(doc, userId) {
+//     return userId ? doc.starredBy == userId : false;
+// }

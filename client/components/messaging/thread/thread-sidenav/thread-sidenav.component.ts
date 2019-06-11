@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash/fp';
 import { SecondarySidenavService } from '../../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../../socket/socket.service';
-import { Message } from '../../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../../shared/interfaces/messaging/message.model';
 import { MessagingService } from '../../messaging.service';
 
 @Component({

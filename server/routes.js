@@ -77,7 +77,7 @@ export default app => {
         apis: [
             './**/api/**/index.js',
             './**/auth/**/*.js',
-            './shared/interfaces/*.ts'
+            './shared/interfaces/**/*.ts'
             // './**/swagger/**/*.ts'
         ]
     };

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, Subscription, from, forkJoin } from 'rxjs';
 import { mergeMap, tap, switchMap, map as rxMap, concatAll, mergeAll, reduce } from 'rxjs/operators';
-import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
+import { StarredMessage } from '../../../shared/interfaces/messaging/starred-message.model';
 import { AuthService } from '../../components/auth/auth.service';
 import { SocketService } from '../../components/socket/socket.service';
 import { MessagingService } from './messaging.service';

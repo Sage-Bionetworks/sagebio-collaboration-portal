@@ -4,7 +4,6 @@ import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChild
 // import { Router } from '@angular/router';
 // import { MessagingService } from '../../../components/messaging/messaging.service';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
-// import { Message } from '../../../../shared/interfaces/discussion/message.model';
 import { Tag } from '../../../../shared/interfaces/tag.model';
 import { TagService } from '../../../components/tag/tag.service';
 // import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';

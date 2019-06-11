@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash/fp';
 import { MessagingService } from '../../../components/messaging/messaging.service';
 import { SocketService } from '../../../components/socket/socket.service';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 
 @Component({
     selector: 'messaging-view',

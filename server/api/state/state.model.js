@@ -6,6 +6,11 @@ import {
 var StateSchema = new mongoose.Schema({
     name: String,
     description: String,
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true
+    },
     data: String,
     createdAt: {
         type: Date,

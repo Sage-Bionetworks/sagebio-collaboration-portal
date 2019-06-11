@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
 import { NotificationService } from '../../../components/notification/notification.service';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';

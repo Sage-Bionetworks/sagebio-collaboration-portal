@@ -59,10 +59,10 @@ export const datasetOrders = {
     }
 };
 
-export const discourse = {
-    website: 'http://phc-discourse.sagesandbox.org',
-    apiServerUrl: 'http://phc-discourse.sagesandbox.org'
-};
+// export const discourse = {
+//     website: 'http://phc-discourse.sagesandbox.org',
+//     apiServerUrl: 'http://phc-discourse.sagesandbox.org'
+// };
 
 // export const feliteWebsite = 'http://dev.phc.sagesandbox.org:8082'; // process.env.FELITE_WEBSITE;
 

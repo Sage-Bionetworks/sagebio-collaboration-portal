@@ -8,8 +8,8 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '../../../shared/interfaces/discussion/message.model';
-import { StarredMessage } from '../../../shared/interfaces/discussion/starred-message.model';
+import { Message } from '../../../shared/interfaces/messaging/message.model';
+import { StarredMessage } from '../../../shared/interfaces/messaging/starred-message.model';
 import { NumberValue } from '../../../shared/interfaces/number-value.model';
 import { stringifyQuery } from '../../components/util';
 import { some, orderBy, head } from 'lodash/fp';

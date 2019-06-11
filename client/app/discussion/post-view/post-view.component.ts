@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { MessagingService } from '../../../components/messaging/messaging.service';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 
 @Component({
     selector: 'post-view',

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.component';

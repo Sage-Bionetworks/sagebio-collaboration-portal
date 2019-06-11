@@ -174,23 +174,23 @@ export function indexReplies(req, res) {
         .catch(handleError(res));
 }
 
-// Returns the number of replies of a message.
-export function repliesCount(req, res) {
-    Message.countDocuments({
-        thread: req.params.id
-    }, function (err, count) {
-        if (err) {
-            res.status(404).json({
-                error: err
-            });
-        } else {
-            res.status(200).json({
-                value: count
-            });
-        }
-        return null;
-    });
-}
+// // Returns the number of replies of a message.
+// export function repliesCount(req, res) {
+//     Message.countDocuments({
+//         thread: req.params.id
+//     }, function (err, count) {
+//         if (err) {
+//             res.status(404).json({
+//                 error: err
+//             });
+//         } else {
+//             res.status(200).json({
+//                 value: count
+//             });
+//         }
+//         return null;
+//     });
+// }
 
 /**
  * Helper functions

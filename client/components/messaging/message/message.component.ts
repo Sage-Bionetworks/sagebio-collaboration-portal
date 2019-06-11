@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 import { QuillEditorComponent } from 'ngx-quill';
-import { Message } from '../../../../shared/interfaces/discussion/message.model';
+import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';

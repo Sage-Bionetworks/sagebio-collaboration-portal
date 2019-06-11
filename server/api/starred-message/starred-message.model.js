@@ -16,10 +16,10 @@ var StarredMessageSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    updatedAt: {
+    createdAt: {
         type: Date,
         default: Date.now
-    },
+    }
 });
 
 StarredMessageSchema.index({ message: 1, starredBy: 1}, { unique: true });
