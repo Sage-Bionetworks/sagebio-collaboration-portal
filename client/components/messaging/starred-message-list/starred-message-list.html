@@ -1,12 +1,17 @@
-<div *ngIf="stars">
-  <p>There are {{ stars.length }} starred messages</p>
-  <p>There are {{ archivedStars.length }} starred messages archived</p>
-  <!-- <message *ngFor="let star of stars" [messageId]="star.message"></message> -->
-</div>
-
-<!-- <mat-list>
-    <mat-list-item *ngFor="let message of messages">
-        <h3 matLine>MessageID: {{ message.message }}</h3>
-        <h3 matLine>Archived: {{ message.archived }}</h3>
-    </mat-list-item>
-</mat-list> -->
+<mat-card *ngIf="stars">
+    <mat-card-header>
+        <mat-card-title>Starred Messages</mat-card-title>
+        <mat-card-subtitle>{{ stars.length }} messages starred, {{ archivedStars.length }} archived</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-nav-list>
+            <mat-list-item *ngFor="let star of stars">
+                <h3 matLine>MessageID: {{ star.message }}</h3>
+                <h3 matLine>Archived: {{ star.archived }}</h3>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions>
+        <a mat-button (click)="showArchived()">See archived messages</a>
+    </mat-card-actions>
+</mat-card>

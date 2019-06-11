@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { StarredMessage } from '../../../../shared/interfaces/messaging/starred-message.model';
 import { MessagingDataService } from '../messaging-data.service';
+import { NotificationService } from '../../notification/notification.service';
 
 @Component({
     selector: 'starred-message-list',
@@ -12,8 +13,9 @@ export class StarredMessageListComponent implements OnInit {
     private stars: StarredMessage[] = [];
     private archivedStars: StarredMessage[] = [];
 
-    static parameters = [MessagingDataService];
-    constructor(private messagingDataService: MessagingDataService) {
+    static parameters = [MessagingDataService, NotificationService];
+    constructor(private messagingDataService: MessagingDataService,
+        private notificationService: NotificationService) {
         this.messagingDataService.getStarredMessages()
             .subscribe(messages => {
                 this.stars = messages.filter(message => !message.archived);
@@ -22,4 +24,8 @@ export class StarredMessageListComponent implements OnInit {
     }
 
     ngOnInit() { }
+
+    showArchived(): void {
+        this.notificationService.info('Not implemented yet');
+    }
 }

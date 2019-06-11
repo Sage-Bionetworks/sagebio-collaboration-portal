@@ -13,7 +13,7 @@ let starredMessages = [{
 }, {
     message: message2Id,
     starredBy: adminUserId,
-    archived: true
+    archived: false
 }];
 
 export {
