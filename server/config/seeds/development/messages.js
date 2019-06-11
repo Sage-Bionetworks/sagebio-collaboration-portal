@@ -14,32 +14,32 @@ const message3Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3e4');
 let messages = [{
         _id: message1Id,
         body: `{\"ops\":[{\"insert\":\"a body\\n\"}]}`,
-        tags: [
-            toolTagId
-        ],
+        // tags: [
+        //     toolTagId
+        // ],
         createdBy: adminUserId,
-        createdAt: new Date(2019, 4, 27, 12, 56),
-        updatedAt: new Date(2019, 4, 27, 12, 56)
+        createdAt: new Date(2019, 4, 27, 12, 56).toISOString(),
+        updatedAt: new Date(2019, 4, 27, 12, 56).toISOString()
     }, {
         _id: message2Id,
         body: `{\"ops\":[{\"insert\":\"another body\\n\"}]}`,
-        tags: [
-            toolTagId,
-            feLiteTagId
-        ],
+        // tags: [
+        //     toolTagId,
+        //     feLiteTagId
+        // ],
         createdBy: adminUserId,
-        createdAt: new Date(2019, 5, 10, 14, 32),
-        updatedAt: new Date(2019, 5, 10, 14, 32)
+        createdAt: new Date(2019, 5, 10, 14, 32).toISOString(),
+        updatedAt: new Date(2019, 5, 10, 14, 32).toISOString()
     }, {
         _id: message3Id,
         body: `{\"ops\":[{\"insert\":\"yet another body\\n\"}]}`,
-        tags: [
-            toolTagId,
-            feLiteTagId
-        ],
+        // tags: [
+        //     toolTagId,
+        //     feLiteTagId
+        // ],
         createdBy: adminUserId,
-        createdAt: new Date(2019, 5, 10, 16, 32),
-        updatedAt: new Date(2019, 5, 10, 16, 32)
+        createdAt: new Date(2019, 5, 10, 16, 32).toISOString(),
+        updatedAt: new Date(2019, 5, 10, 16, 32).toISOString()
     },
     //
     // REPLIES
@@ -48,14 +48,14 @@ let messages = [{
         body: `{\"ops\":[{\"insert\":\"Reply to a body\\n\"}]}`,
         thread: message1Id,
         createdBy: adminUserId,
-        createdAt: new Date(2019, 4, 28, 12, 57),
-        updatedAt: new Date(2019, 4, 28, 12, 57)
+        createdAt: new Date(2019, 4, 28, 12, 57).toISOString(),
+        updatedAt: new Date(2019, 4, 28, 12, 57).toISOString()
     }, {
         body: `{\"ops\":[{\"insert\":\"Reply to another body\\n\"}]}`,
         thread: message2Id,
         createdBy: adminUserId,
-        createdAt: new Date(2019, 5, 10, 14, 36),
-        updatedAt: new Date(2019, 5, 10, 14, 36)
+        createdAt: new Date(2019, 5, 10, 14, 36).toISOString(),
+        updatedAt: new Date(2019, 5, 10, 14, 36).toISOString()
     }
 ];
 

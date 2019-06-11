@@ -28,10 +28,14 @@ export class SecondarySidenavService {
     }
 
     public setContentId(contentId: string) {
-      return this.sidenavContent.setContentId(contentId);
+        this.sidenavContent.setContentId(contentId);
     }
 
-    public loadComponent(component: Type<any>): any {
-        return this.sidenavContent.loadComponent(component);
+    public loadContentComponent(component: Type<any>): any {
+        return this.sidenavContent.loadContentComponent(component);
+    }
+
+    public destroyContentComponent(): void {
+        this.sidenavContent.destroyContentComponent();
     }
 }

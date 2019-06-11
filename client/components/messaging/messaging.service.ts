@@ -57,9 +57,9 @@ export class MessagingService {
     showThread(message: Message): void {
         let sidenavContentId = `thread:${message._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            let threadSidenav = <ThreadSidenavComponent>this.secondarySidenavService
-                .loadComponent(ThreadSidenavComponent);
-            threadSidenav.setMessage(message);
+            (<ThreadSidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ThreadSidenavComponent))
+                .setMessage(message);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

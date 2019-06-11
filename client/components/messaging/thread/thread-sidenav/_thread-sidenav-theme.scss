@@ -6,8 +6,8 @@
   $foreground: map-get($theme, foreground);
 
   .app-message-thread-header {
-    background: mat-color($primary);
-    // background: #717171;
+    // background: mat-color($primary);
+    background: #9d9d9d;
   }
 
   .app-message-thread-header-close {

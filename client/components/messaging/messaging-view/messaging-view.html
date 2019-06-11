@@ -1,6 +1,9 @@
 <ng-template ngFor let-message let-i="index" let-first="first" [ngForOf]="messages">
     <message-date-separator *ngIf="first" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
     <message-date-separator *ngIf="!first && !(message.createdAt | sameDay: messages[i-1].createdAt)" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
+    <!-- <div *ngIf="!first">{{ message.createdAt | dateAndTime  }}</div>
+    <div *ngIf="!first">{{ messages[i-1].createdAt | dateAndTime  }}</div>
+    <div *ngIf="!first">Same day: {{ message.createdAt | sameDay: messages[i-1].createdAt }}</div> -->
     <message [message]="message"></message>
 </ng-template>
 <message-new class="app-messaging-new"></message-new>
