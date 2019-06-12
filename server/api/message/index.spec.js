@@ -11,6 +11,15 @@ var messageCtrlStub = {
     destroy: 'messageCtrl.destroy'
 };
 
+var authServiceStub = {
+    isAuthenticated() {
+        return 'authService.isAuthenticated';
+    },
+    hasRole(role) {
+        return `authService.hasRole.${role}`;
+    }
+};
+
 var routerStub = {
     get: sinon.spy(),
     put: sinon.spy(),
@@ -26,7 +35,8 @@ var messageIndex = proxyquire('./index.js', {
             return routerStub;
         }
     },
-    './message.controller': messageCtrlStub
+    './message.controller': messageCtrlStub,
+    '../../auth/auth.service': authServiceStub
 });
 
 describe('Message API Router:', function () {
@@ -53,7 +63,7 @@ describe('Message API Router:', function () {
     describe('POST /api/messages', function () {
         it('should route to message.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', 'messageCtrl.create')
+                .withArgs('/', 'authService.isAuthenticated', 'messageCtrl.create')
             ).to.have.been.calledOnce;
         });
     });

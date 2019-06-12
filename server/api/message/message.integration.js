@@ -2,10 +2,46 @@
 
 var app = require('../..');
 import request from 'supertest';
+import User from '../user/user.model';
 
 var newMessage;
 
 describe('Message API:', function () {
+    var user;
+    var token;
+
+    // Clear users before testing, create user and authenticate it
+    before(() => {
+        return User.deleteMany()
+            .then(function () {
+                user = new User({
+                    name: 'Fake User',
+                    email: 'test@example.com',
+                    password: 'password',
+                    username: 'test'
+                });
+
+                return user.save();
+            })
+            .then(user => {
+                return request(app)
+                    .post('/auth/local')
+                    .send({
+                        email: 'test@example.com',
+                        password: 'password',
+                        username: 'test'
+                    })
+                    .expect(200)
+                    .expect('Content-Type', /json/)
+                    .then(res => token = res.body.token);
+            });
+    });
+
+    // Clear users after testing
+    after(function () {
+        return User.deleteMany();
+    });
+
     describe('GET /api/messages', function () {
         var messages;
 
@@ -29,9 +65,11 @@ describe('Message API:', function () {
     });
 
     describe('POST /api/messages', function () {
+
         beforeEach(function (done) {
             request(app)
                 .post('/api/messages')
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     body: 'New body',
                 })
