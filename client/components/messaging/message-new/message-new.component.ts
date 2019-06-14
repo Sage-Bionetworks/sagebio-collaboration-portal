@@ -17,7 +17,7 @@ import config from '../../../app/app.constants';
 })
 export class MessageNewComponent implements OnInit {
     @Input() private thread: Message;
-    @ViewChild('editor') editor: QuillEditorComponent;
+    @ViewChild('editor', { static: false }) editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
     private errors = {

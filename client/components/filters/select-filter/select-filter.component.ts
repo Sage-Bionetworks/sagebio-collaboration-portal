@@ -10,7 +10,7 @@ import { ActiveFilter } from '../active-filter.model';
     providers: [{ provide: FiltersComponent, useExisting: forwardRef(() => SelectFilterComponent) }]
 })
 export class SelectFilterComponent extends FiltersComponent implements OnInit {
-    @ViewChild(MatSelect) mySelect: MatSelect;
+    @ViewChild(MatSelect, { static: true }) mySelect: MatSelect;
 
     static parameters = [];
     constructor() {

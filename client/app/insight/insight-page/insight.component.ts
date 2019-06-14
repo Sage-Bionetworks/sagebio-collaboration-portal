@@ -23,7 +23,7 @@ import { ObjectValidators } from '../../../components/validation/object-validato
 })
 export class InsightComponent implements OnInit, OnDestroy {
     private insight: Insight;
-    @ViewChild('editor') editor: QuillEditorComponent;
+    @ViewChild('editor', { static: false }) editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
     private errors = {

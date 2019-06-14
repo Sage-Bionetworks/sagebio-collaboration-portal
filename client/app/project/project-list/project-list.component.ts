@@ -19,7 +19,7 @@ import { NotificationService } from '../../../components/notification/notificati
 export class ProjectListComponent implements OnInit, AfterViewInit {
     private projects: Observable<Project[]>;
 
-    @ViewChild(ProjectNewComponent) newProject: ProjectNewComponent;
+    @ViewChild(ProjectNewComponent, { static: false }) newProject: ProjectNewComponent;
     private createNewProject = false;
 
     static parameters = [Router, FormBuilder, PageTitleService, ProjectService,

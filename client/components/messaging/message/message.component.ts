@@ -27,9 +27,9 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private tooltipPosition = 'above';
-    @ViewChild('editor') editor: QuillEditorComponent;
-    @ViewChild(MessageStarButtonComponent) starButton: MessageStarButtonComponent;
-    @ViewChild(MessageReplyButtonComponent) replyButton: MessageReplyButtonComponent;
+    @ViewChild('editor', { static: false }) editor: QuillEditorComponent;
+    @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
+    @ViewChild(MessageReplyButtonComponent, { static: false }) replyButton: MessageReplyButtonComponent;
 
     private starred: Observable<boolean>;
     private numReplies: Observable<number>;

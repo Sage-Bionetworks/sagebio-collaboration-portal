@@ -42,6 +42,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
         private catalogService: DataCatalogService,
         private notificationService: NotificationService) {
 
+        console.log('dataset orders', config.datasetOrders);
         this.orderFilters = values(config.datasetOrders);
     }
 

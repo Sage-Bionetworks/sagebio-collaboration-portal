@@ -7,7 +7,7 @@ import { SidenavHostDirective } from '../sidenav-host.directive';
     styles: [require('./secondary-sidenav.scss')]
 })
 export class SecondarySidenavComponent {
-    @ViewChild(SidenavHostDirective) private sidenavHost: SidenavHostDirective;
+    @ViewChild(SidenavHostDirective, {static: false}) private sidenavHost: SidenavHostDirective;
     private contentId: string;  // used to track the component AND data loaded
 
     static parameters = [ComponentFactoryResolver];
