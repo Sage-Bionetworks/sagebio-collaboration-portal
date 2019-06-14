@@ -24,6 +24,7 @@ import { MessageDateSeparatorComponent } from './message-date-separator/message-
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageDrop', ImageDrop);
+import 'quill-emoji/dist/quill-emoji.js';
 
 @NgModule({
     imports: [
@@ -35,7 +36,10 @@ Quill.register('modules/imageDrop', ImageDrop);
         AvatarModule,
         QuillModule.forRoot({
             modules: {
-                imageDrop: true
+                imageDrop: true,
+                'emoji-shortname': true,
+                'emoji-textarea': false,
+                'emoji-toolbar': true,
                 // syntax: true,
                 // toolbar: [...]
             }
