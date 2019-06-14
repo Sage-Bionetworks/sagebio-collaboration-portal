@@ -21,6 +21,10 @@ import { MessagingDataService } from './messaging-data.service';
 import { TagService } from '../tag/tag.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 
+import Quill from 'quill';
+import { ImageDrop } from 'quill-image-drop-module';
+Quill.register('modules/imageDrop', ImageDrop);
+
 @NgModule({
     imports: [
         CommonModule,
@@ -31,6 +35,7 @@ import { MessageDateSeparatorComponent } from './message-date-separator/message-
         AvatarModule,
         QuillModule.forRoot({
             modules: {
+                imageDrop: true
                 // syntax: true,
                 // toolbar: [...]
             }
