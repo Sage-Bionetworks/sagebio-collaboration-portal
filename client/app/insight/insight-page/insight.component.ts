@@ -9,7 +9,6 @@ import { StateService } from '../../state/state.service';
 import { Insight } from '../../../../shared/interfaces/insight.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { NotificationService } from '../../../components/notification/notification.service';
-import { NgxMdService } from 'ngx-md';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../app.constants';

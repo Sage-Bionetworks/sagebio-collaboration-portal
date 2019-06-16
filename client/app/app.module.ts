@@ -18,10 +18,15 @@ import {
 } from '@angularclass/hmr';
 
 import { RouterModule, Routes } from '@angular/router';
-import { NgxMdModule } from 'ngx-md';
+// import { NgxMdModule } from 'ngx-md';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../components/material/material.module';
+
+// import { HighlightModule } from 'ngx-highlightjs';
+// import xml from 'highlight.js/lib/languages/xml';
+// import scss from 'highlight.js/lib/languages/scss';
+// import typescript from 'highlight.js/lib/languages/typescript';
 
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
@@ -37,6 +42,18 @@ import { DirectivesModule } from '../components/directives.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
+
+/**
+ * Import every language you wish to highlight here
+ * NOTE: The name of each language must match the file name its imported from
+ */
+// export function hljsLanguages() {
+//     return [
+//         { name: 'typescript', func: typescript },
+//         { name: 'scss', func: scss },
+//         { name: 'xml', func: xml }
+//     ];
+// }
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');  // was 'id_token'
@@ -58,6 +75,12 @@ const appRoutes: Routes = [{
     pathMatch: 'full'
 }];
 
+// import hljs from 'highlight.js/lib/highlight.js';
+//
+// hljs.configure({   // optionally configure hljs
+//   languages: ['javascript', 'ruby', 'python']
+// });
+
 @NgModule({
     providers,
     imports: [
@@ -71,7 +94,11 @@ const appRoutes: Routes = [{
 
         BrowserAnimationsModule,
         MaterialModule,
-        NgxMdModule.forRoot(),
+        // HighlightModule.forRoot({
+        //     languages: hljsLanguages
+        // }),
+
+        // NgxMdModule.forRoot(),
 
         RouterModule.forRoot(appRoutes, { enableTracing: process.env.NODE_ENV === 'development' }),
         MainModule,

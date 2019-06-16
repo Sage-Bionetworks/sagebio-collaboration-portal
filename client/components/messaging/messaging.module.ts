@@ -2,6 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
+
+// import { HighlightModule } from 'ngx-highlightjs';
+// import xml from 'highlight.js/lib/languages/xml';
+// import scss from 'highlight.js/lib/languages/scss';
+// import typescript from 'highlight.js/lib/languages/typescript';
+
+// import hljs from 'highlightjs';
+//
+// hljs.configure({   // optionally configure hljs
+//   languages: ['javascript', 'ruby', 'python']
+// });
+
+// import hljs from 'highlight.js';
+// hljs.configure({   // optionally configure hljs
+//     languages: ['javascript', 'ruby', 'python']
+// });
+
 import { QuillModule } from 'ngx-quill';
 import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
@@ -21,10 +38,28 @@ import { MessagingDataService } from './messaging-data.service';
 import { TagService } from '../tag/tag.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 
+// import hljs from 'highlight.js/lib/highlight.js';
+//
+// hljs.configure({   // optionally configure hljs
+//   languages: ['javascript', 'ruby', 'python']
+// });
+
+/**
+ * Import every language you wish to highlight here
+ * NOTE: The name of each language must match the file name its imported from
+ */
+// export function hljsLanguages() {
+//     return [
+//         { name: 'typescript', func: typescript },
+//         { name: 'scss', func: scss },
+//         { name: 'xml', func: xml }
+//     ];
+// }
+
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 Quill.register('modules/imageDrop', ImageDrop);
-import 'quill-emoji/dist/quill-emoji.js';
+import 'quill-emoji.js';
 
 @NgModule({
     imports: [
@@ -34,13 +69,16 @@ import 'quill-emoji/dist/quill-emoji.js';
         MaterialModule,
         SidenavModule,
         AvatarModule,
+        // HighlightModule.forRoot({
+        //     languages: hljsLanguages
+        // }),
         QuillModule.forRoot({
             modules: {
                 imageDrop: true,
                 'emoji-shortname': true,
                 'emoji-textarea': false,
                 'emoji-toolbar': true,
-                // syntax: true,
+                syntax: true,
                 // toolbar: [...]
             }
         }),
