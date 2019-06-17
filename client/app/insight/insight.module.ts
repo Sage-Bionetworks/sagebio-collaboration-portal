@@ -37,9 +37,12 @@ export const ROUTES: Routes = [{
         RouterModule.forChild(ROUTES),
         QuillModule.forRoot({
             modules: {
-                // syntax: true,
-                // toolbar: [...]
-            }
+                imageDrop: true,
+                'emoji-shortname': true,
+                'emoji-textarea': false,
+                'emoji-toolbar': true,
+                syntax: true
+            },
         }),
         AppQuillModule
     ],

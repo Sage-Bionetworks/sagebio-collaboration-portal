@@ -3,12 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 
-// import hljs from 'highlight.js';
-// hljs.configure({   // optionally configure hljs
-//     useBR: false,
-//     languages: ['javascript', 'ruby', 'python']
-// });
-
 import { QuillEditorComponent } from 'ngx-quill';
 import { Message } from '../../../../shared/interfaces/messaging/message.model';
 import { AppQuillEditorToolbarComponent } from '../../quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';

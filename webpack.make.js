@@ -164,7 +164,6 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
                     path.resolve(__dirname, 'node_modules/lodash-es/'),
-                    // path.resolve(__dirname, 'node_modules/highlight.js/lib/highlight.js'),
                 ]
             }, {
                 // TS LOADER

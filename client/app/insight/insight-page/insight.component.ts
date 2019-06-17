@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { InsightService } from '../insight.service';
