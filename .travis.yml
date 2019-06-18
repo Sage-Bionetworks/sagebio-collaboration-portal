@@ -38,4 +38,4 @@ deploy:
   provider: script
   script: docker push "${IMAGE_NAME}:develop" && docker push "${IMAGE_NAME}:${git_sha}-develop"
   on:
-branch: develop
+    branch: develop
