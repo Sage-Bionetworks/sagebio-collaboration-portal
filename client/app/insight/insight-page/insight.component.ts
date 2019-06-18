@@ -3,6 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
+import Quill from 'quill';
+import 'quill-mention.js';
+
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { InsightService } from '../insight.service';
@@ -23,11 +26,47 @@ import { ObjectValidators } from '../../../components/validation/object-validato
 })
 export class InsightComponent implements OnInit, OnDestroy {
     private insight: Insight;
-    @ViewChild('editor', { static: false }) editor: QuillEditorComponent;
+    @ViewChild('editor', { static: true }) editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined
+    };
+
+    modules = {
+        imageDrop: true,
+        'emoji-shortname': true,
+        'emoji-textarea': false,
+        'emoji-toolbar': true,
+        syntax: true,
+        mention: {
+            allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+            onSelect: (item, insertItem) => {
+                const editor = this.editor.quillEditor as Quill;
+                insertItem(item);
+                // necessary because quill-mention triggers changes as 'api' instead of 'user'
+                editor.insertText(editor.getLength() - 1, '', 'user');
+            },
+            source: (searchTerm, renderList) => {
+                const values = [
+                    { id: 1, value: 'Fredrik Sundqvist' },
+                    { id: 2, value: 'Patrik Sjölin' }
+                ];
+
+                if (searchTerm.length === 0) {
+                    renderList(values, searchTerm);
+                } else {
+                    const matches = [];
+
+                    values.forEach((entry) => {
+                        if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+                            matches.push(entry);
+                        }
+                    });
+                    renderList(matches, searchTerm);
+                }
+            }
+        },
     };
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
@@ -97,7 +136,7 @@ export class InsightComponent implements OnInit, OnDestroy {
                 if (insight.description) {  // TODO: should be required
                     try {
                         this.form.get('description').setValue(JSON.parse(insight.description));
-                    } catch(e) {
+                    } catch (e) {
                         // the description is likely a string if specified from a tool
                         this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
                     }
@@ -116,23 +155,23 @@ export class InsightComponent implements OnInit, OnDestroy {
         let description = JSON.stringify(this.form.get('description').value);
         console.log('DESCRIPTION', description);
         try {
-          this.insightService.updateInsightDescription(this.insight, description)
-              .subscribe(insight => {
-                  this.notificationService.info('The description has been successfully saved');
-              }, err => {
-                  console.log(err);
-                  // this.errors.updateDescription = err.message;
-              });
-        } catch (e) {}
+            this.insightService.updateInsightDescription(this.insight, description)
+                .subscribe(insight => {
+                    this.notificationService.info('The description has been successfully saved');
+                }, err => {
+                    console.log(err);
+                    // this.errors.updateDescription = err.message;
+                });
+        } catch (e) { }
         try {
-          this.insightService.updateStateDescription(this.insight, description)
-              .subscribe(insight => {
-                  this.notificationService.info('The description has been successfully saved');
-              }, err => {
-                  console.log(err);
-                  // this.errors.updateDescription = err.message;
-              });
-        } catch (e) {}
+            this.insightService.updateStateDescription(this.insight, description)
+                .subscribe(insight => {
+                    this.notificationService.info('The description has been successfully saved');
+                }, err => {
+                    console.log(err);
+                    // this.errors.updateDescription = err.message;
+                });
+        } catch (e) { }
 
     }
 }

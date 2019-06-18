@@ -1,12 +1,15 @@
+
+sudo: required
 language: node_js
 node_js:
   - 10.15.3
-before_script:
-  - npm install -g gulp-cli
-services: mongodb
 cache:
   directories:
     - node_modules
+services:
+  - mongodb
+  - docker
+
 env:
   - CXX=g++-4.8
 addons:
@@ -15,3 +18,24 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+
+before_script:
+  - npm install -g gulp-cli
+  - docker pull "${IMAGE_NAME}:develop" || true
+
+script:
+  # temporary ignoring tests
+  - echo "skipping tests"
+  - docker build -f Dockerfile.dev --pull --cache-from "${IMAGE_NAME}:develop" --tag "$IMAGE_NAME" .
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+  - git_sha="$(git rev-parse --short HEAD)"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:develop"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${git_sha}-develop"
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:develop" && docker push "${IMAGE_NAME}:${git_sha}-develop"
+  on:
+branch: develop

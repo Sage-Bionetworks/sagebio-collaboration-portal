@@ -11,7 +11,7 @@
                     <h3>Description</h3>
 
                     <form [formGroup]="form" novalidate>
-                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
+                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']" [modules]="modules">
                             <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
                         </quill-editor>
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
