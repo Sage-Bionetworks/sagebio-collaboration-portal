@@ -16,7 +16,6 @@ export default app => {
     app.use('/api/messages', require('./api/message'));
     app.use('/api/tags', require('./api/tag'));
     app.use('/api/projects', require('./api/project'));
-    app.use('/api/states', require('./api/state'));
     app.use('/api/organizations', require('./api/organization'));
     app.use('/api/data-catalogs', require('./api/data-catalog'));
     app.use('/api/tools', require('./api/tool'));

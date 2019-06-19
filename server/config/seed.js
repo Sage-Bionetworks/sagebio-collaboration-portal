@@ -4,15 +4,17 @@
  */
 
 import DataCatalog from '../api/data-catalog/data-catalog.model';
-import Insight from '../api/insight/insight.model';
+// import Insight from '../api/insight/insight.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
 import StarredMessage from '../api/starred-message/starred-message.model';
-import State from '../api/state/state.model';
+// import State from '../api/state/state.model';
 import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
+import State from '../api/insight/state.model';
+import Report from '../api/insight/report.model';
 
 import seeds from './seeds'
 
@@ -73,6 +75,14 @@ export default function seedDatabaseIfNeeded() {
             .then(() => State.create(seeds.states))
             .then(() => console.log('finished populating states'))
             .catch(err => console.log('error populating states', err));
+        promises.push(promise);
+    }
+
+    if (seeds.reports) {
+        let promise = Report.find({}).deleteMany()
+            .then(() => Report.create(seeds.reports))
+            .then(() => console.log('finished populating reports'))
+            .catch(err => console.log('error populating reports', err));
         promises.push(promise);
     }
 

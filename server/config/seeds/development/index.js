@@ -4,9 +4,6 @@ import {
     dataCatalogs
 } from './data-catalogs';
 import {
-    insights
-} from './insights';
-import {
     messages
 } from './messages';
 import {
@@ -15,6 +12,9 @@ import {
 import {
     projects
 } from './projects'
+import {
+    reports
+} from './reports';
 import {
     starredMessages
 } from './starred-messages';
@@ -33,10 +33,10 @@ import {
 
 module.exports = {
     dataCatalogs: dataCatalogs,
-    insights: insights,
     messages: messages,
     organizations: organizations,
     projects: projects,
+    reports: reports,
     starredMessages: starredMessages,
     states: states,
     tags: tags,
