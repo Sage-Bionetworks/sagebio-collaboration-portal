@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 import Quill from 'quill';
-import 'quill-mention.js';
+// import 'quill-mention.js';
 
 import { QuillEditorComponent } from 'ngx-quill';
 
