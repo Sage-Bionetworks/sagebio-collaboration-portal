@@ -24,12 +24,11 @@ before_script:
   - docker pull "${IMAGE_NAME}:develop" || true
 
 script:
-  # temporary ignoring tests
-  - echo "skipping tests"
+  - npm test
   - docker build -f Dockerfile.dev --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" .
 
 before_deploy:
-  - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
+  - docker login -u "${REGISTRY_USER}" --password-stdin "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
   - git_sha="$(git rev-parse --short HEAD)"
   - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
   - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
