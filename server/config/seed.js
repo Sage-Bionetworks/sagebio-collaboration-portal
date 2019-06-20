@@ -3,24 +3,31 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+import Dashboard from '../api/insight/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
-// import Insight from '../api/insight/insight.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
+import Report from '../api/insight/models/report.model';
 import StarredMessage from '../api/starred-message/starred-message.model';
-// import State from '../api/state/state.model';
+import State from '../api/insight/models/state.model';
 import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
-import State from '../api/insight/state.model';
-import Report from '../api/insight/report.model';
 
 import seeds from './seeds'
 
 export default function seedDatabaseIfNeeded() {
 
     let promises = [];
+
+    if (seeds.dashboards) {
+        let promise = Dashboard.find({}).deleteMany()
+            .then(() => Dashboard.create(seeds.dashboards))
+            .then(() => console.log('finished populating dashboards'))
+            .catch(err => console.log('error populating dashboards', err));
+        promises.push(promise);
+    }
 
     if (seeds.dataCatalogs) {
         let promise = DataCatalog.find({}).deleteMany()

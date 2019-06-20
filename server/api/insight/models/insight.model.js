@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import {
     registerEvents
-} from './insight.events';
+} from '../insight.events';
 
 const options = {
-  discriminatorKey: 'insightType',
-  collection: 'insights',
+    discriminatorKey: 'insightType',
+    collection: 'insights',
 };
 
 var InsightSchema = new mongoose.Schema({

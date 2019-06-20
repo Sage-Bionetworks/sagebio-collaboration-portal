@@ -11,7 +11,7 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import Insight from './insight.model';
+import Insight from './models/insight.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;

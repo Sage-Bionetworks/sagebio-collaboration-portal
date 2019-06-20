@@ -1,6 +1,9 @@
 /*eslint no-process-env:0*/
 
 import {
+    dashboards
+} from './dashboards';
+import {
     dataCatalogs
 } from './data-catalogs';
 import {
@@ -32,6 +35,7 @@ import {
 } from './users';
 
 module.exports = {
+    dashboards: dashboards,
     dataCatalogs: dataCatalogs,
     messages: messages,
     organizations: organizations,
