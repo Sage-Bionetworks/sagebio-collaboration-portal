@@ -1,26 +1,31 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { InsightService } from '../insight.service';
-import { Insight } from '../../../../shared/interfaces/insights/insight.model';
+// import { InsightService } from '../insight.service';
+import { Dashboard } from '../../../../shared/interfaces/insights/dashboard.model';
 
 @Component({
-    selector: 'insight-view',
-    template: require('./insight-view.html'),
-    styles: [require('./insight-view.scss')],
+    selector: 'dashboard-view',
+    template: require('./dashboard-view.html'),
+    styles: [require('./dashboard-view.scss')],
 })
-export class InsightViewComponent {
-    private _insight: Insight;
+export class DashboardViewComponent {
+    private _dashboard: Dashboard;
 
     static parameters = [Router];
     constructor(private router: Router) { }
 
-    get insight() {
-        return this._insight;
+    get dashboard() {
+        return this._dashboard;
     }
 
     @Input()
-    set insight(insight) {
-        this._insight = insight;
+    set dashboard(dashboard) {
+        this._dashboard = dashboard;
+        console.log('DASHBOARD', dashboard);
+    }
+
+    openDashboard(): void {
+        window.open(this.dashboard.url, '_blank');
     }
 }

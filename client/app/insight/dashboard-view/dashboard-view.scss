@@ -1,43 +1,41 @@
-.insight-container {
+.app-dashboard-container {
   display: flex;
   flex-flow: column nowrap;
-  width: 200px;
+  width: 300px;
   margin: 25px;
 }
 
-.insight-container:hover {
+.app-dashboard-container:hover {
   cursor: pointer;
 }
 
-.insight-container > picture {
+.app-dashboard-container > picture {
   display: flex;
-  flex-direction: row;
+  flex-grow: 1;
   justify-content: center;
   align-items: center;
-  // min-height: 200px;
 
   img {
     display: block;
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
     width: auto;
     height: auto;
     align-self: center;
   }
 }
 
-.insight-card-footer {
+.dashboard-card-footer {
   display: flex;
   flex-direction: row nowrap;
   justify-content: space-between;
 }
 
-.insight-name {
+.app-dashboard-title {
   font-size: 15px;
   line-height: 20px;
   overflow: hidden;
   box-sizing: content-box;
-  height: 60px;
+  // height: 60px;
   // max-height: 60px;
   font-weight: 600;
   opacity: 0.95;
@@ -47,22 +45,27 @@
   position: relative;
 }
 
-.insight-metadata-container {
+.app-dashboard-description {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.dashboard-metadata-container {
   display: flex;
   flex-flow: column nowrap;
 }
 
-.insight-metadata-row-container {
+.dashboard-metadata-row-container {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.insight-metadata-row-container > mat-icon {
+.dashboard-metadata-row-container > mat-icon {
   margin-right: 10px;
 }
 
-.insight-metadata-row-container-date {
-  @extend .insight-metadata-row-container;
+.dashboard-metadata-row-container-date {
+  @extend .dashboard-metadata-row-container;
   margin-bottom: 10px;
 }

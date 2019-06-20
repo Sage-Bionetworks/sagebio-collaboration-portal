@@ -1,21 +1,26 @@
-<mat-card *ngIf="insight" class="insight-container" [routerLink]="[insight._id]">
+<mat-card *ngIf="dashboard" class="app-dashboard-container" (click)="openDashboard()">
+  <!-- <div class="">
+
+  <div> -->
+
+
     <picture>
-        <img src="assets/images/320px-insight_logo.png" aria-label="Insight logo">
+        <img src="assets/images/320px-insight_logo.png" aria-label="Dashboard picture">
     </picture>
-    <div class="insight-metadata-container">
-        <h3 class="insight-name">{{insight.name}}</h3>
-        <!-- <div class="insight-metadata-row-container-date">
+    <div class="dashboard-metadata-container">
+        <h3 class="app-dashboard-title">{{ dashboard.title }}</h3>
+        <span class="app-dashboard-description">{{ dashboard.description }}</span>
+        <!-- <div class="dashboard-metadata-row-container-date">
             <mat-icon>access_time</mat-icon>
             <span>{{insight.createdAt | date}}</span>
         </div> -->
-        <div class="insight-card-footer">
-            <div class="insight-metadata-row-container">
+        <!-- <div class="dashboard-card-footer">
+            <div class="dashboard-metadata-row-container">
                 <span>Thomas</span>
             </div>
             <mat-chip-list>
-                <mat-chip *ngIf="insight.data" selectable="false" color="primary" selected>State</mat-chip>
-                <mat-chip *ngIf="!insight.data" selectable="false" color="accent" selected>Report</mat-chip>
+                <mat-chip selectable="false" color="primary" selected>Dashboard</mat-chip>
             </mat-chip-list>
-        </div>
+        </div> -->
     </div>
 </mat-card>

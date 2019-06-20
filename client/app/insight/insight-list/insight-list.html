@@ -10,9 +10,13 @@
 
     <div class="app-insight-list-content-container">
         <!-- <search-filter class="app-insight-list-search-filter" group="searchTerms"></search-filter> -->
-        <!-- <div class="app-insight-list-results">
-            <insight-view *ngFor="let insight of insights" [insight]="insight"></insight-view>
-        </div> -->
+        <div class="app-insight-list-results">
+            <ng-template ngFor let-insight let-i="index" let-first="first" [ngForOf]="insights">
+                <dashboard-view *ngIf="insight.insightType === 'Dashboard'" [dashboard]="insight"></dashboard-view>
+            </ng-template>
+
+            <!-- <insight-view *ngFor="let insight of insights" [insight]="insight"></insight-view> -->
+        </div>
         <!-- <div class="app-insight-list-more-results-container" *ngIf="searchResultCount - insights.length > 0">
           <a mat-raised-button class="app-insight-list-more-results" color="primary" (click)="showMoreResults()">More Results</a>
       </div> -->

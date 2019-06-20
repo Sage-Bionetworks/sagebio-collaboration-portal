@@ -13,6 +13,7 @@ import { FiltersModule } from '../../components/filters/filters.module';
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
 import { InsightComponent } from './insight-page/insight.component';
+import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 
 import { InsightService } from './insight.service';
 import { SocketService } from '../../components/socket/socket.service';
@@ -51,7 +52,8 @@ export const ROUTES: Routes = [{
     declarations: [
         InsightListComponent,
         InsightViewComponent,
-        InsightComponent
+        InsightComponent,
+        DashboardViewComponent
     ],
     providers: [
         SocketService,

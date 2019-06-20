@@ -16,6 +16,7 @@ import { Insight } from '../../../../shared/interfaces/insights/insight.model';
 import { State } from '../../../../shared/interfaces/insights/state.model';
 import { Report } from '../../../../shared/interfaces/insights/report.model';
 import { Dashboard } from '../../../../shared/interfaces/insights/dashboard.model';
+import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
 
 @Component({
     selector: 'insight-list',
@@ -78,10 +79,11 @@ export class InsightListComponent implements OnInit, AfterViewInit {
                     ])(myFilters)
                 ),
                 tap(query => console.log('QUERY', query)),
-                switchMap(query => this.insightService.getInsights(query))
+                switchMap(query => this.insightService.getInsights(query)),
+                map(insights => orderBy('createdAt', 'asc', insights))
             )
-            .subscribe(res => {
-                console.log('INSIGHTS', res);
+            .subscribe(insights => {
+                this.insights = insights;
             }, err => {
                 console.log(err);
                 this.notificationService.error(err.message);
