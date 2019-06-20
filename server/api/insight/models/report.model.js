@@ -3,8 +3,8 @@ import Insight from './insight.model';
 
 var ReportSchema = new mongoose.Schema({
     attachments: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Insight'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Insight'
     }]
 });
 
