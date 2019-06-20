@@ -9,8 +9,10 @@ import Quill from 'quill';
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { InsightService } from '../insight.service';
-import { StateService } from '../../state/state.service';
-import { Insight } from '../../../../shared/interfaces/insight.model';
+// import { StateService } from '../../state/state.service';
+
+import { Insight } from '../../../../shared/interfaces/insights/insight.model';
+
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { NotificationService } from '../../../components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
@@ -70,12 +72,11 @@ export class InsightComponent implements OnInit, OnDestroy {
     };
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        InsightService, StateService, NotificationService];
+        InsightService, NotificationService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,
-        private stateService: StateService,
         private notificationService: NotificationService) {
 
         this.form = formBuilder.group({
@@ -99,50 +100,50 @@ export class InsightComponent implements OnInit, OnDestroy {
                 this.errors.updateDescription = undefined;
             });
 
-        this.route.params
-            .pipe(
-                mergeMap(res => {
-                    return combineLatest(
-                        this.insightService.getInsight(res.id)
-                            .pipe(
-                                catchError(err => {
-                                    // console.log(err);
-                                    // this.notificationService.error('Unable to connect to Data Catalog');
-                                    return of(<Insight>{});
-                                })
-                            ),
-
-                        this.stateService.getState(res.id)
-                            .pipe(
-                                catchError(err => {
-                                    // console.log(err);
-                                    // this.notificationService.error('Unable to connect to Data Catalog');
-                                    return of(<Insight>{});
-                                })
-                            )
-                    );
-                }),
-                map(([insight, state]) => {
-                    // console.log()
-                    return (insight._id) ? insight : state;
-                })
-                // tap([insight, state] => {
-                //     console.log('insight', insight);
-                //     console.log('state', state);
-                // })
-            )
-            .subscribe(insight => {
-                console.log(insight);
-                if (insight.description) {  // TODO: should be required
-                    try {
-                        this.form.get('description').setValue(JSON.parse(insight.description));
-                    } catch (e) {
-                        // the description is likely a string if specified from a tool
-                        this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
-                    }
-                }
-                this.insight = insight;
-            });
+        // this.route.params
+        //     .pipe(
+        //         mergeMap(res => {
+        //             return combineLatest(
+        //                 this.insightService.getInsight(res.id)
+        //                     .pipe(
+        //                         catchError(err => {
+        //                             // console.log(err);
+        //                             // this.notificationService.error('Unable to connect to Data Catalog');
+        //                             return of(<Insight>{});
+        //                         })
+        //                     ),
+        //
+        //                 this.stateService.getState(res.id)
+        //                     .pipe(
+        //                         catchError(err => {
+        //                             // console.log(err);
+        //                             // this.notificationService.error('Unable to connect to Data Catalog');
+        //                             return of(<Insight>{});
+        //                         })
+        //                     )
+        //             );
+        //         }),
+        //         map(([insight, state]) => {
+        //             // console.log()
+        //             return (insight._id) ? insight : state;
+        //         })
+        //         // tap([insight, state] => {
+        //         //     console.log('insight', insight);
+        //         //     console.log('state', state);
+        //         // })
+        //     )
+        //     .subscribe(insight => {
+        //         console.log(insight);
+        //         if (insight.description) {  // TODO: should be required
+        //             try {
+        //                 this.form.get('description').setValue(JSON.parse(insight.description));
+        //             } catch (e) {
+        //                 // the description is likely a string if specified from a tool
+        //                 this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
+        //             }
+        //         }
+        //         this.insight = insight;
+        //     });
     }
 
     ngOnDestroy() { }
@@ -152,26 +153,26 @@ export class InsightComponent implements OnInit, OnDestroy {
     }
 
     updateDescription(): void {
-        let description = JSON.stringify(this.form.get('description').value);
-        console.log('DESCRIPTION', description);
-        try {
-            this.insightService.updateInsightDescription(this.insight, description)
-                .subscribe(insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                }, err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                });
-        } catch (e) { }
-        try {
-            this.insightService.updateStateDescription(this.insight, description)
-                .subscribe(insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                }, err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                });
-        } catch (e) { }
+        // let description = JSON.stringify(this.form.get('description').value);
+        // console.log('DESCRIPTION', description);
+        // try {
+        //     this.insightService.updateInsightDescription(this.insight, description)
+        //         .subscribe(insight => {
+        //             this.notificationService.info('The description has been successfully saved');
+        //         }, err => {
+        //             console.log(err);
+        //             // this.errors.updateDescription = err.message;
+        //         });
+        // } catch (e) { }
+        // try {
+        //     this.insightService.updateStateDescription(this.insight, description)
+        //         .subscribe(insight => {
+        //             this.notificationService.info('The description has been successfully saved');
+        //         }, err => {
+        //             console.log(err);
+        //             // this.errors.updateDescription = err.message;
+        //         });
+        // } catch (e) { }
 
     }
 }

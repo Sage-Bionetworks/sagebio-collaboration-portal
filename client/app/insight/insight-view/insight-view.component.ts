@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { InsightService } from '../insight.service';
-import { Insight } from '../../../../shared/interfaces/insight.model';
+import { Insight } from '../../../../shared/interfaces/insights/insight.model';
 
 @Component({
     selector: 'insight-view',

@@ -8,8 +8,12 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Insight } from '../../../shared/interfaces/insight.model';
 import { stringifyQuery } from '../../components/util';
+
+import { Insight } from '../../../shared/interfaces/insights/insight.model';
+import { State } from '../../../shared/interfaces/insights/state.model';
+import { Report } from '../../../shared/interfaces/insights/report.model';
+import { Dashboard } from '../../../shared/interfaces/insights/dashboard.model';
 
 @Injectable()
 export class InsightService {
