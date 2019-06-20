@@ -28,6 +28,7 @@ import { ObjectValidators } from '../../../components/validation/object-validato
 })
 export class InsightComponent implements OnInit, OnDestroy {
     private insight: Insight;
+
     @ViewChild('editor', { static: true }) editor: QuillEditorComponent;
     private hide = false;
     private form: FormGroup;
@@ -35,41 +36,41 @@ export class InsightComponent implements OnInit, OnDestroy {
         updateDescription: undefined
     };
 
-    modules = {
-        imageDrop: true,
-        'emoji-shortname': true,
-        'emoji-textarea': false,
-        'emoji-toolbar': true,
-        syntax: true,
-        mention: {
-            allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-            onSelect: (item, insertItem) => {
-                const editor = this.editor.quillEditor as Quill;
-                insertItem(item);
-                // necessary because quill-mention triggers changes as 'api' instead of 'user'
-                editor.insertText(editor.getLength() - 1, '', 'user');
-            },
-            source: (searchTerm, renderList) => {
-                const values = [
-                    { id: 1, value: 'Fredrik Sundqvist' },
-                    { id: 2, value: 'Patrik Sjölin' }
-                ];
-
-                if (searchTerm.length === 0) {
-                    renderList(values, searchTerm);
-                } else {
-                    const matches = [];
-
-                    values.forEach((entry) => {
-                        if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-                            matches.push(entry);
-                        }
-                    });
-                    renderList(matches, searchTerm);
-                }
-            }
-        },
-    };
+    // modules = {
+    //     imageDrop: true,
+    //     'emoji-shortname': true,
+    //     'emoji-textarea': false,
+    //     'emoji-toolbar': true,
+    //     syntax: true,
+    //     mention: {
+    //         allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+    //         onSelect: (item, insertItem) => {
+    //             const editor = this.editor.quillEditor as Quill;
+    //             insertItem(item);
+    //             // necessary because quill-mention triggers changes as 'api' instead of 'user'
+    //             editor.insertText(editor.getLength() - 1, '', 'user');
+    //         },
+    //         source: (searchTerm, renderList) => {
+    //             const values = [
+    //                 { id: 1, value: 'Fredrik Sundqvist' },
+    //                 { id: 2, value: 'Patrik Sjölin' }
+    //             ];
+    //
+    //             if (searchTerm.length === 0) {
+    //                 renderList(values, searchTerm);
+    //             } else {
+    //                 const matches = [];
+    //
+    //                 values.forEach((entry) => {
+    //                     if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+    //                         matches.push(entry);
+    //                     }
+    //                 });
+    //                 renderList(matches, searchTerm);
+    //             }
+    //         }
+    //     },
+    // };
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         InsightService, NotificationService];
@@ -86,6 +87,22 @@ export class InsightComponent implements OnInit, OnDestroy {
                 ObjectValidators.jsonStringifyMaxLength(config.models.insight.description.maxlength)
             ]]
         });
+
+        this.route.params
+            .pipe(
+                switchMap(res => this.insightService.getInsight(res.id))
+            )
+            .subscribe(insight => {
+                if (insight.description) {  // TODO: should be required
+                    try {
+                        this.form.get('description').setValue(JSON.parse(insight.description));
+                    } catch (e) {
+                        // the description is likely a string if specified from a tool
+                        this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
+                    }
+                }
+                this.insight = insight;
+            });
     }
 
     ngOnInit() {

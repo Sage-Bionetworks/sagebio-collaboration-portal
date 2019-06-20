@@ -15,6 +15,7 @@ import { InsightViewComponent } from './insight-view/insight-view.component';
 import { InsightComponent } from './insight-page/insight.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from './report-view/report-view.component';
+import { StateViewComponent } from './state-view/state-view.component';
 
 import { InsightService } from './insight.service';
 import { SocketService } from '../../components/socket/socket.service';
@@ -55,7 +56,8 @@ export const ROUTES: Routes = [{
         InsightViewComponent,
         InsightComponent,
         DashboardViewComponent,
-        ReportViewComponent
+        ReportViewComponent,
+        StateViewComponent
     ],
     providers: [
         SocketService,

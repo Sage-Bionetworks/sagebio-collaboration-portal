@@ -18,6 +18,7 @@ import { Report } from '../../../../shared/interfaces/insights/report.model';
 import { Dashboard } from '../../../../shared/interfaces/insights/dashboard.model';
 import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from '../report-view/report-view.component';
+import { StateViewComponent } from '../state-view/state-view.component';
 
 @Component({
     selector: 'insight-list',

@@ -1,7 +1,7 @@
 <div *ngIf="insight">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/insights">keyboard_arrow_left</mat-icon>
-        <h1>{{insight.name}}</h1>
+        <h1>{{ insight.title }}</h1>
     </div>
 
     <div class="insight-content">
@@ -11,11 +11,13 @@
                     <h3>Description</h3>
 
                     <form [formGroup]="form" novalidate>
-                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']" [modules]="modules">
+                        <!-- [modules]="modules" -->
+                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
                             <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
                         </quill-editor>
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
-                            This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value: {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
+                            This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value:
+                            {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
                         </mat-error>
                         <mat-error *ngIf="errors.updateDescription">
                             {{ errors.updateDescription }}
