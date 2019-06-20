@@ -8,6 +8,7 @@ import { QuillModule } from 'ngx-quill';
 import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
+import { FiltersModule } from '../../components/filters/filters.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
@@ -44,7 +45,8 @@ export const ROUTES: Routes = [{
                 syntax: true
             },
         }),
-        AppQuillModule
+        AppQuillModule,
+        FiltersModule
     ],
     declarations: [
         InsightListComponent,

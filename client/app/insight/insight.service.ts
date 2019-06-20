@@ -21,11 +21,11 @@ export class InsightService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-
-
     getInsights(query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
     }
+
+
 
 
 

@@ -63,7 +63,8 @@ function handleError(res, statusCode) {
 
 // Gets a list of Insights
 export function index(req, res) {
-    return Insight.find().exec()
+    return Insight.find(req.query)
+        .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

@@ -12,7 +12,19 @@ var config = {
     },
     tooltip: {
         showDelay: 0
-    }
+    },
+
+    insightTypeFilters: [{
+        value: 'Dashboard',
+        title: 'Dashboard',
+        active: true
+    }, {
+        value: 'Report',
+        title: 'Report'
+    }, {
+        value: 'State',
+        title: 'State'
+    }]
 };
 
 export default merge(config, shared);
