@@ -13,6 +13,7 @@
         <div class="app-insight-list-results">
             <ng-template ngFor let-insight let-i="index" let-first="first" [ngForOf]="insights">
                 <dashboard-view *ngIf="insight.insightType === 'Dashboard'" [dashboard]="insight"></dashboard-view>
+                <report-view *ngIf="insight.insightType === 'Report'" [report]="insight"></report-view>
             </ng-template>
 
             <!-- <insight-view *ngFor="let insight of insights" [insight]="insight"></insight-view> -->

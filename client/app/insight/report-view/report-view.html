@@ -1,15 +1,9 @@
-<mat-card *ngIf="dashboard" class="app-dashboard-container" (click)="openDashboard()">
-  <!-- <div class="">
-
-  <div> -->
-
-
+<mat-card *ngIf="report" class="app-report-container" [routerLink]="[report._id]">
     <picture>
-        <img src="assets/images/320px-insight_logo.png" aria-label="Dashboard picture">
+        <img src="assets/images/320px-insight_logo.png" aria-label="Report picture">
     </picture>
-    <div class="app-dashboard-metadata-container">
-        <h3 class="app-dashboard-title">{{ dashboard.title }}</h3>
-        <span class="app-dashboard-description">{{ dashboard.description }}</span>
+    <div class="app-report-metadata-container">
+        <h3 class="app-report-title">{{ report.title }}</h3>
         <!-- <div class="dashboard-metadata-row-container-date">
             <mat-icon>access_time</mat-icon>
             <span>{{insight.createdAt | date}}</span>
