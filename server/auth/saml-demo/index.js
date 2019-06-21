@@ -16,17 +16,13 @@ var router = express.Router();
  *     summary: Authenticates a User via Google SAML.
  *     description: Authenticates a User via Google SAML.
  */
-router.get('/',
-    // (_, res) => {
-    //     res.send('[DEMO] SAML authentication using a custom Google App');
-    // }
+router.get('/', (req, res, next) => {
+    console.log('saml-demo GET / - Ready to attempt authentication');
     passport.authenticate('saml', {
         failureRedirect: '/login',
         failureFlash: true
-    }), function (req, res) {
-        console.log('saml-demo GET / - Redirecting to /home');
-        res.redirect('/home');
-    }
+    })(req, res, next);
+}
 );
 
 /**
@@ -47,9 +43,10 @@ router.post('/callback', (req, res, next) => {
         // failureRedirect: '/login',
         // failureFlash: true,
         session: false
-    }, (err, user, info) => {
+    }, (err, user) => {
         console.log('saml-demo POST /callback - Processing authentication...');
         if (err) {
+            console.error(`authentication error: ${err}`);
             return next(err);
         }
         if (!user) {
