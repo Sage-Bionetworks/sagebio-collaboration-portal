@@ -15,7 +15,7 @@ var InsightSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        required: false
     },
     createdAt: {
         type: Date,
@@ -24,7 +24,7 @@ var InsightSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     }
 }, options);
 

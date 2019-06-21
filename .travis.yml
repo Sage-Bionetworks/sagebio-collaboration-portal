@@ -40,8 +40,8 @@ deploy:
       branch: develop
   - provider: codedeploy
     revision_type: github
-    access_key_id: "$ACCESS_KEY_ID"
-    secret_access_key: "$SECRET_ACCESS_KEY"
+    access_key_id: "${ACCESS_KEY_ID}"
+    secret_access_key: "${SECRET_ACCESS_KEY}"
     application: "phccp-autodeploy"
     deployment_group: "phccp-autodeploy-group"
     region: "us-east-1"

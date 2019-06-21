@@ -35,7 +35,7 @@ describe('Insight API:', function () {
                 .post('/api/insights')
                 .send({
                     _id: new mongoose.Types.ObjectId(),
-                    name: 'New Insight',
+                    title: 'New Insight',
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -49,7 +49,7 @@ describe('Insight API:', function () {
         });
 
         it('should respond with the newly created insight', function () {
-            expect(newInsight.name).to.equal('New Insight');
+            expect(newInsight.title).to.equal('New Insight');
         });
     });
 
@@ -75,7 +75,7 @@ describe('Insight API:', function () {
         });
 
         it('should respond with the requested insight', function () {
-            expect(insight.name).to.equal('New Insight');
+            expect(insight.title).to.equal('New Insight');
         });
     });
 
@@ -86,7 +86,7 @@ describe('Insight API:', function () {
             request(app)
                 .put(`/api/insights/${newInsight._id}`)
                 .send({
-                    name: 'Updated Insight',
+                    title: 'Updated Insight',
                 })
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -104,7 +104,7 @@ describe('Insight API:', function () {
         });
 
         it('should respond with the updated insight', function () {
-            expect(updatedInsight.name).to.equal('Updated Insight');
+            expect(updatedInsight.title).to.equal('Updated Insight');
         });
 
         it('should respond with the updated insight on a subsequent GET', function (done) {
@@ -118,7 +118,7 @@ describe('Insight API:', function () {
                     }
                     let insight = res.body;
 
-                    expect(insight.name).to.equal('Updated Insight');
+                    expect(insight.title).to.equal('Updated Insight');
 
                     done();
                 });
@@ -132,11 +132,10 @@ describe('Insight API:', function () {
             request(app)
                 .patch(`/api/insights/${newInsight._id}`)
                 .send([{
-                        op: 'replace',
-                        path: '/name',
-                        value: 'Patched Insight'
-                    }
-                ])
+                    op: 'replace',
+                    path: '/title',
+                    value: 'Patched Insight'
+                }])
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
@@ -153,7 +152,7 @@ describe('Insight API:', function () {
         });
 
         it('should respond with the patched insight', function () {
-            expect(patchedInsight.name).to.equal('Patched Insight');
+            expect(patchedInsight.title).to.equal('Patched Insight');
         });
     });
 
