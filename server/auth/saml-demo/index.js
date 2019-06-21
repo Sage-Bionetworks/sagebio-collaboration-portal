@@ -1,9 +1,9 @@
 import express from 'express';
-// import passport from 'passport';
-// import {
-//     setTokenCookie
-// } from '../auth.service';
-// const url = require('url');
+import passport from 'passport';
+import {
+    setTokenCookie
+} from '../auth.service';
+const url = require('url');
 
 var router = express.Router();
 
@@ -17,17 +17,16 @@ var router = express.Router();
  *     description: Authenticates a User via Google SAML.
  */
 router.get('/',
-    (_, res) => {
-        res.send('[DEMO] SAML authentication using a custom Google App');
+    // (_, res) => {
+    //     res.send('[DEMO] SAML authentication using a custom Google App');
+    // }
+    passport.authenticate('saml', {
+        failureRedirect: '/login',
+        failureFlash: true
+    }), function (req, res) {
+        console.log('saml-demo GET / - Redirecting to /home');
+        res.redirect('/home');
     }
-    // passport.authenticate('google', {
-    //     failureRedirect: '/login',
-    //     scope: [
-    //         'profile',
-    //         'email'
-    //     ],
-    //     session: false
-    // })
 );
 
 /**
@@ -42,28 +41,65 @@ router.get('/',
  *       '404':
  *         description: User not found
  */
-// router.get('/callback', (req, res, next) => {
-//     // passport.authenticate('google', {
-//     //     // failureRedirect: '/login',
-//     //     // failureFlash: true,
-//     //     session: false
-//     // }, (err, user, info) => {
-//     //     if (err) {
-//     //         return next(err);
-//     //     }
-//     //     if (!user) {
-//     //         res.redirect(url.format({
-//     //             pathname: '/login',
-//     //             query: {
-//     //                 message: info
-//     //             }
-//     //         }));
-//     //     } else {
-//     //         req.user = user;
-//     //         next();
-//     //         return null;
-//     //     }
-//     // })(req, res, next);
-// }, setTokenCookie);
+router.post('/callback', (req, res, next) => {
+    console.log('saml-demo POST /callback - Ready to attempt authentication');
+    passport.authenticate('saml', {
+        // failureRedirect: '/login',
+        // failureFlash: true,
+        session: false
+    }, (err, user, info) => {
+        console.log('saml-demo POST /callback - Processing authentication...');
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            res.redirect(url.format({
+                pathname: "/login",
+                query: {
+                    message: info
+                }
+            }));
+        } else {
+            req.user = user;
+            next();
+            return null;
+        }
+    })(req, res, next);
+}, setTokenCookie);
+
+// router.post('/callback', (req, res, next) => {
+//     console.log('saml-demo POST /callback - Ready to attempt authentication');
+
+//     passport.authenticate('saml', {
+//         failureRedirect: '/login',
+//         failureFlash: true,
+//         successRedirect: '/',
+//     }, () => {
+//         console.log('saml-demo POST /callback - Authentication processing...');
+//     });
+
+// //     // passport.authenticate('google', {
+// //     //     // failureRedirect: '/login',
+// //     //     // failureFlash: true,
+// //     //     session: false
+// //     // }, (err, user, info) => {
+// //     //     if (err) {
+// //     //         return next(err);
+// //     //     }
+// //     //     if (!user) {
+// //     //         res.redirect(url.format({
+// //     //             pathname: '/login',
+// //     //             query: {
+// //     //                 message: info
+// //     //             }
+// //     //         }));
+// //     //     } else {
+// //     //         req.user = user;
+// //     //         next();
+// //     //         return null;
+// //     //     }
+// //     // })(req, res, next);
+// // }, setTokenCookie);
+// });
 
 export default router;
