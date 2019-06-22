@@ -9,9 +9,9 @@
             <!-- <img class="app-avatar" [src]="user.face | image: 'small'" aria-label="User avatar"> -->
             <img class="app-avatar" src="assets/images/accounts/avatars/avatar-1.png" aria-label="User avatar">
         </picture>
-        <h3 matLine>{{user.name}}</h3>
-        <h3 matLine>{{user.role}}</h3>
-        <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{user.name}}" matTooltipPosition="before">
+        <h3 matLine>{{ user.name }}</h3>
+        <h3 matLine>{{ user.role }}</h3>
+        <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
             <mat-icon>clear</mat-icon>
         </button>
         <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu">

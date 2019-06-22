@@ -39,10 +39,10 @@ hljs.configure({   // optionally configure hljs
     languages: ['javascript', 'ruby', 'python']
 });
 
-import Quill from 'quill';
-import { ImageDrop } from 'quill-image-drop-module';
-Quill.register('modules/imageDrop', ImageDrop);
-import 'quill-emoji.js';
+// import Quill from 'quill';
+// import { ImageDrop } from 'quill-image-drop-module';
+// Quill.register('modules/imageDrop', ImageDrop);
+// import 'quill-emoji.js';
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');  // was 'id_token'

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../components/auth/user.service';
 import { PageTitleService } from '../../components/page-title/page-title.service';
-import { User } from '../../../shared/interfaces/user.model';
+import { UserProfile } from '../../../shared/interfaces/user-profile.model';
 // import { ImagePipe, WebpPipe } from '../../components/image/image.pipe';
 
 @Component({
@@ -10,7 +10,7 @@ import { User } from '../../../shared/interfaces/user.model';
     styles: [require('./admin.scss')],
 })
 export class AdminComponent implements OnInit, OnDestroy {
-    private users: User[];
+    private users: UserProfile[];
 
     static parameters = [UserService, PageTitleService];
     constructor(private userService: UserService,

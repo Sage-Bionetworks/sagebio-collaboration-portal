@@ -10,6 +10,7 @@ import {
     catchError
 } from 'rxjs/operators';
 import { User } from '../../../shared/interfaces/user.model';
+import { UserProfile } from '../../../shared/interfaces/user-profile.model';
 import { TokenResponse } from '../../../shared/interfaces/token-response.model';
 
 @Injectable()
@@ -17,8 +18,8 @@ export class UserService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    query(): Observable<User[]> {
-        return this.httpClient.get<User[]>('/api/users/');
+    query(): Observable<UserProfile[]> {
+        return this.httpClient.get<UserProfile[]>('/api/users/');
     }
 
     get(userId = 'me'): Observable<User> {
@@ -33,7 +34,7 @@ export class UserService {
         return this.httpClient.put<User>(`/api/users/${userId}/password`, { oldPassword, newPassword });
     }
 
-    remove(user: User): Observable<User> {
+    remove(user: UserProfile): Observable<UserProfile> {
         return this.httpClient.delete(`/api/users/${user._id}`)
             .pipe(
                 map(() => user)
