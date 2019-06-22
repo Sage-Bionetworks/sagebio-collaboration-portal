@@ -12,9 +12,9 @@
 
                     <form [formGroup]="form" novalidate>
                         <!-- [modules]="modules" -->
-                        <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
+                        <!-- <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
                             <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
-                        </quill-editor>
+                        </quill-editor> -->
                         <!-- [formControl]="form.controls['description']" -->
                         <app-quill-editor [isReadOnly]="isReadOnly" [body]="form.controls['description']"></app-quill-editor>
                         <a mat-raised-button color="primary" (click)="isReadOnly = !isReadOnly">Toogle ReadOnly</a>

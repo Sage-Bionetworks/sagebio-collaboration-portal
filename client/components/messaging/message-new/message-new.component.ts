@@ -4,13 +4,13 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import hljs from 'highlight.js';
-hljs.configure({   // optionally configure hljs
-    useBR: false,
-    languages: ['javascript', 'ruby', 'python']
-});
-
-console.log('HLJS', hljs);
+// import hljs from 'highlight.js';
+// hljs.configure({   // optionally configure hljs
+//     useBR: false,
+//     languages: ['javascript', 'ruby', 'python']
+// });
+//
+// console.log('HLJS', hljs);
 
 import { QuillEditorComponent } from 'ngx-quill';
 import { NotificationService } from '../../../components/notification/notification.service';

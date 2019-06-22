@@ -81,8 +81,7 @@ module.exports = function makeWebpackConfig(options) {
         extensions: ['.js', '.ts'],
         alias: {
             primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
-            'quill-mention.js': path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
-            // highlightjs: path.resolve(__dirname, 'node_modules/highlight.js/lib/highlight.js'),
+            'quill-mention.js': path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js')
         }
     };
 

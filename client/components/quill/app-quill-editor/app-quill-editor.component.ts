@@ -5,16 +5,17 @@ import { QuillEditorComponent } from 'ngx-quill';
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 import 'quill-emoji';
+import hljs from 'highlight.js';
+hljs.configure({
+    // languages: ['javascript', 'ruby', 'python']
+});
 
 import { AppQuillEditorToolbarComponent } from '../app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
 /**
- * CONFIGURE QUILL MODULES
+ * REGISTER QUILL MODULES
  */
 Quill.register('modules/imageDrop', ImageDrop);
-
-// MDI emojicon instead of default icon
-const emojiIcon = '<svg class="i" viewBox="0 0 24 24"><use href="#emoticon-happy"></use></svg>';
 
 @Component({
     selector: 'app-quill-editor',
@@ -31,7 +32,9 @@ export class AppQuillEditorComponent implements OnInit {
         'emoji-shortname': true,  // press ':' to show emoji options
         'emoji-textarea': false,  // add emoji menu button to text area
         'emoji-toolbar': true,  // if false, input field replace emoji menu
-        //     syntax: true,
+        syntax: {
+            highlight: text => hljs.highlightAuto(text).value
+        },
         //     mention: {
         //         allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
         //         onSelect: (item, insertItem) => {
