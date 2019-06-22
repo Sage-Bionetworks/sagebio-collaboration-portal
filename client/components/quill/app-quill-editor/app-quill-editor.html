@@ -1,0 +1,4 @@
+<!-- (keydown.enter)="$event.stopPropagation()" -->
+<quill-editor #editor [readOnly]="isReadOnly" format="object" [formControl]="body">
+    <div [hidden]="isReadOnly" quill-editor-toolbar class="app-quill-editor-toolbar"></div>
+</quill-editor>

@@ -20,6 +20,7 @@ import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceT
 import config from '../../app.constants';
 import { AppQuillEditorToolbarComponent } from '../../../components/quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { ObjectValidators } from '../../../components/validation/object-validators';
+import { AppQuillEditorComponent } from '../../../components/quill/app-quill-editor/app-quill-editor.component';
 
 @Component({
     selector: 'insight',
@@ -28,6 +29,8 @@ import { ObjectValidators } from '../../../components/validation/object-validato
 })
 export class InsightComponent implements OnInit, OnDestroy {
     private insight: Insight;
+
+    private isReadOnly = false;
 
     @ViewChild('editor', { static: true }) editor: QuillEditorComponent;
     private hide = false;
@@ -114,6 +117,7 @@ export class InsightComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe((data) => {
+                console.log('INSIGHT', data);
                 this.errors.updateDescription = undefined;
             });
 
@@ -170,7 +174,8 @@ export class InsightComponent implements OnInit, OnDestroy {
     }
 
     updateDescription(): void {
-        // let description = JSON.stringify(this.form.get('description').value);
+        let description = JSON.stringify(this.form.get('description').value);
+        console.log('description', description);
         // console.log('DESCRIPTION', description);
         // try {
         //     this.insightService.updateInsightDescription(this.insight, description)

@@ -15,6 +15,10 @@
                         <quill-editor #editor [style.display]="hide ? 'none' : 'block'" format="object" [formControl]="form.controls['description']">
                             <div quill-editor-toolbar class="app-quill-editor-toolbar"></div>
                         </quill-editor>
+                        <!-- [formControl]="form.controls['description']" -->
+                        <app-quill-editor [isReadOnly]="isReadOnly" [body]="form.controls['description']"></app-quill-editor>
+                        <a mat-raised-button color="primary" (click)="isReadOnly = !isReadOnly">Toogle ReadOnly</a>
+
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
                             This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value:
                             {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
