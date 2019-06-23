@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 
+import { MaterialModule } from '../../components/material/material.module';
 import { AuthModule } from '../auth/auth.module';
 
 import { AppQuillEditorComponent } from './app-quill-editor/app-quill-editor.component';
@@ -12,8 +13,9 @@ import { AppQuillEditorToolbarComponent } from './app-quill-editor-toolbar/app-q
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AuthModule,
-        QuillModule
+        QuillModule,
+        MaterialModule,
+        AuthModule
     ],
     providers: [
     ],

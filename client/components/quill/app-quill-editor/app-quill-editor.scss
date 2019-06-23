@@ -1,13 +1,36 @@
-@import '~quill/dist/quill.core';
-@import '~quill/dist/quill.bubble';
-@import '~quill/dist/quill.snow';
-@import '~quill-emoji/dist/quill-emoji.css';  // .css required
-@import '~quill-mention/dist/quill.mention.min';
-@import '~highlight.js/styles/github';
-@import '~katex/dist/katex.min.css';
+@import "~quill/dist/quill.core";
+@import "~quill/dist/quill.bubble";
+@import "~quill/dist/quill.snow";
+@import "~quill-emoji/dist/quill-emoji.css"; // .css required
+@import "~quill-mention/dist/quill.mention.min";
+@import "~highlight.js/styles/github";
+@import "~katex/dist/katex.min.css"; // .css required
 
 .ql-snow .ql-editor pre.ql-syntax {
+  // change code block colors
   background-color: #f6f8fa;
   color: #6a737d;
   overflow: visible;
+}
+
+// .app-quill-editor {
+//   .ql-toolbar.ql-snow + .ql-container.ql-snow {
+//     border-top: 1px solid #ccc;
+//   }
+// }
+
+:host {
+  display: flex;
+  flex-flow: column wrap;
+  flex-grow: 1;
+}
+
+.app-quill-editor-action-container {
+  display: flex;
+  flex-flow: row-reverse wrap;
+  margin: 10px 0 10px 0;
+}
+
+.app-quill-editor-action-btn {
+  margin-left: 10px;
 }

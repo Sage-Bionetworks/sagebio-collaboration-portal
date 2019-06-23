@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
 
@@ -29,8 +29,19 @@ Quill.register('modules/imageDrop', ImageDrop);
 })
 export class AppQuillEditorComponent implements OnInit {
     @Input() private body: FormControl;
+    @Input() private placeholder = 'Insert text here';
+    @Input() private saveButtonLabel = 'Save';
+    @Input() private cancelButtonLabel = 'Cancel';
+    @Input() private editButtonLabel = 'Edit';
     @Input() private isReadOnly = true;
+    @Input() private showActions = true;
+    @Output() onSave: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onCancel: EventEmitter<any> = new EventEmitter<any>();
+
     @ViewChild('editor', { static: true }) editor: QuillEditorComponent;
+    private bodyOnCancel = {
+        ops: []
+    };
 
     private modules = {
         imageDrop: true,
@@ -76,8 +87,26 @@ export class AppQuillEditorComponent implements OnInit {
 
     static parameters = [UserService];
     constructor(private userService: UserService) {
-        (<any>window).katex = katex;
+        (<any>window).katex = katex;  // where ngx-quill looks for katex
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.bodyOnCancel = this.body.value;
+    }
+
+    cancel(): void {
+        this.body.setValue(this.bodyOnCancel);
+        this.isReadOnly = true;
+        this.onCancel.emit(undefined);
+    }
+
+    edit(): void {
+        this.isReadOnly = false;
+    }
+
+    save(): void {
+        this.bodyOnCancel = this.body.value;
+        this.isReadOnly = true;
+        this.onSave.emit(undefined);
+    }
 }

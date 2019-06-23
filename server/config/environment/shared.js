@@ -20,7 +20,7 @@ export const models = {
             maxlength: 30
         },
         description: {
-            minlength: 5,
+            minlength: 0,
             maxlength: 50
         },
         visibility: {

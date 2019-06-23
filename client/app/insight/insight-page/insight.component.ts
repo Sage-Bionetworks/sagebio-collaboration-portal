@@ -85,8 +85,8 @@ export class InsightComponent implements OnInit, OnDestroy {
 
         this.form = formBuilder.group({
             description: ['', [
-                Validators.required,
-                ObjectValidators.jsonStringifyMinLength(config.models.insight.description.minlength),
+                // Validators.required,
+                // ObjectValidators.jsonStringifyMinLength(config.models.insight.description.minlength),
                 ObjectValidators.jsonStringifyMaxLength(config.models.insight.description.maxlength)
             ]]
         });
