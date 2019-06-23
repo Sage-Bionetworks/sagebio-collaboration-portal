@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
@@ -13,6 +14,7 @@ hljs.configure({
 });
 import { QuillEditorComponent } from 'ngx-quill';
 
+import { UserService } from '../../auth/user.service';
 import { AppQuillEditorToolbarComponent } from '../app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
 /**
@@ -51,30 +53,32 @@ export class AppQuillEditorComponent implements OnInit {
                 editor.insertText(editor.getLength() - 1, '', 'user');
             },
             source: (searchTerm, renderList) => {
-                const values = [
-                    { id: 1, value: 'Fredrik Sundqvist' },
-                    { id: 2, value: 'Patrik Sjölin' }
-                ];
-
-                if (searchTerm.length === 0) {
-                    renderList(values, searchTerm);
-                } else {
-                    const matches = [];
-
-                    values.forEach((entry) => {
-                        if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-                            matches.push(entry);
+                this.userService.query()
+                    .pipe(
+                        map(users => users.map(user => ({
+                            id: user._id,
+                            value: user.username
+                        })))
+                    )
+                    .subscribe(values => {
+                        if (searchTerm.length === 0) {
+                            renderList(values, searchTerm);
+                        } else {
+                            const matches = [];
+                            values.forEach((entry) => {
+                                if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+                                    matches.push(entry);
+                                }
+                            });
+                            renderList(matches, searchTerm);
                         }
                     });
-                    renderList(matches, searchTerm);
-                }
             }
         },
     };
 
-    static parameters = [];
-    constructor() {
-    }
+    static parameters = [UserService];
+    constructor(private userService: UserService) { }
 
     ngOnInit() { }
 }
