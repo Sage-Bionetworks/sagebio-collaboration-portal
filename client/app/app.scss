@@ -1,10 +1,4 @@
 @import "~@angular/material/theming";
-@import "~quill/dist/quill.core.css";
-@import "~quill/dist/quill.bubble.css";
-@import "~quill/dist/quill.snow.css";
-@import "~quill-emoji/dist/quill-emoji.css";
-@import "~quill-mention/dist/quill.mention.min.css";
-@import "~highlight.js/styles/github.css";
 @import "./app-theme";
 @import "../styles/general";
 @import "../styles/constants";
@@ -97,13 +91,3 @@ app-navbar {
 //     overflow-y: visible; // the entire content is made visible without scroll
 //   }
 // }
-
-//
-// QUILL editor
-//
-
-.ql-snow .ql-editor pre.ql-syntax {
-  background-color: #f6f8fa;
-  color: #6a737d;
-  overflow: visible;
-}
