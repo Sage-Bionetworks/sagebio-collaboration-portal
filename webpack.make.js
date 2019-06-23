@@ -162,6 +162,7 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
                     path.resolve(__dirname, 'node_modules/lodash-es/'),
+                    path.resolve(__dirname, 'node_modules/katex/dist/katex.min.js'),
                     path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
                 ]
@@ -215,10 +216,11 @@ module.exports = function makeWebpackConfig(options) {
                     'postcss-loader',
                 ],
                 include: [
+                    path.resolve(__dirname, 'node_modules/katex/dist/katex.min.css'),
                     path.resolve(__dirname, 'node_modules/quill/dist/*.css'),
                     path.resolve(__dirname, 'node_modules/quill-emoji/dist/quill-emoji.css'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.css'),
-                    path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'),
+                    path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'),  // because quill-mention use src instead of dist
                     path.resolve(__dirname, 'client/app/app.css')
                 ]
             }, {

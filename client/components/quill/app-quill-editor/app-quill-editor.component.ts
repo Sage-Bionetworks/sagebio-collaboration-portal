@@ -2,16 +2,15 @@ import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
 
+import katex from 'katex';
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 import 'quill-emoji';
-// import plop from 'quill/dist/quill.min';
-import 'quill-mention';  // BUG: imports from src instead of dist
-// import plop from 'quill-mention/dist/quill.mention.min';
+import 'quill-mention';
 import hljs from 'highlight.js';
-hljs.configure({
-    // languages: ['javascript', 'ruby', 'python']
-});
+// hljs.configure({
+//     languages: ['javascript', 'ruby', 'python']
+// });
 import { QuillEditorComponent } from 'ngx-quill';
 
 import { UserService } from '../../auth/user.service';
@@ -21,9 +20,6 @@ import { AppQuillEditorToolbarComponent } from '../app-quill-editor-toolbar/app-
  * REGISTER QUILL MODULES
  */
 Quill.register('modules/imageDrop', ImageDrop);
-// Quill.register('modules/mention', Mention);
-
-// console.log('MENTION', plop);
 
 @Component({
     selector: 'app-quill-editor',
@@ -38,6 +34,7 @@ export class AppQuillEditorComponent implements OnInit {
 
     private modules = {
         imageDrop: true,
+        formula: true,
         'emoji-shortname': true,  // press ':' to show emoji options
         'emoji-textarea': false,  // add emoji menu button to text area
         'emoji-toolbar': true,  // if false, input field replace emoji menu
@@ -78,7 +75,9 @@ export class AppQuillEditorComponent implements OnInit {
     };
 
     static parameters = [UserService];
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService) {
+        (<any>window).katex = katex;
+    }
 
     ngOnInit() { }
 }

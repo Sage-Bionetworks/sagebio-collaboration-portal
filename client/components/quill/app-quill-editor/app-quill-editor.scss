@@ -4,6 +4,7 @@
 @import '~quill-emoji/dist/quill-emoji.css';  // .css required
 @import '~quill-mention/dist/quill.mention.min';
 @import '~highlight.js/styles/github';
+@import '~katex/dist/katex.min.css';
 
 .ql-snow .ql-editor pre.ql-syntax {
   background-color: #f6f8fa;
