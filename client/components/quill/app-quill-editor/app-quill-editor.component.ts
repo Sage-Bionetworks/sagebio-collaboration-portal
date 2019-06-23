@@ -1,17 +1,17 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { QuillEditorComponent } from 'ngx-quill';
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 import 'quill-emoji';
-// import 'quill-mention';  // BUG: imports from src instead of dist
-import 'quill/dist/quill.min';
-import 'quill-mention/dist/quill.mention.min';
+// import plop from 'quill/dist/quill.min';
+import 'quill-mention';  // BUG: imports from src instead of dist
+// import plop from 'quill-mention/dist/quill.mention.min';
 import hljs from 'highlight.js';
 hljs.configure({
     // languages: ['javascript', 'ruby', 'python']
 });
+import { QuillEditorComponent } from 'ngx-quill';
 
 import { AppQuillEditorToolbarComponent } from '../app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 
@@ -19,6 +19,9 @@ import { AppQuillEditorToolbarComponent } from '../app-quill-editor-toolbar/app-
  * REGISTER QUILL MODULES
  */
 Quill.register('modules/imageDrop', ImageDrop);
+// Quill.register('modules/mention', Mention);
+
+// console.log('MENTION', plop);
 
 @Component({
     selector: 'app-quill-editor',
@@ -39,34 +42,34 @@ export class AppQuillEditorComponent implements OnInit {
         syntax: {
             highlight: text => hljs.highlightAuto(text).value
         },
-        // mention: {
-        //     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-        //     onSelect: (item, insertItem) => {
-        //         const editor = this.editor.quillEditor as Quill;
-        //         insertItem(item);
-        //         // necessary because quill-mention triggers changes as 'api' instead of 'user'
-        //         editor.insertText(editor.getLength() - 1, '', 'user');
-        //     },
-        //     source: (searchTerm, renderList) => {
-        //         const values = [
-        //             { id: 1, value: 'Fredrik Sundqvist' },
-        //             { id: 2, value: 'Patrik Sjölin' }
-        //         ];
-        //
-        //         if (searchTerm.length === 0) {
-        //             renderList(values, searchTerm);
-        //         } else {
-        //             const matches = [];
-        //
-        //             values.forEach((entry) => {
-        //                 if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-        //                     matches.push(entry);
-        //                 }
-        //             });
-        //             renderList(matches, searchTerm);
-        //         }
-        //     }
-        // },
+        mention: {
+            allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+            onSelect: (item, insertItem) => {
+                const editor = this.editor.quillEditor as Quill;
+                insertItem(item);
+                // necessary because quill-mention triggers changes as 'api' instead of 'user'
+                editor.insertText(editor.getLength() - 1, '', 'user');
+            },
+            source: (searchTerm, renderList) => {
+                const values = [
+                    { id: 1, value: 'Fredrik Sundqvist' },
+                    { id: 2, value: 'Patrik Sjölin' }
+                ];
+
+                if (searchTerm.length === 0) {
+                    renderList(values, searchTerm);
+                } else {
+                    const matches = [];
+
+                    values.forEach((entry) => {
+                        if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
+                            matches.push(entry);
+                        }
+                    });
+                    renderList(matches, searchTerm);
+                }
+            }
+        },
     };
 
     static parameters = [];

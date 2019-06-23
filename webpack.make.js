@@ -80,8 +80,7 @@ module.exports = function makeWebpackConfig(options) {
         modules: ['node_modules'],
         extensions: ['.js', '.ts'],
         alias: {
-            primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
-            // quillmention: path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js')
+            primus: path.resolve(__dirname, 'client/components/socket/primus.js')
         }
     };
 
@@ -164,7 +163,7 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
                     path.resolve(__dirname, 'node_modules/lodash-es/'),
                     path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
-                    // path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
+                    path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
                 ]
             }, {
                 // TS LOADER
@@ -219,6 +218,7 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'node_modules/quill/dist/*.css'),
                     path.resolve(__dirname, 'node_modules/quill-emoji/dist/quill-emoji.css'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.css'),
+                    path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'),
                     path.resolve(__dirname, 'client/app/app.css')
                 ]
             }, {

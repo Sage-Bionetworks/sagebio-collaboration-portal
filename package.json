@@ -47,8 +47,7 @@
         "serve-favicon": "^2.5.0",
         "swagger-jsdoc": "^3.2.9",
         "swagger-ui-express": "^4.0.6",
-        "ws": "^7.0.0",
-        "@types/quill": "^2.0.2"
+        "ws": "^7.0.0"
     },
     "devDependencies": {
         "@angular/animations": "8.0.1",
@@ -91,6 +90,7 @@
         "@types/sinon": "^7.0.13",
         "@types/sinon-chai": "^3.2.2",
         "@types/webpack": "^4.4.32",
+        "@types/quill": "^2.0.2",
         "angular-validation-match": "^1.9.0",
         "angular2-router-loader": "^0.3.5",
         "angular2-template-loader": "^0.6.2",
