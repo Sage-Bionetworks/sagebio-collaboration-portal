@@ -81,7 +81,7 @@ module.exports = function makeWebpackConfig(options) {
         extensions: ['.js', '.ts'],
         alias: {
             primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
-            // 'quill-mention.js': path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js')
+            // quillmention: path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js')
         }
     };
 
@@ -163,6 +163,8 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
                     path.resolve(__dirname, 'node_modules/lodash-es/'),
+                    path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
+                    // path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
                 ]
             }, {
                 // TS LOADER

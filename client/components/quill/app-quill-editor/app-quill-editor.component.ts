@@ -5,7 +5,9 @@ import { QuillEditorComponent } from 'ngx-quill';
 import Quill from 'quill';
 import { ImageDrop } from 'quill-image-drop-module';
 import 'quill-emoji';
-// import 'quill-mention';
+// import 'quill-mention';  // BUG: imports from src instead of dist
+import 'quill/dist/quill.min';
+import 'quill-mention/dist/quill.mention.min';
 import hljs from 'highlight.js';
 hljs.configure({
     // languages: ['javascript', 'ruby', 'python']
