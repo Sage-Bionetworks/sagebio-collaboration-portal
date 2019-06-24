@@ -4,12 +4,6 @@ import {
 } from 'passport-saml';
 
 export function setup(User, config) {
-    // let googleConfig = {
-    //     clientID: config.google.clientID,
-    //     clientSecret: config.google.clientSecret,
-    //     callbackURL: config.google.callbackURL
-    // };
-
     let demoAppConfig = {
         protocol: 'https://',
         // IdentityProvider (IdP) SAML SSO URL
@@ -24,7 +18,7 @@ export function setup(User, config) {
         entryPoint: demoAppConfig.entryPoint,
         issuer: demoAppConfig.issuer,
         path: demoAppConfig.path,
-      }, function (profile, done) {
+      }, (profile, done) => {
         // Parse user profile data
         console.log(`Received SAML profile data: ${JSON.stringify(profile, null, 2)}`);
         /**
