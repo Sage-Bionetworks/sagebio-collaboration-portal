@@ -22,6 +22,7 @@ export default app => {
     app.use('/api/insights', require('./api/insight'));
     app.use('/api/datasets', require('./api/dataset'));
     app.use('/api/users', require('./api/user'));
+    app.use('/api/states', require('./api/state'));
     app.use('/auth', require('./auth').default);
 
     // swagger definition
