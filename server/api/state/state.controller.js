@@ -53,6 +53,10 @@ function handleError(res, statusCode) {
 
 // Creates a new State in the DB
 export function create(req, res) {
+    let state = req.body;
+    if (!state.title) {  // TODO: Fix in Shiny tool
+        state.title = state.name; 
+    }
     return State.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
