@@ -17,7 +17,6 @@ var router = express.Router();
  *     description: Authenticates a User via Google SAML.
  */
 router.get('/', (req, res, next) => {
-    console.log('saml-demo GET / - Ready to attempt authentication');
     passport.authenticate('saml', {
         failureRedirect: '/login',
         failureFlash: true
@@ -38,15 +37,10 @@ router.get('/', (req, res, next) => {
  *         description: User not found
  */
 router.post('/callback', (req, res, next) => {
-    console.log('saml-demo POST /callback - Ready to attempt authentication');
     passport.authenticate('saml', {
-        // failureRedirect: '/login',
-        // failureFlash: true,
         session: false
-    }, (err, user) => {
-        console.log('saml-demo POST /callback - Processing authentication...');
+    }, (err, user, info) => {
         if (err) {
-            console.error(`authentication error: ${err}`);
             return next(err);
         }
         if (!user) {
@@ -63,40 +57,5 @@ router.post('/callback', (req, res, next) => {
         }
     })(req, res, next);
 }, setTokenCookie);
-
-// router.post('/callback', (req, res, next) => {
-//     console.log('saml-demo POST /callback - Ready to attempt authentication');
-
-//     passport.authenticate('saml', {
-//         failureRedirect: '/login',
-//         failureFlash: true,
-//         successRedirect: '/',
-//     }, () => {
-//         console.log('saml-demo POST /callback - Authentication processing...');
-//     });
-
-// //     // passport.authenticate('google', {
-// //     //     // failureRedirect: '/login',
-// //     //     // failureFlash: true,
-// //     //     session: false
-// //     // }, (err, user, info) => {
-// //     //     if (err) {
-// //     //         return next(err);
-// //     //     }
-// //     //     if (!user) {
-// //     //         res.redirect(url.format({
-// //     //             pathname: '/login',
-// //     //             query: {
-// //     //                 message: info
-// //     //             }
-// //     //         }));
-// //     //     } else {
-// //     //         req.user = user;
-// //     //         next();
-// //     //         return null;
-// //     //     }
-// //     // })(req, res, next);
-// // }, setTokenCookie);
-// });
 
 export default router;

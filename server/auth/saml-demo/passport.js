@@ -2,6 +2,9 @@ import passport from 'passport';
 import {
     Strategy as SamlStrategy
 } from 'passport-saml';
+import {
+    some
+} from 'lodash/fp';
 
 export function setup(User, config) {
     let demoAppConfig = {
@@ -18,60 +21,42 @@ export function setup(User, config) {
         entryPoint: demoAppConfig.entryPoint,
         issuer: demoAppConfig.issuer,
         path: demoAppConfig.path,
-      }, (profile, done) => {
+    }, (profile, done) => {
         // Parse user profile data
-        console.log(`Received SAML profile data: ${JSON.stringify(profile, null, 2)}`);
-        /**
-            Received SAML profile data: {
-                "issuer": "https://accounts.google.com/o/saml2?idpid=C00s6x13p",
-                "sessionIndex": "_ab014893879f677aae8d42341ab10ed8",
-                "nameID": "rob@therobbrennan.com",
-                "nameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
-                "firstName": "Rob",
-                "lastName": "Brennan",
-                "primaryEmail": "rob@therobbrennan.com"
-            }
-         */
-        done(null, profile);
-      })
+        User
+            .findOne({
+                'saml-demo.nameID': profile.nameID
+            }).exec()
+            .then(user => {
+                const userDataFromProvider = {
+                    name: `${profile.firstName} ${profile.lastName}`,
+                    email: profile.nameID,
+                    provider: 'saml-demo',
+                    'saml-demo': profile,
+                    username: profile.nameID,
+                };
+
+                if (user) {
+                    user = Object.assign(user, userDataFromProvider);
+                } else {
+                    user = new User(userDataFromProvider);
+                    user = Object.assign(user, {
+                        role: 'user'
+                    });
+                }
+
+                // TODO: Remove '@therobbrennan.com$` entry once Sage has created a demo SAML Google App
+                const authorizedEmails = [...config.userAccount.authorizedEmails, '@therobbrennan.com$'];
+                var authorized = some((regexp) => user.email.toLowerCase().match(regexp), authorizedEmails);
+                if (!authorized) {
+                    return done(null, null, 'Unauthorized email address');
+                }
+
+                return user.save()
+                    .then(savedUser => done(null, savedUser))
+                    .catch(err => done(err));
+            })
+            .catch(err => done(err));
+    })
     );
-
-    // passport.use(new GoogleStrategy(googleConfig,
-    //     (accessToken, refreshToken, profile, done) => {
-    //         User
-    //             .findOne({
-    //                 'google.sub': profile.id
-    //             }).exec()
-    //             .then(user => {
-    //                 const userDataFromProvider = {
-    //                     name: profile.displayName,
-    //                     email: profile.emails[0].value,
-    //                     picture: profile._json.picture,
-    //                     provider: 'google',
-    //                     google: profile._json,
-    //                     username: profile.emails[0].value.split('@')[0]
-    //                 };
-
-    //                 if (user) {
-    //                     user = Object.assign(user, userDataFromProvider);
-    //                 } else {
-    //                     user = new User(userDataFromProvider);
-    //                     user = Object.assign(user, {
-    //                         role: 'user'
-    //                     })
-    //                 }
-
-    //                 var authorized = some((regexp) => {
-    //                     return user.email.toLowerCase().match(regexp);
-    //                 }, config.userAccount.authorizedEmails);
-    //                 if (!authorized) {
-    //                     return done(null, null, 'Unauthorized email address');
-    //                 }
-
-    //                 return user.save()
-    //                     .then(savedUser => done(null, savedUser))
-    //                     .catch(err => done(err));
-    //             })
-    //             .catch(err => done(err));
-    //     }));
 }
