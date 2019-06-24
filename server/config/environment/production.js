@@ -20,5 +20,9 @@ module.exports = {
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/phccp'
+    },
+
+    phccpShinyToolExample: {
+        url: process.env.PHCCP_SHINY_TOOL_EXAMPLE_URL || 'https://phccp-shiny.synapse.org/master/app'
     }
 };

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { sageId, geneId } from './organizations';
 import { adminUserId } from './users';
+import config from '../../environment';
 
 let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd93'),
@@ -40,7 +41,7 @@ let tools = [{
     picture: 'assets/images/320px-shinyLogo.png',
     // TODO: change website to the domain name running FE Lite.
     // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
-    website: 'https://shiny-raadc2.synapse.org/shiny-phccp-demo/app/',
+    website: config.phccpShinyToolExample.url,
     apiServerUrl: 'TBA',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
     organization: sageId,
