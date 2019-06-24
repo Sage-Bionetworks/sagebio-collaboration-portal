@@ -1,0 +1,13 @@
+@import './app-quill-editor/app-quill-editor-theme';
+@import './app-quill-editor-toolbar/app-quill-editor-toolbar-theme';
+
+@mixin app-quill-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  @include app-quill-editor-theme($theme);
+  @include app-quill-editor-toolbar-theme($theme);
+}

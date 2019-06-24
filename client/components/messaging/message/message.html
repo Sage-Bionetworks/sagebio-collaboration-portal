@@ -20,7 +20,7 @@
                 <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
             </a>
             <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
-                <button mat-menu-item aria-label="Edit message" (click)="isReadOnly = false">
+                <button mat-menu-item aria-label="Edit message" (click)="editor.edit()">
                     <span>Edit message</span>
                 </button>
                 <button mat-menu-item aria-label="Delete message" (click)="removeMessage()">
@@ -32,11 +32,6 @@
     </div>
 
     <form [formGroup]="form" class="app-message-body">
-        <quill-editor class="app-message-ql-editor" #editor [readOnly]="isReadOnly" format="object" (keydown.enter)="$event.stopPropagation()" [formControl]="form.controls['body']">
-            <div [hidden]="isReadOnly" quill-editor-toolbar class="app-quill-editor-toolbar"></div>
-        </quill-editor>
-        <div class="app-message-actions">
-            <a class="app-message-actions-update-btn" mat-raised-button [hidden]="isReadOnly" color="primary" [disabled]="form.invalid" (click)="updateMessage()">Update</a>
-        </div>
+        <app-quill-editor #editor saveButtonLabel="Update" [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
     </form>
 </div>

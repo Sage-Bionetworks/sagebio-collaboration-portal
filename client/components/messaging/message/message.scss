@@ -3,6 +3,10 @@
   flex-flow: column nowrap;
   margin: 16px 0 16px 0;
 
+  .app-quill-editor-edit-btn {
+    display: none;
+  }
+
   .app-message-header {
     display: flex;
     flex-flow: row nowrap;
@@ -53,21 +57,6 @@
     // margin-bottom: 10px;
     border-width: 1px;
     border-style: solid;
-  }
-
-  .ql-container {
-    border: 0;
-  }
-
-  .ql-toolbar {
-    margin-bottom: 12px;
-  }
-
-  .ql-editor {
-    // padding: 12px 0 12px 10px;
-    // padding: 0px 0 0px 0px;
-    padding: 6px 0 6px 10px;
-    // margin-bottom: 12px;
   }
 }
 

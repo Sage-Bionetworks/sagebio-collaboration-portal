@@ -10,7 +10,7 @@
                 <div class="insight-card-left-container">
                     <h3>Description</h3>
                     <form [formGroup]="form" novalidate>
-                        <app-quill-editor [isReadOnly]="true" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
+                        <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
                             This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value:
                             {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
@@ -20,14 +20,6 @@
                         </mat-error>
                     </form>
 
-
-
-                    <!-- <div class="insight-card-description" Markdown>
-                        {{insight.description}}
-                    </div> -->
-                    <!-- <div class="insight-card-description-edit-button-container">
-                      <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Edit Description</a>
-                    </div> -->
                     <div class="insight-card-info">
                         <span><b>Created by:</b> Thomas</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>

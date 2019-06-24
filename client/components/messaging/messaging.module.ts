@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
-import { QuillModule } from 'ngx-quill';
-import { AppQuillModule } from '../../components/quill/app-quill.module';
+// import { QuillModule } from 'ngx-quill';
+// import { AppQuillModule } from '../../components/quill/app-quill.module';
 import { MaterialModule } from '../../components/material/material.module';
 import { SidenavModule } from '../../components/sidenav/sidenav.module';
 import { PipesModule } from '../pipes/pipes.module';
@@ -20,26 +20,27 @@ import { StarredMessageListComponent } from './starred-message-list/starred-mess
 import { MessagingDataService } from './messaging-data.service';
 import { TagService } from '../tag/tag.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
+import { AppQuillModule } from '../quill/app-quill.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        AppQuillModule,
         MaterialModule,
         SidenavModule,
         AvatarModule,
-        QuillModule.forRoot({
-            modules: {
-                imageDrop: true,
-                'emoji-shortname': true,
-                'emoji-textarea': false,
-                'emoji-toolbar': true,
-                syntax: true
-            }
-        }),
+        // QuillModule.forRoot({
+        //     modules: {
+        //         imageDrop: true,
+        //         'emoji-shortname': true,
+        //         'emoji-textarea': false,
+        //         'emoji-toolbar': true,
+        //         syntax: true
+        //     }
+        // }),
         PipesModule,
-        UserAvatarModule
+        UserAvatarModule,
+        AppQuillModule
     ],
     providers: [
         MessagingService,

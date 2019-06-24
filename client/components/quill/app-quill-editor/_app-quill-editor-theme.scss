@@ -1,0 +1,15 @@
+@mixin app-quill-editor-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  // TODO: Why doesn't this work?
+  // .ql-snow .ql-editor pre.ql-syntax {
+  //   // change code block colors
+  //   background-color: #f6f8fa;
+  //   color: #6a737d;
+  //   overflow: visible;
+  // }
+}

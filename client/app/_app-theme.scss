@@ -7,6 +7,7 @@
 @import "../components/footer/footer-theme";
 @import "../components/messaging/messaging-theme.scss";
 @import "../components/navbar/navbar-theme";
+@import "../components/quill/app-quill-theme";
 // @import '../components/navbar-search/navbar-search-theme';
 // @import '../components/sidenav/sidenav-theme';
 
@@ -46,6 +47,7 @@
   @include footer-theme($theme);
   @include messaging-theme($theme);
   @include navbar-theme($theme);
+  @include app-quill-theme($theme);
   // @include navbar-search-theme($theme);
   // @include sidenav-theme($theme);
 }

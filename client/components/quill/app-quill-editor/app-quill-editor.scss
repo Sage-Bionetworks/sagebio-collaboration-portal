@@ -13,12 +13,6 @@
   overflow: visible;
 }
 
-// .app-quill-editor {
-//   .ql-toolbar.ql-snow + .ql-container.ql-snow {
-//     border-top: 1px solid #ccc;
-//   }
-// }
-
 :host {
   display: flex;
   flex-flow: column wrap;
@@ -28,9 +22,20 @@
 .app-quill-editor-action-container {
   display: flex;
   flex-flow: row-reverse wrap;
-  margin: 10px 0 10px 0;
 }
 
 .app-quill-editor-action-btn {
-  margin-left: 10px;
+  margin: 10px 0 10px 10px;
+}
+
+.ql-container.ql-snow {
+  border: none;
+}
+
+.ql-toolbar {
+  margin-bottom: 12px;
+}
+
+.ql-editor {
+  padding: 6px 0 6px 10px;
 }

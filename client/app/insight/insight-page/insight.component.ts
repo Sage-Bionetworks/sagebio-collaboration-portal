@@ -3,11 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
-import Quill from 'quill';
-// import 'quill-mention.js';
-
-import { QuillEditorComponent } from 'ngx-quill';
-
 import { InsightService } from '../insight.service';
 // import { StateService } from '../../state/state.service';
 
@@ -18,7 +13,6 @@ import { NotificationService } from '../../../components/notification/notificati
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../app.constants';
-import { AppQuillEditorToolbarComponent } from '../../../components/quill/app-quill-editor-toolbar/app-quill-editor-toolbar.component';
 import { ObjectValidators } from '../../../components/validation/object-validators';
 import { AppQuillEditorComponent } from '../../../components/quill/app-quill-editor/app-quill-editor.component';
 
@@ -29,51 +23,10 @@ import { AppQuillEditorComponent } from '../../../components/quill/app-quill-edi
 })
 export class InsightComponent implements OnInit, OnDestroy {
     private insight: Insight;
-
-    private isReadOnly = false;
-
-    @ViewChild('editor', { static: true }) editor: QuillEditorComponent;
-    private hide = false;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined
     };
-
-    // modules = {
-    //     imageDrop: true,
-    //     'emoji-shortname': true,
-    //     'emoji-textarea': false,
-    //     'emoji-toolbar': true,
-    //     syntax: true,
-    //     mention: {
-    //         allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-    //         onSelect: (item, insertItem) => {
-    //             const editor = this.editor.quillEditor as Quill;
-    //             insertItem(item);
-    //             // necessary because quill-mention triggers changes as 'api' instead of 'user'
-    //             editor.insertText(editor.getLength() - 1, '', 'user');
-    //         },
-    //         source: (searchTerm, renderList) => {
-    //             const values = [
-    //                 { id: 1, value: 'Fredrik Sundqvist' },
-    //                 { id: 2, value: 'Patrik Sjölin' }
-    //             ];
-    //
-    //             if (searchTerm.length === 0) {
-    //                 renderList(values, searchTerm);
-    //             } else {
-    //                 const matches = [];
-    //
-    //                 values.forEach((entry) => {
-    //                     if (entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
-    //                         matches.push(entry);
-    //                     }
-    //                 });
-    //                 renderList(matches, searchTerm);
-    //             }
-    //         }
-    //     },
-    // };
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         InsightService, NotificationService];

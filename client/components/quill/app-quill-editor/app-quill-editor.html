@@ -2,7 +2,7 @@
     <div [hidden]="isReadOnly" quill-editor-toolbar class="app-quill-editor-toolbar"></div>
 </quill-editor>
 <div *ngIf="showActions" class="app-quill-editor-action-container">
-    <a *ngIf="!isReadOnly" mat-raised-button class="app-quill-editor-action-btn" color="primary" [disabled]="body.invalid" (click)="body.invalid || save()">{{ saveButtonLabel }}</a>
-    <a *ngIf="!isReadOnly" mat-raised-button class="app-quill-editor-action-btn" (click)="cancel()">{{ cancelButtonLabel }}</a>
-    <a *ngIf="isReadOnly" mat-raised-button class="app-quill-editor-action-btn" color="primary" (click)="edit()">{{ editButtonLabel }}</a>
+    <a *ngIf="!isReadOnly" mat-raised-button class="app-quill-editor-action-btn app-quill-editor-save-btn" color="primary" [disabled]="body.invalid" (click)="body.invalid || save()">{{ saveButtonLabel }}</a>
+    <a *ngIf="!isReadOnly" mat-raised-button class="app-quill-editor-action-btn app-quill-editor-cancel-btn" (click)="cancel()">{{ cancelButtonLabel }}</a>
+    <a *ngIf="isReadOnly" mat-raised-button class="app-quill-editor-action-btn app-quill-editor-edit-btn" color="primary" (click)="edit()">{{ editButtonLabel }}</a>
 </div>

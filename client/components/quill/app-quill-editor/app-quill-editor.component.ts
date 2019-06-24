@@ -109,4 +109,14 @@ export class AppQuillEditorComponent implements OnInit {
         this.isReadOnly = true;
         this.onSave.emit(undefined);
     }
+
+    // get isReadOnly() {
+    //     return this._isReadOnly;
+    // }
+    //
+    // @Input()
+    // set isReadOnly(isReadOnly) {
+    //     this._isReadOnly = isReadOnly;
+    //     console.log('READ ONLY IS NOW', isReadOnly);
+    // }
 }

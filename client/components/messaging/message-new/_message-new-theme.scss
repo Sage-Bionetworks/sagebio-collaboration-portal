@@ -4,4 +4,10 @@
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
+
+  // TODO: Why does this not work?
+  // .app-message-new-editor {
+  //   background-color: mat-color($primary, darker-contrast);
+  //   // border-color: #cccccc;
+  // }
 }

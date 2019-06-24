@@ -9,19 +9,7 @@
     .app-message-header {
       background: mat-color($primary, darker-contrast);
       border-color: #cccccc;
-      // border-color: mat-color($primary, default-contrast);
-
-      span {
-        // color: mat-color($primary, default-contrast);
-      }
-
-      // background: #cccccc;
-      // border-color: #cccccc;
     }
-
-    // .app-message-header-actions {
-    //   border-color: #cccccc;
-    // }
 
     .app-message-body {
       background: mat-color($primary, darker-contrast);
