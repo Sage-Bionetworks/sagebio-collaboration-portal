@@ -6,6 +6,7 @@ import { AvatarModule } from 'ng2-avatar';
 
 import { MaterialModule } from '../../components/material/material.module';
 import { OAuthButtonsModule } from '../../components/oauth-buttons/oauth-buttons.module';
+import { SAMLButtonsModule } from '../../components/saml-buttons/saml-buttons.module';
 import { NotificationModule } from '../../components/notification/notification.module';
 import { MessagingModule } from '../../components/messaging/messaging.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
@@ -37,6 +38,7 @@ const accountRoutes: Routes = [{
         AvatarModule,
         MaterialModule,
         OAuthButtonsModule,
+        SAMLButtonsModule,
         NotificationModule,
         MessagingModule
     ],

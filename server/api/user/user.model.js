@@ -9,7 +9,7 @@ import {
     registerEvents
 } from './user.events';
 
-const authTypes = ['github', 'twitter', 'facebook', 'google'];
+const authTypes = ['github', 'twitter', 'facebook', 'google', 'saml-demo'];
 
 var UserSchema = new Schema({
     name: {
@@ -54,6 +54,7 @@ var UserSchema = new Schema({
     provider: String,
     salt: String,
     google: {},
+    'saml-demo': {},
     position: {
       type: String,
       default: '<Current Position>'
