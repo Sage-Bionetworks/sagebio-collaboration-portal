@@ -26,6 +26,7 @@ export class SocketService {
      * Initializes a connection with the primus server.
      */
     connect(): void {
+        // 'https://dev.phc.sagesandbox.org'
         const primus = (Primus as any).connect(); // Primus.connect(); new Primus({ manual: true });
         primus.plugin('emit', primusEmit);
 

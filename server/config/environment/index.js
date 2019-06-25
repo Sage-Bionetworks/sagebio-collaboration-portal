@@ -55,6 +55,12 @@ var all = {
         callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
     },
 
+    saml: {
+        entryPoint: process.env.SAML_ENTRY_POINT || 'entryPoint',
+        issuer: process.env.SAML_ISSUER || 'issuer',
+        apth: process.env.SAML_PATH || 'path',
+    },
+
     userAccount: {
         authorizedEmails: [
             '@gene.com$',

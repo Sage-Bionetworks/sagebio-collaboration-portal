@@ -10,10 +10,10 @@ export function setup(User, config) {
     let demoAppConfig = {
         protocol: 'https://',
         // IdentityProvider (IdP) SAML SSO URL
-        entryPoint: 'https://accounts.google.com/o/saml2/idp?idpid=C00s6x13p',
+        entryPoint: config.SAML_ENTRY_POINT,
         // Service Provider (SP)
-        issuer: 'demo1', // Entity ID (https://.../sp)
-        path: '/auth/saml-demo/callback', // Assertion Consumer Service (ACS) URL
+        issuer: config.SAML_ISSUER, // Entity ID (https://.../sp)
+        path: config.SAML_PATH, // Assertion Consumer Service (ACS) URL
     };
 
     passport.use(new SamlStrategy({
