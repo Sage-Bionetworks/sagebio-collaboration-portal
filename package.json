@@ -34,6 +34,7 @@
         "ng2-avatar": "^2.3.1",
         "ngx-quill": "^5.2.0",
         "passport": "~0.4.0",
+        "passport-azure-ad": "^4.1.0",
         "passport-google-oauth20": "^2.0.0",
         "passport-local": "^1.0.0",
         "passport-saml": "^1.1.0",
