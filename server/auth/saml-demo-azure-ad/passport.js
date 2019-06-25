@@ -7,25 +7,24 @@ export function setup(User) {
     passport.use(new OIDCStrategy({
         identityMetadata: 'https://login.microsoftonline.com/0aeec3ea-a03d-4f3c-8161-58fc588c3611/v2.0/.well-known/openid-configuration',
         clientID: 'a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7',
+        scope: ['email', 'profile'],
         responseType: 'id_token',
         responseMode: 'form_post',
         // allowHttpForRedirectUrl: true,  // Set to true if redirectUrl is http and not an https address
         redirectUrl: 'https://sage-dev-rb.ngrok.io/auth/saml-demo-azure-ad/callback',
-    }, (profile, done) => {
-        console.log(`Azure profile received: ${JSON.stringify(profile)}`);
+    }, (iss, sub, profile, done) => {
         // Parse user profile data
         User
             .findOne({
-                'saml-demo-azure-ad.sub': profile.sub
+                'saml-demo-azure-ad.email': profile._json.email
             }).exec()
             .then(user => {
                 const userDataFromProvider = {
-                    sub: profile.sub,
-                    name: 'DEMO USER',
-                    email: 'noone@mail.com',
+                    name: profile._json.name,
+                    email: profile._json.email,
                     provider: 'saml-demo-azure-ad',
-                    'saml-demo-azure-ad': profile,
-                    username: 'DEMO USER',
+                    'saml-demo-azure-ad': profile._json,
+                    username: profile._json.email,
                 };
 
                 if (user) {

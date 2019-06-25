@@ -18,6 +18,7 @@ var router = express.Router();
  */
 router.get('/', (req, res, next) => {
     passport.authenticate('azuread-openidconnect', {
+        response: res,
         failureRedirect: '/login',
         failureFlash: true
     })(req, res, next);
@@ -38,6 +39,7 @@ router.get('/', (req, res, next) => {
  */
 router.post('/callback', (req, res, next) => {
     passport.authenticate('azuread-openidconnect', {
+        response: res,
         session: false
     }, (err, user, info) => {
         if (err) {
