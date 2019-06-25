@@ -1,39 +1,31 @@
 import passport from 'passport';
 import {
-    Strategy as SamlStrategy
-} from 'passport-saml';
-import {
-    some
-} from 'lodash/fp';
+    OIDCStrategy
+} from 'passport-azure-ad';
 
-export function setup(User, config) {
-    let demoAppConfig = {
-        protocol: 'https://',
-        // IdentityProvider (IdP) SAML SSO URL
-        entryPoint: 'https://accounts.google.com/o/saml2/idp?idpid=C00s6x13p',
-        // Service Provider (SP)
-        issuer: 'demo1', // Entity ID (https://.../sp)
-        path: '/auth/saml-demo/callback', // Assertion Consumer Service (ACS) URL
-    };
-
-    passport.use(new SamlStrategy({
-        protocol: demoAppConfig.protocol,
-        entryPoint: demoAppConfig.entryPoint,
-        issuer: demoAppConfig.issuer,
-        path: demoAppConfig.path,
+export function setup(User) {
+    passport.use(new OIDCStrategy({
+        identityMetadata: 'https://login.microsoftonline.com/0aeec3ea-a03d-4f3c-8161-58fc588c3611/v2.0/.well-known/openid-configuration',
+        clientID: 'a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7',
+        responseType: 'id_token',
+        responseMode: 'form_post',
+        // allowHttpForRedirectUrl: true,  // Set to true if redirectUrl is http and not an https address
+        redirectUrl: 'https://sage-dev-rb.ngrok.io/auth/saml-demo-azure-ad/callback',
     }, (profile, done) => {
+        console.log(`Azure profile received: ${JSON.stringify(profile)}`);
         // Parse user profile data
         User
             .findOne({
-                'saml-demo.nameID': profile.nameID
+                'saml-demo-azure-ad.sub': profile.sub
             }).exec()
             .then(user => {
                 const userDataFromProvider = {
-                    name: `${profile.firstName} ${profile.lastName}`,
-                    email: profile.nameID,
-                    provider: 'saml-demo',
-                    'saml-demo': profile,
-                    username: profile.nameID,
+                    sub: profile.sub,
+                    name: 'DEMO USER',
+                    email: 'noone@mail.com',
+                    provider: 'saml-demo-azure-ad',
+                    'saml-demo-azure-ad': profile,
+                    username: 'DEMO USER',
                 };
 
                 if (user) {
@@ -45,18 +37,10 @@ export function setup(User, config) {
                     });
                 }
 
-                // TODO: Remove '@therobbrennan.com$` entry once Sage has created a demo SAML Google App
-                const authorizedEmails = [...config.userAccount.authorizedEmails, '@therobbrennan.com$'];
-                var authorized = some((regexp) => user.email.toLowerCase().match(regexp), authorizedEmails);
-                if (!authorized) {
-                    return done(null, null, 'Unauthorized email address');
-                }
-
                 return user.save()
                     .then(savedUser => done(null, savedUser))
                     .catch(err => done(err));
             })
             .catch(err => done(err));
-    })
-    );
+    }));
 }

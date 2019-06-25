@@ -13,6 +13,6 @@ var router = express.Router();
 router.use('/local', require('./local').default);
 router.use('/google', require('./google').default);
 router.use('/saml-demo', require('./saml-demo').default);
-router.use('/saml-demo-azure-ad', require('./saml-demo').default);
+router.use('/saml-demo-azure-ad', require('./saml-demo-azure-ad').default);
 
 export default router;

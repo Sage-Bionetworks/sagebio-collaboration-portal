@@ -9,7 +9,7 @@ var router = express.Router();
 
 /**
  * @swagger
- * /auth/saml-demo:
+ * /auth/saml-demo-azure-ad:
  *   get:
  *     tags:
  *       - Auth
@@ -17,7 +17,7 @@ var router = express.Router();
  *     description: Authenticates a User via Azure AD.
  */
 router.get('/', (req, res, next) => {
-    passport.authenticate('saml', {
+    passport.authenticate('azuread-openidconnect', {
         failureRedirect: '/login',
         failureFlash: true
     })(req, res, next);
@@ -26,7 +26,7 @@ router.get('/', (req, res, next) => {
 
 /**
  * @swagger
- * /auth/saml-demo/callback:
+ * /auth/saml-demo-azure-ad/callback:
  *   get:
  *     tags:
  *       - Auth
@@ -37,7 +37,7 @@ router.get('/', (req, res, next) => {
  *         description: User not found
  */
 router.post('/callback', (req, res, next) => {
-    passport.authenticate('saml', {
+    passport.authenticate('azuread-openidconnect', {
         session: false
     }, (err, user, info) => {
         if (err) {
