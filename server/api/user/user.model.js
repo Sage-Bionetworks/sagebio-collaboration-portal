@@ -9,7 +9,7 @@ import {
     registerEvents
 } from './user.events';
 
-const authTypes = ['github', 'twitter', 'facebook', 'google', 'saml-demo'];
+const authTypes = ['github', 'twitter', 'facebook', 'google', 'saml-demo', 'saml-demo-azure-ad'];
 
 var UserSchema = new Schema({
     name: {
@@ -55,6 +55,7 @@ var UserSchema = new Schema({
     salt: String,
     google: {},
     'saml-demo': {},
+    'saml-demo-azure-ad': {},
     position: {
       type: String,
       default: '<Current Position>'
