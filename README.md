@@ -48,6 +48,10 @@ NODE_ENV=production \
     node dist/server/`
 ```
 
+```
+NODE_ENV=production node dist/server/
+```
+
 ### Environment variables
 
 - `NODE_ENV`: Environment ('development' or 'production')
