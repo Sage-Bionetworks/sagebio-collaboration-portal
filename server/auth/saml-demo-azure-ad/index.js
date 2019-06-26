@@ -47,7 +47,7 @@ router.post('/callback', (req, res, next) => {
         }
         if (!user) {
             res.redirect(url.format({
-                pathname: "/login",
+                pathname: '/login',
                 query: {
                     message: info
                 }
