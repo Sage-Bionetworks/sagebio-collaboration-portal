@@ -6,13 +6,10 @@ import {
 export function setup(User) {
     passport.use(new OIDCStrategy({
         // DEMO Azure AD
+        //  Created as a demo app on therobbrennan.com ->
+        //  https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/Overview/appId/a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7/isMSAApp/
         identityMetadata: 'https://login.microsoftonline.com/0aeec3ea-a03d-4f3c-8161-58fc588c3611/v2.0/.well-known/openid-configuration',
         clientID: 'a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7',
-
-        // // Roche
-        // identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
-        // clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
-        // clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
 
         // PHCCP
         scope: ['email', 'profile'],
