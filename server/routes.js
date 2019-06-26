@@ -45,7 +45,7 @@ export default app => {
             }
         },
         servers: [{
-            url: 'http://dev.phc.sagesandbox.org/api',
+            url: 'https://dev.phc.sagesandbox.org/api',
             description: 'Development server'
         }],
         components: {

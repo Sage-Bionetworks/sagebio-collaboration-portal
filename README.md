@@ -48,6 +48,26 @@ NODE_ENV=production \
     node dist/server/`
 ```
 
+### Environment variables
+
+- `NODE_ENV`: Environment ('development' or 'production')
+- `CLIENT_PORT`: Port on which the client is running (e.g. 8080)
+- `DOMAIN`: For example `https://dev.phc.sagesandbox.org`
+export MONGODB_URI=mongodb://localhost:27017/phccp-dev
+- `MONGODB_USER`: mongo user or ''
+- `MONGODB_PASS`: mongo pass or ''
+
+- `SAML_ENTRY_POINT`: Entry point for SAML SSO
+- `SAML_ISSUER`: Issuer ID for SAML SSO
+- `SAML_PATH`: Callback path (e.g. `/auth/saml-demo/callback`)
+
+- `PHCCP_SHINY_TOOL_EXAMPLE_URL`=http://dev.phc.sagesandbox.org:8082
+
+Legacy:
+
+- `GOOGLE_ID`: ID for Google OAuth 2.0 authentication
+- `GOOGLE_SECRET`: secret for Google OAuth 2.0 authentication
+
 ### Deploying using Docker
 
 - Run `docker-compose up --build` to deploy the stack.

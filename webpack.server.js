@@ -37,7 +37,7 @@ export const server = new WebpackDevServer(compiler, {
         },
         '/primus': {
             target: 'http://localhost:9000',
-            secure: false,
+            secure: false,  // was false before https
             ws: true,
         },
     },

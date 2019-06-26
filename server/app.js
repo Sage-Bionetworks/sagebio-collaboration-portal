@@ -23,6 +23,7 @@ mongoose.connection.on('error', err => {
 // Setup server
 var app = express();
 var server = http.createServer(app);
+// console.log('server', server);
 const wsInitPromise = initWebSocketServer(server);
 expressConfig(app);
 registerRoutes(app);

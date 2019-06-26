@@ -27,12 +27,18 @@ export class SocketService {
      */
     connect(): void {
         // 'https://dev.phc.sagesandbox.org'
-        const primus = (Primus as any).connect(); // Primus.connect(); new Primus({ manual: true });
+        console.log('connecting to primus');
+        const primus = (Primus as any).connect('https://dev.phc.sagesandbox.org', {
+            port: 443,
+            // protocol: 'wss:',
+            secure: true
+        }); // Primus.connect(); new Primus({ manual: true });
         primus.plugin('emit', primusEmit);
 
         // For convenience we use the private event `outgoing::url` to append the
         // authorization token in the query string of our connection URL.
         primus.on('outgoing::url', url => {
+            console.log('outgoing::url', url);
             const token = this.authService.getToken();
             if (token) {
                 url.query = `access_token=${token}`;
