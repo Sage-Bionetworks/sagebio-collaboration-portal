@@ -49,6 +49,11 @@ var all = {
         }
     },
 
+    https: {
+        key: process.env.HTTPS_KEY,
+        cert: process.env.HTTPS_CERT
+    },
+
     google: {
         clientID: process.env.GOOGLE_ID || 'id',
         clientSecret: process.env.GOOGLE_SECRET || 'secret',

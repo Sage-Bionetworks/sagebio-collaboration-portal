@@ -60,10 +60,19 @@ export function broadcast(message) {
 }
 
 export default function initWebSocketServer(server) {
-    primus = new Primus(server, {
-        // port: 443,
+    primus = new Primus(server, { // options
+        // port: 443, // here?
+        transport: {
+            // port: 443 // here? has an effect on the server
+        },
         transformer: 'websockets'
     });
+    // primus = Primus.createServer(function connection(spark) {
+    //
+    // }, {
+    //     port: 443,
+    //     transformer: 'websockets'
+    // });
     primus.plugin('emit', primusEmit);
     primus.plugin('app', app);
 

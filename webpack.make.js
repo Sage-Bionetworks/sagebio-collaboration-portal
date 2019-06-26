@@ -10,6 +10,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -220,7 +221,7 @@ module.exports = function makeWebpackConfig(options) {
                     path.resolve(__dirname, 'node_modules/quill/dist/*.css'),
                     path.resolve(__dirname, 'node_modules/quill-emoji/dist/quill-emoji.css'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.css'),
-                    path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'),  // because quill-mention use src instead of dist
+                    path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'), // because quill-mention use src instead of dist
                     path.resolve(__dirname, 'client/app/app.css')
                 ]
             }, {
@@ -365,7 +366,13 @@ module.exports = function makeWebpackConfig(options) {
                 new UglifyJsPlugin({
                     cache: true,
                     parallel: true,
-                    sourceMap: true // set to true if you want JS source maps
+                    sourceMap: true, // set to true if you want JS source maps
+                    uglifyOptions: {
+                        ecma: 8,
+                        compress: {
+                            warnings: false
+                        }
+                    }
                 }),
                 new OptimizeCssAssetsPlugin({}),
             ],
@@ -386,7 +393,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     config.devServer = {
         host: '0.0.0.0',
-        port: 8080,
+        port: 443,
         disableHostCheck: true, // not secure
         contentBase: './client/',
         hot: true,
@@ -414,6 +421,12 @@ module.exports = function makeWebpackConfig(options) {
         historyApiFallback: {
             index: 'app.html'
         },
+        http2: true,
+        https: {
+            key: fs.readFileSync('/home/tschaffter/dev/PHCCollaborationPortal/certs/server.key'),
+            cert: fs.readFileSync('/home/tschaffter/dev/PHCCollaborationPortal/certs/server.cert'),
+            // ca: fs.readFileSync('.certs/ca.pem'),
+        }
     };
 
     config.node = {
