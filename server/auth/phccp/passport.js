@@ -3,19 +3,23 @@ import {
     OIDCStrategy
 } from 'passport-azure-ad';
 
-export function setup(User) {
-    passport.use(new OIDCStrategy({
-        // Roche
-        identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
-        clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
-        clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
+export function setup(User, config) {
+    const rocheAzureADConfig = {
+        identityMetadata: config.rocheAzureAD.identityMetadata,
+        clientID: config.rocheAzureAD.clientID,
+        clientSecret: config.rocheAzureAD.clientSecret,
+        // IMPORTANT: Any changes to redirect/callback URL routes will need to be coordinated with Roche Azure AD configuration
+        redirectUrl: config.rocheAzureAD.redirectUrl,
+    };
 
-        // PHCCP
+    passport.use(new OIDCStrategy({
+        identityMetadata: rocheAzureADConfig.identityMetadata,
+        clientID: rocheAzureADConfig.clientID,
+        clientSecret: rocheAzureADConfig.clientSecret,
+        redirectUrl: rocheAzureADConfig.redirectUrl,
         scope: ['email', 'profile'],
         responseType: 'id_token',
         responseMode: 'form_post',
-        // allowHttpForRedirectUrl: true,  // Set to true if redirectUrl is http and not an https address
-        redirectUrl: 'https://sage-dev-rb.ngrok.io/auth/phccp/callback',
     }, (iss, sub, profile, done) => {
         console.log(`[PHCCP Azure AD] Received SAML profile: ${JSON.stringify(profile, null, 2)}`);
         /*
