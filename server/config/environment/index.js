@@ -60,10 +60,11 @@ var all = {
         callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
     },
 
-    saml: {
-        entryPoint: process.env.SAML_ENTRY_POINT || 'entryPoint',
-        issuer: process.env.SAML_ISSUER || 'issuer',
-        apth: process.env.SAML_PATH || 'path',
+    rocheAzureAD: {
+        identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
+        clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
+        clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
+        redirectUrl: `${process.env.DOMAIN || ''}/auth/phccp/callback`,
     },
 
     userAccount: {
