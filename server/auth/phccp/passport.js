@@ -8,8 +8,9 @@ export function setup(User, config) {
         identityMetadata: config.rocheAzureAD.identityMetadata,
         clientID: config.rocheAzureAD.clientID,
         clientSecret: config.rocheAzureAD.clientSecret,
-        // IMPORTANT: Any changes to redirect/callback URL routes will need to be coordinated with Roche Azure AD configuration
-        redirectUrl: config.rocheAzureAD.redirectUrl,
+        // IMPORTANT: Any changes to redirect/callback URL routes will need to
+        // be coordinated with Roche Azure AD configuration
+        redirectUrl: config.rocheAzureAD.redirectURL,
     };
 
     passport.use(new OIDCStrategy({

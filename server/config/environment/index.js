@@ -54,12 +54,14 @@ var all = {
         cert: process.env.HTTPS_CERT
     },
 
+    // Google OAuth 2.0 (server/auth/google)
     google: {
         clientID: process.env.GOOGLE_ID || 'id',
         clientSecret: process.env.GOOGLE_SECRET || 'secret',
         callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
     },
 
+    // Google SAML (server/auth/saml-demo)
     saml: {
         protocol: process.env.PROTOCOL || 'https://',
         entryPoint: process.env.SAML_ENTRY_POINT || 'entryPoint',
@@ -67,12 +69,12 @@ var all = {
         path: process.env.SAML_PATH || 'path',
     },
 
-rocheAzureAD: {
+    // Roche Azure AD (server/auth/phccp)
+    rocheAzureAD: {
         identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
         clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
         clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
-        // We are explicitly specifying an HTTPS site here; otherwise CI/CD automated tests will fail and result in a failed build
-        redirectUrl: `${process.env.DOMAIN || 'https://dev.phc.sagesandbox.org'}/auth/phccp/callback`,
+        redirectURL: `${process.env.DOMAIN || ''}/auth/phccp/callback` // must be HTTPS
     },
 
     userAccount: {
