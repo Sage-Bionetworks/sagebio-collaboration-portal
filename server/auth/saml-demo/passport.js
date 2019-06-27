@@ -7,8 +7,6 @@ import {
 } from 'lodash/fp';
 
 export function setup(User, config) {
-    console.log('CONFIG SAML', config);
-
     // let demoAppConfig = {
     //     protocol: 'https://',
     //     // IdentityProvider (IdP) SAML SSO URL

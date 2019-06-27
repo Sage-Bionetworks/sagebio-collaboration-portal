@@ -10,7 +10,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -398,7 +397,6 @@ module.exports = function makeWebpackConfig(options) {
         httpsKey: process.env.HTTPS_KEY,
         httpsCert: process.env.HTTPS_CERT
     };
-    console.log('webpackAppConfig', webpackAppConfig);
 
     config.devServer = {
         host: webpackAppConfig.ip,
@@ -430,12 +428,12 @@ module.exports = function makeWebpackConfig(options) {
         historyApiFallback: {
             index: 'app.html'
         },
-        // http2: true,
-        // https: {
-        //     key: fs.readFileSync(webpackAppConfig.httpsKey),
-        //     cert: fs.readFileSync(webpackAppConfig.httpsCert),
-        //     // ca: fs.readFileSync('.certs/ca.pem'),
-        // }
+        http2: true,
+        https: {
+            key: webpackAppConfig.httpsKey,
+            cert: webpackAppConfig.httpsCert,
+            // ca: fs.readFileSync('.certs/ca.pem'),
+        }
     };
 
     config.node = {
