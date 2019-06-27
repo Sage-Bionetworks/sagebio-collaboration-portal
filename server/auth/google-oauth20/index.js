@@ -9,7 +9,7 @@ var router = express.Router();
 
 /**
  * @swagger
- * /auth/google:
+ * /auth/google-oauth20:
  *   get:
  *     tags:
  *       - Auth
@@ -28,7 +28,7 @@ router.get('/',
 
 /**
  * @swagger
- * /auth/google/callback:
+ * /auth/google-oauth20/callback:
  *   get:
  *     tags:
  *       - Auth

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../components/material/material.module';
-import { SAMLButtonsComponent } from './saml-buttons.component';
+import { SSOButtonsComponent } from './sso-buttons.component';
 
 @NgModule({
     imports: [
@@ -10,7 +10,7 @@ import { SAMLButtonsComponent } from './saml-buttons.component';
         RouterModule,
         MaterialModule
     ],
-    declarations: [SAMLButtonsComponent],
-    exports: [SAMLButtonsComponent]
+    declarations: [SSOButtonsComponent],
+    exports: [SSOButtonsComponent]
 })
-export class SAMLButtonsModule { }
+export class SSOButtonsModule { }

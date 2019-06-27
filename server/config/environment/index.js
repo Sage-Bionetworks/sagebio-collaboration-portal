@@ -54,11 +54,11 @@ var all = {
         cert: process.env.HTTPS_CERT
     },
 
-    // Google OAuth 2.0 (server/auth/google)
-    google: {
-        clientID: process.env.GOOGLE_ID || 'id',
-        clientSecret: process.env.GOOGLE_SECRET || 'secret',
-        callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
+    // Google OAuth 2.0 (server/auth/google-oauth20)
+    googleOAuth: {
+        clientID: process.env.OAUTH_GOOGLE_ID || 'id',
+        clientSecret: process.env.OAUTH_GOOGLE_SECRET || 'secret',
+        callbackURL: `${process.env.DOMAIN || ''}/auth/google-oauth20/callback`
     },
 
     // Google SAML (server/auth/saml-demo)

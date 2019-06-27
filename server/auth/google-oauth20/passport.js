@@ -8,23 +8,23 @@ import {
 
 export function setup(User, config) {
     let googleConfig = {
-        clientID: config.google.clientID,
-        clientSecret: config.google.clientSecret,
-        callbackURL: config.google.callbackURL
+        clientID: config.googleOAuth.clientID,
+        clientSecret: config.googleOAuth.clientSecret,
+        callbackURL: config.googleOAuth.callbackURL
     };
     passport.use(new GoogleStrategy(googleConfig,
         (accessToken, refreshToken, profile, done) => {
             User
                 .findOne({
-                    'google.sub': profile.id
+                    'google-oauth20.sub': profile.id
                 }).exec()
                 .then(user => {
                     const userDataFromProvider = {
                         name: profile.displayName,
                         email: profile.emails[0].value,
                         picture: profile._json.picture,
-                        provider: 'google',
-                        google: profile._json,
+                        provider: 'google-oauth20',
+                        'google-oauth20': profile._json,
                         username: profile.emails[0].value.split('@')[0]
                     };
 

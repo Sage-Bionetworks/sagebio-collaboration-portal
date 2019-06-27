@@ -9,12 +9,17 @@ import {
     registerEvents
 } from './user.events';
 
-const authTypes = ['github', 'twitter', 'facebook', 'google', 'saml-demo', 'saml-demo-azure-ad', 'phccp'];
+const authTypes = [
+    'google-oauth20',
+    'saml-demo',
+    'saml-demo-azure-ad',
+    'phccp'
+];
 
 var UserSchema = new Schema({
     name: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     username: {
         type: String,
@@ -53,17 +58,17 @@ var UserSchema = new Schema({
     },
     provider: String,
     salt: String,
-    google: {},
+    'google-oauth20': {},
     'saml-demo': {},
     'saml-demo-azure-ad': {},
     phccp: {},
     position: {
-      type: String,
-      default: '<Current Position>'
+        type: String,
+        default: '<Current Position>'
     },
     orcid: {
-      type: String,
-      default: '<orcid url>'
+        type: String,
+        default: '<orcid url>'
     },
     createdAt: {
         type: Date,
