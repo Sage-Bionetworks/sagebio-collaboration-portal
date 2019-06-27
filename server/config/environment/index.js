@@ -67,6 +67,14 @@ var all = {
         path: process.env.SAML_PATH || 'path',
     },
 
+rocheAzureAD: {
+        identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
+        clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
+        clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
+        // We are explicitly specifying an HTTPS site here; otherwise CI/CD automated tests will fail and result in a failed build
+        redirectUrl: `${process.env.DOMAIN || 'https://dev.phc.sagesandbox.org'}/auth/phccp/callback`,
+    },
+
     userAccount: {
         authorizedEmails: [
             '@gene.com$',

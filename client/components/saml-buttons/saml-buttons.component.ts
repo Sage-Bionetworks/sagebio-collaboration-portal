@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     styles: [require('./saml-buttons.scss')],
 })
 export class SAMLButtonsComponent {
-    loginSaml(provider) {
+    login(provider) {
         window.location.href = `/auth/${provider}`;
     }
 }
