@@ -63,7 +63,7 @@ export function setup(User, config) {
         // Parse user profile data
         User
             .findOne({
-                'phccp.email': profile._json.rsiMail
+                username: profile._json.rsiUserID
             }).exec()
             .then(user => {
                 const userDataFromProvider = {
