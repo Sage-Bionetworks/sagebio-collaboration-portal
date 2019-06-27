@@ -367,12 +367,12 @@ module.exports = function makeWebpackConfig(options) {
                     cache: true,
                     parallel: true,
                     sourceMap: true, // set to true if you want JS source maps
-                    uglifyOptions: {
-                        ecma: 8,
-                        compress: {
-                            warnings: false
-                        }
-                    }
+                    // uglifyOptions: {
+                    //     ecma: 8,
+                    //     compress: {
+                    //         warnings: false
+                    //     }
+                    // }
                 }),
                 new OptimizeCssAssetsPlugin({}),
             ],
@@ -391,29 +391,32 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/configuration.html#devserver
      * Reference: http://webpack.github.io/docs/webpack-dev-server.html
      */
-     const ip = process.env.IP || '0.0.0.0';
-     const clientPort = process.env.CLIENT_PORT || 8080;
-     const serverPort = process.env.PORT || 9000;
-     const httpsKey = process.env.HTTPS_KEY;
-     const httpsCert = process.env.HTTPS_CERT;
+    const webpackAppConfig = {
+        ip: process.env.IP || '0.0.0.0',
+        clientPort: process.env.CLIENT_PORT || 8080,
+        serverPort: process.env.PORT || 9000,
+        httpsKey: process.env.HTTPS_KEY,
+        httpsCert: process.env.HTTPS_CERT
+    };
+    console.log('webpackAppConfig', webpackAppConfig);
 
     config.devServer = {
-        host: ip,
-        port: clientPort,
+        host: webpackAppConfig.ip,
+        port: webpackAppConfig.clientPort,
         disableHostCheck: true, // not secure
         contentBase: './client/',
         hot: true,
         proxy: {
             '/api': {
-                target: `http://localhost:${serverPort}`,
+                target: `http://localhost:${webpackAppConfig.serverPort}`,
                 secure: false,
             },
             '/auth': {
-                target: `http://localhost:${serverPort}`,
+                target: `http://localhost:${webpackAppConfig.serverPort}`,
                 secure: false,
             },
             '/primus': {
-                target: `http://localhost:${serverPort}`,
+                target: `http://localhost:${webpackAppConfig.serverPort}`,
                 secure: false,
                 ws: true,
             },
@@ -427,12 +430,12 @@ module.exports = function makeWebpackConfig(options) {
         historyApiFallback: {
             index: 'app.html'
         },
-        http2: true,
-        https: {
-            key: fs.readFileSync(httpsKey),
-            cert: fs.readFileSync(httpsCert),
-            // ca: fs.readFileSync('.certs/ca.pem'),
-        }
+        // http2: true,
+        // https: {
+        //     key: fs.readFileSync(webpackAppConfig.httpsKey),
+        //     cert: fs.readFileSync(webpackAppConfig.httpsCert),
+        //     // ca: fs.readFileSync('.certs/ca.pem'),
+        // }
     };
 
     config.node = {

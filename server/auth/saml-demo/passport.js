@@ -7,20 +7,22 @@ import {
 } from 'lodash/fp';
 
 export function setup(User, config) {
-    let demoAppConfig = {
-        protocol: 'https://',
-        // IdentityProvider (IdP) SAML SSO URL
-        entryPoint: config.SAML_ENTRY_POINT,
-        // Service Provider (SP)
-        issuer: config.SAML_ISSUER, // Entity ID (https://.../sp)
-        path: config.SAML_PATH, // Assertion Consumer Service (ACS) URL
-    };
+    console.log('CONFIG SAML', config);
+
+    // let demoAppConfig = {
+    //     protocol: 'https://',
+    //     // IdentityProvider (IdP) SAML SSO URL
+    //     entryPoint: config.saml.entryPoint,
+    //     // Service Provider (SP)
+    //     issuer: config.saml.issuer, // Entity ID (https://.../sp)
+    //     path: config.path, // Assertion Consumer Service (ACS) URL
+    // };
 
     passport.use(new SamlStrategy({
-        protocol: demoAppConfig.protocol,
-        entryPoint: demoAppConfig.entryPoint,
-        issuer: demoAppConfig.issuer,
-        path: demoAppConfig.path,
+        protocol: config.saml.protocol,
+        entryPoint: config.saml.entryPoint,
+        issuer: config.saml.issuer,
+        path: config.saml.path,
     }, (profile, done) => {
         // Parse user profile data
         User
@@ -57,6 +59,5 @@ export function setup(User, config) {
                     .catch(err => done(err));
             })
             .catch(err => done(err));
-    })
-    );
+    }));
 }

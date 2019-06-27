@@ -61,9 +61,10 @@ var all = {
     },
 
     saml: {
+        protocol: process.env.PROTOCOL || 'https://',
         entryPoint: process.env.SAML_ENTRY_POINT || 'entryPoint',
         issuer: process.env.SAML_ISSUER || 'issuer',
-        apth: process.env.SAML_PATH || 'path',
+        path: process.env.SAML_PATH || 'path',
     },
 
     userAccount: {
