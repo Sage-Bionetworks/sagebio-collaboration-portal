@@ -6,7 +6,7 @@
             <!-- <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks"> -->
         </div>
         <div class="app-header-start">
-            <a mat-raised-button class="app-button" routerLink="/login">Get started</a>
+            <a *ngIf="!isLoggedIn" mat-raised-button class="app-button" routerLink="/login">Get started</a>
         </div>
     </div>
 </header>
