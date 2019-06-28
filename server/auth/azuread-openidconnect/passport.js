@@ -3,20 +3,29 @@ import {
     OIDCStrategy
 } from 'passport-azure-ad';
 
-export function setup(User) {
+export function setup(User, config) {
+  const azureADConfig = {
+      identityMetadata: config.azureADOpenIDConnect.identityMetadata,
+      clientID: config.azureADOpenIDConnect.clientID,
+      clientSecret: config.azureADOpenIDConnect.clientSecret,  // TODO: Not used?
+      // IMPORTANT: Any changes to redirect/callback URL routes will need to
+      // be coordinated with Roche Azure AD configuration
+      redirectUrl: config.azureADOpenIDConnect.redirectURL,
+  };
+
     passport.use(new OIDCStrategy({
         // DEMO Azure AD
         //  Created as a demo app on therobbrennan.com ->
         //  https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/Overview/appId/a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7/isMSAApp/
-        identityMetadata: 'https://login.microsoftonline.com/0aeec3ea-a03d-4f3c-8161-58fc588c3611/v2.0/.well-known/openid-configuration',
-        clientID: 'a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7',
-
+        identityMetadata: azureADConfig.identityMetadata,
+        clientID: azureADConfig.clientID,
+        clientSecret: azureADConfig.clientSecret,
         // PHCCP
         scope: ['email', 'profile'],
         responseType: 'id_token',
         responseMode: 'form_post',
         // allowHttpForRedirectUrl: true,  // Set to true if redirectUrl is http and not an https address
-        redirectUrl: 'https://sage-dev-rb.ngrok.io/auth/azuread-openidconnect/callback',
+        redirectUrl: azureADConfig.redirectUrl,
     }, (iss, sub, profile, done) => {
         // console.log(`[DEMO Azure AD] Received SAML profile: ${JSON.stringify(profile, null, 2)}`);
 

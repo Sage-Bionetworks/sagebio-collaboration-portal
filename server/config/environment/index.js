@@ -79,9 +79,9 @@ var all = {
 
     // Roche Azure AD (server/auth/phccp)
     rocheAzureAD: {
-        identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',
-        clientID: '22880060-56fa-4993-bcc1-d1debcef4eb4',
-        clientSecret: 'Br9G33QCdEiNDYT5u5utnEwVHCT+H3FGkYTm6gz4nOM=',
+        identityMetadata: process.env.ROCHE_AZURE_AD_IDENTITY_METADATA || 'identityMetadata',
+        clientID: process.env.ROCHE_AZURE_AD_CLIENT_ID || 'clientID',
+        clientSecret: process.env.ROCHE_AZURE_AD_CLIENT_SECRET || 'clientSecret',
         redirectURL: `${process.env.DOMAIN || ''}/auth/phccp/callback` // must be HTTPS
     },
 
