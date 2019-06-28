@@ -36,6 +36,9 @@ import {
 import {
     users
 } from './users';
+import {
+    userPermissions
+} from './user-permissions';
 
 module.exports = {
     dashboards: dashboards,
@@ -50,4 +53,5 @@ module.exports = {
     tags: tags,
     tools: tools,
     users: users,
+    userPermissions: userPermissions
 };

@@ -3,6 +3,7 @@
 </div>
 
 <div class="app-profile-content">
+    Permissions: {{ permissions | async | json }}
     <user-card class="app-user-card" [user]="currentUser"></user-card>
     <starred-message-list class="app-user-profile-messaging-stars"></starred-message-list>
 </div>
