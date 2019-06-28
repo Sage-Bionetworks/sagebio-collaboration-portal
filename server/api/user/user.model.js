@@ -11,7 +11,7 @@ import {
 
 const authTypes = [
     'google-oauth20',
-    'saml-demo',
+    'google-saml',
     'saml-demo-azure-ad',
     'phccp'
 ];
@@ -59,7 +59,7 @@ var UserSchema = new Schema({
     provider: String,
     salt: String,
     'google-oauth20': {},
-    'saml-demo': {},
+    'google-saml': {},
     'saml-demo-azure-ad': {},
     phccp: {},
     position: {

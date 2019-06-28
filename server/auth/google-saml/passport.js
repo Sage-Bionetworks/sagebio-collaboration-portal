@@ -17,22 +17,23 @@ export function setup(User, config) {
     // };
 
     passport.use(new SamlStrategy({
-        protocol: config.saml.protocol,
-        entryPoint: config.saml.entryPoint,
-        issuer: config.saml.issuer,
-        path: config.saml.path,
+        protocol: config.googleSaml.protocol,
+        entryPoint: config.googleSaml.entryPoint,
+        issuer: config.googleSaml.issuer,
+        path: config.googleSaml.path,
     }, (profile, done) => {
         // Parse user profile data
+        console.log('profile', profile);
         User
             .findOne({
-                'saml-demo.nameID': profile.nameID
+                'google-saml.nameID': profile.nameID
             }).exec()
             .then(user => {
                 const userDataFromProvider = {
                     name: `${profile.firstName} ${profile.lastName}`,
                     email: profile.nameID,
-                    provider: 'saml-demo',
-                    'saml-demo': profile,
+                    provider: 'google-saml',
+                    'google-saml': profile,
                     username: profile.nameID,
                 };
 
@@ -45,8 +46,7 @@ export function setup(User, config) {
                     });
                 }
 
-                // TODO: Remove '@therobbrennan.com$` entry once Sage has created a demo SAML Google App
-                const authorizedEmails = [...config.userAccount.authorizedEmails, '@therobbrennan.com$'];
+                const authorizedEmails = config.userAccount.authorizedEmails;
                 var authorized = some((regexp) => user.email.toLowerCase().match(regexp), authorizedEmails);
                 if (!authorized) {
                     return done(null, null, 'Unauthorized email address');

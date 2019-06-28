@@ -61,12 +61,12 @@ var all = {
         callbackURL: `${process.env.DOMAIN || ''}/auth/google-oauth20/callback`
     },
 
-    // Google SAML (server/auth/saml-demo)
-    saml: {
+    // Google SAML (server/auth/google-saml)
+    googleSaml: {
         protocol: process.env.PROTOCOL || 'https://',
-        entryPoint: process.env.SAML_ENTRY_POINT || 'entryPoint',
-        issuer: process.env.SAML_ISSUER || 'issuer',
-        path: process.env.SAML_PATH || 'path',
+        entryPoint: process.env.SAML_GOOGLE_ENTRY_POINT || 'entryPoint',
+        issuer: process.env.SAML_GOOGLE_ISSUER || 'issuer',
+        path: process.env.SAML_GOOGLE_PATH || '/auth/google-saml/callback',
     },
 
     // Roche Azure AD (server/auth/phccp)
