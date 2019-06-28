@@ -69,6 +69,14 @@ var all = {
         path: process.env.SAML_GOOGLE_PATH || '/auth/google-saml/callback',
     },
 
+    // Microsoft Azure AD OpenID Connect
+    azureADOpenIDConnect: {
+        identityMetadata: process.env.AZUREAD_OPENIDCONNECT_IDENTITY_METADATA || 'identityMetadata',
+        clientID: process.env.AZUREAD_OPENIDCONNECT_CLIENT_ID || 'clientID',
+        clientSecret: process.env.AZUREAD_OPENIDCONNECT_CLIENT_SECRET || 'clientSecret',
+        redirectURL: `${process.env.DOMAIN || ''}/auth/azuread-openidconnect/callback` // must be HTTPS
+    },
+
     // Roche Azure AD (server/auth/phccp)
     rocheAzureAD: {
         identityMetadata: 'https://login.microsoftonline.com/c8036283-1408-4dc8-b870-31e789a0a528/.well-known/openid-configuration',

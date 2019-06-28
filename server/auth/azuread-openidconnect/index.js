@@ -9,7 +9,7 @@ var router = express.Router();
 
 /**
  * @swagger
- * /auth/saml-demo-azure-ad:
+ * /auth/azuread-openidconnect:
  *   get:
  *     tags:
  *       - Auth
@@ -26,7 +26,7 @@ router.get('/', (req, res, next) => {
 
 /**
  * @swagger
- * /auth/saml-demo-azure-ad/callback:
+ * /auth/azuread-openidconnect/callback:
  *   get:
  *     tags:
  *       - Auth
