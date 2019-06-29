@@ -6,7 +6,7 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
@@ -362,16 +362,10 @@ module.exports = function makeWebpackConfig(options) {
                 },
             },
             minimizer: [
-                new UglifyJsPlugin({
+                new TerserPlugin({
                     cache: true,
                     parallel: true,
-                    sourceMap: true, // set to true if you want JS source maps
-                    // uglifyOptions: {
-                    //     ecma: 8,
-                    //     compress: {
-                    //         warnings: false
-                    //     }
-                    // }
+                    // sourceMap: true,
                 }),
                 new OptimizeCssAssetsPlugin({}),
             ],
