@@ -18,10 +18,11 @@ export class LoginComponent implements OnInit {
     };
 
     static parameters = [AuthService, Router, ActivatedRoute, FormBuilder,
-        PageTitleService];
+        PageTitleService, NotificationService];
     constructor(private authService: AuthService, private router: Router,
         private route: ActivatedRoute, formBuilder: FormBuilder,
-        private pageTitleService: PageTitleService) {
+        private pageTitleService: PageTitleService,
+        private notificationService: NotificationService) {
 
         // OAuth login callback
         this.route.queryParams.subscribe(res => {
