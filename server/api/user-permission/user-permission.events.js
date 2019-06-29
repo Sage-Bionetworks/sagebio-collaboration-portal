@@ -1,12 +1,12 @@
 /**
- * Permission model events
+ * UserPermission model events
  */
 
 import {EventEmitter} from 'events';
-var PermissionEvents = new EventEmitter();
+var UserPermissionEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-PermissionEvents.setMaxListeners(0);
+UserPermissionEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -15,19 +15,19 @@ var events = {
 };
 
 // Register the event emitter to the model events
-function registerEvents(Permission) {
+function registerEvents(UserPermission) {
   for(var e in events) {
     let event = events[e];
-    Permission.post(e, emitEvent(event));
+    UserPermission.post(e, emitEvent(event));
   }
 }
 
 function emitEvent(event) {
   return function(doc) {
-    PermissionEvents.emit(event + ':' + doc._id, doc);
-    PermissionEvents.emit(event, doc);
+    UserPermissionEvents.emit(event + ':' + doc._id, doc);
+    UserPermissionEvents.emit(event, doc);
   };
 }
 
 export {registerEvents};
-export default PermissionEvents;
+export default UserPermissionEvents;

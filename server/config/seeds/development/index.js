@@ -13,9 +13,6 @@ import {
     organizations
 } from './organizations'
 import {
-    permissions
-} from './permissions';
-import {
     projects
 } from './projects'
 import {
@@ -45,7 +42,6 @@ module.exports = {
     dataCatalogs: dataCatalogs,
     messages: messages,
     organizations: organizations,
-    permissions: permissions,
     projects: projects,
     reports: reports,
     starredMessages: starredMessages,

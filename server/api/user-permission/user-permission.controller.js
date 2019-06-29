@@ -1,7 +1,16 @@
+/**
+ * Using Rails-like standard naming convention for endpoints.
+ * GET     /api/user-permissions              ->  index
+ * POST    /api/user-permissions              ->  create
+ * GET     /api/user-permissions/:id          ->  show
+ * PUT     /api/user-permissions/:id          ->  upsert
+ * PATCH   /api/user-permissions/:id          ->  patch
+ * DELETE  /api/user-permissions/:id          ->  destroy
+ */
+
 import {
     applyPatch
 } from 'fast-json-patch';
-import Permission from './permission.model';
 import UserPermission from './user-permission.model';
 
 function respondWithResult(res, statusCode) {
@@ -52,34 +61,34 @@ function handleError(res, statusCode) {
     };
 }
 
-// Gets a list of Permissions
+// Gets a list of UserPermissions
 export function index(req, res) {
-    return Permission.find().exec()
+    return UserPermission.find().exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Gets a single Permission from the DB
+// Gets a single UserPermission from the DB
 export function show(req, res) {
-    return Permission.findById(req.params.id).exec()
+    return UserPermission.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Creates a new Permission in the DB
+// Creates a new UserPermission in the DB
 export function create(req, res) {
-    return Permission.create(req.body)
+    return UserPermission.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
-// Upserts the given Permission in the DB at the specified ID
+// Upserts the given UserPermission in the DB at the specified ID
 export function upsert(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Permission.findOneAndUpdate({
+    return UserPermission.findOneAndUpdate({
             _id: req.params.id
         }, req.body, {
             new: true,
@@ -91,21 +100,21 @@ export function upsert(req, res) {
         .catch(handleError(res));
 }
 
-// Updates an existing Permission in the DB
+// Updates an existing UserPermission in the DB
 export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Permission.findById(req.params.id).exec()
+    return UserPermission.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Deletes a Permission from the DB
+// Deletes a UserPermission from the DB
 export function destroy(req, res) {
-    return Permission.findById(req.params.id).exec()
+    return UserPermission.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
@@ -117,11 +126,12 @@ export function indexMine(req, res) {
     return UserPermission.find({
             user: userId
         })
-        .populate('permission')
         .exec()
         .then(userPermissions => {
             if (userPermissions) {
-                return userPermissions.map(userPermission => userPermission.permission);
+                return userPermissions.map(userPermission => ({
+                    value: userPermission.permission
+                }));
             }
             return [];
         })

@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 //     registerEvents
 // } from './permission.events';
 
+const permissionTypes = [
+    'createTool',
+    'editTool',
+    'deleteTool'
+];
+
 var UserPermissionSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -10,8 +16,8 @@ var UserPermissionSchema = new mongoose.Schema({
         required: true
     },
     permission: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Permission',
+        type: String,
+        enum: permissionTypes,
         required: true
     },
     createdAt: {
@@ -30,4 +36,5 @@ var UserPermissionSchema = new mongoose.Schema({
 });
 
 // registerEvents(UserPermissionSchema);
+UserPermissionSchema.index({ user: 1, permission: 1}, { unique: true });
 export default mongoose.model('UserPermission', UserPermissionSchema);

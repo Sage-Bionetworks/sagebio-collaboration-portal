@@ -55,9 +55,9 @@ describe('User Model', function () {
             return expect(user.save()).to.be.rejected;
         });
 
-        describe('given user provider is google', function () {
+        describe('given user provider is google-oauth20', function () {
             beforeEach(function () {
-                user.provider = 'google';
+                user.provider = 'google-oauth20';
             });
 
             it('should succeed when saving without an email', function () {
@@ -105,20 +105,9 @@ describe('User Model', function () {
             });
         });
 
-        describe('given user provider is google', function () {
+        describe('given user provider is google-oauth20', function () {
             beforeEach(function () {
-                user.provider = 'google';
-            });
-
-            it('should succeed when saving without a password', function () {
-                user.password = null;
-                return expect(user.save()).to.be.fulfilled;
-            });
-        });
-
-        describe('given user provider is github', function () {
-            beforeEach(function () {
-                user.provider = 'github';
+                user.provider = 'google-oauth20';
             });
 
             it('should succeed when saving without a password', function () {

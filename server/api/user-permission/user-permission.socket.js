@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import PermissionEvents from './permission.events';
+import UserPermissionEvents from './user-permission.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -10,9 +10,9 @@ var events = ['save', 'remove'];
 export function register(spark) {
     // Bind model events to socket events
     for(let event of events) {
-        var listener = createListener(`permission:${event}`, spark);
+        var listener = createListener(`userPermission:${event}`, spark);
 
-        PermissionEvents.on(event, listener);
+        UserPermissionEvents.on(event, listener);
         spark.on('disconnect', removeListener(event, listener));
     }
 }
@@ -26,6 +26,6 @@ function createListener(event, spark) {
 
 function removeListener(event, listener) {
     return function() {
-        PermissionEvents.removeListener(event, listener);
+        UserPermissionEvents.removeListener(event, listener);
     };
 }

@@ -8,7 +8,6 @@ import app from '../primus/primus-app';
 
 const registerFunctions = [
     // Insert sockets below
-    require('../api/permission/permission.socket').register,
     require('../api/starred-message/starred-message.socket').register,
     require('../api/message/message.socket').register,
     require('../api/tag/tag.socket').register,
@@ -17,7 +16,8 @@ const registerFunctions = [
     require('../api/data-catalog/data-catalog.socket').register,
     require('../api/tool/tool.socket').register,
     require('../api/insight/insight.socket').register,
-    require('../api/dataset/dataset.socket').register
+    require('../api/dataset/dataset.socket').register,
+    require('../api/user-permission/user-permission.socket').register
 ];
 
 // When the user disconnects.. perform this

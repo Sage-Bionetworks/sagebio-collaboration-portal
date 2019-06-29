@@ -3,22 +3,24 @@ import {
     adminUserId,
     testUserId
 } from './users';
-import {
-    reactivateUserPermId,
-    deactivateUserPermId
-} from './permissions';
+
+// TODO: import permission values from unique definition
 
 let userPermissions = [{
     user: adminUserId,
-    permission: reactivateUserPermId,
+    permission: 'createTool',
     createdBy: adminUserId
 }, {
     user: adminUserId,
-    permission: deactivateUserPermId,
+    permission: 'editTool',
+    createdBy: adminUserId
+}, {
+    user: adminUserId,
+    permission: 'deleteTool',
     createdBy: adminUserId
 }, {
     user: testUserId,
-    permission: deactivateUserPermId,
+    permission: 'editTool',
     createdBy: adminUserId
 }];
 

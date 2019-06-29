@@ -13,7 +13,6 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 export default app => {
     // Insert routes below
-    app.use('/api/permissions', require('./api/permission'));
     app.use('/api/messages', require('./api/message'));
     app.use('/api/tags', require('./api/tag'));
     app.use('/api/projects', require('./api/project'));
@@ -23,6 +22,7 @@ export default app => {
     app.use('/api/insights', require('./api/insight'));
     app.use('/api/datasets', require('./api/dataset'));
     app.use('/api/users', require('./api/user'));
+    app.use('/api/user-permissions', require('./api/user-permission'));
     app.use('/api/states', require('./api/state'));
     app.use('/api/health', require('./api/health'));
     app.use('/auth', require('./auth').default);

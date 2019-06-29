@@ -16,6 +16,11 @@ const authTypes = [
     'phccp'
 ];
 
+const userRoles = [
+    'user',
+    'admin'
+];
+
 var UserSchema = new Schema({
     name: {
         type: String,
@@ -43,7 +48,7 @@ var UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: userRoles,
         default: 'user'
     },
     password: {

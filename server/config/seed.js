@@ -7,7 +7,6 @@ import Dashboard from '../api/insight/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
-import Permission from '../api/permission/permission.model';
 import Project from '../api/project/project.model';
 import Report from '../api/insight/models/report.model';
 import StarredMessage from '../api/starred-message/starred-message.model';
@@ -15,7 +14,7 @@ import State from '../api/insight/models/state.model';
 import Tag from '../api/tag/tag.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
-import UserPermissions from '../api/permission/user-permission.model';
+import UserPermissions from '../api/user-permission/user-permission.model';
 
 import seeds from './seeds'
 
@@ -60,14 +59,6 @@ export default function seedDatabaseIfNeeded() {
             .then(() => Organization.create(seeds.organizations))
             .then(() => console.log('finished populating organizations'))
             .catch(err => console.log('error populating organizations', err));
-        promises.push(promise);
-    }
-
-    if (seeds.permissions) {
-        let promise = Permission.find({}).deleteMany()
-            .then(() => Permission.create(seeds.permissions))
-            .then(() => console.log('finished populating permissions'))
-            .catch(err => console.log('error populating permissions', err));
         promises.push(promise);
     }
 
