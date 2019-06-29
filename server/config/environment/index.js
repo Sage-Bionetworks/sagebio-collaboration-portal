@@ -73,7 +73,6 @@ var all = {
     azureADOpenIDConnect: {
         identityMetadata: process.env.AZUREAD_OPENIDCONNECT_IDENTITY_METADATA || 'identityMetadata',
         clientID: process.env.AZUREAD_OPENIDCONNECT_CLIENT_ID || 'clientID',
-        clientSecret: process.env.AZUREAD_OPENIDCONNECT_CLIENT_SECRET || 'clientSecret',
         redirectURL: `${process.env.DOMAIN || ''}/auth/azuread-openidconnect/callback` // must be HTTPS
     },
 
