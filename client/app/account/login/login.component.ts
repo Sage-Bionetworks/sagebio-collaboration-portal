@@ -16,14 +16,12 @@ export class LoginComponent implements OnInit {
     errors = {
         login: undefined
     };
-    submitted = false;
 
     static parameters = [AuthService, Router, ActivatedRoute, FormBuilder,
-        PageTitleService, NotificationService];
+        PageTitleService];
     constructor(private authService: AuthService, private router: Router,
         private route: ActivatedRoute, formBuilder: FormBuilder,
-        private pageTitleService: PageTitleService,
-        private notificationService: NotificationService) {
+        private pageTitleService: PageTitleService) {
 
         // OAuth login callback
         this.route.queryParams.subscribe(res => {
@@ -43,11 +41,11 @@ export class LoginComponent implements OnInit {
         });
 
         this.loginForm = formBuilder.group({
-            email: ['admin@sagebase.org', [
+            email: ['', [
                 Validators.required,
                 Validators.email
             ]],
-            password: ['admin', [
+            password: ['', [
                 Validators.required,
             ]]
         });
@@ -58,14 +56,11 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
-        this.submitted = true;
-
         let values = this.loginForm.value;
         this.authService.login({
             email: values.email,
             password: values.password
         }).subscribe(user => {
-            // Logged in, redirect to home
             this.router.navigateByUrl('');
         }, err => {
             console.log('ERROR', err);
@@ -80,7 +75,15 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    goToPasswordRecovery(): void {
-        this.notificationService.info('Password recovery not implemented');
+    loginAsAdmin(): void {
+        this.loginForm.get('email').setValue('admin@sagebase.org');
+        this.loginForm.get('password').setValue('admin');
+        this.login();
+    }
+
+    loginAsTestUser(): void {
+        this.loginForm.get('email').setValue('test@sagebase.org');
+        this.loginForm.get('password').setValue('test');
+        this.login();
     }
 }

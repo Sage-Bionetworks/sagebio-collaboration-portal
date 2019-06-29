@@ -3,37 +3,9 @@
 </div>
 
 <div class="app-login-content">
-    <mat-card class="app-login-card">
-        <mat-card-content>
-            <form class="form-container" [formGroup]="loginForm" novalidate>
-                <mat-form-field class="form-field-full-width">
-                    <input matInput placeholder="Email" type="email" formControlName="email" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="loginForm.controls.email.invalid && !loginForm.controls.email.errors?.unknownEmail">
-                        Please enter a valid email.
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.controls.email.errors?.unknownEmail">
-                        This email is not registered.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field class="form-field-full-width">
-                    <input matInput placeholder="Password" type="password" formControlName="password" [errorStateMatcher]="matcher">
-                    <mat-error *ngIf="loginForm.controls.password.errors?.required && !loginForm.controls.password.errors?.incorrect">
-                        Please enter the password.
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.controls.password.errors?.incorrect">
-                        Wrong password. Try again of click Forgot password to reset it.
-                    </mat-error>
-                </mat-form-field>
-                <mat-error *ngIf="errors.login">
-                    {{errors.login}}
-                </mat-error>
-                <div class="form-button-container">
-                    <a mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="login()">Login</a>
-                    <a mat-button type="button" (click)="goToPasswordRecovery()">Forgot password?</a>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-
-    <sso-buttons class="app-login-button"></sso-buttons>
+    <div class="app-login-buttons">
+        <a class="app-login-button" mat-raised-button color="primary" (click)="loginAsAdmin()">Login as ADMIN</a>
+        <a class="app-login-button" mat-raised-button color="primary" (click)="loginAsTestUser()">Login as TEST USER</a>
+        <sso-buttons></sso-buttons>
+    </div>
 </div>
