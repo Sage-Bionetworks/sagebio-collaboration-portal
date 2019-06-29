@@ -9,8 +9,8 @@ let dataCatalogs = [{
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
     picture: 'assets/images/320px-Roche_Logo.svg.png',
-    apiServerUrl: 'http://data.roche.com/api/3',
-    website: 'http://data.roche.com',
+    apiServerUrl: 'http://demo-data.roche.com/api/3',  // 'http://data.roche.com/api/3',
+    website: 'http://demo-data.roche.com/',  // 'http://data.roche.com',
     organization: geneId,
     createdBy: adminUserId
 }, {

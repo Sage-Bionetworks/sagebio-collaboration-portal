@@ -395,7 +395,7 @@ module.exports = function makeWebpackConfig(options) {
     config.devServer = {
         host: webpackAppConfig.ip,
         port: webpackAppConfig.clientPort,
-        disableHostCheck: true, // not secure
+        disableHostCheck: false, // not secure
         contentBase: './client/',
         hot: true,
         proxy: {
