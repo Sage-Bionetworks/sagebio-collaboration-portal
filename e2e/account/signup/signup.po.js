@@ -3,7 +3,7 @@
  * https://docs.google.com/presentation/d/1B6manhG0zEXkC-H-tPo2vwU06JhL8w9-XCF9oehXzAQ
  */
 
-import {OauthButtons} from '../../components/oauth-buttons/oauth-buttons.po';
+// import {OauthButtons} from '../../components/oauth-buttons/oauth-buttons.po';
 
 export class SignupPage {
     constructor() {
@@ -14,7 +14,7 @@ export class SignupPage {
         form.password = form.element(by.name('password'));
         form.confirmPassword = form.element(by.name('confirmPassword'));
         form.submit = form.element(by.css('.btn-register'));
-        form.oauthButtons = (new OauthButtons()).oauthButtons;
+        // form.oauthButtons = (new OauthButtons()).oauthButtons;
     }
 
     signup(data) {

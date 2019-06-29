@@ -15,7 +15,7 @@ var testsContext = require.context('./client', true, /\.(spec|test)\.ts$/);
 // testsContext.keys().forEach(testsContext);
 testsContext('./app/main/main.component.spec.ts');
 testsContext('./components/util.spec.ts');
-testsContext('./components/oauth-buttons/oauth-buttons.component.spec.ts');
+// testsContext('./components/oauth-buttons/oauth-buttons.component.spec.ts');
 
 import {
     TestBed,

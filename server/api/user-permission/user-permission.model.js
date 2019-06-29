@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 //     registerEvents
 // } from './permission.events';
 
-const permissionTypes = [
+export const permissionTypes = [
     'createTool',
     'editTool',
     'deleteTool'
@@ -27,7 +27,7 @@ var UserPermissionSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: true
     },
     __v: {
         type: Number,

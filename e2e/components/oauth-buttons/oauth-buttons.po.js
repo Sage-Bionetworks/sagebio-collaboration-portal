@@ -4,9 +4,9 @@
  */
 /* eslint-env protractor, node */
 
-export class OauthButtons {
-    constructor() {
-        this.oauthButtons = element(by.css('oauth-buttons'));
-        this.oauthButtons.google = this.oauthButtons.element(by.css('.btn.btn-social.btn-google'));
-    }
-}
+// export class OauthButtons {
+//     constructor() {
+//         this.oauthButtons = element(by.css('oauth-buttons'));
+//         this.oauthButtons.google = this.oauthButtons.element(by.css('.btn.btn-social.btn-google'));
+//     }
+// }
