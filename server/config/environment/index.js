@@ -2,6 +2,7 @@
 
 import path from 'path';
 import _ from 'lodash';
+import fs from 'fs';
 
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -50,8 +51,8 @@ var all = {
     },
 
     https: {
-        key: process.env.HTTPS_KEY,
-        cert: process.env.HTTPS_CERT
+        key: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
+        cert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
     },
 
     // Google OAuth 2.0 (server/auth/google-oauth20)

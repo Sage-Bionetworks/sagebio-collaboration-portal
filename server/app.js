@@ -11,7 +11,6 @@ import initWebSocketServer from './config/websockets';
 import expressConfig from './config/express';
 import registerRoutes from './routes';
 import seedDatabaseIfNeeded from './config/seed';
-import fs from 'fs';
 import https from 'https';
 
 // Connect to MongoDB
@@ -23,13 +22,16 @@ mongoose.connection.on('error', err => {
 
 // Setup server
 var app = express();
-var server = http.createServer(app);
-// var server = https.createServer({
-//     key: fs.readFileSync('certs/server.key'),
-//     cert: fs.readFileSync('certs/server.cert')
-// }, app);
+var server;
+if (config.env === 'development' || config.env === 'test') {
+    server = http.createServer(app);
+} else {
+    server = https.createServer({
+        key: config.https.key,
+        cert: config.https.cert
+    }, app);
+}
 
-// console.log('server', server);
 const wsInitPromise = initWebSocketServer(server);
 expressConfig(app);
 registerRoutes(app);

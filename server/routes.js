@@ -34,7 +34,7 @@ export default app => {
         info: {
             title: 'PHC Collaboration Portal API',
             version: '1.0.0',
-            description: `Primary Health Care (PHC) Collaboration Portal
+            description: `Personalized Health Care (PHC) Collaboration Portal
                 developed by Sage Bionetworks and Roche/Genentech`,
             contact: {
                 name: 'API Support',
