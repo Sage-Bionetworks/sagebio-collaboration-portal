@@ -4,14 +4,14 @@ import {
 } from 'passport-azure-ad';
 
 export function setup(User, config) {
-  const azureADConfig = {
-      identityMetadata: config.azureADOpenIDConnect.identityMetadata,
-      clientID: config.azureADOpenIDConnect.clientID,
-      clientSecret: config.azureADOpenIDConnect.clientSecret,  // TODO: Not used?
-      // IMPORTANT: Any changes to redirect/callback URL routes will need to
-      // be coordinated with Roche Azure AD configuration
-      redirectUrl: config.azureADOpenIDConnect.redirectURL,
-  };
+    const azureADConfig = {
+        identityMetadata: config.azureADOpenIDConnect.identityMetadata,
+        clientID: config.azureADOpenIDConnect.clientID,
+        clientSecret: config.azureADOpenIDConnect.clientSecret, // TODO: Not used?
+        // IMPORTANT: Any changes to redirect/callback URL routes will need to
+        // be coordinated with Roche Azure AD configuration
+        redirectUrl: config.azureADOpenIDConnect.redirectURL,
+    };
 
     passport.use(new OIDCStrategy({
         // DEMO Azure AD
