@@ -50,11 +50,6 @@ var all = {
         }
     },
 
-    https: {
-        key: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
-        cert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
-    },
-
     // Google OAuth 2.0 (server/auth/google-oauth20)
     googleOAuth: {
         clientID: process.env.OAUTH_GOOGLE_ID || 'id',

@@ -11,7 +11,7 @@ services:
     command: npm run start:client
     container_name: phccp-dev-client
     ports:
-        - '3000:3000'
+        - '443:443'
     environment:
         NODE_ENV: development
     depends_on:
