@@ -1,7 +1,7 @@
 /*eslint no-process-env:0*/
 import _ from 'lodash';
 
-var all = {};
+var all = require('./all');
 
 module.exports = _.merge(
     all,

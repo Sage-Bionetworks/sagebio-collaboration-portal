@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-import { adminUserId } from './users';
+import {
+    adminUserId
+} from './users';
 
 const sageId = new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd87');
 const geneId = new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd88');

@@ -16,7 +16,7 @@ import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermissions from '../api/user-permission/user-permission.model';
 
-import seeds from './seeds'
+import seeds from './seeds';
 
 export default function seedDatabaseIfNeeded() {
 
