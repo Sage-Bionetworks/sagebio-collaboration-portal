@@ -27,6 +27,6 @@ export class ProjectService {
     }
 
     create(project: Project): Observable<Project> {
-        return this.httpClient.post<Project>('/api/projects/', project);
+        return this.httpClient.post<Project>('/api/projects', project);
     }
 }

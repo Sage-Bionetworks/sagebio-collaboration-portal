@@ -16,9 +16,6 @@ import {
     states
 } from './states';
 import {
-    tags
-} from './tags';
-import {
     users
 } from './users';
 import {
@@ -31,7 +28,6 @@ module.exports = {
     reports: reports,
     starredMessages: starredMessages,
     states: states,
-    tags: tags,
     users: users,
     userPermissions: userPermissions
 };

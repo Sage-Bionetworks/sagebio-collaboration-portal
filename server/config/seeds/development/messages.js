@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 import {
     adminUserId
 } from './users';
-import {
-    toolTagId,
-    feLiteTagId
-} from './tags';
 
 const message1Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3e9');
 const message2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3ea');

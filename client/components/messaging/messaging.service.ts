@@ -39,7 +39,7 @@ export class MessagingService {
     }
 
     addMessage(message: Message): Observable<Message> {
-        return this.httpClient.post<Message>('/api/messages/', message);
+        return this.httpClient.post<Message>('/api/messages', message);
     }
 
     updateMessage(message: Message): Observable<Message> {
