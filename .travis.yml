@@ -21,11 +21,11 @@ addons:
 
 before_script:
   - npm install -g gulp-cli
-  - if [ "$TRAVIS_BRANCH" = "develop" ]; then docker pull "${IMAGE_NAME}:develop" || true ; fi
+  - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then docker pull "${IMAGE_NAME}:develop" || true ; fi
 
 script:
   - npm test || travis_terminate 1;
-  - if [ "$TRAVIS_BRANCH" = "develop" ]; then docker build -f Dockerfile.dev --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" . ; fi
+  - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then docker build -f Dockerfile.dev --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" . ; fi
 
 before_deploy:
   - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
