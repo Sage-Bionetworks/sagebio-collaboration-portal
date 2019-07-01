@@ -43,17 +43,23 @@ export function isAuthenticated() {
         });
 }
 
-export function hasPermission(requiredPermission) {
+/**
+ * Authorizes request if the user has an admin role or the requested permission.
+ *
+ * Users that do not contain the appropriate permission - and have not been assigned
+ * an admin role - will be blocked.
+ * @param {*} requestedPermission
+ */
+export function isAuthorized(requestedPermission) {
     return compose()
-        .use(isAuthenticated())
-        .use(function containsPermission(req, res, next) {
-            const isAdmin = config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin');
+        .use((req, res, next) => {
+            const isAdminRole = config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin');
 
             // Automatically grant admin users permission
-            if (isAdmin) return next();
+            if (isAdminRole) return next();
 
             // Block non-admin users if the required permission is falsy
-            if (!requiredPermission) {
+            if (!requestedPermission) {
                 res.status(403).send('Forbidden');
                 return null;
             }
@@ -61,10 +67,10 @@ export function hasPermission(requiredPermission) {
             // Check if our user has the appropriate permission
             UserPermission.find({ user: req.user._id}).exec()
                 .then(permissions => {
-                    const isAuthorized = !!permissions.find(p => p.permission === requiredPermission);
+                    const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
 
                     // Continuing processing request if our user has the appropriate permission
-                    if (isAuthorized) return next();
+                    if (hasAuthorization) return next();
 
                     // User does not have permission; block request
                     res.status(403).send('Forbidden');
@@ -72,6 +78,16 @@ export function hasPermission(requiredPermission) {
                 })
                 .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
         });
+}
+
+/**
+ * Allows request to continue if the user has authenticated and contains appropriate authorization
+ * @param {*} requestedPermission
+ */
+export function hasPermission(requestedPermission) {
+    return compose()
+        .use(isAuthenticated())
+        .use(isAuthorized(requestedPermission));
 }
 
 /**
