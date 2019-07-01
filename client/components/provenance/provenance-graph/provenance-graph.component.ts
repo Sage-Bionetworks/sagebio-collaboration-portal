@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
-import { ForceDirectedGraph, Node } from '../../d3/models';
+import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
 import { ActivityNodeComponent } from './activity-node/activity-node.component';
 import { ProvenanceLinkComponent } from './provenance-link/provenance-link.component';
@@ -11,8 +11,8 @@ import { ProvenanceLinkComponent } from './provenance-link/provenance-link.compo
     styles: [require('./provenance-graph.scss')]
 })
 export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
-    @Input('nodes') nodes;
-    @Input('links') links;
+    @Input() nodes: Node[];
+    @Input() links: Link[];
     graph: ForceDirectedGraph;
     private _options: { width, height } = { width: 400, height: 300 };
 
