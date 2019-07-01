@@ -43,17 +43,17 @@ export function isAuthenticated() {
         });
 }
 
-export function validateAdminOrUserWithPermission(optionalPermission) {
+export function hasPermission(requiredPermission) {
     return compose()
         .use(isAuthenticated())
-        .use(function validateUser(req, res, next) {
-            // Automatically allow admin users
-            if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin')) {
-                return next();
-            }
+        .use(function containsPermission(req, res, next) {
+            const isAdmin = config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin');
 
-            // Automatically block non-admin users if optional permission is falsy
-            if (!optionalPermission) {
+            // Automatically grant admin users permission
+            if (isAdmin) return next();
+
+            // Block non-admin users if the required permission is falsy
+            if (!requiredPermission) {
                 res.status(403).send('Forbidden');
                 return null;
             }
@@ -61,10 +61,10 @@ export function validateAdminOrUserWithPermission(optionalPermission) {
             // Check if our user has the appropriate permission
             UserPermission.find({ user: req.user._id}).exec()
                 .then(permissions => {
-                    const hasPermission = !!permissions.find(p => p.permission === optionalPermission);
+                    const isAuthorized = !!permissions.find(p => p.permission === requiredPermission);
 
                     // Continuing processing request if our user has the appropriate permission
-                    if (hasPermission) return next();
+                    if (isAuthorized) return next();
 
                     // User does not have permission; block request
                     res.status(403).send('Forbidden');
