@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+import UserPermission from '../api/user-permission/user-permission.model';
 const url = require('url');
 
 var validateJwt = expressJwt({
@@ -39,6 +40,37 @@ export function isAuthenticated() {
                     return null;
                 })
                 .catch(err => next(err));
+        });
+}
+
+export function validateAdminOrUserWithPermission(optionalPermission) {
+    return compose()
+        .use(isAuthenticated())
+        .use(function validateUser(req, res, next) {
+            // Automatically allow admin users
+            if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin')) {
+                return next();
+            }
+
+            // Automatically block non-admin users if optional permission is falsy
+            if (!optionalPermission) {
+                res.status(403).send('Forbidden');
+                return null;
+            }
+
+            // Check if our user has the appropriate permission
+            UserPermission.find({ user: req.user._id}).exec()
+                .then(permissions => {
+                    const hasPermission = !!permissions.find(p => p.permission === optionalPermission);
+
+                    // Continuing processing request if our user has the appropriate permission
+                    if (hasPermission) return next();
+
+                    // User does not have permission; block request
+                    res.status(403).send('Forbidden');
+                    return null;
+                })
+                .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
         });
 }
 
