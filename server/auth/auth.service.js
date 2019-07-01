@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+import UserPermission from '../api/user-permission/user-permission.model';
 const url = require('url');
 
 var validateJwt = expressJwt({
@@ -40,6 +41,53 @@ export function isAuthenticated() {
                 })
                 .catch(err => next(err));
         });
+}
+
+/**
+ * Authorizes request if the user has an admin role or the requested permission.
+ *
+ * Users that do not contain the appropriate permission - and have not been assigned
+ * an admin role - will be blocked.
+ * @param {*} requestedPermission
+ */
+export function isAuthorized(requestedPermission) {
+    return compose()
+        .use((req, res, next) => {
+            const isAdminRole = config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin');
+
+            // Automatically grant admin users permission
+            if (isAdminRole) return next();
+
+            // Block non-admin users if the required permission is falsy
+            if (!requestedPermission) {
+                res.status(403).send('Forbidden');
+                return null;
+            }
+
+            // Check if our user has the appropriate permission
+            UserPermission.find({ user: req.user._id}).exec()
+                .then(permissions => {
+                    const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
+
+                    // Continuing processing request if our user has the appropriate permission
+                    if (hasAuthorization) return next();
+
+                    // User does not have permission; block request
+                    res.status(403).send('Forbidden');
+                    return null;
+                })
+                .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
+        });
+}
+
+/**
+ * Allows request to continue if the user has authenticated and contains appropriate authorization
+ * @param {*} requestedPermission
+ */
+export function hasPermission(requestedPermission) {
+    return compose()
+        .use(isAuthenticated())
+        .use(isAuthorized(requestedPermission));
 }
 
 /**
