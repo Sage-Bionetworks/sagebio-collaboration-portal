@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from '../../components/material/material.module';
 import { NotificationModule } from '../../components/notification/notification.module';
+import { ProvenanceModule } from '../../components/provenance/provenance.module';
 
 import { MainComponent } from './main.component';
 import { SocketService } from '../../components/socket/socket.service';
@@ -20,7 +21,8 @@ export const ROUTES: Routes = [
         FormsModule,
         RouterModule.forChild(ROUTES),
         MaterialModule,
-        NotificationModule
+        NotificationModule,
+        ProvenanceModule
     ],
     declarations: [
         MainComponent,
