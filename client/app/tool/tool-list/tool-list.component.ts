@@ -7,6 +7,8 @@ import { Tool } from '../../../../shared/interfaces/tool.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
+import { NotificationService } from '../../../components/notification/notification.service'
+// import { ToolNewComponent } from '../tool-new/tool-new.component';
 
 @Component({
     selector: 'tool-list',
@@ -16,10 +18,14 @@ import { orderBy } from 'lodash/fp';
 export class ToolListComponent implements OnInit, AfterViewInit {
     private tools: Observable<Tool[]>;
 
-    static parameters = [Router, FormBuilder, PageTitleService, ToolService];
+    // @ViewChild(ToolNewComponent, { static: false }) newTool: ToolNewComponent;
+    private createNewTool = false
+
+    static parameters = [Router, FormBuilder, PageTitleService, ToolService, NotificationService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private toolService: ToolService) {
+        private toolService: ToolService,
+        private notificationService: NotificationService) {
         this.tools = this.toolService.getTools()
             .pipe(
                 map(tools => orderBy('name', 'asc', tools))
@@ -31,5 +37,10 @@ export class ToolListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
+    }
+
+    onNewTool(tool: Tool): void {
+        this.createNewTool = false;
+        this.notificationService.info('The Tool has been successfully created');
     }
 }
