@@ -9,9 +9,11 @@
         </div>
     </div>
 
-    <div class="app-tool-list-actions">
-        <a mat-raised-button color="primary" class="app-tool-list-new-tool" (click)="createNewTool=true" aria-label="Create a New Tool">Create a New Tool</a>
-    </div>
+    <ng-container *ngIf="(permissions | async).canCreateTool()">
+        <div class="app-tool-list-actions">
+            <a mat-raised-button color="primary" class="app-tool-list-new-tool" (click)="createNewTool=true" aria-label="Create a New Tool">Create a New Tool</a>
+        </div>
+    </ng-container>
 </div>
 
 <ng-template #showNewToolForm>
