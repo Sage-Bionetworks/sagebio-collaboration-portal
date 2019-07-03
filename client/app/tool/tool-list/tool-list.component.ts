@@ -27,8 +27,8 @@ export class ToolListComponent implements OnInit, AfterViewInit {
     // @ViewChild(ToolNewComponent, { static: false }) newTool: ToolNewComponent;
     private createNewTool = false
 
-    currentUser: User;
-    authInfoSub: Subscription;
+    private currentUser: User;
+    private authInfoSub: Subscription;
     private permissions: Observable<UserPermissions>;
 
     static parameters = [Router, FormBuilder, PageTitleService, ToolService, NotificationService, AuthService, UserService, UserPermissionDataService];
