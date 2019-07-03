@@ -1,0 +1,37 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
+    <h1>Create a New Tool</h1>
+</div>
+
+<mat-card class="app-tool-new-card">
+    <mat-card-content>
+        <form class="app-tool-new-card-form" [formGroup]="newForm" novalidate>
+            <!-- <mat-form-field class="app-tool-new-form-field">
+                <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.name.invalid">
+                    Please enter a valid name ({{ toolSpecs.name.minlength }}-{{ toolSpecs.name.maxlength }} characters).
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-tool-new-form-field">
+                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.description.invalid">
+                    Please enter a valid description ({{ toolSpecs.description.minlength }}-{{ toolSpecs.description.maxlength }} characters).
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Visibility</mat-label>
+                <select matNativeControl formControlName="visibility" required>
+                    <option *ngFor="let value of toolSpecs.visibility.values" [value]="value">{{ value }}</option>
+                </select>
+            </mat-form-field> -->
+
+            <!-- <mat-error *ngIf="errors.newTool">
+                {{errors.newTool}}
+            </mat-error> -->
+            <div class="app-tool-new-form-actions">
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewTool()">Create New Tool</a>
+                <a mat-button (click)="close.emit(null)">Cancel</a>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
