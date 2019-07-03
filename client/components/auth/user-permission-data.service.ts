@@ -9,18 +9,18 @@ import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
 
 export class UserPermissions {
 
-    constructor(private permissions: UserPermission[]) { }
+    constructor(private permissions: UserPermission[], private isAdmin: Boolean = false) { }
 
     public canCreateTool() {
-        return !!find({ 'value': 'createTool' }, this.permissions);
+        return this.isAdmin || !!find({ 'value': 'createTool' }, this.permissions);
     }
 
     public canEditTool() {
-        return !!find({ 'value': 'editTool' }, this.permissions);
+        return this.isAdmin || !!find({ 'value': 'editTool' }, this.permissions);
     }
 
     public canDeleteTool() {
-        return !!find({ 'value': 'deleteTool' }, this.permissions);
+        return this.isAdmin || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 }
 
@@ -30,6 +30,7 @@ export class UserPermissionDataService implements OnDestroy {
     private _permissions: BehaviorSubject<UserPermissions> =
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
     private authInfoSub: Subscription;
+    private isAdmin = false;
 
     static parameters = [AuthService, SocketService, UserPermissionService];
     constructor(private authService: AuthService,
@@ -37,21 +38,22 @@ export class UserPermissionDataService implements OnDestroy {
         private userPermissionService: UserPermissionService) {
 
         console.log('USER PERMISSION DATA SERVICE');
-        // this.authInfoSub = this.authService.authInfo()
-        //     .subscribe(authInfo => {
-        //         if (authInfo.isLoggedIn()) {
-        this.userPermissionService.getMyPermissions()
-            .subscribe(permissions => {
-                console.log('permission', new UserPermissions(permissions));
-                this._permissions.next(new UserPermissions(permissions));
-                // this.socketService.syncArraySubject('userPermission', this._permissions);  // backend not implemented yet
-            });
-        // }
-        // }, err => console.log(err));
+
+        this.authInfoSub = this.authService.authInfo()
+            .subscribe(authInfo => {
+                this.isAdmin = authInfo.isAdmin();
+
+                this.userPermissionService.getMyPermissions()
+                    .subscribe(permissions => {
+                        console.log('permission', new UserPermissions(permissions, this.isAdmin));
+                        this._permissions.next(new UserPermissions(permissions, this.isAdmin));
+                        // this.socketService.syncArraySubject('userPermission', this._permissions);  // backend not implemented yet
+                    });
+            }, err => console.error(err));
     }
 
     ngOnDestroy() {
-        // this.authInfoSub.unsubscribe();
+        this.authInfoSub.unsubscribe();
     }
 
     /**
