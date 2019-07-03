@@ -15,7 +15,6 @@ import { AuthService } from '../../../components/auth/auth.service';
 import { UserService } from '../../../components/auth/user.service';
 import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
 import { User } from '../../../../shared/interfaces/user.model';
-import { UserPermission } from '../../../../shared/interfaces/user-permission.model';
 import { Subscription } from 'rxjs';
 
 @Component({
