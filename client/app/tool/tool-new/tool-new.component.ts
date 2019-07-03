@@ -9,6 +9,7 @@ import { PageTitleService } from '../../../components/page-title/page-title.serv
 // import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 // import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
+import slugify from 'slugify';
 
 @Component({
     selector: 'tool-new',
@@ -34,19 +35,16 @@ export class ToolNewComponent implements OnInit, OnDestroy {
 
         this.toolSpecs = config.models.tool;
         this.newForm = this.formBuilder.group({
-            // name: ['', [
-            //     Validators.required,
-            //     Validators.minLength(config.models.tool.name.minlength),
-            //     Validators.maxLength(config.models.tool.name.maxlength)
-            // ]],
-            // description: ['', [
-            //     Validators.required,
-            //     Validators.minLength(config.models.tool.description.minlength),
-            //     Validators.maxLength(config.models.tool.description.maxlength)
-            // ]],
-            // visibility: [config.models.tool.visibility.default, [
-            //     Validators.required
-            // ]],
+            name: ['', [
+                Validators.required,
+                Validators.minLength(config.models.tool.name.minlength),
+                Validators.maxLength(config.models.tool.name.maxlength)
+            ]],
+            description: ['', [
+                Validators.required,
+                Validators.minLength(config.models.tool.description.minlength),
+                Validators.maxLength(config.models.tool.description.maxlength)
+            ]],
         });
     }
 
@@ -56,6 +54,7 @@ export class ToolNewComponent implements OnInit, OnDestroy {
 
     createNewTool(): void {
         let newTool = this.newForm.value;
+        newTool.slug = slugify(this.newForm.value.name).toLowerCase();  // Slug automatically generated
         console.log(`Creating a new tool: ${JSON.stringify(newTool)}`);
         // TODO: Add the create method to our tool service
         // this.toolService.create(newTool)
