@@ -13,7 +13,7 @@ export function setup(User, config) {
         redirectUrl: config.azureADOpenIDConnect.redirectURL,
     };
 
-    passport.use(new OIDCStrategy({
+    var strategy = new OIDCStrategy({
         // DEMO Azure AD
         //  Created as a demo app on therobbrennan.com ->
         //  https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/Overview/appId/a93c6ff1-9d42-498b-93d0-ef8eccb2e6e7/isMSAApp/
@@ -57,5 +57,7 @@ export function setup(User, config) {
                     .catch(err => done(err));
             })
             .catch(err => done(err));
-    }));
+    });
+
+    passport.use('azuread-openidconnect', strategy);
 }

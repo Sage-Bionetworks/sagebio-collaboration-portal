@@ -13,7 +13,9 @@ export function setup(User, config) {
         redirectUrl: config.rocheAzureAD.redirectURL,
     };
 
-    passport.use(new OIDCStrategy({
+    console.log('REDIRECT', rocheAzureADConfig.redirectUrl);
+
+    var strategy = new OIDCStrategy({
         identityMetadata: rocheAzureADConfig.identityMetadata,
         clientID: rocheAzureADConfig.clientID,
         clientSecret: rocheAzureADConfig.clientSecret,
@@ -89,5 +91,7 @@ export function setup(User, config) {
                     .catch(err => done(err));
             })
             .catch(err => done(err));
-    }));
+    });
+
+    passport.use('phccp', strategy);
 }

@@ -17,7 +17,7 @@ var router = express.Router();
  *     description: Authenticates a User via Azure AD.
  */
 router.get('/', (req, res, next) => {
-    passport.authenticate('azuread-openidconnect', {
+    passport.authenticate('phccp', {
         response: res,
         failureRedirect: '/login',
         failureFlash: true
@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
  *         description: User not found
  */
 router.post('/callback', (req, res, next) => {
-    passport.authenticate('azuread-openidconnect', {
+    passport.authenticate('phccp', {
         response: res,
         session: false
     }, (err, user, info) => {
