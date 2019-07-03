@@ -8,6 +8,13 @@ import { PageTitleService } from '../../../components/page-title/page-title.serv
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 
+// User authorization and permissions
+import { AuthService } from '../../../components/auth/auth.service';
+import { UserService } from '../../../components/auth/user.service';
+import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
+import { User } from '../../../../shared/interfaces/user.model';
+import { Subscription } from 'rxjs';
+
 @Component({
     selector: 'tool',
     template: require('./tool.html'),
@@ -17,9 +24,24 @@ export class ToolComponent implements OnInit, OnDestroy {
     private tool: Tool;
     private toolHealth: ToolHealth;
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService];
+    // User authorization and permissions
+    private currentUser: User;
+    private authInfoSub: Subscription;
+    private permissions: Observable<UserPermissions>;
+
+    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, AuthService, UserService, UserPermissionDataService];
     constructor(private router: Router, private route: ActivatedRoute,
-        private pageTitleService: PageTitleService, private toolService: ToolService) { }
+        private pageTitleService: PageTitleService, private toolService: ToolService,
+        private authService: AuthService,
+        private userService: UserService,
+        private userPermissionDataService: UserPermissionDataService) {
+            this.authInfoSub = this.authService.authInfo()
+                .subscribe(authInfo => {
+                    this.currentUser = authInfo.user;
+                });
+            this.permissions = this.userPermissionDataService.getPermissions();
+
+         }
 
     ngOnInit() {
         const tool$ = this.route.params.pipe(
@@ -55,5 +77,7 @@ export class ToolComponent implements OnInit, OnDestroy {
         //     });
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+        this.authInfoSub.unsubscribe();
+     }
 }

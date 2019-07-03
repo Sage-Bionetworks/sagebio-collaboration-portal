@@ -29,9 +29,9 @@
             </div>
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
-                <a mat-raised-button color="secondary">Edit Tool</a>
+                <a mat-raised-button color="secondary" *ngIf="(permissions | async).canEditTool()">Edit Tool</a>
             </div>
         </mat-card>
-        <a mat-raised-button color="warn">Delete Tool</a>
+        <a mat-raised-button color="warn" *ngIf="(permissions | async).canDeleteTool()">Delete Tool</a>
     </div>
 </div>
