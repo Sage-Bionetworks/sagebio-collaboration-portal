@@ -8,6 +8,7 @@ import { MaterialModule } from '../../components/material/material.module';
 import { AuthGuard } from '../../components/auth/auth-guard.service';
 import { SocketService } from '../../components/socket/socket.service';
 
+import { ToolNewComponent } from './tool-new/tool-new.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolComponent } from './tool-page/tool.component';
@@ -36,7 +37,8 @@ export const ROUTES: Routes = [{
     declarations: [
         ToolListComponent,
         ToolViewComponent,
-        ToolComponent
+        ToolComponent,
+        ToolNewComponent
     ],
     providers: [
         SocketService,
@@ -45,7 +47,8 @@ export const ROUTES: Routes = [{
     exports: [
         ToolListComponent,
         ToolViewComponent,
-        ToolComponent
+        ToolComponent,
+        ToolNewComponent
     ],
 })
 export class ToolModule { }

@@ -17,7 +17,5 @@
 </div>
 
 <ng-template #showNewToolForm>
-    <h1>[PLACEHOLDER] Create a New Tool</h1>
-    <!-- <tool-new (NewTool)="onNewTool($event)" (close)="createNewTool=false"></tool-new> -->
-    <a mat-raised-button color="warn" class="app-tool-list-new-tool-cancel" (click)="createNewTool=false" aria-label="Cancel">Cancel</a>
+    <tool-new (NewTool)="onNewTool($event)" (close)="createNewTool=false"></tool-new>
 </ng-template>

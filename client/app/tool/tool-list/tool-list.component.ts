@@ -4,11 +4,11 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToolService } from '../tool.service';
 import { Tool } from '../../../../shared/interfaces/tool.model';
+import { ToolNewComponent } from '../tool-new/tool-new.component';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
 import { NotificationService } from '../../../components/notification/notification.service'
-// import { ToolNewComponent } from '../tool-new/tool-new.component';
 
 // User authorization and permissions
 import { AuthService } from '../../../components/auth/auth.service';
@@ -24,7 +24,7 @@ import { Subscription } from 'rxjs';
 })
 export class ToolListComponent implements OnInit, AfterViewInit {
     private tools: Observable<Tool[]>;
-    // @ViewChild(ToolNewComponent, { static: false }) newTool: ToolNewComponent;
+    @ViewChild(ToolNewComponent, { static: false }) newTool: ToolNewComponent;
     private createNewTool = false
 
     private currentUser: User;
