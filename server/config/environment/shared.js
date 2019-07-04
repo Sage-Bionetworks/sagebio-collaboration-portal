@@ -9,9 +9,7 @@ export const gitVersion = process.env.gitVersion;
 export const gitCommitHash = process.env.gitCommitHash;
 export const gitBranch = process.env.gitBranch;
 
-export const ckanApiBaseUrl = 'http://54.166.200.47/api/3';
-// export const ckanApiBaseUrl = 'http://data.roche.com/api/3';
-
+export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 
 export const models = {
     project: {
