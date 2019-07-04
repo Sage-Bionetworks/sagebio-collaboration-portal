@@ -8,6 +8,7 @@ import { PageTitleService } from '../../../components/page-title/page-title.serv
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../../components/notification/notification.service'
+import { ConfirmationDialog } from '../../../components/confirmation-dialog/confirmation-dialog.component';
 
 // User authorization and permissions
 import { AuthService } from '../../../components/auth/auth.service';
@@ -30,13 +31,14 @@ export class ToolComponent implements OnInit, OnDestroy {
     private authInfoSub: Subscription;
     private permissions: Observable<UserPermissions>;
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, AuthService, UserService, UserPermissionDataService, NotificationService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, AuthService, UserService, UserPermissionDataService, NotificationService, MatDialog];
     constructor(private router: Router, private route: ActivatedRoute,
         private pageTitleService: PageTitleService, private toolService: ToolService,
         private authService: AuthService,
         private userService: UserService,
         private userPermissionDataService: UserPermissionDataService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private dialog: MatDialog) {
             this.authInfoSub = this.authService.authInfo()
                 .subscribe(authInfo => {
                     this.currentUser = authInfo.user;
@@ -93,4 +95,30 @@ export class ToolComponent implements OnInit, OnDestroy {
             });
     }
 
+    displayConfirmationDialog() {
+        this.dialog.open(ConfirmationDialog, {
+            data: {
+                message: 'Are you sure you want to delete this tool? This action cannot be reversed!',
+                // Since we are asking permission to delete, we REALLY want to draw attention to the dangerous button
+                confirmButton: {
+                    text: 'Delete',
+                    color: 'warn',
+                },
+                // No harm, no foul - our cancel button can be subtle
+                cancelButton: {
+                    text: 'Cancel',
+                    color: 'background',
+                }
+            }
+        })
+            .afterClosed()
+            .subscribe((confirmed: boolean) => {
+                if (confirmed) {
+                    console.log(`** TOOL WILL BE DELETED **`);
+                    this.deleteTool();
+                } else {
+                    console.log(`~~ This tool will live to see another day ~~`);
+                }
+            })
+    }
 }
