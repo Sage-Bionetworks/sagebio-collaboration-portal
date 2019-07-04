@@ -1,59 +1,95 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription, from, forkJoin } from 'rxjs';
-import { mergeMap, tap, switchMap, map as rxMap, concatAll, mergeAll, reduce } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject, combineLatest, of, merge } from 'rxjs';
+import { switchMap, map, filter, mapTo, catchError } from 'rxjs/operators';
 import { UserPermission } from '../../../shared/interfaces/user-permission.model';
 import { AuthService } from '../../components/auth/auth.service';
-import { SocketService } from '../../components/socket/socket.service';
+import { UserService } from '../../components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
-import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
+import { find } from 'lodash/fp';
+import { UserRole } from '../../../shared/interfaces/user.model';
 
 export class UserPermissions {
 
-    constructor(private permissions: UserPermission[], private isAdmin: Boolean = false) { }
+    constructor(private permissions: UserPermission[], private role: UserRole) { }
+
+    public isAdmin(): boolean {
+        return this.role === 'admin';  // TODO: why does UserRole.ADMIN throw an error?
+    }
 
     public canCreateTool() {
-        return this.isAdmin || !!find({ 'value': 'createTool' }, this.permissions);
+        return this.isAdmin() || !!find({ 'value': 'createTool' }, this.permissions);
     }
 
     public canEditTool() {
-        return this.isAdmin || !!find({ 'value': 'editTool' }, this.permissions);
+        return this.isAdmin() || !!find({ 'value': 'editTool' }, this.permissions);
     }
 
     public canDeleteTool() {
-        return this.isAdmin || !!find({ 'value': 'deleteTool' }, this.permissions);
+        return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 }
 
 @Injectable()
-export class UserPermissionDataService implements OnDestroy {
-    static UNKNOWN_PERMISSIONS = new UserPermissions([]);
+export class UserPermissionDataService {
+    static UNKNOWN_PERMISSIONS = new UserPermissions([], undefined);
     private _permissions: BehaviorSubject<UserPermissions> =
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
-    private authInfoSub: Subscription;
-    private isAdmin = false;
 
-    static parameters = [AuthService, SocketService, UserPermissionService];
+    static parameters = [AuthService, UserService, UserPermissionService];
     constructor(private authService: AuthService,
-        private socketService: SocketService,
+        private userService: UserService,
         private userPermissionService: UserPermissionService) {
 
-        console.log('USER PERMISSION DATA SERVICE');
+        const isLoggedIn = this.authService.authInfo()
+            .pipe(
+                map(authInfo => authInfo.isLoggedIn())
+            );
 
-        this.authInfoSub = this.authService.authInfo()
-            .subscribe(authInfo => {
-                this.isAdmin = authInfo.isAdmin();
+        const populatePermissions = isLoggedIn
+            .pipe(
+                filter(is => is),
+                switchMap(() => this.userPermissionService.getMyPermissions()
+                    .pipe(
+                        catchError(err => of(<UserPermission[]>[]))
+                    ))
+            );
 
-                this.userPermissionService.getMyPermissions()
-                    .subscribe(permissions => {
-                        console.log('permission', new UserPermissions(permissions, this.isAdmin));
-                        this._permissions.next(new UserPermissions(permissions, this.isAdmin));
-                        // this.socketService.syncArraySubject('userPermission', this._permissions);  // backend not implemented yet
-                    });
-            }, err => console.error(err));
-    }
+        const emptyPermissions = isLoggedIn
+            .pipe(
+                filter(is => is),
+                mapTo([])
+            );
 
-    ngOnDestroy() {
-        this.authInfoSub.unsubscribe();
+        const populateRole = isLoggedIn
+            .pipe(
+                filter(is => is),
+                switchMap(() => this.userService.get()
+                    .pipe(
+                        map(user => user.role),
+                        catchError(err => of(<UserRole>undefined))
+                    ))
+            );
+
+        const emptyRole = isLoggedIn
+            .pipe(
+                filter(is => is),
+                mapTo(<UserRole>undefined)
+            );
+
+        const getPermissions = merge(
+            populatePermissions,
+            emptyPermissions
+        );
+
+        const getRole = merge(
+            populateRole,
+            emptyRole
+        );
+
+        combineLatest(getPermissions, getRole)
+            .subscribe(([permissions, role]: any) => {
+                this._permissions.next(new UserPermissions(permissions, role));
+            });
     }
 
     /**

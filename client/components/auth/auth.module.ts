@@ -16,16 +16,4 @@ import { UserPermissionDataService } from './user-permission-data.service';
         UserPermissionService
     ]
 })
-export class AuthModule {
-    // public static forRoot(): ModuleWithProviders {
-    //   return {
-    //     ngModule: AuthModule,
-    //     providers: [
-    //       AuthService,
-    //       UserService,
-    //       TokenService,
-    //       AuthGuard
-    //     ]
-    //   };
-    // }
-}
+export class AuthModule { }
