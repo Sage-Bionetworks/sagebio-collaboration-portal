@@ -167,6 +167,6 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Tool not found
  */
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.hasPermission('deleteTool'), controller.destroy);
 
 module.exports = router;
