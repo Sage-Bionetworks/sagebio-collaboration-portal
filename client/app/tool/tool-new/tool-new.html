@@ -18,21 +18,18 @@
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-
-            <!-- <mat-form-field class="app-tool-new-form-field">
-                <input matInput placeholder="slug-for-new-tool" formControlName="slug" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.slug.invalid">
-                    Please enter a valid URL slug (e.g. slug-for-new-tool).
+            <mat-form-field class="app-tool-new-form-field">
+                <input matInput placeholder="https://api.mytool.com/authenticate" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.apiServerUrl.invalid">
+                    Please enter a valid URL for the API.
                 </mat-error>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field>
-            <mat-label>Visibility</mat-label>
-            <select matNativeControl formControlName="visibility" required>
-                <option *ngFor="let value of toolSpecs.visibility.values" [value]="value">{{ value }}</option>
-            </select>
-            </mat-form-field> -->
-
+            </mat-form-field>
+            <mat-form-field class="app-tool-new-form-field">
+                <input matInput placeholder="https://mytool.com" formControlName="website" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.website.invalid">
+                    Please enter a valid URL for the main web site.
+                </mat-error>
+            </mat-form-field>
             <mat-error *ngIf="errors.newTool">
                 {{errors.newTool}}
             </mat-error>

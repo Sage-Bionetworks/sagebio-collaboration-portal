@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ToolService } from '../tool.service';
 import { Tool } from '../../../../shared/interfaces/tool.model';
+import { geneId } from '../../../../server/config/seeds/all/organizations'
 import { PageTitleService } from '../../../components/page-title/page-title.service';
-// import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-// import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
 import slugify from 'slugify';
 
@@ -45,6 +43,12 @@ export class ToolNewComponent implements OnInit, OnDestroy {
                 Validators.minLength(config.models.tool.description.minlength),
                 Validators.maxLength(config.models.tool.description.maxlength)
             ]],
+            apiServerUrl: ['', [
+                Validators.required,
+            ]],
+            website: ['', [
+                Validators.required,
+            ]]
         });
     }
 
@@ -54,15 +58,19 @@ export class ToolNewComponent implements OnInit, OnDestroy {
 
     createNewTool(): void {
         let newTool = this.newForm.value;
-        newTool.slug = slugify(this.newForm.value.name).toLowerCase();  // Slug automatically generated
-        console.log(`Creating a new tool: ${JSON.stringify(newTool)}`);
-        // TODO: Add the create method to our tool service
-        // this.toolService.create(newTool)
-        //     .subscribe(tool => {
-        //         this.newTool.emit(tool);
-        //     }, err => {
-        //         console.log('ERROR', err);
-        //         this.errors.newTool = err.message;
-        //     });
+
+        // Slug automatically generated based on the tool name
+        newTool.slug = slugify(this.newForm.value.name).toLowerCase();
+        // Use the Roche organization ID
+        newTool.organization = geneId;
+
+        this.toolService.create(newTool)
+            .subscribe(tool => {
+                this.newTool.emit(tool);
+                this.close.emit(null);
+            }, err => {
+                console.log('ERROR', err);
+                this.errors.newTool = err.message;
+            });
     }
 }
