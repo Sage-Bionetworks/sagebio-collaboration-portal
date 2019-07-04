@@ -58,11 +58,13 @@ export class ToolNewComponent implements OnInit, OnDestroy {
 
     createNewTool(): void {
         let newTool = this.newForm.value;
+        let defaultOrganization = { // We just need a partial object here - no need to populate a full Organization interface
+            _id: geneId,    // Use the Roche organization ID
+        }
 
         // Slug automatically generated based on the tool name
         newTool.slug = slugify(this.newForm.value.name).toLowerCase();
-        // Use the Roche organization ID
-        newTool.organization = geneId;
+        newTool.organization = defaultOrganization;
 
         this.toolService.create(newTool)
             .subscribe(tool => {
