@@ -1,5 +1,6 @@
 var express = require('express');
 var controller = require('./tool.controller');
+import * as auth from '../../auth/auth.service';
 
 var router = express.Router();
 
@@ -80,7 +81,7 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Tool
  */
-router.post('/', controller.create);
+router.post('/', auth.hasPermission('createTool'), controller.create);
 
 /**
  * @swagger
