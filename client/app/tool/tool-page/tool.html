@@ -32,6 +32,6 @@
                 <a mat-raised-button color="secondary" *ngIf="(permissions | async).canEditTool()">Edit Tool</a>
             </div>
         </mat-card>
-        <a mat-raised-button color="warn" *ngIf="(permissions | async).canDeleteTool()">Delete Tool</a>
+        <a mat-raised-button (click)="deleteTool()" color="warn" *ngIf="(permissions | async).canDeleteTool()">Delete Tool</a>
     </div>
 </div>

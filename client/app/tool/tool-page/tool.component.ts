@@ -79,5 +79,15 @@ export class ToolComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.authInfoSub.unsubscribe();
-     }
+    }
+
+    deleteTool() {
+        this.toolService.remove(this.tool)
+            .subscribe(deletedTool => {
+                this.router.navigateByUrl('tools');
+            }, err => {
+                console.error(`ERROR attempting to delete tool: ${err}`);
+            });
+    }
+
 }
