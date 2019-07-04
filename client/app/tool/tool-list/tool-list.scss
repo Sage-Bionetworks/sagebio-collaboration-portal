@@ -13,3 +13,15 @@
     flex-flow: row wrap;
   }
 }
+
+.app-tool-list-actions {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    .app-tool-list-new-tool {
+        margin-top: 25px;
+        width: 400px;
+    }
+
+}

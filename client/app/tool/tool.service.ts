@@ -54,4 +54,16 @@ export class ToolService {
     getToolHealth(tool: Tool): Observable<ToolHealth> {
         return this.httpClient.get<ToolHealth>(`${tool.apiServerUrl}/health`);
     }
+
+    create(tool: Tool): Observable<Tool> {
+        return this.httpClient.post<Tool>('/api/tools', tool);
+    }
+
+    remove(tool: Tool): Observable<Tool> {
+        return this.httpClient.delete(`/api/tools/${tool._id}`)
+            .pipe(
+                map(() => tool)
+            );
+    }
+
 }

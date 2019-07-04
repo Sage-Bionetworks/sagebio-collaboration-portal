@@ -1,5 +1,6 @@
 var express = require('express');
 var controller = require('./tool.controller');
+import * as auth from '../../auth/auth.service';
 
 var router = express.Router();
 
@@ -80,7 +81,7 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Tool
  */
-router.post('/', controller.create);
+router.post('/', auth.hasPermission('createTool'), controller.create);
 
 /**
  * @swagger
@@ -166,6 +167,6 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Tool not found
  */
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.hasPermission('deleteTool'), controller.destroy);
 
 module.exports = router;
