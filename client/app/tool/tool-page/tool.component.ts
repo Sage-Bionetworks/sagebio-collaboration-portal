@@ -7,6 +7,7 @@ import { ToolHealth } from '../../../../shared/interfaces/tool-health.model';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
+import { NotificationService } from '../../../components/notification/notification.service'
 
 // User authorization and permissions
 import { AuthService } from '../../../components/auth/auth.service';
@@ -29,12 +30,13 @@ export class ToolComponent implements OnInit, OnDestroy {
     private authInfoSub: Subscription;
     private permissions: Observable<UserPermissions>;
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, AuthService, UserService, UserPermissionDataService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, AuthService, UserService, UserPermissionDataService, NotificationService];
     constructor(private router: Router, private route: ActivatedRoute,
         private pageTitleService: PageTitleService, private toolService: ToolService,
         private authService: AuthService,
         private userService: UserService,
-        private userPermissionDataService: UserPermissionDataService) {
+        private userPermissionDataService: UserPermissionDataService,
+        private notificationService: NotificationService) {
             this.authInfoSub = this.authService.authInfo()
                 .subscribe(authInfo => {
                     this.currentUser = authInfo.user;
@@ -85,6 +87,7 @@ export class ToolComponent implements OnInit, OnDestroy {
         this.toolService.remove(this.tool)
             .subscribe(deletedTool => {
                 this.router.navigateByUrl('tools');
+                this.notificationService.info('The Tool has been successfully deleted');
             }, err => {
                 console.error(`ERROR attempting to delete tool: ${err}`);
             });
