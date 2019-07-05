@@ -90,6 +90,7 @@ export default {
     env,
     port,
     userRoles,
+    permissionTypes,
     gitVersion,
     gitCommitHash,
     gitBranch,
