@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, combineLatest, of, merge } from 'rxjs';
-import { switchMap, map, filter, mapTo, catchError } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, of, merge, forkJoin } from 'rxjs';
+import { switchMap, map, filter, mapTo, catchError, tap } from 'rxjs/operators';
 import { UserPermission } from '../../../shared/interfaces/user-permission.model';
 import { AuthService } from '../../components/auth/auth.service';
 import { UserService } from '../../components/auth/user.service';
@@ -13,7 +13,15 @@ export class UserPermissions {
     constructor(private permissions: UserPermission[], private role: UserRole) { }
 
     public isAdmin(): boolean {
-        return this.role === 'admin';  // TODO: why does UserRole.ADMIN throw an error?
+        return this.role === UserRole.ADMIN;
+    }
+
+    public hasRole(role: UserRole | string): boolean {
+        return this.role === role;
+    }
+
+    public hasPermission(permission: string): boolean {
+        return !!find({ 'value': permission }, this.permissions);
     }
 
     public canCreateTool(): boolean {
@@ -26,14 +34,6 @@ export class UserPermissions {
 
     public canDeleteTool(): boolean {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
-    }
-
-    public hasRole(role: string): boolean {  // TODO input type must be UserRole
-        return this.role === role;
-    }
-
-    public hasPermission(permission: string): boolean {  // TODO: use more specific input type
-        return !!find({ 'value': permission }, this.permissions);
     }
 }
 
@@ -56,32 +56,26 @@ export class UserPermissionDataService {
         const populatePermissions = isLoggedIn
             .pipe(
                 filter(is => is),
-                switchMap(() => this.userPermissionService.getMyPermissions()
-                    .pipe(
-                        catchError(err => of(<UserPermission[]>[]))
-                    ))
+                switchMap(() => forkJoin({
+                    permissions: this.userPermissionService.getMyPermissions()
+                        .pipe(
+                            catchError(err => of(<UserPermission[]>[]))
+                        ),
+                    role: this.userService.get()
+                        .pipe(
+                            map(user => user.role),
+                            catchError(err => of(<UserRole>undefined))
+                        )
+                }))
             );
 
         const emptyPermissions = isLoggedIn
             .pipe(
-                filter(is => is),
-                mapTo([])
-            );
-
-        const populateRole = isLoggedIn
-            .pipe(
-                filter(is => is),
-                switchMap(() => this.userService.get()
-                    .pipe(
-                        map(user => user.role),
-                        catchError(err => of(<UserRole>undefined))
-                    ))
-            );
-
-        const emptyRole = isLoggedIn
-            .pipe(
-                filter(is => is),
-                mapTo(<UserRole>undefined)
+                filter(is => !is),
+                mapTo({
+                    role: <UserRole>undefined,
+                    permissions: <UserPermission[]>[]
+                })
             );
 
         const getPermissions = merge(
@@ -89,14 +83,14 @@ export class UserPermissionDataService {
             emptyPermissions
         );
 
-        const getRole = merge(
-            populateRole,
-            emptyRole
-        );
-
-        combineLatest(getPermissions, getRole)
-            .subscribe(([permissions, role]: any) => {
-                this._permissions.next(new UserPermissions(permissions, role));
+        getPermissions
+            .subscribe(res => {
+                console.log('role and permission', res);
+                this._permissions.next(new UserPermissions(res.permissions, res.role));
+            }, err => {
+                console.log(err);
+            }, () => {
+                console.log('getPermissions has completed');
             });
     }
 

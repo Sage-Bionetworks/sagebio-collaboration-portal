@@ -1,4 +1,4 @@
-import { User, UserRole } from './user.model';
+import { UserRole } from './user.model';
 
 /**
  * @swagger

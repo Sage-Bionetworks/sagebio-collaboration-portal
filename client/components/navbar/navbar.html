@@ -15,7 +15,7 @@
         <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/tools" aria-label="Tools">Tools</a>
         <!-- <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/states" aria-label="Discussion">States</a> -->
         <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/discussion" aria-label="Discussion">Discussion</a>
-        <!-- <a mat-button class="app-button" *ngIf="isAdmin" routerLink="/admin" aria-label="Admin">Admin</a> -->
+        <a *ngIf="isAdmin" mat-button class="app-button" routerLink="/admin" aria-label="Admin">Admin</a>
         <!-- <div class="flex-spacer"></div> -->
         <div class="app-navbar-item-container-right">
             <a mat-button class="app-button" *ngIf="!isLoggedIn" routerLink="/login" aria-label="Login">Login</a>

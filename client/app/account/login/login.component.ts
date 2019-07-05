@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         private pageTitleService: PageTitleService,
         private notificationService: NotificationService) {
 
-        // OAuth login callback
+        // Login callback
         this.route.queryParams.subscribe(res => {
             if (res.message) {
                 this.notificationService.info(res.message);

@@ -178,7 +178,8 @@ module.exports = function makeWebpackConfig(options) {
                     }
                 }].concat(DEV ? '@angularclass/hmr-loader' : []),
                 include: [
-                    path.resolve(__dirname, 'client/')
+                    path.resolve(__dirname, 'client/'),
+                    path.resolve(__dirname, 'shared/interfaces/')
                 ]
             },
             {

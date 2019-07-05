@@ -13,7 +13,7 @@ import config from '../../app/app.constants';
 export class NavbarUserButton implements OnInit, OnDestroy {
     private currentUser: User;
     private isLoggedIn = false;
-    private isAdmin = false;
+    // private isAdmin = false;
     private authInfoSub: Subscription;
     private avatarSize = 40;
 
@@ -25,7 +25,7 @@ export class NavbarUserButton implements OnInit, OnDestroy {
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
                 this.isLoggedIn = authInfo.isLoggedIn();
-                this.isAdmin = authInfo.isAdmin();
+                // this.isAdmin = authInfo.isAdmin();
             }, err => console.log(err));
 
         this.avatarSize = config.avatar.size.small;
@@ -36,8 +36,9 @@ export class NavbarUserButton implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this.authService.logout().subscribe(() => {
-            this.router.navigateByUrl('');
-        }, err => console.log(err));
+        this.authService.logout()
+            .subscribe(() => {
+                this.router.navigateByUrl('');
+            }, err => console.log(err));
     }
 }

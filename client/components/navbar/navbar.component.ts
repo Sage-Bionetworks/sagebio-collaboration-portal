@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 // import { filter } from 'lodash';
 import { AuthService } from '../auth/auth.service';
+import { UserPermissionDataService, UserPermissions } from '../auth/user-permission-data.service';
 // import { InvitesService } from '../invite/invites.service';
 // import { SidenavService } from '../sidenav/sidenav.service';
 import { PageTitleService } from '../page-title/page-title.service';
@@ -16,6 +17,8 @@ import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-
     styles: [require('./navbar.scss')]
 })
 export class NavbarComponent {
+    private userPermissions: Observable<UserPermissions>;
+
     isCollapsed = true;
     // menu = [{
     //   title: 'Home',
@@ -31,22 +34,33 @@ export class NavbarComponent {
     private instanceTitle = 'Instances';
 
     private authInfoSub: Subscription;
+    private userPermissionsSub: Subscription;
     private invitesSub: Subscription;
 
-    static parameters = [AuthService, Router, PageTitleService, SecondarySidenavService];
-    constructor(private authService: AuthService, private router: Router,
-        private pageTitleService: PageTitleService, private secondarySidenavService: SecondarySidenavService) {
-        this.authInfoSub = this.authService.getAuthInfo()  // was authInfo()
+    static parameters = [AuthService, UserPermissionDataService, Router,
+        PageTitleService, SecondarySidenavService];
+    constructor(private authService: AuthService,
+        private userPermissionDataService: UserPermissionDataService,
+        private router: Router, private pageTitleService: PageTitleService,
+        private secondarySidenavService: SecondarySidenavService) {
+        this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 console.log('NAVBAR AUTH INFO', authInfo);
                 this.currentUser = authInfo.user;
                 this.isLoggedIn = authInfo.isLoggedIn();
-                this.isAdmin = authInfo.isAdmin();
             });
+
+        this.userPermissionsSub = this.userPermissionDataService.getPermissions()
+            .subscribe(userPermissions => {
+                console.log('NAVBAR permissions', userPermissions);
+                this.isAdmin = userPermissions.isAdmin();
+            }, err => console.log('ERROR', err));
     }
 
     ngOnDestroy() {
+        console.log('Permission Service DESTROYED');
         this.authInfoSub.unsubscribe();
+        this.userPermissionsSub.unsubscribe();
     }
 
     logout() {

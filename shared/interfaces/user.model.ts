@@ -1,5 +1,3 @@
-import { User } from './user.model';
-
 /**
  * @swagger
  * components:
@@ -33,7 +31,7 @@ export interface User {
     username: string;
     email: string;
     picture?: string;
-    role: string;
+    role: UserRole;
     position: string;
     orcid: string;
     createdAt: string;

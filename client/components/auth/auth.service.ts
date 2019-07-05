@@ -8,15 +8,10 @@ import { User } from '../../../shared/interfaces/user.model';
 import { TokenResponse } from '../../../shared/interfaces/token-response.model';
 
 class AuthInfo {
-
     constructor(public user: User) { }
 
     isLoggedIn() {
         return !!(this.user && this.user._id);
-    }
-
-    isAdmin(): boolean {
-        return this.user && this.user.role === 'admin';
     }
 }
 
@@ -26,7 +21,7 @@ const loginWithTokenResponse = (authService: AuthService) => pipe(
         return authService.getUserService().get();
     }),
     map(user => {
-        authService.setUser(user);
+        authService.setAuthInfo(new AuthInfo(user));
         return user;
     }),
     catchError(err => {
@@ -34,8 +29,6 @@ const loginWithTokenResponse = (authService: AuthService) => pipe(
         return throwError(err);
     })
 );
-
-// class AppUser implements User { }
 
 @Injectable()
 export class AuthService {
@@ -56,25 +49,25 @@ export class AuthService {
      * Updates and returns the authentification information.
      * @return {Observable<AuthInfo>}
      */
-    getAuthInfo(): Observable<AuthInfo> {
+    private getAuthInfo(): Observable<AuthInfo> {
         if (this.tokenService.get()) {
             console.log('HAS TOKEN');
             return this.userService.get()
                 .pipe(
                     map(user => {
-                        this.setUser(user);
+                        this._authInfo.next(new AuthInfo(user));
                         return this._authInfo.getValue();
                     }),
                     catchError(() => {
                         this.tokenService.deleteToken();
-                        this.setUser(AuthService.UNKNOWN_USER);
+                        this._authInfo.next(AuthService.UNKNOWN_USER);
                         return this._authInfo.asObservable();
                     })
                 );
         } else {
             console.log('HAS NO TOKEN');
             this.tokenService.deleteToken();
-            this.setUser(AuthService.UNKNOWN_USER);
+            this._authInfo.next(AuthService.UNKNOWN_USER);
             return this._authInfo.asObservable();
         }
     }
@@ -82,9 +75,10 @@ export class AuthService {
     /**
      * Sets the user specified as the current user.
      */
-    setUser(user): void {
-        this._authInfo.next(new AuthInfo(user));
-    }
+    // setUser(user): void {
+    //     console.log('FIRING NEXT AUTHUSER', )
+    //     this._authInfo.next(new AuthInfo(user));
+    // }
 
     /**
      * Authenticates user and save token.
@@ -99,21 +93,12 @@ export class AuthService {
         })
             .pipe(
                 loginWithTokenResponse(this)
-                //     // mergeMap(res => {
-                //     //     this.tokenService.set(res.token, res.expiresIn);
-                //     //     return this.userService.get();
-                //     // }),
-                //     // map(user => {
-                //     //     this.setUser(user);
-                //     //     return user;
-                //     // }),
-                //     // catchError(err => {
-                //     //     this.logout();
-                //     //     return throwError(err);
-                //     // })
             );
     }
 
+    /**
+     * Login in using a token response returned by the server.
+     */
     loginWithTokenResponse(tokenResponse: TokenResponse): Observable<User> {
         return of(tokenResponse)
             .pipe(
@@ -121,48 +106,13 @@ export class AuthService {
             );
     }
 
-    // loginWithTokenResponse() {
-    //     pipe(
-    //         mergeMap((res: TokenResponse) => {
-    //             this.tokenService.set(res.token, res.expiresIn);
-    //             return this.userService.(get)();
-    //         }),
-    //         map(user => {
-    //             this.setUser(user);
-    //             return user;
-    //         }),
-    //         catchError(err => {
-    //             this.logout();
-    //             return throwError(err);
-    //         })
-    //     );
-    // }
-
-    // loginWithTokenResponse(tokenResponse: Observable<TokenResponse>): Observable<User> {
-    //     return tokenResponse
-    //         .pipe(
-    //             mergeMap(res => {
-    //                 this.tokenService.set(res.token, res.expiresIn);
-    //                 return this.userService.get();
-    //             }),
-    //             map(user => {
-    //                 this.setUser(user);
-    //                 return user;
-    //             }),
-    //             catchError(err => {
-    //                 this.logout();
-    //                 return throwError(err);
-    //             })
-    //         );
-    // }
-
     /**
      * Deletes access token and user info.
      * @return {Observable}
      */
     logout(): Observable<null> {
         this.tokenService.deleteToken();
-        this.setUser(AuthService.UNKNOWN_USER);
+        this._authInfo.next(AuthService.UNKNOWN_USER);
         return of(null);
     }
 
@@ -179,7 +129,7 @@ export class AuthService {
                     return this.userService.get();
                 }),
                 map(createdUser => {
-                    this.setUser(createdUser);
+                    this._authInfo.next(new AuthInfo(createdUser));
                     return createdUser;
                 }),
                 catchError(err => {
@@ -196,7 +146,10 @@ export class AuthService {
      * @return {Observable<User>}
      */
     changePassword(oldPassword, newPassword): Observable<User> {
-        return this.userService.changePassword(this._authInfo.getValue().user._id, oldPassword, newPassword);
+        return this.userService.changePassword(
+            this._authInfo.getValue().user._id,
+            oldPassword, newPassword
+        );
     }
 
     /**
@@ -222,11 +175,19 @@ export class AuthService {
         return this.tokenService.get();
     }
 
-    getTokenService(): TokenService {
+    //
+    // HELPER FUNCTIONS
+    //
+
+    getTokenService(): TokenService {  // Used by loginWithTokenResponse
         return this.tokenService;
     }
 
-    getUserService(): UserService {
+    getUserService(): UserService {  // Used by loginWithTokenResponse
         return this.userService;
+    }
+
+    setAuthInfo(authInfo: AuthInfo): void {  // Used by loginWithTokenResponse
+        this._authInfo.next(authInfo);
     }
 }

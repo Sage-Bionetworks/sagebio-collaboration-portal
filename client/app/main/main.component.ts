@@ -37,7 +37,7 @@ export class MainComponent implements OnInit, OnDestroy {
     static parameters = [PageTitleService, AuthService];
     constructor(private pageTitleService: PageTitleService,
         private authService: AuthService) {
-        this.authInfoSub = this.authService.getAuthInfo()  // was authInfo()
+        this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
