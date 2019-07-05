@@ -49,7 +49,7 @@ export class AuthService {
      * Updates and returns the authentification information.
      * @return {Observable<AuthInfo>}
      */
-    private getAuthInfo(): Observable<AuthInfo> {
+    getAuthInfo(): Observable<AuthInfo> {
         if (this.tokenService.get()) {
             console.log('HAS TOKEN');
             return this.userService.get()

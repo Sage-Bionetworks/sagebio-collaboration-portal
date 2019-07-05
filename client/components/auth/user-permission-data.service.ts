@@ -85,12 +85,9 @@ export class UserPermissionDataService {
 
         getPermissions
             .subscribe(res => {
-                console.log('role and permission', res);
                 this._permissions.next(new UserPermissions(res.permissions, res.role));
             }, err => {
                 console.log(err);
-            }, () => {
-                console.log('getPermissions has completed');
             });
     }
 

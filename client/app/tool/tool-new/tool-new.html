@@ -18,7 +18,7 @@
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-tool-new-form-field app-form-field">
+            <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
                     The URL must begin with the https:// protocol identifier.
@@ -30,7 +30,7 @@
                     Please enter a valid URL for the API.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-tool-new-form-field">
+            <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.https">
                     The URL must begin with the https:// protocol identifier.

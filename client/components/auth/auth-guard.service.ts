@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,14 +14,14 @@ export class AuthGuard implements CanActivate {
      */
     canActivate(): Observable<boolean> | boolean {
         // get the most recent value BehaviorSubject holds
-        // if (this.authService.authInfoValue().isLoggedIn()) {
-        //     return true;
-        // }
+        if (this.authService.authInfoValue().isLoggedIn()) {
+            return true;
+        }
 
         // User is not logged in as stored isLoggedIn() indicates,
         // but in case the page has been reloaded, the stored value is lost,
         // and in order to get real auth status we will perform the server call.
-        return this.authService.authInfo()
+        return this.authService.getAuthInfo()
             .pipe(
                 map(authInfo => {
                     const isLoggedIn = authInfo.isLoggedIn();

@@ -52,13 +52,11 @@ export class NavbarComponent {
 
         this.userPermissionsSub = this.userPermissionDataService.getPermissions()
             .subscribe(userPermissions => {
-                console.log('NAVBAR permissions', userPermissions);
                 this.isAdmin = userPermissions.isAdmin();
-            }, err => console.log('ERROR', err));
+            }, err => console.log(err));
     }
 
     ngOnDestroy() {
-        console.log('Permission Service DESTROYED');
         this.authInfoSub.unsubscribe();
         this.userPermissionsSub.unsubscribe();
     }

@@ -10,16 +10,16 @@
                 <img [src]="tool.picture" aria-label="Data tool preview">
             </picture>
             <div class="tool-metadata">
-                <h1>{{tool.name}}</h1>
+                <h1>{{ tool.name }}</h1>
                 <div class="tool-metadata-row">
                     <mat-icon>home</mat-icon>
-                    <span>{{tool.organization.name}}</span>
+                    <span>{{ tool.organization.name }}</span>
                 </div>
-                <div *ngIf="toolHealth && toolHealth.version" class="data-catalog-metadata-row">
+                <div *ngIf="toolHealth" class="data-catalog-metadata-row">
                     <mat-icon>storage</mat-icon>
-                    <span>Version {{toolHealth.version}}</span>
+                    <span>This tool is available.</span>
                 </div>
-                <div *ngIf="!toolHealth.version" class="tool-metadata-row">
+                <div *ngIf="!toolHealth" class="tool-metadata-row">
                     <mat-icon>cloud_off</mat-icon>
                     <span>This tool can not be reached.</span>
                 </div>
@@ -29,9 +29,9 @@
             </div>
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
-                <a mat-raised-button color="secondary" *ngIf="(permissions | async).canEditTool()">Edit Tool</a>
+                <a *ngIf="canEditTool" mat-raised-button color="secondary">Edit</a>
+                <a *ngIf="canDeleteTool" mat-raised-button color="warn" (click)="displayConfirmationDialog()">Delete</a>
             </div>
         </mat-card>
-        <a mat-raised-button (click)="displayConfirmationDialog()" color="warn" *ngIf="(permissions | async).canDeleteTool()">Delete Tool</a>
     </div>
 </div>
