@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../../../../../shared/interfaces/user.model';
+import { User } from '../../../../../shared/interfaces/auth/user.model';
 import { NotificationService } from '../../../../components/notification/notification.service';
 
 @Component({

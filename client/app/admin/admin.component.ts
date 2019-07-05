@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../components/auth/user.service';
 import { PageTitleService } from '../../components/page-title/page-title.service';
-import { UserProfile } from '../../../shared/interfaces/user-profile.model';
+import { UserProfile } from '../../../shared/interfaces/auth/user-profile.model';
 // import { ImagePipe, WebpPipe } from '../../components/image/image.pipe';
 
 @Component({

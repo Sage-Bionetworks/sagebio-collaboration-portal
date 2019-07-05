@@ -1,18 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpEvent, HttpRequest } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap,
-    catchError
-} from 'rxjs/operators';
-import { User } from '../../../shared/interfaces/user.model';
-import { UserProfile } from '../../../shared/interfaces/user-profile.model';
-import { UserPermission } from '../../../shared/interfaces/user-permission.model';
-import { TokenResponse } from '../../../shared/interfaces/token-response.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserPermission } from '../../../shared/interfaces/auth/user-permission.model';
 
 @Injectable()
 export class UserPermissionService {

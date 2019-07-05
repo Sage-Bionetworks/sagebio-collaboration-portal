@@ -10,7 +10,7 @@ import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.
 import { flow, orderBy, last, map as mapFp, takeRight, uniqBy } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
-import { UserProfile } from '../../../../shared/interfaces/user-profile.model';
+import { UserProfile } from '../../../../shared/interfaces/auth/user-profile.model';
 import config from '../../../app/app.constants';
 
 @Component({

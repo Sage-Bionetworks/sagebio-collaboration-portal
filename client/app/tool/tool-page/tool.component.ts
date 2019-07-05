@@ -10,7 +10,7 @@ import { ToolService } from '../tool.service';
 import { Tool } from '../../../../shared/interfaces/tool.model';
 import { ToolHealth } from '../../../../shared/interfaces/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
-import { User } from '../../../../shared/interfaces/user.model';
+import { User } from '../../../../shared/interfaces/auth/user.model';
 
 @Component({
     selector: 'tool',

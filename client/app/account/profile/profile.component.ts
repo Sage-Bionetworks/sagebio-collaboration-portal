@@ -8,8 +8,8 @@ import { PageTitleService } from '../../../components/page-title/page-title.serv
 import { Subject, forkJoin, Subscription, Observable } from 'rxjs';
 import { tap, switchMap, map, last } from 'rxjs/operators';
 import { HttpEventType } from '@angular/common/http';
-import { User } from '../../../../shared/interfaces/user.model';
-import { UserPermission } from '../../../../shared/interfaces/user-permission.model';
+import { User } from '../../../../shared/interfaces/auth/user.model';
+import { UserPermission } from '../../../../shared/interfaces/auth/user-permission.model';
 import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({

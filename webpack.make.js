@@ -80,7 +80,9 @@ module.exports = function makeWebpackConfig(options) {
         modules: ['node_modules'],
         extensions: ['.js', '.ts'],
         alias: {
-            primus: path.resolve(__dirname, 'client/components/socket/primus.js')
+            primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
+            Components: path.resolve(__dirname, 'client/components/'),
+            Models: path.resolve(__dirname, 'shared/interfaces/')
         }
     };
 
@@ -92,7 +94,7 @@ module.exports = function makeWebpackConfig(options) {
             extensions: ['.js', '.ts'],
             alias: {
                 // for some reason the primus client and webpack don't get along in test
-                primus: path.resolve(__dirname, 'client/components/socket/primus.mock.ts'),
+                primus: path.resolve(__dirname, 'client/components/socket/primus.mock.ts')
             }
         };
     }

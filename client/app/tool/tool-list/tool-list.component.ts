@@ -15,7 +15,7 @@ import { NotificationService } from '../../../components/notification/notificati
 import { AuthService } from '../../../components/auth/auth.service';
 import { UserService } from '../../../components/auth/user.service';
 import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
-import { User } from '../../../../shared/interfaces/user.model';
+import { User } from '../../../../shared/interfaces/auth/user.model';
 import { Subscription } from 'rxjs';
 
 @Component({
