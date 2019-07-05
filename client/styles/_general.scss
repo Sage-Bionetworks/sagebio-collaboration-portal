@@ -107,6 +107,22 @@ div.navbar-search-results {
   text-align: center;
 }
 
+//
+// FORMS
+//
+
+// Show only one error message at a time.
+.app-form-field .app-error-message {
+  display: none;  // hidden by default
+}
+.app-form-field .app-error-message:first-child {
+  display: block;
+}
+
+
+
+
+
 // .user-account-preview-avatar {
 //   width: 96px;
 //   min-width: 96px;

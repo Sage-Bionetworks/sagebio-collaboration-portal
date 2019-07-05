@@ -27,6 +27,10 @@ export class UserPermissions {
     public canDeleteTool() {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
+
+    // public getPermissions(): string[] {
+    //     return this.permissions;
+    // }
 }
 
 @Injectable()

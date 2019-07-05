@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren, ContentChildren, QueryList, forwardRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren,
+    ContentChildren, QueryList, forwardRef } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { ToolNewComponent } from '../tool-new/tool-new.component';
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
-import { NotificationService } from '../../../components/notification/notification.service'
+import { NotificationService } from '../../../components/notification/notification.service';
 
 // User authorization and permissions
 import { AuthService } from '../../../components/auth/auth.service';
@@ -25,13 +26,15 @@ import { Subscription } from 'rxjs';
 export class ToolListComponent implements OnInit, AfterViewInit {
     private tools: Observable<Tool[]>;
     @ViewChild(ToolNewComponent, { static: false }) newTool: ToolNewComponent;
-    private createNewTool = false
+    private createNewTool = false;
 
     private currentUser: User;
     private authInfoSub: Subscription;
     private permissions: Observable<UserPermissions>;
 
-    static parameters = [Router, FormBuilder, PageTitleService, ToolService, NotificationService, AuthService, UserService, UserPermissionDataService];
+    static parameters = [Router, FormBuilder, PageTitleService, ToolService,
+        NotificationService, AuthService, UserService,
+        UserPermissionDataService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private toolService: ToolService,

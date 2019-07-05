@@ -1,6 +1,6 @@
 <div class="app-primary-header">
     <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
-    <h1>Create a New Tool</h1>
+    <h1>Add a New Tool</h1>
 </div>
 
 <mat-card class="app-tool-new-card">
@@ -18,23 +18,35 @@
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-tool-new-form-field">
-                <input matInput placeholder="https://api.mytool.com/authenticate" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.apiServerUrl.invalid">
+            <mat-form-field class="app-tool-new-form-field app-form-field">
+                <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
+                    The URL must begin with the https:// protocol identifier.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
                     Please enter a valid URL for the API.
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="app-tool-new-form-field">
-                <input matInput placeholder="https://mytool.com" formControlName="website" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.website.invalid">
-                    Please enter a valid URL for the main web site.
+                <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.https">
+                    The URL must begin with the https:// protocol identifier.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.invalid">
+                    Please enter a valid URL for the API.
                 </mat-error>
             </mat-form-field>
             <mat-error *ngIf="errors.newTool">
-                {{errors.newTool}}
+                {{ errors.newTool }}
             </mat-error>
             <div class="app-tool-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewTool()">Create New Tool</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewTool()">Add New Tool</a>
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>

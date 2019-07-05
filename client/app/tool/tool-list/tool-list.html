@@ -1,6 +1,6 @@
 <div *ngIf="!createNewTool; else showNewToolForm">
     <div class="app-primary-header">
-            <h1>Tools</h1>
+        <h1>Tools</h1>
     </div>
 
     <div class="app-tool-list-content">
@@ -11,7 +11,7 @@
 
     <ng-container *ngIf="(permissions | async).canCreateTool()">
         <div class="app-tool-list-actions">
-            <a mat-raised-button color="primary" class="app-tool-list-new-tool" (click)="createNewTool=true" aria-label="Create a New Tool">Create a New Tool</a>
+            <a mat-raised-button color="primary" class="app-tool-list-new-tool" (click)="createNewTool=true" aria-label="Create a New Tool">Add a New Tool</a>
         </div>
     </ng-container>
 </div>

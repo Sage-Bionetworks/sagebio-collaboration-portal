@@ -4,10 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ToolService } from '../tool.service';
 import { Tool } from '../../../../shared/interfaces/tool.model';
-import { geneId } from '../../../../server/config/seeds/all/organizations'
+import { geneId } from '../../../../server/config/seeds/all/organizations';  // TODO: Must use share
 import { PageTitleService } from '../../../components/page-title/page-title.service';
 import config from '../../app.constants';
 import slugify from 'slugify';
+import { UrlValidators } from '../../../components/validation/url-validators';
 
 @Component({
     selector: 'tool-new',
@@ -45,9 +46,13 @@ export class ToolNewComponent implements OnInit, OnDestroy {
             ]],
             apiServerUrl: ['', [
                 Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
             ]],
             website: ['', [
                 Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
             ]]
         });
     }
@@ -60,7 +65,7 @@ export class ToolNewComponent implements OnInit, OnDestroy {
         let newTool = this.newForm.value;
         let defaultOrganization = { // We just need a partial object here - no need to populate a full Organization interface
             _id: geneId,    // Use the Roche organization ID
-        }
+        };
 
         // Slug automatically generated based on the tool name
         newTool.slug = slugify(this.newForm.value.name).toLowerCase();
