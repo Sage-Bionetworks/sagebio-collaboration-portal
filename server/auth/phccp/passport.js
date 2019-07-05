@@ -13,8 +13,6 @@ export function setup(User, config) {
         redirectUrl: config.rocheAzureAD.redirectURL,
     };
 
-    console.log('REDIRECT', rocheAzureADConfig.redirectUrl);
-
     var strategy = new OIDCStrategy({
         identityMetadata: rocheAzureADConfig.identityMetadata,
         clientID: rocheAzureADConfig.clientID,

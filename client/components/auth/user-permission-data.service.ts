@@ -16,21 +16,25 @@ export class UserPermissions {
         return this.role === 'admin';  // TODO: why does UserRole.ADMIN throw an error?
     }
 
-    public canCreateTool() {
+    public canCreateTool(): boolean {
         return this.isAdmin() || !!find({ 'value': 'createTool' }, this.permissions);
     }
 
-    public canEditTool() {
+    public canEditTool(): boolean {
         return this.isAdmin() || !!find({ 'value': 'editTool' }, this.permissions);
     }
 
-    public canDeleteTool() {
+    public canDeleteTool(): boolean {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 
-    // public getPermissions(): string[] {
-    //     return this.permissions;
-    // }
+    public hasRole(role: string): boolean {  // TODO input type must be UserRole
+        return this.role === role;
+    }
+
+    public hasPermission(permission: string): boolean {  // TODO: use more specific input type
+        return !!find({ 'value': permission }, this.permissions);
+    }
 }
 
 @Injectable()

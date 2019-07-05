@@ -3,7 +3,13 @@
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
 // List of user roles
-export const userRoles = ['guest', 'user', 'admin'];
+export const userRoles = ['user', 'admin'];
+
+export const permissionTypes = [
+    'createTool',
+    'editTool',
+    'deleteTool'
+];
 
 export const gitVersion = process.env.gitVersion;
 export const gitCommitHash = process.env.gitCommitHash;

@@ -8,17 +8,15 @@ import mongoose, {
 import {
     registerEvents
 } from './user.events';
+import {
+  userRoles
+} from '../../config/environment';
 
 const authTypes = [
     'google-oauth20',
     'google-saml',
     'azuread-openidconnect',
     'phccp'
-];
-
-const userRoles = [
-    'user',
-    'admin'
 ];
 
 var UserSchema = new Schema({

@@ -2,12 +2,9 @@ import mongoose from 'mongoose';
 // import {
 //     registerEvents
 // } from './permission.events';
-
-export const permissionTypes = [
-    'createTool',
-    'editTool',
-    'deleteTool'
-];
+import {
+  permissionTypes
+} from '../../config/environment';
 
 var UserPermissionSchema = new mongoose.Schema({
     user: {

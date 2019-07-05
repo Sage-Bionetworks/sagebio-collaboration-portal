@@ -10,6 +10,7 @@ var config = {
             small: 40
         }
     },
+
     tooltip: {
         showDelay: 0
     },
