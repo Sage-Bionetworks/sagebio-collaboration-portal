@@ -15,8 +15,6 @@ export function setup(User, Organization, config) {
     };
     passport.use(new GoogleStrategy(googleConfig,
         (accessToken, refreshToken, profile, done) => {
-
-            const domain = profile.emails[0].value.split('@')[1];
             const userDataFromProvider = {
                 name: profile.displayName,
                 email: profile.emails[0].value,
@@ -25,6 +23,7 @@ export function setup(User, Organization, config) {
                 'google-oauth20': profile._json,
                 username: profile.emails[0].value.split('@')[0]
             };
+            const domain = userDataFromProvider.email.split('@')[1];
 
             Organization
                 .findOne({

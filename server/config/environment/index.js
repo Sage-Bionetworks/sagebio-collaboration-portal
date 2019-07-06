@@ -80,14 +80,6 @@ var all = {
         redirectURL: `${process.env.DOMAIN || ''}/auth/phccp/callback` // must be HTTPS
     },
 
-    userAccount: {
-        authorizedEmails: [
-            '@gene.com$',
-            '@roche.com$',
-            '@sagebase.org$'
-        ]
-    },
-
     provenance: {
         apiServerUrl: 'localhost:8081/prov/v1'
     }

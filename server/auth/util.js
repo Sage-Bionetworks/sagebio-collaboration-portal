@@ -1,3 +1,7 @@
+import {
+    omit
+} from 'lodash/fp';
+
 export function handleUnauthorizedOrganization(done) {
     return function (organization) {
         if (!organization) {
@@ -18,6 +22,11 @@ export function createOrUpdateUser(User, userDataFromProvider) {
                 .exec()
                 .then(user => {
                     if (user) {
+                        userDataFromProvider = omit([
+                            'username',
+                            'email',
+                            'role'
+                        ], userDataFromProvider);
                         user = Object.assign(user, userDataFromProvider);
                     } else {
                         user = new User(userDataFromProvider);
