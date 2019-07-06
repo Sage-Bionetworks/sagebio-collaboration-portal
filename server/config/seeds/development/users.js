@@ -3,6 +3,9 @@ import {
     users,
     adminUserId
 } from '../all/users';
+import {
+    sageId
+} from '../all/organizations';
 
 const testUserId = new mongoose.Types.ObjectId('5cb7acea2d718614d81bb97e');
 
@@ -14,6 +17,7 @@ users.push(...[{
     email: 'test@sagebase.org',
     password: 'test',
     orcid: 'https://orcid.org/0000-0002-8242-9462',
+    organization: sageId,
     createdBy: adminUserId
 }]);
 

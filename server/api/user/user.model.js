@@ -9,7 +9,7 @@ import {
     registerEvents
 } from './user.events';
 import {
-  userRoles
+    userRoles
 } from '../../config/environment';
 
 const authTypes = [
@@ -72,6 +72,11 @@ var UserSchema = new Schema({
     orcid: {
         type: String,
         default: '<orcid url>'
+    },
+    organization: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: true
     },
     createdAt: {
         type: Date,

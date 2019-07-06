@@ -1,3 +1,5 @@
+import { Organization } from '../organization.model';
+
 /**
  * @swagger
  * components:
@@ -34,6 +36,7 @@ export interface User {
     role: UserRole;
     position: string;
     orcid: string;
+    organization: Organization;
     createdAt: string;
     createdBy?: User;  // "Recursive rendering needs work", see https://github.com/swagger-api/swagger-ui/issues/3325
 }
