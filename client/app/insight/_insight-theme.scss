@@ -1,5 +1,5 @@
-@import "./insight-list/insight-list-theme";
-@import "./insight-page/insight-page-theme";
+@import './insight-list/insight-list-theme';
+@import './insight-page/insight-page-theme';
 
 @mixin insight-theme($theme) {
   $primary: map-get($theme, primary);

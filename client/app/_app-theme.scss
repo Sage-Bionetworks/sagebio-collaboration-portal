@@ -1,15 +1,12 @@
-@import "../../node_modules/@angular/material/theming";
-
-@import "./account/account-theme";
-@import "./admin/admin-theme";
-@import "./dataset/dataset-theme";
-@import "./main/main-theme";
-@import "../components/footer/footer-theme";
-@import "../components/messaging/messaging-theme.scss";
-@import "../components/navbar/navbar-theme";
-@import "../components/quill/app-quill-theme";
-// @import '../components/navbar-search/navbar-search-theme';
-// @import '../components/sidenav/sidenav-theme';
+@import '~@angular/material/theming';
+@import './account/account-theme';
+@import './admin/admin-theme';
+@import './dataset/dataset-theme';
+@import './main/main-theme';
+@import '~components/footer/footer-theme';
+@import '~components/messaging/messaging-theme';
+@import '~components/navbar/navbar-theme';
+@import '~components/quill/app-quill-theme';
 
 // Styles for the app that are based on the current theme.
 @mixin app-theme($theme) {
@@ -40,14 +37,14 @@
     color: mat-color($primary, default-contrast);
   }
 
+  // app
   @include account-theme($theme);
   @include admin-theme($theme);
   @include dataset-theme($theme);
   @include main-theme($theme);
+  // components
+  @include app-quill-theme($theme);
   @include footer-theme($theme);
   @include messaging-theme($theme);
   @include navbar-theme($theme);
-  @include app-quill-theme($theme);
-  // @include navbar-search-theme($theme);
-  // @include sidenav-theme($theme);
 }

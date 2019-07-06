@@ -78,7 +78,7 @@ module.exports = function makeWebpackConfig(options) {
 
     config.resolve = {
         modules: ['node_modules'],
-        extensions: ['.js', '.ts'],
+        extensions: ['.js', '.ts', '.scss'],
         alias: {
             primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
             components: path.resolve(__dirname, 'client/components/'),

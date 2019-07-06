@@ -1,7 +1,7 @@
-@import "./login/login-theme";
-@import "./profile/profile-theme";
-@import "./settings/settings-theme";
-@import "./signup/signup-theme";
+@import './login/login-theme';
+@import './profile/profile-theme';
+@import './settings/settings-theme';
+@import './signup/signup-theme';
 
 @mixin account-theme($theme) {
   $primary: map-get($theme, primary);

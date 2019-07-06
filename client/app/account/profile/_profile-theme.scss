@@ -1,4 +1,4 @@
-@import "./user-card/user-card-theme";
+@import './user-card/user-card-theme';
 
 @mixin profile-theme($theme) {
   $primary: map-get($theme, primary);
