@@ -16,6 +16,7 @@ let tools = [{
     picture: 'assets/images/320px-shinyLogo.png',
     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     apiServerUrl: 'plop',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -43,6 +44,7 @@ let tools = [{
     // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
     website: config.phccpShinyToolExample.url,
     apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
     organization: sageId,
     createdBy: adminUserId
@@ -60,6 +62,7 @@ let tools = [{
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-stage.navify.com/viewer/e22734db-f807-490c-9747-1bef4768040d/1',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
     apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -73,6 +76,7 @@ let tools = [{
     picture: 'assets/images/320px-RStudio-Logo.png',
     website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
     apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -86,6 +90,7 @@ let tools = [{
     picture: 'assets/images/320px-Jupyter_logo.svg.png',
     website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
     apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -103,6 +108,7 @@ let tools = [{
     picture: 'assets/images/320px-PHC_IX.png',
     website: 'TBA',
     apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId

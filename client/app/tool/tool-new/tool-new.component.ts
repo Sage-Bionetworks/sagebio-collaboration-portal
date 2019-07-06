@@ -49,6 +49,11 @@ export class ToolNewComponent implements OnInit, OnDestroy {
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
             ]],
+            apiHealthCheckUrl: ['', [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]],
             website: ['', [
                 Validators.required,
                 UrlValidators.https(),

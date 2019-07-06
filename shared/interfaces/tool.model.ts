@@ -43,6 +43,7 @@ export interface Tool {
     website: string;
     organization: Organization;
     apiServerUrl: string;
+    apiHealthCheckUrl: string;
     resourceFormats: string[];
     // supportedDataTypes: string[];
     createdAt: string;
