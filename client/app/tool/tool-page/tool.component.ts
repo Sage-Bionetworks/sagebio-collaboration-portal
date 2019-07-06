@@ -3,14 +3,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Observable, Subscription, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { NotificationService } from '../../../components/notification/notification.service';
-import { ConfirmationDialog } from '../../../components/confirmation-dialog/confirmation-dialog.component';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { NotificationService } from 'components/notification/notification.service';
+import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ToolService } from '../tool.service';
-import { Tool } from '../../../../shared/interfaces/tool.model';
-import { ToolHealth } from '../../../../shared/interfaces/tool-health.model';
-import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
-import { User } from '../../../../shared/interfaces/auth/user.model';
+import { Tool } from 'models/tool.model';
+import { ToolHealth } from 'models/tool-health.model';
+import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
+import { User } from 'models/auth/user.model';
 
 @Component({
     selector: 'tool',

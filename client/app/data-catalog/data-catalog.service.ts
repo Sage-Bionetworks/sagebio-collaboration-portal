@@ -8,8 +8,8 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
-import { stringifyQuery } from '../../components/util';
+import { DataCatalog } from 'models/data-catalog.model';
+import { stringifyQuery } from 'components/util';
 import { head } from 'lodash/fp';
 
 @Injectable()

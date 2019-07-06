@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { MaterialModule } from '../../components/material/material.module';
-import { NotificationModule } from '../../components/notification/notification.module';
-import { ProvenanceModule } from '../../components/provenance/provenance.module';
+import { MaterialModule } from 'components/material/material.module';
+import { NotificationModule } from 'components/notification/notification.module';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { MainComponent } from './main.component';
-import { SocketService } from '../../components/socket/socket.service';
+import { SocketService } from 'components/socket/socket.service';
 
 export const ROUTES: Routes = [
     { path: 'home', component: MainComponent },

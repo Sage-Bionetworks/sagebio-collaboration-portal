@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from '../../components/material/material.module';
-import { MessagingModule } from '../../components/messaging/messaging.module';
-import { AuthGuard } from '../../components/auth/auth-guard.service';
+import { MaterialModule } from 'components/material/material.module';
+import { MessagingModule } from 'components/messaging/messaging.module';
+import { AuthGuard } from 'components/auth/auth-guard.service';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostViewComponent } from './post-view/post-view.component';
-import { SocketService } from '../../components/socket/socket.service';
+import { SocketService } from 'components/socket/socket.service';
 
 export const ROUTES: Routes = [{
     path: 'discussion',

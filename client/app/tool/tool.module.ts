@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from '../../components/material/material.module';
-import { AuthGuard } from '../../components/auth/auth-guard.service';
-import { SocketService } from '../../components/socket/socket.service';
-import { ConfirmationDialog } from '../../components/confirmation-dialog/confirmation-dialog.component';
+import { MaterialModule } from 'components/material/material.module';
+import { AuthGuard } from 'components/auth/auth-guard.service';
+import { SocketService } from 'components/socket/socket.service';
+import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 
 import { ToolNewComponent } from './tool-new/tool-new.component';
 import { ToolListComponent } from './tool-list/tool-list.component';

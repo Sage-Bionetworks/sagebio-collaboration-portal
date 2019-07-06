@@ -8,9 +8,9 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Tool } from '../../../shared/interfaces/tool.model';
-import { ToolHealth } from '../../../shared/interfaces/tool-health.model';
-import { stringifyQuery } from '../../components/util';
+import { Tool } from 'models/tool.model';
+import { ToolHealth } from 'models/tool-health.model';
+import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserPermission } from '../../../shared/interfaces/auth/user-permission.model';
+import { UserPermission } from 'models/auth/user-permission.model';
 
 @Injectable()
 export class UserPermissionService {

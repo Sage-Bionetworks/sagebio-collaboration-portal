@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ProjectService } from '../project.service';
-import { Project } from '../../../../shared/interfaces/project.model';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { Project } from 'models/project.model';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 

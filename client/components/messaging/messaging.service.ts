@@ -8,10 +8,10 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '../../../shared/interfaces/messaging/message.model';
-import { StarredMessage } from '../../../shared/interfaces/messaging/starred-message.model';
-import { NumberValue } from '../../../shared/interfaces/number-value.model';
-import { stringifyQuery } from '../../components/util';
+import { Message } from 'models/messaging/message.model';
+import { StarredMessage } from 'models/messaging/starred-message.model';
+import { NumberValue } from 'models/number-value.model';
+import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';

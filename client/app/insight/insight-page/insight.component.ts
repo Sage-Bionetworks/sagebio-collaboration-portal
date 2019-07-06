@@ -6,15 +6,15 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { InsightService } from '../insight.service';
 // import { StateService } from '../../state/state.service';
 
-import { Insight } from '../../../../shared/interfaces/insights/insight.model';
+import { Insight } from 'models/insights/insight.model';
 
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { NotificationService } from 'components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../app.constants';
-import { ObjectValidators } from '../../../components/validation/object-validators';
-import { AppQuillEditorComponent } from '../../../components/quill/app-quill-editor/app-quill-editor.component';
+import { ObjectValidators } from 'components/validation/object-validators';
+import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 
 @Component({
     selector: 'insight',

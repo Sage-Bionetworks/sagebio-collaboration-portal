@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from '../../components/material/material.module';
-import { AuthGuard } from '../../components/auth/auth-guard.service';
-import { SocketService } from '../../components/socket/socket.service';
+import { MaterialModule } from 'components/material/material.module';
+import { AuthGuard } from 'components/auth/auth-guard.service';
+import { SocketService } from 'components/socket/socket.service';
 
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';

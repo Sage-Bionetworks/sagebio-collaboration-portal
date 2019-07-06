@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
-import { StarredMessage } from '../../../../shared/interfaces/messaging/starred-message.model';
+import { Message } from 'models/messaging/message.model';
+import { StarredMessage } from 'models/messaging/starred-message.model';
 import { MessagingDataService } from '../messaging-data.service';
 import { NotificationService } from '../../notification/notification.service';
 

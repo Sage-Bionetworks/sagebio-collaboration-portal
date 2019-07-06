@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
+import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.component';
 import { flow, orderBy, last, map as mapFp, takeRight, uniqBy } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
-import { UserProfile } from '../../../../shared/interfaces/auth/user-profile.model';
+import { UserProfile } from 'models/auth/user-profile.model';
 import config from '../../../app/app.constants';
 
 @Component({

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, of, merge, forkJoin } from 'rxjs';
 import { switchMap, map, filter, mapTo, catchError, tap } from 'rxjs/operators';
-import { UserPermission } from '../../../shared/interfaces/auth/user-permission.model';
-import { AuthService } from '../../components/auth/auth.service';
-import { UserService } from '../../components/auth/user.service';
+import { UserPermission } from 'models/auth/user-permission.model';
+import { AuthService } from 'components/auth/auth.service';
+import { UserService } from 'components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
 import { find } from 'lodash/fp';
-import { UserRole } from '../../../shared/interfaces/auth/user.model';
+import { UserRole } from 'models/auth/user.model';
 
 export class UserPermissions {
 

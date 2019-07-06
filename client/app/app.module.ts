@@ -8,8 +8,8 @@ import {
     HttpClientModule,
     HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { HttpErrorInterceptor } from '../components/http/http-error.interceptor';
-import { JwtInterceptor } from '../components/http/jwt.interceptor';
+import { HttpErrorInterceptor } from 'components/http/http-error.interceptor';
+import { JwtInterceptor } from 'components/http/jwt.interceptor';
 
 import {
     removeNgStyles,
@@ -19,7 +19,7 @@ import {
 
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '../components/material/material.module';
+import { MaterialModule } from 'components/material/material.module';
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
 import { DatasetModule } from './dataset/dataset.module';
@@ -29,7 +29,7 @@ import { ToolModule } from './tool/tool.module';
 import { InsightModule } from './insight/insight.module';
 import { DiscussionModule } from './discussion/discussion.module';
 
-import { DirectivesModule } from '../components/directives.module';
+import { DirectivesModule } from 'components/directives.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';

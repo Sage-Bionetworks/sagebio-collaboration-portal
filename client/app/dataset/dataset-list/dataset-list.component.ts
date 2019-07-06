@@ -3,15 +3,15 @@ import { combineLatest, of, empty } from 'rxjs';
 import { filter, map, switchMap, tap, mergeMap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DatasetService } from '../dataset.service';
-import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { DataCatalog } from '../../../../shared/interfaces/data-catalog.model';
+import { CkanDataset } from 'models/ckan/ckan-dataset.model';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { DataCatalog } from 'models/data-catalog.model';
 import { DataCatalogService } from '../../data-catalog/data-catalog.service';
-import { Filter } from '../../../components/filters/filter.model';
-import { FiltersComponent } from '../../../components/filters/filters.component';
+import { Filter } from 'components/filters/filter.model';
+import { FiltersComponent } from 'components/filters/filters.component';
 import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
 import config from '../../app.constants';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'dataset-list',

@@ -9,7 +9,9 @@
         "module": "es6",
         "outDir": ".tmp",
         "paths": {
-            "primus": ["client/components/socket/primus.js"]
+            "primus": ["client/components/socket/primus.js"],
+            "components/*": ["client/components/*.ts"],
+            "models/*": ["shared/interfaces/*.ts"]
         },
         "removeComments": false,
         "target": "es5",

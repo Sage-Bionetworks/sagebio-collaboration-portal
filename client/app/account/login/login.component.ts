@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../components/auth/auth.service';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { SSOButtonsComponent } from '../../../components/sso-buttons/sso-buttons.component';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { AuthService } from 'components/auth/auth.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { SSOButtonsComponent } from 'components/sso-buttons/sso-buttons.component';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'login',

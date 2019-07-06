@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
-import { MessagingService } from '../../../components/messaging/messaging.service';
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
+import { MessagingService } from 'components/messaging/messaging.service';
+import { Message } from 'models/messaging/message.model';
 
 @Component({
     selector: 'post-view',

@@ -3,15 +3,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { Message } from 'models/messaging/message.model';
+import { NotificationService } from 'components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
 import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import config from '../../../app/app.constants';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
-import { AppQuillEditorComponent } from '../../../components/quill/app-quill-editor/app-quill-editor.component';
+import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 

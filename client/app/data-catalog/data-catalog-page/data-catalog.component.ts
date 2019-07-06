@@ -3,14 +3,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataCatalogService } from '../data-catalog.service';
 import { DatasetService } from '../../dataset/dataset.service';
-import { DataCatalog } from '../../../../shared/interfaces/data-catalog.model';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { DataCatalog } from 'models/data-catalog.model';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { NotificationService } from 'components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import {
     CkanDatasetSearchResponse
-} from '../../../../shared/interfaces/ckan/ckan-dataset-search-response.model';
+} from 'models/ckan/ckan-dataset-search-response.model';
 
 interface CatalogStats {
     live: boolean;
