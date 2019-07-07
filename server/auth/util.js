@@ -34,7 +34,6 @@ export function createOrUpdateUser(User, userDataFromProvider) {
                             role: 'user'
                         });
                     }
-                    user.organization = organization._id;
                     return user;
                 });
         }
