@@ -50,6 +50,13 @@ var all = {
         }
     },
 
+    init: {
+        admin: {
+            email: process.env.APP_INIT_ADMIN_EMAIL ||  'admin@sagebase.org',
+            password: process.env.APP_INIT_ADMIN_PASSWORD ||  'admin'
+        }
+    },
+
     // Google OAuth 2.0 (server/auth/google-oauth20)
     googleOAuth: {
         clientID: process.env.OAUTH_GOOGLE_ID || 'id',
@@ -91,7 +98,7 @@ Object.assign(all.mongo.options,
         user: process.env.MONGODB_USER
     } : null,
     process.env.MONGODB_PASS ? {
-        pass: process.env.MONGODB_PASS
+        pass: process.env.MONGODB_PASSWORD
     } : null
 );
 
