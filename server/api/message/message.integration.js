@@ -3,6 +3,10 @@
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
+import Organization from '../organization/organization.model';
+import {
+    organizations
+} from '../../config/seeds';
 
 var newMessage;
 
@@ -12,11 +16,13 @@ describe('Message API:', function () {
 
     // Clear users before testing, create user and authenticate it
     before(() => {
-        return User.deleteMany()
-            .then(function () {
+        return Organization.deleteMany()
+            .then(() => User.deleteMany())
+            .then(() => Organization.create(organizations))
+            .then(() => {
                 user = new User({
                     name: 'Fake User',
-                    email: 'test@example.com',
+                    email: 'test@sagebase.org',  // domain must be part of an active organization
                     password: 'password',
                     username: 'test'
                 });
@@ -27,7 +33,7 @@ describe('Message API:', function () {
                 return request(app)
                     .post('/auth/local')
                     .send({
-                        email: 'test@example.com',
+                        email: 'test@sagebase.org',
                         password: 'password',
                         username: 'test'
                     })
@@ -38,9 +44,10 @@ describe('Message API:', function () {
     });
 
     // Clear users after testing
-    after(function () {
-        return User.deleteMany();
-    });
+    after(() => Promise.all([
+        User.deleteMany(),
+        Organization.deleteMany()
+    ]));
 
     describe('GET /api/messages', function () {
         var messages;
