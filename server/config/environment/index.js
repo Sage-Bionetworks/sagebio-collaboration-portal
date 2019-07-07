@@ -46,7 +46,7 @@ var all = {
             useFindAndModify: false,
             useCreateIndex: true,
             reconnectTries: 30,
-            reconnectInterval: 500 // in ms
+            reconnectInterval: 500, // in ms
         }
     },
 
@@ -92,6 +92,24 @@ Object.assign(all.mongo.options,
     } : null,
     process.env.MONGODB_PASS ? {
         pass: process.env.MONGODB_PASS
+    } : null
+);
+
+Object.assign(all.mongo.options,
+    process.env.MONGODB_SSL ? {
+        ssl: true
+    } : null,
+    process.env.MONGODB_SSL_VALIDATE ? {
+        sslValidate: process.env.MONGODB_SSL_VALIDATE === 'true'
+    } : null,
+    process.env.MONGODB_SSL_CA ? {
+        sslCA: process.env.MONGODB_SSL_CA
+    } : null,
+    process.env.MONGODB_SSL_KEY ? {
+        sslKey: process.env.MONGODB_SSL_KEY
+    } : null,
+    process.env.MONGODB_SSL_CERT ? {
+        sslCert: process.env.MONGODB_SSL_CERT
     } : null
 );
 
