@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../components/auth/user.service';
 // import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { User } from '../../../../shared/interfaces/user.model';
+import { User } from '../../../../shared/interfaces/auth/user.model'
 import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
 // import { Observable } from 'rxjs';
 import { merge } from 'lodash/fp';
@@ -81,7 +81,8 @@ export class AdminUserComponent implements OnInit, OnDestroy {
 
     SavePermissions() {
       console.log('Into SavePermissions: ');
-      this.userPermissionDataService. this.getChangesInPermissions()
+      const changesToSave = this.getChangesInPermissions()
+      console.log('changesToSave: ', changesToSave);
     }
 
     getChangesInPermissions() {
@@ -100,7 +101,8 @@ export class AdminUserComponent implements OnInit, OnDestroy {
       if (this.initialDeactivateUser !== this.deactivateUser) {
         this.permissionChanges.push({ deactivateUser: this.deactivateUser })
       }
-      return this.permissionChanges)
+      console.log('this.permissionChanges: ', this.permissionChanges);
+      return this.permissionChanges
     }
 
     cancelChanges() {
