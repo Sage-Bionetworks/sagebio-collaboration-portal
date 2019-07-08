@@ -22,4 +22,7 @@ export class UserPermissionService {
     getMyPermissions(): Observable<UserPermission[]> {
         return this.httpClient.get<UserPermission[]>('/api/user-permissions/mine');
     }
+    upsertPermissionsByUserId(id: String, body: Array<Object>): Observable<UserPermission[]> {
+        return this.httpClient.put<UserPermission[]>('/api/user-permissions/'+id, body);
+    }
 }

@@ -92,6 +92,11 @@ export class UserPermissionDataService {
             }, () => {
                 console.log('getPermissions has completed');
             });
+
+        const setPermissions = (id: String, body: Array<Object>) => isLoggedIn
+            .pipe(
+                filter(is => is),
+                switchMap(() => this.userPermissionService.upsertPermissionsByUserId(id, body))
     }
 
     /**

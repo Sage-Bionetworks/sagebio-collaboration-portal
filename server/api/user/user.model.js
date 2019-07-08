@@ -9,7 +9,7 @@ import {
     registerEvents
 } from './user.events';
 import {
-  userRoles
+    userRoles
 } from '../../config/environment';
 
 const authTypes = [

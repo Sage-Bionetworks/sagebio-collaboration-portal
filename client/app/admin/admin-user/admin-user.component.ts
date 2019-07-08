@@ -81,7 +81,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
 
     SavePermissions() {
       console.log('Into SavePermissions: ');
-      this.getChangesInPermissions()
+      this.userPermissionDataService. this.getChangesInPermissions()
     }
 
     getChangesInPermissions() {
