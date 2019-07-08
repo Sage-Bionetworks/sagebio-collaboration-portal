@@ -29,12 +29,23 @@ services:
     environment:
         NODE_ENV: development
         MONGODB_URI: 'mongodb://mongo-dev:27018/phccp-dev'
+        MONGODB_USER: app
+        MONGODB_PASS: app123
     depends_on:
         - mongo-dev
 
   mongo-dev:
-    image: mongo
+    build:
+        context: ./mongo
+        dockerfile: Dockerfile
+    image: mongo-phccp
     command: mongod --port 27018
     container_name: mongo-dev
     ports:
         - '27018:27018'
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: password
+        MONGO_INITDB_DATABASE: phccp-dev
+        MONGO_USERNAME: app
+        MONGO_PASSWORD: app123
