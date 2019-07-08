@@ -1,30 +1,31 @@
 <div class="app-primary-header">
     <mat-icon class="app-nav-back-icon" routerLink="/admin">keyboard_arrow_left</mat-icon>
-    <h1> USERname</h1>
+    <h1> {{ user?.name }}</h1>
 </div>
 
-<!-- <search-filter class="app-users-list-search-filter" group="users"></search-filter> -->
+<mat-card>
+        <mat-form-field>
+                <mat-label>User Role: </mat-label>
+                <mat-select [(value)]="role">
+                  <mat-option value="admin">Admin</mat-option>
+                  <mat-option value="user">User</mat-option>
+                </mat-select>
+        </mat-form-field>
 
-<!-- <mat-nav-list class="app-user-list">
-    <!-- <a *ngFor="let user of users" href="/admin/user/{{user._id}}"> -->
-        <!-- <mat-list-item class="app-user-item" >
-                <user-avatar [user]="user" [size]="avatarSize"></user-avatar>
-                <h3 matLine>{{ user.name }}</h3>
-                <h3 matLine>{{ user.role }}</h3>
-                <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
-                    <mat-icon>clear</mat-icon>
-                </button>
-                <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #userMenu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="deleteUser(user)">Remove</button>
-                    <button mat-menu-item (click)="setUserRole(user)">Make Admin</button>
-                </mat-menu>
-        </mat-list-item>
-     </a>
-</mat-nav-list> -->
+        <div class="app-admin-user-permission-list">
+                        <!-- *ngFor="let option of permissionOptions"
+                <mat-checkbox [(ngModel)] = "option">{{ option }}</mat-checkbox> -->
+                <mat-checkbox [(ngModel)] = "canCreateTool">canCreateTool</mat-checkbox>
+                <mat-checkbox [(ngModel)] = "canEditTool">canEditTool</mat-checkbox>
+                <mat-checkbox [(ngModel)] = "canDeleteTool">canDeleteTool</mat-checkbox>
+                <mat-checkbox [(ngModel)] = "reactivateUser">reactivateUser</mat-checkbox>
+                <mat-checkbox [(ngModel)] = "deactivateUser">deactivateUser</mat-checkbox>
+        </div>
 
-<ul>
-    <li>Changes do no persists after the app is restarted.</li>
-</ul>
+        <div class="app-project-list-actions">
+                <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="cancelChanges()" aria-label="Cancel changes">Cancel</a>
+                <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="SavePermissions()" aria-label="Save permissions">Save</a>
+        </div>
+
+</mat-card>
+

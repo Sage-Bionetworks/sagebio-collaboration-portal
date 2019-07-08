@@ -21,7 +21,6 @@ const adminRoutes: Routes = [{
     path: 'admin/user/:id',
     component: AdminUserComponent,
     canActivate: [AuthGuard],
-    data: {}
 }];
 
 @NgModule({
@@ -38,6 +37,7 @@ const adminRoutes: Routes = [{
     ],
     exports: [
         AdminComponent,
+        AdminUserComponent
     ],
 })
 export class AdminModule { }
