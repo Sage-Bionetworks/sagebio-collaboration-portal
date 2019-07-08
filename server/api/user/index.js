@@ -18,11 +18,11 @@ var router = Router();
  *       - application/json
  *     responses:
  *       '200':
- *         description: An array of Users
+ *         description: An array of UserProfiles
  *         schema:
  *           type: array
  *           items:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserProfile'
  *       '401':
  *         $ref: '#/components/responses/UnauthorizedError'
  *     security:
@@ -82,7 +82,7 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 
 /**
- * @swagger
+ * swagger  // DISABLE
  * /users/{id}/password:
  *   put:
  *     tags:
@@ -110,12 +110,8 @@ router.get('/me', auth.isAuthenticated(), controller.me);
  *             newPassword:
  *               type: string
  *     responses:
- *       '201':
- *         description: The updated User
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
+ *       '204':
+ *         description: Password successfully updated
  *       '400':
  *         description: Invalid ID supplied
  *       '404':
@@ -142,11 +138,11 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
  *           type: string
  *     responses:
  *       '200':
- *         description: A User
+ *         description: A UserProfile
  *         content:
  *           application/json:
  *         schema:
- *           $ref: '#/components/schemas/User'
+ *           $ref: '#/components/schemas/UserProfile'
  *       '400':
  *         description: Invalid ID supplied
  *       '404':
@@ -171,11 +167,11 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *           $ref: '#/components/schemas/User'
  *     responses:
  *       '201':
- *         description: The User created
+ *         description: User successfully created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/TokenResponse'
  *       '400':
  *         description: Invalid User
  */

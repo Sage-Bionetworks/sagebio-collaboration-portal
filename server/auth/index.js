@@ -1,13 +1,14 @@
 import express from 'express';
 import config from '../config/environment';
 import User from '../api/user/user.model';
+import Organization from '../api/organization/organization.model';
 
 // Passport Configuration
-require('./local/passport').setup(User, config);
-require('./google-oauth20/passport').setup(User, config);
-require('./google-saml/passport').setup(User, config);
-require('./phccp/passport').setup(User, config);
-require('./azuread-openidconnect/passport').setup(User, config);
+require('./local/passport').setup(User, Organization, config);
+require('./google-oauth20/passport').setup(User, Organization, config);
+require('./google-saml/passport').setup(User, Organization, config);
+require('./phccp/passport').setup(User, Organization, config);
+require('./azuread-openidconnect/passport').setup(User, Organization, config);
 
 var router = express.Router();
 

@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import { User } from './auth/user.model';
 
 /**
  * @swagger
@@ -13,8 +13,14 @@ import { User } from './user.model';
  *           type: string
  *         website:
  *           type: string
+ *         domains:
+ *           type: array
+ *           items:
+ *             type: string
  *         picture:
  *           type: string
+ *         active:
+ *           type: boolean
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -25,7 +31,9 @@ export interface Organization {
     _id?: string;
     name: string;
     website: string;
+    domains: string[];
     picture: string;
+    active: boolean;
     createdAt: string;
     createdBy: User;
 }

@@ -13,19 +13,19 @@ import {
     expand
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { CkanDataset } from '../../../shared/interfaces/ckan/ckan-dataset.model';
+import { CkanDataset } from 'models/ckan/ckan-dataset.model';
 import {
     CkanDatasetListResponse
-} from '../../../shared/interfaces/ckan/ckan-dataset-list-response.model';
+} from 'models/ckan/ckan-dataset-list-response.model';
 import {
     CkanDatasetResponse
-} from '../../../shared/interfaces/ckan/ckan-dataset-response.model';
+} from 'models/ckan/ckan-dataset-response.model';
 import {
     CkanDatasetSearchResponse
-} from '../../../shared/interfaces/ckan/ckan-dataset-search-response.model';
-import { stringifyQuery } from '../../components/util';
+} from 'models/ckan/ckan-dataset-search-response.model';
+import { stringifyQuery } from 'components/util';
 import { DataCatalogService } from '../data-catalog/data-catalog.service';
-import { DataCatalog } from '../../../shared/interfaces/data-catalog.model';
+import { DataCatalog } from 'models/data-catalog.model';
 
 @Injectable()
 export class DatasetService {

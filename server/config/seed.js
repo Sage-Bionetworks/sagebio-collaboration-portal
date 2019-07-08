@@ -14,10 +14,15 @@ import State from '../api/insight/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermissions from '../api/user-permission/user-permission.model';
-
+import config from './environment';
 import seeds from './seeds';
 
 export default function seedDatabaseIfNeeded() {
+
+    // there is a race condition between the unit tests and the seed creation.
+    if (config.env === 'test') {
+        return;
+    }
 
     let promises = [];
     let promise;

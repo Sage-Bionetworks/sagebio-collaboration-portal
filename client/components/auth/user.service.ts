@@ -9,9 +9,9 @@ import {
     tap,
     catchError
 } from 'rxjs/operators';
-import { User } from '../../../shared/interfaces/user.model';
-import { UserProfile } from '../../../shared/interfaces/user-profile.model';
-import { TokenResponse } from '../../../shared/interfaces/token-response.model';
+import { User } from 'models/auth/user.model';
+import { UserProfile } from 'models/auth/user-profile.model';
+import { TokenResponse } from 'models/auth/token-response.model';
 
 @Injectable()
 export class UserService {

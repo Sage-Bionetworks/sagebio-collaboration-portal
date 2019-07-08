@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DatasetService } from '../dataset.service';
-import { CkanDataset } from '../../../../shared/interfaces/ckan/ckan-dataset.model';
-import { DataCatalog } from '../../../../shared/interfaces/data-catalog.model';
+import { CkanDataset } from 'models/ckan/ckan-dataset.model';
+import { DataCatalog } from 'models/data-catalog.model';
 
 @Component({
     selector: 'dataset-view',

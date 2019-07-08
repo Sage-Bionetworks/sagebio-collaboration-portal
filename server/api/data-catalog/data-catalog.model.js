@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './data-catalog.events';
-// import { DataCatalog } from "../../../shared/interfaces/data-catalogs.model";
 
 var DataCatalogSchema = new mongoose.Schema({
     slug: {

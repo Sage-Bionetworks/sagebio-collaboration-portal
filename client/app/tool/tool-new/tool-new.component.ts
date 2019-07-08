@@ -3,12 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ToolService } from '../tool.service';
-import { Tool } from '../../../../shared/interfaces/tool.model';
+import { Tool } from 'models/tool.model';
 import { geneId } from '../../../../server/config/seeds/all/organizations';  // TODO: Must use share
-import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app.constants';
 import slugify from 'slugify';
-import { UrlValidators } from '../../../components/validation/url-validators';
+import { UrlValidators } from 'components/validation/url-validators';
 
 @Component({
     selector: 'tool-new',
@@ -45,6 +45,11 @@ export class ToolNewComponent implements OnInit, OnDestroy {
                 Validators.maxLength(config.models.tool.description.maxlength)
             ]],
             apiServerUrl: ['', [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]],
+            apiHealthCheckUrl: ['', [
                 Validators.required,
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()

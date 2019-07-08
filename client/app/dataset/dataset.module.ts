@@ -3,15 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '../../components/material/material.module';
-import { FiltersModule } from '../../components/filters/filters.module';
+import { MaterialModule } from 'components/material/material.module';
+import { FiltersModule } from 'components/filters/filters.module';
 
 import { RouterModule, Routes } from '@angular/router';
 
 import { DataCatalogModule } from '../data-catalog/data-catalog.module';
-import { NotificationModule } from '../../components/notification/notification.module';
-import { AuthGuard } from '../../components/auth/auth-guard.service';
-import { SocketService } from '../../components/socket/socket.service';
+import { NotificationModule } from 'components/notification/notification.module';
+import { AuthGuard } from 'components/auth/auth-guard.service';
+import { SocketService } from 'components/socket/socket.service';
 
 import { DatasetListComponent } from './dataset-list/dataset-list.component';
 import { DatasetViewComponent } from './dataset-view/dataset-view.component';

@@ -4,10 +4,10 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { AppQuillEditorComponent } from '../../../components/quill/app-quill-editor/app-quill-editor.component';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
+import { NotificationService } from 'components/notification/notification.service';
 import { ObjectValidators } from '../../validation/object-validators';
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
+import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import config from '../../../app/app.constants';
 

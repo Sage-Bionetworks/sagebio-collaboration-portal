@@ -2,30 +2,13 @@
     <h1>Admin</h1>
 </div>
 
-<!-- <search-filter class="app-users-list-search-filter" group="users"></search-filter> -->
-
-<mat-nav-list class="app-user-list">
-    <!-- <a *ngFor="let user of users" href="/admin/user/{{user._id}}"> -->
-        <div *ngFor="let user of users" >
-                <mat-list-item [routerLink]="['user', user._id]" class="app-user-item" >
-                    <user-avatar [user]="user" [size]="avatarSize"></user-avatar>
-                    <h3 matLine>{{ user.name }}</h3>
-                    <h3 matLine>{{ user.role }}</h3>
-                    <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
-                        <mat-icon>clear</mat-icon>
-                    </button>
-                    <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #userMenu="matMenu" xPosition="before">
-                        <button mat-menu-item (click)="deleteUser(user)">Remove</button>
-                        <button mat-menu-item (click)="setUserRole(user)">Make Admin</button>
-                    </mat-menu> -->
-            </mat-list-item>
-        </div>
-    <!-- </a> -->
-</mat-nav-list>
-
-<ul>
-    <li>Changes do no persists after the app is restarted.</li>
-</ul>
+<mat-list class="app-user-list">
+    <mat-list-item class="app-user-item" *ngFor="let user of users">
+        <user-avatar matListAvatar [user]="user" [size]="avatarSize"></user-avatar>
+        <h3 matLine>{{ user.name }}</h3>
+        <h3 matLine>{{ user.role }}</h3>
+        <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>

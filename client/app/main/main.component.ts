@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PageTitleService } from '../../components/page-title/page-title.service';
-import { AuthService } from '../../components/auth/auth.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { AuthService } from 'components/auth/auth.service';
 
 // import APP_CONFIG from './app.config';
-import { Node, Link } from '../../components/d3/models';
+import { Node } from 'components/d3/models/node';
+import { Link } from 'components/d3/models/link';
 
 @Component({
     selector: 'app-main',

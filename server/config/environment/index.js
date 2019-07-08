@@ -46,7 +46,14 @@ var all = {
             useFindAndModify: false,
             useCreateIndex: true,
             reconnectTries: 30,
-            reconnectInterval: 500 // in ms
+            reconnectInterval: 500, // in ms
+        }
+    },
+
+    init: {
+        admin: {
+            email: process.env.APP_INIT_ADMIN_EMAIL ||  'admin@sagebase.org',
+            password: process.env.APP_INIT_ADMIN_PASSWORD ||  'admin'
         }
     },
 
@@ -80,14 +87,6 @@ var all = {
         redirectURL: `${process.env.DOMAIN || ''}/auth/phccp/callback` // must be HTTPS
     },
 
-    userAccount: {
-        authorizedEmails: [
-            '@gene.com$',
-            '@roche.com$',
-            '@sagebase.org$'
-        ]
-    },
-
     provenance: {
         apiServerUrl: 'localhost:8081/prov/v1'
     }
@@ -99,7 +98,25 @@ Object.assign(all.mongo.options,
         user: process.env.MONGODB_USER
     } : null,
     process.env.MONGODB_PASS ? {
-        pass: process.env.MONGODB_PASS
+        pass: process.env.MONGODB_PASSWORD
+    } : null
+);
+
+Object.assign(all.mongo.options,
+    process.env.MONGODB_SSL ? {
+        ssl: true
+    } : null,
+    process.env.MONGODB_SSL_VALIDATE ? {
+        sslValidate: process.env.MONGODB_SSL_VALIDATE === 'true'
+    } : null,
+    process.env.MONGODB_SSL_CA ? {
+        sslCA: process.env.MONGODB_SSL_CA
+    } : null,
+    process.env.MONGODB_SSL_KEY ? {
+        sslKey: process.env.MONGODB_SSL_KEY
+    } : null,
+    process.env.MONGODB_SSL_CERT ? {
+        sslCert: process.env.MONGODB_SSL_CERT
     } : null
 );
 

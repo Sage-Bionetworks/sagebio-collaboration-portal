@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../../components/material/material.module';
+import { MaterialModule } from 'components/material/material.module';
 import { SecondarySidenavComponent } from './secondary-sidenav/secondary-sidenav.component';
 import { SecondarySidenavService } from './secondary-sidenav/secondary-sidenav.service';
 import { SidenavHostDirective } from './sidenav-host.directive';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../components/auth/auth.service';
+import { AuthService } from 'components/auth/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PasswordValidation } from '../../../components/validation/password-validation';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { PasswordValidation } from 'components/validation/password-validation';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({

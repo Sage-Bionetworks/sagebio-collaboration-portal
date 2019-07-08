@@ -2,29 +2,34 @@
 
 import app from '../..';
 import User from './user.model';
+import Organization from '../organization/organization.model';
 import request from 'supertest';
+import {
+    organizations
+} from '../../config/seeds';
 
 describe('User API:', function () {
     var user;
 
-    // Clear users before testing
-    before(function () {
-        return User.deleteMany().then(function () {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test'
+    before(() => {
+        return Organization.deleteMany()
+            .then(() => User.deleteMany())
+            .then(() => Organization.create(organizations))
+            .then(() => {
+                user = new User({
+                    name: 'Fake User',
+                    email: 'test@sagebase.org', // must be backed up by an active organization
+                    password: 'password',
+                    username: 'test'
+                });
+                return user.save();
             });
-
-            return user.save();
-        });
     });
 
-    // Clear users after testing
-    after(function () {
-        return User.deleteMany();
-    });
+    after(() => Promise.all([
+        User.deleteMany(),
+        Organization.deleteMany()
+    ]));
 
     describe('GET /api/users/me', function () {
         var token;
@@ -33,7 +38,7 @@ describe('User API:', function () {
             request(app)
                 .post('/auth/local')
                 .send({
-                    email: 'test@example.com',
+                    email: 'test@sagebase.org',
                     password: 'password',
                     username: 'test'
                 })

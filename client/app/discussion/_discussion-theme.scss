@@ -1,4 +1,4 @@
-@import "./post-list/post-list-theme";
+@import './post-list/post-list-theme';
 
 @mixin discussion-theme($theme) {
   $primary: map-get($theme, primary);

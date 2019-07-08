@@ -1,5 +1,5 @@
-@import "./dataset-list/dataset-list-theme";
-@import "./dataset-page/dataset-page-theme";
+@import './dataset-list/dataset-list-theme';
+@import './dataset-page/dataset-page-theme';
 
 @mixin dataset-theme($theme) {
   $primary: map-get($theme, primary);

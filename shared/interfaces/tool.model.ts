@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import { User } from './auth/user.model';
 import { Organization } from './organization.model';
 
 /**
@@ -43,6 +43,7 @@ export interface Tool {
     website: string;
     organization: Organization;
     apiServerUrl: string;
+    apiHealthCheckUrl: string;
     resourceFormats: string[];
     // supportedDataTypes: string[];
     createdAt: string;

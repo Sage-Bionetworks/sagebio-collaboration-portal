@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash/fp';
-import { MessagingService } from '../../../components/messaging/messaging.service';
-import { SocketService } from '../../../components/socket/socket.service';
-import { Message } from '../../../../shared/interfaces/messaging/message.model';
+import { MessagingService } from 'components/messaging/messaging.service';
+import { SocketService } from 'components/socket/socket.service';
+import { Message } from 'models/messaging/message.model';
 
 @Component({
     selector: 'messaging-view',

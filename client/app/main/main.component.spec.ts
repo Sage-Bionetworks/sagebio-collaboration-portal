@@ -7,10 +7,10 @@ import {
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { expect } from 'chai';
 import { FormsModule } from '@angular/forms';
-import { SocketService } from '../../components/socket/socket.service';
-import { SocketServiceStub } from '../../components/socket/socket.mock';
-import { PageTitleService } from '../../components/page-title/page-title.service';
-import { PageTitleServiceStub } from '../../components/page-title/page-title.mock';
+import { SocketService } from 'components/socket/socket.service';
+import { SocketServiceStub } from 'components/socket/socket.mock';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { PageTitleServiceStub } from 'components/page-title/page-title.mock';
 import { MainComponent } from './main.component';
 
 describe('Component: MainComponent', function() {

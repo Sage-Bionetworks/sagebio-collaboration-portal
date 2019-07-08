@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SecondarySidenavComponent } from '../components/sidenav/secondary-sidenav/secondary-sidenav.component';
-import { SecondarySidenavService } from '../components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { SecondarySidenavComponent } from 'components/sidenav/secondary-sidenav/secondary-sidenav.component';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 
 @Component({
     selector: 'app',

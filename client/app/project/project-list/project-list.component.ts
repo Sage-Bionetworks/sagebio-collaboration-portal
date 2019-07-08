@@ -4,11 +4,11 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ProjectService } from '../project.service';
 import { ProjectNewComponent } from '../project-new/project-new.component';
-import { Project } from '../../../../shared/interfaces/project.model';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { Project } from 'models/project.model';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { NotificationService } from 'components/notification/notification.service';
 
 
 @Component({

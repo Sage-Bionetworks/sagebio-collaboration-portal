@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-
-const adminUserId = new mongoose.Types.ObjectId('5cb7acea2d718614d81bb97f');
+import {
+    adminUserId
+} from './constants';
+import config from '../../environment';
 
 let users = [{
     _id: adminUserId,
@@ -8,9 +10,9 @@ let users = [{
     role: 'admin',
     name: 'Admin',
     username: 'admin',
-    email: 'admin@sagebase.org',
+    email: config.init.admin.email,
+    password: config.init.admin.password,
     position: 'Research Scientist',
-    password: 'admin',
     orcid: 'https://orcid.org/0000-0002-8242-9462',
     createdBy: adminUserId
 }];

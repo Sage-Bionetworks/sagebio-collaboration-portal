@@ -1,5 +1,5 @@
-@import "./tool-list/tool-list-theme";
-@import "./tool-page/tool-page-theme";
+@import './tool-list/tool-list-theme';
+@import './tool-page/tool-page-theme';
 
 @mixin tool-theme($theme) {
   $primary: map-get($theme, primary);

@@ -4,8 +4,8 @@ import { Observable, BehaviorSubject, of, pipe, throwError } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { TokenService } from './token.service';
-import { User } from '../../../shared/interfaces/user.model';
-import { TokenResponse } from '../../../shared/interfaces/token-response.model';
+import { User } from 'models/auth/user.model';
+import { TokenResponse } from 'models/auth/token-response.model';
 
 class AuthInfo {
     constructor(public user: User) { }
@@ -49,7 +49,7 @@ export class AuthService {
      * Updates and returns the authentification information.
      * @return {Observable<AuthInfo>}
      */
-    private getAuthInfo(): Observable<AuthInfo> {
+    getAuthInfo(): Observable<AuthInfo> {
         if (this.tokenService.get()) {
             console.log('HAS TOKEN');
             return this.userService.get()

@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
 
-import { MaterialModule } from '../../components/material/material.module';
-import { SSOButtonsModule } from '../../components/sso-buttons/sso-buttons.module';
-import { NotificationModule } from '../../components/notification/notification.module';
-import { MessagingModule } from '../../components/messaging/messaging.module';
-import { AuthGuard } from '../../components/auth/auth-guard.service';
+import { MaterialModule } from 'components/material/material.module';
+import { SSOButtonsModule } from 'components/sso-buttons/sso-buttons.module';
+import { NotificationModule } from 'components/notification/notification.module';
+import { MessagingModule } from 'components/messaging/messaging.module';
+import { AuthGuard } from 'components/auth/auth-guard.service';
 
 import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './settings/settings.component';

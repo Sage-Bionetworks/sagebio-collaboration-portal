@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 // import { InsightService } from '../insight.service';
-import { Report } from '../../../../shared/interfaces/insights/report.model';
+import { Report } from 'models/insights/report.model';
 
 @Component({
     selector: 'report-view',

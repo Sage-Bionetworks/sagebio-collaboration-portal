@@ -1,5 +1,5 @@
 import { Message } from './message.model';
-import { UserProfile } from '../user-profile.model';
+import { UserProfile } from '../auth/user-profile.model';
 
 /**
  * @swagger

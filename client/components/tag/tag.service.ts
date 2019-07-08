@@ -8,8 +8,8 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Tag } from '../../../shared/interfaces/tag.model';
-import { stringifyQuery } from '../../components/util';
+import { Tag } from 'models/tag.model';
+import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
 @Injectable()

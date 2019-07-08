@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../../../shared/interfaces/user.model';
+import { User } from 'models/auth/user.model';
 import { AuthService } from '../auth/auth.service';
 import config from '../../app/app.constants';
 
@@ -15,7 +15,7 @@ export class NavbarUserButton implements OnInit, OnDestroy {
     private isLoggedIn = false;
     // private isAdmin = false;
     private authInfoSub: Subscription;
-    private avatarSize = 40;
+    private avatarSize;
 
     static parameters = [Router, AuthService];
     constructor(private router: Router, private authService: AuthService) { }

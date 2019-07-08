@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, of, merge, forkJoin } from 'rxjs';
 import { switchMap, map, filter, mapTo, catchError, tap } from 'rxjs/operators';
-import { UserPermission } from '../../../shared/interfaces/user-permission.model';
-import { AuthService } from '../../components/auth/auth.service';
-import { UserService } from '../../components/auth/user.service';
+import { UserPermission } from 'models/auth/user-permission.model';
+import { AuthService } from 'components/auth/auth.service';
+import { UserService } from 'components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
 import { find } from 'lodash/fp';
-import { UserRole } from '../../../shared/interfaces/user.model';
+import { UserRole } from 'models/auth/user.model';
 
 export class UserPermissions {
 
@@ -85,12 +85,9 @@ export class UserPermissionDataService {
 
         getPermissions
             .subscribe(res => {
-                console.log('role and permission', res);
                 this._permissions.next(new UserPermissions(res.permissions, res.role));
             }, err => {
                 console.log(err);
-            }, () => {
-                console.log('getPermissions has completed');
             });
 
         const setPermissions = (id: String, body: Array<Object>) => isLoggedIn

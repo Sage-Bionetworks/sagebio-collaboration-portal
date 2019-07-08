@@ -1,5 +1,5 @@
-@import "./data-catalog-list/data-catalog-list-theme";
-@import "./data-catalog-page/data-catalog-page-theme";
+@import './data-catalog-list/data-catalog-list-theme';
+@import './data-catalog-page/data-catalog-page-theme';
 
 @mixin data-catalog-theme($theme) {
   $primary: map-get($theme, primary);

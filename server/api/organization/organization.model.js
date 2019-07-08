@@ -12,9 +12,18 @@ var OrganizationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    domains: [{
+        type: String,
+        required: true
+    }],
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x150'
+        default: 'https://via.placeholder.com/200x200'
+    },
+    active: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     createdAt: {
         type: Date,

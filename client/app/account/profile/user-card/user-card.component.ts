@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../../../../../shared/interfaces/user.model';
-import { NotificationService } from '../../../../components/notification/notification.service';
+import { User } from 'models/auth/user.model';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'user-card',

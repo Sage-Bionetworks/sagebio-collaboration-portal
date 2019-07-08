@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../components/auth/auth.service';
-import { PageTitleService } from '../../../components/page-title/page-title.service';
-import { SSOButtonsComponent } from '../../../components/sso-buttons/sso-buttons.component';
-import { NotificationService } from '../../../components/notification/notification.service';
+import { AuthService } from 'components/auth/auth.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { SSOButtonsComponent } from 'components/sso-buttons/sso-buttons.component';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'login',
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
                 }).subscribe(user => {
                     this.router.navigateByUrl('');
                 }, err => {
-                    console.log('ERROR', err);
+                    console.log(err);
                 });
             }
         });
@@ -64,20 +64,21 @@ export class LoginComponent implements OnInit {
         }).subscribe(user => {
             this.router.navigateByUrl('');
         }, err => {
-            console.log('ERROR', err);
-            if (err.field === 'email') {
-                this.loginForm.controls.email.setErrors({ unknownEmail: true });
-            } else if (err.field === 'password') {
-                this.loginForm.controls.password.setErrors({ incorrect: true });
-            } else {
-                this.errors.login = err.message;
-                console.log(this.errors);
-            }
+            console.log(err);
+            this.notificationService.info(err.message || err);
+            // if (err.field === 'email') {
+            //     this.loginForm.controls.email.setErrors({ unknownEmail: true });
+            // } else if (err.field === 'password') {
+            //     this.loginForm.controls.password.setErrors({ incorrect: true });
+            // } else {
+            //     this.errors.login = err.message || err;
+            //     console.log(this.errors);
+            // }
         });
     }
 
     loginAsAdmin(): void {
-        this.loginForm.get('email').setValue('admin@sagebase.org');
+        this.loginForm.get('email').setValue('thomas.schaffter@sagebase.org');
         this.loginForm.get('password').setValue('admin');
         this.login();
     }
