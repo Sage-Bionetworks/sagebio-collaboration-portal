@@ -3,12 +3,14 @@
 </div>
 
 <mat-list class="app-user-list">
-    <mat-list-item class="app-user-item" *ngFor="let user of users">
-        <user-avatar matListAvatar [user]="user" [size]="avatarSize"></user-avatar>
-        <h3 matLine>{{ user.name }}</h3>
-        <h3 matLine>{{ user.role }}</h3>
-        <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
-            <mat-icon>clear</mat-icon>
-        </button>
-    </mat-list-item>
+    <mat-nav-list *ngFor="let user of users" [routerLink]="['user', user._id]">
+            <mat-list-item class="app-user-item" >
+                    <user-avatar matListAvatar [user]="user" [size]="avatarSize"></user-avatar>
+                    <h3 matLine>{{ user.name }}</h3>
+                    <h3 matLine>{{ user.role }}</h3>
+                    <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </mat-list-item>
+    </mat-nav-list>
 </mat-list>
