@@ -17,8 +17,10 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-    return User.find({}, '-salt -password').exec()
+    return User.find({}, '-salt -password')
+        .exec()
         .then(users => {
+            users = users.map(user => user.profile);
             res.status(200).json(users);
         })
         .catch(handleError(res));
@@ -31,6 +33,7 @@ export function create(req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
+
     return newUser.save()
         .then(user => {
             var token = jwt.sign({
@@ -51,7 +54,8 @@ export function create(req, res) {
 export function show(req, res, next) {
     var userId = req.params.id;
 
-    return User.findById(userId).exec()
+    return User.findById(userId)
+        .exec()
         .then(user => {
             if (!user) {
                 return res.status(404).end();

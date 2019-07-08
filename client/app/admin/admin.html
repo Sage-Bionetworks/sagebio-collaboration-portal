@@ -4,26 +4,11 @@
 
 <mat-list class="app-user-list">
     <mat-list-item class="app-user-item" *ngFor="let user of users">
-        <picture matListAvatar>
-            <!-- <source [srcset]="user.face | webp: 'small'" type="image/webp"> -->
-            <!-- <img class="app-avatar" [src]="user.face | image: 'small'" aria-label="User avatar"> -->
-            <img class="app-avatar" src="assets/images/accounts/avatars/avatar-1.png" aria-label="User avatar">
-        </picture>
+        <user-avatar matListAvatar [user]="user" [size]="avatarSize"></user-avatar>
         <h3 matLine>{{ user.name }}</h3>
         <h3 matLine>{{ user.role }}</h3>
         <button mat-icon-button (click)="deleteUser(user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
             <mat-icon>clear</mat-icon>
         </button>
-        <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button> -->
-        <!-- <mat-menu #userMenu="matMenu" xPosition="before">
-      <button mat-menu-item (click)="deleteUser(user)">Remove</button>
-      <button mat-menu-item (click)="setUserRole(user)">Make Admin</button>
-    </mat-menu> -->
     </mat-list-item>
 </mat-list>
-
-<ul>
-    <li>Changes do no persists after the app is restarted.</li>
-</ul>

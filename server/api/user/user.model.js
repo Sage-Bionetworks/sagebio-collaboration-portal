@@ -95,20 +95,35 @@ var UserSchema = new Schema({
 // Public profile information
 UserSchema
     .virtual('profile')
-    .get(() => ({
-        name: this.name,
-        username: this.username,
-        picture: this.picture,
-        role: this.role,
-    }));
+    .get(function () {
+        return {
+            _id: this._id,
+            name: this.name,
+            username: this.username,
+            picture: this.picture,
+            role: this.role,
+        };
+    });
+// .get(() => ({
+//     name: this.name,
+//     username: this.username,
+//     picture: this.picture,
+//     role: this.role,
+// }));
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
     .virtual('token')
-    .get(() => ({
-        _id: this._id,
-        role: this.role
-    }));
+    .get(function () {
+        return {
+            _id: this._id,
+            role: this.role
+        };
+    });
+// .get(() => ({
+//     _id: this._id,
+//     role: this.role
+// }));
 
 /**
  * Validations
@@ -301,6 +316,6 @@ UserSchema.methods = {
 registerEvents(UserSchema);
 
 var User = mongoose.model('User', UserSchema);
-User.profileProperties = 'name username picture role';
+User.profileProperties = '_id name username picture role';
 
 export default User;

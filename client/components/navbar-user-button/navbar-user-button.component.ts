@@ -15,7 +15,7 @@ export class NavbarUserButton implements OnInit, OnDestroy {
     private isLoggedIn = false;
     // private isAdmin = false;
     private authInfoSub: Subscription;
-    private avatarSize = 40;
+    private avatarSize;
 
     static parameters = [Router, AuthService];
     constructor(private router: Router, private authService: AuthService) { }
