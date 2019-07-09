@@ -92,7 +92,7 @@ var all = {
     }
 };
 
-// Add MongoDB credentials if specified
+// Enables MongoDB authentication
 Object.assign(all.mongo.options,
     process.env.MONGODB_USER ? {
         user: process.env.MONGODB_USER
@@ -102,13 +102,14 @@ Object.assign(all.mongo.options,
     } : null
 );
 
+// Configure MongoDB for TLS/SSL
 Object.assign(all.mongo.options,
     process.env.MONGODB_SSL ? {
-        ssl: true
-    } : null,
+        ssl: process.env.MONGODB_SSL === 'true'
+    } : false,
     process.env.MONGODB_SSL_VALIDATE ? {
         sslValidate: process.env.MONGODB_SSL_VALIDATE === 'true'
-    } : null,
+    } : false,
     process.env.MONGODB_SSL_CA ? {
         sslCA: process.env.MONGODB_SSL_CA
     } : null,

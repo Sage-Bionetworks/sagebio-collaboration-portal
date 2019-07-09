@@ -34,6 +34,11 @@ services:
         MONGODB_URI: mongodb://mongo-dev:27017/phccp-dev
         MONGODB_USER: app
         MONGODB_PASSWORD: app123
+        MONGODB_SSL: 'true'
+        MONGODB_SSL_VALIDATE: 'false'  # Set to false when using self-signed certificate
+        # MONGODB_SSL_CA:  # Content of CA's certificate (not the path)
+        # MONGODB_SSL_KEY: # Content of the key (default: read certs/server.key)
+        # MONGODB_SSL_CERT:  # Content of the certificate (default: read certs/server.cert)
         AZUREAD_OPENIDCONNECT_IDENTITY_METADATA: https://0.0.0.0
         ROCHE_AZURE_AD_IDENTITY_METADATA: https://0.0.0.0
     depends_on:
@@ -44,7 +49,7 @@ services:
         context: ./mongo
         dockerfile: Dockerfile
     image: mongo
-    command: mongod --port 27017
+    command: mongod --port 27017 --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
     container_name: mongo-dev
     ports:
         - 27017:27017
@@ -52,8 +57,12 @@ services:
     environment:
         MONGO_INITDB_ROOT_USERNAME: admin
         MONGO_INITDB_ROOT_PASSWORD: password
+        # Add app user
         MONGO_INITDB_DATABASE: phccp-dev
         MONGO_USERNAME: app
         MONGO_PASSWORD: app123
+    volumes:
+        - ./certs/mongodb.pem:/etc/ssl/mongodb.pem
+
     # volumes:
     #   - ./mongodb:/data/db
