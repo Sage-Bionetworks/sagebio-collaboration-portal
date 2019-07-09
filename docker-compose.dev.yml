@@ -32,6 +32,8 @@ services:
         APP_INIT_ADMIN_EMAIL: thomas.schaffter@sagebase.org
         APP_INIT_ADMIN_PASSWORD: admin
         MONGODB_URI: mongodb://mongo-dev:27017/phccp-dev
+        MONGODB_USER: app
+        MONGODB_PASSWORD: app123
         AZUREAD_OPENIDCONNECT_IDENTITY_METADATA: https://0.0.0.0
         ROCHE_AZURE_AD_IDENTITY_METADATA: https://0.0.0.0
     depends_on:
@@ -41,14 +43,17 @@ services:
     build:
         context: ./mongo
         dockerfile: Dockerfile
-    image: mongo-dev
+    image: mongo
     command: mongod --port 27017
     container_name: mongo-dev
     ports:
         - 27017:27017
-    # environment:
-    #     MONGO_INITDB_ROOT_USERNAME: admin
-    #     MONGO_INITDB_ROOT_PASSWORD: password
-    #     MONGO_INITDB_DATABASE: phccp-dev
-    #     MONGO_USERNAME: app
-    #     MONGO_PASSWORD: app123
+    # env_file
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: password
+        MONGO_INITDB_DATABASE: phccp-dev
+        MONGO_USERNAME: app
+        MONGO_PASSWORD: app123
+    # volumes:
+    #   - ./mongodb:/data/db

@@ -97,7 +97,7 @@ Object.assign(all.mongo.options,
     process.env.MONGODB_USER ? {
         user: process.env.MONGODB_USER
     } : null,
-    process.env.MONGODB_PASS ? {
+    process.env.MONGODB_PASSWORD ? {
         pass: process.env.MONGODB_PASSWORD
     } : null
 );
