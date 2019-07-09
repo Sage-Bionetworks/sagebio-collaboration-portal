@@ -10,6 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -390,30 +391,31 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/webpack-dev-server.html
      */
     const webpackAppConfig = {
-        ip: process.env.IP || '0.0.0.0',
+        clientIp: process.env.CLIENT_IP || '0.0.0.0',
         clientPort: process.env.CLIENT_PORT || 8080,
+        serverIp: process.env.IP || '0.0.0.0',
         serverPort: process.env.PORT || 9000,
-        httpsKey: process.env.HTTPS_KEY,
-        httpsCert: process.env.HTTPS_CERT
+        httpsKey: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
+        httpsCert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
     };
 
     config.devServer = {
-        host: webpackAppConfig.ip,
+        host: webpackAppConfig.clientIp,
         port: webpackAppConfig.clientPort,
         disableHostCheck: true, // not secure
         contentBase: './client/',
         hot: true,
         proxy: {
             '/api': {
-                target: `http://localhost:${webpackAppConfig.serverPort}`,
+                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
                 secure: false,
             },
             '/auth': {
-                target: `http://localhost:${webpackAppConfig.serverPort}`,
+                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
                 secure: false,
             },
             '/primus': {
-                target: `http://localhost:${webpackAppConfig.serverPort}`,
+                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
                 secure: false,
                 ws: true,
             },
