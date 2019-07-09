@@ -37,10 +37,21 @@ services:
         MONGODB_SSL: 'true'
         MONGODB_SSL_VALIDATE: 'false'  # Set to false when using self-signed certificate
         # MONGODB_SSL_CA:  # Content of CA's certificate (not the path)
-        # MONGODB_SSL_KEY: # Content of the key (default: read certs/server.key)
-        # MONGODB_SSL_CERT:  # Content of the certificate (default: read certs/server.cert)
-        AZUREAD_OPENIDCONNECT_IDENTITY_METADATA: https://0.0.0.0
-        ROCHE_AZURE_AD_IDENTITY_METADATA: https://0.0.0.0
+        # MONGODB_SSL_KEY: # Content of the key (default: read ./certs/server.key)
+        # MONGODB_SSL_CERT:  # Content of the certificate (default: read ./certs/server.cert)
+        # Enabling Google OAuth 2.0
+        OAUTH_GOOGLE_ID:
+        OAUTH_GOOGLE_SECRET:
+        # Enabling Google SAML
+        SAML_GOOGLE_ENTRY_POINT:
+        SAML_GOOGLE_ISSUER:
+        # Enabling Microsoft Azure AD OpenID Connect (demo)
+        AZUREAD_OPENIDCONNECT_IDENTITY_METADATA:
+        AZUREAD_OPENIDCONNECT_CLIENT_ID:
+        # Enabling Roche Azure AD
+        ROCHE_AZURE_AD_IDENTITY_METADATA:
+        ROCHE_AZURE_AD_CLIENT_ID:
+        ROCHE_AZURE_AD_CLIENT_SECRET:
     depends_on:
         - mongo-dev
 
@@ -48,21 +59,18 @@ services:
     build:
         context: ./mongo
         dockerfile: Dockerfile
-    image: mongo
+    image: mongo-phccp
     command: mongod --port 27017 --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
     container_name: mongo-dev
     ports:
         - 27017:27017
-    # env_file
     environment:
         MONGO_INITDB_ROOT_USERNAME: admin
         MONGO_INITDB_ROOT_PASSWORD: password
-        # Add app user
+        # Adding app user
         MONGO_INITDB_DATABASE: phccp-dev
         MONGO_USERNAME: app
         MONGO_PASSWORD: app123
     volumes:
         - ./certs/mongodb.pem:/etc/ssl/mongodb.pem
-
-    # volumes:
-    #   - ./mongodb:/data/db
+        # - ./mongodb:/data/db

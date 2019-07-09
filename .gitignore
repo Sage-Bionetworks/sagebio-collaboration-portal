@@ -12,3 +12,4 @@ coverage
 envvars-dev
 envvars-prod
 envvars-test
+/tmp

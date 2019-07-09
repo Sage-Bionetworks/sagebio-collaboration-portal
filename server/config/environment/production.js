@@ -1,5 +1,7 @@
 /*eslint no-process-env:0*/
 
+import fs from 'fs';
+
 // Production specific configuration
 // =================================
 module.exports = {
