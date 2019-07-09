@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
     }
 
     loginAsAdmin(): void {
-        this.loginForm.get('email').setValue('thomas.schaffter@sagebase.org');
+        this.loginForm.get('email').setValue('admin@sagebase.org');
         this.loginForm.get('password').setValue('admin');
         this.login();
     }
