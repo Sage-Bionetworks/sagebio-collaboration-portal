@@ -23,7 +23,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     private loggedUser: User;
     private initialRole: String;
     private role: String;
-    private permissionsStateDetails: Object = {}
+    private permissionsDictionaryDetails: Object = {}
     private checkboxPermissionValues: Object = {}
 
     static parameters = [Router, ActivatedRoute, PageTitleService, UserService, UserPermissionService];
@@ -41,7 +41,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         this.userPermissionService.getPermissions({user: this.user._id})
           .subscribe((permissionRecords: UserPermission[]) => {
             permissionRecords.map((permission: any) => {
-              this.permissionsStateDetails = { ...this.permissionsStateDetails, ... { [permission.permission]: { value: true, id: permission._id } } }
+              this.permissionsDictionaryDetails = { ...this.permissionsDictionaryDetails, ... { [permission.permission]: { value: true, id: permission._id } } }
               this.checkboxPermissionValues = { ...this.checkboxPermissionValues, [permission.permission]: true }
             })
           }, err => console.log('ERROR', err));
@@ -62,11 +62,11 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         const body = { user: this.user._id, permission: permissionOption, createdBy: this.loggedUser._id }
         this.userPermissionService.addPermissions(body)
           .subscribe((addedRecord: any) => {
-            this.permissionsStateDetails[permissionOption].id = addedRecord._id
+            this.updateDictionaryTracker(permissionOption, addedRecord);
             // TODO NOTIFICATION
           })
       } else {
-        const entityID = this.permissionsStateDetails[permissionOption].id
+        const entityID = this.permissionsDictionaryDetails[permissionOption].id
         this.userPermissionService.deletePermissions(entityID)
           .subscribe(() => {
             // TODO NOTIFICATION
@@ -74,8 +74,16 @@ export class AdminUserComponent implements OnInit, OnDestroy {
       }
     }
 
+    updateDictionaryTracker(permissionOption: any, addedRecord: any) {
+      if (this.permissionsDictionaryDetails[permissionOption] && this.permissionsDictionaryDetails[permissionOption].id) {
+        this.permissionsDictionaryDetails[permissionOption].id = addedRecord._id
+      } else {
+        this.permissionsDictionaryDetails = {[permissionOption]: { value: true, id: addedRecord._id }}
+      }
+    }
+
     onChangeRole() {
-      console.log('onChangeRole: ');
+      console.log('onChangeRole: ', this.role);
     }
 
     ngOnDestroy() { }

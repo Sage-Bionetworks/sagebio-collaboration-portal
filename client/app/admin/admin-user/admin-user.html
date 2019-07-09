@@ -7,10 +7,7 @@
         <mat-form-field>
                 <mat-label>User Role: </mat-label>
                 <mat-select [(ngModel)]="role" (change)="onChangeRole()">
-                    <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue">{{ roleValue }}</mat-option>
-
-                    <!-- <mat-option value="admin">Admin</mat-option>
-                  <mat-option value="user">User</mat-option> -->
+                    <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue" >{{ roleValue }}</mat-option>
                 </mat-select>
         </mat-form-field>
 
