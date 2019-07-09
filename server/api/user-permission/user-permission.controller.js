@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of UserPermissions
 export function index(req, res) {
-    return UserPermission.find().exec()
+    return UserPermission.find(req.query).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -114,6 +114,7 @@ export function patch(req, res) {
 
 // Deletes a UserPermission from the DB
 export function destroy(req, res) {
+    console.log('DESTROY: req.params.id: ', req.params.id);
     return UserPermission.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))

@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../components/auth/user.service';
-// import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { PageTitleService } from '../../../components/page-title/page-title.service';
+import { UserPermissionService } from '../../../components/auth/user-permission.service'
+import { UserPermission } from 'models/auth/user-permission.model';
 import { User } from '../../../../shared/interfaces/auth/user.model'
-import { UserPermissionDataService, UserPermissions } from '../../../components/auth/user-permission-data.service';
-// import { Observable } from 'rxjs';
-import { merge } from 'lodash/fp';
-
-
+import { permissionTypes , userRoles} from '../../../../server/config/environment/shared'
 import { switchMap } from 'rxjs/operators';
 // import config from '../../../app/app.constants';
 
@@ -17,109 +15,68 @@ import { switchMap } from 'rxjs/operators';
     template: require('./admin-user.html'),
     styles: [require('./admin-user.scss')],
 })
+
 export class AdminUserComponent implements OnInit, OnDestroy {
+    private permissionOptions: String[] = permissionTypes
+    private userRoles: String[] = userRoles
     private user: User;
-
-    private initialRole: String
+    private loggedUser: User;
+    private initialRole: String;
     private role: String;
+    private permissionsStateDetails: Object = {}
+    private checkboxPermissionValues: Object = {}
 
-    private initialCanCreateTool: Boolean
-    private canCreateTool: Boolean
-
-    private initialCanEditTool: Boolean
-    private canEditTool: Boolean
-
-    private initialCanDeleteTool: Boolean
-    private canDeleteTool: Boolean
-
-    private initialReactivateUser: Boolean
-    private reactivateUser: Boolean
-
-    private initialDeactivateUser: Boolean
-    private deactivateUser: Boolean
-
-    private permissionChanges: Array<Object> = []
-    private permissionOptions: String[] = ['canCreateTool', 'canEditTool', 'canDeleteTool', 'reactivateUser', 'deactivateUser']
-
-    static parameters = [Router, ActivatedRoute, UserService, UserPermissionDataService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, UserService, UserPermissionService];
     constructor(private router: Router,
       private route: ActivatedRoute,
+      private pageTitleService: PageTitleService,
       private userService: UserService,
-      private userPermissionDataService: UserPermissionDataService) {
-        this.userPermissionDataService.getPermissions()
-          .subscribe((permissions: UserPermissions) => {
-            this.setPermissionsState(permissions)
+      private userPermissionService: UserPermissionService) {
+      this.route.params.pipe(
+        switchMap(res => this.userService.get(res.id)),
+      ).subscribe(targetUser => {
+        this.user = targetUser;
+        this.initialRole = targetUser.role;
+        this.role = this.initialRole
+        this.userPermissionService.getPermissions({user: this.user._id})
+          .subscribe((permissionRecords: UserPermission[]) => {
+            permissionRecords.map((permission: any) => {
+              this.permissionsStateDetails = { ...this.permissionsStateDetails, ... { [permission.permission]: { value: true, id: permission._id } } }
+              this.checkboxPermissionValues = { ...this.checkboxPermissionValues, [permission.permission]: true }
+            })
           }, err => console.log('ERROR', err));
-
-        const user$ = this.route.params.pipe(
-          switchMap(res => this.userService.get(res.id))
-        )
-
-        user$
-          .subscribe(user => {
-            this.user = user;
-            this.initialRole = user.role;
-            this.role = this.initialRole
-          });
-      }
-
-    setPermissionsState(permissions: UserPermissions) {
-      this.canCreateTool = permissions.canCreateTool();
-      this.initialCanCreateTool = this.canCreateTool;
-      this.canEditTool = permissions.canEditTool();
-      this.initialCanEditTool = this.canEditTool;
-      this.initialCanDeleteTool = permissions.canDeleteTool();
-      this.canDeleteTool = this.initialCanDeleteTool;
-      this.initialReactivateUser = false;
-      this.reactivateUser = this.initialReactivateUser;
-      this.initialDeactivateUser = false;
-      this.deactivateUser = this.initialDeactivateUser;
+      });
+      this.userService.get()
+        .subscribe(loggedUser => {
+          this.loggedUser = loggedUser
+        })
     }
 
-
-    ngOnInit() { }
-
-    SavePermissions() {
-      console.log('Into SavePermissions: ');
-      const changesToSave = this.getChangesInPermissions()
-      console.log('changesToSave: ', changesToSave);
+    ngOnInit() {
+      this.pageTitleService.title = 'Admin User';
     }
 
-    getChangesInPermissions() {
-      if (this.initialCanCreateTool !== this.canCreateTool) {
-        this.permissionChanges.push({ canCreateTool: this.canCreateTool })
+    onChangeCheckbox(permissionOption: any) {
+      const isAddition = this.checkboxPermissionValues[permissionOption]
+      if (isAddition) {
+        const body = { user: this.user._id, permission: permissionOption, createdBy: this.loggedUser._id }
+        this.userPermissionService.addPermissions(body)
+          .subscribe((addedRecord: any) => {
+            this.permissionsStateDetails[permissionOption].id = addedRecord._id
+            // TODO NOTIFICATION
+          })
+      } else {
+        const entityID = this.permissionsStateDetails[permissionOption].id
+        this.userPermissionService.deletePermissions(entityID)
+          .subscribe(() => {
+            // TODO NOTIFICATION
+          })
       }
-      if (this.initialCanEditTool !== this.canEditTool) {
-        this.permissionChanges.push({ canEditTool: this.canEditTool })
-      }
-      if (this.initialCanDeleteTool !== this.canDeleteTool) {
-        this.permissionChanges.push({ canDeleteTool: this.canDeleteTool })
-      }
-      if (this.initialReactivateUser !== this.reactivateUser) {
-        this.permissionChanges.push({ reactivateUser: this.reactivateUser })
-      }
-      if (this.initialDeactivateUser !== this.deactivateUser) {
-        this.permissionChanges.push({ deactivateUser: this.deactivateUser })
-      }
-      console.log('this.permissionChanges: ', this.permissionChanges);
-      return this.permissionChanges
     }
 
-    cancelChanges() {
-      console.log('cancelChange: ');
-      this.canCreateTool = this.initialCanCreateTool
-      this.canEditTool = this.initialCanEditTool
-      this.canDeleteTool = this.initialCanDeleteTool
-      this.reactivateUser = this.initialReactivateUser
-      this.deactivateUser = this.initialDeactivateUser
-      this.permissionChanges = []
+    onChangeRole() {
+      console.log('onChangeRole: ');
     }
 
     ngOnDestroy() { }
-
-    // deleteUser(user) {
-    //     this.userService.remove(user).subscribe(deletedUser => {
-    //         this.users.splice(this.users.indexOf(deletedUser), 1);
-    //     });
-    // }
 }

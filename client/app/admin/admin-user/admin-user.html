@@ -6,25 +6,16 @@
 <mat-card>
         <mat-form-field>
                 <mat-label>User Role: </mat-label>
-                <mat-select [(value)]="role">
-                  <mat-option value="admin">Admin</mat-option>
-                  <mat-option value="user">User</mat-option>
+                <mat-select [(ngModel)]="role" (change)="onChangeRole()">
+                    <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue">{{ roleValue }}</mat-option>
+
+                    <!-- <mat-option value="admin">Admin</mat-option>
+                  <mat-option value="user">User</mat-option> -->
                 </mat-select>
         </mat-form-field>
 
-        <div class="app-admin-user-permission-list">
-                        <!-- *ngFor="let option of permissionOptions"
-                <mat-checkbox [(ngModel)] = "option">{{ option }}</mat-checkbox> -->
-                <mat-checkbox [(ngModel)] = "canCreateTool">canCreateTool</mat-checkbox>
-                <mat-checkbox [(ngModel)] = "canEditTool">canEditTool</mat-checkbox>
-                <mat-checkbox [(ngModel)] = "canDeleteTool">canDeleteTool</mat-checkbox>
-                <mat-checkbox [(ngModel)] = "reactivateUser">reactivateUser</mat-checkbox>
-                <mat-checkbox [(ngModel)] = "deactivateUser">deactivateUser</mat-checkbox>
-        </div>
-
-        <div class="app-project-list-actions">
-                <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="cancelChanges()" aria-label="Cancel changes">Cancel</a>
-                <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="SavePermissions()" aria-label="Save permissions">Save</a>
+        <div class="app-admin-user-permission-list" *ngFor="let option of permissionOptions">
+                <mat-checkbox [(ngModel)] = "checkboxPermissionValues[option]" (change) = "onChangeCheckbox(option)" >{{ option }}</mat-checkbox>
         </div>
 
 </mat-card>
