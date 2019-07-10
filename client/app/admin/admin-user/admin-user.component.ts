@@ -8,6 +8,7 @@ import { User } from '../../../../shared/interfaces/auth/user.model'
 import { permissionTypes , userRoles} from '../../../../server/config/environment/shared'
 import { switchMap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
+import { omit } from 'lodash'
 
 @Component({
     selector: 'admin-user',
@@ -59,36 +60,24 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         const body = { user: this.targetUser._id, permission: permissionOption, createdBy: this.loggedUser._id }
         this.userPermissionService.addPermissions(body)
           .subscribe((addedRecord: any) => {
-            this.updatePermissionsIDTracker(permissionOption, addedRecord);
+            this.updatePermissionsIDTracker(true, permissionOption, addedRecord);
             this.notificationService.info('Permission Successfully Updated');
           })
       } else {
         const entityID = this.permissionsIDTracker[permissionOption]
         this.userPermissionService.deletePermissions(entityID)
           .subscribe(() => {
+            this.updatePermissionsIDTracker(false, permissionOption, null);
             this.notificationService.info('Permission Successfully Removed');
           })
       }
     }
 
-    // updatePermissionsIDTracker(isAdding: boolean, permissionOption: any, addedRecord: any) {
-    //   if (isAdding) {
-    //     if (this.permissionsIDTracker[permissionOption]) {
-    //       this.permissionsIDTracker[permissionOption] = addedRecord._id
-    //     } else {
-    //       this.permissionsIDTracker = { ...this.permissionsIDTracker, [permissionOption]: addedRecord._id }
-    //     }
-    //   } else {
-    //     // lodash
-    //     delete this.permissionsIDTracker[permissionOption]
-    //   }
-    // }
-
-    updatePermissionsIDTracker(permissionOption: any, addedRecord: any) {
-      if (this.permissionsIDTracker[permissionOption]) {
-        this.permissionsIDTracker[permissionOption] = addedRecord._id
-      } else {
+    updatePermissionsIDTracker(isAddingPermission: boolean, permissionOption: any, addedRecord: any) {
+      if (isAddingPermission) {
         this.permissionsIDTracker = { ...this.permissionsIDTracker, [permissionOption]: addedRecord._id }
+      } else {
+        this.permissionsIDTracker = omit(this.permissionsIDTracker, [permissionOption]);
       }
     }
 
