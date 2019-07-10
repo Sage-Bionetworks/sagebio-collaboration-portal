@@ -8,7 +8,7 @@
                     <user-avatar matListAvatar [user]="user" [size]="avatarSize"></user-avatar>
                     <h3 matLine>{{ user.name }}</h3>
                     <h3 matLine>{{ user.role }}</h3>
-                    <button mat-icon-button (click)="deleteUser($event, user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
+                    <button mat-icon-button (click)="displayConfirmationDialog($event, user)" matTooltip="Delete {{ user.name }}" matTooltipPosition="before">
                         <mat-icon>clear</mat-icon>
                     </button>
                 </mat-list-item>

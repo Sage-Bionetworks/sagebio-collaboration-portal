@@ -51,7 +51,7 @@ export const ROUTES: Routes = [{
         ToolViewComponent,
         ToolComponent,
         ToolNewComponent,
-        ConfirmationDialog,
+        ConfirmationDialog
     ],
     entryComponents: [
         ConfirmationDialog,

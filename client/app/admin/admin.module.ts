@@ -37,6 +37,6 @@ const adminRoutes: Routes = [{
     exports: [
         AdminComponent,
         AdminUserComponent
-    ],
+    ]
 })
 export class AdminModule { }
