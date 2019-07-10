@@ -20,38 +20,38 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
-                    Please enter a valid URL for the API.
-                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
                     The URL must begin with the https:// protocol identifier.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
                 </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
+                    Please enter a valid URL for the API.
+                </mat-error>
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.invalid">
-                    Please enter a valid URL for the API health check.
-                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.errors?.https">
                     The URL must begin with the https:// protocol identifier.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
                 </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.invalid">
+                    Please enter a valid URL for the API health check.
+                </mat-error>
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.website.invalid">
-                    Please enter a valid URL for the website.
-                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.https">
                     The URL must begin with the https:// protocol identifier.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.invalid">
+                    Please enter a valid URL for the website.
                 </mat-error>
             </mat-form-field>
             <mat-error *ngIf="errors.newTool">

@@ -91,6 +91,8 @@ export function create(req, res) {
 export function upsert(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
+        Reflect.deleteProperty(req.body, 'createdAt');
+        Reflect.deleteProperty(req.body, 'createdBy');
     }
     return Tool.findOneAndUpdate({
             _id: req.params.id
