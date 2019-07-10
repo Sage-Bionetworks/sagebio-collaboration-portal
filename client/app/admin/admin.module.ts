@@ -5,10 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'components/material/material.module';
 import { UserAvatarModule } from '../../components/user-avatar/user-avatar.module';
 import { NotificationModule } from 'components/notification/notification.module';
-import { AuthGuard } from 'components/auth/auth-guard.service';
 
 import { AdminComponent } from './admin.component';
 import { AdminUserComponent } from  './admin-user/admin-user.component';
+
+import { AuthGuard } from 'components/auth/auth-guard.service';
 
 
 const adminRoutes: Routes = [{

@@ -114,7 +114,6 @@ export function patch(req, res) {
 
 // Deletes a UserPermission from the DB
 export function destroy(req, res) {
-    console.log('DESTROY: req.params.id: ', req.params.id);
     return UserPermission.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
