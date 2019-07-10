@@ -12,4 +12,5 @@ coverage
 envvars-dev
 envvars-prod
 envvars-test
-/tmp
+docker-compose.yml
+docker-compose.dev.yml
