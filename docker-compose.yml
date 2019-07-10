@@ -55,10 +55,7 @@ services:
   #     - mongo-prod
 
   mongo-prod:
-    build:
-        context: ./mongo
-        dockerfile: Dockerfile
-    image: mongo-phccp
+    image: docker.synapse.org/syn18489221/phccp-mongo
     command: mongod --port 27017 --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
     container_name: mongo-prod
     ports:
