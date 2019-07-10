@@ -3,19 +3,33 @@ import config from '../config/environment';
 import User from '../api/user/user.model';
 import Organization from '../api/organization/organization.model';
 
-// Passport Configuration
-require('./local/passport').setup(User, Organization, config);
-require('./google-oauth20/passport').setup(User, Organization, config);
-require('./google-saml/passport').setup(User, Organization, config);
-require('./phccp/passport').setup(User, Organization, config);
-require('./azuread-openidconnect/passport').setup(User, Organization, config);
-
 var router = express.Router();
 
-router.use('/local', require('./local').default);
-router.use('/google-oauth20', require('./google-oauth20').default);
-router.use('/google-saml', require('./google-saml').default);
-router.use('/phccp', require('./phccp').default);
-router.use('/azuread-openidconnect', require('./azuread-openidconnect').default);
+for (var strategy of config.authStrategies) {
+    require(`./${strategy}/passport`).setup(User, Organization, config);  // Passport Configuration
+    router.use(`/${strategy}`, require(`./${strategy}`).default);
+}
+
+/**
+ * @swagger
+ * /auth/strategies:
+ *   get:
+ *     tags:
+ *       - Auth
+ *     summary: Returns the list of authentication strategies available.
+ *     description: Returns the list of authentication strategies available.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: An array of authentication strategies
+ *         schema:
+ *           type: array
+ *           items:
+ *             string
+ */
+router.get('/strategies', (req, res, next) => {
+    res.status(200).json(config.authStrategies);
+})
 
 export default router;

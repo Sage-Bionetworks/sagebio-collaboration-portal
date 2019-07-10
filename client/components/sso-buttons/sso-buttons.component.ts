@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'sso-buttons',
@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
     styles: [require('./sso-buttons.scss')],
 })
 export class SSOButtonsComponent {
-    login(provider) {
+    @Input() private authStrategies: string[] = [];
+
+    login(provider: string): void {
         window.location.href = `/auth/${provider}`;
     }
 }

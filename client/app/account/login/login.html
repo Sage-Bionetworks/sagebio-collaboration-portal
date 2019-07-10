@@ -4,8 +4,8 @@
 
 <div class="app-login-content">
     <div class="app-login-buttons">
-        <a class="app-login-button" mat-raised-button color="primary" (click)="loginAsAdmin()">Login as ADMIN USER</a>
-        <a class="app-login-button" mat-raised-button color="primary" (click)="loginAsTestUser()">Login as TEST USER</a>
-        <sso-buttons></sso-buttons>
+        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsAdmin()">Login as ADMIN USER</a>
+        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsTestUser()">Login as TEST USER</a>
+        <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
     </div>
 </div>

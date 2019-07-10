@@ -21,8 +21,7 @@ router.get('/', (req, res, next) => {
         failureRedirect: '/login',
         failureFlash: true
     })(req, res, next);
-}
-);
+});
 
 /**
  * @swagger

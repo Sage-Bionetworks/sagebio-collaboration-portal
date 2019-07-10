@@ -175,6 +175,10 @@ export class AuthService {
         return this.tokenService.get();
     }
 
+    getAuthStrategies(): Observable<string[]> {
+        return this.httpClient.get<string[]>('/auth/strategies');
+    }
+
     //
     // HELPER FUNCTIONS
     //

@@ -52,10 +52,19 @@ var all = {
 
     init: {
         admin: {
-            email: process.env.APP_INIT_ADMIN_EMAIL ||  'admin@sagebase.org',
-            password: process.env.APP_INIT_ADMIN_PASSWORD ||  'admin'
+            email: process.env.APP_INIT_ADMIN_EMAIL || 'admin@sagebase.org',
+            password: process.env.APP_INIT_ADMIN_PASSWORD || 'admin'
         }
     },
+
+    // List of auth strategies available
+    authStrategies: [
+        ['development', 'test'].includes(process.env.NODE_ENV) && 'local',
+        (!!process.env.OAUTH_GOOGLE_ID || process.env.OAUTH_GOOGLE_ENABLED) && 'google-oauth20',
+        (!!process.env.SAML_GOOGLE_ENTRY_POINT || process.env.SAML_GOOGLE_ENABLED) && 'google-saml',
+        (!!process.env.AZUREAD_OPENIDCONNECT_CLIENT_ID | process.env.AZUREAD_OPENIDCONNECT_ENABLED) && 'azuread-openidconnect',
+        (!!process.env.ROCHE_AZURE_AD_CLIENT_ID || process.env.ROCHE_AZURE_AD_ENABLED) && 'phccp'
+    ].filter(Boolean),
 
     // Google OAuth 2.0 (server/auth/google-oauth20)
     googleOAuth: {

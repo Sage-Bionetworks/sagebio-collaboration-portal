@@ -16,25 +16,25 @@ export function setup(User, Organization, config) {
     };
 
     passport.use(new SamlStrategy(googleSamlConfig,
-      (profile, done) => {
-        const userDataFromProvider = {
-            name: `${profile.firstName} ${profile.lastName}`,
-            email: profile.nameID,
-            provider: 'google-saml',
-            'google-saml': profile,
-            username: profile.nameID,
-        };
-        const domain = userDataFromProvider.email.split('@')[1];
+        (profile, done) => {
+            const userDataFromProvider = {
+                name: `${profile.firstName} ${profile.lastName}`,
+                email: profile.nameID,
+                provider: 'google-saml',
+                'google-saml': profile,
+                username: profile.nameID,
+            };
+            const domain = userDataFromProvider.email.split('@')[1];
 
-        Organization
-            .findOne({
-                domains: domain,
-                active: true
-            })
-            .exec()
-            .then(util.handleUnauthorizedOrganization(done))
-            .then(util.createOrUpdateUser(User, userDataFromProvider))
-            .then(util.saveUser(done))
-            .catch(err => done(err));
-    }));
+            Organization
+                .findOne({
+                    domains: domain,
+                    active: true
+                })
+                .exec()
+                .then(util.handleUnauthorizedOrganization(done))
+                .then(util.createOrUpdateUser(User, userDataFromProvider))
+                .then(util.saveUser(done))
+                .catch(err => done(err));
+        }));
 }

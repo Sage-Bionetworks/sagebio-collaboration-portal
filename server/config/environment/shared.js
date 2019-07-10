@@ -79,13 +79,6 @@ export const datasetOrders = {
     }
 };
 
-// export const discourse = {
-//     website: 'http://phc-discourse.sagesandbox.org',
-//     apiServerUrl: 'http://phc-discourse.sagesandbox.org'
-// };
-
-// export const feliteWebsite = 'http://dev.phc.sagesandbox.org:8082'; // process.env.FELITE_WEBSITE;
-
 export default {
     env,
     port,
@@ -97,6 +90,7 @@ export default {
     // discourse,
     // feliteWebsite
 
+    // authStrategies,
     models,
     datasetOrders
 };
