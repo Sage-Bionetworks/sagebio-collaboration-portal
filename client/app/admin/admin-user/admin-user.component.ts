@@ -7,8 +7,7 @@ import { UserPermission } from 'models/auth/user-permission.model';
 import { User } from '../../../../shared/interfaces/auth/user.model'
 import { permissionTypes , userRoles} from '../../../../server/config/environment/shared'
 import { switchMap } from 'rxjs/operators';
-// import config from '../../../app/app.constants';
-
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'admin-user',
@@ -19,30 +18,29 @@ import { switchMap } from 'rxjs/operators';
 export class AdminUserComponent implements OnInit, OnDestroy {
     private permissionOptions: String[] = permissionTypes
     private userRoles: String[] = userRoles
-    private user: User;
+    private targetUser: User;
     private loggedUser: User;
-    private initialRole: String;
     private role: String;
-    private permissionsDictionaryDetails: Object = {}
-    private checkboxPermissionValues: Object = {}
+    private permissionsIDTracker: Object = {}
+    private isAddingPermission: Object = {};
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, UserService, UserPermissionService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, UserService, UserPermissionService, NotificationService];
     constructor(private router: Router,
       private route: ActivatedRoute,
       private pageTitleService: PageTitleService,
       private userService: UserService,
-      private userPermissionService: UserPermissionService) {
+      private userPermissionService: UserPermissionService,
+      private notificationService: NotificationService) {
       this.route.params.pipe(
         switchMap(res => this.userService.get(res.id)),
       ).subscribe(targetUser => {
-        this.user = targetUser;
-        this.initialRole = targetUser.role;
-        this.role = this.initialRole
-        this.userPermissionService.getPermissions({user: this.user._id})
+        this.targetUser = targetUser;
+        this.role = targetUser.role;
+        this.userPermissionService.getPermissions({user: this.targetUser._id})
           .subscribe((permissionRecords: UserPermission[]) => {
             permissionRecords.map((permission: any) => {
-              this.permissionsDictionaryDetails = { ...this.permissionsDictionaryDetails, ... { [permission.permission]: { value: true, id: permission._id } } }
-              this.checkboxPermissionValues = { ...this.checkboxPermissionValues, [permission.permission]: true }
+              this.permissionsIDTracker = { ...this.permissionsIDTracker, [permission.permission]: permission._id  }
+              this.isAddingPermission = { ...this.isAddingPermission, [permission.permission]: true }
             })
           }, err => console.log('ERROR', err));
       });
@@ -56,34 +54,49 @@ export class AdminUserComponent implements OnInit, OnDestroy {
       this.pageTitleService.title = 'Admin User';
     }
 
-    onChangeCheckbox(permissionOption: any) {
-      const isAddition = this.checkboxPermissionValues[permissionOption]
-      if (isAddition) {
-        const body = { user: this.user._id, permission: permissionOption, createdBy: this.loggedUser._id }
+    onChangePermissionCheckbox(permissionOption: any) {
+      if (this.isAddingPermission[permissionOption]) {
+        const body = { user: this.targetUser._id, permission: permissionOption, createdBy: this.loggedUser._id }
         this.userPermissionService.addPermissions(body)
           .subscribe((addedRecord: any) => {
-            this.updateDictionaryTracker(permissionOption, addedRecord);
-            // TODO NOTIFICATION
+            this.updatePermissionsIDTracker(permissionOption, addedRecord);
+            this.notificationService.info('Permission Successfully Updated');
           })
       } else {
-        const entityID = this.permissionsDictionaryDetails[permissionOption].id
+        const entityID = this.permissionsIDTracker[permissionOption]
         this.userPermissionService.deletePermissions(entityID)
           .subscribe(() => {
-            // TODO NOTIFICATION
+            this.notificationService.info('Permission Successfully Removed');
           })
       }
     }
 
-    updateDictionaryTracker(permissionOption: any, addedRecord: any) {
-      if (this.permissionsDictionaryDetails[permissionOption] && this.permissionsDictionaryDetails[permissionOption].id) {
-        this.permissionsDictionaryDetails[permissionOption].id = addedRecord._id
+    // updatePermissionsIDTracker(isAdding: boolean, permissionOption: any, addedRecord: any) {
+    //   if (isAdding) {
+    //     if (this.permissionsIDTracker[permissionOption]) {
+    //       this.permissionsIDTracker[permissionOption] = addedRecord._id
+    //     } else {
+    //       this.permissionsIDTracker = { ...this.permissionsIDTracker, [permissionOption]: addedRecord._id }
+    //     }
+    //   } else {
+    //     // lodash
+    //     delete this.permissionsIDTracker[permissionOption]
+    //   }
+    // }
+
+    updatePermissionsIDTracker(permissionOption: any, addedRecord: any) {
+      if (this.permissionsIDTracker[permissionOption]) {
+        this.permissionsIDTracker[permissionOption] = addedRecord._id
       } else {
-        this.permissionsDictionaryDetails = {[permissionOption]: { value: true, id: addedRecord._id }}
+        this.permissionsIDTracker = { ...this.permissionsIDTracker, [permissionOption]: addedRecord._id }
       }
     }
 
     onChangeRole() {
-      console.log('onChangeRole: ', this.role);
+      this.userService.changeRole(this.targetUser._id, this.role)
+        .subscribe(() => {
+          this.notificationService.info('Role Successfully Updated');
+        })
     }
 
     ngOnDestroy() { }

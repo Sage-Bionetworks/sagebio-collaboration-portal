@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from 'components/material/material.module';
 import { UserAvatarModule } from '../../components/user-avatar/user-avatar.module';
+import { NotificationModule } from 'components/notification/notification.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 
 import { AdminComponent } from './admin.component';
@@ -26,7 +27,8 @@ const adminRoutes: Routes = [{
         BrowserModule,
         RouterModule.forChild(adminRoutes),
         MaterialModule,
-        UserAvatarModule
+        UserAvatarModule,
+        NotificationModule
     ],
     declarations: [
         AdminComponent,

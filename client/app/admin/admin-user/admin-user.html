@@ -6,13 +6,13 @@
 <mat-card>
         <mat-form-field>
                 <mat-label>User Role: </mat-label>
-                <mat-select [(ngModel)]="role" (change)="onChangeRole()">
+                <mat-select [(ngModel)]="role" (ngModelChange) = "onChangeRole()">
                     <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue" >{{ roleValue }}</mat-option>
                 </mat-select>
         </mat-form-field>
 
-        <div class="app-admin-user-permission-list" *ngFor="let option of permissionOptions">
-                <mat-checkbox [(ngModel)] = "checkboxPermissionValues[option]" (change) = "onChangeCheckbox(option)" >{{ option }}</mat-checkbox>
+        <div class="app-admin-user-permission-list" *ngFor="let permission of permissionOptions">
+                <mat-checkbox [(ngModel)] = "isAddingPermission[permission]" (ngModelChange) = "onChangePermissionCheckbox(permission)" >{{ permission }}</mat-checkbox>
         </div>
 
 </mat-card>
