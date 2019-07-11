@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Observable, Subscription, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
+import { Subscription, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
@@ -10,7 +10,8 @@ import { ToolService } from '../tool.service';
 import { Tool } from 'models/tool.model';
 import { ToolHealth } from 'models/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
-import { User } from 'models/auth/user.model';
+import { ToolEditComponent } from '../tool-edit/tool-edit.component';
+import { omit } from 'lodash'
 
 @Component({
     selector: 'tool',
@@ -19,6 +20,8 @@ import { User } from 'models/auth/user.model';
 })
 export class ToolComponent implements OnInit, OnDestroy {
     private tool: Tool;
+    @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
+    private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
 
     private canEditTool = false;
@@ -38,7 +41,6 @@ export class ToolComponent implements OnInit, OnDestroy {
                 this.canEditTool = permissions.canEditTool();
                 this.canDeleteTool = permissions.canDeleteTool();
             });
-
     }
 
     ngOnInit() {
@@ -100,5 +102,11 @@ export class ToolComponent implements OnInit, OnDestroy {
         })
             .afterClosed()
             .subscribe((confirmed: boolean) => confirmed && this.deleteTool());
+    }
+
+    onEditTool(tool: Tool): void {
+        this.showEditToolTemplate = false;
+        this.tool = { ...this.tool, ... omit(tool, 'organization')};
+        this.notificationService.info('The Tool has been successfully update');
     }
 }

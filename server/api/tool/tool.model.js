@@ -34,9 +34,9 @@ var ToolSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    apiHealthCheckUrl : {
-      type: String,
-      required: true
+    apiHealthCheckUrl: {
+        type: String,
+        required: true
     },
     resourceFormats: [{
         type: String
