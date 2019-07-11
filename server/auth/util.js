@@ -1,6 +1,7 @@
 import {
     omit
 } from 'lodash/fp';
+import config from '../config/environment';
 
 export function handleUnauthorizedOrganization(done) {
     return function (organization) {
@@ -38,6 +39,15 @@ export function createOrUpdateUser(User, userDataFromProvider) {
                 });
         }
         return null;
+    };
+}
+
+export function giveInitAdminRole() {
+    return function (user) {
+        if (user && user.email === config.init.admin.email) {
+            user.role = 'admin';  // TODO: use unique reference
+        }
+        return user;
     };
 }
 

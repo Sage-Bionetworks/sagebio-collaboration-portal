@@ -38,6 +38,7 @@ export function setup(User, Organization, config) {
             .exec()
             .then(util.handleUnauthorizedOrganization(done))
             .then(util.createOrUpdateUser(User, userDataFromProvider))
+            .then(util.giveInitAdminRole())
             .then(util.saveUser(done))
             .catch(err => done(err));
     });

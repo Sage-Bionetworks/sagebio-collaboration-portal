@@ -59,7 +59,7 @@ var all = {
 
     // List of auth strategies available
     authStrategies: [
-        ['development', 'test'].includes(process.env.NODE_ENV) && 'local',
+        (process.env.AUTH_LOCAL === 'true') && 'local',
         (!!process.env.OAUTH_GOOGLE_ID || process.env.OAUTH_GOOGLE_ENABLED) && 'google-oauth20',
         (!!process.env.SAML_GOOGLE_ENTRY_POINT || process.env.SAML_GOOGLE_ENABLED) && 'google-saml',
         (!!process.env.AZUREAD_OPENIDCONNECT_CLIENT_ID | process.env.AZUREAD_OPENIDCONNECT_ENABLED) && 'azuread-openidconnect',

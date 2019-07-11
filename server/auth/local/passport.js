@@ -32,6 +32,7 @@ function localAuthenticate(User, email, password, done) {
                         }
                     });
                 })
+                .then(util.giveInitAdminRole())
                 .catch(err => done(err));
         }
         return null;
