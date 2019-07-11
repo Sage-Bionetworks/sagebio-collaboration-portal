@@ -10,6 +10,8 @@ import { SocketService } from 'components/socket/socket.service';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 
 import { ToolNewComponent } from './tool-new/tool-new.component';
+import { ToolEditComponent } from './tool-edit/tool-edit.component';
+
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolComponent } from './tool-page/tool.component';
@@ -41,6 +43,7 @@ export const ROUTES: Routes = [{
         ToolComponent,
         ToolNewComponent,
         ConfirmationDialog,
+        ToolEditComponent,
     ],
     providers: [
         SocketService,
@@ -52,6 +55,7 @@ export const ROUTES: Routes = [{
         ToolComponent,
         ToolNewComponent,
         ConfirmationDialog,
+        ToolEditComponent,
     ],
     entryComponents: [
         ConfirmationDialog,
