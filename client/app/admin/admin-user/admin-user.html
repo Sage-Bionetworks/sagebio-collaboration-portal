@@ -1,0 +1,18 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" routerLink="/admin">keyboard_arrow_left</mat-icon>
+    <h1> {{ targetUser?.name }}</h1>
+</div>
+
+<mat-card class="app-admin-user">
+        <mat-form-field *ngIf="loggedUser?._id !== targetUser?._id">
+                <mat-label>User Role: </mat-label>
+                <mat-select [(ngModel)]="role" (ngModelChange) = "onChangeRole()">
+                    <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue" >{{ roleValue }}</mat-option>
+                </mat-select>
+        </mat-form-field>
+
+        <div class="app-admin-user-permission-list" *ngFor="let permission of permissionOptions">
+                <mat-checkbox [(ngModel)] = "isAddingPermission[permission]" (ngModelChange) = "onChangePermissionCheckbox(permission)" >{{ permission }}</mat-checkbox>
+        </div>
+</mat-card>
+

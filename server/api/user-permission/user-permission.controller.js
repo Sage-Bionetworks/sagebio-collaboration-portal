@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of UserPermissions
 export function index(req, res) {
-    return UserPermission.find().exec()
+    return UserPermission.find(req.query).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -89,13 +89,13 @@ export function upsert(req, res) {
         Reflect.deleteProperty(req.body, '_id');
     }
     return UserPermission.findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
+        user: req.params.id
+    }, req.body, {
+        new: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+        runValidators: true
+    }).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -124,8 +124,8 @@ export function destroy(req, res) {
 export function indexMine(req, res) {
     var userId = req.user._id;
     return UserPermission.find({
-            user: userId
-        })
+        user: userId
+    })
         .exec()
         .then(userPermissions => {
             if (userPermissions) {
