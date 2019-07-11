@@ -15,5 +15,5 @@
 export interface Patch {
     op: string;
     path: string;
-    value: string;
+    value: any;
 }
