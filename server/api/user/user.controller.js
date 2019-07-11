@@ -33,6 +33,7 @@ export function create(req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
+    newUser.createdBy = req.user._id.toString();
 
     return newUser.save()
         .then(user => {

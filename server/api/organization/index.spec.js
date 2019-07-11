@@ -11,6 +11,18 @@ var organizationCtrlStub = {
     destroy: 'organizationCtrl.destroy'
 };
 
+var authServiceStub = {
+    isAuthenticated() {
+        return 'authService.isAuthenticated';
+    },
+    hasRole(role) {
+        return `authService.hasRole.${role}`;
+    },
+    hasPermission(permission) {
+        return `authService.hasPermission.${permission}`;
+    }
+};
+
 var routerStub = {
     get: sinon.spy(),
     put: sinon.spy(),
@@ -26,7 +38,8 @@ var organizationIndex = proxyquire('./index.js', {
             return routerStub;
         }
     },
-    './organization.controller': organizationCtrlStub
+    './organization.controller': organizationCtrlStub,
+    '../../auth/auth.service': authServiceStub
 });
 
 describe('Organization API Router:', function () {
@@ -37,7 +50,7 @@ describe('Organization API Router:', function () {
     describe('GET /api/organizations', function () {
         it('should route to organization.controller.index', function () {
             expect(routerStub.get
-                .withArgs('/', 'organizationCtrl.index')
+                .withArgs('/', 'authService.isAuthenticated', 'organizationCtrl.index')
             ).to.have.been.calledOnce;
         });
     });
@@ -45,7 +58,7 @@ describe('Organization API Router:', function () {
     describe('GET /api/organizations/:id', function () {
         it('should route to organization.controller.show', function () {
             expect(routerStub.get
-                .withArgs('/:id', 'organizationCtrl.show')
+                .withArgs('/:id', 'authService.isAuthenticated', 'organizationCtrl.show')
             ).to.have.been.calledOnce;
         });
     });
@@ -53,7 +66,7 @@ describe('Organization API Router:', function () {
     describe('POST /api/organizations', function () {
         it('should route to organization.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', 'organizationCtrl.create')
+                .withArgs('/', 'authService.hasRole.admin', 'organizationCtrl.create')
             ).to.have.been.calledOnce;
         });
     });
@@ -61,7 +74,7 @@ describe('Organization API Router:', function () {
     describe('PUT /api/organizations/:id', function () {
         it('should route to organization.controller.upsert', function () {
             expect(routerStub.put
-                .withArgs('/:id', 'organizationCtrl.upsert')
+                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.upsert')
             ).to.have.been.calledOnce;
         });
     });
@@ -69,7 +82,7 @@ describe('Organization API Router:', function () {
     describe('PATCH /api/organizations/:id', function () {
         it('should route to organization.controller.patch', function () {
             expect(routerStub.patch
-                .withArgs('/:id', 'organizationCtrl.patch')
+                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.patch')
             ).to.have.been.calledOnce;
         });
     });
@@ -77,7 +90,7 @@ describe('Organization API Router:', function () {
     describe('DELETE /api/organizations/:id', function () {
         it('should route to organization.controller.destroy', function () {
             expect(routerStub.delete
-                .withArgs('/:id', 'organizationCtrl.destroy')
+                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.destroy')
             ).to.have.been.calledOnce;
         });
     });

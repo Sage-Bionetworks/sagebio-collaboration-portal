@@ -21,22 +21,22 @@ var ToolSchema = new mongoose.Schema({
         type: String,
         default: 'https://via.placeholder.com/200x200'
     },
-    website: {
-        type: String,
-        required: true
-    },
     organization: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization',
+        required: true
+    },
+    website: {
+        type: String,
         required: true
     },
     apiServerUrl: {
         type: String,
         required: true
     },
-    apiHealthCheckUrl : {
-      type: String,
-      required: true
+    apiHealthCheckUrl: {
+        type: String,
+        required: true
     },
     resourceFormats: [{
         type: String
@@ -47,7 +47,8 @@ var ToolSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     __v: {
         type: Number,
