@@ -1,5 +1,6 @@
 var express = require('express');
 var controller = require('./project.controller');
+var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
@@ -80,7 +81,7 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Project
  */
-router.post('/', controller.create);
+router.post('/', auth.isAuthenticated(), controller.create);
 
 /**
  * @swagger

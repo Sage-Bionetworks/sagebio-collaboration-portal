@@ -1,11 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ProjectService } from '../project.service';
 import { Project } from 'models/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
+import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
+import { ObjectValidators } from 'components/validation/object-validators';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
+import config from '../../app.constants';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'project',
@@ -14,10 +19,23 @@ import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rx
 })
 export class ProjectComponent implements OnInit, OnDestroy {
     private project: Project;
+    private form: FormGroup;
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, ProjectService];
+    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
+        ProjectService, NotificationService];
     constructor(private router: Router, private route: ActivatedRoute,
-        private pageTitleService: PageTitleService, private projectService: ProjectService) { }
+        private formBuilder: FormBuilder,
+        private pageTitleService: PageTitleService,
+        private projectService: ProjectService,
+        private notificationService: NotificationService) {
+        this.form = formBuilder.group({
+            description: ['', [
+                // Validators.required,
+                // ObjectValidators.jsonStringifyMinLength(config.models.insight.description.minlength),
+                ObjectValidators.jsonStringifyMaxLength(config.models.project.description.maxlength)
+            ]]
+        });
+    }
 
     ngOnInit() {
         const project$ = this.route.params.pipe(
@@ -26,38 +44,21 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
         project$
             .subscribe(project => {
+                this.form.get('description').setValue(JSON.parse(project.description));
                 this.project = project;
+                console.log('project', project);
             });
-
-        // const projectHealth$ = project$.pipe(
-        //     switchMap(project => this.projectService.getProjectHealth(project)
-        //         .pipe(
-        //             catchError(err => {
-        //                 // console.log(err);
-        //                 // this.notificationService.error('Unable to connect to Data Catalog');
-        //                 return of(<ProjectHealth>{});
-        //             })
-        //         ))
-        // );
-        //
-        // combineLatest(project$, projectHealth$)
-        //     .subscribe(([project, projectHealth]) => {
-        //         this.projectHealth = projectHealth;
-        //         this.project = project;
-        //         this.pageTitleService.title = project.name;
-        //         // this.catalogStats = stats;
-        //         // this.catalog = catalog;
-        //         // this.pageTitleService.title = catalog.name;
-        //     });
-        // this.route.params
-        //     .pipe(
-        //         switchMap(res => this.projectService.getProject(res.id))
-        //     )
-        //     .subscribe(project => {
-        //         this.pageTitleService.title = project.name;
-        //         this.project = project;
-        //     });
     }
 
     ngOnDestroy() { }
+
+    updateDescription(): void {
+        let description = JSON.stringify(this.form.get('description').value);
+        this.projectService.updateProject(this.project._id, [
+            { op: 'replace', path: '/description', value: description }
+        ])
+            .subscribe(project => {
+                this.notificationService.info('The description has been successfully saved');
+            }, err => console.log(err));
+    }
 }

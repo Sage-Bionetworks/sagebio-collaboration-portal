@@ -1,13 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/organizations              ->  index
- * POST    /api/organizations              ->  create
- * GET     /api/organizations/:id          ->  show
- * PUT     /api/organizations/:id          ->  upsert
- * PATCH   /api/organizations/:id          ->  patch
- * DELETE  /api/organizations/:id          ->  destroy
- */
-
 import {
     applyPatch
 } from 'fast-json-patch';
@@ -80,7 +70,7 @@ export function show(req, res) {
 export function create(req, res) {
     Reflect.deleteProperty(req.body, 'createdAt');
     req.body.createdBy = req.user._id.toString();
-    
+
     return Organization.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
@@ -88,11 +78,10 @@ export function create(req, res) {
 
 // Upserts the given Organization in the DB at the specified ID
 export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-        Reflect.deleteProperty(req.body, 'createdAt');
-        Reflect.deleteProperty(req.body, 'createdBy');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
     return Organization.findOneAndUpdate({
             _id: req.params.id
         }, req.body, {
@@ -107,11 +96,10 @@ export function upsert(req, res) {
 
 // Updates an existing Organization in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-        Reflect.deleteProperty(req.body, 'createdAt');
-        Reflect.deleteProperty(req.body, 'createdBy');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
     return Organization.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))

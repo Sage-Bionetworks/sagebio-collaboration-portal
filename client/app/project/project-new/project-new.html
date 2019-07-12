@@ -12,7 +12,7 @@
                     Please enter a valid name ({{ projectSpecs.name.minlength }}-{{ projectSpecs.name.maxlength }} characters).
                 </mat-error>
             </mat-form-field>
-            <app-quill-editor class="app-project-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
+            <app-quill-editor class="app-project-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
             <!-- <mat-form-field class="app-project-new-form-field">
                 <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
                 <mat-error *ngIf="newForm.controls.description.invalid">

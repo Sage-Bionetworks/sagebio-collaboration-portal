@@ -4,27 +4,38 @@
   flex-grow: 1;
 }
 
-.project-content {
+.app-project-content {
   display: flex;
   flex-flow: column nowrap;
   padding: 20px;
 }
 
-.project-card {
+.app-project-card {
   display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
+  flex-flow: column nowrap;
   padding: 25px;
   margin: 25px;
 }
 
-.project-card > picture {
+.app-project-card-box {
+  // padding: 25px;
+  // margin: 25px;
+}
+
+.app-project-card-box-top {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+}
+
+.app-project-picture {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  padding: 25px;
+  // padding-top: 25px;
+  padding-right: 25px;
 
   img {
     display: block;
@@ -36,46 +47,10 @@
   }
 }
 
-.project-metadata-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.project-metadata-description {
-  margin-top: 30px;
-}
-
-.project-metadata-row > mat-icon {
-  margin-right: 10px;
-}
-
-.project-metadata {
+.app-project-metadata {
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 1;
   justify-content: flex-start;
   padding: 25px 10px;
-}
-
-.project-metadata > h1 {
-  margin-top: 0px;
-}
-
-// .project-description {
-//   padding-top: 20px;
-// }
-
-.project-actions {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  padding: 25px 10px;
-  margin-left: 30px;
-}
-
-.project-actions > button,
-a {
-  margin-bottom: 10px;
 }

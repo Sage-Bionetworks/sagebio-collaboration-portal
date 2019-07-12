@@ -58,14 +58,13 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
     ngOnDestroy() { }
 
     createNewProject(): void {
-        // this.submitted = true;
-
         let newProject = this.newForm.value;
+        newProject.description = JSON.stringify(newProject.description);
         this.projectService.create(newProject)
             .subscribe(project => {
                 this.newProject.emit(project);
             }, err => {
-                console.log('ERROR', err);
+                console.log(err);
                 this.errors.newProject = err.message;
             });
     }

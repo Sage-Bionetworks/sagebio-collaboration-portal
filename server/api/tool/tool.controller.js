@@ -47,7 +47,6 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
-        console.log('ERROR', err);
         res.status(statusCode).send(err);
     };
 }
@@ -83,11 +82,10 @@ export function create(req, res) {
 
 // Upserts the given Tool in the DB at the specified ID
 export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-        Reflect.deleteProperty(req.body, 'createdAt');
-        Reflect.deleteProperty(req.body, 'createdBy');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
     return Tool.findOneAndUpdate({
             _id: req.params.id
         }, req.body, {
@@ -102,11 +100,10 @@ export function upsert(req, res) {
 
 // Updates an existing Tool in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-        Reflect.deleteProperty(req.body, 'createdAt');
-        Reflect.deleteProperty(req.body, 'createdBy');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
     return Tool.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))

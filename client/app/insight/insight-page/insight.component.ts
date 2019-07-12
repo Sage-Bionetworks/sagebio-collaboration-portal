@@ -148,6 +148,5 @@ export class InsightComponent implements OnInit, OnDestroy {
                     // this.errors.updateDescription = err.message;
                 });
         } catch (e) { }
-
     }
 }
