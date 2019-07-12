@@ -51,7 +51,7 @@ export const models = {
         },
         description: {
             minlength: 0,
-            maxlength: 50
+            maxlength: 1024
         },
     }
 };

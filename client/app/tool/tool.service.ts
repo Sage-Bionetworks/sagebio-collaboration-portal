@@ -34,8 +34,8 @@ export class ToolService {
             );
     }
 
-    updateTool(updatedTool: Tool): Observable<Tool> {
-        return this.httpClient.put<Tool>(`/api/tools/${updatedTool._id}`, updatedTool);
+    updateTool(patches: Object[], toolId: String): Observable<Tool> {
+        return this.httpClient.patch<Tool>(`/api/tools/${toolId}`, patches);
     }
 
     // getToolsByResourceFormat(resourceFormat: string): Observable<Tool[]> {

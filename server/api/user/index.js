@@ -120,6 +120,40 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 
 /**
+ * swagger
+ * /users/{id}/role:
+ *   put:
+ *     tags:
+ *       - Users
+ *     summary: Changes the role of a User.
+ *     description: Changes the role of a User.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: User ID
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The new role
+ *         schema:
+ *           type: object
+ *           properties:
+ *             newRole:
+ *               type: string
+ *     responses:
+ *       '204':
+ *         description: Role successfully updated
+ *       '404':
+ *         description: User not found
+ */
+router.put('/:id/role', auth.isAuthenticated(), controller.changeRole);
+
+/**
  * @swagger
  * /users/{id}:
  *   get:

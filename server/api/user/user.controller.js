@@ -102,6 +102,28 @@ export function changePassword(req, res) {
 }
 
 /**
+ * Change a users role
+ */
+export function changeRole(req, res) {
+    var userId = req.params.id;
+    var newRole = String(req.body.newRole);
+
+    return User.findById(userId).exec()
+        .then(user => {
+            if (user) {
+                user.role = newRole;
+                return user.save()
+                    .then((response) => {
+                        res.status(204).end(response);
+                    })
+                    .catch(handleError(res));
+            } else {
+                return res.status(40).end();
+            }
+        });
+}
+
+/**
  * Get my info
  */
 export function me(req, res, next) {
