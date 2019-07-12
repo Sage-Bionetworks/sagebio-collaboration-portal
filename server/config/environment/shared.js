@@ -25,7 +25,7 @@ export const models = {
         },
         description: {
             minlength: 0,
-            maxlength: 5000
+            maxlength: 1000 * 1024 * 1024
         },
         visibility: {
             values: ['Private', 'Public'],
