@@ -97,13 +97,15 @@ export function upsert(req, res) {
 
 // Updates an existing Project in the DB
 export function patch(req, res) {
-    Reflect.deleteProperty(req.body, '_id');
-    Reflect.deleteProperty(req.body, 'createdAt');
-    Reflect.deleteProperty(req.body, 'createdBy');
+    const patches = req.body.filter(patch => ![
+        '_id',
+        'createdAt',
+        'createdBy'
+    ].map(x => `/${x}`).includes(patch.path));
 
     return Project.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
+        .then(patchUpdates(patches))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

@@ -3,40 +3,42 @@
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
+import Organization from '../organization/organization.model';
+import Project from './project.model';
+import {
+    adminUser,
+    anotherUser,
+    authOrganization,
+    anotherOrganization,
+    authenticateUser
+} from '../integration-util';
 
 var newProject;
 
 describe('Project API:', function () {
-    var user;
-    var anotherUser;
+    var token;
 
-    // Clear users before testing
-    before(() =>
+    before(() => {
+        return Project.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => User.deleteMany())
+            .then(() => User.create([
+                adminUser,
+                anotherUser
+            ]))
+            .then(() => Organization.create([
+                authOrganization,
+                anotherOrganization
+            ]))
+            .then(authenticateUser(app, adminUser))
+            .then(res => token = res);
+    });
+
+    after(() => Promise.all([
+        Project.deleteMany(),
+        Organization.deleteMany(),
         User.deleteMany()
-        .then(() => {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test'
-            });
-
-            anotherUser = new User({
-                name: 'Another User',
-                email: 'another@example.com',
-                password: 'password',
-                username: 'another'
-            });
-
-            return Promise.all([
-                user.save(),
-                anotherUser.save()
-            ]);
-        })
-    );
-
-    // Clear users after testing
-    after(() => User.deleteMany());
+    ]));
 
     describe('GET /api/projects', function () {
         var projects;
@@ -64,11 +66,11 @@ describe('Project API:', function () {
         beforeEach(function (done) {
             request(app)
                 .post('/api/projects')
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     name: 'New name',
                     description: 'New description',
-                    visibility: 'Private',
-                    createdBy: user._id.toString()
+                    visibility: 'Private'
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -85,7 +87,7 @@ describe('Project API:', function () {
             expect(newProject.name).to.equal('New name');
             expect(newProject.description).to.equal('New description');
             expect(newProject.visibility).to.equal('Private');
-            expect(newProject.createdBy).to.equal(user._id.toString());
+            expect(newProject.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -114,7 +116,7 @@ describe('Project API:', function () {
             expect(project.name).to.equal('New name');
             expect(project.description).to.equal('New description');
             expect(project.visibility).to.equal('Private');
-            expect(project.createdBy).to.equal(user._id.toString());
+            expect(project.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -127,8 +129,7 @@ describe('Project API:', function () {
                 .send({
                     name: 'Updated name',
                     description: 'Updated description',
-                    visibility: 'Public',
-                    createdBy: anotherUser._id.toString()
+                    visibility: 'Public'
                 })
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -149,7 +150,7 @@ describe('Project API:', function () {
             expect(updatedProject.name).to.equal('Updated name');
             expect(updatedProject.description).to.equal('Updated description');
             expect(updatedProject.visibility).to.equal('Public');
-            expect(updatedProject.createdBy).to.equal(anotherUser._id.toString());
+            expect(updatedProject.createdBy).to.equal(adminUser._id.toString());
         });
 
         it('should respond with the updated project on a subsequent GET', function (done) {
@@ -166,7 +167,7 @@ describe('Project API:', function () {
                     expect(project.name).to.equal('Updated name');
                     expect(project.description).to.equal('Updated description');
                     expect(project.visibility).to.equal('Public');
-                    expect(project.createdBy).to.equal(anotherUser._id.toString());
+                    expect(project.createdBy).to.equal(adminUser._id.toString());
 
                     done();
                 });
@@ -180,23 +181,18 @@ describe('Project API:', function () {
             request(app)
                 .patch(`/api/projects/${newProject._id}`)
                 .send([{
-                        op: 'replace',
-                        path: '/name',
-                        value: 'Patched name'
-                    }, {
-                        op: 'replace',
-                        path: '/description',
-                        value: 'Patched description'
-                    }, {
-                        op: 'replace',
-                        path: '/visibility',
-                        value: 'Public'
-                    }, {
-                        op: 'replace',
-                        path: '/createdBy',
-                        value: anotherUser._id.toString()
-                    }
-                ])
+                    op: 'replace',
+                    path: '/name',
+                    value: 'Patched name'
+                }, {
+                    op: 'replace',
+                    path: '/description',
+                    value: 'Patched description'
+                }, {
+                    op: 'replace',
+                    path: '/visibility',
+                    value: 'Public'
+                }])
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
@@ -216,7 +212,7 @@ describe('Project API:', function () {
             expect(patchedProject.name).to.equal('Patched name');
             expect(patchedProject.description).to.equal('Patched description');
             expect(patchedProject.visibility).to.equal('Public');
-            expect(patchedProject.createdBy).to.equal(anotherUser._id.toString());
+            expect(patchedProject.createdBy).to.equal(adminUser._id.toString());
         });
     });
 

@@ -5,64 +5,40 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import User from '../user/user.model';
 import Organization from '../organization/organization.model';
+import DataCatalog from './data-catalog.model';
+import {
+    adminUser,
+    anotherUser,
+    authOrganization,
+    anotherOrganization,
+    authenticateUser
+} from '../integration-util';
 
 var newDataCatalog;
 
 describe('DataCatalog API:', function () {
-    var user;
-    var anotherUser;
-    var organization;
-    var anotherOrganization;
+    var token;
 
-    // Clear users before testing
-    before(() =>
-        User.deleteMany()
-        .then(() => {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test'
-            });
+    before(() => {
+        return DataCatalog.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => User.deleteMany())
+            .then(() => User.create([
+                adminUser,
+                anotherUser
+            ]))
+            .then(() => Organization.create([
+                authOrganization,
+                anotherOrganization
+            ]))
+            .then(authenticateUser(app, adminUser))
+            .then(res => token = res);
+    });
 
-            anotherUser = new User({
-                name: 'Another User',
-                email: 'another@example.com',
-                password: 'password',
-                username: 'another'
-            });
-
-            return Promise.all([
-                user.save(),
-                anotherUser.save()
-            ]);
-        })
-        .then(() =>
-            Organization.deleteMany()
-            .then(() => {
-                organization = new Organization({
-                    name: 'Fake Organization',
-                    website: 'Fake website',
-                    createdBy: user
-                });
-
-                anotherOrganization = new Organization({
-                    name: 'Another Fake Organization',
-                    website: 'Fake website',
-                    createdBy: anotherUser
-                });
-
-                return Promise.all([
-                    organization.save(),
-                    anotherOrganization.save()
-                ]);
-            })
-        ));
-
-    // Clear users after testing
     after(() => Promise.all([
-        User.deleteMany(),
-        Organization.deleteMany()
+        DataCatalog.deleteMany(),
+        Organization.deleteMany(),
+        User.deleteMany()
     ]));
 
     describe('GET /api/data-catalogs', function () {
@@ -71,6 +47,7 @@ describe('DataCatalog API:', function () {
         beforeEach(function (done) {
             request(app)
                 .get('/api/data-catalogs')
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -91,15 +68,15 @@ describe('DataCatalog API:', function () {
         beforeEach(function (done) {
             request(app)
                 .post('/api/data-catalogs')
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'new-slug',
                     name: 'New name',
                     description: 'New description',
                     website: 'New website',
-                    organization: organization._id.toString(),
+                    organization: authOrganization._id.toString(),
                     apiType: 'CKAN',
-                    apiServerUrl: 'New apiServerUrl',
-                    createdBy: user._id.toString()
+                    apiServerUrl: 'New apiServerUrl'
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -116,11 +93,11 @@ describe('DataCatalog API:', function () {
             expect(newDataCatalog.slug).to.equal('new-slug');
             expect(newDataCatalog.name).to.equal('New name');
             expect(newDataCatalog.description).to.equal('New description');
+            expect(newDataCatalog.organization).to.equal(authOrganization._id.toString());
             expect(newDataCatalog.website).to.equal('New website');
-            expect(newDataCatalog.organization).to.equal(organization._id.toString());
             expect(newDataCatalog.apiType).to.equal('CKAN');
             expect(newDataCatalog.apiServerUrl).to.equal('New apiServerUrl');
-            expect(newDataCatalog.createdBy).to.equal(user._id.toString());
+            expect(newDataCatalog.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -130,6 +107,7 @@ describe('DataCatalog API:', function () {
         beforeEach(function (done) {
             request(app)
                 .get(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -149,11 +127,11 @@ describe('DataCatalog API:', function () {
             expect(dataCatalog.slug).to.equal('new-slug');
             expect(dataCatalog.name).to.equal('New name');
             expect(dataCatalog.description).to.equal('New description');
+            expect(dataCatalog.organization._id).to.equal(authOrganization._id.toString());
             expect(dataCatalog.website).to.equal('New website');
-            expect(dataCatalog.organization._id).to.equal(organization._id.toString());
             expect(dataCatalog.apiType).to.equal('CKAN');
             expect(dataCatalog.apiServerUrl).to.equal('New apiServerUrl');
-            expect(dataCatalog.createdBy).to.equal(user._id.toString());
+            expect(dataCatalog.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -163,15 +141,15 @@ describe('DataCatalog API:', function () {
         beforeEach(function (done) {
             request(app)
                 .put(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'updated-slug',
                     name: 'Updated name',
                     description: 'Updated description',
-                    website: 'Updated website',
                     organization: anotherOrganization._id.toString(),
+                    website: 'Updated website',
                     apiType: 'CKAN',
-                    apiServerUrl: 'Updated apiServerUrl',
-                    createdBy: anotherUser._id.toString()
+                    apiServerUrl: 'Updated apiServerUrl'
                 })
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -192,16 +170,17 @@ describe('DataCatalog API:', function () {
             expect(updatedDataCatalog.slug).to.equal('updated-slug');
             expect(updatedDataCatalog.name).to.equal('Updated name');
             expect(updatedDataCatalog.description).to.equal('Updated description');
-            expect(updatedDataCatalog.website).to.equal('Updated website');
             expect(updatedDataCatalog.organization).to.equal(anotherOrganization._id.toString());
+            expect(updatedDataCatalog.website).to.equal('Updated website');
             expect(updatedDataCatalog.apiType).to.equal('CKAN');
             expect(updatedDataCatalog.apiServerUrl).to.equal('Updated apiServerUrl');
-            expect(updatedDataCatalog.createdBy).to.equal(anotherUser._id.toString());
+            expect(updatedDataCatalog.createdBy).to.equal(adminUser._id.toString());
         });
 
         it('should respond with the updated dataCatalog on a subsequent GET', function (done) {
             request(app)
                 .get(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -213,11 +192,11 @@ describe('DataCatalog API:', function () {
                     expect(dataCatalog.slug).to.equal('updated-slug');
                     expect(dataCatalog.name).to.equal('Updated name');
                     expect(dataCatalog.description).to.equal('Updated description');
-                    expect(dataCatalog.website).to.equal('Updated website');
                     expect(dataCatalog.organization._id).to.equal(anotherOrganization._id.toString());
+                    expect(dataCatalog.website).to.equal('Updated website');
                     expect(dataCatalog.apiType).to.equal('CKAN');
                     expect(dataCatalog.apiServerUrl).to.equal('Updated apiServerUrl');
-                    expect(dataCatalog.createdBy).to.equal(anotherUser._id.toString());
+                    expect(dataCatalog.createdBy).to.equal(adminUser._id.toString());
 
                     done();
                 });
@@ -230,6 +209,7 @@ describe('DataCatalog API:', function () {
         beforeEach(function (done) {
             request(app)
                 .patch(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .send([{
                     op: 'replace',
                     path: '/slug',
@@ -244,12 +224,12 @@ describe('DataCatalog API:', function () {
                     value: 'Patched description'
                 }, {
                     op: 'replace',
-                    path: '/website',
-                    value: 'Patched website'
-                }, {
-                    op: 'replace',
                     path: '/organization',
                     value: anotherOrganization._id.toString()
+                }, {
+                    op: 'replace',
+                    path: '/website',
+                    value: 'Patched website'
                 }, {
                     op: 'replace',
                     path: '/apiType',
@@ -258,10 +238,6 @@ describe('DataCatalog API:', function () {
                     op: 'replace',
                     path: '/apiServerUrl',
                     value: 'Patched apiServerUrl'
-                }, {
-                    op: 'replace',
-                    path: '/createdBy',
-                    value: anotherUser._id.toString()
                 }])
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -282,11 +258,11 @@ describe('DataCatalog API:', function () {
             expect(patchedDataCatalog.slug).to.equal('patched-slug');
             expect(patchedDataCatalog.name).to.equal('Patched name');
             expect(patchedDataCatalog.description).to.equal('Patched description');
-            expect(patchedDataCatalog.website).to.equal('Patched website');
             expect(patchedDataCatalog.organization).to.equal(anotherOrganization._id.toString());
+            expect(patchedDataCatalog.website).to.equal('Patched website');
             expect(patchedDataCatalog.apiType).to.equal('CKAN');
             expect(patchedDataCatalog.apiServerUrl).to.equal('Patched apiServerUrl');
-            expect(patchedDataCatalog.createdBy).to.equal(anotherUser._id.toString());
+            expect(patchedDataCatalog.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -294,6 +270,7 @@ describe('DataCatalog API:', function () {
         it('should respond with 204 on successful removal', function (done) {
             request(app)
                 .delete(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(204)
                 .end(err => {
                     if (err) {
@@ -306,6 +283,7 @@ describe('DataCatalog API:', function () {
         it('should respond with 404 when dataCatalog does not exist', function (done) {
             request(app)
                 .delete(`/api/data-catalogs/${newDataCatalog._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(404)
                 .end(err => {
                     if (err) {

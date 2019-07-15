@@ -1,5 +1,7 @@
 /* globals sinon, describe, expect, it */
 
+import { authServiceStub } from '../../auth/auth.service.stub';
+
 var proxyquire = require('proxyquire').noPreserveCache();
 
 var toolCtrlStub = {
@@ -9,18 +11,6 @@ var toolCtrlStub = {
     upsert: 'toolCtrl.upsert',
     patch: 'toolCtrl.patch',
     destroy: 'toolCtrl.destroy'
-};
-
-var authServiceStub = {
-    isAuthenticated() {
-        return 'authService.isAuthenticated';
-    },
-    hasRole(role) {
-        return `authService.hasRole.${role}`;
-    },
-    hasPermission(permission) {
-        return `authService.hasPermission.${permission}`;
-    }
 };
 
 var routerStub = {

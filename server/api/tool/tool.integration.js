@@ -4,7 +4,7 @@ var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
 import Organization from '../organization/organization.model';
-import Tool from '../tool/tool.model';
+import Tool from './tool.model';
 import {
     adminUser,
     anotherUser,
@@ -126,8 +126,8 @@ describe('Tool API:', function () {
             expect(tool.slug).to.equal('new-slug');
             expect(tool.name).to.equal('New name');
             expect(tool.description).to.equal('New description');
-            expect(tool.website).to.equal('New website');
             expect(tool.organization._id).to.equal(authOrganization._id.toString());
+            expect(tool.website).to.equal('New website');
             expect(tool.apiServerUrl).to.equal('New apiServerUrl');
             expect(tool.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
             expect(tool.createdBy).to.equal(adminUser._id.toString());

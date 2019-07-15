@@ -1,5 +1,6 @@
 var express = require('express');
 var controller = require('./data-catalog.controller');
+var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
@@ -21,7 +22,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/DataCatalog'
  */
-router.get('/', controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -53,7 +54,7 @@ router.get('/', controller.index);
  *       '404':
  *         description: Data Catalog not found
  */
-router.get('/:id', controller.show);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 
 /**
  * @swagger
@@ -80,7 +81,7 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Data Catalog
  */
-router.post('/', controller.create);
+router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
 
 /**
  * @swagger
@@ -109,7 +110,7 @@ router.post('/', controller.create);
  *       '404':
  *         description: Data Catalog not found
  */
-router.put('/:id', controller.upsert);
+router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
 
 /**
  * @swagger
@@ -138,7 +139,7 @@ router.put('/:id', controller.upsert);
  *       '404':
  *         description: Data Catalog not found
  */
-router.patch('/:id', controller.patch);
+router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
 
 /**
  * @swagger
@@ -166,6 +167,6 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Data Catalog not found
  */
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.hasPermission('deleteDataCatalog'), controller.destroy);
 
 module.exports = router;
