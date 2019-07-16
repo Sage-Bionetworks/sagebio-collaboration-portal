@@ -1,7 +1,6 @@
 /* jshint latedef:nofunc */
 'use strict';
 
-// var d3 = require('d3')
 import * as d3 from 'd3';
 
 function Neo4jD3(_selector, _options) {
@@ -1009,5 +1008,4 @@ function Neo4jD3(_selector, _options) {
     };
 }
 
-// module.exports = Neo4jD3;
 export default Neo4jD3;

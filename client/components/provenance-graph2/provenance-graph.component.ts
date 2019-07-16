@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import neo4jd3 from '../d3/customNeo4jd3';
-import { get } from 'lodash';
 
 @Component({
     selector: 'provenance-graph2',
     template: require('./provenance-graph.html'),
-    styles: [require('./provenance-graph.scss')]
+    styles: [require('./provenance-graph.scss')],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
     @Input() nodes: Object;

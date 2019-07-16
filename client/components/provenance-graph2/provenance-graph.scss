@@ -1,4 +1,4 @@
-svg.neo4jd3-graph {
+.neo4jd3-graph {
   height: 500px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -7,8 +7,8 @@ svg.neo4jd3-graph {
 .neo4jd3-info {
   font-size: 16px;
   padding: 10px;
+  padding-left: 500px;
   position: absolute;
-  background-color: yellow;
 }
 
 .neo4jd3-info a {
