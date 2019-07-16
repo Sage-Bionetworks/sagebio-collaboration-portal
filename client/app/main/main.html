@@ -11,7 +11,7 @@
     </div>
 </header>
 
-<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>
+<provenance-graph2 *ngIf="nodes" [nodes]="nodes"></provenance-graph2>
 
 <!-- <div class="app-main-fair-container">
     <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">
