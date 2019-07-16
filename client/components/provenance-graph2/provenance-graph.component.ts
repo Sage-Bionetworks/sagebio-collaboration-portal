@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import neo4jd3 from '../d3/customNeo4jd3';
+import neo4jd3 from '../d3/models/custom-neo-4jd3';
+
 
 @Component({
     selector: 'provenance-graph2',

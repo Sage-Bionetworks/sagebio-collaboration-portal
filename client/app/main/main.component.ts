@@ -4,10 +4,6 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
 import { ProvenanceGraphService } from 'components/provenance-graph2/provenance-graph.service'
 
-// import APP_CONFIG from './app.config';
-import { Node } from 'components/d3/models/node';
-import { Link } from 'components/d3/models/link';
-
 @Component({
     selector: 'app-main',
     template: require('./main.html'),
