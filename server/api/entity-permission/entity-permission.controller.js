@@ -1,13 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/entity-permissions              ->  index
- * POST    /api/entity-permissions              ->  create
- * GET     /api/entity-permissions/:id          ->  show
- * PUT     /api/entity-permissions/:id          ->  upsert
- * PATCH   /api/entity-permissions/:id          ->  patch
- * DELETE  /api/entity-permissions/:id          ->  destroy
- */
-
 import {
     applyPatch
 } from 'fast-json-patch';

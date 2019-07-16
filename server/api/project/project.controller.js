@@ -2,6 +2,27 @@ import {
     applyPatch
 } from 'fast-json-patch';
 import Project from './project.model';
+import EntityPermission from '../entity-permission/entity-permission.model';
+import {
+    entityTypes,
+    accessTypes
+} from '../../config/environment';
+
+function createAdminPermissionForEntity(user, entityType) {
+    return function (entity) {
+        if (entity) {
+            return EntityPermission.create({
+                    entityId: entity._id.toString(),
+                    entityType: entityType,
+                    userId: user._id.toString(),
+                    access: accessTypes.ADMIN.value,
+                    createdBy: user._id.toString()
+                })
+                .then(() => entity);
+        }
+        return null;
+    };
+}
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -73,6 +94,7 @@ export function create(req, res) {
     req.body.createdBy = req.user._id.toString();
 
     return Project.create(req.body)
+        .then(createAdminPermissionForEntity(req.user, entityTypes.PROJECT.value))
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }

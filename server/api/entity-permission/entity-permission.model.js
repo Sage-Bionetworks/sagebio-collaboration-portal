@@ -11,7 +11,7 @@ var EntityPermissionSchema = new mongoose.Schema({
     },
     entityType: {
         type: String,
-        enum: config.entityTypes,
+        enum: Object.values(config.entityTypes).map(entity => entity.value),
         required: true
     },
     userId: {
@@ -20,7 +20,7 @@ var EntityPermissionSchema = new mongoose.Schema({
     },
     access: {
         type: String,
-        enum: config.accessTypes,
+        enum: Object.values(config.accessTypes).map(access => access.value),
         required: true
     },
     createdAt: {
