@@ -11,6 +11,18 @@ export const permissionTypes = [
     'deleteTool'
 ];
 
+export const entityTypes = [
+    'project'
+];
+
+export const accessTypes = [
+    'list',
+    'create',
+    'edit',
+    'delete',
+    'admin'
+];
+
 export const gitVersion = process.env.gitVersion;
 export const gitCommitHash = process.env.gitCommitHash;
 export const gitBranch = process.env.gitBranch;

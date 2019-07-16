@@ -13,6 +13,7 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 export default app => {
     // Insert routes below
+    app.use('/api/entity-permissions', require('./api/entity-permission'));
     app.use('/api/messages', require('./api/message'));
     app.use('/api/tags', require('./api/tag'));
     app.use('/api/projects', require('./api/project'));
