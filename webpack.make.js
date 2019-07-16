@@ -385,57 +385,59 @@ module.exports = function makeWebpackConfig(options) {
         };
     }
 
-    /**
-     * Dev server configuration
-     * Reference: http://webpack.github.io/docs/configuration.html#devserver
-     * Reference: http://webpack.github.io/docs/webpack-dev-server.html
-     */
-    const webpackAppConfig = {
-        clientIp: process.env.CLIENT_IP || '0.0.0.0',
-        clientPort: process.env.CLIENT_PORT || 8080,
-        serverIp: process.env.IP || '0.0.0.0',
-        serverPort: process.env.PORT || 9000,
-        httpsKey: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
-        httpsCert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
-    };
+    if (DEV) {
+        /**
+         * Dev server configuration
+         * Reference: http://webpack.github.io/docs/configuration.html#devserver
+         * Reference: http://webpack.github.io/docs/webpack-dev-server.html
+         */
+        const webpackAppConfig = {
+            clientIp: process.env.CLIENT_IP || '0.0.0.0',
+            clientPort: process.env.CLIENT_PORT || 8080,
+            serverIp: process.env.IP || '0.0.0.0',
+            serverPort: process.env.PORT || 9000,
+            httpsKey: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
+            httpsCert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
+        };
 
-    config.devServer = {
-        host: webpackAppConfig.clientIp,
-        port: webpackAppConfig.clientPort,
-        disableHostCheck: true, // not secure
-        contentBase: './client/',
-        hot: true,
-        proxy: {
-            '/api': {
-                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
-                secure: false,
+        config.devServer = {
+            host: webpackAppConfig.clientIp,
+            port: webpackAppConfig.clientPort,
+            disableHostCheck: true, // not secure
+            contentBase: './client/',
+            hot: true,
+            proxy: {
+                '/api': {
+                    target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
+                    secure: false,
+                },
+                '/auth': {
+                    target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
+                    secure: false,
+                },
+                '/primus': {
+                    target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
+                    secure: false,
+                    ws: true,
+                },
             },
-            '/auth': {
-                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
-                secure: false,
+            stats: {
+                modules: false,
+                cached: false,
+                colors: true,
+                chunks: false,
             },
-            '/primus': {
-                target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
-                secure: false,
-                ws: true,
+            historyApiFallback: {
+                index: 'app.html'
             },
-        },
-        stats: {
-            modules: false,
-            cached: false,
-            colors: true,
-            chunks: false,
-        },
-        historyApiFallback: {
-            index: 'app.html'
-        },
-        http2: true,
-        https: {
-            key: webpackAppConfig.httpsKey,
-            cert: webpackAppConfig.httpsCert,
-            // ca: fs.readFileSync('.certs/ca.pem'),
-        }
-    };
+            http2: true,
+            https: {
+                key: webpackAppConfig.httpsKey,
+                cert: webpackAppConfig.httpsCert,
+                // ca: fs.readFileSync('.certs/ca.pem'),
+            }
+        };
+    }
 
     config.node = {
         global: true,
