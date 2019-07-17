@@ -4,11 +4,11 @@ import { d3Json } from './mock-data/mockGraphD3'
 
 @Injectable()
 export class ProvenanceGraphService {
-  getNodesForNeo() {
+  getNodesInNeoFormat() {
     return neoJson
   }
 
-  getNodesForD3() {
+  getNodesForD3Format() {
     return d3Json
   }
 }

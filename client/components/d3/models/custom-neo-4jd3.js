@@ -547,19 +547,6 @@ function Neo4jD3(_selector, _options) {
         updateWithNeo4jData(options.neo4jData);
     }
 
-    // function loadNeo4jDataFromUrl(neo4jDataUrl) {
-    //     nodes = [];
-    //     relationships = [];
-
-    //     d3.json(neo4jDataUrl, function(error, data) {
-    //         if (error) {
-    //             throw error;
-    //         }
-
-    //         updateWithNeo4jData(data);
-    //     });
-    // }
-
     function merge(target, source) {
         Object.keys(source).forEach(function(property) {
             target[property] = source[property];
@@ -859,6 +846,20 @@ function Neo4jD3(_selector, _options) {
 }
 
 export default Neo4jD3;
+
+// TODO: Clean up these unused functions
+    // function loadNeo4jDataFromUrl(neo4jDataUrl) {
+    //     nodes = [];
+    //     relationships = [];
+
+    //     d3.json(neo4jDataUrl, function(error, data) {
+    //         if (error) {
+    //             throw error;
+    //         }
+
+    //         updateWithNeo4jData(data);
+    //     });
+    // }
 
     // function appendInfoPanel(container) {
     //     return container.append('div')

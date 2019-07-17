@@ -23,7 +23,7 @@ export class MainComponent implements OnInit, OnDestroy {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
 
-        this.nodes = this.provenanceGraphService.getNodesForNeo()
+        this.nodes = this.provenanceGraphService.getNodesInNeoFormat()
     }
 
     ngOnInit() {

@@ -14,11 +14,11 @@ export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         if (this.nodes) {
-            neo4jd3('.customNeo4jd3', this.getRenderOptions(this.nodes));
+            neo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
         }
     }
 
-    getRenderOptions(dataToUse: any) {
+    getGraphOptions(dataToUse: Object) {
         return {
             icons: {
                 'Activity|_class|Tool session': 'cogs',
