@@ -1,0 +1,22 @@
+.app-provenance-node-info-header {
+  // display: flex;
+  // flex-flow: row nowrap;
+  // align-items: center;
+  // padding: 0 0 0 10px;
+  padding-left: 10px;
+}
+
+.app-provenance-node-info-header-title {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1;
+  justify-content: center;
+}
+
+.app-provenance-node-info-header-close {
+  margin: 0 10px 0 0;
+}
+
+.app-provenance-node-info-body {
+  margin: 10px 10px 10px 10px
+}

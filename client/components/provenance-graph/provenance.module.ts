@@ -1,20 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MaterialModule } from 'components/material/material.module';
 import { ProvenanceGraphService } from './provenance-graph.service';
 import { ProvenanceGraphComponent } from './provenance-graph.component';
+import { ProvenanceSidenavComponent } from './provenance-sidenav/provenance-sidenav.component';
+
 
 @NgModule({
     imports: [
         BrowserModule,
+        MaterialModule,
     ],
     declarations: [
-        ProvenanceGraphComponent
+        ProvenanceGraphComponent,
+        ProvenanceSidenavComponent
     ],
     providers: [
-        ProvenanceGraphService
+        ProvenanceGraphService,
+        ProvenanceSidenavComponent
     ],
     exports: [
-        ProvenanceGraphComponent
+        ProvenanceGraphComponent,
+        ProvenanceSidenavComponent
     ]
 })
 export class ProvenanceModule { }

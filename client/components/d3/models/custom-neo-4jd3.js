@@ -469,18 +469,12 @@ function Neo4jD3(_selector, _options) {
         container.attr('class', 'neo4jd3')
                  .html('');
 
-        // if (options.infoPanel) {
-        //     info = appendInfoPanel(container);
-        // }
-
         appendGraph(container);
 
         simulation = initSimulation();
 
         if (options.neo4jData) {
             loadNeo4jData(options.neo4jData);
-        // } else if (options.neo4jDataUrl) {
-        //     loadNeo4jDataFromUrl(options.neo4jDataUrl);
         } else {
             console.error('Error: no neo4jData!');
         }
@@ -847,109 +841,6 @@ function Neo4jD3(_selector, _options) {
 
 export default Neo4jD3;
 
-// TODO: Clean up these unused functions
-    // function loadNeo4jDataFromUrl(neo4jDataUrl) {
-    //     nodes = [];
-    //     relationships = [];
-
-    //     d3.json(neo4jDataUrl, function(error, data) {
-    //         if (error) {
-    //             throw error;
-    //         }
-
-    //         updateWithNeo4jData(data);
-    //     });
-    // }
-
-    // function appendInfoPanel(container) {
-    //     return container.append('div')
-    //                     .attr('class', 'neo4jd3-info');
-    // }
-
-    // function appendInfoElement(cls, isNode, property, value) {
-    //     var elem = info.append('a');
-
-    //     elem.attr('href', '#')
-    //         .attr('class', cls)
-    //         .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
-
-    //     if (!value) {
-    //         elem.style('background-color', function(d) {
-    //                 return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : (isNode ? class2color(property) : defaultColor());
-    //             })
-    //             .style('border-color', function(d) {
-    //                 return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : (isNode ? class2darkenColor(property) : defaultDarkenColor());
-    //             })
-    //             .style('color', function(d) {
-    //                 return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : '#fff';
-    //             });
-    //     }
-    // }
-
-    // function appendInfoElementClass(cls, node) {
-    //     appendInfoElement(cls, true, node);
-    // }
-
-    // function appendInfoElementProperty(cls, property, value) {
-    //     appendInfoElement(cls, false, property, value);
-    // }
-
-    // function appendInfoElementRelationship(cls, relationship) {
-    //     appendInfoElement(cls, false, relationship);
-    // }
-
-    // function version() {
-    //     return VERSION;
-    // }
-
-
-    // function defaultColor() {
-    //     return options.relationshipColor;
-    // }
-
-    // function defaultDarkenColor() {
-    //     return d3.rgb(options.colors[options.colors.length - 1]).darker(1);
-    // }
-
-        // function clearInfo() {
-    //     info.html('');
-    // }
-
-    // function color() {
-    //     return options.colors[options.colors.length * Math.random() << 0];
-    // }
-
-        // function appendRandomDataToNode(d, maxNodesToGenerate) {
-    //     var data = randomD3Data(d, maxNodesToGenerate);
-    //     updateWithNeo4jData(data);
-    // }
-
-
-    // function updateInfo(d) {
-    //     clearInfo();
-
-    //     if (d.labels) {
-    //         appendInfoElementClass('class', d.labels[0]);
-    //     } else {
-    //         appendInfoElementRelationship('class', d.type);
-    //     }
-
-    //     appendInfoElementProperty('property', '&lt;id&gt;', d.id);
-
-    //     Object.keys(d.properties).forEach(function(property) {
-    //         appendInfoElementProperty('property', property, JSON.stringify(d.properties[property]));
-    //     });
-    // }
-
-        // function extend(obj1, obj2) {
-    //     var obj = {};
-
-    //     merge(obj, obj1);
-    //     merge(obj, obj2);
-
-    //     return obj;
-    // }
-
         // function smoothTransform(elem, translate, scale) {
     //     var animationMilliseconds = 5000,
     //         timeoutMilliseconds = 50,
@@ -958,67 +849,4 @@ export default Neo4jD3;
     //     setTimeout(function() {
     //         smoothTransformStep(elem, translate, scale, timeoutMilliseconds, 1, steps);
     //     }, timeoutMilliseconds);
-    // }
-
-    // function smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step, steps) {
-    //     var progress = step / steps;
-
-    //     elem.attr('transform', 'translate(' + (translate[0] * progress) + ', ' + (translate[1] * progress) + ') scale(' + (scale * progress) + ')');
-
-    //     if (step < steps) {
-    //         setTimeout(function() {
-    //             smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step + 1, steps);
-    //         }, timeoutMilliseconds);
-    //     }
-    // }
-
-        // function randomD3Data(d, maxNodesToGenerate) {
-    //     var data = {
-    //             nodes: [],
-    //             relationships: []
-    //         },
-    //         i,
-    //         label,
-    //         node,
-    //         numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
-    //         relationship,
-    //         s = size();
-
-    //     for (i = 0; i < numNodes; i++) {
-    //         label = randomLabel();
-
-    //         node = {
-    //             id: s.nodes + 1 + i,
-    //             labels: [label],
-    //             properties: {
-    //                 random: label
-    //             },
-    //             x: d.x,
-    //             y: d.y
-    //         };
-
-    //         data.nodes[data.nodes.length] = node;
-
-    //         relationship = {
-    //             id: s.relationships + 1 + i,
-    //             type: label.toUpperCase(),
-    //             startNode: d.id,
-    //             endNode: s.nodes + 1 + i,
-    //             properties: {
-    //                 from: Date.now()
-    //             },
-    //             source: d.id,
-    //             target: s.nodes + 1 + i,
-    //             linknum: s.relationships + 1 + i
-    //         };
-
-    //         data.relationships[data.relationships.length] = relationship;
-    //     }
-
-    //     return data;
-    // }
-
-    // function randomLabel() {
-    //     var icons = Object.keys(options.iconMap);
-    //     return icons[icons.length * Math.random() << 0];
     // }

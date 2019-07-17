@@ -1,0 +1,14 @@
+<div>
+    <div class="app-primary-header app-provenance-node-info-header">
+        <h1 class="app-provenance-node-info-header-title">Node details</h1>
+        <a class="app-provenance-node-info-header-close" mat-icon-button matTooltip="Close" aria-label="Close this panel" (click)="close.emit(null)">
+            <mat-icon aria-label="Icon of cross">close</mat-icon>
+        </a>
+    </div>
+
+    <div class="app-provenance-node-info-body">
+        hey I want to see this:
+            ID: {{contentDetails && contentDetails.id}}
+            ACTIVITY: {{contentDetails && contentDetails.labels[0]}}
+    </div>
+</div>

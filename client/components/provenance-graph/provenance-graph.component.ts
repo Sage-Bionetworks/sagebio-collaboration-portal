@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import neo4jd3 from '../d3/models/custom-neo-4jd3';
-
+import { Component, Input, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
+import customNeo4jd3 from '../d3/models/custom-neo-4jd3';
+import { ProvenanceSidenavComponent } from './provenance-sidenav/provenance-sidenav.component'
 
 @Component({
     selector: 'provenance-graph',
@@ -8,15 +8,18 @@ import neo4jd3 from '../d3/models/custom-neo-4jd3';
     styles: [require('./provenance-graph.scss')],
     encapsulation: ViewEncapsulation.None,
 })
-export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
+export class ProvenanceGraphComponent implements OnInit {
     @Input() nodes: Object;
-    constructor() { }
+    private contentDetails: Object
 
+    @ViewChild(ProvenanceSidenavComponent, { static: false }) provenanceSidenavComponent: ProvenanceSidenavComponent;
+
+    constructor() {}
     ngOnInit() {
-        neo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
+        customNeo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
     }
 
-    getGraphOptions(dataToUse: Object) {
+    getGraphOptions(nodesToGraph: Object) {
         return {
             icons: {
                 'Activity|_class|Tool session': 'cogs',
@@ -42,19 +45,24 @@ export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
                 'Reference|subclass|Star': 'assets/images/provenence-graph/2b50.svg'
             },
             minCollision: 60,
-            neo4jData: dataToUse,
+            neo4jData: nodesToGraph,
             nodeRadius: 25,
             zoomFit: true,
-            onNodeDoubleClick: function(node: any) {
-                console.log('onNodeDoubleClick node:?? ', node);
+            onNodeDoubleClick: (node: any) => {
+                this.showDetailsInSideNav(node);
             },
             onRelationshipDoubleClick: function(relationship: any) {
-                console.log('double click on relationship: ', relationship);
+                console.log('double click on relationship line: // bind // trigger action', relationship);
             },
             onNodeMouseEnter: function(node: any) {
-                console.log('onNodeMouseEnter: ', node);
+                console.log('hovering a node: // bind // trigger action', node);
             },
         }
     }
+
+    showDetailsInSideNav(node: any): void {
+        this.contentDetails = node;
+    }
+
     ngAfterViewInit() { }
 }
