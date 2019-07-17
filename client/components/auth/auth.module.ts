@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { AuthGuard } from './auth-guard.service';
 import { UserPermissionService } from './user-permission.service';
+import { EntityPermissionService } from './entity-permission.service';
 import { UserPermissionDataService } from './user-permission-data.service';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { UserPermissionDataService } from './user-permission-data.service';
         TokenService,
         AuthGuard,
         UserPermissionDataService,
-        UserPermissionService
+        UserPermissionService,
+        EntityPermissionService
     ]
 })
 export class AuthModule { }

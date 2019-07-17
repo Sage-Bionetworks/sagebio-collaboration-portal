@@ -1,20 +1,12 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/organizations              ->  index
- * POST    /api/organizations              ->  create
- * GET     /api/organizations/:id          ->  show
- * PUT     /api/organizations/:id          ->  upsert
- * PATCH   /api/organizations/:id          ->  patch
- * DELETE  /api/organizations/:id          ->  destroy
- */
-
-import { applyPatch } from 'fast-json-patch';
+import {
+    applyPatch
+} from 'fast-json-patch';
 import Organization from './organization.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
-    return function(entity) {
-        if(entity) {
+    return function (entity) {
+        if (entity) {
             return res.status(statusCode).json(entity);
         }
         return null;
@@ -22,10 +14,10 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-    return function(entity) {
+    return function (entity) {
         try {
             applyPatch(entity, patches, /*validate*/ true);
-        } catch(err) {
+        } catch (err) {
             return Promise.reject(err);
         }
 
@@ -34,8 +26,8 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-    return function(entity) {
-        if(entity) {
+    return function (entity) {
+        if (entity) {
             return entity.remove()
                 .then(() => res.status(204).end());
         }
@@ -43,8 +35,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-    return function(entity) {
-        if(!entity) {
+    return function (entity) {
+        if (!entity) {
             res.status(404).end();
             return null;
         }
@@ -54,7 +46,7 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
-    return function(err) {
+    return function (err) {
         res.status(statusCode).send(err);
     };
 }
@@ -76,6 +68,9 @@ export function show(req, res) {
 
 // Creates a new Organization in the DB
 export function create(req, res) {
+    Reflect.deleteProperty(req.body, 'createdAt');
+    req.body.createdBy = req.user._id.toString();
+
     return Organization.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
@@ -83,22 +78,33 @@ export function create(req, res) {
 
 // Upserts the given Organization in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Organization.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
+    return Organization.findOneAndUpdate({
+            _id: req.params.id
+        }, req.body, {
+            new: true,
+            upsert: true,
+            setDefaultsOnInsert: true,
+            runValidators: true
+        }).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Updates an existing Organization in the DB
 export function patch(req, res) {
-    if(req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
+    const patches = req.body.filter(patch => ![
+        '_id',
+        'createdAt',
+        'createdBy'
+    ].map(x => `/${x}`).includes(patch.path));
+
     return Organization.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
+        .then(patchUpdates(patches))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

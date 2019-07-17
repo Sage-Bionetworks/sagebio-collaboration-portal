@@ -1,6 +1,6 @@
 var express = require('express');
 var controller = require('./tool.controller');
-import * as auth from '../../auth/auth.service';
+var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
@@ -22,7 +22,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Tool'
  */
-router.get('/', controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ router.get('/', controller.index);
  *       '404':
  *         description: Tool not found
  */
-router.get('/:id', controller.show);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.post('/', auth.hasPermission('createTool'), controller.create);
  *       '404':
  *         description: Tool not found
  */
-router.put('/:id', controller.upsert);
+router.put('/:id', auth.hasPermission('editTool'), controller.upsert);
 
 /**
  * @swagger
@@ -139,7 +139,7 @@ router.put('/:id', controller.upsert);
  *       '404':
  *         description: Tool not found
  */
-router.patch('/:id', controller.patch);
+router.patch('/:id', auth.hasPermission('editTool'), controller.patch);
 
 /**
  * @swagger

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/tool.model';
 import { geneId } from '../../../../server/config/seeds/all/organizations';  // TODO: Must use share

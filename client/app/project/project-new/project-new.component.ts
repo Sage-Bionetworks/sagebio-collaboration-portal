@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { ProjectService } from '../project.service';
 import { Project } from 'models/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
+import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
@@ -58,14 +58,13 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
     ngOnDestroy() { }
 
     createNewProject(): void {
-        // this.submitted = true;
-
         let newProject = this.newForm.value;
+        newProject.description = JSON.stringify(newProject.description);
         this.projectService.create(newProject)
             .subscribe(project => {
                 this.newProject.emit(project);
             }, err => {
-                console.log('ERROR', err);
+                console.log(err);
                 this.errors.newProject = err.message;
             });
     }

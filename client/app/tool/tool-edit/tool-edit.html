@@ -1,0 +1,66 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
+    <h1>Edit Tool</h1>
+</div>
+
+<mat-card class="app-tool-edit-card" *ngIf="tool">
+    <mat-card-content>
+        <form class="app-tool-edit-card-form" [formGroup]="editForm" novalidate>
+            <mat-form-field class="app-tool-edit-form-field">
+                <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="editForm.controls.name.invalid">
+                    Please enter a valid name.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-tool-edit-form-field">
+                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="editForm.controls.description.invalid">
+                    Please enter a valid description.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-form-field app-tool-edit-form-field">
+                <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.https">
+                    The URL must begin with the https:// protocol identifier.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.invalid">
+                    Please enter a valid URL for the API.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-form-field app-tool-edit-form-field">
+                <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
+                    The URL must begin with the https:// protocol identifier.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.invalid">
+                    Please enter a valid URL for the API health check.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-form-field app-tool-edit-form-field">
+                <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.https">
+                    The URL must begin with the https:// protocol identifier.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.website.invalid">
+                    Please enter a valid URL for the website.
+                </mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errors.editTool">
+                {{ errors.editTool }}
+            </mat-error>
+            <div class="app-tool-edit-form-actions">
+                <a mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="onEditTool()">Update Tool</a>
+                <a mat-button (click)="close.emit(null)">Cancel</a>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

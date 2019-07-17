@@ -33,6 +33,7 @@ export function create(req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.role = 'user';
+    newUser.createdBy = req.user._id.toString();
 
     return newUser.save()
         .then(user => {
@@ -96,6 +97,28 @@ export function changePassword(req, res) {
                     .catch(validationError(res));
             } else {
                 return res.status(403).end();
+            }
+        });
+}
+
+/**
+ * Change a users role
+ */
+export function changeRole(req, res) {
+    var userId = req.params.id;
+    var newRole = String(req.body.newRole);
+
+    return User.findById(userId).exec()
+        .then(user => {
+            if (user) {
+                user.role = newRole;
+                return user.save()
+                    .then((response) => {
+                        res.status(204).end(response);
+                    })
+                    .catch(handleError(res));
+            } else {
+                return res.status(40).end();
             }
         });
 }

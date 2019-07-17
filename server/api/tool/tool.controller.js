@@ -1,13 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/tools              ->  index
- * POST    /api/tools              ->  create
- * GET     /api/tools/:id          ->  show
- * PUT     /api/tools/:id          ->  upsert
- * PATCH   /api/tools/:id          ->  patch
- * DELETE  /api/tools/:id          ->  destroy
- */
-
 import {
     applyPatch
 } from 'fast-json-patch';
@@ -82,6 +72,9 @@ export function show(req, res) {
 
 // Creates a new Tool in the DB
 export function create(req, res) {
+    Reflect.deleteProperty(req.body, 'createdAt');
+    req.body.createdBy = req.user._id.toString();
+
     return Tool.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
@@ -89,11 +82,10 @@ export function create(req, res) {
 
 // Upserts the given Tool in the DB at the specified ID
 export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-        Reflect.deleteProperty(req.body, 'createdAt');
-        Reflect.deleteProperty(req.body, 'createdBy');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
     return Tool.findOneAndUpdate({
             _id: req.params.id
         }, req.body, {
@@ -108,12 +100,15 @@ export function upsert(req, res) {
 
 // Updates an existing Tool in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
+    const patches = req.body.filter(patch => ![
+        '_id',
+        'createdAt',
+        'createdBy'
+    ].map(x => `/${x}`).includes(patch.path));
+
     return Tool.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
+        .then(patchUpdates(patches))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

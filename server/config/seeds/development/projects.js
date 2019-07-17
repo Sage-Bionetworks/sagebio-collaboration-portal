@@ -7,13 +7,13 @@ import { adminUserId } from './users';
 let projects = [{
     // _id: testUserId,
     name: 'Test Project',
-    description: 'This is a test project',
+    description: `{\"ops\":[{\"insert\":\"This is a test project.\\n\\n\"}]}`,
     visibility: 'Public',
     createdBy: adminUserId
 }, {
     // _id: adminUserId,
     name: 'Another Project',
-    description: 'This is another project',
+    description: `{\"ops\":[{\"insert\":\"This is another project.\\n\\n\"}]}`,
     visibility: 'Public',
     createdBy: adminUserId
 }];

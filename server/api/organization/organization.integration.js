@@ -2,43 +2,39 @@
 
 var app = require('../..');
 import request from 'supertest';
-import mongoose from 'mongoose';
 import User from '../user/user.model';
+import Organization from './organization.model';
+import {
+    adminUser,
+    anotherUser,
+    authOrganization,
+    anotherOrganization,
+    authenticateUser
+} from '../integration-util';
 
 var newOrganization;
 
 describe('Organization API:', function () {
-    var user;
-    var anotherUser;
+    var token;
 
-    // Clear users before testing
-    before(function () {
-        return User.deleteMany().then(function () {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test'
-            });
-
-            anotherUser = new User({
-                name: 'Another User',
-                email: 'another@example.com',
-                password: 'password',
-                username: 'another'
-            });
-
-            return Promise.all([
-                user.save(),
-                anotherUser.save()
-            ]);
-        });
+    before(() => {
+        return User.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => User.create([
+                adminUser,
+                anotherUser
+            ]))
+            .then(() => Organization.create([
+                authOrganization
+            ]))
+            .then(authenticateUser(app, adminUser))
+            .then(res => token = res);
     });
 
-    // Clear users after testing
-    after(function () {
-        return User.deleteMany();
-    });
+    after(() => Promise.all([
+        Organization.deleteMany(),
+        User.deleteMany()
+    ]));
 
     describe('GET /api/organizations', function () {
         var organizations;
@@ -46,6 +42,7 @@ describe('Organization API:', function () {
         beforeEach(function (done) {
             request(app)
                 .get('/api/organizations')
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -66,10 +63,14 @@ describe('Organization API:', function () {
         beforeEach(function (done) {
             request(app)
                 .post('/api/organizations')
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     name: 'New name',
                     website: 'New website',
-                    createdBy: user._id.toString()
+                    domains: [
+                        'new.org'
+                    ],
+                    active: true
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -85,7 +86,10 @@ describe('Organization API:', function () {
         it('should respond with the newly created organization', function () {
             expect(newOrganization.name).to.equal('New name');
             expect(newOrganization.website).to.equal('New website');
-            expect(newOrganization.createdBy).to.equal(user._id.toString());
+            expect(newOrganization.domains).to.deep.equal([
+                'new.org'
+            ]);
+            expect(newOrganization.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -95,6 +99,7 @@ describe('Organization API:', function () {
         beforeEach(function (done) {
             request(app)
                 .get(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -113,7 +118,10 @@ describe('Organization API:', function () {
         it('should respond with the requested organization', function () {
             expect(organization.name).to.equal('New name');
             expect(organization.website).to.equal('New website');
-            expect(organization.createdBy).to.equal(user._id.toString());
+            expect(organization.domains).to.deep.equal([
+                'new.org'
+            ]);
+            expect(organization.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -123,10 +131,14 @@ describe('Organization API:', function () {
         beforeEach(function (done) {
             request(app)
                 .put(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     name: 'Updated name',
                     website: 'Updated website',
-                    createdBy: anotherUser._id.toString()
+                    domains: [
+                        'updated.org'
+                    ],
+                    active: true
                 })
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -146,12 +158,16 @@ describe('Organization API:', function () {
         it('should respond with the updated organization', function () {
             expect(updatedOrganization.name).to.equal('Updated name');
             expect(updatedOrganization.website).to.equal('Updated website');
-            expect(updatedOrganization.createdBy).to.equal(anotherUser._id.toString());
+            expect(updatedOrganization.domains).to.deep.equal([
+                'updated.org'
+            ]);
+            expect(updatedOrganization.createdBy).to.equal(adminUser._id.toString());
         });
 
         it('should respond with the updated organization on a subsequent GET', function (done) {
             request(app)
                 .get(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -162,7 +178,10 @@ describe('Organization API:', function () {
 
                     expect(organization.name).to.equal('Updated name');
                     expect(organization.website).to.equal('Updated website');
-                    expect(organization.createdBy).to.equal(anotherUser._id.toString());
+                    expect(organization.domains).to.deep.equal([
+                        'updated.org'
+                    ]);
+                    expect(organization.createdBy).to.equal(adminUser._id.toString());
 
                     done();
                 });
@@ -175,6 +194,7 @@ describe('Organization API:', function () {
         beforeEach(function (done) {
             request(app)
                 .patch(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .send([{
                         op: 'replace',
                         path: '/name',
@@ -187,8 +207,10 @@ describe('Organization API:', function () {
                     },
                     {
                         op: 'replace',
-                        path: '/createdBy',
-                        value: anotherUser._id.toString()
+                        path: '/domains',
+                        value: [
+                            'patched.org'
+                        ]
                     }
                 ])
                 .expect(200)
@@ -209,7 +231,10 @@ describe('Organization API:', function () {
         it('should respond with the patched organization', function () {
             expect(patchedOrganization.name).to.equal('Patched name');
             expect(patchedOrganization.website).to.equal('Patched website');
-            expect(patchedOrganization.createdBy).to.equal(anotherUser._id.toString());
+            expect(patchedOrganization.domains).to.deep.equal([
+                'patched.org'
+            ]);
+            expect(patchedOrganization.createdBy).to.equal(adminUser._id.toString());
         });
     });
 
@@ -217,6 +242,7 @@ describe('Organization API:', function () {
         it('should respond with 204 on successful removal', function (done) {
             request(app)
                 .delete(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(204)
                 .end(err => {
                     if (err) {
@@ -229,6 +255,7 @@ describe('Organization API:', function () {
         it('should respond with 404 when organization does not exist', function (done) {
             request(app)
                 .delete(`/api/organizations/${newOrganization._id}`)
+                .set('authorization', `Bearer ${token}`)
                 .expect(404)
                 .end(err => {
                     if (err) {

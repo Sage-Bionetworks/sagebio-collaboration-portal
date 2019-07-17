@@ -20,11 +20,11 @@ var ProjectSchema = new mongoose.Schema({
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x150'
+        default: 'https://via.placeholder.com/200x200'
     },
     visibility: {
         type: String,
-        required: true,
+        required: false,
         enum: config.models.project.visibility.values,
         default: config.models.project.visibility.default
     },
@@ -34,6 +34,7 @@ var ProjectSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'User'
     },
     __v: {

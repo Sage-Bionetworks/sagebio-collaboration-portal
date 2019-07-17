@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Project } from 'models/project.model';
+import { Patch } from 'models/patch.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 
@@ -28,5 +29,9 @@ export class ProjectService {
 
     create(project: Project): Observable<Project> {
         return this.httpClient.post<Project>('/api/projects', project);
+    }
+
+    updateProject(projectId: string, patches: Patch[]): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
     }
 }

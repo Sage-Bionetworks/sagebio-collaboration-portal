@@ -5,30 +5,21 @@ import User from './user.model';
 import Organization from '../organization/organization.model';
 import request from 'supertest';
 import {
-    organizations
-} from '../../config/seeds';
+    pick
+} from 'lodash/fp';
+import { adminUser, authOrganization } from '../integration-util';
 
 describe('User API:', function () {
-    var user;
-
     before(() => {
-        return Organization.deleteMany()
-            .then(() => User.deleteMany())
-            .then(() => Organization.create(organizations))
-            .then(() => {
-                user = new User({
-                    name: 'Fake User',
-                    email: 'test@sagebase.org', // must be backed up by an active organization
-                    password: 'password',
-                    username: 'test'
-                });
-                return user.save();
-            });
+        return User.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => new User(adminUser).save())
+            .then(() => new Organization(authOrganization).save());
     });
 
     after(() => Promise.all([
-        User.deleteMany(),
-        Organization.deleteMany()
+        Organization.deleteMany(),
+        User.deleteMany()
     ]));
 
     describe('GET /api/users/me', function () {
@@ -37,11 +28,10 @@ describe('User API:', function () {
         before(function (done) {
             request(app)
                 .post('/auth/local')
-                .send({
-                    email: 'test@sagebase.org',
-                    password: 'password',
-                    username: 'test'
-                })
+                .send(pick([
+                    'email',
+                    'password'
+                ], adminUser))
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -57,7 +47,7 @@ describe('User API:', function () {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
-                    expect(res.body._id.toString()).to.equal(user._id.toString());
+                    expect(res.body._id.toString()).to.equal(adminUser._id.toString());
                     done();
                 });
         });

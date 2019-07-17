@@ -11,6 +11,35 @@ export const permissionTypes = [
     'deleteTool'
 ];
 
+export const entityTypes = {
+    PROJECT: {
+        value: 'project'
+    }
+};
+
+export const accessTypes = {
+    LIST: {
+        value: 'list',
+        description: ''
+    },
+    CREATE: {
+        value: 'create',
+        description: ''
+    },
+    EDIT: {
+        value: 'edit',
+        description: ''
+    },
+    DELETE: {
+        value: 'delete',
+        description: ''
+    },
+    ADMIN: {
+        value: 'admin',
+        description: ''
+    }
+};
+
 export const gitVersion = process.env.gitVersion;
 export const gitCommitHash = process.env.gitCommitHash;
 export const gitBranch = process.env.gitBranch;
@@ -25,7 +54,7 @@ export const models = {
         },
         description: {
             minlength: 0,
-            maxlength: 50
+            maxlength: 1000 * 1024 * 1024
         },
         visibility: {
             values: ['Private', 'Public'],
@@ -51,7 +80,7 @@ export const models = {
         },
         description: {
             minlength: 0,
-            maxlength: 50
+            maxlength: 1024
         },
     }
 };
@@ -92,5 +121,7 @@ export default {
 
     // authStrategies,
     models,
-    datasetOrders
+    datasetOrders,
+    accessTypes,
+    entityTypes
 };

@@ -41,6 +41,10 @@ export class UserService {
             );
     }
 
+    changeRole(userId: String, newRole: String): Observable<User> {
+        return this.httpClient.put<User>(`/api/users/${userId}/role`, { newRole });
+    }
+
     // searchFriendsByName(terms: Observable<string>, user: User = { _id: 'me' }): Observable<User[] | null> {
     //   return terms
     //     .pipe(

@@ -1,11 +1,13 @@
-import { User } from './user.model';
-
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserPermission:
+ *       type: object
+ *       properties:
+ *         value:
+ *           type: string
+ */
 export interface UserPermission {
     value: string
 }
-
-// export enum Permissions {
-//     CREATE_TOOL = 'createTool',
-//     EDIT_TOOL = 'editTool',
-//     DELETE_TOOL = 'deleteTool'
-// }
