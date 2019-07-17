@@ -20,6 +20,8 @@
                 </div>
             </div>
 
+            <entity-access-list></entity-access-list>
+
             <div class="app-project-card-box">
                 <h2>Description</h2>
                 <app-quill-editor [isReadOnly]="true" editButtonLabel="Edit description" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>

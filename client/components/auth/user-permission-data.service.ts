@@ -9,6 +9,7 @@ import { UserPermissionService } from './user-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
 import { find } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
+import { Project } from 'models/project.model';
 import config from '../../app/app.constants';
 
 export class UserPermissions {
@@ -46,6 +47,13 @@ export class UserPermissions {
             entityType: entityType,
             access: config.accessTypes.ADMIN
         });
+    }
+
+    public canAdminProject(project: Project): boolean {
+        return this.canAdminEntity(
+            project._id,
+            config.entityTypes.PROJECT.value
+        );
     }
 }
 

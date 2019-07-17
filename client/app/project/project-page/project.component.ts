@@ -12,6 +12,7 @@ import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rx
 import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
+import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
 
 @Component({
     selector: 'project',
@@ -56,16 +57,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
             this.userPermissionDataService.getPermissions()
         )
             .subscribe(([project, permissions]) => {
-                this.canAdminEntity = permissions.canAdminEntity(
-                    project._id,
-                    config.entityTypes.PROJECT.value
-                );
+                this.canAdminEntity = permissions.canAdminProject(project);
             });
-
-        // this.userPermissionDataService.getPermissions()
-        //     .subscribe(permissions => {
-        //         this.canAdminEntity = permissions.canAdminEntity()
-        //     });
     }
 
     ngOnDestroy() { }

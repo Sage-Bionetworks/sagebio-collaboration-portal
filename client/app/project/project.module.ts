@@ -8,6 +8,7 @@ import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
 import { AppQuillModule } from 'components/quill/app-quill.module';
+import { EntityModule } from '../../components/entity/entity.module';
 
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
@@ -34,7 +35,8 @@ export const ROUTES: Routes = [{
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
-        AppQuillModule
+        AppQuillModule,
+        EntityModule
     ],
     declarations: [
         ProjectNewComponent,
