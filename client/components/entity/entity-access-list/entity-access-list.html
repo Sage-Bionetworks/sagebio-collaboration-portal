@@ -1,1 +1,28 @@
-<span>PLOP</span>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sharing settings</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-list class="app-entity-access-list-list" dense>
+            <mat-list-item *ngFor="let perm of permissions">
+            </mat-list-item>
+        </mat-list>
+
+        <form class="app-entity-access-list-search-user-form" [formGroup]="inviteForm" novalidate>
+            <mat-form-field class="app-project-new-form-field">
+                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto" required>
+                <mat-autocomplete #auto="matAutocomplete" flex>
+                    <mat-option *ngFor="let user of userResults" [value]="user.username" (click)="selectUser(user)">
+                        <img style="vertical-align:middle;" aria-hidden src="{{ user.picture }}" height="25" />
+                        <span>{{ user.username }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="inviteForm.controls.username.invalid">
+                    Please enter a valid username.
+                </mat-error>
+            </mat-form-field>
+            <a mat-raised-button color="primary" [disabled]="!this.selectedUser" (click)="invite()">Add collaborator</a>
+        </form>
+    </mat-card-content>
+</mat-card>

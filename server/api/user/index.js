@@ -28,7 +28,7 @@ var router = Router();
  *     security:
  *       - BearerAuth: []
  */
-router.get('/', auth.hasRole('admin'), controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger

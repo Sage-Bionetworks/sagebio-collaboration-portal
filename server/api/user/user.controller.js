@@ -1,6 +1,10 @@
 import User from './user.model';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import {
+    pickBy,
+    identity
+} from 'lodash/fp';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -17,7 +21,14 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-    return User.find({}, '-salt -password')
+    let filter = pickBy(identity, {
+        username: req.query.username ? {
+            $regex: `^${req.query.username}`,
+            $options: 'i'
+        } : null,
+    });
+
+    return User.find(filter, '-salt -password')
         .exec()
         .then(users => {
             users = users.map(user => user.profile);

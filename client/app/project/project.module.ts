@@ -15,6 +15,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectComponent } from './project-page/project.component';
 import { ProjectService } from './project.service';
+import { ProjectDataService } from './project-data.service';
 
 export const ROUTES: Routes = [{
     path: 'projects',
@@ -46,7 +47,8 @@ export const ROUTES: Routes = [{
     ],
     providers: [
         SocketService,
-        ProjectService
+        ProjectService,
+        ProjectDataService
     ],
     exports: [
     ],
