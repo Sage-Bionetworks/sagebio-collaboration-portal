@@ -3,7 +3,7 @@ import neo4jd3 from '../d3/models/custom-neo-4jd3';
 
 
 @Component({
-    selector: 'provenance-graph2',
+    selector: 'provenance-graph',
     template: require('./provenance-graph.html'),
     styles: [require('./provenance-graph.scss')],
     encapsulation: ViewEncapsulation.None,
@@ -13,9 +13,7 @@ export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
     constructor() { }
 
     ngOnInit() {
-        if (this.nodes) {
-            neo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
-        }
+        neo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
     }
 
     getGraphOptions(dataToUse: Object) {

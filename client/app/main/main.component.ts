@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
-import { ProvenanceGraphService } from 'components/provenance-graph2/provenance-graph.service'
+import { ProvenanceGraphService } from 'components/provenance-graph/provenance-graph.service'
 
 @Component({
     selector: 'app-main',
