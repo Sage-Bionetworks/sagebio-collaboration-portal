@@ -48,11 +48,14 @@ export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
             nodeRadius: 25,
             zoomFit: true,
             onNodeDoubleClick: function(node: any) {
-                console.log('onNodeDoubleClick node:?? ', + JSON.stringify(node));
+                console.log('onNodeDoubleClick node:?? ', node);
             },
             onRelationshipDoubleClick: function(relationship: any) {
-                console.log('double click on relationship: ' + JSON.stringify(relationship));
-            }
+                console.log('double click on relationship: ', relationship);
+            },
+            onNodeMouseEnter: function(node: any) {
+                console.log('onNodeMouseEnter: ', node);
+            },
         }
     }
     ngAfterViewInit() { }

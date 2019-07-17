@@ -4,7 +4,22 @@
 import * as d3 from 'd3';
 
 function Neo4jD3(_selector, _options) {
-    var container; var graph; var info; var node; var nodes; var relationship; var relationshipOutline; var relationshipOverlay; var relationshipText; var relationships; var selector; var simulation; var svg; var svgNodes; var svgRelationships; var svgScale; var svgTranslate;
+        var container;
+        var info;
+        var node;
+        var nodes;
+        var relationship;
+        var relationshipOutline;
+        var relationshipOverlay;
+        var relationshipText;
+        var relationships;
+        var selector;
+        var simulation;
+        var svg;
+        var svgNodes;
+        var svgRelationships;
+        var svgScale;
+        var svgTranslate;
         var classes2colors = {};
         var justLoaded = false;
         var numClasses = 0;
@@ -16,7 +31,6 @@ function Neo4jD3(_selector, _options) {
             icons: undefined,
             imageMap: {},
             images: undefined,
-            infoPanel: true,
             minCollision: undefined,
             neo4jData: undefined,
             neo4jDataUrl: undefined,
@@ -25,7 +39,6 @@ function Neo4jD3(_selector, _options) {
             relationshipColor: '#a5abb6',
             zoomFit: false
         };
-        var VERSION = '0.0.1';
 
     function appendGraph(container) {
         svg = container.append('svg')
@@ -78,50 +91,13 @@ function Neo4jD3(_selector, _options) {
                    });
     }
 
-    function appendInfoPanel(container) {
-        return container.append('div')
-                        .attr('class', 'neo4jd3-info');
-    }
-
-    function appendInfoElement(cls, isNode, property, value) {
-        var elem = info.append('a');
-
-        elem.attr('href', '#')
-            .attr('class', cls)
-            .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
-
-        if (!value) {
-            elem.style('background-color', function(d) {
-                    return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : (isNode ? class2color(property) : defaultColor());
-                })
-                .style('border-color', function(d) {
-                    return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : (isNode ? class2darkenColor(property) : defaultDarkenColor());
-                })
-                .style('color', function(d) {
-                    return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : '#fff';
-                });
-        }
-    }
-
-    function appendInfoElementClass(cls, node) {
-        appendInfoElement(cls, true, node);
-    }
-
-    function appendInfoElementProperty(cls, property, value) {
-        appendInfoElement(cls, false, property, value);
-    }
-
-    function appendInfoElementRelationship(cls, relationship) {
-        appendInfoElement(cls, false, relationship);
-    }
-
     function appendNode() {
         return node.enter()
                    .append('g')
                    .attr('class', function(d) {
-                       var highlight, i,
-                           classes = 'node',
-                           label = d.labels[0];
+                       var highlight;
+                       var i;
+                       var classes = 'node';
 
                        if (icon(d)) {
                            classes += ' node-icon';
@@ -152,26 +128,24 @@ function Neo4jD3(_selector, _options) {
                        }
                    })
                    .on('dblclick', function(d) {
-                       stickNode(d);
-
+                    //    stickNode(d);
                        if (typeof options.onNodeDoubleClick === 'function') {
-                           console.log('options.onNodeDoubleClick: ', options.onNodeDoubleClick)
                            options.onNodeDoubleClick(d);
                        }
                    })
                    .on('mouseenter', function(d) {
-                       if (info) {
-                           updateInfo(d);
-                       }
+                    //    if (info) {
+                    //        updateInfo(d);
+                    //    }
 
                        if (typeof options.onNodeMouseEnter === 'function') {
                            options.onNodeMouseEnter(d);
                        }
                    })
                    .on('mouseleave', function(d) {
-                       if (info) {
-                           clearInfo(d);
-                       }
+                    //    if (info) {
+                    //        clearInfo(d);
+                    //    }
 
                        if (typeof options.onNodeMouseLeave === 'function') {
                            options.onNodeMouseLeave(d);
@@ -244,11 +218,6 @@ function Neo4jD3(_selector, _options) {
                    });
     }
 
-    function appendRandomDataToNode(d, maxNodesToGenerate) {
-        var data = randomD3Data(d, maxNodesToGenerate);
-        updateWithNeo4jData(data);
-    }
-
     function appendRelationship() {
         return relationship.enter()
                            .append('g')
@@ -307,7 +276,7 @@ function Neo4jD3(_selector, _options) {
         var color = classes2colors[cls];
 
         if (!color) {
-//            color = options.colors[Math.min(numClasses, options.colors.length - 1)];
+//          color = options.colors[Math.min(numClasses, options.colors.length - 1)];
             color = options.colors[numClasses % options.colors.length];
             classes2colors[cls] = color;
             numClasses++;
@@ -318,14 +287,6 @@ function Neo4jD3(_selector, _options) {
 
     function class2darkenColor(cls) {
         return d3.rgb(class2color(cls)).darker(1);
-    }
-
-    function clearInfo() {
-        info.html('');
-    }
-
-    function color() {
-        return options.colors[options.colors.length * Math.random() << 0];
     }
 
     function colors() {
@@ -367,18 +328,10 @@ function Neo4jD3(_selector, _options) {
         return filter.length > 0;
     }
 
-    function defaultColor() {
-        return options.relationshipColor;
-    }
-
-    function defaultDarkenColor() {
-        return d3.rgb(options.colors[options.colors.length - 1]).darker(1);
-    }
-
     function dragEnded(d) {
-        if (!d3.event.active) {
-            simulation.alphaTarget(0);
-        }
+        // if (!d3.event.active) {
+        //     simulation.alphaTarget(0);
+        // }
 
         if (typeof options.onNodeDragEnd === 'function') {
             options.onNodeDragEnd(d);
@@ -400,15 +353,6 @@ function Neo4jD3(_selector, _options) {
         if (typeof options.onNodeDragStart === 'function') {
             options.onNodeDragStart(d);
         }
-    }
-
-    function extend(obj1, obj2) {
-        var obj = {};
-
-        merge(obj, obj1);
-        merge(obj, obj2);
-
-        return obj;
     }
 
     function fontAwesomeIcons() {
@@ -525,9 +469,9 @@ function Neo4jD3(_selector, _options) {
         container.attr('class', 'neo4jd3')
                  .html('');
 
-        if (options.infoPanel) {
-            info = appendInfoPanel(container);
-        }
+        // if (options.infoPanel) {
+        //     info = appendInfoPanel(container);
+        // }
 
         appendGraph(container);
 
@@ -535,10 +479,10 @@ function Neo4jD3(_selector, _options) {
 
         if (options.neo4jData) {
             loadNeo4jData(options.neo4jData);
-        } else if (options.neo4jDataUrl) {
-            loadNeo4jDataFromUrl(options.neo4jDataUrl);
+        // } else if (options.neo4jDataUrl) {
+        //     loadNeo4jDataFromUrl(options.neo4jDataUrl);
         } else {
-            console.error('Error: both neo4jData and neo4jDataUrl are empty!');
+            console.error('Error: no neo4jData!');
         }
     }
 
@@ -554,7 +498,8 @@ function Neo4jD3(_selector, _options) {
     }
 
     function initImageMap() {
-        var key, keys, selector;
+        var key;
+        var keys;
 
         for (key in options.images) {
             if (options.images.hasOwnProperty(key)) {
@@ -577,11 +522,11 @@ function Neo4jD3(_selector, _options) {
                            .force('collide', d3.forceCollide().radius(function(d) {
                                return options.minCollision;
                            }).iterations(2))
-                           .force('charge', d3.forceManyBody())
+                        //    .force('charge', d3.forceManyBody())
                            .force('link', d3.forceLink().id(function(d) {
                                return d.id;
                            }))
-                           .force('center', d3.forceCenter(svg.node().parentElement.parentElement.clientWidth / 2, svg.node().parentElement.parentElement.clientHeight / 2))
+                        //    .force('center', d3.forceCenter(svg.node().parentElement.parentElement.clientWidth / 2, svg.node().parentElement.parentElement.clientHeight / 2))
                            .on('tick', function() {
                                tick();
                            })
@@ -602,18 +547,18 @@ function Neo4jD3(_selector, _options) {
         updateWithNeo4jData(options.neo4jData);
     }
 
-    function loadNeo4jDataFromUrl(neo4jDataUrl) {
-        nodes = [];
-        relationships = [];
+    // function loadNeo4jDataFromUrl(neo4jDataUrl) {
+    //     nodes = [];
+    //     relationships = [];
 
-        d3.json(neo4jDataUrl, function(error, data) {
-            if (error) {
-                throw error;
-            }
+    //     d3.json(neo4jDataUrl, function(error, data) {
+    //         if (error) {
+    //             throw error;
+    //         }
 
-            updateWithNeo4jData(data);
-        });
-    }
+    //         updateWithNeo4jData(data);
+    //     });
+    // }
 
     function merge(target, source) {
         Object.keys(source).forEach(function(property) {
@@ -672,57 +617,6 @@ function Neo4jD3(_selector, _options) {
         return graph;
     }
 
-    function randomD3Data(d, maxNodesToGenerate) {
-        var data = {
-                nodes: [],
-                relationships: []
-            },
-            i,
-            label,
-            node,
-            numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
-            relationship,
-            s = size();
-
-        for (i = 0; i < numNodes; i++) {
-            label = randomLabel();
-
-            node = {
-                id: s.nodes + 1 + i,
-                labels: [label],
-                properties: {
-                    random: label
-                },
-                x: d.x,
-                y: d.y
-            };
-
-            data.nodes[data.nodes.length] = node;
-
-            relationship = {
-                id: s.relationships + 1 + i,
-                type: label.toUpperCase(),
-                startNode: d.id,
-                endNode: s.nodes + 1 + i,
-                properties: {
-                    from: Date.now()
-                },
-                source: d.id,
-                target: s.nodes + 1 + i,
-                linknum: s.relationships + 1 + i
-            };
-
-            data.relationships[data.relationships.length] = relationship;
-        }
-
-        return data;
-    }
-
-    function randomLabel() {
-        var icons = Object.keys(options.iconMap);
-        return icons[icons.length * Math.random() << 0];
-    }
-
     function rotate(cx, cy, x, y, angle) {
         var radians = (Math.PI / 180) * angle,
             cos = Math.cos(radians),
@@ -747,29 +641,7 @@ function Neo4jD3(_selector, _options) {
             relationships: relationships.length
         };
     }
-/*
-    function smoothTransform(elem, translate, scale) {
-        var animationMilliseconds = 5000,
-            timeoutMilliseconds = 50,
-            steps = parseInt(animationMilliseconds / timeoutMilliseconds);
 
-        setTimeout(function() {
-            smoothTransformStep(elem, translate, scale, timeoutMilliseconds, 1, steps);
-        }, timeoutMilliseconds);
-    }
-
-    function smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step, steps) {
-        var progress = step / steps;
-
-        elem.attr('transform', 'translate(' + (translate[0] * progress) + ', ' + (translate[1] * progress) + ') scale(' + (scale * progress) + ')');
-
-        if (step < steps) {
-            setTimeout(function() {
-                smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step + 1, steps);
-            }, timeoutMilliseconds);
-        }
-    }
-*/
     function stickNode(d) {
         d.fx = d3.event.x;
         d.fy = d3.event.y;
@@ -917,21 +789,6 @@ function Neo4jD3(_selector, _options) {
         updateWithD3Data(d3Data);
     }
 
-    function updateInfo(d) {
-        clearInfo();
-
-        if (d.labels) {
-            appendInfoElementClass('class', d.labels[0]);
-        } else {
-            appendInfoElementRelationship('class', d.type);
-        }
-
-        appendInfoElementProperty('property', '&lt;id&gt;', d.id);
-
-        Object.keys(d.properties).forEach(function(property) {
-            appendInfoElementProperty('property', property, JSON.stringify(d.properties[property]));
-        });
-    }
 
     function updateNodes(n) {
         Array.prototype.push.apply(nodes, n);
@@ -970,10 +827,6 @@ function Neo4jD3(_selector, _options) {
         relationshipText = relationshipEnter.text.merge(relationshipText);
     }
 
-    function version() {
-        return VERSION;
-    }
-
     function zoomFit(transitionDuration) {
         var bounds = svg.node().getBBox(),
             parent = svg.node().parentElement.parentElement,
@@ -992,20 +845,179 @@ function Neo4jD3(_selector, _options) {
         svgTranslate = [fullWidth / 2 - svgScale * midX, fullHeight / 2 - svgScale * midY];
 
         svg.attr('transform', 'translate(' + svgTranslate[0] + ', ' + svgTranslate[1] + ') scale(' + svgScale + ')');
-//        smoothTransform(svgTranslate, svgScale);
+        // smoothTransform(svgTranslate, svgScale);
     }
 
     init(_selector, _options);
 
     return {
-        appendRandomDataToNode: appendRandomDataToNode,
-        neo4jDataToD3Data: neo4jDataToD3Data,
-        randomD3Data: randomD3Data,
         size: size,
+        neo4jDataToD3Data: neo4jDataToD3Data,
         updateWithD3Data: updateWithD3Data,
-        updateWithNeo4jData: updateWithNeo4jData,
-        version: version
+        updateWithNeo4jData: updateWithNeo4jData
     };
 }
 
 export default Neo4jD3;
+
+    // function appendInfoPanel(container) {
+    //     return container.append('div')
+    //                     .attr('class', 'neo4jd3-info');
+    // }
+
+    // function appendInfoElement(cls, isNode, property, value) {
+    //     var elem = info.append('a');
+
+    //     elem.attr('href', '#')
+    //         .attr('class', cls)
+    //         .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
+
+    //     if (!value) {
+    //         elem.style('background-color', function(d) {
+    //                 return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : (isNode ? class2color(property) : defaultColor());
+    //             })
+    //             .style('border-color', function(d) {
+    //                 return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : (isNode ? class2darkenColor(property) : defaultDarkenColor());
+    //             })
+    //             .style('color', function(d) {
+    //                 return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : '#fff';
+    //             });
+    //     }
+    // }
+
+    // function appendInfoElementClass(cls, node) {
+    //     appendInfoElement(cls, true, node);
+    // }
+
+    // function appendInfoElementProperty(cls, property, value) {
+    //     appendInfoElement(cls, false, property, value);
+    // }
+
+    // function appendInfoElementRelationship(cls, relationship) {
+    //     appendInfoElement(cls, false, relationship);
+    // }
+
+    // function version() {
+    //     return VERSION;
+    // }
+
+
+    // function defaultColor() {
+    //     return options.relationshipColor;
+    // }
+
+    // function defaultDarkenColor() {
+    //     return d3.rgb(options.colors[options.colors.length - 1]).darker(1);
+    // }
+
+        // function clearInfo() {
+    //     info.html('');
+    // }
+
+    // function color() {
+    //     return options.colors[options.colors.length * Math.random() << 0];
+    // }
+
+        // function appendRandomDataToNode(d, maxNodesToGenerate) {
+    //     var data = randomD3Data(d, maxNodesToGenerate);
+    //     updateWithNeo4jData(data);
+    // }
+
+
+    // function updateInfo(d) {
+    //     clearInfo();
+
+    //     if (d.labels) {
+    //         appendInfoElementClass('class', d.labels[0]);
+    //     } else {
+    //         appendInfoElementRelationship('class', d.type);
+    //     }
+
+    //     appendInfoElementProperty('property', '&lt;id&gt;', d.id);
+
+    //     Object.keys(d.properties).forEach(function(property) {
+    //         appendInfoElementProperty('property', property, JSON.stringify(d.properties[property]));
+    //     });
+    // }
+
+        // function extend(obj1, obj2) {
+    //     var obj = {};
+
+    //     merge(obj, obj1);
+    //     merge(obj, obj2);
+
+    //     return obj;
+    // }
+
+        // function smoothTransform(elem, translate, scale) {
+    //     var animationMilliseconds = 5000,
+    //         timeoutMilliseconds = 50,
+    //         steps = parseInt(animationMilliseconds / timeoutMilliseconds);
+
+    //     setTimeout(function() {
+    //         smoothTransformStep(elem, translate, scale, timeoutMilliseconds, 1, steps);
+    //     }, timeoutMilliseconds);
+    // }
+
+    // function smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step, steps) {
+    //     var progress = step / steps;
+
+    //     elem.attr('transform', 'translate(' + (translate[0] * progress) + ', ' + (translate[1] * progress) + ') scale(' + (scale * progress) + ')');
+
+    //     if (step < steps) {
+    //         setTimeout(function() {
+    //             smoothTransformStep(elem, translate, scale, timeoutMilliseconds, step + 1, steps);
+    //         }, timeoutMilliseconds);
+    //     }
+    // }
+
+        // function randomD3Data(d, maxNodesToGenerate) {
+    //     var data = {
+    //             nodes: [],
+    //             relationships: []
+    //         },
+    //         i,
+    //         label,
+    //         node,
+    //         numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
+    //         relationship,
+    //         s = size();
+
+    //     for (i = 0; i < numNodes; i++) {
+    //         label = randomLabel();
+
+    //         node = {
+    //             id: s.nodes + 1 + i,
+    //             labels: [label],
+    //             properties: {
+    //                 random: label
+    //             },
+    //             x: d.x,
+    //             y: d.y
+    //         };
+
+    //         data.nodes[data.nodes.length] = node;
+
+    //         relationship = {
+    //             id: s.relationships + 1 + i,
+    //             type: label.toUpperCase(),
+    //             startNode: d.id,
+    //             endNode: s.nodes + 1 + i,
+    //             properties: {
+    //                 from: Date.now()
+    //             },
+    //             source: d.id,
+    //             target: s.nodes + 1 + i,
+    //             linknum: s.relationships + 1 + i
+    //         };
+
+    //         data.relationships[data.relationships.length] = relationship;
+    //     }
+
+    //     return data;
+    // }
+
+    // function randomLabel() {
+    //     var icons = Object.keys(options.iconMap);
+    //     return icons[icons.length * Math.random() << 0];
+    // }
