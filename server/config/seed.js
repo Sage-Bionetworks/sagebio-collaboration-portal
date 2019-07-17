@@ -5,6 +5,7 @@
 
 import Dashboard from '../api/insight/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
+import EntityPermission from '../api/entity-permission/entity-permission.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
@@ -13,7 +14,7 @@ import StarredMessage from '../api/starred-message/starred-message.model';
 import State from '../api/insight/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
-import UserPermissions from '../api/user-permission/user-permission.model';
+import UserPermission from '../api/user-permission/user-permission.model';
 import config from './environment';
 import seeds from './seeds';
 
@@ -38,6 +39,13 @@ export default function seedDatabaseIfNeeded() {
         .then(() => DataCatalog.create(seeds.dataCatalogs))
         .then(() => console.log('finished populating data catalogs'))
         .catch(err => console.log('error populating data catalogs', err));
+    promises.push(promise);
+
+
+    promise = EntityPermission.find({}).deleteMany()
+        .then(() => EntityPermission.create(seeds.entityPermissions))
+        .then(() => console.log('finished populating entity permissions'))
+        .catch(err => console.log('error populating entity permissions', err));
     promises.push(promise);
 
 
@@ -97,8 +105,8 @@ export default function seedDatabaseIfNeeded() {
     promises.push(promise);
 
 
-    promise = UserPermissions.find({}).deleteMany()
-        .then(() => UserPermissions.create(seeds.userPermissions))
+    promise = UserPermission.find({}).deleteMany()
+        .then(() => UserPermission.create(seeds.userPermissions))
         .then(() => console.log('finished populating user permissions'))
         .catch(err => console.log('error populating user permissions', err));
     promises.push(promise);

@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, of, merge, forkJoin } from 'rxjs';
 import { switchMap, map, filter, mapTo, catchError, tap } from 'rxjs/operators';
 import { UserPermission } from 'models/auth/user-permission.model';
+import { EntityPermission } from 'models/auth/entity-permission.model';
 import { AuthService } from 'components/auth/auth.service';
 import { UserService } from 'components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
+import { EntityPermissionService } from './entity-permission.service';
 import { find } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
+import config from '../../app/app.constants';
 
 export class UserPermissions {
 
-    constructor(private permissions: UserPermission[], private role: UserRole) { }
+    constructor(private role: UserRole, private permissions: UserPermission[],
+        private entityPermissions: EntityPermission[]) { }
 
     public isAdmin(): boolean {
         return this.role === UserRole.ADMIN;
@@ -35,18 +39,29 @@ export class UserPermissions {
     public canDeleteTool(): boolean {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
+
+    public canAdminEntity(entityId: string, entityType: string): boolean {
+        return this.isAdmin() || !!find({
+            entityId: entityId,
+            entityType: entityType,
+            access: config.accessTypes.ADMIN
+        });
+    }
 }
 
 @Injectable()
 export class UserPermissionDataService {
-    static UNKNOWN_PERMISSIONS = new UserPermissions([], undefined);
+    static UNKNOWN_PERMISSIONS = new UserPermissions(undefined, [], []);
+
     private _permissions: BehaviorSubject<UserPermissions> =
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
 
-    static parameters = [AuthService, UserService, UserPermissionService];
+    static parameters = [AuthService, UserService, UserPermissionService,
+        EntityPermissionService];
     constructor(private authService: AuthService,
         private userService: UserService,
-        private userPermissionService: UserPermissionService) {
+        private userPermissionService: UserPermissionService,
+        private entityPermissionService: EntityPermissionService) {
 
         const isLoggedIn = this.authService.authInfo()
             .pipe(
@@ -57,14 +72,18 @@ export class UserPermissionDataService {
             .pipe(
                 filter(is => is),
                 switchMap(() => forkJoin({
-                    permissions: this.userPermissionService.getMyPermissions()
-                        .pipe(
-                            catchError(err => of(<UserPermission[]>[]))
-                        ),
                     role: this.userService.get()
                         .pipe(
                             map(user => user.role),
                             catchError(err => of(<UserRole>undefined))
+                        ),
+                    permissions: this.userPermissionService.getMyPermissions()
+                        .pipe(
+                            catchError(err => of(<UserPermission[]>[]))
+                        ),
+                    entityPermissions: this.entityPermissionService.getMyPermissions()
+                        .pipe(
+                            catchError(err => of(<EntityPermission[]>[]))
                         )
                 }))
             );
@@ -74,7 +93,8 @@ export class UserPermissionDataService {
                 filter(is => !is),
                 mapTo({
                     role: <UserRole>undefined,
-                    permissions: <UserPermission[]>[]
+                    permissions: <UserPermission[]>[],
+                    entityPermissions: <EntityPermission[]>[]
                 })
             );
 
@@ -85,7 +105,11 @@ export class UserPermissionDataService {
 
         getPermissions
             .subscribe(res => {
-                this._permissions.next(new UserPermissions(res.permissions, res.role));
+                this._permissions.next(new UserPermissions(
+                    res.role,
+                    res.permissions,
+                    res.entityPermissions
+                ));
             }, err => {
                 console.log(err);
             });

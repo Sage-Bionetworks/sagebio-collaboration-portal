@@ -41,9 +41,9 @@ var EntityPermissionSchema = new mongoose.Schema({
 
 registerEvents(EntityPermissionSchema);
 EntityPermissionSchema.index({
-    entity: 1,
+    entityId: 1,
     entityType: 1,
-    user: 1,
+    userId: 1,
     access: 1
 }, {
     unique: true

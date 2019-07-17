@@ -11,6 +11,7 @@ import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
+import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 
 @Component({
     selector: 'project',
@@ -20,14 +21,16 @@ import { NotificationService } from 'components/notification/notification.servic
 export class ProjectComponent implements OnInit, OnDestroy {
     private project: Project;
     private form: FormGroup;
+    private canAdminEntity = false;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        ProjectService, NotificationService];
+        ProjectService, NotificationService, UserPermissionDataService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private projectService: ProjectService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private userPermissionDataService: UserPermissionDataService) {
         this.form = formBuilder.group({
             description: ['', [
                 // Validators.required,
@@ -46,8 +49,23 @@ export class ProjectComponent implements OnInit, OnDestroy {
             .subscribe(project => {
                 this.form.get('description').setValue(JSON.parse(project.description));
                 this.project = project;
-                console.log('project', project);
             });
+
+        combineLatest(
+            project$,
+            this.userPermissionDataService.getPermissions()
+        )
+            .subscribe(([project, permissions]) => {
+                this.canAdminEntity = permissions.canAdminEntity(
+                    project._id,
+                    config.entityTypes.PROJECT.value
+                );
+            });
+
+        // this.userPermissionDataService.getPermissions()
+        //     .subscribe(permissions => {
+        //         this.canAdminEntity = permissions.canAdminEntity()
+        //     });
     }
 
     ngOnDestroy() { }

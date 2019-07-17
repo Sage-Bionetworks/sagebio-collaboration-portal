@@ -11,6 +11,13 @@ import {
 function createAdminPermissionForEntity(user, entityType) {
     return function (entity) {
         if (entity) {
+            console.log('plop', {
+                    entityId: entity._id.toString(),
+                    entityType: entityType,
+                    userId: user._id.toString(),
+                    access: accessTypes.ADMIN.value,
+                    createdBy: user._id.toString()
+                });
             return EntityPermission.create({
                     entityId: entity._id.toString(),
                     entityType: entityType,
@@ -18,7 +25,9 @@ function createAdminPermissionForEntity(user, entityType) {
                     access: accessTypes.ADMIN.value,
                     createdBy: user._id.toString()
                 })
-                .then(() => entity);
+                .then(() => console.log('here'))
+                .then(() => entity)
+                .catch(err => console.log(err));
         }
         return null;
     };
@@ -92,6 +101,7 @@ export function show(req, res) {
 export function create(req, res) {
     Reflect.deleteProperty(req.body, 'createdAt');
     req.body.createdBy = req.user._id.toString();
+    console.log('here', entityTypes.PROJECT.value);
 
     return Project.create(req.body)
         .then(createAdminPermissionForEntity(req.user, entityTypes.PROJECT.value))
