@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import { adminUserId } from './users';
 
-const testProjectId = new mongoose.Types.ObjectId('5cb7acea2d718614d81bb97e');
-const anotherProjectId = new mongoose.Types.ObjectId('5cb7acea2d718614d81bb97f');
+const testProjectId = new mongoose.Types.ObjectId('5cb7acea2d718654d81bb97e');
+const anotherProjectId = new mongoose.Types.ObjectId('5cb7acea2d718614d81db97f');
 
 let projects = [{
     _id: testProjectId,

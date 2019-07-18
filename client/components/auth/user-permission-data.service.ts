@@ -136,6 +136,22 @@ export class UserPermissionDataService {
                     entityPermissions
                 ));
 
+                // update the role of the user
+                if (role) {
+                    this.socketService.syncUpdates(`user`,
+                        [], (event, item, array) => {
+                            role = item.role;
+                            this._permissions.next(new UserPermissions(
+                                role,
+                                permissions,
+                                entityPermissions
+                            ));
+                        });
+                } else {
+                    // TODO Unsync
+                    // this.socketService.unsyncUpdates(`user`);
+                }
+
                 // update user-based permissions with WebSocket
                 if (permissions) {
                     this.socketService.syncUpdates(`userPermission`,

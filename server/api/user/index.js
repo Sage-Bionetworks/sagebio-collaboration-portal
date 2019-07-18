@@ -151,7 +151,7 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
  *       '404':
  *         description: User not found
  */
-router.put('/:id/role', auth.isAuthenticated(), controller.changeRole);
+router.put('/:id/role', auth.hasRole('admin'), controller.changeRole);
 
 /**
  * @swagger

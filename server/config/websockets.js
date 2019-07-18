@@ -8,6 +8,7 @@ import app from '../primus/primus-app';
 
 const registerFunctions = [
     // Insert sockets below
+    require('../api/provenance/provenance.socket').register,
     require('../api/invite/invite.socket').register,
     require('../api/entity-permission/entity-permission.socket').register,
     require('../api/starred-message/starred-message.socket').register,
@@ -19,6 +20,7 @@ const registerFunctions = [
     require('../api/tool/tool.socket').register,
     require('../api/insight/insight.socket').register,
     require('../api/dataset/dataset.socket').register,
+    require('../api/user/user.socket').register,
     require('../api/user-permission/user-permission.socket').register
 ];
 

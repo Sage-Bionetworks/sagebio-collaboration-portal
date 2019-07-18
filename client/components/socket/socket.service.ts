@@ -127,6 +127,20 @@ export class SocketService {
         }
     }
 
+    // syncItem(modelName: string, cb = save): void {
+    //   if (this.primus && this.primus.getValue()) {
+    //       const primus = this.primus.getValue();
+    //
+    //       primus.on(`${modelName}:save`, item => {
+    //
+    //       });
+    //
+    //       primus.on(`${modelName}:remove`, item => {
+    //
+    //       });
+    //   }
+    // }
+
 
     syncItemSubject(modelName: string, subject: BehaviorSubject<any>): void {
         if (this.primus && this.primus.getValue()) {
