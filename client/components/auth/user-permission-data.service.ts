@@ -10,12 +10,12 @@ import { EntityPermissionService } from './entity-permission.service';
 import { find } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
 import { Project } from 'models/project.model';
+import { SocketService } from 'components/socket/socket.service';
 import config from '../../app/app.constants';
 
 export class UserPermissions {
-
     constructor(private role: UserRole, private permissions: UserPermission[],
-        private entityPermissions: EntityPermission[]) { }
+        private entityPermissions: EntityPermission[]) {}
 
     public isAdmin(): boolean {
         return this.role === UserRole.ADMIN;
@@ -65,11 +65,14 @@ export class UserPermissionDataService {
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
 
     static parameters = [AuthService, UserService, UserPermissionService,
-        EntityPermissionService];
+        EntityPermissionService, SocketService];
     constructor(private authService: AuthService,
         private userService: UserService,
         private userPermissionService: UserPermissionService,
-        private entityPermissionService: EntityPermissionService) {
+        private entityPermissionService: EntityPermissionService,
+        private socketService: SocketService) {
+
+        console.log('NEW USER PERMISSION DATA SERVICE');
 
         const isLoggedIn = this.authService.authInfo()
             .pipe(
@@ -111,13 +114,46 @@ export class UserPermissionDataService {
             emptyPermissions
         );
 
+
         getPermissions
             .subscribe(res => {
+                let role = res.role;
+                let permissions = res.permissions;
+                let entityPermissions = res.entityPermissions;
+
                 this._permissions.next(new UserPermissions(
-                    res.role,
-                    res.permissions,
-                    res.entityPermissions
+                    role,
+                    permissions,
+                    entityPermissions
                 ));
+
+                // update user-based permissions with WebSocket
+                if (permissions) {
+                    this.socketService.syncUpdates(`userPermission`,
+                        permissions, (event, item, array) => {
+                            this._permissions.next(new UserPermissions(
+                                role,
+                                permissions,
+                                entityPermissions
+                            ));
+                        });
+                } else {
+                    this.socketService.unsyncUpdates(`userPermission`);
+                }
+
+                // update entity-based permissions with WebSocket
+                if (entityPermissions) {
+                    this.socketService.syncUpdates(`entityPermission`,
+                        entityPermissions, (event, item, array) => {
+                            this._permissions.next(new UserPermissions(
+                                role,
+                                permissions,
+                                entityPermissions
+                            ));
+                        });
+                } else {
+                    this.socketService.unsyncUpdates(`entityPermission`);
+                }
             }, err => {
                 console.log(err);
             });

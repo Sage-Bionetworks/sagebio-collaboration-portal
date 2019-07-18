@@ -3,6 +3,8 @@
 </div>
 
 <div class="app-profile-content">
+    <span>{{ permissions | async | json }}</span>
+
     <span>Can create tool: {{ (permissions | async).canCreateTool() }}</span>
     <span>Can edit tool: {{ (permissions | async).canEditTool() }}</span>
     <span>Can delete tool: {{ (permissions | async).canDeleteTool() }}</span>
