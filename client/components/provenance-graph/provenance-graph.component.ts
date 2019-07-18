@@ -49,18 +49,18 @@ export class ProvenanceGraphComponent implements OnInit {
             nodeRadius: 25,
             zoomFit: true,
             onNodeDoubleClick: (node: any) => {
-                this.showDetailsInSideNav(node);
             },
-            onRelationshipDoubleClick: function(relationship: any) {
+            onRelationshipDoubleClick: (relationship: any) => {
                 console.log('double click on relationship line: // bind // trigger action', relationship);
             },
-            onNodeMouseEnter: function(node: any) {
-                console.log('hovering a node: // bind // trigger action', node);
+            onNodeMouseEnter: (node: any) => {
+                this.showDetailsInSideNav(node);
             },
         }
     }
 
     showDetailsInSideNav(node: any): void {
+        // this.contentDetails = JSON.stringify(node);
         this.contentDetails = node;
     }
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output,OnDestroy, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'provenance-sidenav',
@@ -8,8 +8,6 @@ import { Component, Input, Output,OnDestroy, EventEmitter } from '@angular/core'
 
 export class ProvenanceSidenavComponent implements OnDestroy {
     @Input() contentDetails: any;
-    @Output() close: EventEmitter<any> = new EventEmitter<any>();
-
     ngOnDestroy() {
     }
 }

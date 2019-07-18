@@ -826,7 +826,6 @@ function Neo4jD3(_selector, _options) {
         svgTranslate = [fullWidth / 2 - svgScale * midX, fullHeight / 2 - svgScale * midY];
 
         svg.attr('transform', 'translate(' + svgTranslate[0] + ', ' + svgTranslate[1] + ') scale(' + svgScale + ')');
-        // smoothTransform(svgTranslate, svgScale);
     }
 
     init(_selector, _options);
@@ -840,13 +839,3 @@ function Neo4jD3(_selector, _options) {
 }
 
 export default Neo4jD3;
-
-        // function smoothTransform(elem, translate, scale) {
-    //     var animationMilliseconds = 5000,
-    //         timeoutMilliseconds = 50,
-    //         steps = parseInt(animationMilliseconds / timeoutMilliseconds);
-
-    //     setTimeout(function() {
-    //         smoothTransformStep(elem, translate, scale, timeoutMilliseconds, 1, steps);
-    //     }, timeoutMilliseconds);
-    // }
