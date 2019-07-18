@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output,OnDestroy, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'provenance-sidenav',
@@ -7,18 +7,8 @@ import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angu
 })
 
 export class ProvenanceSidenavComponent implements OnDestroy {
-    @Input() contentDetails: Object;
-    private content: Object;
-    private name: String;
-    private id: String;
+    @Input() contentDetails: any;
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
-
-    OnInit() {
-        if (this.contentDetails) {
-            this.content = JSON.stringify(this.contentDetails)
-            this.contentId =  this.contentDetails.id
-        }
-    }
 
     ngOnDestroy() {
     }
