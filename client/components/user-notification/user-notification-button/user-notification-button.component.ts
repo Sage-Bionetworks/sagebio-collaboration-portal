@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserNotificationService } from '../user-notification.service';
 
 @Component({
     selector: 'user-notification-button',
@@ -7,10 +8,10 @@ import { Component, Input } from '@angular/core';
 })
 export class UserNotificationButtonComponent {
 
-    static parameters = [];
-    constructor() { }
+    static parameters = [UserNotificationService];
+    constructor(private userNotificationService: UserNotificationService) { }
 
     showNotifications(): void {
-
+        this.userNotificationService.showNotifications();
     }
 }

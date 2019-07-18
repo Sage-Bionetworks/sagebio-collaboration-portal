@@ -4,7 +4,9 @@ import { MaterialModule } from 'components/material/material.module';
 import { SecondarySidenavComponent } from './secondary-sidenav/secondary-sidenav.component';
 import { SecondarySidenavService } from './secondary-sidenav/secondary-sidenav.service';
 import { SidenavHostDirective } from './sidenav-host.directive';
-import { ThreadSidenavComponent } from '../messaging/thread/thread-sidenav/thread-sidenav.component';
+
+import { ThreadSidenavComponent } from 'components/messaging/thread/thread-sidenav/thread-sidenav.component';
+import { UserNotificationSidenavComponent } from 'components/user-notification/user-notification-sidenav/user-notification-sidenav.component';
 
 @NgModule({
     imports: [
@@ -22,7 +24,8 @@ import { ThreadSidenavComponent } from '../messaging/thread/thread-sidenav/threa
         SecondarySidenavComponent
     ],
     entryComponents: [
-        ThreadSidenavComponent
+        ThreadSidenavComponent,
+        UserNotificationSidenavComponent
     ]
 })
 export class SidenavModule { }

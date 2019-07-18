@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ComponentFactoryResolver, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NotificationService } from '../../notification/notification.service';
@@ -31,12 +31,11 @@ export class MessageReplyButtonComponent implements OnInit {
     private maxNumContributorsInPreview = 5;
 
     static parameters = [MessagingService, MessagingDataService,
-        NotificationService, SecondarySidenavService, ComponentFactoryResolver];
+        NotificationService, SecondarySidenavService];
     constructor(private messagingService: MessagingService,
         private messagingDataService: MessagingDataService,
         private notificationService: NotificationService,
-        private sidenavService: SecondarySidenavService,
-        private componentFactoryResolver: ComponentFactoryResolver) {
+        private sidenavService: SecondarySidenavService) {
 
         this.avatarSize = config.avatar.size.nano;
     }
