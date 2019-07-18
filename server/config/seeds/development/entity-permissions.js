@@ -1,18 +1,20 @@
 import { testProjectId } from './projects';
+import { adminUserId, testUserId } from './users';
 import {
-    adminUserId,
-    testUserId
-} from './users';
+    accessTypes,
+    entityTypes,
+    inviteStatusTypes,
+} from '../../environment/shared';
 
-let entityPermissions = [{
-    status: 'pending',
-    entityId: testProjectId,
-    entityType: 'project',
-    user: testUserId,
-    access: 'read',
-    createdBy: adminUserId,
-}];
+let entityPermissions = [
+    {
+        status: inviteStatusTypes.ACCEPTED.value,
+        entityId: testProjectId,
+        entityType: entityTypes.PROJECT.value,
+        user: testUserId,
+        access: accessTypes.READ.value,
+        createdBy: adminUserId,
+    },
+];
 
-export {
-    entityPermissions
-};
+export { entityPermissions };
