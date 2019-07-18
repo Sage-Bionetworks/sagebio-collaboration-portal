@@ -4,6 +4,8 @@ import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
+// import EntityPermission from '../api/entity-permission/entity-permission.model';
+
 const url = require('url');
 
 var validateJwt = expressJwt({
@@ -53,7 +55,7 @@ export function isAuthenticated() {
 export function isAuthorized(requestedPermission) {
     return compose()
         .use((req, res, next) => {
-            const isAdminRole = config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf('admin');
+            const isAdminRole = config.userRoles.indexOf(req.user.role) == config.userRoles.indexOf('admin');
 
             // Automatically grant admin users permission
             if (isAdminRole) return next();
@@ -81,6 +83,50 @@ export function isAuthorized(requestedPermission) {
 }
 
 /**
+ * Authorizes request if the user has an admin role or the requested permission for the specified entity.
+ *
+ * Users that have not been assigned or accepted the requested permission for the entity will be blocked.
+ * @param {*} requestedPermission
+ */
+export function isAuthorizedForEntity(requestedPermission) {
+    return compose()
+        .use((req, res, next) => {
+            console.log(`[REQUEST] isAuthorizedForEntity requestedPermission: ${requestedPermission}`);
+            const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
+
+            // Automatically grant admin users permission
+            if (isAdminRole) {
+                console.log('[APPROVED] ADMIN ROLE DETECTED');
+                return next();
+            }
+
+            // Block non-admin users if the required permission is falsy
+            if (!requestedPermission) {
+                console.log('[BLOCKED] NON-ADMIN USER REQUEST WITH FALSY REQUESTED PERMISSION');
+                res.status(403).send('Forbidden');
+                return null;
+            }
+
+            // WIP #231 - Implement check for requested permission
+            // Check if our user has the appropriate permission in req.body.entityId
+            // UserPermission.find({ user: req.user._id}).exec()
+            //     .then(permissions => {
+            //         const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
+
+            //         // Continuing processing request if our user has the appropriate permission
+            //         if (hasAuthorization) return next();
+
+            //         // User does not have permission; block request
+            //         res.status(403).send('Forbidden');
+            //         return null;
+            //     })
+            //     .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
+            console.log('[APPROVED] NON-ADMIN USER REQUEST WITH A MATCHING ENTITY PERMISSION');
+            return next(); // WIP #231 - Remove once permission check is in place
+        });
+}
+
+/**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
  * @param {*} requestedPermission
  */
@@ -88,6 +134,16 @@ export function hasPermission(requestedPermission) {
     return compose()
         .use(isAuthenticated())
         .use(isAuthorized(requestedPermission));
+}
+
+/**
+ * Allows request to continue if the user has authenticated and has appropriate authorization for the entity
+ * @param {*} requestedPermission
+ */
+export function hasPermissionForEntity(requestedPermission) {
+    return compose()
+        .use(isAuthenticated())
+        .use(isAuthorizedForEntity(requestedPermission));
 }
 
 /**
