@@ -5,6 +5,7 @@
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
         "@babel/runtime": "^7.4.5",
+        "babel-plugin-istanbul": "^5.1.4",
         "bluebird": "^3.5.5",
         "body-parser": "^1.19.0",
         "composable-middleware": "^0.3.0",
