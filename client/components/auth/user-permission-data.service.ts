@@ -15,7 +15,7 @@ import config from '../../app/app.constants';
 
 export class UserPermissions {
     constructor(private role: UserRole, private permissions: UserPermission[],
-        private entityPermissions: EntityPermission[]) {}
+        private entityPermissions: EntityPermission[]) { }
 
     public isAdmin(): boolean {
         return this.role === UserRole.ADMIN;
@@ -54,6 +54,15 @@ export class UserPermissions {
             project._id,
             config.entityTypes.PROJECT.value
         );
+    }
+
+    public countPendingEntityInvites(): number {
+        if (this.entityPermissions) {
+            return this.entityPermissions.filter(invite => {
+                return invite.status === config.inviteStatusTypes.PENDING.value;
+            }).length;
+        }
+        return 0;
     }
 }
 

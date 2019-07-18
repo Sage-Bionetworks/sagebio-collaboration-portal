@@ -26,8 +26,8 @@ var EntityPermissionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['ACCEPTED', 'DECLINED', 'PENDING'],
-        default: 'PENDING',
+        enum: Object.values(config.inviteStatusTypes).map(status => status.value),
+        default: config.inviteStatusTypes.PENDING.value,
         required: true
     },
     createdAt: {
