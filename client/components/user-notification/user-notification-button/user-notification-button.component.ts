@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { UserNotificationService } from '../user-notification.service';
 
 @Component({
@@ -7,9 +8,17 @@ import { UserNotificationService } from '../user-notification.service';
     styles: [require('./user-notification-button.scss')]
 })
 export class UserNotificationButtonComponent {
+    private numNotifications = 0;
 
-    static parameters = [UserNotificationService];
-    constructor(private userNotificationService: UserNotificationService) { }
+    static parameters = [UserPermissionDataService, UserNotificationService];
+    constructor(private userPermissionDataService: UserPermissionDataService,
+        private userNotificationService: UserNotificationService) {
+
+        this.userPermissionDataService.getPermissions()
+            .subscribe(permissions => {
+                this.numNotifications = permissions.countPendingEntityInvites();
+            });
+    }
 
     toggleNotifications(): void {
         this.userNotificationService.toggleNotifications();

@@ -1,3 +1,3 @@
-<a mat-icon-button matTooltip="User notifications" (click)="toggleNotifications()">
+<a *ngIf="numNotifications > 0" mat-icon-button matTooltip="User notifications" (click)="toggleNotifications()">
     <mat-icon>notifications</mat-icon>
 </a>
