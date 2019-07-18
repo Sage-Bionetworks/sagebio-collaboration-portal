@@ -11,7 +11,7 @@ export class UserNotificationButtonComponent {
     static parameters = [UserNotificationService];
     constructor(private userNotificationService: UserNotificationService) { }
 
-    showNotifications(): void {
-        this.userNotificationService.showNotifications();
+    toggleNotifications(): void {
+        this.userNotificationService.toggleNotifications();
     }
 }

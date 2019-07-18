@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
 
+const SIDENAV_CONTENT_ID = 'notifications';
+
 @Injectable()
 export class UserNotificationService {
 
@@ -10,16 +12,15 @@ export class UserNotificationService {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    showNotifications(): void {
-        let sidenavContentId = `notifications`;
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+    toggleNotifications(): void {
+        if (this.secondarySidenavService.getContentId() !== SIDENAV_CONTENT_ID) {
             // (<UserNotificationSidenavComponent>this.secondarySidenavService
             //     .loadContentComponent(UserNotificationSidenavComponent))
             //     .setMessage(message);
             this.secondarySidenavService
                 .loadContentComponent(UserNotificationSidenavComponent);
-            this.secondarySidenavService.setContentId(sidenavContentId);
+            this.secondarySidenavService.setContentId(SIDENAV_CONTENT_ID);
         }
-        this.secondarySidenavService.open();
+        this.secondarySidenavService.toggle();
     }
 }
