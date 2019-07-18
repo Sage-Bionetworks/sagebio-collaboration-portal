@@ -21,6 +21,9 @@ import {
 import {
     userPermissions
 } from './user-permissions';
+import {
+    entityPermissions
+} from './entity-permissions';
 
 module.exports = {
     messages: messages,
@@ -29,5 +32,6 @@ module.exports = {
     starredMessages: starredMessages,
     states: states,
     users: users,
-    userPermissions: userPermissions
+    userPermissions: userPermissions,
+    entityPermissions: entityPermissions,
 };
