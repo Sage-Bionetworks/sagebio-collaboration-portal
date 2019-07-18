@@ -2,6 +2,7 @@ import {
     applyPatch
 } from 'fast-json-patch';
 import EntityPermission from './entity-permission.model';
+import User from '../user/user.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -68,11 +69,15 @@ export function index(req, res) {
 // }
 
 // Creates a new EntityPermission in the DB
-// export function create(req, res) {
-//     return EntityPermission.create(req.body)
-//         .then(respondWithResult(res, 201))
-//         .catch(handleError(res));
-// }
+export function create(req, res) {
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    req.body.createdBy = req.user._id;
+
+    return EntityPermission.create(req.body)
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
 
 // Upserts the given EntityPermission in the DB at the specified ID
 // export function upsert(req, res) {
@@ -85,25 +90,27 @@ export function index(req, res) {
 // }
 
 // Updates an existing EntityPermission in the DB
-// export function patch(req, res) {
-//     if(req.body._id) {
-//         Reflect.deleteProperty(req.body, '_id');
-//     }
-//     return EntityPermission.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(patchUpdates(req.body))
-//         .then(respondWithResult(res))
-//         .catch(handleError(res));
-// }
+export function patch(req, res) {
+    Reflect.deleteProperty(req.body, '_id');
+    Reflect.deleteProperty(req.body, 'createdAt');
+    Reflect.deleteProperty(req.body, 'createdBy');
+
+    return EntityPermission.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
 
 // Deletes a EntityPermission from the DB
-// export function destroy(req, res) {
-//     return EntityPermission.findById(req.params.id)
-//         .exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
-//         .catch(handleError(res));
-// }
+export function destroy(req, res) {
+    return EntityPermission.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
 
 // Returns the permissions of the user
 export function indexMine(req, res) {
@@ -111,6 +118,17 @@ export function indexMine(req, res) {
     return EntityPermission.find({
             user: userId
         })
+        .populate('user', User.profileProperties)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function indexEntityPermissions(req, res) {
+    return EntityPermission.find({
+            entityId: req.params.id
+        })
+        .populate('user', User.profileProperties)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));

@@ -18,25 +18,28 @@ export const entityTypes = {
 };
 
 export const accessTypes = {
-    LIST: {
-        value: 'list',
-        description: ''
+    READ: {
+        value: 'read',
+        name: 'Read',
+        description: 'Can read and download.'
     },
-    CREATE: {
-        value: 'create',
-        description: ''
+    // CREATE: {
+    //     value: 'create',
+    //     description: ''
+    // },
+    WRITE: {
+        value: 'write',
+        name: 'Write',
+        description: 'Can read, download, and write.'
     },
-    EDIT: {
-        value: 'edit',
-        description: ''
-    },
-    DELETE: {
-        value: 'delete',
-        description: ''
-    },
+    // DELETE: {
+    //     value: 'delete',
+    //     description: ''
+    // },
     ADMIN: {
         value: 'admin',
-        description: ''
+        name: 'Admin',
+        description: 'Can read, download, write, and admin.'
     }
 };
 

@@ -89,7 +89,7 @@ export class UserPermissionDataService {
                         .pipe(
                             catchError(err => of(<UserPermission[]>[]))
                         ),
-                    entityPermissions: this.entityPermissionService.getMyPermissions()
+                    entityPermissions: this.entityPermissionService.queryMine()
                         .pipe(
                             catchError(err => of(<EntityPermission[]>[]))
                         )

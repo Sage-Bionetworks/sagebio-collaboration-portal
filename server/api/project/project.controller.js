@@ -14,14 +14,14 @@ function createAdminPermissionForEntity(user, entityType) {
             console.log('plop', {
                     entityId: entity._id.toString(),
                     entityType: entityType,
-                    userId: user._id.toString(),
+                    user: user._id.toString(),
                     access: accessTypes.ADMIN.value,
                     createdBy: user._id.toString()
                 });
             return EntityPermission.create({
                     entityId: entity._id.toString(),
                     entityType: entityType,
-                    userId: user._id.toString(),
+                    user: user._id.toString(),
                     access: accessTypes.ADMIN.value,
                     createdBy: user._id.toString()
                 })

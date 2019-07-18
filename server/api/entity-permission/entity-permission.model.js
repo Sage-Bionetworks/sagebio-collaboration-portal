@@ -14,13 +14,20 @@ var EntityPermissionSchema = new mongoose.Schema({
         enum: Object.values(config.entityTypes).map(entity => entity.value),
         required: true
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     access: {
         type: String,
         enum: Object.values(config.accessTypes).map(access => access.value),
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['ACCEPTED', 'DECLINED', 'PENDING'],
+        default: 'PENDING',
         required: true
     },
     createdAt: {
@@ -43,7 +50,7 @@ registerEvents(EntityPermissionSchema);
 EntityPermissionSchema.index({
     entityId: 1,
     entityType: 1,
-    userId: 1,
+    user: 1,
     access: 1
 }, {
     unique: true
