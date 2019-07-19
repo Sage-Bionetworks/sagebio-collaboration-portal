@@ -20,7 +20,7 @@ router.delete('/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), contro
 
 // A specific entity (project, etc)
 router.get('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.indexEntityPermissions);
-// router.post('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.createEntityPermission); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
-// router.delete('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.destroyEntityPermission); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
+// router.post('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.createEntityPermission);
+// router.delete('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.destroyEntityPermission);
 
 module.exports = router;
