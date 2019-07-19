@@ -4,7 +4,7 @@ import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
-// import EntityPermission from '../api/entity-permission/entity-permission.model';
+import EntityPermission from '../api/entity-permission/entity-permission.model';
 
 const url = require('url');
 
@@ -108,21 +108,28 @@ export function isAuthorizedForEntity(requestedPermission) {
             }
 
             // WIP #231 - Implement check for requested permission
-            // Check if our user has the appropriate permission in req.body.entityId
-            // UserPermission.find({ user: req.user._id}).exec()
-            //     .then(permissions => {
-            //         const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
+            // Check if our user has the appropriate permission
+            EntityPermission.find({ user: req.user._id, entityId: req.params.id }).exec()
+                .then(entityPermissions => {
+                    const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
 
-            //         // Continuing processing request if our user has the appropriate permission
-            //         if (hasAuthorization) return next();
+                    // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
+                    if (userEntityPermission && userEntityPermission.status === 'accepted') {
+                        console.log('[APPROVED] NON-ADMIN USER HAS A VALID ENTITY PERMISSION');
+                        next();
+                        return null;
+                    }
 
-            //         // User does not have permission; block request
-            //         res.status(403).send('Forbidden');
-            //         return null;
-            //     })
-            //     .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
-            console.log('[APPROVED] NON-ADMIN USER REQUEST WITH A MATCHING ENTITY PERMISSION');
-            return next(); // WIP #231 - Remove once permission check is in place
+                    // User does not have permission; block request
+                    console.log('[REJECTED] NON-ADMIN USER DOES NOT HAVE A VALID ENTITY PERMISSION');
+                    res.status(403).send('Forbidden');
+                    return null;
+                })
+                .catch(err => {
+                    console.error('[ERROR] NON-ADMIN USER REQUEST FAILED');
+                    res.status(500).send(`Sorry - there was an error processing your request: ${err}`);
+                    return null;
+                });
         });
 }
 
