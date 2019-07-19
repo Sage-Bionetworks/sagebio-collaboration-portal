@@ -115,7 +115,7 @@ export function isAuthorizedForEntity(requestedPermission) {
                         return null;
                     }
 
-                    // User does not have permission; block request
+                    // User does not have permission OR has not accepted the entity permission; block request
                     res.status(403).send('Forbidden');
                     return null;
                 })
