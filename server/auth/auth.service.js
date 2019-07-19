@@ -91,23 +91,19 @@ export function isAuthorized(requestedPermission) {
 export function isAuthorizedForEntity(requestedPermission) {
     return compose()
         .use((req, res, next) => {
-            console.log(`[REQUEST] isAuthorizedForEntity requestedPermission: ${requestedPermission}`);
             const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
 
             // Automatically grant admin users permission
             if (isAdminRole) {
-                console.log('[APPROVED] ADMIN ROLE DETECTED');
                 return next();
             }
 
             // Block non-admin users if the required permission is falsy
             if (!requestedPermission) {
-                console.log('[BLOCKED] NON-ADMIN USER REQUEST WITH FALSY REQUESTED PERMISSION');
                 res.status(403).send('Forbidden');
                 return null;
             }
 
-            // WIP #231 - Implement check for requested permission
             // Check if our user has the appropriate permission
             EntityPermission.find({ user: req.user._id, entityId: req.params.id }).exec()
                 .then(entityPermissions => {
@@ -115,18 +111,15 @@ export function isAuthorizedForEntity(requestedPermission) {
 
                     // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
                     if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                        console.log('[APPROVED] NON-ADMIN USER HAS A VALID ENTITY PERMISSION');
                         next();
                         return null;
                     }
 
                     // User does not have permission; block request
-                    console.log('[REJECTED] NON-ADMIN USER DOES NOT HAVE A VALID ENTITY PERMISSION');
                     res.status(403).send('Forbidden');
                     return null;
                 })
                 .catch(err => {
-                    console.error('[ERROR] NON-ADMIN USER REQUEST FAILED');
                     res.status(500).send(`Sorry - there was an error processing your request: ${err}`);
                     return null;
                 });
