@@ -29,6 +29,12 @@ export class EntityPermissionService {
         ]);
     }
 
+    changeStatus(entityPermission: EntityPermission, newStatus: string): Observable<EntityPermission> {
+        return this.httpClient.patch<EntityPermission>(`/api/entity-permissions/${entityPermission._id}`, [
+            { op: 'replace', path: '/status', value: newStatus }
+        ]);
+    }
+
     delete(entityPermission: EntityPermission): Observable<EntityPermission> {
       return this.httpClient.delete(`/api/entity-permissions/${entityPermission._id}`)
           .pipe(

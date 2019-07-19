@@ -45,8 +45,8 @@ export class UserPermissions {
         return this.isAdmin() || !!find({
             entityId: entityId,
             entityType: entityType,
-            access: config.accessTypes.ADMIN
-        });
+            access: config.accessTypes.ADMIN.value
+        }, this.entityPermissions);
     }
 
     public canAdminProject(project: Project): boolean {
