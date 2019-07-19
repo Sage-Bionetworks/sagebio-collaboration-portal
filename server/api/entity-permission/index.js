@@ -19,7 +19,7 @@ router.delete('/:id', auth.isAuthenticated(), controller.destroy); // WIP #231 -
 // router.put('/:id/access', auth.isAuthenticated(), controller.changeAccess);
 
 // A specific entity (project, etc)
-router.get('/entity/:id', auth.hasPermissionForEntity('read'), controller.indexEntityPermissions); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
+router.get('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.indexEntityPermissions);
 // router.post('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.createEntityPermission); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
 // router.delete('/entity/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.destroyEntityPermission); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
 
