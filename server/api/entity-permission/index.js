@@ -7,8 +7,8 @@ var router = express.Router();
 const ADMIN_ROLE_FOR_ENTITY = accessTypes.ADMIN.value;
 
 // Entity permissions
-router.get('/', auth.hasRole('admin'), controller.index);
-router.post('/', auth.isAuthenticated(), controller.create); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
+router.get('/', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.index);
+router.post('/', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.create);
 router.get('/mine', auth.isAuthenticated(), controller.indexMine);
 
 // Specific entity permission object - defining access for a specific user on a known entity
