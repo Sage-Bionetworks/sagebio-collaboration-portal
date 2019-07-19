@@ -49,13 +49,6 @@ export class UserPermissions {
         }, this.entityPermissions);
     }
 
-    public canAdminProject(project: Project): boolean {
-        return this.canAdminEntity(
-            project._id,
-            config.entityTypes.PROJECT.value
-        );
-    }
-
     public countPendingEntityInvites(): number {
         if (this.entityPermissions) {
             return this.entityPermissions.filter(invite => {

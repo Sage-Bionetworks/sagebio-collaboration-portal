@@ -26,6 +26,32 @@ export class ProjectDataService implements OnDestroy {
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
+        // this._project
+        //     .pipe(
+        //         pairwise(),
+        //         map(data => ({
+        //             prevProject: data[0],
+        //             project: data[1]
+        //         })),
+        //         tap(res => {
+        //             if (res.prevProject) {
+        //                 this.socketService.unsyncUpdates(`project:${res.prevProject._id}`);
+        //             }
+        //         }),
+        //         takeUntil(this.unsubscribe)
+        //     )
+        //     .subscribe(res => {
+        //         if (res.project && ) {
+        //             this.socketService.syncItemSubject(`project:${res.project._id}`, this._project);
+        //         }
+        //     }, err => console.log(err), () => {
+        //         let project = this._project.getValue();
+        //         if (project) {
+        //             this.socketService.unsyncUpdates(`project:${project._id}`);
+        //         }
+        //     });
+
+
         this.getCanAdmin()
             .pipe(
                 takeUntil(this.unsubscribe)
@@ -34,15 +60,21 @@ export class ProjectDataService implements OnDestroy {
                 this._canAdmin.next(canAdmin);
             }, err => console.log(err), () => {
                 this._canAdmin.next(false);
+                this._canAdmin.complete();
             });
 
         this.getACL()
             .pipe(
                 takeUntil(this.unsubscribe)
             )
-            .subscribe(() => {
-                //
+            .subscribe((res: ProjectAclResult) => {
+                console.log('ACL are now', res);
+                this._acl.next(res.acl);
+                if (res.project) {
+                    this.socketService.syncArraySubject(`project:${res.project._id}:entityPermission`, this._acl);
+                }
             }, err => console.log(err), () => {
+                this._acl.next([]);
                 this._acl.complete();
             });
     }
@@ -77,28 +109,21 @@ export class ProjectDataService implements OnDestroy {
         const queryACL = getProjectAndCanAdmin
             .pipe(
                 filter(res => !!res.project && res.canAdmin),
-                tap(res => {
-                    if (res.prevProject) {
-                        this.socketService.unsyncUpdates(`project:${res.prevProject._id}`);
-                    }
-                }),
                 switchMap(res => forkJoin({
                     project: of(res.project),
                     acl: this.entityPermissionService.queryByEntity(res.project)
                 })),
-                tap(() => console.log('SET ACL'))
+                tap(res => console.log('SET ACL', res))
             );
 
         const emptyACL = getProjectAndCanAdmin
             .pipe(
                 filter(res => !res.project || !res.canAdmin),
                 distinctUntilChanged((prev, curr) => {
-                    return (!prev.project || !prev.canAdmin) === (!curr.project || !curr.canAdmin);
+                    return (!prev.project || !prev.canAdmin) !== (!curr.project || !curr.canAdmin);
                 }),
                 tap(res => {
-                    if (res.prevProject) {
-                        this.socketService.unsyncUpdates(`project:${res.prevProject._id}`);
-                    }
+
                 }),
                 mapTo({
                     project: <Project>null,
@@ -112,26 +137,31 @@ export class ProjectDataService implements OnDestroy {
             emptyACL
         );
 
-        return getACL
-            .pipe(
-                tap((res: ProjectAclResult) => {
-                    this._acl.next(res.acl);
-                    if (res.project) {
-                        this.socketService.syncArraySubject(`project:${res.project._id}`, this._acl);
-                    }
-                })
-            );
+        return getACL;
+        // .pipe(
+        //     tap((res: ProjectAclResult) => {
+        //         this._acl.next(res.acl);
+        //         if (res.project) {
+        //             this.socketService.syncArraySubject(`project:${res.project._id}`, this._acl);
+        //         }
+        //     })
+        // );
     }
 
-    getCanAdmin(): Observable<boolean> {
+    /**
+     * Returns whether the user can admin this project.
+     * @return {Observable<boolean>}
+     */
+    private getCanAdmin(): Observable<boolean> {
         const queryCanAdminProject = this._project
             .pipe(
-                tap(() => console.log('queryCanAdminProject')),
                 filter(project => !!project),
                 switchMap(project => this.userPermissionDataService.getPermissions()
                     .pipe(
-                        tap(() => console.log('CHECKING if user can admin')),
-                        map(permissions => permissions.canAdminProject(project)),
+                        map(permissions => permissions.canAdminEntity(
+                            project._id,
+                            config.entityTypes.PROJECT.value
+                        )),
                         catchError(err => of(<boolean>false))
                     )
                 )
@@ -140,9 +170,7 @@ export class ProjectDataService implements OnDestroy {
         const emptyCanAdminProject = this._project
             .pipe(
                 filter(project => !project),
-                tap(project => console.log('bad project', project)),
-                mapTo(false),
-                tap(() => console.log('YOU ARE NOT ALLOWED TO SEE PERMISSION'))
+                mapTo(false)
             );
 
         const canAdminProject = merge(

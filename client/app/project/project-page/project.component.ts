@@ -26,7 +26,6 @@ import { ProjectDataService } from '../project-data.service';
 export class ProjectComponent implements OnInit, OnDestroy {
     private project: Project;
     private form: FormGroup;
-    private canAdminEntity = false;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService, NotificationService, UserPermissionDataService,
@@ -58,14 +57,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.project = project;
 
                 this.projectDataService.setProject(this.project);
-            });
-
-        combineLatest(
-            project$,
-            this.userPermissionDataService.getPermissions()
-        )
-            .subscribe(([project, permissions]) => {
-                this.canAdminEntity = permissions.canAdminProject(project);
             });
     }
 
