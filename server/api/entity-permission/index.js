@@ -12,8 +12,8 @@ router.post('/', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.
 router.get('/mine', auth.isAuthenticated(), controller.indexMine);
 
 // Specific entity permission object - defining access for a specific user on a known entity
-router.patch('/:id', auth.isAuthenticated(), controller.patch); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY)
-router.delete('/:id', auth.isAuthenticated(), controller.destroy); // WIP #231 - Use auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY) with a twist - a user that matches req.body.user._id should be able to remove themselves from an entity (project)
+router.patch('/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.patch);
+router.delete('/:id', auth.hasPermissionForEntity(ADMIN_ROLE_FOR_ENTITY), controller.destroy);
 // router.get('/:id', controller.show);
 // router.put('/:id', controller.upsert);
 // router.put('/:id/access', auth.isAuthenticated(), controller.changeAccess);
