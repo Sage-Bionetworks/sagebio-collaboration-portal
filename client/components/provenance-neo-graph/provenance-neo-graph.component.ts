@@ -3,23 +3,23 @@ import customNeo4jd3 from '../d3/models/custom-neo-4jd3';
 import { ProvenanceSidenavComponent } from './provenance-sidenav/provenance-sidenav.component'
 
 @Component({
-    selector: 'provenance-graph',
-    template: require('./provenance-graph.html'),
-    styles: [require('./provenance-graph.scss')],
+    selector: 'provenance-neo-graph',
+    template: require('./provenance-neo-graph.html'),
+    styles: [require('./provenance-neo-graph.scss')],
     encapsulation: ViewEncapsulation.None,
 })
-export class ProvenanceGraphComponent implements OnInit {
-    @Input() nodes: Object;
+export class ProvenanceNeoGraphComponent implements OnInit {
+    @Input() graphNodes: Object;
     private contentDetails: Object
 
     @ViewChild(ProvenanceSidenavComponent, { static: false }) provenanceSidenavComponent: ProvenanceSidenavComponent;
 
     constructor() {}
     ngOnInit() {
-        customNeo4jd3('.customNeo4jd3', this.getGraphOptions(this.nodes));
+        customNeo4jd3('.customNeo4jd3', this.getGraphOptions(this.graphNodes));
     }
 
-    getGraphOptions(nodesToGraph: Object) {
+    getGraphOptions(graphNodes: Object) {
         return {
             icons: {
                 'Activity|_class|Tool session': 'cogs',
@@ -45,10 +45,11 @@ export class ProvenanceGraphComponent implements OnInit {
                 'Reference|subclass|Star': 'assets/images/provenence-graph/2b50.svg'
             },
             minCollision: 60,
-            neo4jData: nodesToGraph,
+            neo4jData: graphNodes,
             nodeRadius: 25,
             zoomFit: true,
             onNodeDoubleClick: (node: any) => {
+                console.log('double click on node line: // bind // trigger action', node);
             },
             onRelationshipDoubleClick: (relationship: any) => {
                 console.log('double click on relationship line: // bind // trigger action', relationship);
@@ -60,7 +61,6 @@ export class ProvenanceGraphComponent implements OnInit {
     }
 
     showDetailsInSideNav(node: any): void {
-        // this.contentDetails = JSON.stringify(node);
         this.contentDetails = node;
     }
 

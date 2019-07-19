@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from 'components/material/material.module';
-import { ProvenanceGraphService } from './provenance-graph.service';
-import { ProvenanceGraphComponent } from './provenance-graph.component';
+import { ProvenanceNeoGraphService } from './provenance-neo-graph.service';
+import { ProvenanceNeoGraphComponent } from './provenance-neo-graph.component';
 import { ProvenanceSidenavComponent } from './provenance-sidenav/provenance-sidenav.component';
 
 
@@ -12,16 +12,16 @@ import { ProvenanceSidenavComponent } from './provenance-sidenav/provenance-side
         MaterialModule,
     ],
     declarations: [
-        ProvenanceGraphComponent,
+        ProvenanceNeoGraphComponent,
         ProvenanceSidenavComponent
     ],
     providers: [
-        ProvenanceGraphService,
+        ProvenanceNeoGraphService,
         ProvenanceSidenavComponent
     ],
     exports: [
-        ProvenanceGraphComponent,
+        ProvenanceNeoGraphComponent,
         ProvenanceSidenavComponent
     ]
 })
-export class ProvenanceModule { }
+export class ProvenanceNeoGraphModule { }

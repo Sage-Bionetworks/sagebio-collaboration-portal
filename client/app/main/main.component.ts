@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
 import { ProvenanceService } from 'components/provenance/provenance.service';
+import { ProvenanceNeoGraphService } from 'components/provenance-neo-graph/provenance-neo-graph.service';
 
 @Component({
     selector: 'app-main',
@@ -12,21 +13,24 @@ import { ProvenanceService } from 'components/provenance/provenance.service';
 export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
-    private testGraph: any;
+    private d3testGraph: any;
+    private neoTestGraph: any
     private provenanceGraph: any
 
-    static parameters = [PageTitleService, AuthService, ProvenanceService];
+    static parameters = [PageTitleService, AuthService, ProvenanceService, ProvenanceNeoGraphService];
     constructor(private pageTitleService: PageTitleService,
         private authService: AuthService,
-        private provenanceService: ProvenanceService) {
+        private provenanceService: ProvenanceService,
+        private provenanceNeoGraphService: ProvenanceNeoGraphService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
 
-        this.testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
-        console.log('this.testGraph: ', this.testGraph);
-
+        this.d3testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
+        console.log('this.d3testGraph: ', this.d3testGraph);
+        this.neoTestGraph = this.provenanceNeoGraphService.getSmallNodesInNeoFormat()
+        console.log('this.neoTestGraph: ', this.neoTestGraph);
         this.provenanceService.getProvenanceGraph()
             .subscribe(graph => {
                 this.provenanceGraph = graph;

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { includes } from 'lodash';
-import { neoJson } from '../../components/provenance-graph/temporal-mock-data/smallMockGraphNeo'
+import { neoJson } from '../provenance-neo-graph/temporal-mock-data/smallMockGraphNeo'
 import { Node } from 'components/d3/models/node';
 import { Link } from 'components/d3/models/link';
 
@@ -65,7 +65,6 @@ export class ProvenanceService {
                 }
             });
         });
-        console.log('graph: ', graph);
         return graph;
     }
 }

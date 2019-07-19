@@ -7,10 +7,10 @@
     </div>
 
     <div class="app-provenance-node-info-body">
-        <p>Id: {{ contentDetails.id }}</p>
-        <p>Label: {{ contentDetails.labels }}</p>
-        <p>Name: {{ contentDetails.properties.name }}</p>
-        <p>Class: {{ contentDetails.properties._class }}</p>
-        <p>Subclass: {{ contentDetails.properties.subclass }}</p>
+        <p>Id: {{ contentDetails && contentDetails.id }}</p>
+        <p>Label: {{ contentDetails && contentDetails.labels }}</p>
+        <p>Name: {{ contentDetails && contentDetails.properties.name }}</p>
+        <p>Class: {{ contentDetails && contentDetails.properties._class }}</p>
+        <p>Subclass: {{ contentDetails && contentDetails.properties.subclass }}</p>
     </div>
 </div>

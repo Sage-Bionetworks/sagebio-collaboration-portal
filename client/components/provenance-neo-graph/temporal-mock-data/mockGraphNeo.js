@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export const neoJson = {
+export const fullNeoJson = {
     results: [
         {
             columns: [

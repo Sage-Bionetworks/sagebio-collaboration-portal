@@ -9,11 +9,13 @@ import { ProvenanceLinkComponent } from './provenance-graph/provenance-link/prov
 @NgModule({
     imports: [
         BrowserModule,
-        // MaterialModule
         D3Module
     ],
     providers: [
-        ProvenanceService
+        ProvenanceService,
+        ProvenanceGraphComponent,
+        ActivityNodeComponent,
+        ProvenanceLinkComponent
     ],
     declarations: [
         ProvenanceGraphComponent,
@@ -21,7 +23,9 @@ import { ProvenanceLinkComponent } from './provenance-graph/provenance-link/prov
         ProvenanceLinkComponent
     ],
     exports: [
-        ProvenanceGraphComponent
+        ProvenanceGraphComponent,
+        ActivityNodeComponent,
+        ProvenanceLinkComponent
     ]
 })
 export class ProvenanceModule { }
