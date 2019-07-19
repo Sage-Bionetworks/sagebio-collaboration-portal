@@ -114,7 +114,7 @@ export function isAuthorizedForEntity(requestedPermission) {
                     const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
 
                     // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                    if (userEntityPermission && userEntityPermission.status === 'accepted') {
+                    if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
                         console.log('[APPROVED] NON-ADMIN USER HAS A VALID ENTITY PERMISSION');
                         next();
                         return null;
