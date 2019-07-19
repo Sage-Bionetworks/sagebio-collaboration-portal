@@ -68,7 +68,7 @@ export class UserPermissions {
 
 @Injectable()
 export class UserPermissionDataService {
-    static UNKNOWN_PERMISSIONS = new UserPermissions(undefined, [], []);
+    static UNKNOWN_PERMISSIONS = new UserPermissions(null, [], []);
 
     private _permissions: BehaviorSubject<UserPermissions> =
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
@@ -95,7 +95,7 @@ export class UserPermissionDataService {
                     role: this.userService.get()
                         .pipe(
                             map(user => user.role),
-                            catchError(err => of(<UserRole>undefined))
+                            catchError(err => of(<UserRole>null))
                         ),
                     permissions: this.userPermissionService.getMyPermissions()
                         .pipe(
@@ -112,7 +112,7 @@ export class UserPermissionDataService {
             .pipe(
                 filter(is => !is),
                 mapTo({
-                    role: <UserRole>undefined,
+                    role: <UserRole>null,
                     permissions: <UserPermission[]>[],
                     entityPermissions: <EntityPermission[]>[]
                 })

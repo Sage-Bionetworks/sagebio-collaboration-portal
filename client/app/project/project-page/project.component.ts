@@ -13,11 +13,15 @@ import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
+import { ProjectDataService } from '../project-data.service';
 
 @Component({
     selector: 'project',
     template: require('./project.html'),
     styles: [require('./project.scss')],
+    providers: [
+        ProjectDataService
+    ]
 })
 export class ProjectComponent implements OnInit, OnDestroy {
     private project: Project;
@@ -25,13 +29,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private canAdminEntity = false;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        ProjectService, NotificationService, UserPermissionDataService];
+        ProjectService, NotificationService, UserPermissionDataService,
+        ProjectDataService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private projectService: ProjectService,
         private notificationService: NotificationService,
-        private userPermissionDataService: UserPermissionDataService) {
+        private userPermissionDataService: UserPermissionDataService,
+        private projectDataService: ProjectDataService) {
         this.form = formBuilder.group({
             description: ['', [
                 // Validators.required,
@@ -50,6 +56,8 @@ export class ProjectComponent implements OnInit, OnDestroy {
             .subscribe(project => {
                 this.form.get('description').setValue(JSON.parse(project.description));
                 this.project = project;
+
+                this.projectDataService.setProject(this.project);
             });
 
         combineLatest(

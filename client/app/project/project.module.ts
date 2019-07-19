@@ -39,16 +39,16 @@ export const ROUTES: Routes = [{
         AppQuillModule,
         EntityModule
     ],
+    providers: [
+        SocketService,
+        ProjectService,
+        ProjectDataService
+    ],
     declarations: [
         ProjectNewComponent,
         ProjectListComponent,
         ProjectViewComponent,
         ProjectComponent
-    ],
-    providers: [
-        SocketService,
-        ProjectService,
-        ProjectDataService
     ],
     exports: [
     ],
