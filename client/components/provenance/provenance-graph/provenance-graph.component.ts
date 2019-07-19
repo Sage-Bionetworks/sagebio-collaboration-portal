@@ -26,6 +26,8 @@ export class ProvenanceGraphComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         /** Receiving an initialized simulated graph from our custom d3 service */
+        console.log('ProvenanceGraphComponent ngOnInit this.nodes: ', this.nodes);
+        console.log('ProvenanceGraphComponent ngOnInit this.links: ', this.links);
         this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
 
         /** Binding change detection check on each tick

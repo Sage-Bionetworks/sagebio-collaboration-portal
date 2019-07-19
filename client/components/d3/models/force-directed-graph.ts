@@ -19,18 +19,20 @@ export class ForceDirectedGraph {
     constructor(nodes, links, options: { width, height }) {
         this.nodes = nodes;
         this.links = links;
-
         this.initSimulation(options);
     }
 
-    connectNodes(source, target) {
+    connectNodes(source, target, relationshipLink) {
         let link;
 
-        if (!this.nodes[source] || !this.nodes[target]) {
-            throw new Error('One of the nodes does not exist');
-        }
+        // if (!this.nodes.id == source || this.nodes.idtarget]) {
+        // // if (!this.nodes.id[source] || !this.nodes[target]) {
 
-        link = new Link(source, target);
+        //     throw new Error('One of the nodes does not exist');
+        // }
+
+        link = new Link(source, target, relationshipLink);
+        console.log('link: ', link);
         this.simulation.stop();
         this.links.push(link);
         this.simulation.alphaTarget(0.3).restart();
@@ -62,7 +64,6 @@ export class ForceDirectedGraph {
         if (!options || !options.width || !options.height) {
             throw new Error('missing options when initializing simulation');
         }
-
         /** Creating the simulation */
         if (!this.simulation) {
             const ticker = this.ticker;

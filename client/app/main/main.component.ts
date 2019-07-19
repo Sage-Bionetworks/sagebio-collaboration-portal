@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
-import { ProvenanceGraphService } from 'components/provenance-graph/provenance-graph.service'
+import { ProvenanceGraphService } from 'components/provenance/provenance-graph/provenance-graph.service'
 
 @Component({
     selector: 'app-main',
@@ -12,7 +12,7 @@ import { ProvenanceGraphService } from 'components/provenance-graph/provenance-g
 export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
-    nodes: Object = {};
+    graph: any;
 
     static parameters = [PageTitleService, AuthService, ProvenanceGraphService];
     constructor(private pageTitleService: PageTitleService,
@@ -23,7 +23,8 @@ export class MainComponent implements OnInit, OnDestroy {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
 
-        this.nodes = this.provenanceGraphService.getNodesInNeoFormat()
+        this.graph = this.provenanceGraphService.getMockedNodesAndRelationsForProvenanceGraph()
+        console.log('this.graph: ', this.graph);
     }
 
     ngOnInit() {
