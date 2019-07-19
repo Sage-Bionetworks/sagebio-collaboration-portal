@@ -1,6 +1,10 @@
 import User from './user.model';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import {
+    pickBy,
+    identity
+} from 'lodash/fp';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -9,7 +13,10 @@ function validationError(res, statusCode) {
 
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
-    return err => res.status(statusCode).send(err);
+    return err => {
+      console.log('ERR', err);
+      return res.status(statusCode).send(err);
+    };
 }
 
 /**
@@ -17,7 +24,14 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-    return User.find({}, '-salt -password')
+    let filter = pickBy(identity, {
+        username: req.query.username ? {
+            $regex: `^${req.query.username}`,
+            $options: 'i'
+        } : null,
+    });
+
+    return User.find(filter, '-salt -password')
         .exec()
         .then(users => {
             users = users.map(user => user.profile);
@@ -118,7 +132,7 @@ export function changeRole(req, res) {
                     })
                     .catch(handleError(res));
             } else {
-                return res.status(40).end();
+                return res.status(400).end();
             }
         });
 }

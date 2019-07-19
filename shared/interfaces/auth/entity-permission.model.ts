@@ -14,8 +14,9 @@ export interface EntityPermission {
     _id?: string;
     entityId: string;
     entityType: string;
-    userId: string;
+    user: UserProfile | string;
     access: string;
-    createdAt: string;
-    createdBy: UserProfile;
+    status?: string;
+    createdAt?: string;
+    createdBy?: UserProfile;
 }

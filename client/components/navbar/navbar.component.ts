@@ -10,6 +10,7 @@ import { PageTitleService } from '../page-title/page-title.service';
 import { NavbarUserButton } from '../navbar-user-button/navbar-user-button.component';
 // import { AppImagePipe } from '../image/image.pipe';
 import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
+import { UserNotificationButtonComponent } from 'components/user-notification/user-notification-button/user-notification-button.component';
 
 @Component({
     selector: 'app-navbar',

@@ -14,7 +14,9 @@ import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectComponent } from './project-page/project.component';
+import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectService } from './project.service';
+import { ProjectDataService } from './project-data.service';
 
 export const ROUTES: Routes = [{
     path: 'projects',
@@ -25,7 +27,9 @@ export const ROUTES: Routes = [{
     path: 'projects/:id',
     component: ProjectComponent,
     canActivate: [AuthGuard],
-    data: {}
+    children: [
+        { path: 'settings', component: ProjectSettingsComponent }
+    ]
 }];
 
 @NgModule({
@@ -38,15 +42,17 @@ export const ROUTES: Routes = [{
         AppQuillModule,
         EntityModule
     ],
+    providers: [
+        SocketService,
+        ProjectService,
+        ProjectDataService
+    ],
     declarations: [
         ProjectNewComponent,
         ProjectListComponent,
         ProjectViewComponent,
-        ProjectComponent
-    ],
-    providers: [
-        SocketService,
-        ProjectService
+        ProjectComponent,
+        ProjectSettingsComponent
     ],
     exports: [
     ],

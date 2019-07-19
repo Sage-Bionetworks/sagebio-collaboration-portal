@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
-import { ProvenanceGraphService } from 'components/provenance/provenance-graph/provenance-graph.service'
+import { ProvenanceService } from 'components/provenance/provenance.service';
 
 @Component({
     selector: 'app-main',
@@ -12,19 +12,25 @@ import { ProvenanceGraphService } from 'components/provenance/provenance-graph/p
 export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
-    graph: any;
+    private testGraph: any;
+    private provenanceGraph: any
 
-    static parameters = [PageTitleService, AuthService, ProvenanceGraphService];
+    static parameters = [PageTitleService, AuthService, ProvenanceService];
     constructor(private pageTitleService: PageTitleService,
         private authService: AuthService,
-        private provenanceGraphService: ProvenanceGraphService) {
+        private provenanceService: ProvenanceService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
 
-        this.graph = this.provenanceGraphService.getMockedNodesAndRelationsForProvenanceGraph()
-        console.log('this.graph: ', this.graph);
+        this.testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
+        console.log('this.testGraph: ', this.testGraph);
+
+        this.provenanceService.getProvenanceGraph()
+            .subscribe(graph => {
+                this.provenanceGraph = graph;
+            });
     }
 
     ngOnInit() {

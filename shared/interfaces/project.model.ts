@@ -1,3 +1,4 @@
+import { Entity } from './entity.model';
 import { User } from './auth/user.model';
 
 /**
@@ -23,8 +24,7 @@ import { User } from './auth/user.model';
  *         createdBy:
  *           $ref: '#/components/schemas/User'
  */
-export interface Project {
-    _id?: string;
+export interface Project extends Entity {
     name: string;
     description: string;
     picture: string;

@@ -1,12 +1,23 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+
 import { includes } from 'lodash';
-import { neoJson } from '../../../components/provenance-graph/temporal-mock-data/smallMockGraphNeo'
+import { neoJson } from '../../components/provenance-graph/temporal-mock-data/smallMockGraphNeo'
 import { Node } from 'components/d3/models/node';
 import { Link } from 'components/d3/models/link';
 
 @Injectable()
-export class ProvenanceGraphService {
+export class ProvenanceService {
 
+    static parameters = [HttpClient];
+    constructor(private httpClient: HttpClient) { }
+
+    getProvenanceGraph(): Observable<any> {
+        return this.httpClient.get<any>(`/api/provenance`);
+    }
+
+    // TODO: testing purposes, remove after connecting to backend
     getMockedNodesAndRelationsForProvenanceGraph() {
         const graph = {
             nodes: [],
@@ -55,7 +66,6 @@ export class ProvenanceGraphService {
             });
         });
         console.log('graph: ', graph);
-
         return graph;
     }
 }

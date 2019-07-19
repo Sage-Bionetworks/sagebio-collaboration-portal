@@ -11,7 +11,8 @@
     </div>
 </header>
 
-<provenance-graph class="provenance-graph" [nodes]="graph.nodes" [links]="graph.relationships"></provenance-graph>
+<p>{{ provenanceGraph | json }}</p>
+<provenance-graph class="provenance-graph" [nodes]="testGraph.nodes" [links]="testGraph.relationships"></provenance-graph>
 
 <!-- <div class="app-main-fair-container">
     <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">

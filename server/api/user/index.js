@@ -28,7 +28,7 @@ var router = Router();
  *     security:
  *       - BearerAuth: []
  */
-router.get('/', auth.hasRole('admin'), controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -151,7 +151,7 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
  *       '404':
  *         description: User not found
  */
-router.put('/:id/role', auth.isAuthenticated(), controller.changeRole);
+router.put('/:id/role', auth.hasRole('admin'), controller.changeRole);
 
 /**
  * @swagger

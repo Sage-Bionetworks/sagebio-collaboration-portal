@@ -45,20 +45,20 @@ export class UserService {
         return this.httpClient.put<User>(`/api/users/${userId}/role`, { newRole });
     }
 
-    // searchFriendsByName(terms: Observable<string>, user: User = { _id: 'me' }): Observable<User[] | null> {
-    //   return terms
-    //     .pipe(
-    //       debounceTime(400),
-    //       distinctUntilChanged(),
-    //       switchMap(term => {
-    //         if (term) {
-    //           return this.httpClient.get<User[]>(`/api/users/${user.id || user._id}/friends/?name=${term}`);
-    //         } else {
-    //           return of(null);
-    //         }
-    //       })
-    //     );
-    // }
+    searchUserByUsername(terms: Observable<string>): Observable<UserProfile[] | null> {
+        return terms
+            .pipe(
+                debounceTime(400),
+                distinctUntilChanged(),
+                switchMap(term => {
+                    if (term) {
+                        return this.httpClient.get<UserProfile[]>(`/api/users?username=${term}`);
+                    } else {
+                        return of(null);
+                    }
+                })
+            );
+    }
 
     /**
      * Returns a pre-signed URL to upload a temporary user face.

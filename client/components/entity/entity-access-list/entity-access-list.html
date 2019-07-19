@@ -1,1 +1,41 @@
-<span>PLOP</span>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sharing settings</mat-card-title>
+    </mat-card-header>
+
+    <!-- let a of [aVariable | async] -->
+
+    <mat-card-content>
+        <mat-list class="app-entity-access-list-list" dense>
+            <mat-list-item *ngFor="let perm of permissions">
+                <user-avatar matListAvatar [user]="perm.user" [size]="listAvatarSize"></user-avatar>
+                <h4 matLine *ngIf="perm.user.name">{{ perm.user.name }}</h4>
+                <p matLine>{{ perm.user.username }}</p>
+                <mat-select [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
+                    <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value">
+                        {{ accessType.name }}
+                    </mat-option>
+                </mat-select>
+                <a mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
+                    <mat-icon>clear</mat-icon>
+                </a>
+            </mat-list-item>
+        </mat-list>
+
+        <form class="app-entity-access-list-search-user-form" [formGroup]="inviteForm" novalidate>
+            <mat-form-field class="app-project-new-form-field">
+                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto" required>
+                <mat-autocomplete #auto="matAutocomplete" flex>
+                    <mat-option *ngFor="let user of userResults" [value]="user.username" (click)="selectUser(user)">
+                        <!-- <user-avatar [user]="user" [size]="optionAvatarSize"></user-avatar> -->
+                        <span>{{ user.username }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="inviteForm.controls.username.invalid">
+                    Please enter a valid username.
+                </mat-error>
+            </mat-form-field>
+            <a mat-raised-button color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a>
+        </form>
+    </mat-card-content>
+</mat-card>
