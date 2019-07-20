@@ -1,12 +1,12 @@
-<div *ngIf="project | async; let project">
+<div *ngIf="project | async; let project" class="app-project">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
         <h1>{{ project.name }}</h1>
     </div>
 
     <mat-sidenav-container class="app-project-sidenav-container">
-        <mat-sidenav #projectSidenav [opened]="'open'" [mode]="'side'" fullscreen>
-            <!-- <instance-sidenav></instance-sidenav> -->
+        <mat-sidenav #projectSidenav [opened]="projectSidenavService.opened() | async" [mode]="projectSidenavService.mode() | async" fullscreen>
+            <project-sidenav></project-sidenav>
         </mat-sidenav>
         <mat-sidenav-content class="app-project-sidenav-content">
             <router-outlet></router-outlet>

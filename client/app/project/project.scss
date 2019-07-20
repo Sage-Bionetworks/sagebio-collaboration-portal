@@ -2,13 +2,21 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100%;
+}
+
+.app-project {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
 }
 
 .app-project-sidenav-container {
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 1;
-  // height: 100%;
+  // height: 100%; // TODO: useful?
 }
 
 .app-project-sidenav-content {

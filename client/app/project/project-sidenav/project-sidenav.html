@@ -1,9 +1,15 @@
-Project sidenav
-<!-- <mat-nav-list>
-    <ng-container *ngFor="let item of instanceSidenavService.getItems() | async">
+<!-- <div class="app-primary-header app-user-notification-sidenav-header">
+    <h1 class="app-user-notification-sidenav-header-title">Notifications</h1>
+    <a class="app-user-notification-sidenav-header-close" mat-icon-button matTooltip="Close" aria-label="Hide the notifications" (click)="close()">
+        <mat-icon aria-label="Icon of cross">close</mat-icon>
+    </a>
+</div> -->
+
+<mat-nav-list>
+    <ng-container *ngFor="let item of projectSidenavService.items() | async">
         <a mat-list-item *ngIf="item.visible" routerLinkActive="active" [routerLink]="item.routerLink">
-            <mat-icon mat-list-icon [matBadge]="item?.notifications">{{item.icon}}</mat-icon>
-            <h3 matLine>{{item.title}}</h3>
+            <mat-icon mat-list-icon [matBadge]="item?.notifications">{{ item.icon }}</mat-icon>
+            <h3 matLine>{{ item.title }}</h3>
         </a>
     </ng-container>
-</mat-nav-list> -->
+</mat-nav-list>

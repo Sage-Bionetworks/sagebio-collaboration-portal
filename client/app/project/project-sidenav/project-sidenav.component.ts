@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-// import { InstanceSidenavService } from './instance-sidenav.service';
+import { ProjectSidenavService } from './project-sidenav.service';
 
 @Component({
     selector: 'project-sidenav',
@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
     styles: [require('./project-sidenav.scss')]
 })
 export class ProjectSidenavComponent {
-    static parameters = [];
-    constructor() { }
+    static parameters = [ProjectSidenavService];
+    constructor(private projectSidenavService: ProjectSidenavService) { }
 }
