@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './entity-permission.events';
+import User from '../user/user.model';
 import config from '../../config/environment';
 
 var EntityPermissionSchema = new mongoose.Schema({
@@ -45,6 +46,19 @@ var EntityPermissionSchema = new mongoose.Schema({
         select: false
     }
 });
+
+/**
+ * Middlewares
+ */
+
+const autoPopulatePost = function (doc) {
+    return doc
+        .populate('user', User.profileProperties)
+        .execPopulate();
+};
+
+EntityPermissionSchema
+    .post('save', autoPopulatePost);
 
 registerEvents(EntityPermissionSchema);
 EntityPermissionSchema.index({

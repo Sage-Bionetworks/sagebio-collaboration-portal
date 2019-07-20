@@ -24,8 +24,10 @@ function createListener(namespace, event, spark) {
             spark.emit(event, doc);
         }
 
-        // TODO must be able to admin project
+        // TODO check authorized
         spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
+        spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+        console.log(`EMITTING entity:${doc.entityId}:${namespace}:${event}`);
     };
 }
 

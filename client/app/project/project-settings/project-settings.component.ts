@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Project } from 'models/project.model';
+import { ProjectDataService } from '../project-data.service';
 
 @Component({
     selector: 'project-settings',
@@ -6,7 +9,11 @@ import { Component } from '@angular/core';
     styles: [require('./project-settings.scss')]
 })
 export class ProjectSettingsComponent {
+    private project: Observable<Project>;
 
-    static parameters = [];
-    constructor() { }
+    static parameters = [ProjectDataService];
+    constructor(private projectDataService: ProjectDataService) {
+
+        this.project = this.projectDataService.project();
+    }
 }

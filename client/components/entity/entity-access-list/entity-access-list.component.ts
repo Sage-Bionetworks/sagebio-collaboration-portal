@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {
     debounceTime,
@@ -10,6 +10,7 @@ import { EntityPermission } from 'models/auth/entity-permission.model';
 import { EntityPermissionService } from 'components/auth/entity-permission.service';
 import { UserProfile } from 'models/auth/user-profile.model';
 import { UserService } from 'components/auth/user.service';
+import { SocketService } from 'components/socket/socket.service';
 import config from '../../../app/app.constants';
 
 @Component({
@@ -17,9 +18,10 @@ import config from '../../../app/app.constants';
     template: require('./entity-access-list.html'),
     styles: [require('./entity-access-list.scss')],
 })
-export class EntityAccessListComponent implements OnInit, AfterViewInit {
+export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() entity: Entity;
     private permissions: EntityPermission[] = [];
+
     private inviteForm: FormGroup;
     private userResults: UserProfile[];
     private selectedUser: UserProfile;
@@ -27,10 +29,11 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit {
     private optionAvatarSize;
     private accessTypes: any[];
 
-    static parameters = [FormBuilder, EntityPermissionService, UserService];
+    static parameters = [FormBuilder, EntityPermissionService, UserService, SocketService];
     constructor(private formBuilder: FormBuilder,
         private entityPermissionService: EntityPermissionService,
-        private userService: UserService) {
+        private userService: UserService,
+        private socketService: SocketService) {
 
         this.listAvatarSize = config.avatar.size.small;
         this.optionAvatarSize = config.avatar.size.nano;
@@ -65,11 +68,22 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // find all the permission associated to this entity
-        this.entityPermissionService.queryByEntity(this.entity)
-            .subscribe(permissions => {
-                this.permissions = permissions;
-            }, err => console.log(err));
+        if (this.entity) {
+            this.entityPermissionService.queryByEntity(this.entity)
+                .subscribe(permissions => {
+                    this.permissions = permissions;
+                    this.socketService.syncUpdates(
+                        `entity:${this.entity._id}:entityPermission`,
+                        this.permissions
+                    );
+                }, err => console.log(err));
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.entity) {
+            this.socketService.unsyncUpdates(`entity:${this.entity._id}:entityPermission`);
+        }
     }
 
     selectUser(user: UserProfile): void {

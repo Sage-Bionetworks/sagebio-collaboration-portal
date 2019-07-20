@@ -101,6 +101,7 @@ export class SocketService {
              * Syncs item creation/updates on 'model:save'
              */
             primus.on(`${modelName}:save`, item => {
+                console.log('received new item', item);
                 let oldItem = find(array, { _id: item._id });
                 let index = array.indexOf(oldItem);
                 let event = 'created';
@@ -121,7 +122,10 @@ export class SocketService {
              * Syncs removed items on 'model:remove'
              */
             primus.on(`${modelName}:remove`, item => {
+                console.log('AHAHA array', item);
+                console.log('AHAHA item', item);
                 remove(array, { _id: item._id });
+                console.log('AHAHA after removal', array);
                 cb('deleted', item, array);
             });
         }
@@ -162,8 +166,6 @@ export class SocketService {
     syncArraySubject(modelName: string, subject: BehaviorSubject<any[]>): void {
         if (this.primus && this.primus.getValue()) {
             const primus = this.primus.getValue();
-
-            console.log('SYNC ', modelName);
 
             primus.on(`${modelName}:save`, item => {
                 let items = subject.getValue();
