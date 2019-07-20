@@ -6,15 +6,10 @@ import { UserPermissionDataService } from 'components/auth/user-permission-data.
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { EntityPermissionService } from 'components/auth/entity-permission.service';
 import { SocketService } from 'components/socket/socket.service';
+import { UserProjectPermission } from './models/user-project-permission.model';
 import config from '../../app/app.constants';
 
-export interface ProjectUserPermission {
-    canRead: boolean;
-    canWrite: boolean;
-    canAdmin: boolean;
-}
-
-const DEFAULT_USER_PERMISSION: ProjectUserPermission = {
+const DEFAULT_USER_PERMISSION: UserProjectPermission = {
     canRead: false,
     canWrite: false,
     canAdmin: false
@@ -27,11 +22,9 @@ interface ProjectAclResult {
 
 @Injectable()
 export class ProjectDataService implements OnDestroy {
-
     private _project: BehaviorSubject<Project> = new BehaviorSubject<Project>(null);
 
-    private _userPermission: BehaviorSubject<ProjectUserPermission> =
-        new BehaviorSubject<ProjectUserPermission>(DEFAULT_USER_PERMISSION);
+    private _userPermission: BehaviorSubject<UserProjectPermission> = new BehaviorSubject<UserProjectPermission>(DEFAULT_USER_PERMISSION);
     private _acl: BehaviorSubject<EntityPermission[]> = new BehaviorSubject<EntityPermission[]>([]);
     private unsubscribe = new Subject<void>();
 
@@ -41,12 +34,11 @@ export class ProjectDataService implements OnDestroy {
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
-        this.getProjectUserPermission()
+        this.getUserProjectPermission()
             .pipe(
                 takeUntil(this.unsubscribe)
             )
             .subscribe(userPermission => {
-                console.log('USER DATA SERVICE USER PERM', userPermission);
                 this._userPermission.next(userPermission);
             }, err => console.log(err), () => {
                 this._userPermission.next(DEFAULT_USER_PERMISSION);
@@ -136,10 +128,10 @@ export class ProjectDataService implements OnDestroy {
 
     /**
      * Returns the permission of the current user for this project.
-     * @return {Observable<ProjectUserPermission>}
+     * @return {Observable<UserProjectPermission>}
      */
-    private getProjectUserPermission(): Observable<ProjectUserPermission> {
-        const queryProjectUserPermission = this._project
+    private getUserProjectPermission(): Observable<UserProjectPermission> {
+        const queryUserProjectPermission = this._project
             .pipe(
                 filter(project => !!project),
                 switchMap(project => this.userPermissionDataService.getPermissions()
@@ -158,23 +150,23 @@ export class ProjectDataService implements OnDestroy {
                                 config.entityTypes.PROJECT.value
                             )
                         })),
-                        catchError(err => of(<ProjectUserPermission>DEFAULT_USER_PERMISSION))
+                        catchError(err => of(<UserProjectPermission>DEFAULT_USER_PERMISSION))
                     )
                 )
             );
 
-        const emptyProjectUserPermission = this._project
+        const emptyUserProjectPermission = this._project
             .pipe(
                 filter(project => !project),
                 mapTo(DEFAULT_USER_PERMISSION)
             );
 
-        const getProjectUserPermission = merge(
-            queryProjectUserPermission,
-            emptyProjectUserPermission
+        const getUserProjectPermission = merge(
+            queryUserProjectPermission,
+            emptyUserProjectPermission
         );
 
-        return getProjectUserPermission;
+        return getUserProjectPermission;
     }
 
     project(): Observable<Project> {
@@ -183,9 +175,9 @@ export class ProjectDataService implements OnDestroy {
 
     /**
      * Returns whether the user can admin the project.
-     * @return {Observable<ProjectUserPermission>}
+     * @return {Observable<UserProjectPermission>}
      */
-    userPermission(): Observable<ProjectUserPermission> {
+    userPermission(): Observable<UserProjectPermission> {
         return this._userPermission.asObservable();
     }
 

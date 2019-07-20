@@ -1,8 +1,8 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { ProjectSidenavItem } from './models/project-sidenav-item.model';
-import { ProjectDataService, ProjectUserPermission } from '../project-data.service';
+import { ProjectDataService } from '../project-data.service';
 
 const enum itemTitles {
     DASHBOARD = 'Dashboard',
@@ -13,11 +13,11 @@ const enum itemTitles {
 }
 
 @Injectable()
-export class ProjectSidenavService implements OnInit, OnDestroy {
+export class ProjectSidenavService implements OnDestroy {
     private _opened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     private _mode: BehaviorSubject<string> = new BehaviorSubject<string>('side');
     private _items: BehaviorSubject<ProjectSidenavItem[]> = new BehaviorSubject<ProjectSidenavItem[]>([{
-        title: itemTitles.DISCUSSION,
+        title: itemTitles.DASHBOARD,
         icon: 'dashboard',
         routerLink: ['dashboard'],
         routerLinkActiveOptions: {},
@@ -49,16 +49,13 @@ export class ProjectSidenavService implements OnInit, OnDestroy {
     }]);
 
     static parameters = [ProjectDataService];
-    constructor(private projectDataService: ProjectDataService) { }
-
-    ngOnInit() {
-        this.projectDataService.userPermission()
-            .subscribe(userPermission => {
-                console.log('USER PERMISSION', userPermission);
-                let items = this._items.getValue();
-                items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
-                this._items.next(items);
-            });
+    constructor(private projectDataService: ProjectDataService) {
+      this.projectDataService.userPermission()
+          .subscribe(userPermission => {
+              let items = this._items.getValue();
+              items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
+              this._items.next(items);
+          });
     }
 
     ngOnDestroy() { }

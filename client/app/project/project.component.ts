@@ -12,7 +12,8 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
     template: require('./project.html'),
     styles: [require('./project.scss')],
     providers: [
-        ProjectDataService
+        ProjectDataService,
+        ProjectSidenavService
     ]
 })
 export class ProjectComponent implements OnInit {
