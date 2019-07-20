@@ -26,32 +26,6 @@ export class ProjectDataService implements OnDestroy {
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
-        // this._project
-        //     .pipe(
-        //         pairwise(),
-        //         map(data => ({
-        //             prevProject: data[0],
-        //             project: data[1]
-        //         })),
-        //         tap(res => {
-        //             if (res.prevProject) {
-        //                 this.socketService.unsyncUpdates(`project:${res.prevProject._id}`);
-        //             }
-        //         }),
-        //         takeUntil(this.unsubscribe)
-        //     )
-        //     .subscribe(res => {
-        //         if (res.project && ) {
-        //             this.socketService.syncItemSubject(`project:${res.project._id}`, this._project);
-        //         }
-        //     }, err => console.log(err), () => {
-        //         let project = this._project.getValue();
-        //         if (project) {
-        //             this.socketService.unsyncUpdates(`project:${project._id}`);
-        //         }
-        //     });
-
-
         this.getCanAdmin()
             .pipe(
                 takeUntil(this.unsubscribe)
@@ -89,6 +63,10 @@ export class ProjectDataService implements OnDestroy {
         this._project.next(project);
     }
 
+    /**
+     * Returns the ACL for this project (if the user is authorized to).
+     * @return {Observable<ProjectAclResult>}
+     */
     private getACL(): Observable<ProjectAclResult> {
 
         const getProjectAndCanAdmin = combineLatest(
@@ -112,8 +90,7 @@ export class ProjectDataService implements OnDestroy {
                 switchMap(res => forkJoin({
                     project: of(res.project),
                     acl: this.entityPermissionService.queryByEntity(res.project)
-                })),
-                tap(res => console.log('SET ACL', res))
+                }))
             );
 
         const emptyACL = getProjectAndCanAdmin
@@ -123,13 +100,14 @@ export class ProjectDataService implements OnDestroy {
                     return (!prev.project || !prev.canAdmin) !== (!curr.project || !curr.canAdmin);
                 }),
                 tap(res => {
-
+                    if (res.prevProject) {
+                        this.socketService.unsyncUpdates(`project:${res.prevProject}:entityPermission`);
+                    }
                 }),
                 mapTo({
                     project: <Project>null,
                     acl: <EntityPermission[]>[]
-                }),
-                tap(() => console.log('EMPTY ACL'))
+                })
             );
 
         const getACL = merge(
@@ -138,14 +116,6 @@ export class ProjectDataService implements OnDestroy {
         );
 
         return getACL;
-        // .pipe(
-        //     tap((res: ProjectAclResult) => {
-        //         this._acl.next(res.acl);
-        //         if (res.project) {
-        //             this.socketService.syncArraySubject(`project:${res.project._id}`, this._acl);
-        //         }
-        //     })
-        // );
     }
 
     /**

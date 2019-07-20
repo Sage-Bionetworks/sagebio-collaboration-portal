@@ -25,7 +25,7 @@ function createListener(namespace, event, spark) {
         }
 
         // TODO must be able to admin project
-        spark.emit(`${doc.entityType}:${doc._id}:${namespace}:$(event)`, doc);
+        spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
     };
 }
 
