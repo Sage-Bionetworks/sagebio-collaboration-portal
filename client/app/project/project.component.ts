@@ -35,6 +35,6 @@ export class ProjectComponent implements OnInit {
                 this.projectDataService.setProject(project);
             });
 
-        this.project = this.projectDataService.getProject();
+        this.project = this.projectDataService.project();
     }
 }

@@ -8,6 +8,18 @@ import { EntityPermissionService } from 'components/auth/entity-permission.servi
 import { SocketService } from 'components/socket/socket.service';
 import config from '../../app/app.constants';
 
+export interface ProjectUserPermission {
+    canRead: boolean;
+    canWrite: boolean;
+    canAdmin: boolean;
+}
+
+const DEFAULT_USER_PERMISSION: ProjectUserPermission = {
+    canRead: false,
+    canWrite: false,
+    canAdmin: false
+};
+
 interface ProjectAclResult {
     project: Project;
     acl: EntityPermission[];
@@ -15,8 +27,11 @@ interface ProjectAclResult {
 
 @Injectable()
 export class ProjectDataService implements OnDestroy {
+
     private _project: BehaviorSubject<Project> = new BehaviorSubject<Project>(null);
-    private _canAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    private _userPermission: BehaviorSubject<ProjectUserPermission> =
+        new BehaviorSubject<ProjectUserPermission>(DEFAULT_USER_PERMISSION);
     private _acl: BehaviorSubject<EntityPermission[]> = new BehaviorSubject<EntityPermission[]>([]);
     private unsubscribe = new Subject<void>();
 
@@ -26,15 +41,16 @@ export class ProjectDataService implements OnDestroy {
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
-        this.getCanAdmin()
+        this.getProjectUserPermission()
             .pipe(
                 takeUntil(this.unsubscribe)
             )
-            .subscribe(canAdmin => {
-                this._canAdmin.next(canAdmin);
+            .subscribe(userPermission => {
+                console.log('USER DATA SERVICE USER PERM', userPermission);
+                this._userPermission.next(userPermission);
             }, err => console.log(err), () => {
-                this._canAdmin.next(false);
-                this._canAdmin.complete();
+                this._userPermission.next(DEFAULT_USER_PERMISSION);
+                this._userPermission.complete();
             });
 
         this.getACL()
@@ -69,22 +85,22 @@ export class ProjectDataService implements OnDestroy {
      */
     private getACL(): Observable<ProjectAclResult> {
 
-        const getProjectAndCanAdmin = combineLatest(
+        const getProjectAndUserPermission = combineLatest(
             this._project
                 .pipe(
                     pairwise()
                 ),
-            this._canAdmin
+            this._userPermission
         )
             .pipe(
                 map(data => ({
                     prevProject: data[0][0],
                     project: data[0][1],
-                    canAdmin: data[1]
+                    canAdmin: data[1].canAdmin
                 }))
             );
 
-        const queryACL = getProjectAndCanAdmin
+        const queryACL = getProjectAndUserPermission
             .pipe(
                 filter(res => !!res.project && res.canAdmin),
                 switchMap(res => forkJoin({
@@ -93,7 +109,7 @@ export class ProjectDataService implements OnDestroy {
                 }))
             );
 
-        const emptyACL = getProjectAndCanAdmin
+        const emptyACL = getProjectAndUserPermission
             .pipe(
                 filter(res => !res.project || !res.canAdmin),
                 distinctUntilChanged((prev, curr) => {
@@ -119,48 +135,58 @@ export class ProjectDataService implements OnDestroy {
     }
 
     /**
-     * Returns whether the user can admin this project.
-     * @return {Observable<boolean>}
+     * Returns the permission of the current user for this project.
+     * @return {Observable<ProjectUserPermission>}
      */
-    private getCanAdmin(): Observable<boolean> {
-        const queryCanAdminProject = this._project
+    private getProjectUserPermission(): Observable<ProjectUserPermission> {
+        const queryProjectUserPermission = this._project
             .pipe(
                 filter(project => !!project),
                 switchMap(project => this.userPermissionDataService.getPermissions()
                     .pipe(
-                        map(permissions => permissions.canAdminEntity(
-                            project._id,
-                            config.entityTypes.PROJECT.value
-                        )),
-                        catchError(err => of(<boolean>false))
+                        map(permissions => ({
+                            canRead: permissions.canReadEntity(
+                                project._id,
+                                config.entityTypes.PROJECT.value
+                            ),
+                            canWrite: permissions.canWriteEntity(
+                                project._id,
+                                config.entityTypes.PROJECT.value
+                            ),
+                            canAdmin: permissions.canAdminEntity(
+                                project._id,
+                                config.entityTypes.PROJECT.value
+                            )
+                        })),
+                        catchError(err => of(<ProjectUserPermission>DEFAULT_USER_PERMISSION))
                     )
                 )
             );
 
-        const emptyCanAdminProject = this._project
+        const emptyProjectUserPermission = this._project
             .pipe(
                 filter(project => !project),
-                mapTo(false)
+                mapTo(DEFAULT_USER_PERMISSION)
             );
 
-        const canAdminProject = merge(
-            queryCanAdminProject,
-            emptyCanAdminProject
+        const getProjectUserPermission = merge(
+            queryProjectUserPermission,
+            emptyProjectUserPermission
         );
 
-        return canAdminProject;
+        return getProjectUserPermission;
     }
 
-    getProject(): Observable<Project> {
+    project(): Observable<Project> {
         return this._project.asObservable();
     }
 
     /**
      * Returns whether the user can admin the project.
-     * @return {Observable<boolean>}
+     * @return {Observable<ProjectUserPermission>}
      */
-    canAdmin(): Observable<boolean> {
-        return this._canAdmin.asObservable();
+    userPermission(): Observable<ProjectUserPermission> {
+        return this._userPermission.asObservable();
     }
 
     /**

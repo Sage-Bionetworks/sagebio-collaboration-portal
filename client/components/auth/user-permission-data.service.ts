@@ -7,7 +7,7 @@ import { AuthService } from 'components/auth/auth.service';
 import { UserService } from 'components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
-import { find } from 'lodash/fp';
+import { find, identity } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
 import { Project } from 'models/project.model';
 import { SocketService } from 'components/socket/socket.service';
@@ -41,12 +41,36 @@ export class UserPermissions {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 
-    public canAdminEntity(entityId: string, entityType: string): boolean {
-        return this.isAdmin() || !!find({
+    private getEntityUserAccess(entityId: string, entityType: string): string {
+        let permission = find({
             entityId: entityId,
-            entityType: entityType,
-            access: config.accessTypes.ADMIN.value
+            entityType: entityType
         }, this.entityPermissions);
+        return permission ? permission.access : null;
+    }
+
+    public canReadEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.READ.value,
+            config.accessTypes.WRITE.value,
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
+    }
+
+    public canWriteEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.WRITE.value,
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
+    }
+
+    public canAdminEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
     }
 
     public countPendingEntityInvites(): number {

@@ -1,46 +1,73 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { ProjectSidenavItem } from './models/project-sidenav-item.model';
+import { ProjectDataService, ProjectUserPermission } from '../project-data.service';
+
+const enum itemTitles {
+    DASHBOARD = 'Dashboard',
+    INSIGHTS = 'Insights',
+    RESOURCES = 'Resources',
+    DISCUSSION = 'Discussion',
+    SETTINGS = 'Settings'
+}
 
 @Injectable()
-export class ProjectSidenavService implements OnDestroy {
+export class ProjectSidenavService implements OnInit, OnDestroy {
     private _opened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     private _mode: BehaviorSubject<string> = new BehaviorSubject<string>('side');
     private _items: BehaviorSubject<ProjectSidenavItem[]> = new BehaviorSubject<ProjectSidenavItem[]>([{
-        title: 'Dashboard',
+        title: itemTitles.DISCUSSION,
         icon: 'dashboard',
         routerLink: ['dashboard'],
         routerLinkActiveOptions: {},
         visible: true
     }, {
-        title: 'Insights',
+        title: itemTitles.INSIGHTS,
         icon: 'layers',
         routerLink: ['insights'],
         routerLinkActiveOptions: {},
         visible: true
     }, {
-        title: 'Resources',
+        title: itemTitles.RESOURCES,
         icon: 'list',
         routerLink: ['resources'],
         routerLinkActiveOptions: {},
         visible: true
     }, {
-        title: 'Discussion',
+        title: itemTitles.DISCUSSION,
         icon: 'forum',
         routerLink: ['discussion'],
         routerLinkActiveOptions: {},
         visible: true
     }, {
-        title: 'Settings',
+        title: itemTitles.SETTINGS,
         icon: 'settings',
         routerLink: ['settings'],
         routerLinkActiveOptions: {},
-        visible: true
+        visible: false
     }]);
 
-    static parameters = [];
-    constructor() { }
+    static parameters = [ProjectDataService];
+    constructor(private projectDataService: ProjectDataService) {
+      this.projectDataService.userPermission()
+          .subscribe(userPermission => {
+              console.log('USER PERMISSION', userPermission);
+              let items = this._items.getValue();
+              items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
+              this._items.next(items);
+          });
+    }
+
+    ngOnInit() {
+        // this.projectDataService.userPermission()
+        //     .subscribe(userPermission => {
+        //         console.log('USER PERMISSION', userPermission);
+        //         let items = this._items.getValue();
+        //         items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
+        //         this._items.next(items);
+        //     });
+    }
 
     ngOnDestroy() {
         // this.updateItemsSub.unsubscribe();
