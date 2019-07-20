@@ -4,5 +4,12 @@
         <h1>{{ project.name }}</h1>
     </div>
 
-
+    <mat-sidenav-container class="app-project-sidenav-container">
+        <mat-sidenav #projectSidenav [opened]="'open'" [mode]="'side'" fullscreen>
+            <!-- <instance-sidenav></instance-sidenav> -->
+        </mat-sidenav>
+        <mat-sidenav-content class="app-project-sidenav-content">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

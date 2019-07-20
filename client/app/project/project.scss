@@ -4,6 +4,22 @@
   flex-grow: 1;
 }
 
+.app-project-sidenav-container {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  // height: 100%;
+}
+
+.app-project-sidenav-content {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+}
+
+
+
+
 .app-project-content {
   display: flex;
   flex-flow: column nowrap;

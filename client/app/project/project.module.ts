@@ -16,8 +16,10 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
+import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
+import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
 
 export const ROUTES: Routes = [{
     path: 'projects',
@@ -48,7 +50,8 @@ export const ROUTES: Routes = [{
     providers: [
         SocketService,
         ProjectService,
-        ProjectDataService
+        ProjectDataService,
+        ProjectSidenavService
     ],
     declarations: [
         ProjectComponent,
@@ -56,7 +59,8 @@ export const ROUTES: Routes = [{
         ProjectListComponent,
         ProjectViewComponent,
         ProjectDashboardComponent,
-        ProjectSettingsComponent
+        ProjectSettingsComponent,
+        ProjectSidenavComponent
     ],
     exports: [
     ],
