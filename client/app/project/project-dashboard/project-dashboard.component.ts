@@ -16,14 +16,11 @@ import { EntityAccessListComponent } from 'components/entity/entity-access-list/
 import { ProjectDataService } from '../project-data.service';
 
 @Component({
-    selector: 'project',
-    template: require('./project.html'),
-    styles: [require('./project.scss')],
-    providers: [
-        ProjectDataService
-    ]
+    selector: 'project-dashboard',
+    template: require('./project-dashboard.html'),
+    styles: [require('./project-dashboard.scss')]
 })
-export class ProjectComponent implements OnInit, OnDestroy {
+export class ProjectDashboardComponent implements OnInit, OnDestroy {
     private project: Project;
     private form: FormGroup;
 

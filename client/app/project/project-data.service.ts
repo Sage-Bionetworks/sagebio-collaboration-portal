@@ -151,6 +151,10 @@ export class ProjectDataService implements OnDestroy {
         return canAdminProject;
     }
 
+    getProject(): Observable<Project> {
+        return this._project.asObservable();
+    }
+
     /**
      * Returns whether the user can admin the project.
      * @return {Observable<boolean>}

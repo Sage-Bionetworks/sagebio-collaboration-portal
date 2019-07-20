@@ -1,5 +1,5 @@
+@import './project-dashboard/project-dashboard-theme';
 @import './project-list/project-list-theme';
-@import './project-page/project-page-theme';
 
 @mixin project-theme($theme) {
   $primary: map-get($theme, primary);
@@ -8,6 +8,6 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
+  @include project-dashboard-theme($theme);
   @include project-list-theme($theme);
-  @include project-page-theme($theme);
 }

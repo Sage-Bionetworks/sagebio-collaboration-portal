@@ -10,10 +10,11 @@ import { SocketService } from 'components/socket/socket.service';
 import { AppQuillModule } from 'components/quill/app-quill.module';
 import { EntityModule } from '../../components/entity/entity.module';
 
+import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
-import { ProjectComponent } from './project-page/project.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
@@ -28,6 +29,8 @@ export const ROUTES: Routes = [{
     component: ProjectComponent,
     canActivate: [AuthGuard],
     children: [
+        { path: '', redirectTo: 'settings', pathMatch: 'full'},
+        { path: 'dashboard', component: ProjectDashboardComponent },
         { path: 'settings', component: ProjectSettingsComponent }
     ]
 }];
@@ -48,10 +51,11 @@ export const ROUTES: Routes = [{
         ProjectDataService
     ],
     declarations: [
+        ProjectComponent,
         ProjectNewComponent,
         ProjectListComponent,
         ProjectViewComponent,
-        ProjectComponent,
+        ProjectDashboardComponent,
         ProjectSettingsComponent
     ],
     exports: [
