@@ -11,13 +11,13 @@ services:
   - docker
 
 env:
-  - CXX=g++-7.4
+  - CXX=g++-4.8
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - g++-7.4
+    - g++-4.8
 
 before_script:
   - npm install -g gulp-cli
