@@ -19,5 +19,7 @@ let projects = [{
 }];
 
 export {
-    projects
+    projects,
+    testProjectId,
+    anotherProjectId,
 };
