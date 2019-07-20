@@ -49,31 +49,19 @@ export class ProjectSidenavService implements OnInit, OnDestroy {
     }]);
 
     static parameters = [ProjectDataService];
-    constructor(private projectDataService: ProjectDataService) {
-      this.projectDataService.userPermission()
-          .subscribe(userPermission => {
-              console.log('USER PERMISSION', userPermission);
-              let items = this._items.getValue();
-              items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
-              this._items.next(items);
-          });
-    }
+    constructor(private projectDataService: ProjectDataService) { }
 
     ngOnInit() {
-        // this.projectDataService.userPermission()
-        //     .subscribe(userPermission => {
-        //         console.log('USER PERMISSION', userPermission);
-        //         let items = this._items.getValue();
-        //         items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
-        //         this._items.next(items);
-        //     });
+        this.projectDataService.userPermission()
+            .subscribe(userPermission => {
+                console.log('USER PERMISSION', userPermission);
+                let items = this._items.getValue();
+                items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
+                this._items.next(items);
+            });
     }
 
-    ngOnDestroy() {
-        // this.updateItemsSub.unsubscribe();
-        // this.updateAppSidenavSub.unsubscribe();
-        // this.sidenavService.setInstanceItems([]);
-    }
+    ngOnDestroy() { }
 
     opened(): Observable<boolean> {
         return this._opened.asObservable();
@@ -86,20 +74,4 @@ export class ProjectSidenavService implements OnInit, OnDestroy {
     items(): Observable<ProjectSidenavItem[]> {
         return this._items.asObservable();
     }
-
-    // public close(): Promise<MatDrawerToggleResult> {
-    //     return this.sidenav.close();
-    // }
-    //
-    // public open(): Promise<MatDrawerToggleResult> {
-    //     return this.sidenav.open();
-    // }
-    //
-    // public toggle(): Promise<MatDrawerToggleResult> {
-    //     return this.sidenav.toggle();
-    // }
-    //
-    // public getItems(): Observable<SidenavItem[]> {
-    //     return this._items.asObservable();
-    // }
 }

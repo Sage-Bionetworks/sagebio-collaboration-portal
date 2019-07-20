@@ -15,6 +15,9 @@ import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
+import { ProjectInsightsComponent } from './project-insights/project-insights.component';
+import { ProjectResourcesComponent } from './project-resources/project-resources.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
@@ -33,6 +36,9 @@ export const ROUTES: Routes = [{
     children: [
         { path: '', redirectTo: 'settings', pathMatch: 'full'},
         { path: 'dashboard', component: ProjectDashboardComponent },
+        { path: 'insights', component: ProjectInsightsComponent },
+        { path: 'resources', component: ProjectResourcesComponent },
+        { path: 'discussion', component: ProjectDiscussionComponent },
         { path: 'settings', component: ProjectSettingsComponent }
     ]
 }];
@@ -59,6 +65,9 @@ export const ROUTES: Routes = [{
         ProjectListComponent,
         ProjectViewComponent,
         ProjectDashboardComponent,
+        ProjectDiscussionComponent,
+        ProjectInsightsComponent,
+        ProjectResourcesComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent
     ],
