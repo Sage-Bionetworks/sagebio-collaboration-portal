@@ -6,6 +6,8 @@ import User from '../user/user.model';
 import {
     respondWithResult,
     patchUpdates,
+    protectFromPatchRemove,
+    protectFromPatchReplace,
     removeEntity,
     handleEntityNotFound,
     handleError
@@ -60,27 +62,17 @@ export function create(req, res) {
 // Updates an existing EntityPermission in the DB
 // TODO: prevent last admin to be removed
 export function patch(req, res) {
-    const protectedProperties = [
-        '_id',
-        'entityId',
-        'entityType',
-        'user',
-        'createdAt',
-        'createdBy'
-    ];
-    for (var path of req.body.map(patch => patch.path)) {
-        if (protectedProperties.includes(`/${path}`)) {
-            res.status(400).send(`The following document properties can ` +
-                `not be updated: ${protectedProperties.join(' ')}`);
-            return null;
-        }
-    }
-
+    const patches = req.body;
     return EntityPermission.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
+        .then(protectFromPatchRemove(res, patches, []))
+        .then(protectFromPatchReplace(res, patches, [
+            'access',
+            'status'
+        ]))
         .then(handleOneAdminRemainingBeforePatch(res, req.body))
-        .then(patchUpdates(req.body))
+        .then(patchUpdates(patches))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -133,16 +125,16 @@ function handleOneAdminRemainingBeforeRemoval(res) {
     return function (permission) {
         if (permission && permission.access === accessTypes.ADMIN.value) {
             return EntityPermission.countDocuments({
-                entityId: permission.entityId,
-                access: accessTypes.ADMIN.value
-            })
-            .exec((err, count) => {
-                if (count <= 1) {
-                    res.status(403).send('Can not remove the last admin of an entity.');
-                    return null;
-                }
-                return permission;
-            });
+                    entityId: permission.entityId,
+                    access: accessTypes.ADMIN.value
+                })
+                .exec((err, count) => {
+                    if (count <= 1) {
+                        res.status(403).send('Can not remove the last admin of an entity.');
+                        return null;
+                    }
+                    return permission;
+                });
         }
         return permission;
     };
