@@ -4,7 +4,7 @@ var proxyquire = require('proxyquire').noPreserveCache();
 
 import {
     authServiceStub
-} from '../../auth/auth.service.stub';
+} from '../../auth/auth.service.mock';
 
 var entityPermissionCtrlStub = {
     index: 'entityPermissionCtrl.index',
@@ -51,7 +51,7 @@ describe('EntityPermission API Router:', function () {
         describe('GET /api/entity-permissions/', function () {
             it('should NOT route to entityPermission.controller.index', function () {
                 expect(routerStub.get
-                    .withArgs('/', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.index')
+                    .withArgs('/', 'authService.hasRole', 'entityPermissionCtrl.index')
                 ).to.not.have.been.calledOnce;
             });
         });
@@ -92,7 +92,7 @@ describe('EntityPermission API Router:', function () {
             describe('GET /api/entity-permissions/', function () {
                 it('should route to entityPermission.controller.index', function () {
                     expect(routerStub.get
-                        .withArgs('/', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.index')
+                        .withArgs('/', 'authService.hasRole.admin', 'entityPermissionCtrl.index')
                     ).to.have.been.calledOnce;
                 });
             });

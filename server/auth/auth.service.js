@@ -67,7 +67,9 @@ export function isAuthorized(requestedPermission) {
             }
 
             // Check if our user has the appropriate permission
-            UserPermission.find({ user: req.user._id}).exec()
+            UserPermission.find({
+                    user: req.user._id
+                }).exec()
                 .then(permissions => {
                     const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
 
@@ -104,8 +106,19 @@ export function isAuthorizedForEntity(requestedPermission) {
                 return null;
             }
 
+            const entityId = req.params.entityId;
+
+            // If body is specified, check that param and body entity ID match
+            if (req.body && req.body.entityId !== entityId) {
+                res.status(400).send('The param and body entityId do not match.');
+                return null;
+            }
+
             // Check if our user has the appropriate permission
-            EntityPermission.find({ user: req.user._id, entityId: req.params.id }).exec()
+            EntityPermission.find({
+                    user: req.user._id,
+                    entityId: entityId
+                }).exec()
                 .then(entityPermissions => {
                     const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
 
@@ -120,7 +133,7 @@ export function isAuthorizedForEntity(requestedPermission) {
                     return null;
                 })
                 .catch(err => {
-                    res.status(500).send(`Sorry - there was an error processing your request: ${err}`);
+                    res.status(500).send(`There was an error processing your request: ${err}`);
                     return null;
                 });
         });

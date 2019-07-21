@@ -1,6 +1,6 @@
 /* globals sinon, describe, expect, it */
 
-import { authServiceStub } from '../../auth/auth.service.stub';
+import { authServiceStub } from '../../auth/auth.service.mock';
 
 var proxyquire = require('proxyquire').noPreserveCache();
 
