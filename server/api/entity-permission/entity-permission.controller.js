@@ -1,6 +1,6 @@
 import {
-    applyPatch
-} from 'fast-json-patch';
+    find
+} from 'lodash/fp';
 import EntityPermission from './entity-permission.model';
 import User from '../user/user.model';
 import {
@@ -10,6 +10,9 @@ import {
     handleEntityNotFound,
     handleError
 } from '../util';
+import {
+    accessTypes
+} from '../../config/environment';
 
 // Gets a list of EntityPermissions
 export function index(req, res) {
@@ -55,6 +58,7 @@ export function create(req, res) {
 }
 
 // Updates an existing EntityPermission in the DB
+// TODO: prevent last admin to be removed
 export function patch(req, res) {
     const protectedProperties = [
         '_id',
@@ -65,7 +69,7 @@ export function patch(req, res) {
         'createdBy'
     ];
     for (var path of req.body.map(patch => patch.path)) {
-        if (protectedProperties.includes(path)) {
+        if (protectedProperties.includes(`/${path}`)) {
             res.status(400).send(`The following document properties can ` +
                 `not be updated: ${protectedProperties.join(' ')}`);
             return null;
@@ -75,6 +79,7 @@ export function patch(req, res) {
     return EntityPermission.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
+        .then(handleOneAdminRemainingBeforePatch(res, req.body))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -85,6 +90,60 @@ export function destroy(req, res) {
     return EntityPermission.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
+        .then(handleOneAdminRemainingBeforeRemoval(res))
         .then(removeEntity(res))
         .catch(handleError(res));
+}
+
+// HELPER FUNCTIONS
+
+function handleOneAdminRemainingBeforePatch(res, patches) {
+    return function (permission) {
+        if (permission && permission.access === accessTypes.ADMIN.value && patches) {
+            // find if a patch could remove or downgrade the admin access
+            let patch = find(patch => {
+                return patch.path === '/access' && (
+                    patch.op === 'remove' || (
+                        patch.op === 'replace' &&
+                        patch.value !== accessTypes.ADMIN.value
+                    )
+                )
+            }, patches);
+
+            if (patch) {
+                // figure out if its the last admin
+                return EntityPermission.countDocuments({
+                        entityId: permission.entityId,
+                        access: accessTypes.ADMIN.value
+                    })
+                    .exec((err, count) => {
+                        if (count <= 1) {
+                            res.status(403).send('Can not remove the last admin of an entity.');
+                            return null;
+                        }
+                        return permission;
+                    })
+            }
+        }
+        return permission;
+    };
+}
+
+function handleOneAdminRemainingBeforeRemoval(res) {
+    return function (permission) {
+        if (permission && permission.access === accessTypes.ADMIN.value) {
+            return EntityPermission.countDocuments({
+                entityId: permission.entityId,
+                access: accessTypes.ADMIN.value
+            })
+            .exec((err, count) => {
+                if (count <= 1) {
+                    res.status(403).send('Can not remove the last admin of an entity.');
+                    return null;
+                }
+                return permission;
+            });
+        }
+        return permission;
+    };
 }

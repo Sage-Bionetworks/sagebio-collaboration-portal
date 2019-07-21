@@ -1,3 +1,7 @@
+import {
+    applyPatch
+} from 'fast-json-patch';
+
 export function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
@@ -10,13 +14,15 @@ export function respondWithResult(res, statusCode) {
 
 export function patchUpdates(patches) {
     return function (entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
+        if (entity) {
+            try {
+                applyPatch(entity, patches, /*validate*/ true);
+            } catch (err) {
+                return Promise.reject(err);
+            }
+            return entity.save();
         }
-
-        return entity.save();
+        return null;
     };
 }
 

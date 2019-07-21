@@ -9,10 +9,10 @@ import {
 var entityPermissionCtrlStub = {
     index: 'entityPermissionCtrl.index',
     indexMine: 'entityPermissionCtrl.indexMine',
+    indexByEntity: 'entityPermissionCtrl.indexByEntity',
     create: 'entityPermissionCtrl.create',
     patch: 'entityPermissionCtrl.patch',
     destroy: 'entityPermissionCtrl.destroy',
-    indexEntityPermissions: 'entityPermissionCtrl.indexEntityPermissions'
 };
 
 var routerStub = {
@@ -59,7 +59,7 @@ describe('EntityPermission API Router:', function () {
         describe('POST /api/entity-permissions/', function () {
             it('should NOT route to entityPermission.controller.create', function () {
                 expect(routerStub.post
-                    .withArgs('/', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.create')
+                    .withArgs('/entity/:entityId', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.create')
                 ).to.not.have.been.calledOnce;
             });
         });
@@ -67,7 +67,7 @@ describe('EntityPermission API Router:', function () {
         describe('PATCH /api/entity-permissions/:id', function () {
             it('should NOT route to entityPermission.controller.patch', function () {
                 expect(routerStub.patch
-                    .withArgs('/:id', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.patch')
+                    .withArgs('/entity/:entityId/:id', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.patch')
                 ).to.not.have.been.calledOnce;
             });
         });
@@ -75,15 +75,15 @@ describe('EntityPermission API Router:', function () {
         describe('DELETE /api/entity-permissions/:id', function () {
             it('should NOT route to entityPermission.controller.destroy', function () {
                 expect(routerStub.delete
-                    .withArgs('/:id', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.destroy')
+                    .withArgs('/entity/:entityId/:id', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.destroy')
                 ).to.not.have.been.calledOnce;
             });
         });
 
         describe('GET /api/entity-permissions/entity/:id', function () {
-            it('should NOT route to entityPermission.controller.indexEntityPermissions', function () {
+            it('should NOT route to entityPermission.controller.indexByEntity', function () {
                 expect(routerStub.get
-                    .withArgs('/entity/:id', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.indexEntityPermissions')
+                    .withArgs('/entity/:entityId/entity/:entityId', 'authService.hasPermissionForEntity', 'entityPermissionCtrl.indexByEntity')
                 ).to.not.have.been.calledOnce;
             });
         });
@@ -97,47 +97,47 @@ describe('EntityPermission API Router:', function () {
                 });
             });
 
-            describe('POST /api/entity-permissions/', function () {
+            describe('POST /api/entity-permissions/entity/:entityId', function () {
                 it('should route to entityPermission.controller.create', function () {
                     expect(routerStub.post
-                        .withArgs('/', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.create')
+                        .withArgs('/entity/:entityId', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.create')
                     ).to.have.been.calledOnce;
                 });
             });
 
-            describe('PATCH /api/entity-permissions/:id', function () {
+            describe('PATCH /api/entity-permissions/entity/:entityId/:id', function () {
                 it('should route to entityPermission.controller.patch', function () {
                     expect(routerStub.patch
-                        .withArgs('/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.patch')
+                        .withArgs('/entity/:entityId/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.patch')
                     ).to.have.been.calledOnce;
                 });
             });
 
-            describe('DELETE /api/entity-permissions/:id', function () {
+            describe('DELETE /api/entity-permissions/entity/:entityId/:id', function () {
                 it('should route to entityPermission.controller.destroy', function () {
                     expect(routerStub.delete
-                        .withArgs('/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.destroy')
+                        .withArgs('/entity/:entityId/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.destroy')
                     ).to.have.been.calledOnce;
                 });
             });
 
-            describe('GET /api/entity-permissions/entity/:id', function () {
-                it('should route to entityPermission.controller.indexEntityPermissions', function () {
+            describe('GET /api/entity-permissions/entity/:entityId', function () {
+                it('should route to entityPermission.controller.indexByEntity', function () {
                     expect(routerStub.get
-                        .withArgs('/entity/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.indexEntityPermissions')
+                        .withArgs('/entity/:entityId', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.indexByEntity')
                     ).to.have.been.calledOnce;
                 });
             });
         });
 
-        describe('WHEN they have been assigned an admin permission for a specific entity', () => {
-            describe('GET /api/entity-permissions/entity/:id', function () {
-                it('should route to entityPermission.controller.indexEntityPermissions', function () {
-                    expect(routerStub.get
-                        .withArgs('/entity/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.indexEntityPermissions')
-                    ).to.have.been.calledOnce;
-                });
-            });
-        });
+        // describe('WHEN they have been assigned an admin permission for a specific entity', () => {
+        //     describe('GET /api/entity-permissions/entity/:entityId/:id', function () {
+        //         it('should route to entityPermission.controller.indexByEntity', function () {
+        //             expect(routerStub.get
+        //                 .withArgs('/entity/:entityId/:id', 'authService.hasPermissionForEntity.admin', 'entityPermissionCtrl.indexByEntity')
+        //             ).to.have.been.calledOnce;
+        //         });
+        //     });
+        // });
     });
 });
