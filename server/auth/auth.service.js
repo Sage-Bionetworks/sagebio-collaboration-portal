@@ -164,7 +164,9 @@ export function hasAccessToEntity(userRole, userId, requestedPermission, entityI
             return false;
         })
         .catch(err => {
-            console.error(`There was an error processing your request: ${err}`);
+            const errorMessage = `There was an error processing your request: ${err}`;
+            console.error(errorMessage);
+            // WIP #252 - Actually...maybe this should throw an error instead...
             return false;
         });
 }
