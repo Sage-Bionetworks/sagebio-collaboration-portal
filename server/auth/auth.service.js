@@ -108,12 +108,6 @@ export function isAuthorizedForEntity(requestedPermission) {
 
             const entityId = req.params.entityId;
 
-            // If body is specified, check that param and body entity ID match
-            if (req.body && req.body.entityId !== entityId) {
-                res.status(400).send('The param and body entityId do not match.');
-                return null;
-            }
-
             // Check if our user has the appropriate permission
             EntityPermission.find({
                     user: req.user._id,

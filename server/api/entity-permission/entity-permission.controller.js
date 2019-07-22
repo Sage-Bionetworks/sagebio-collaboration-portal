@@ -66,6 +66,7 @@ export function patch(req, res) {
     return EntityPermission.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
+        .then(handleEntityIdMismatch(res, req.params.entityId))
         .then(protectFromPatchRemove(res, patches, []))
         .then(protectFromPatchReplace(res, patches, [
             'access',
@@ -82,6 +83,7 @@ export function destroy(req, res) {
     return EntityPermission.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
+        .then(handleEntityIdMismatch(res, req.params.entityId))
         .then(handleOneAdminRemainingBeforeRemoval(res))
         .then(removeEntity(res))
         .catch(handleError(res));
@@ -137,5 +139,15 @@ function handleOneAdminRemainingBeforeRemoval(res) {
                 });
         }
         return permission;
+    };
+}
+
+function handleEntityIdMismatch(res, entityIdFromParams) {
+    return function (entity) {
+        if (entity && entity.entityId !== entityIdFromParams) {
+            res.status(403).send('Entity Id mismatch');
+            return null;
+        }
+        return entity;
     };
 }

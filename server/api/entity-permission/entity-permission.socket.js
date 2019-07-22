@@ -25,9 +25,12 @@ function createListener(namespace, event, spark) {
         }
 
         // TODO check authorized
-        spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
+        // spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
+
+        // emit only if
+        // - hasPermissionForEntity.admin
+        // - is user
         spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
-        console.log(`EMITTING entity:${doc.entityId}:${namespace}:${event}`);
     };
 }
 
