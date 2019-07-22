@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material';
 import {
     debounceTime,
     distinctUntilChanged
 } from 'rxjs/operators';
-import { find } from 'lodash/fp';
+import { find, filter } from 'lodash/fp';
 import { Entity } from 'models/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { EntityPermissionService } from 'components/auth/entity-permission.service';
@@ -20,9 +21,13 @@ import config from '../../../app/app.constants';
 })
 export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() entity: Entity;
+    @Input() user: UserProfile;
     private permissions: EntityPermission[] = [];
 
     private inviteForm: FormGroup;
+    private errors = {
+        inviteForm: undefined
+    };
     private userResults: UserProfile[];
     private selectedUser: UserProfile;
     private listAvatarSize;
@@ -38,7 +43,6 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
         this.listAvatarSize = config.avatar.size.small;
         this.optionAvatarSize = config.avatar.size.nano;
         this.accessTypes = Object.values(config.accessTypes);
-
         this.inviteForm = this.formBuilder.group({
             username: ['', [
             ]],
@@ -64,6 +68,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                         this.selectedUser = undefined;
                     }
                 }
+                this.errors.inviteForm = null;
             });
     }
 
@@ -100,8 +105,11 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
             };
             this.entityPermissionService.create(newPermission)
                 .subscribe(permission => {
-                    console.log('permission added', permission);
-                }, err => console.log(err));
+                    this.inviteForm.get('username').setValue('');
+                }, err => {
+                    console.log(err);
+                    this.errors.inviteForm = err.message;
+                });
         }
     }
 
@@ -109,16 +117,30 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
         $event.stopPropagation();
         this.entityPermissionService.delete(permission)
             .subscribe(perm => {
-                console.log('Permission removed', perm);
-            }, err => console.log(err));
+                //
+            }, err => {
+                console.log(err);
+                this.errors.inviteForm = err.message;
+            });
     }
 
-    changeCollaboratorAccess($event, permission: EntityPermission): void {
+    changeCollaboratorAccess($event: MatSelectChange, permission: EntityPermission): void {
         const newAccess = find({ value: $event.value }, this.accessTypes)
             .value;
         this.entityPermissionService.changeAccess(permission, newAccess)
             .subscribe(perm => {
-                console.log('Updated permission', perm);
-            }, err => console.log(err));
+                //
+            }, err => {
+                console.log(err);
+                this.errors.inviteForm = err.message;
+            });
+    }
+
+    hideRemoveButton(permission: EntityPermission): boolean {
+        return (<UserProfile>permission.user)._id === this.user._id;
+    }
+
+    disableAccessMenu(permission: EntityPermission): boolean {
+        return (<UserProfile>permission.user)._id === this.user._id;
     }
 }
