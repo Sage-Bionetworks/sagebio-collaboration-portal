@@ -22,6 +22,24 @@ function createListener(namespace, event, spark) {
     return function (doc) {
         // WIP #252 - VERIFY once unblocked from current work-in-progress in #253
         console.log(`entity-permission createListener doc: ${JSON.stringify(doc, null, 2)}`);
+        /*
+            entity-permission createListener doc: {
+            "status": "pending",
+            "_id": "5d360d45f75dd54964f87b29",
+            "entityId": "5cb7acea2d718654d81bb97e",
+            "entityType": "project",
+            "user": {
+                "role": "user",
+                "_id": "5cb7acea2d718614d81cc97e",
+                "name": "Test User",
+                "username": "test"
+            },
+            "access": "read",
+            "createdBy": "5cb7acea2d718614d81bb97f",
+            "createdAt": "2019-07-22T19:23:49.998Z",
+            "__v": 0
+            }
+        */
 
         // WIP #252 - Remove this IF block when new code is in place
         if (isAuthorized(doc, spark.userId)) {
