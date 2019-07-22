@@ -92,84 +92,162 @@ export function isAuthorized(requestedPermission) {
  */
 export function isAuthorizedForEntity(requestedPermission) {
     return compose()
-        // WIP #252 - Refactor method
         .use((req, res, next) => {
-            const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
+            // WIP #252 - Refactor method
+            const userRole = req.user.role || '';
+            const userId = req.user._id || '';
+            const entityId = req.params.entityId || '';
 
-            // Automatically grant admin users permission
-            if (isAdminRole) {
-                return next();
-            }
+            // WIP #252 - Remove logging
+            console.log(`isAuthorizedForEntity request for ${requestedPermission}
+                userRole = ${userRole}
+                userId = ${userId}
+                entityId = ${entityId}
+            `);
 
-            // Block non-admin users if the required permission is falsy
-            if (!requestedPermission) {
+            let isAuthorizedToAccessEntity;
+            try {
+                hasAccessToEntity(userRole, userId, requestedPermission, entityId)
+                    .then(isGrantedAccess => {
+                        isAuthorizedToAccessEntity = isGrantedAccess;
+
+                        if (isAuthorizedToAccessEntity) { // Continue processing request if access is granted
+                            next();
+                            return null;
+                        }
+
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    })
+                    .catch(err => {
+                        console.log(`Error attempting authorization request: ${err}`);
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    });
+            } catch (err) {
+                console.log(`Error attempting authorization request: ${err}`);
+                // Block request
                 res.status(403).send('Forbidden');
                 return null;
             }
 
-            const entityId = req.params.entityId;
+            // WIP #252 - Oops! No promise here
+            // let isAuthorizedToAccessEntity;
 
-            // Check if our user has the appropriate permission
-            EntityPermission.find({
-                    user: req.user._id,
-                    entityId: entityId
-                }).exec()
-                .then(entityPermissions => {
-                    const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
+            // try {
+            //     isAuthorizedToAccessEntity = hasAccessToEntity(userRole, userId, requestedPermission, entityId);
 
-                    // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                    if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                        next();
-                        return null;
-                    }
+            //     // WIP #252 - Remove logging
+            //     console.log(`isAuthorizedForEntity isAuthorizedToAccessEntity = ${isAuthorizedToAccessEntity}`);
 
-                    // User does not have permission OR has not accepted the entity permission; block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                })
-                .catch(err => {
-                    res.status(500).send(`There was an error processing your request: ${err}`);
-                    return null;
-                });
+            //     if (isAuthorizedToAccessEntity) { // Continue processing request if access is granted
+            //         next();
+            //         return null;
+            //     }
+
+            //     // Block request
+            //     res.status(403).send('Forbidden');
+            //     return null;
+            // } catch (err) {
+            //     console.error(`There was an error authorizing your request: ${err}`);
+            //     // Block request
+            //     res.status(403).send('Forbidden');
+            //     return null;
+            // }
+
+            // WIP #252 - Delete the refactored code below
+            // const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
+
+            // // Automatically grant admin users permission
+            // if (isAdminRole) {
+            //     return next();
+            // }
+
+            // // Block non-admin users if the required permission is falsy
+            // if (!requestedPermission) {
+            //     res.status(403).send('Forbidden');
+            //     return null;
+            // }
+
+            // const entityId = req.params.entityId;
+
+            // // Check if our user has the appropriate permission
+            // EntityPermission.find({
+            //         user: req.user._id,
+            //         entityId: entityId
+            //     }).exec()
+            //     .then(entityPermissions => {
+            //         const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
+
+            //         // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
+            //         if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
+            //             next();
+            //             return null;
+            //         }
+
+            //         // User does not have permission OR has not accepted the entity permission; block request
+            //         res.status(403).send('Forbidden');
+            //         return null;
+            //     })
+            //     .catch(err => {
+            //         res.status(500).send(`There was an error processing your request: ${err}`);
+            //         return null;
+            //     });
         });
 }
 
 export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
-    // WIP #252 - Add safeguards to protect against improper/missing parameters
-    const isAdminRole = userRole === config.userRoles.indexOf('admin');
+    return new Promise((resolve, reject) => {
+        // WIP #252 - Remove logging
+        console.log(`hasAccessToEntity request for ${requestedPermission}
+            userRole = ${userRole}
+            userId = ${userId}
+            entityId = ${entityId}
+        `);
 
-    // Automatically grant admin users permission
-    if (isAdminRole) {
-        return true;
-    }
+        // WIP #252 - Add safeguards to protect against improper/missing parameters
+        const isAdminRole = userRole === config.userRoles.indexOf('admin');
 
-    // Block non-admin users if the required permission is falsy
-    if (!requestedPermission) {
-        return false;
-    }
+        // Automatically grant admin users permission
+        if (isAdminRole) {
+            console.log('APPROVED - User has role of admin');
+            return resolve(true);
+        }
 
-    // Check if our user has the appropriate permission
-    EntityPermission.find({
-        user: userId,
-        entityId
-    }).exec()
-        .then(entityPermissions => {
-            const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
+        // Block non-admin users if the required permission is falsy
+        if (!requestedPermission) {
+            console.log('DENIED - requestedPermission is falsy');
+            return resolve(false);
+        }
 
-            // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-            if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                return true;
-            }
+        // Check if our user has the appropriate permission
+        EntityPermission.find({
+            user: userId,
+            entityId
+        }).exec()
+            .then(entityPermissions => {
+                const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
 
-            // User does not have permission OR has not accepted the entity permission; block request
-            return false;
-        })
-        .catch(err => {
-            const errorMessage = `There was an error processing your request: ${err}`;
-            console.error(errorMessage);
-            // WIP #252 - Actually...maybe this should throw an error instead...
-            return false;
-        });
+                // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
+                if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
+                    console.log('APPROVED - User has the requested permission');
+                    return resolve(true);
+                }
+
+                // User does not have permission OR has not accepted the entity permission; block request
+                console.log('DENIED - User does not have permission');
+                return resolve(false);
+            })
+            .catch(err => {
+                const errorMessage = `There was an error processing your request: ${err}`;
+                console.error(errorMessage);
+                // WIP #252 - Actually...maybe this should throw an error instead...
+                console.log(`DENIED WITH ERROR - ${errorMessage}`);
+                return reject(false);
+            });
+    });
 }
 
 /**

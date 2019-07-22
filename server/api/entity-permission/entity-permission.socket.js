@@ -4,6 +4,7 @@
 
 import EntityPermissionEvents from './entity-permission.events';
 import config from '../../config/environment';
+import { hasAccessToEntity } from '../../auth/auth.service';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -40,18 +41,47 @@ function createListener(namespace, event, spark) {
             "__v": 0
             }
         */
+        const userRole = doc.user.role || '';
+        const userId = doc.user._id || '';
+        const requestedPermission = 'admin';
+        const entityId = doc.entityId || '';
 
         // WIP #252 - Remove this IF block when new code is in place
-        if (isAuthorized(doc, spark.userId)) {
-            spark.emit(event, doc);
-        }
+        // if (isAuthorized(doc, spark.userId)) {
+        //     spark.emit(event, doc);
+        // }
 
         // WIP #252 - Use new method to authorize socket to emit an event if the user is an admin role OR authorized for the entity
         // spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
 
         // emit only if
         // - hasPermissionForEntity.admin
-        spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+        try {
+            hasAccessToEntity(userRole, userId, requestedPermission, entityId)
+                .then(isGrantedAccess => {
+                    const isAuthorizedToAccessEntity = isGrantedAccess;
+
+                    if (isAuthorizedToAccessEntity) { // Continue processing request if access is granted
+                        console.log(`${requestedPermission} PERMISSION GRANTED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole}`);
+                        spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+                    }
+
+                    console.log(`!! ${requestedPermission} PERMISSION DENIED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole} !!`);
+                })
+                .catch(err => {
+                    console.log(`!! ${requestedPermission} PERMISSION DENIED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole} !!`);
+                });
+        } catch (err) {
+            console.log(`!! ${requestedPermission} PERMISSION DENIED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole} !!`);
+        }
+
+        // WIP #252 - Remove
+        // if (hasAccessToEntity(userRole, userId, requestedPermission, entityId)) {
+        //     console.log(`${requestedPermission} PERMISSION GRANTED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole}`);
+        //     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+        // } else {
+        //     console.log(`!! ${requestedPermission} PERMISSION DENIED TO ENTITY ${entityId} FOR USER ${userId} WITH A ROLE OF ${userRole} !!`);
+        // }
     };
 }
 
