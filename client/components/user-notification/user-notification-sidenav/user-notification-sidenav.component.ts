@@ -38,10 +38,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
 
     ngOnDestroy() { }
 
-    // close(): void {
-    //     this.sidenavService.close();
-    //     // this.sidenavService.destroyContentComponent();
-    // }
+    close(): void {
+        this.sidenavService.close();
+        // this.sidenavService.destroyContentComponent();
+    }
 
     forkJoinWithProgress(arrayOfObservables) {
 

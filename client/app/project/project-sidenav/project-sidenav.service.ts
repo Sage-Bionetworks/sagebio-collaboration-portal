@@ -5,7 +5,7 @@ import { ProjectSidenavItem } from './models/project-sidenav-item.model';
 import { ProjectDataService } from '../project-data.service';
 
 const enum itemTitles {
-    DASHBOARD = 'Dashboard',
+    DASHBOARD = 'Home',
     INSIGHTS = 'Insights',
     RESOURCES = 'Resources',
     DISCUSSION = 'Discussion',
