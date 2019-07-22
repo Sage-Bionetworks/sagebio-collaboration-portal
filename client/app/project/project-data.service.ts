@@ -134,7 +134,7 @@ export class ProjectDataService implements OnDestroy {
         const queryUserProjectPermission = this._project
             .pipe(
                 filter(project => !!project),
-                switchMap(project => this.userPermissionDataService.getPermissions()
+                switchMap(project => this.userPermissionDataService.permissions()
                     .pipe(
                         map(permissions => ({
                             canRead: permissions.canReadEntity(

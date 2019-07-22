@@ -14,7 +14,7 @@ export class UserNotificationButtonComponent {
     constructor(private userPermissionDataService: UserPermissionDataService,
         private userNotificationService: UserNotificationService) {
 
-        this.userPermissionDataService.getPermissions()
+        this.userPermissionDataService.permissions()
             .subscribe(permissions => {
                 this.numNotifications = permissions.countPendingEntityInvites();
             });

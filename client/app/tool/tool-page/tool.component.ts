@@ -36,7 +36,7 @@ export class ToolComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private dialog: MatDialog) {
 
-        this.userPermissionsSub = this.userPermissionDataService.getPermissions()
+        this.userPermissionsSub = this.userPermissionDataService.permissions()
             .subscribe(permissions => {
                 this.canEditTool = permissions.canEditTool();
                 this.canDeleteTool = permissions.canDeleteTool();

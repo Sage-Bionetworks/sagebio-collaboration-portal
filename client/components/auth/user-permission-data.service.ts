@@ -74,12 +74,21 @@ export class UserPermissions {
     }
 
     public countPendingEntityInvites(): number {
+        return this.getPendingEntityInvites().length;
+    }
+
+    public getPendingEntityInvites(): EntityPermission[] {
         if (this.entityPermissions) {
-            return this.entityPermissions.filter(invite => {
+            // return this.entityPermissions.filter(invite => {
+            //     return invite.status === config.inviteStatusTypes.PENDING.value;
+            // });
+            return [...this.entityPermissions.filter(invite => {
                 return invite.status === config.inviteStatusTypes.PENDING.value;
-            }).length;
+            }), ...this.entityPermissions.filter(invite => {
+                return invite.status === config.inviteStatusTypes.PENDING.value;
+            })];
         }
-        return 0;
+        return [];
     }
 }
 
@@ -205,7 +214,7 @@ export class UserPermissionDataService {
      * Returns the permissions of the user.
      * @return {Observable<UserPermissions>}
      */
-    getPermissions(): Observable<UserPermissions> {
+    permissions(): Observable<UserPermissions> {
         return this._permissions.asObservable();
     }
 }

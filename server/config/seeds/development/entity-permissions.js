@@ -26,6 +26,13 @@ let entityPermissions = [{
     user: testUserId,
     access: accessTypes.ADMIN.value,
     createdBy: testUserId,
+}, {
+    status: inviteStatusTypes.PENDING.value,
+    entityId: anotherProjectId,
+    entityType: entityTypes.PROJECT.value,
+    user: adminUserId,
+    access: accessTypes.READ.value,
+    createdBy: testUserId,
 }];
 
 export {

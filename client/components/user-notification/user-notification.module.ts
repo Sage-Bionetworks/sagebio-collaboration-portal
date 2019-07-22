@@ -4,6 +4,7 @@ import { MaterialModule } from 'components/material/material.module';
 import { SidenavModule } from 'components/sidenav/sidenav.module';
 import { UserNotificationButtonComponent } from './user-notification-button/user-notification-button.component';
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
+import { UserNotificationViewComponent } from './user-notification-view/user-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
 
 @NgModule({
@@ -17,11 +18,12 @@ import { UserNotificationService } from './user-notification.service';
     ],
     declarations: [
         UserNotificationButtonComponent,
-        UserNotificationSidenavComponent
+        UserNotificationSidenavComponent,
+        UserNotificationViewComponent
     ],
     exports: [
-        UserNotificationButtonComponent,
-        UserNotificationSidenavComponent
+      UserNotificationButtonComponent,
+      UserNotificationSidenavComponent
     ]
 })
 export class UserNotificationModule { }
