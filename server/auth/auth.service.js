@@ -135,6 +135,7 @@ export function isAuthorizedForEntity(requestedPermission) {
 }
 
 export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
+    // WIP #252 - Add safeguards to protect against improper/missing parameters
     const isAdminRole = userRole === config.userRoles.indexOf('admin');
 
     // Automatically grant admin users permission
