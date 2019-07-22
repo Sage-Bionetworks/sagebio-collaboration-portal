@@ -144,7 +144,7 @@ function handleOneAdminRemainingBeforeRemoval(res) {
 
 function handleEntityIdMismatch(res, entityIdFromParams) {
     return function (entity) {
-        if (entity && entity.entityId !== entityIdFromParams) {
+        if (entity && entity.entityId.toString() !== entityIdFromParams.toString()) {
             res.status(403).send('Entity Id mismatch');
             return null;
         }

@@ -29,7 +29,6 @@ function createListener(namespace, event, spark) {
 
         // emit only if
         // - hasPermissionForEntity.admin
-        // - is user
         spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
     };
 }
