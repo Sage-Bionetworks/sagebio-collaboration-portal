@@ -23,6 +23,7 @@ function createListener(namespace, event, spark) {
         // WIP #252 - VERIFY once unblocked from current work-in-progress in #253
         console.log(`entity-permission createListener doc: ${JSON.stringify(doc, null, 2)}`);
 
+        // WIP #252 - Remove this IF block when new code is in place
         if (isAuthorized(doc, spark.userId)) {
             spark.emit(event, doc);
         }
