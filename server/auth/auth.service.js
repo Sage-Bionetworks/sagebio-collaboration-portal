@@ -92,6 +92,7 @@ export function isAuthorized(requestedPermission) {
  */
 export function isAuthorizedForEntity(requestedPermission) {
     return compose()
+        // WIP #252 - Refactor method
         .use((req, res, next) => {
             const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
 

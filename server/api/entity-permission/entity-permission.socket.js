@@ -20,11 +20,14 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
+        // WIP #252 - VERIFY once unblocked from current work-in-progress in #253
+        console.log(`entity-permission createListener doc: ${JSON.stringify(doc, null, 2)}`);
+
         if (isAuthorized(doc, spark.userId)) {
             spark.emit(event, doc);
         }
 
-        // TODO check authorized
+        // WIP #252 - Use new method to authorize socket to emit an event if the user is an admin role OR authorized for the entity
         // spark.emit(`${doc.entityType}:${doc.entityId}:${namespace}:${event}`, doc);
 
         // emit only if
