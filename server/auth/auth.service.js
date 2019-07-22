@@ -134,6 +134,41 @@ export function isAuthorizedForEntity(requestedPermission) {
         });
 }
 
+export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
+    const isAdminRole = userRole === config.userRoles.indexOf('admin');
+
+    // Automatically grant admin users permission
+    if (isAdminRole) {
+        return true;
+    }
+
+    // Block non-admin users if the required permission is falsy
+    if (!requestedPermission) {
+        return false;
+    }
+
+    // Check if our user has the appropriate permission
+    EntityPermission.find({
+        user: userId,
+        entityId
+    }).exec()
+        .then(entityPermissions => {
+            const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
+
+            // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
+            if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
+                return true;
+            }
+
+            // User does not have permission OR has not accepted the entity permission; block request
+            return false;
+        })
+        .catch(err => {
+            console.error(`There was an error processing your request: ${err}`);
+            return false;
+        });
+}
+
 /**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
  * @param {*} requestedPermission
