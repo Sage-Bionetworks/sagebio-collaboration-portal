@@ -24,16 +24,76 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         private userPermissionDataService: UserPermissionDataService,
         private projectService: ProjectService) {
 
-        const getInvites = this.userPermissionDataService.permissions()
+        // const getInvites = this.userPermissionDataService.permissions()
+        //     .pipe(
+        //         switchMap(permissions => of(permissions.getPendingEntityInvites()))
+        //     );
+        //
+        // getInvites
+        //     .subscribe(invites => {
+        //         // console.log(invites);
+        //         this.invites = invites;
+        //     });
+
+        const getInvitesAsObservablesList = this.userPermissionDataService.permissions()
             .pipe(
-                switchMap(permissions => of(permissions.getPendingEntityInvites()))
+                map(permissions => permissions.getPendingEntityInvites().map(invite => of(invite)))
             );
 
-        getInvites
-            .subscribe(invites => {
-                // console.log(invites);
-                this.invites = invites;
+        function forkJoinWithProgress(arrayOfObservables) {
+
+            return defer(() => {
+                let counter = 0;
+                const percent$ = new Subject();
+
+                const modilefiedObservablesList = arrayOfObservables.map(
+                    (item, index) => item.pipe(
+                        finalize(() => {
+                            const percentValue = ++counter * 100 / arrayOfObservables.length;
+                            percent$.next(percentValue);
+                        })
+                    )
+                );
+
+                const finalResult$ = forkJoin(modilefiedObservablesList).pipe(
+                    tap(() => {
+                        percent$.next(100);
+                        percent$.complete();
+                    }
+                    ));
+
+                return of([finalResult$, percent$.asObservable()]);
             });
+        }
+
+        const getUserDetails = userIdsList => {
+
+            const arrayOfObservables = userIdsList.map((userId, index) => {
+                //if (index === 1) return throwError({message: 'Vah-vah!'}); // testin with error
+
+                // return ajax('https://jsonplaceholder.typicode.com/comments/' + userId)
+                return of(userId)
+            })
+
+            return forkJoinWithProgress(arrayOfObservables)
+        }
+
+        // const result$ = getUserDetails([1, 2, 15]);
+        const result$ = getInvitesAsObservablesList;
+
+        result$.pipe(
+            mergeMap(([finalResult, progress]) => merge(
+                progress.pipe(
+                    tap((value) => console.log(`${value} completed`)),
+                    ignoreElements()
+                ),
+                finalResult
+            ))
+        ).subscribe(values => {
+            console.log(values);
+            // this.projects = projects;
+            // console.log('projects', project);
+        }, console.warn);
     }
 
     ngOnDestroy() { }
