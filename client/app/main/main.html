@@ -7,22 +7,28 @@
             <!-- <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks"> -->
         </div>
         <div class="app-header-start">
-            <a *ngIf="!isLoggedIn" mat-raised-button class="app-button" routerLink="/login">Get started</a>
+            <a *ngIf="!isLoggedIn" mat-raised-button class="app-button app-button-landing" routerLink="/login">Get started</a>
+<!--            <div class="app-header-logos">-->
+<!--                <i class="material-icons">-->
+<!--                    forum computer person_add-->
+<!--                </i>-->
+<!--            </div>-->
         </div>
+
     </div>
 </header>
 
 <!--<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>-->
 
 <div class="app-main-fair-container">
-    <div class="fair-box">
+    <div class="app-fair-box">
         <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">
     </div>
-    <div class="fair-box">
+    <div class="app-fair-box">
         <div class='app-main-fair-description'>
             <h1>What are FAIR Principles? </h1>
             <p>FAIR stands for Findability, Accessibility, Interoperability, and Reusability. Check out the Roche FAIR Data playbook for more details by clicking the button below.</p>
-            <a href="https://drive.google.com/file/d/1Ucut-Kns_jSVmDvw5xhfxLt7ikcgitsd/view" target="_blank" mat-raised-button class="app-button">Take me to The Roche FAIR data handbook</a>
+            <a href="https://drive.google.com/file/d/1Ucut-Kns_jSVmDvw5xhfxLt7ikcgitsd/view" target="_blank" mat-raised-button class="app-button app-button-landing">Take me to The Roche FAIR data handbook</a>
         </div>
     </div>
 </div>

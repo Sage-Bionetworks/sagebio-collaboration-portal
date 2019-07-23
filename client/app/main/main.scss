@@ -20,7 +20,7 @@ $margin-promotion-sections-small: 15px;
     align-items: center;
 }
 
-.fair-box {
+.app-fair-box {
     width: 550px;
     margin: 50px 5px;
     text-align: left;
@@ -67,7 +67,6 @@ $margin-promotion-sections-small: 15px;
 
 .app-header-background {
   overflow: hidden;
-  background: #4A6572;
 }
 
 .app-header-section {
@@ -85,20 +84,22 @@ $margin-promotion-sections-small: 15px;
     font-size: 56px;
     font-weight: 300;
     line-height: 56px;
-    //margin: 15px 5px;
+    margin-bottom: 0.1em;
   }
 
   h2 {
     font-size: 45px;
     font-weight: 300;
     line-height: 28px;
-    //margin: 25px 0 25px 0;
+    margin-bottom: 0.25em;
+
   }
   h3 {
     font-size: 18px;
     font-weight: 300;
     line-height: 28px;
-    //margin: 25px 0 25px 0;
+    margin: 25px 0 -30px 0;
+    width: 400px;
   }
 }
 
@@ -141,8 +142,16 @@ $margin-promotion-sections-small: 15px;
 
 .app-header-start,
 .app-main-bottom-start {
-  text-align: center;
+  text-align: left;
   margin: $margin-promotion-sections 0;
+}
+
+.app-header-logos {
+    display: flex;
+    justify-content: flex-end;
+    align-content: flex-end;
+    margin-left: 15px;
+    color: #ffffff;
 }
 
 // .docs-main-promo-img,
