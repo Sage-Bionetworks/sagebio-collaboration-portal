@@ -8,7 +8,8 @@ import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
 import { AppQuillModule } from 'components/quill/app-quill.module';
-import { EntityModule } from '../../components/entity/entity.module';
+import { EntityModule } from 'components/entity/entity.module';
+import { EntityAuthGuard } from 'components/auth/entity-auth-guard.service';
 
 import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
@@ -32,7 +33,7 @@ export const ROUTES: Routes = [{
 }, {
     path: 'projects/:id',
     component: ProjectComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard],  // EntityAuthGuard
     children: [
         { path: '', redirectTo: 'settings', pathMatch: 'full'},
         { path: 'dashboard', component: ProjectDashboardComponent },

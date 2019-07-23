@@ -36,6 +36,8 @@ export class AuthService {
 
     static UNKNOWN_USER = new AuthInfo(null);
     private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
+    private loginUrl = '/login';
+    private redirectUrl = '/';
 
     static parameters = [HttpClient, UserService, TokenService];
     constructor(private httpClient: HttpClient, private userService: UserService,
@@ -51,7 +53,6 @@ export class AuthService {
      */
     getAuthInfo(): Observable<AuthInfo> {
         if (this.tokenService.get()) {
-            console.log('HAS TOKEN');
             return this.userService.get()
                 .pipe(
                     map(user => {
@@ -65,7 +66,6 @@ export class AuthService {
                     })
                 );
         } else {
-            console.log('HAS NO TOKEN');
             this.tokenService.deleteToken();
             this._authInfo.next(AuthService.UNKNOWN_USER);
             return this._authInfo.asObservable();
@@ -177,6 +177,21 @@ export class AuthService {
 
     getAuthStrategies(): Observable<string[]> {
         return this.httpClient.get<string[]>('/auth/strategies');
+    }
+
+    getLoginUrl(): string {
+        return this.loginUrl;
+    }
+
+    getRedirectUrl(): string {
+        return this.redirectUrl;
+    }
+    setRedirectUrl(url: string): void {
+        this.redirectUrl = url;
+    }
+
+    resetRedirectUrl(): void {
+        this.redirectUrl = '/';
     }
 
     //
