@@ -13,6 +13,15 @@ var validateJwt = expressJwt({
 });
 
 /**
+ * Returns true only if the user has an admin role
+ *
+ * @param {string} userRole
+ */
+export function isAdminRole(userRole) {
+    return config.userRoles.indexOf(userRole) == config.userRoles.indexOf('admin');
+}
+
+/**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
@@ -55,10 +64,11 @@ export function isAuthenticated() {
 export function isAuthorized(requestedPermission) {
     return compose()
         .use((req, res, next) => { // WIP #252 - Create hasUserPermission(...) similar to hasAccessToEntity(...) work
-            const isAdminRole = config.userRoles.indexOf(req.user.role) == config.userRoles.indexOf('admin');
+            const userRole = req.user.role || '';
+            const IS_ADMIN_ROLE = isAdminRole(userRole);
 
             // Automatically grant admin users permission
-            if (isAdminRole) return next();
+            if (IS_ADMIN_ROLE) return next();
 
             // Block non-admin users if the required permission is falsy
             if (!requestedPermission) {
@@ -141,11 +151,10 @@ export function isAuthorizedForEntity(requestedPermission) {
  */
 export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
     return new Promise((resolve, reject) => {
-        // WIP #252 - Refactor into standalone isAdminRole
-        const isAdminRole = userRole === config.userRoles.indexOf('admin');
+        const IS_ADMIN_ROLE = isAdminRole(userRole);
 
         // Automatically grant admin users permission
-        if (isAdminRole) {
+        if (IS_ADMIN_ROLE) {
             return resolve(true);
         }
 
