@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
-import UserPermission from '../api/user-permission/user-permission.model';
-import EntityPermission from '../api/entity-permission/entity-permission.model';
+import { hasAccessToEntity, hasUserPermission, hasUserRole } from './auth';
 
 const url = require('url');
 
@@ -55,37 +54,41 @@ export function isAuthenticated() {
 export function isAuthorized(requestedPermission) {
     return compose()
         .use((req, res, next) => {
-            const isAdminRole = config.userRoles.indexOf(req.user.role) == config.userRoles.indexOf('admin');
+            const userRole = req.user.role || '';
+            const userId = req.user._id || '';
 
-            // Automatically grant admin users permission
-            if (isAdminRole) return next();
+            let isAuthorizedForUserPermission;
+            try {
+                hasUserPermission(userRole, userId, requestedPermission)
+                    .then(isPermitted => {
+                        isAuthorizedForUserPermission = isPermitted;
 
-            // Block non-admin users if the required permission is falsy
-            if (!requestedPermission) {
+                        if (isAuthorizedForUserPermission) { // Continue processing request if access is granted
+                            next();
+                            return null;
+                        }
+
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    })
+                    .catch(err => {
+                        console.log(`Error attempting authorization request: ${err}`);
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    });
+            } catch (err) {
+                console.log(`Error attempting authorization request: ${err}`);
+                // Block request
                 res.status(403).send('Forbidden');
                 return null;
             }
-
-            // Check if our user has the appropriate permission
-            UserPermission.find({
-                    user: req.user._id
-                }).exec()
-                .then(permissions => {
-                    const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
-
-                    // Continuing processing request if our user has the appropriate permission
-                    if (hasAuthorization) return next();
-
-                    // User does not have permission; block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                })
-                .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
         });
 }
 
 /**
- * Authorizes request if the user has an admin role or the requested permission for the specified entity.
+ * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
  *
  * Users that have not been assigned or accepted the requested permission for the entity will be blocked.
  * @param {*} requestedPermission
@@ -93,49 +96,43 @@ export function isAuthorized(requestedPermission) {
 export function isAuthorizedForEntity(requestedPermission) {
     return compose()
         .use((req, res, next) => {
-            const isAdminRole = config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf('admin');
+            const userRole = req.user.role || '';
+            const userId = req.user._id || '';
+            const entityId = req.params.entityId || '';
 
-            // Automatically grant admin users permission
-            if (isAdminRole) {
-                return next();
-            }
+            let isAuthorizedToAccessEntity;
+            try {
+                hasAccessToEntity(userRole, userId, requestedPermission, entityId)
+                    .then(isGrantedAccess => {
+                        isAuthorizedToAccessEntity = isGrantedAccess;
 
-            // Block non-admin users if the required permission is falsy
-            if (!requestedPermission) {
+                        if (isAuthorizedToAccessEntity) { // Continue processing request if access is granted
+                            next();
+                            return null;
+                        }
+
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    })
+                    .catch(err => {
+                        console.log(`Error attempting authorization request: ${err}`);
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    });
+            } catch (err) {
+                console.log(`Error attempting authorization request: ${err}`);
+                // Block request
                 res.status(403).send('Forbidden');
                 return null;
             }
-
-            const entityId = req.params.entityId;
-
-            // Check if our user has the appropriate permission
-            EntityPermission.find({
-                    user: req.user._id,
-                    entityId: entityId
-                }).exec()
-                .then(entityPermissions => {
-                    const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
-
-                    // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                    if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                        next();
-                        return null;
-                    }
-
-                    // User does not have permission OR has not accepted the entity permission; block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                })
-                .catch(err => {
-                    res.status(500).send(`There was an error processing your request: ${err}`);
-                    return null;
-                });
         });
 }
 
 /**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
- * @param {*} requestedPermission
+ * @param {string} requestedPermission (e.g. 'createTool')
  */
 export function hasPermission(requestedPermission) {
     return compose()
@@ -164,11 +161,12 @@ export function hasRole(roleRequired) {
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
+            const userRole = req.user.role || '';
+            if (hasUserRole(userRole, roleRequired)) {
+                // Continue processing request when user has role
                 return next();
-            } else {
-                return res.status(403).send('Forbidden');
             }
+            return res.status(403).send('Forbidden');
         });
 }
 
@@ -193,7 +191,7 @@ export function setTokenCookie(req, res) {
     }
     var token = signToken(req.user._id, req.user.role);
     res.redirect(url.format({
-        pathname: "/login",
+        pathname: '/login',
         query: {
             token,
             expiresIn: config.expiresIn.session
