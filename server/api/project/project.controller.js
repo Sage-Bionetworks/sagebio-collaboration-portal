@@ -5,27 +5,21 @@ import Project from './project.model';
 import EntityPermission from '../entity-permission/entity-permission.model';
 import {
     entityTypes,
-    accessTypes
+    accessTypes,
+    inviteStatusTypes
 } from '../../config/environment';
 
 function createAdminPermissionForEntity(user, entityType) {
     return function (entity) {
         if (entity) {
-            console.log('plop', {
-                    entityId: entity._id.toString(),
-                    entityType: entityType,
-                    userId: user._id.toString(),
-                    access: accessTypes.ADMIN.value,
-                    createdBy: user._id.toString()
-                });
             return EntityPermission.create({
                     entityId: entity._id.toString(),
                     entityType: entityType,
-                    userId: user._id.toString(),
+                    user: user._id.toString(),
                     access: accessTypes.ADMIN.value,
+                    status: inviteStatusTypes.ACCEPTED.value,
                     createdBy: user._id.toString()
                 })
-                .then(() => console.log('here'))
                 .then(() => entity)
                 .catch(err => console.log(err));
         }

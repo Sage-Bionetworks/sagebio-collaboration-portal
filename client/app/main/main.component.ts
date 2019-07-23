@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AuthService } from 'components/auth/auth.service';
+import { ProvenanceService } from 'components/provenance/provenance.service';
 
 // import APP_CONFIG from './app.config';
 import { Node } from 'components/d3/models/node';
@@ -15,6 +16,7 @@ import { Link } from 'components/d3/models/link';
 export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
+    private provenanceGraph: any;
 
     D3_DEMO_CONFIG = {
         N: 100,
@@ -35,9 +37,10 @@ export class MainComponent implements OnInit, OnDestroy {
     nodes: Node[] = [];
     links: Link[] = [];
 
-    static parameters = [PageTitleService, AuthService];
+    static parameters = [PageTitleService, AuthService, ProvenanceService];
     constructor(private pageTitleService: PageTitleService,
-        private authService: AuthService) {
+        private authService: AuthService,
+        private provenanceService: ProvenanceService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
                 this.isLoggedIn = authInfo.isLoggedIn();
@@ -61,6 +64,11 @@ export class MainComponent implements OnInit, OnDestroy {
                 this.links.push(new Link(i, i * m));
             }
         }
+
+        this.provenanceService.getProvenanceGraph()
+            .subscribe(graph => {
+                this.provenanceGraph = graph;
+            });
     }
 
     ngOnInit() {

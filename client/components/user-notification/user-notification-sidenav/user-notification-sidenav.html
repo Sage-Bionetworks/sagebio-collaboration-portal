@@ -1,0 +1,10 @@
+<div class="app-primary-header app-user-notification-sidenav-header">
+    <h1 class="app-user-notification-sidenav-header-title">Notifications</h1>
+    <a class="app-user-notification-sidenav-header-close" mat-icon-button matTooltip="Close" aria-label="Hide the notifications" (click)="close()">
+        <mat-icon aria-label="Icon of cross">close</mat-icon>
+    </a>
+</div>
+
+<user-notification-view class="app-user-notification-view" *ngFor="let invite of invites" [invite]="invite"></user-notification-view>
+
+<!-- {{ invites | json }} -->

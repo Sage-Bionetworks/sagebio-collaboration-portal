@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
             });
-        this.permissions = this.userPermissionDataService.getPermissions();
+        this.permissions = this.userPermissionDataService.permissions();
     }
 
     ngOnInit() {

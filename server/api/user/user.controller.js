@@ -13,7 +13,10 @@ function validationError(res, statusCode) {
 
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
-    return err => res.status(statusCode).send(err);
+    return err => {
+      console.log('ERR', err);
+      return res.status(statusCode).send(err);
+    };
 }
 
 /**
@@ -129,7 +132,7 @@ export function changeRole(req, res) {
                     })
                     .catch(handleError(res));
             } else {
-                return res.status(40).end();
+                return res.status(400).end();
             }
         });
 }

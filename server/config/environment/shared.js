@@ -3,7 +3,15 @@
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
 // List of user roles
-export const userRoles = ['user', 'admin'];
+export const userRoles = ['user', 'admin']; // TODO: remove
+export const userRolesNew = {
+    USER: {
+        value: 'user'
+    },
+    ADMIN: {
+        value: 'admin'
+    }
+};
 
 export const permissionTypes = [
     'createTool',
@@ -18,25 +26,35 @@ export const entityTypes = {
 };
 
 export const accessTypes = {
-    LIST: {
-        value: 'list',
-        description: ''
+    READ: {
+        value: 'read',
+        name: 'Read',
+        description: 'Can read and download.'
     },
-    CREATE: {
-        value: 'create',
-        description: ''
-    },
-    EDIT: {
-        value: 'edit',
-        description: ''
-    },
-    DELETE: {
-        value: 'delete',
-        description: ''
+    WRITE: {
+        value: 'write',
+        name: 'Write',
+        description: 'Can read, download, and write.'
     },
     ADMIN: {
         value: 'admin',
-        description: ''
+        name: 'Admin',
+        description: 'Can read, download, write, and admin.'
+    }
+};
+
+export const inviteStatusTypes = {
+    PENDING: {
+        value: 'pending',
+        name: 'Pending'
+    },
+    ACCEPTED: {
+        value: 'accepted',
+        name: 'Accepted'
+    },
+    DECLINED: {
+        value: 'declined',
+        name: 'Declined'
     }
 };
 
@@ -112,6 +130,7 @@ export default {
     env,
     port,
     userRoles,
+    userRolesNew,
     permissionTypes,
     gitVersion,
     gitCommitHash,
@@ -123,5 +142,6 @@ export default {
     models,
     datasetOrders,
     accessTypes,
-    entityTypes
+    entityTypes,
+    inviteStatusTypes
 };

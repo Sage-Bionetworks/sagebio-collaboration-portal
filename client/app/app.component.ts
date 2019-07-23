@@ -27,7 +27,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild('secondarySidenav', { static: true }) private secondarySidenav: MatSidenav;
-    @ViewChild('secondarySidenavContent', { static: false }) private secondarySidenavContent: SecondarySidenavComponent;
+    @ViewChild('secondarySidenavContent', { static: true }) private secondarySidenavContent: SecondarySidenavComponent;
 
     static parameters = [SecondarySidenavService];
     constructor(private secondarySidenavService: SecondarySidenavService) { }

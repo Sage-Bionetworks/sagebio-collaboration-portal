@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 
 /**
  * Service responsible for setting the title that appears above the components
@@ -10,8 +11,15 @@ export class PageTitleService {
     _title = '';
     _numNotifications = 0;
 
-    static parameters = [Title];
-    constructor(private bodyTitle: Title) { }
+    static parameters = [Title, UserPermissionDataService];
+    constructor(private bodyTitle: Title,
+        private userPermissionDataService: UserPermissionDataService) {
+
+        this.userPermissionDataService.permissions()
+            .subscribe(permissions => {
+                this.numNotifications = permissions.countPendingEntityInvites();
+            });
+    }
 
     get title(): string {
         return this._title;

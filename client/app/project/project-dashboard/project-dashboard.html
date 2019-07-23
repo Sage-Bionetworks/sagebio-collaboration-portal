@@ -5,6 +5,7 @@
     </div>
 
     <div class="app-project-content">
+        <a mat-raised-button color="primary" [routerLink]="['settings']">Go to Settings</a>
         <entity-access-list [entity]="project"></entity-access-list>
 
         <mat-card class="app-project-card">
@@ -14,7 +15,8 @@
                 </picture>
                 <div class="app-project-metadata">
                     <h1>{{ project.name }}</h1>
-                    <span>can admin project: {{ canAdminEntity }}</span>
+                    <span>can admin project (data service): {{ projectDataService.canAdmin() | async }}</span>
+                    <span>ACL: {{ projectDataService.acl() | async | json }}</span>
                     <!-- <div class="tool-metadata-row">
                       <mat-icon>home</mat-icon>
                       <span>{{ tool.organization.name }}</span>

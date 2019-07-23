@@ -4,7 +4,7 @@ var proxyquire = require('proxyquire').noPreserveCache();
 
 import {
     authServiceStub
-} from '../../auth/auth.service.stub';
+} from '../../auth/auth.service.mock';
 
 var projectCtrlStub = {
     index: 'projectCtrl.index',

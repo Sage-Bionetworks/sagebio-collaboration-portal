@@ -10,7 +10,6 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { orderBy } from 'lodash/fp';
 import { NotificationService } from 'components/notification/notification.service';
 
-
 @Component({
     selector: 'project-list',
     template: require('./project-list.html'),
