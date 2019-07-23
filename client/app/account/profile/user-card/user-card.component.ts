@@ -10,10 +10,21 @@ import { NotificationService } from 'components/notification/notification.servic
 })
 export class UserCardComponent {
     private _user: User;
+    private isEditing = false;  // WIP #170 - Indicates whether user-card is in view or edit mode
 
     static parameters = [Router, NotificationService];
     constructor(private router: Router,
         private notificationService: NotificationService) { }
+
+    get buttonColor() {
+        if (this.isEditing) return 'accent';
+        return 'primary';
+    }
+
+    get buttonText() {
+        if (this.isEditing) return 'Save Profile';
+        return 'Edit Profile';
+    }
 
     get user() {
         return this._user;
@@ -24,7 +35,9 @@ export class UserCardComponent {
         this._user = user;
     }
 
-    edit(): void {
-        this.notificationService.info('Edit Profile not implemented');
+    // WIP #170 - Initial implementation of edit data in user-card
+    onUserCardButtonClick(): void {
+        // WIP #170 - Before switching modes, be sure you save the user data 😁
+        this.isEditing = !this.isEditing;
     }
 }

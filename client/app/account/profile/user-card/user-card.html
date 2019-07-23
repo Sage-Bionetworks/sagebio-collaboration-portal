@@ -50,7 +50,7 @@
                     {{user.orcid}}
                 </a>
             </div>
-            <a mat-raised-button type="button" color='primary' (click)="edit()">Edit Profile</a>
+            <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="onUserCardButtonClick()">{{ buttonText }}</a>
             <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                 <mat-icon>edit</mat-icon>
             </a> -->
