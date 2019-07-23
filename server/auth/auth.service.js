@@ -63,38 +63,79 @@ export function isAuthenticated() {
  */
 export function isAuthorized(requestedPermission) {
     return compose()
-        .use((req, res, next) => { // WIP #252 - Create hasUserPermission(...) similar to hasAccessToEntity(...) work
+        .use((req, res, next) => {
             const userRole = req.user.role || '';
-            const IS_ADMIN_ROLE = isAdminRole(userRole);
+            const userId = req.user._id || '';
 
-            // Automatically grant admin users permission
-            if (IS_ADMIN_ROLE) return next();
+            let isAuthorizedForUserPermission;
+            try {
+                hasUserPermission(userRole, userId, requestedPermission)
+                    .then(isPermitted => {
+                        isAuthorizedForUserPermission = isPermitted;
 
-            // Block non-admin users if the required permission is falsy
-            if (!requestedPermission) {
+                        if (isAuthorizedForUserPermission) { // Continue processing request if access is granted
+                            next();
+                            return null;
+                        }
+
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    })
+                    .catch(err => {
+                        console.log(`Error attempting authorization request: ${err}`);
+                        // Block request
+                        res.status(403).send('Forbidden');
+                        return null;
+                    });
+            } catch (err) {
+                console.log(`Error attempting authorization request: ${err}`);
+                // Block request
                 res.status(403).send('Forbidden');
                 return null;
             }
-
-            // Check if our user has the appropriate permission
-            UserPermission.find({
-                    user: req.user._id
-                }).exec()
-                .then(permissions => {
-                    const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
-
-                    // Continuing processing request if our user has the appropriate permission
-                    if (hasAuthorization) return next();
-
-                    // User does not have permission; block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                })
-                .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
         });
 }
 
-// WIP #252 - Create hasUserPermission
+/**
+ * Returns true if the user has the desired permission
+ *
+ * @param {string} userRole
+ * @param {string} userId
+ * @param {string} requestedPermission
+ */
+export function hasUserPermission(userRole, userId, requestedPermission) {
+    return new Promise((resolve, reject) => {
+        const IS_ADMIN_ROLE = isAdminRole(userRole);
+
+        // Automatically grant admin users permission
+        if (IS_ADMIN_ROLE) return resolve(true);
+
+        // Block non-admin users if the required permission is falsy
+        if (!requestedPermission) {
+            return resolve(false);
+        }
+
+        // Check if our user has the appropriate permission
+        UserPermission.find({
+                user: userId,
+            }).exec()
+            .then(permissions => {
+                const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
+
+                // Continuing processing request if our user has the appropriate permission
+                if (hasAuthorization) return resolve(true);
+
+                // User does not have permission; block request
+                return resolve(false);
+            })
+            .catch(err => {
+                const errorMessage = `There was an error processing your request: ${err}`;
+                console.error(errorMessage);
+                return reject(false);
+            });
+    });
+}
 
 /**
  * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
@@ -191,7 +232,7 @@ export function hasAccessToEntity(userRole, userId, requestedPermission, entityI
  * Allows request to continue if the user has authenticated and contains appropriate authorization
  * @param {*} requestedPermission
  */
-export function hasPermission(requestedPermission) { // WIP #252 - Refactor for reuse with web sockets
+export function hasPermission(requestedPermission) {
     return compose()
         .use(isAuthenticated())
         .use(isAuthorized(requestedPermission));
