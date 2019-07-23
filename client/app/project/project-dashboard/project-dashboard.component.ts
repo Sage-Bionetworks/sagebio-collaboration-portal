@@ -16,17 +16,13 @@ import { EntityAccessListComponent } from 'components/entity/entity-access-list/
 import { ProjectDataService } from '../project-data.service';
 
 @Component({
-    selector: 'project',
-    template: require('./project.html'),
-    styles: [require('./project.scss')],
-    providers: [
-        ProjectDataService
-    ]
+    selector: 'project-dashboard',
+    template: require('./project-dashboard.html'),
+    styles: [require('./project-dashboard.scss')]
 })
-export class ProjectComponent implements OnInit, OnDestroy {
+export class ProjectDashboardComponent implements OnInit, OnDestroy {
     private project: Project;
     private form: FormGroup;
-    private canAdminEntity = false;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService, NotificationService, UserPermissionDataService,
@@ -58,14 +54,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.project = project;
 
                 this.projectDataService.setProject(this.project);
-            });
-
-        combineLatest(
-            project$,
-            this.userPermissionDataService.getPermissions()
-        )
-            .subscribe(([project, permissions]) => {
-                this.canAdminEntity = permissions.canAdminProject(project);
             });
     }
 

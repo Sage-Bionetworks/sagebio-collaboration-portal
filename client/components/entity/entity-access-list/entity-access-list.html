@@ -11,20 +11,22 @@
                 <user-avatar matListAvatar [user]="perm.user" [size]="listAvatarSize"></user-avatar>
                 <h4 matLine *ngIf="perm.user.name">{{ perm.user.name }}</h4>
                 <p matLine>{{ perm.user.username }}</p>
-                <mat-select [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
+                <mat-select class="app-entity-access-list-access" [disabled]="disableAccessMenu(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
                     <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value">
                         {{ accessType.name }}
                     </mat-option>
                 </mat-select>
-                <a mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
-                    <mat-icon>clear</mat-icon>
-                </a>
+                <div class="app-entity-access-list-remove">
+                    <a *ngIf="!hideRemoveButton(perm)" mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
+                        <mat-icon>clear</mat-icon>
+                    </a>
+                </div>
             </mat-list-item>
         </mat-list>
 
         <form class="app-entity-access-list-search-user-form" [formGroup]="inviteForm" novalidate>
             <mat-form-field class="app-project-new-form-field">
-                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto" required>
+                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" flex>
                     <mat-option *ngFor="let user of userResults" [value]="user.username" (click)="selectUser(user)">
                         <!-- <user-avatar [user]="user" [size]="optionAvatarSize"></user-avatar> -->
@@ -36,6 +38,9 @@
                 </mat-error>
             </mat-form-field>
             <a mat-raised-button color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a>
+            <mat-error *ngIf="errors.inviteForm">
+                {{ errors.inviteForm }}
+            </mat-error>
         </form>
     </mat-card-content>
 </mat-card>

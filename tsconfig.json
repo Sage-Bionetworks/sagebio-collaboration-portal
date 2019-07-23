@@ -29,6 +29,9 @@
     "typeRoots": [
         "./node_modules/@types/"
     ],
+    "include": [
+        "client/**/*"
+    ],
     "exclude": [
         "node_modules",
         "client/**/*.spec.ts"

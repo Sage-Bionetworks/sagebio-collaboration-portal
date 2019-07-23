@@ -51,7 +51,7 @@ export class NavbarComponent {
                 this.isLoggedIn = authInfo.isLoggedIn();
             });
 
-        this.userPermissionsSub = this.userPermissionDataService.getPermissions()
+        this.userPermissionsSub = this.userPermissionDataService.permissions()
             .subscribe(userPermissions => {
                 this.isAdmin = userPermissions.isAdmin();
             }, err => console.log(err));

@@ -50,7 +50,7 @@ export class ToolListComponent implements OnInit, AfterViewInit {
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
             });
-        this.permissions = this.userPermissionDataService.getPermissions();
+        this.permissions = this.userPermissionDataService.permissions();
     }
 
     ngOnInit() {

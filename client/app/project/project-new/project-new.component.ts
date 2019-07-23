@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../project.service';
 import { Project } from 'models/project.model';
@@ -49,6 +48,7 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
                 Validators.required
             ]],
         });
+        console.log('CONSTRUCTOR');
     }
 
     ngOnInit() {

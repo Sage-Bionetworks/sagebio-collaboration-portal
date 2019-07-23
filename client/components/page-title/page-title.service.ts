@@ -15,7 +15,7 @@ export class PageTitleService {
     constructor(private bodyTitle: Title,
         private userPermissionDataService: UserPermissionDataService) {
 
-        this.userPermissionDataService.getPermissions()
+        this.userPermissionDataService.permissions()
             .subscribe(permissions => {
                 this.numNotifications = permissions.countPendingEntityInvites();
             });

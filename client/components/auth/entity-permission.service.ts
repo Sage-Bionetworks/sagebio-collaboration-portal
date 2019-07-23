@@ -20,31 +20,28 @@ export class EntityPermissionService {
     }
 
     create(entityPermission: EntityPermission): Observable<EntityPermission> {
-        return this.httpClient.post<EntityPermission>(`/api/entity-permissions/`, entityPermission);
+        return this.httpClient.post<EntityPermission>(`/api/entity-permissions/entity/${entityPermission.entityId}`, entityPermission);
     }
 
     changeAccess(entityPermission: EntityPermission, newAccess: string): Observable<EntityPermission> {
-        return this.httpClient.patch<EntityPermission>(`/api/entity-permissions/${entityPermission._id}`, [
-            { op: 'replace', path: '/access', value: newAccess }
-        ]);
+        return this.httpClient.patch<EntityPermission>(`/api/entity-permissions/entity/` +
+            `${entityPermission.entityId}/${entityPermission._id}`, [
+                { op: 'replace', path: '/access', value: newAccess }
+            ]);
+    }
+
+    changeStatus(entityPermission: EntityPermission, newStatus: string): Observable<EntityPermission> {
+        return this.httpClient.patch<EntityPermission>(`/api/entity-permissions/entity/` +
+            `${entityPermission.entityId}/${entityPermission._id}`, [
+                { op: 'replace', path: '/status', value: newStatus }
+            ]);
     }
 
     delete(entityPermission: EntityPermission): Observable<EntityPermission> {
-      return this.httpClient.delete(`/api/entity-permissions/${entityPermission._id}`)
-          .pipe(
-              map(() => entityPermission)
-          );
+        return this.httpClient.delete(`/api/entity-permissions/entity/` +
+            `${entityPermission.entityId}/${entityPermission._id}`)
+            .pipe(
+                map(() => entityPermission)
+            );
     }
-
-    // getPermissions(query?: {}): Observable<UserPermission[]> {
-    //     return this.httpClient.get<UserPermission[]>(`/api/user-permissions${stringifyQuery(query)}`);
-    // }
-    //
-    // addPermissions(body?: {}): Observable<UserPermission[]> {
-    //     return this.httpClient.post<UserPermission[]>(`/api/user-permissions`, body);
-    // }
-    //
-    // deletePermissions(entityID: String): Observable<UserPermission[]> {
-    //     return this.httpClient.delete<UserPermission[]>(`/api/user-permissions/${entityID}`);
-    // }
 }

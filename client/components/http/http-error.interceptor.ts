@@ -29,6 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     }
                 }),
                 catchError((err: HttpErrorResponse) => {
+                    console.log('err', err);
                     if (err.error instanceof Error) {
                         // A client-side or network error occurred. Handle it accordingly.
                         console.error('An error occurred:', err.error.message);
@@ -60,15 +61,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         } else if (err.status === 404) {
                             console.log('INTERCEPTOR 404');
                             return throwError({ code: 404, message: 'Not Found' });
-                        } else if (err.error && err.error.message) {
-                            // return ErrorObservable.create(err.error);
-                            console.log('INTERCEPTOR: ONE OF MY ERROR');
-                            return throwError(err.error);
-                        } else {
-                            console.log('INTERCEPTOR: DEFAULT ERROR');
-                            // return ErrorObservable.create({ message: 'Server error' }); // Observable.throw(new Error('woops')); instead?
-                            return throwError({ message: 'Server error' });
-                        }
+                          } else {
+                            return throwError({ message: err.error.message || err.error });
+                          }
+                        // } else if (err.error && err.error.message) {
+                        //     // return ErrorObservable.create(err.error);
+                        //     console.log('INTERCEPTOR: ONE OF MY ERROR');
+                        //     return throwError(err.error);
+                        // } else {
+                        //     console.log('INTERCEPTOR: DEFAULT ERROR');
+                        //     // return ErrorObservable.create({ message: 'Server error' }); // Observable.throw(new Error('woops')); instead?
+                        //     return throwError({ message: 'Server error' });
+                        // }
                     }
 
                     // ...optionally return a default fallback value so app can continue (pick one)

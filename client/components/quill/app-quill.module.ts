@@ -11,7 +11,7 @@ import { AppQuillEditorToolbarComponent } from './app-quill-editor-toolbar/app-q
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        QuillModule,
+        QuillModule.forRoot(),
         MaterialModule,
         AuthModule
     ],
@@ -22,8 +22,7 @@ import { AppQuillEditorToolbarComponent } from './app-quill-editor-toolbar/app-q
         AppQuillEditorToolbarComponent
     ],
     exports: [
-        AppQuillEditorComponent,
-        AppQuillEditorToolbarComponent
+        AppQuillEditorComponent
     ]
 })
 export class AppQuillModule { }

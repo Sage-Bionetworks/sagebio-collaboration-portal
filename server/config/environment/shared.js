@@ -3,7 +3,15 @@
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
 // List of user roles
-export const userRoles = ['user', 'admin'];
+export const userRoles = ['user', 'admin']; // TODO: remove
+export const userRolesNew = {
+    USER: {
+        value: 'user'
+    },
+    ADMIN: {
+        value: 'admin'
+    }
+};
 
 export const permissionTypes = [
     'createTool',
@@ -122,6 +130,7 @@ export default {
     env,
     port,
     userRoles,
+    userRolesNew,
     permissionTypes,
     gitVersion,
     gitCommitHash,

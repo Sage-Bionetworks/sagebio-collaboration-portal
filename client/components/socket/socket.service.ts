@@ -26,13 +26,8 @@ export class SocketService {
      * Initializes a connection with the primus server.
      */
     connect(): void {
-        // 'https://dev.phc.sagesandbox.org'
         console.log('connecting to primus');
-        const primus = (Primus as any).connect('https://dev.phc.sagesandbox.org', {
-            port: 443,
-            // protocol: 'wss:',
-            secure: true
-        }); // Primus.connect(); new Primus({ manual: true });
+        const primus = (Primus as any).connect();
         primus.plugin('emit', primusEmit);
 
         // For convenience we use the private event `outgoing::url` to append the
@@ -101,6 +96,7 @@ export class SocketService {
              * Syncs item creation/updates on 'model:save'
              */
             primus.on(`${modelName}:save`, item => {
+                console.log('received new item', item);
                 let oldItem = find(array, { _id: item._id });
                 let index = array.indexOf(oldItem);
                 let event = 'created';
@@ -121,7 +117,10 @@ export class SocketService {
              * Syncs removed items on 'model:remove'
              */
             primus.on(`${modelName}:remove`, item => {
+                console.log('AHAHA array', item);
+                console.log('AHAHA item', item);
                 remove(array, { _id: item._id });
+                console.log('AHAHA after removal', array);
                 cb('deleted', item, array);
             });
         }
@@ -162,8 +161,6 @@ export class SocketService {
     syncArraySubject(modelName: string, subject: BehaviorSubject<any[]>): void {
         if (this.primus && this.primus.getValue()) {
             const primus = this.primus.getValue();
-
-            console.log('SYNC ', modelName);
 
             primus.on(`${modelName}:save`, item => {
                 let items = subject.getValue();

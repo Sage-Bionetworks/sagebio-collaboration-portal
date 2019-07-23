@@ -7,7 +7,7 @@ import { AuthService } from 'components/auth/auth.service';
 import { UserService } from 'components/auth/user.service';
 import { UserPermissionService } from './user-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
-import { find } from 'lodash/fp';
+import { find, identity } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
 import { Project } from 'models/project.model';
 import { SocketService } from 'components/socket/socket.service';
@@ -41,28 +41,54 @@ export class UserPermissions {
         return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 
-    public canAdminEntity(entityId: string, entityType: string): boolean {
-        return this.isAdmin() || !!find({
+    private getEntityUserAccess(entityId: string, entityType: string): string {
+        let permission = find({
             entityId: entityId,
-            entityType: entityType,
-            access: config.accessTypes.ADMIN
-        });
+            entityType: entityType
+        }, this.entityPermissions);
+        return permission ? permission.access : null;
     }
 
-    public canAdminProject(project: Project): boolean {
-        return this.canAdminEntity(
-            project._id,
-            config.entityTypes.PROJECT.value
-        );
+    public canReadEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.READ.value,
+            config.accessTypes.WRITE.value,
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
+    }
+
+    public canWriteEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.WRITE.value,
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
+    }
+
+    public canAdminEntity(entityId: string, entityType: string): boolean {
+        const access = this.getEntityUserAccess(entityId, entityType);
+        return this.isAdmin() || identity([
+            config.accessTypes.ADMIN.value
+        ]).includes(access);
     }
 
     public countPendingEntityInvites(): number {
+        return this.getPendingEntityInvites().length;
+    }
+
+    public getPendingEntityInvites(): EntityPermission[] {
         if (this.entityPermissions) {
-            return this.entityPermissions.filter(invite => {
+            // return this.entityPermissions.filter(invite => {
+            //     return invite.status === config.inviteStatusTypes.PENDING.value;
+            // });
+            return [...this.entityPermissions.filter(invite => {
                 return invite.status === config.inviteStatusTypes.PENDING.value;
-            }).length;
+            }), ...this.entityPermissions.filter(invite => {
+                return invite.status === config.inviteStatusTypes.PENDING.value;
+            })];
         }
-        return 0;
+        return [];
     }
 }
 
@@ -188,7 +214,17 @@ export class UserPermissionDataService {
      * Returns the permissions of the user.
      * @return {Observable<UserPermissions>}
      */
-    getPermissions(): Observable<UserPermissions> {
+    permissions(): Observable<UserPermissions> {
         return this._permissions.asObservable();
+    }
+
+    acceptEntityPermission(invite: EntityPermission): Observable<EntityPermission> {
+        return this.entityPermissionService
+            .changeStatus(invite, config.inviteStatusTypes.ACCEPTED.value);
+    }
+
+    declineEntityPermission(invite: EntityPermission): Observable<EntityPermission> {
+        return this.entityPermissionService
+            .changeStatus(invite, config.inviteStatusTypes.DECLINED.value);
     }
 }
