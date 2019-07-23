@@ -30,7 +30,6 @@ export function indexMine(req, res) {
     return EntityPermission.find({
             user: userId
         })
-        // .populate('user', User.profileProperties)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -41,7 +40,6 @@ export function indexByEntity(req, res) {
     return EntityPermission.find({
             entityId: req.params.entityId
         })
-        // .populate('user', User.profileProperties)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -60,7 +58,6 @@ export function create(req, res) {
 }
 
 // Updates an existing EntityPermission in the DB
-// TODO: prevent last admin to be removed
 export function patch(req, res) {
     const patches = req.body;
     return EntityPermission.findById(req.params.id)
