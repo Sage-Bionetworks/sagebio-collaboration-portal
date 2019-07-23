@@ -5,6 +5,12 @@
     </a>
 </div>
 
-<user-notification-view class="app-user-notification-view" *ngFor="let invite of invites" [invite]="invite"></user-notification-view>
+<div class="app-user-notification-sidenav-cards">
+    <ng-template ngFor let-invite [ngForOf]="invites">
+        <user-notification-view class="app-user-notification-view" [invite]="invite"></user-notification-view>
+    </ng-template>
+</div>
+
+
 
 <!-- {{ invites | json }} -->

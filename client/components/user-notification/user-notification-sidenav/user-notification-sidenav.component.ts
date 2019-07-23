@@ -1,13 +1,16 @@
 import { Component, OnDestroy } from '@angular/core';
-import { from, of, forkJoin, defer, Subject, merge } from 'rxjs';
-import { mergeMap, map, switchMap, catchError, tap, finalize, ignoreElements } from 'rxjs/operators';
+import { from, of, forkJoin, merge } from 'rxjs';
+import { mergeMap, map, switchMap, tap, ignoreElements } from 'rxjs/operators';
 import { pickBy, identity } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { Project } from 'models/project.model';
-import { ProjectService } from '../../../app/project/project.service';
 // TODO: Do not refer to something in app/, instead move ProjectService to components
+import { ProjectService } from '../../../app/project/project.service';
+import { InviteBundle } from '../models/invite-bundle.model';
+import { forkJoinWithProgress } from 'components/rxjs/util';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'user-notification-sidenav',
@@ -15,14 +18,16 @@ import { ProjectService } from '../../../app/project/project.service';
     styles: [require('./user-notification-sidenav.scss')]
 })
 export class UserNotificationSidenavComponent implements OnDestroy {
-    private invites: EntityPermission[] = [];
-    private projects: Project[] = [];
+    private invites: InviteBundle[] = [];
+    private avatarSize = 40;
 
     static parameters = [SecondarySidenavService, UserPermissionDataService,
         ProjectService];
     constructor(private sidenavService: SecondarySidenavService,
         private userPermissionDataService: UserPermissionDataService,
         private projectService: ProjectService) {
+
+        this.avatarSize = config.avatar.size.mini;
 
         const createInviteBundle = invite => of(invite)
             .pipe(
@@ -36,66 +41,22 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             .pipe(
                 map(permissions => permissions.getPendingEntityInvites()
                     .map(invite => createInviteBundle(invite))
-                )
-            );
-
-        function forkJoinWithProgress(arrayOfObservables) {
-
-            return defer(() => {
-                let counter = 0;
-                const percent$ = new Subject();
-
-                const modilefiedObservablesList = arrayOfObservables.map(
-                    (item, index) => item.pipe(
-                        finalize(() => {
-                            const percentValue = ++counter * 100 / arrayOfObservables.length;
-                            percent$.next(percentValue);
-                        })
-                    )
-                );
-
-                const finalResult$ = forkJoin(modilefiedObservablesList).pipe(
-                    tap(() => {
-                        percent$.next(100);
-                        percent$.complete();
-                    }
-                    ));
-
-                return of([finalResult$, percent$.asObservable()]);
-            });
-        }
-
-        // const getUserDetails = userIdsList => {
-        //
-        //     const arrayOfObservables = userIdsList.map((userId, index) => {
-        //         //if (index === 1) return throwError({message: 'Vah-vah!'}); // testin with error
-        //
-        //         // return ajax('https://jsonplaceholder.typicode.com/comments/' + userId)
-        //         return of(userId)
-        //     })
-        //
-        //     return forkJoinWithProgress(arrayOfObservables)
-        // }
-
-        // const result$ = getUserDetails([1, 2, 15]);
-        const result$ = getInviteBundles
-            .pipe(
+                ),
                 switchMap(invites => forkJoinWithProgress(invites))
             );
 
-        result$.pipe(
-            mergeMap(([finalResult, progress]) => merge(
-                progress.pipe(
-                    // tap((value) => console.log(`${value} completed`)),
-                    ignoreElements()
-                ),
-                finalResult
-            ))
-        ).subscribe(values => {
-            console.log(values);
-            // this.projects = projects;
-            // console.log('projects', project);
-        }, console.warn);
+        getInviteBundles
+            .pipe(
+                mergeMap(([finalResult, progress]) => merge(
+                    progress.pipe(
+                        // tap((value) => console.log(`${value} completed`)),
+                        ignoreElements()
+                    ),
+                    finalResult
+                ))
+            ).subscribe((invites: InviteBundle[]) => {
+                this.invites = invites;
+            }, console.warn);
     }
 
     ngOnDestroy() { }
@@ -103,33 +64,5 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     close(): void {
         this.sidenavService.close();
         // this.sidenavService.destroyContentComponent();
-    }
-
-    forkJoinWithProgress(arrayOfObservables) {
-
-        return defer(() => {
-            let counter = 0;
-            const percent$ = new Subject();
-
-            console.log('arrayOfObservables', arrayOfObservables);
-
-            const modilefiedObservablesList = arrayOfObservables.map(
-                (item, index) => item.pipe(
-                    finalize(() => {
-                        const percentValue = ++counter * 100 / arrayOfObservables.length;
-                        percent$.next(percentValue);
-                    })
-                )
-            );
-
-            const finalResult$ = forkJoin(modilefiedObservablesList).pipe(
-                tap(() => {
-                    percent$.next(100);
-                    percent$.complete();
-                }
-                ));
-
-            return of([finalResult$, percent$.asObservable()]);
-        });
     }
 }

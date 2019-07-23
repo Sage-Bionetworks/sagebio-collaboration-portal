@@ -18,5 +18,5 @@ export interface EntityPermission {
     access: string;
     status?: string;
     createdAt?: string;
-    createdBy?: UserProfile;
+    createdBy?: UserProfile | string;
 }

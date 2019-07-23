@@ -217,4 +217,8 @@ export class UserPermissionDataService {
     permissions(): Observable<UserPermissions> {
         return this._permissions.asObservable();
     }
+
+    // acceptEntityInvite(invite: EntityPermission) {
+    //     this.entit
+    // }
 }

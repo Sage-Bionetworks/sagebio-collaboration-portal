@@ -30,7 +30,7 @@ export function indexMine(req, res) {
     return EntityPermission.find({
             user: userId
         })
-        .populate('user', User.profileProperties)
+        // .populate('user', User.profileProperties)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -41,7 +41,7 @@ export function indexByEntity(req, res) {
     return EntityPermission.find({
             entityId: req.params.entityId
         })
-        .populate('user', User.profileProperties)
+        // .populate('user', User.profileProperties)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
