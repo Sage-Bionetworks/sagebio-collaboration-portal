@@ -230,7 +230,7 @@ export function hasAccessToEntity(userRole, userId, requestedPermission, entityI
 
 /**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
- * @param {*} requestedPermission
+ * @param {string} requestedPermission (e.g. 'createTool')
  */
 export function hasPermission(requestedPermission) {
     return compose()
@@ -251,7 +251,7 @@ export function hasPermissionForEntity(requestedPermission) {
 /**
  * Checks if the user role meets the minimum requirements of the route
  */
-export function hasRole(roleRequired) { // WIP #252 - Refactor for reuse with web sockets
+export function hasRole(roleRequired) {
     if (!roleRequired) {
         throw new Error('Required role needs to be set');
     }
@@ -259,12 +259,23 @@ export function hasRole(roleRequired) { // WIP #252 - Refactor for reuse with we
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
+            const userRole = req.user.role || '';
+            if (hasUserRole(userRole, roleRequired)) {
+                // Continue processing request when user has role
                 return next();
-            } else {
-                return res.status(403).send('Forbidden');
             }
+            return res.status(403).send('Forbidden');
         });
+}
+
+export function hasUserRole(userRole, requestedRole) {
+    return new Promise((resolve) => {
+        if (config.userRoles.indexOf(userRole) === config.userRoles.indexOf(requestedRole)) {
+            return resolve(true);
+        } else {
+            return resolve(false);
+        }
+    });
 }
 
 /**
