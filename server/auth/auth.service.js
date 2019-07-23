@@ -3,23 +3,13 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
-import UserPermission from '../api/user-permission/user-permission.model';
-import EntityPermission from '../api/entity-permission/entity-permission.model';
+import { hasAccessToEntity, hasUserPermission, hasUserRole } from './auth';
 
 const url = require('url');
 
 var validateJwt = expressJwt({
     secret: config.secrets.session
 });
-
-/**
- * Returns true only if the user has an admin role
- *
- * @param {string} userRole
- */
-export function isAdminRole(userRole) {
-    return config.userRoles.indexOf(userRole) == config.userRoles.indexOf('admin');
-}
 
 /**
  * Attaches the user object to the request if authenticated
@@ -98,46 +88,6 @@ export function isAuthorized(requestedPermission) {
 }
 
 /**
- * Returns true if the user has the desired permission
- *
- * @param {string} userRole
- * @param {string} userId
- * @param {string} requestedPermission
- */
-export function hasUserPermission(userRole, userId, requestedPermission) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) return resolve(true);
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        UserPermission.find({
-                user: userId,
-            }).exec()
-            .then(permissions => {
-                const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
-
-                // Continuing processing request if our user has the appropriate permission
-                if (hasAuthorization) return resolve(true);
-
-                // User does not have permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
  * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
  *
  * Users that have not been assigned or accepted the requested permission for the entity will be blocked.
@@ -181,54 +131,6 @@ export function isAuthorizedForEntity(requestedPermission) {
 }
 
 /**
- * This function can be used to determine whether or not a user has access to an entity (such as when used by our web sockets)
- *
- * Returns false unless a user has an admin role or accepted the requested permission for the specified entity.
- *
- * @param {string} userRole
- * @param {string} userId
- * @param {string} requestedPermission
- * @param {string} entityId
- */
-export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) {
-            return resolve(true);
-        }
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        EntityPermission.find({
-            user: userId,
-            entityId
-        }).exec()
-            .then(entityPermissions => {
-                const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
-
-                // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                    return resolve(true);
-                }
-
-                // User does not have permission OR has not accepted the entity permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
  * @param {string} requestedPermission (e.g. 'createTool')
  */
@@ -268,16 +170,6 @@ export function hasRole(roleRequired) {
         });
 }
 
-export function hasUserRole(userRole, requestedRole) {
-    return new Promise((resolve) => {
-        if (config.userRoles.indexOf(userRole) === config.userRoles.indexOf(requestedRole)) {
-            return resolve(true);
-        } else {
-            return resolve(false);
-        }
-    });
-}
-
 /**
  * Returns a jwt token signed by the app secret
  */
@@ -299,7 +191,7 @@ export function setTokenCookie(req, res) {
     }
     var token = signToken(req.user._id, req.user.role);
     res.redirect(url.format({
-        pathname: "/login",
+        pathname: '/login',
         query: {
             token,
             expiresIn: config.expiresIn.session
