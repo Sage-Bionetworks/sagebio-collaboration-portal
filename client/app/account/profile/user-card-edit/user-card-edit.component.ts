@@ -1,18 +1,16 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'models/auth/user.model';
 import { NotificationService } from 'components/notification/notification.service';
-import { UserCardEditComponent } from '../user-card-edit/user-card-edit.component';
 
 @Component({
-    selector: 'user-card',
-    template: require('./user-card.html'),
-    styles: [require('./user-card.scss')],
+    selector: 'user-card-edit',
+    template: require('./user-card-edit.html'),
+    styles: [require('./user-card-edit.scss')],
 })
-export class UserCardComponent {
-    private _user: User;
+export class UserCardEditComponent {
+    private user: User;
     private isEditing = false;
-    @ViewChild(UserCardEditComponent, { static: false }) editUser: UserCardEditComponent;
 
     static parameters = [Router, NotificationService];
     constructor(private router: Router,
@@ -28,14 +26,9 @@ export class UserCardComponent {
         return 'Edit Profile';
     }
 
-    get user() {
-        return this._user;
-    }
-
-    @Input()
-    set user(user) {
-        this._user = user;
-    }
+    // @Input() user: User;
+    // @Output() editUser: EventEmitter<User> = new EventEmitter<User>();
+    // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
     onUserCardButtonClick(): void {
         this.isEditing = !this.isEditing;

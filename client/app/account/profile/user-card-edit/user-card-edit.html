@@ -1,5 +1,5 @@
-<div *ngIf="user && !isEditing; else showEditUserCardForm">
-    <mat-card class="app-user-card" *ngIf="user">
+<h1>[PLACEHOLDER] User edit</h1>
+<mat-card class="app-user-card" *ngIf="user">
         <div class="app-user-card-header">
             <picture *ngIf="user.picture; else letterAvatar">
                 <!-- <source [srcset]="currentUser.face | webp: 'small'" type="image/webp"> -->
@@ -10,7 +10,7 @@
             </ng-template>
             <div class="app-user-card-header-text">
                 <h1>{{user.name}}</h1>
-                <span>{{user.position}}</span>
+                <input type='text' value="{{user.position}}" />
                 <a [href]="'mailto:'+user.email">{{user.email}}</a>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">More Info</p>
-                    <p class="app-user-card-content-meta-value">{{user.info}}</p>
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.info}}">
                 </div>
                 <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                     <mat-icon>edit</mat-icon>
@@ -27,7 +27,7 @@
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">Industry</p>
-                    <p class="app-user-card-content-meta-value">{{user.industry}}</p>
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.industry}}">
                 </div>
                 <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                     <mat-icon>edit</mat-icon>
@@ -36,7 +36,7 @@
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">Location</p>
-                    <p class="app-user-card-content-meta-value">{{user.location}}</p>
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.location}}">
                 </div>
                 <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                     <mat-icon>edit</mat-icon>
@@ -47,9 +47,7 @@
         <div class="app-user-card-content">
             <div class="app-user-card-content-meta-orcid">
                 <div class="app-user-card-content-meta-group">
-                    <a [href]="user.orcid" target="_blank">
-                        {{user.orcid}}
-                    </a>
+                    <input class="app-user-card-content-meta-orcid" type='text' value="{{user.orcid}}" />
                 </div>
                 <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="onUserCardButtonClick()">{{ buttonText }}</a>
                 <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
@@ -57,9 +55,4 @@
                 </a> -->
             </div>
         </div>
-    </mat-card>
-</div>
-
-<ng-template #showEditUserCardForm>
-    <user-card-edit *ngIf="user" [user]="user" (editUser)="onEditUser($event)" (close)="isEditing=false"></user-card-edit>
-</ng-template>
+</mat-card>

@@ -1,0 +1,44 @@
+@mixin user-card-edit-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .app-user-card-header {
+    background: mat-color($primary);
+
+    .app-user-card-avatar {
+      border-color: mat-color($primary, default-contrast);
+    }
+
+    .app-user-card-header-text {
+      h1,
+      span {
+        color: mat-color($primary, default-contrast);
+      }
+
+      a {
+        &:link,
+        &:visited {
+          color: mat-color($primary, default-contrast);
+          text-decoration: none;
+        }
+
+        &:hover,
+        &:active {
+          color: mat-color($primary, default-contrast);
+          text-decoration: underline;
+        }
+      }
+    }
+
+    // h1 {
+    //   color: mat-color($primary, default-contrast);
+    // }
+    //
+    // .app-nav-back-icon {
+    //   color: mat-color($primary, default-contrast);
+    // }
+  }
+}
