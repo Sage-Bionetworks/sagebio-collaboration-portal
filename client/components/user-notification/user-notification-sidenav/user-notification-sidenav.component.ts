@@ -24,20 +24,19 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         private userPermissionDataService: UserPermissionDataService,
         private projectService: ProjectService) {
 
-        // const getInvites = this.userPermissionDataService.permissions()
-        //     .pipe(
-        //         switchMap(permissions => of(permissions.getPendingEntityInvites()))
-        //     );
-        //
-        // getInvites
-        //     .subscribe(invites => {
-        //         // console.log(invites);
-        //         this.invites = invites;
-        //     });
-
-        const getInvitesAsObservablesList = this.userPermissionDataService.permissions()
+        const createInviteBundle = invite => of(invite)
             .pipe(
-                map(permissions => permissions.getPendingEntityInvites().map(invite => of(invite)))
+                switchMap(inv => forkJoin({
+                    invite: of(inv),
+                    project: this.projectService.getProject(inv.entityId)
+                }))
+            );
+
+        const getInviteBundles = this.userPermissionDataService.permissions()
+            .pipe(
+                map(permissions => permissions.getPendingEntityInvites()
+                    .map(invite => createInviteBundle(invite))
+                )
             );
 
         function forkJoinWithProgress(arrayOfObservables) {
@@ -66,25 +65,28 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             });
         }
 
-        const getUserDetails = userIdsList => {
-
-            const arrayOfObservables = userIdsList.map((userId, index) => {
-                //if (index === 1) return throwError({message: 'Vah-vah!'}); // testin with error
-
-                // return ajax('https://jsonplaceholder.typicode.com/comments/' + userId)
-                return of(userId)
-            })
-
-            return forkJoinWithProgress(arrayOfObservables)
-        }
+        // const getUserDetails = userIdsList => {
+        //
+        //     const arrayOfObservables = userIdsList.map((userId, index) => {
+        //         //if (index === 1) return throwError({message: 'Vah-vah!'}); // testin with error
+        //
+        //         // return ajax('https://jsonplaceholder.typicode.com/comments/' + userId)
+        //         return of(userId)
+        //     })
+        //
+        //     return forkJoinWithProgress(arrayOfObservables)
+        // }
 
         // const result$ = getUserDetails([1, 2, 15]);
-        const result$ = getInvitesAsObservablesList;
+        const result$ = getInviteBundles
+            .pipe(
+                switchMap(invites => forkJoinWithProgress(invites))
+            );
 
         result$.pipe(
             mergeMap(([finalResult, progress]) => merge(
                 progress.pipe(
-                    tap((value) => console.log(`${value} completed`)),
+                    // tap((value) => console.log(`${value} completed`)),
                     ignoreElements()
                 ),
                 finalResult
