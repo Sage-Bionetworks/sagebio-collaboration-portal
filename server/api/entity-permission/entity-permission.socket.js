@@ -3,7 +3,7 @@
  */
 
 import EntityPermissionEvents from './entity-permission.events';
-import { hasAccessToEntity } from '../../auth/auth.service';
+import { hasAccessToEntity } from '../../auth/auth';
 
 // Model events to emit
 var events = ['save', 'remove'];
