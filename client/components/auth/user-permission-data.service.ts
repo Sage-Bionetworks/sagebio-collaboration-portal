@@ -79,14 +79,9 @@ export class UserPermissions {
 
     public getPendingEntityInvites(): EntityPermission[] {
         if (this.entityPermissions) {
-            // return this.entityPermissions.filter(invite => {
-            //     return invite.status === config.inviteStatusTypes.PENDING.value;
-            // });
-            return [...this.entityPermissions.filter(invite => {
+            return this.entityPermissions.filter(invite => {
                 return invite.status === config.inviteStatusTypes.PENDING.value;
-            }), ...this.entityPermissions.filter(invite => {
-                return invite.status === config.inviteStatusTypes.PENDING.value;
-            })];
+            });
         }
         return [];
     }

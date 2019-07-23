@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -12,7 +12,8 @@ export class AuthGuard implements CanActivate {
     /**
      * Returns true if the user is authenticated.
      */
-    canActivate(): Observable<boolean> | boolean {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+        Observable<boolean> | boolean {
         // get the most recent value BehaviorSubject holds
         if (this.authService.authInfoValue().isLoggedIn()) {
             return true;
@@ -26,7 +27,8 @@ export class AuthGuard implements CanActivate {
                 map(authInfo => {
                     const isLoggedIn = authInfo.isLoggedIn();
                     if (!isLoggedIn) {
-                        this.router.navigate(['/login']);
+                        this.authService.setRedirectUrl(state.url);
+                        this.router.navigate([this.authService.getLoginUrl()]);
                     }
                     return isLoggedIn;
                 }),

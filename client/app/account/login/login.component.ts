@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
                     token: res.token,
                     expiresIn: res.expiresIn
                 }).subscribe(user => {
-                    this.router.navigateByUrl('');
+                    this.router.navigate([ this.authService.getRedirectUrl() ]);
                 }, err => {
                     console.log(err);
                 });
@@ -68,7 +68,8 @@ export class LoginComponent implements OnInit {
             email: values.email,
             password: values.password
         }).subscribe(user => {
-            this.router.navigateByUrl('');
+            this.router.navigate([ this.authService.getRedirectUrl() ]);
+            this.authService.resetRedirectUrl();
         }, err => {
             console.log(err);
             this.notificationService.info(err.message || err);
