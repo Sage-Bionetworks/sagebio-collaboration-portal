@@ -1,5 +1,5 @@
-<a mat-icon-button matTooltip="Notifications" (click)="toggleNotifications()">
+<a *ngIf="numNotifications > 0" mat-icon-button matTooltip="Notifications" (click)="toggleNotifications()">
     <!-- class="app-hide-text" -->
     <!-- <mat-icon matBadge="&#8226;" matBadgeColor="accent" matBadgeSize="small">notifications</mat-icon> -->
-    <mat-icon *ngIf="numNotifications > 0">notifications</mat-icon>
+    <mat-icon>notifications</mat-icon>
 </a>

@@ -217,4 +217,14 @@ export class UserPermissionDataService {
     permissions(): Observable<UserPermissions> {
         return this._permissions.asObservable();
     }
+
+    acceptEntityPermission(invite: EntityPermission): Observable<EntityPermission> {
+        return this.entityPermissionService
+            .changeStatus(invite, config.inviteStatusTypes.ACCEPTED.value);
+    }
+
+    declineEntityPermission(invite: EntityPermission): Observable<EntityPermission> {
+        return this.entityPermissionService
+            .changeStatus(invite, config.inviteStatusTypes.DECLINED.value);
+    }
 }

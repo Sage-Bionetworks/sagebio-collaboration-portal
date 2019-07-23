@@ -1,11 +1,23 @@
-<mat-card>
+<mat-card class="app-user-notification-view-card">
     <mat-card-header>
-        <mat-card-title>Plop</mat-card-title>
+        <!-- <user-avatar mat-card-avatar class="app-avatar" [user]="invite.invite.createdBy" [size]="avatarSize"></user-avatar>
+        <mat-card-title>{{ invite.invite.createdBy.name }}</mat-card-title>
+        <mat-card-subtitle>has invited you to collaborate on a project</mat-card-subtitle> -->
+        <img mat-card-avatar [src]="invite.project.picture" aria-label="Project picture">
+        <mat-card-title>{{ invite.project.name }}</mat-card-title>
+        <mat-card-subtitle>{{ invite.invite.createdBy.name }} has invited you to collaborate</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content>
-
+    <mat-card-content class="app-user-notification-view-card-content">
+        <p>Add project short description</p>
+        <!-- <picture *ngIf="invite.project.picture"> -->
+            <!-- <source [srcset]="currentUser.face | webp: 'small'" type="image/webp"> -->
+            <!-- <img class="" [src]="invite.project.picture" aria-label="Project picture">
+        </picture> -->
     </mat-card-content>
+    <mat-card-actions>
+        <a mat-button (click)="acceptAndRedirect()">Accept and Go</a>
+        <a mat-button (click)="accept()">Accept</a>
+        <a mat-button (click)="decline()">Decline</a>
+    </mat-card-actions>
 </mat-card>
-
-{{ invite | json }}

@@ -51,11 +51,22 @@ var EntityPermissionSchema = new mongoose.Schema({
  * Middlewares
  */
 
+const autoPopulatePre = function (next) {
+    this
+        .populate('user', User.profileProperties)
+        .populate('createdBy', User.profileProperties)
+    next();
+};
+
 const autoPopulatePost = function (doc) {
     return doc
         .populate('user', User.profileProperties)
+        .populate('createdBy', User.profileProperties)
         .execPopulate();
 };
+
+EntityPermissionSchema
+    .pre('find', autoPopulatePre);
 
 EntityPermissionSchema
     .post('save', autoPopulatePost);

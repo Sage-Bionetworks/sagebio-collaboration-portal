@@ -17,6 +17,11 @@
   margin: 0 10px 0 0;
 }
 
+.app-user-notification-sidenav-cards {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
 .app-user-notification-view {
   margin: 25px;
 }
