@@ -44,6 +44,18 @@ var UserSchema = new Schema({
     picture: {
         type: String
     },
+    info: {
+        type: String,
+        default: '<More Info>',
+    },
+    industry: {
+        type: String,
+        default: '<Industry>',
+    },
+    location: {
+        type: String,
+        default: '<Location>',
+    },
     role: {
         type: String,
         enum: userRoles,
