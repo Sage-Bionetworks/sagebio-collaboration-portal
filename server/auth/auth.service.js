@@ -54,7 +54,7 @@ export function isAuthenticated() {
  */
 export function isAuthorized(requestedPermission) {
     return compose()
-        .use((req, res, next) => {
+        .use((req, res, next) => { // WIP #252 - Create hasUserPermission(...) similar to hasAccessToEntity(...) work
             const isAdminRole = config.userRoles.indexOf(req.user.role) == config.userRoles.indexOf('admin');
 
             // Automatically grant admin users permission
@@ -83,6 +83,8 @@ export function isAuthorized(requestedPermission) {
                 .catch(err => res.status(500).send(`Sorry - there was an error processing your request: ${err}`));
         });
 }
+
+// WIP #252 - Create hasUserPermission
 
 /**
  * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
@@ -139,6 +141,7 @@ export function isAuthorizedForEntity(requestedPermission) {
  */
 export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
     return new Promise((resolve, reject) => {
+        // WIP #252 - Refactor into standalone isAdminRole
         const isAdminRole = userRole === config.userRoles.indexOf('admin');
 
         // Automatically grant admin users permission
@@ -179,7 +182,7 @@ export function hasAccessToEntity(userRole, userId, requestedPermission, entityI
  * Allows request to continue if the user has authenticated and contains appropriate authorization
  * @param {*} requestedPermission
  */
-export function hasPermission(requestedPermission) {
+export function hasPermission(requestedPermission) { // WIP #252 - Refactor for reuse with web sockets
     return compose()
         .use(isAuthenticated())
         .use(isAuthorized(requestedPermission));
@@ -198,7 +201,7 @@ export function hasPermissionForEntity(requestedPermission) {
 /**
  * Checks if the user role meets the minimum requirements of the route
  */
-export function hasRole(roleRequired) {
+export function hasRole(roleRequired) { // WIP #252 - Refactor for reuse with web sockets
     if (!roleRequired) {
         throw new Error('Required role needs to be set');
     }
