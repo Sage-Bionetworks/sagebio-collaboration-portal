@@ -510,17 +510,17 @@ function Neo4jD3(_selector, _options) {
 
     function initSimulation() {
         var simulation = d3.forceSimulation()
-//                           .velocityDecay(0.8)
+                                .alphaDecay(0.9)
 //                           .force('x', d3.force().strength(0.002))
 //                           .force('y', d3.force().strength(0.002))
                            .force('collide', d3.forceCollide().radius(function(d) {
                                return options.minCollision;
                            }).iterations(2))
-                        //    .force('charge', d3.forceManyBody())
+                           .force('charge', d3.forceManyBody())
                            .force('link', d3.forceLink().id(function(d) {
                                return d.id;
                            }))
-                        //    .force('center', d3.forceCenter(svg.node().parentElement.parentElement.clientWidth / 2, svg.node().parentElement.parentElement.clientHeight / 2))
+                           .force('center', d3.forceCenter(svg.node().parentElement.parentElement.clientWidth / 2, svg.node().parentElement.parentElement.clientHeight / 2))
                            .on('tick', function() {
                                tick();
                            })
@@ -528,9 +528,14 @@ function Neo4jD3(_selector, _options) {
                                if (options.zoomFit && !justLoaded) {
                                    justLoaded = true;
                                    zoomFit(2);
+
+                                   // fix nodes and prevent forces from moving them
+                                   nodes.forEach(n => {
+                                       n.fx = n.x
+                                       n.fy = n.y
+                                   })
                                }
                            });
-
         return simulation;
     }
 

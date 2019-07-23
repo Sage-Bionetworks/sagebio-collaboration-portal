@@ -28,9 +28,7 @@ export class MainComponent implements OnInit, OnDestroy {
             });
 
         this.d3testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
-        console.log('this.d3testGraph: ', this.d3testGraph);
         this.neoTestGraph = this.provenanceNeoGraphService.getSmallNodesInNeoFormat()
-        console.log('this.neoTestGraph: ', this.neoTestGraph);
         this.provenanceService.getProvenanceGraph()
             .subscribe(graph => {
                 this.provenanceGraph = graph;
