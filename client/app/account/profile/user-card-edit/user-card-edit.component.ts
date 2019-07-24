@@ -9,7 +9,6 @@ import { NotificationService } from 'components/notification/notification.servic
     styles: [require('./user-card-edit.scss')],
 })
 export class UserCardEditComponent {
-    private user: User;
     private isEditing = false;
 
     static parameters = [Router, NotificationService];
@@ -26,11 +25,11 @@ export class UserCardEditComponent {
         return 'Edit Profile';
     }
 
-    // @Input() user: User;
+    @Input() user: User;
     // @Output() editUser: EventEmitter<User> = new EventEmitter<User>();
     // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-    onUserCardButtonClick(): void {
-        this.isEditing = !this.isEditing;
-    }
+    // onUserCardButtonClick(): void {
+    //     this.isEditing = !this.isEditing;
+    // }
 }
