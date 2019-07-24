@@ -4,7 +4,10 @@
     ],
     "plugins": [
         ["@babel/transform-runtime", {
-          "regenerator": true
+            "regenerator": true
         }]
     ],
+    "ignore": [
+        "client/components/socket/primus.js",
+    ]
 }

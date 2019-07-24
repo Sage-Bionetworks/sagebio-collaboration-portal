@@ -13,7 +13,7 @@ export class ProvenanceService {
             .set('sortBy', sortBy)
             .set('order', order)
             .set('limit', String(limit));
-        return this.httpClient.get<any>(`/api/provenance`, {params});
+        return this.httpClient.get<any>(`/api/provenance`, { params });
     }
 
     getProvenanceGraphByAgent(agentId: string, sortBy: string, order: string, limit: number): Observable<any> {
@@ -21,7 +21,7 @@ export class ProvenanceService {
             .set('sortBy', sortBy)
             .set('order', order)
             .set('limit', String(limit));
-        return this.httpClient.get<any>(`/api/provenance/byAgent/${agentId}`, {params});
+        return this.httpClient.get<any>(`/api/provenance/byAgent/${agentId}`, { params });
     }
 
     getProvenanceGraphByReference(referenceId: string, direction: string, sortBy: string, order: string, limit: number): Observable<any> {
@@ -30,12 +30,6 @@ export class ProvenanceService {
             .set('sortBy', sortBy)
             .set('order', order)
             .set('limit', String(limit));
-        return this.httpClient.get<any>(`/api/provenance/byReference/${referenceId}`, {params});
+        return this.httpClient.get<any>(`/api/provenance/byReference/${referenceId}`, { params });
     }
-
-
-
-    // getProvenanceGraphByReference(): Observable<any> {
-    //     return this.httpClient.get<any>(`/api/provenance`);
-    // }
 }

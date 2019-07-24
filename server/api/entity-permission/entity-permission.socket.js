@@ -27,7 +27,16 @@ function createListener(namespace, event, spark) {
                 config.accessTypes.READ.value,
                 config.accessTypes.WRITE.value,
                 config.accessTypes.ADMIN.value
-            ], doc.entityId)
+            ], doc.entityId, [
+                config.inviteStatusTypes.ACCEPTED.value,
+                config.inviteStatusTypes.PENDING.value  // invite to send to user
+            ])
+            .then(hasAccess => {
+                if (hasAccess) {
+                    console.log(`Emitting entity:${doc.entityId}:${namespace}:${event}`);
+                    spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+                }
+            })
             .catch(err => {
                 console.log(`ERROR creating listener: ${err}`);
             });

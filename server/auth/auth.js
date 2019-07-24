@@ -46,7 +46,9 @@ export function isAdmin(userId) {
  * @param {string} entityId
  * @return {Promise<boolean>}
  */
-export function hasAccessToEntity(userId, allowedAccesses, entityId) {
+export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedStatus = [
+    config.inviteStatusTypes.ACCEPTED.value
+]) {
     return new Promise((resolve) => {
         // If the user has an admin role; grant access and exit
         const _isAdmin = async () => await isAdmin(userId);
@@ -59,7 +61,9 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId) {
         const filter = {
             entityId,
             user: userId,
-            access: { $in: allowedAccesses },
+            access: {
+                $in: allowedAccesses
+            },
             status: config.inviteStatusTypes.ACCEPTED.value
         };
         const entityPermission = async () => await EntityPermission.find(filter).exec()
