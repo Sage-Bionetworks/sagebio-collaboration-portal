@@ -21,7 +21,7 @@
   // }
 
   .app-primary-header {
-    background: mat-color($primary);
+    background: mat-color($accent);
 
     h1 {
       color: mat-color($primary, default-contrast);
@@ -30,6 +30,10 @@
     .app-nav-back-icon {
       color: mat-color($primary, default-contrast);
     }
+  }
+
+  .app-button-landing {
+      background-color: mat-color($warn)
   }
 
   .app-footer {
