@@ -3,18 +3,8 @@ import UserPermission from '../api/user-permission/user-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
 import config from '../config/environment';
 
-export class AuthorizationSignal {
-    constructor(isAuthorized) {
-        this.isAuthorized = isAuthorized;
-    }
-
-    isAuthorized() {
-        return this.isAuthorized;
-    }
-}
-
 /**
- * Returns true if the user has the requested role.
+ * Resolves as true if the user has the requested role.
  *
  * @param {string} userId
  * @param {string} role
@@ -22,22 +12,24 @@ export class AuthorizationSignal {
  */
 export function hasRole(userId, role) {
     return new Promise((resolve) => {
-        User.findById(userId)
-            .exec()
-            .then(user => {
-                if (user) {
-                    const roles = Object.values(config.userRolesNew).map(role => role.value);
-                    throw new AuthorizationSignal(
-                        roles.indexOf(user.role) === roles.indexOf(role)
-                    );
-                }
-                throw new AuthorizationSignal(false);
-            });
+        const user = async () => await User.findById(userId).exec();
+
+        if (user) {
+            // Determine if the user has the appropriate role
+            const roles = Object.values(config.userRolesNew).map(r => r.value);
+            const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
+
+            // Authorize if the user has the requested role; otherwise deny access
+            return resolve(userHasRole);
+        }
+
+        // DEFAULT: Deny access
+        return resolve(false);
     });
 }
 
 /**
- * Returns true if the user is an admin.
+ * Resolves as true if the user is an admin.
  *
  * @param {string} userId
  * @return {Promise<boolean>}
@@ -47,7 +39,7 @@ export function isAdmin(userId) {
 }
 
 /**
- * Returns true if the user has access to the specified entity.
+ * Resolves as true if the user has access to the specified entity.
  *
  * @param {string} userId
  * @param {string} allowedAccesses
@@ -55,81 +47,61 @@ export function isAdmin(userId) {
  * @return {Promise<boolean>}
  */
 export function hasAccessToEntity(userId, allowedAccesses, entityId) {
-    return new Promise((resolve, reject) => isAdmin(userId)
-        .then(handleIsAdmin())
-        .then(unauthorizeIfTrue(!allowedAccesses))
-        .then(() => EntityPermission.find({
+    return new Promise((resolve) => {
+        // If the user has an admin role; grant access and exit
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) return resolve(true);
+
+        // Deny access if a falsy value is provided and exit
+        if (!allowedAccesses) return resolve(false);
+
+        // Determine if the user has the appropriate entity permission
+        const filter = {
             entityId,
             user: userId,
-            access: { '$in': allowedAccesses },
+            access: { $in: allowedAccesses },
             status: config.inviteStatusTypes.ACCEPTED.value
-        }).exec())
-        .then(handlePermissionNotFound())
-        .then(() => {
-            throw new AuthorizationSignal(true);
-        })
-        // .catch(AuthorizationSignal, signal => {
-        //     return resolve(signal.isAuthorized())
-        // })
-        // .catch(handleError(reject))
-    );
+        };
+        const entityPermission = async () => await EntityPermission.find(filter).exec()
+            .catch(err => {
+                throw new Error(err);
+            });
+
+        // If we have a match; grant access and exit
+        if (entityPermission) return resolve(true);
+
+        // DEFAULT: Deny access
+        return resolve(false);
+    });
 }
 
 /**
- * Returns true if the user has the permission specified.
+ * Resolves as true if the user has the permission specified.
  *
  * @param {string} userId
  * @param {string} permission
  * @return {Promise<boolean>}
  */
 export function hasUserPermission(userId, permission) {
-    return new Promise((resolve, reject) => isAdmin(userId)
-        .then(handleIsAdmin())
-        .then(unauthorizeIfTrue(!permission))
-        .then(() => UserPermission.find({
+    return new Promise((resolve) => {
+        // If the user has an admin role; grant access and exit
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) return resolve(true); // User has an admin role; grant access and exit processing
+
+        // Deny access if a falsy value is provided and exit
+        if (!permission) return resolve(false); // Falsy value; deny access and exit processing
+
+        // Determine if the user has the appropriate permission
+        const filter = {
             user: userId,
-            permission: permission
-        }).exec())
-        .then(handlePermissionNotFound())
-        .then(() => {
-            throw new AuthorizationSignal(true);
-        })
-        // .catch(AuthorizationSignal, signal => {
-        //     return resolve(signal.isAuthorized())
-        // })
-        // .catch(handleError(reject))
-    );
-}
+            permission,
+        };
+        const userPermission = async () => await UserPermission.find(filter).exec();
 
-// HELPER FUNCTIONS
+        // If we have a match; grant access and exit
+        if (userPermission) return resolve(true);
 
-function handleIsAdmin() {
-    return function (isAdmin) {
-        if (isAdmin) {
-            throw new AuthorizationSignal(true);
-        }
-        return isAdmin;
-    }
-}
-
-function unauthorizeIfTrue(condition) {
-    return function () {
-        throw new AuthorizationSignal(false);
-    }
-}
-
-function handlePermissionNotFound() {
-    return function (permissions) {
-        if (!permissions) {
-            throw new AuthorizationSignal(false);
-        }
-        return permissions;
-    }
-}
-
-function handleError(reject) {
-    return function (err) {
-        console.log(err);
-        return reject(false);
-    }
+        // DEFAULT: Deny access
+        return resolve(false);
+    });
 }

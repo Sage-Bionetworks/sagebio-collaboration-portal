@@ -7,7 +7,6 @@ import {
     hasRole as _hasRole,
     hasAccessToEntity as _hasAccessToEntity,
     hasUserPermission as _hasUserPermission,
-    AuthorizationSignal
 } from './auth';
 const url = require('url');
 
@@ -59,23 +58,16 @@ export function isAuthorized(permission) {
     return compose()
         .use((req, res, next) => {
             return _hasUserPermission(req.user._id, permission)
-                .catch(AuthorizationSignal, signal => {
-                    if (signal.isAuthorized()) {
-                        next();
-                        return null;
-                    }
-                    // Block request
-                    res.status(403).send('Forbidden');
+                .then((accessGranted) => {
+                    if (accessGranted) return next();
                     return null;
                 })
                 .catch(err => {
-                    console.log(`Error attempting authorization request: ${err}`);
+                    console.error(`ERROR attempting authorization request: ${err}`);
                     // Block request
                     res.status(403).send('Forbidden');
                     return null;
                 });
-
-
         });
 }
 
@@ -89,17 +81,12 @@ export function isAuthorizedForEntity(allowedAccesses) {
     return compose()
         .use((req, res, next) => {
             return _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
-                .catch(AuthorizationSignal, signal => {
-                    if (signal.isAuthorized()) {
-                        next();
-                        return null;
-                    }
-                    // Block request
-                    res.status(403).send('Forbidden');
+                .then((accessGranted) => {
+                    if (accessGranted) return next();
                     return null;
                 })
                 .catch(err => {
-                    console.log(`Error attempting authorization request: ${err}`);
+                    console.error(`ERROR attempting authorization request for entity: ${err}`);
                     // Block request
                     res.status(403).send('Forbidden');
                     return null;

@@ -5,7 +5,6 @@
 import EntityPermissionEvents from './entity-permission.events';
 import {
     hasAccessToEntity,
-    AuthorizationSignal
 } from '../../auth/auth';
 import config from '../../config/environment';
 
@@ -29,13 +28,8 @@ function createListener(namespace, event, spark) {
                 config.accessTypes.WRITE.value,
                 config.accessTypes.ADMIN.value
             ], doc.entityId)
-            .then(() => {
-                throw new AuthorizationSignal(false);
-            })
-            .catch(AuthorizationSignal, signal => {
-                if (signal.isAuthorized()) {
-                    spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
-                }
+            .catch(err => {
+                console.log(`ERROR creating listener: ${err}`);
             });
         // We do not have to worry about error or exception handling here. If
         // authorization is unable to be granted, we will not emit our event.
