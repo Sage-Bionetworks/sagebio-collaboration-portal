@@ -1,116 +1,107 @@
-import config from '../config/environment';
+import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import config from '../config/environment';
 
 /**
- * Returns true only if the user has an admin role
+ * Resolves as true if the user has the requested role.
  *
- * @param {string} userRole
- */
-export function isAdminRole(userRole) {
-    return config.userRoles.indexOf(userRole) == config.userRoles.indexOf('admin');
-}
-
-/**
- * This function can be used to determine whether or not a user has access to an entity (such as when used by our web sockets)
- *
- * Returns false unless a user has an admin role or accepted the requested permission for the specified entity.
- *
- * @param {string} userRole
  * @param {string} userId
- * @param {string} requestedPermission
- * @param {string} entityId
+ * @param {string} role
+ * @return {Promise<boolean>}
  */
-export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) {
-            return resolve(true);
-        }
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        EntityPermission.find({
-            user: userId,
-            entityId
-        }).exec()
-            .then(entityPermissions => {
-                const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
-
-                // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                    return resolve(true);
-                }
-
-                // User does not have permission OR has not accepted the entity permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
- * Returns true if the user has the desired permission
- *
- * @param {string} userRole
- * @param {string} userId
- * @param {string} requestedPermission
- */
-export function hasUserPermission(userRole, userId, requestedPermission) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) return resolve(true);
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        UserPermission.find({
-            user: userId,
-        }).exec()
-            .then(permissions => {
-                const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
-
-                // Continuing processing request if our user has the appropriate permission
-                if (hasAuthorization) return resolve(true);
-
-                // User does not have permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
- * Resolves as true if the userRole matches the requestedRole
- *
- * @param {string} userRole
- * @param {string} requestedRole
- */
-export function hasUserRole(userRole, requestedRole) {
+export function hasRole(userId, role) {
     return new Promise((resolve) => {
-        if (config.userRoles.indexOf(userRole) === config.userRoles.indexOf(requestedRole)) {
-            return resolve(true);
-        } else {
-            return resolve(false);
+        const user = async () => await User.findById(userId).exec();
+
+        if (user) {
+            // Determine if the user has the appropriate role
+            const roles = Object.values(config.userRolesNew).map(r => r.value);
+            const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
+
+            // Authorize if the user has the requested role; otherwise deny access
+            return resolve(userHasRole);
         }
+
+        // DEFAULT: Deny access
+        return resolve(false);
+    });
+}
+
+/**
+ * Resolves as true if the user is an admin.
+ *
+ * @param {string} userId
+ * @return {Promise<boolean>}
+ */
+export function isAdmin(userId) {
+    return hasRole(userId, config.userRolesNew.ADMIN.value);
+}
+
+/**
+ * Resolves as true if the user has access to the specified entity.
+ *
+ * @param {string} userId
+ * @param {string} allowedAccesses
+ * @param {string} entityId
+ * @return {Promise<boolean>}
+ */
+export function hasAccessToEntity(userId, allowedAccesses, entityId) {
+    return new Promise((resolve) => {
+        // If the user has an admin role; grant access and exit
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) return resolve(true);
+
+        // Deny access if a falsy value is provided and exit
+        if (!allowedAccesses) return resolve(false);
+
+        // Determine if the user has the appropriate entity permission
+        const filter = {
+            entityId,
+            user: userId,
+            access: { $in: allowedAccesses },
+            status: config.inviteStatusTypes.ACCEPTED.value
+        };
+        const entityPermission = async () => await EntityPermission.find(filter).exec()
+            .catch(err => {
+                throw new Error(err);
+            });
+
+        // If we have a match; grant access and exit
+        if (entityPermission) return resolve(true);
+
+        // DEFAULT: Deny access
+        return resolve(false);
+    });
+}
+
+/**
+ * Resolves as true if the user has the permission specified.
+ *
+ * @param {string} userId
+ * @param {string} permission
+ * @return {Promise<boolean>}
+ */
+export function hasUserPermission(userId, permission) {
+    return new Promise((resolve) => {
+        // If the user has an admin role; grant access and exit
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) return resolve(true); // User has an admin role; grant access and exit processing
+
+        // Deny access if a falsy value is provided and exit
+        if (!permission) return resolve(false); // Falsy value; deny access and exit processing
+
+        // Determine if the user has the appropriate permission
+        const filter = {
+            user: userId,
+            permission,
+        };
+        const userPermission = async () => await UserPermission.find(filter).exec();
+
+        // If we have a match; grant access and exit
+        if (userPermission) return resolve(true);
+
+        // DEFAULT: Deny access
+        return resolve(false);
     });
 }
