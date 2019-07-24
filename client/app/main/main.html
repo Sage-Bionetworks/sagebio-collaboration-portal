@@ -1,13 +1,20 @@
 <header class="app-header-background">
     <div class="app-header-section">
         <div class="app-header-headline">
+	        <h2> Welcome to the </h2>
             <h1 class="mat-h1">PHC-IX Collaboration Portal</h1>
-            <h2>A collaboration portal to enable data discovery and tracking, reuse, and insight sharing.</h2>
+            <h3>A collaborative space based on FAIR principles to enable data discovery and tracking, reuse, and insight sharing.</h3>
             <!-- <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks"> -->
         </div>
         <div class="app-header-start">
-            <a *ngIf="!isLoggedIn" mat-raised-button class="app-button" routerLink="/login">Get started</a>
+            <a *ngIf="!isLoggedIn" mat-raised-button class="app-button app-button-landing" routerLink="/login">Get started</a>
+<!--            <div class="app-header-logos">-->
+<!--                <i class="material-icons">-->
+<!--                    forum computer person_add-->
+<!--                </i>-->
+<!--            </div>-->
         </div>
+
     </div>
 </header>
 
@@ -20,17 +27,28 @@
 <h4>Activities upstream of reference (entity) 'TargetID_30':</h4>
 <p>{{ provenanceRefSubgraphUp | json }}</p>
 
-<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>
+<!--<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>-->
 
-<!-- <div class="app-main-fair-container">
-    <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">
-</div> -->
 
-<!-- <div class="app-main-connecting-container">
-    <h2>Connecting...</h2>
-    <div class="app-main-connecting-images">
-      <img src="assets/images/600px-connecting-1.png" alt="Connecting image 1">
-      <img src="assets/images/600px-connecting-2.png" alt="Connecting image 2">
-      <img src="assets/images/600px-connecting-3.png" alt="Connecting image 3">
+<div class="app-main-fair-container">
+    <div class="app-fair-box">
+        <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">
     </div>
-</div> -->
+    <div class="app-fair-box">
+        <div class='app-main-fair-description'>
+            <h1>What are FAIR Principles? </h1>
+            <p>FAIR stands for Findability, Accessibility, Interoperability, and Reusability. Check out the Roche FAIR Data playbook for more details by clicking the button below.</p>
+            <a href="https://drive.google.com/file/d/1Ucut-Kns_jSVmDvw5xhfxLt7ikcgitsd/view" target="_blank" mat-raised-button class="app-button app-button-landing">Take me to The Roche FAIR data handbook</a>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="app-main-connecting-container">-->
+<!--    <h2>Connecting...</h2>-->
+<!--    <div class="app-main-connecting-images">-->
+<!--      <img src="assets/images/600px-connecting-1.png" alt="Connecting image 1">-->
+<!--      <img src="assets/images/600px-connecting-2.png" alt="Connecting image 2">-->
+<!--      <img src="assets/images/600px-connecting-3.png" alt="Connecting image 3">-->
+<!--    </div>-->
+<!--</div>-->

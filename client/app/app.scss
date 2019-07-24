@@ -9,10 +9,13 @@
 @include mat-core();
 
 // Define the light theme (default theme)
-$primary: mat-palette($mat-indigo);
-$accent: mat-palette($mat-pink, A200, A100, A400);
+$primary: mat-palette($mat-blue-grey, 900);
+$accent: mat-palette($mat-blue-grey, 700);
+$warn: mat-palette($mat-amber, 600);
+$background: mat-palette($mat-amber);
+$foreground: mat-palette($mat-deep-orange);
 
-$theme: mat-light-theme($primary, $accent);
+$theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 @include app-theme($theme);
 
