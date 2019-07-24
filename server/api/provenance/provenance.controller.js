@@ -4,6 +4,8 @@ import {
 import Provenance from './provenance.model';
 import rp from 'request-promise';
 
+var provUri = 'http://0.0.0.0:8080/rest/v1'
+
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
@@ -55,9 +57,59 @@ function handleError(res, statusCode) {
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
     var options = {
-        uri: 'https://jsonplaceholder.typicode.com/todos/1',
+        method: 'GET',
+        uri: `${provUri}/activities/graph`,
+        qs: {
+            'sortBy': req.query.sortBy,
+            'order': req.query.order,
+            'limit': req.query.limit
+        },
         headers: {
             'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
+    }
+
+// Returns the provenance subgraph for a user
+export function getProvenanceGraphByAgent(req, res) {
+    var agentId = req.params.agentId
+    var options = {
+        uri: `${provUri}/activities/byAgent/${agentId}/graph`,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        qs: {
+            'sortBy': req.query.sortBy,
+            'order': req.query.order,
+            'limit': req.query.limit
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Returns the provenance subgraph for an entity
+export function getProvenanceGraphByReference(req, res) {
+    var referenceId = req.params.referenceId
+    var options = {
+        uri: `${provUri}/activities/byReference/${referenceId}/graph`,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        qs: {
+            'direction': req.query.direction,
+            'sortBy': req.query.sortBy,
+            'order': req.query.order,
+            'limit': req.query.limit
         },
         json: true
     };

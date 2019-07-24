@@ -17,6 +17,9 @@ export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
     private provenanceGraph: any;
+    private provenanceAgentSubgraph: any;
+    private provenanceRefSubgraphDown: any;
+    private provenanceRefSubgraphUp: any;
 
     D3_DEMO_CONFIG = {
         N: 100,
@@ -65,9 +68,21 @@ export class MainComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.provenanceService.getProvenanceGraph()
+        this.provenanceService.getProvenanceGraph('created_at', 'desc', 1)
             .subscribe(graph => {
                 this.provenanceGraph = graph;
+            });
+        this.provenanceService.getProvenanceGraphByAgent('UserID_1', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceAgentSubgraph = graph;
+            });
+        this.provenanceService.getProvenanceGraphByReference('TargetID_1', 'down', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceRefSubgraphDown = graph;
+            });
+        this.provenanceService.getProvenanceGraphByReference('TargetID_30', 'up', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceRefSubgraphUp = graph;
             });
     }
 
