@@ -3,7 +3,11 @@
  */
 
 import EntityPermissionEvents from './entity-permission.events';
-import { hasAccessToEntity } from '../../auth/auth';
+import {
+    hasAccessToEntity,
+    AuthorizationSignal
+} from '../../auth/auth';
+import config from '../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -20,17 +24,16 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
-        const userRole = doc.user.role || '';
-        const userId = doc.user._id || '';
-        // We only want admin users to be able to listen to these events
-        const requestedPermission = 'admin';
-        const entityId = doc.entityId || '';
-
-        hasAccessToEntity(userRole, userId, requestedPermission, entityId)
-            .then(isGrantedAccess => {
-                const isAuthorizedToAccessEntity = isGrantedAccess;
-
-                if (isAuthorizedToAccessEntity) { // Emit only if access has been granted
+        hasAccessToEntity(spark.userId, [
+                config.accessTypes.READ.value,
+                config.accessTypes.WRITE.value,
+                config.accessTypes.ADMIN.value
+            ], doc.entityId)
+            .then(() => {
+                throw new AuthorizationSignal(false);
+            })
+            .catch(AuthorizationSignal, signal => {
+                if (signal.isAuthorized()) {
                     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
                 }
             });

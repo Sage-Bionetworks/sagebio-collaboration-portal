@@ -1,116 +1,135 @@
-import config from '../config/environment';
+import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import config from '../config/environment';
 
-/**
- * Returns true only if the user has an admin role
- *
- * @param {string} userRole
- */
-export function isAdminRole(userRole) {
-    return config.userRoles.indexOf(userRole) == config.userRoles.indexOf('admin');
+export class AuthorizationSignal {
+    constructor(isAuthorized) {
+        this.isAuthorized = isAuthorized;
+    }
+
+    isAuthorized() {
+        return this.isAuthorized;
+    }
 }
 
 /**
- * This function can be used to determine whether or not a user has access to an entity (such as when used by our web sockets)
+ * Returns true if the user has the requested role.
  *
- * Returns false unless a user has an admin role or accepted the requested permission for the specified entity.
- *
- * @param {string} userRole
  * @param {string} userId
- * @param {string} requestedPermission
- * @param {string} entityId
+ * @param {string} role
+ * @return {Promise<boolean>}
  */
-export function hasAccessToEntity(userRole, userId, requestedPermission, entityId) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) {
-            return resolve(true);
-        }
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        EntityPermission.find({
-            user: userId,
-            entityId
-        }).exec()
-            .then(entityPermissions => {
-                const userEntityPermission = entityPermissions.find(ep => ep.access === requestedPermission);
-
-                // Continue processing if our user has been granted permission to the entity AND it has been accepted/confirmed
-                if (userEntityPermission && userEntityPermission.status === config.inviteStatusTypes.ACCEPTED.value) {
-                    return resolve(true);
-                }
-
-                // User does not have permission OR has not accepted the entity permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
- * Returns true if the user has the desired permission
- *
- * @param {string} userRole
- * @param {string} userId
- * @param {string} requestedPermission
- */
-export function hasUserPermission(userRole, userId, requestedPermission) {
-    return new Promise((resolve, reject) => {
-        const IS_ADMIN_ROLE = isAdminRole(userRole);
-
-        // Automatically grant admin users permission
-        if (IS_ADMIN_ROLE) return resolve(true);
-
-        // Block non-admin users if the required permission is falsy
-        if (!requestedPermission) {
-            return resolve(false);
-        }
-
-        // Check if our user has the appropriate permission
-        UserPermission.find({
-            user: userId,
-        }).exec()
-            .then(permissions => {
-                const hasAuthorization = !!permissions.find(p => p.permission === requestedPermission);
-
-                // Continuing processing request if our user has the appropriate permission
-                if (hasAuthorization) return resolve(true);
-
-                // User does not have permission; block request
-                return resolve(false);
-            })
-            .catch(err => {
-                const errorMessage = `There was an error processing your request: ${err}`;
-                console.error(errorMessage);
-                return reject(false);
-            });
-    });
-}
-
-/**
- * Resolves as true if the userRole matches the requestedRole
- *
- * @param {string} userRole
- * @param {string} requestedRole
- */
-export function hasUserRole(userRole, requestedRole) {
+export function hasRole(userId, role) {
     return new Promise((resolve) => {
-        if (config.userRoles.indexOf(userRole) === config.userRoles.indexOf(requestedRole)) {
-            return resolve(true);
-        } else {
-            return resolve(false);
-        }
+        User.findById(userId)
+            .exec()
+            .then(user => {
+                if (user) {
+                    const roles = Object.values(config.userRolesNew).map(role => role.value);
+                    throw new AuthorizationSignal(
+                        roles.indexOf(user.role) === roles.indexOf(role)
+                    );
+                }
+                throw new AuthorizationSignal(false);
+            });
     });
+}
+
+/**
+ * Returns true if the user is an admin.
+ *
+ * @param {string} userId
+ * @return {Promise<boolean>}
+ */
+export function isAdmin(userId) {
+    return hasRole(userId, config.userRolesNew.ADMIN.value);
+}
+
+/**
+ * Returns true if the user has access to the specified entity.
+ *
+ * @param {string} userId
+ * @param {string} allowedAccesses
+ * @param {string} entityId
+ * @return {Promise<boolean>}
+ */
+export function hasAccessToEntity(userId, allowedAccesses, entityId) {
+    return new Promise((resolve, reject) => isAdmin(userId)
+        .then(handleIsAdmin())
+        .then(unauthorizeIfTrue(!allowedAccesses))
+        .then(() => EntityPermission.find({
+            entityId,
+            user: userId,
+            access: { '$in': allowedAccesses },
+            status: config.inviteStatusTypes.ACCEPTED.value
+        }).exec())
+        .then(handlePermissionNotFound())
+        .then(() => {
+            throw new AuthorizationSignal(true);
+        })
+        // .catch(AuthorizationSignal, signal => {
+        //     return resolve(signal.isAuthorized())
+        // })
+        // .catch(handleError(reject))
+    );
+}
+
+/**
+ * Returns true if the user has the permission specified.
+ *
+ * @param {string} userId
+ * @param {string} permission
+ * @return {Promise<boolean>}
+ */
+export function hasUserPermission(userId, permission) {
+    return new Promise((resolve, reject) => isAdmin(userId)
+        .then(handleIsAdmin())
+        .then(unauthorizeIfTrue(!permission))
+        .then(() => UserPermission.find({
+            user: userId,
+            permission: permission
+        }).exec())
+        .then(handlePermissionNotFound())
+        .then(() => {
+            throw new AuthorizationSignal(true);
+        })
+        // .catch(AuthorizationSignal, signal => {
+        //     return resolve(signal.isAuthorized())
+        // })
+        // .catch(handleError(reject))
+    );
+}
+
+// HELPER FUNCTIONS
+
+function handleIsAdmin() {
+    return function (isAdmin) {
+        if (isAdmin) {
+            throw new AuthorizationSignal(true);
+        }
+        return isAdmin;
+    }
+}
+
+function unauthorizeIfTrue(condition) {
+    return function () {
+        throw new AuthorizationSignal(false);
+    }
+}
+
+function handlePermissionNotFound() {
+    return function (permissions) {
+        if (!permissions) {
+            throw new AuthorizationSignal(false);
+        }
+        return permissions;
+    }
+}
+
+function handleError(reject) {
+    return function (err) {
+        console.log(err);
+        return reject(false);
+    }
 }
