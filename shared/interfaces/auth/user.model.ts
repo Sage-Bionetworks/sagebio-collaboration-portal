@@ -36,6 +36,9 @@ export interface User {
     orcid: string;
     createdAt: string;
     createdBy?: User;  // "Recursive rendering needs work", see https://github.com/swagger-api/swagger-ui/issues/3325
+    info?: string;
+    industry?: string;
+    location?: string;
 }
 
 /**
