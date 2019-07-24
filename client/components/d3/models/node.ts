@@ -1,5 +1,16 @@
+import { get } from 'lodash'
+
+enum NodeLabel {
+    Activity = 'Activity',
+    Reference = 'Reference',
+    Agent = 'Agent',
+}
+
+enum NodeClass {
+
+}
+
 export class Node implements d3.SimulationNodeDatum {
-    // optional - defining optional implementation properties - required for relevant typing assistance
     index?: number;
     x?: number;
     y?: number;
@@ -8,81 +19,73 @@ export class Node implements d3.SimulationNodeDatum {
     fx?: number | null;
     fy?: number | null;
 
-    id: any;
-    node: any;
-    nodesLength: any;
+    id: string;
+    label: NodeLabel;
+    nodeClass: string;
+    subclass: string;
 
-    // linkCount = 0;
-
-    numClasses = 0
-    classes2colors = {}
-
-    // TODO: Create a provenance node model that extends this class
-    // TODO: Keep here only the most basic code that describe a node (see Link)
-    D3_CONFIG = {
-        COLORS: [
-            '#679EC1', // sage blue
-            '#6DB56D', // sage green
-            '#EB8231', // sage orange
-            '#405f9e', // navy blue
-            '#ffab1a', // dark orange
-            '#78cecb', // green #2,
-            '#fcea7e', // light yellow
-            '#68bdf6', // light blue
-            '#6dce9e', // green #1
-            '#faafc2', // light pink
-            '#f2baf6', // purple
-            '#ff928c', // light red
-            '#ffc766', // light orange
-            '#a5abb6', // dark gray
-            '#b88cbb', // dark purple
-            '#ced2d9', // light gray
-            '#e84646', // dark red
-            '#fa5f86', // dark pink
-            '#fcda19', // dark yellow
-            '#797b80', // black
-            '#c9d96f', // pistacchio
-            '#47991f', // green #3
-            '#70edee', // turquoise
-            '#ff75ea'  // pink
-        ]
-    };
-
-    constructor(node: any, nodesLength: number) {
-        this.node = node;
-        this.id = node.id
-        this.nodesLength = nodesLength;
+    activityColorsMap = {
+        Activity: '#679EC1', // blue
+        Reference: '#6DB56D', // green
+        Agent: '#EB8231', // orange
     }
 
-    normal = () => {
-        // return Math.sqrt(this.id / this.D3_CONFIG.N);
-        // return Math.sqrt(this.id / this.nodesLength);
-        return 1;
+    // { Label: { class: icon } }
+    classIconMap = {
+        Activity: {
+            'Tool session': '&#xf085', // gears,cogs
+            'Mention': '&#xf1fa', // at
+            'Memoization': '&#xf249', // sticky-note
+            'Report generation': '&#xf044', // edit,pencil-square-o
+            'Starred': '&#xf005', // star
+        },
+        Agent: {
+            'none': '&#xf007', // user
+        },
+        Reference: {
+            'Insight': '&#xf0eb', // lightbulb-o
+            'Resource': '&#xf1b2', // cube
+            'Tool': '&#xf013', // gear,cog
+            'Message': '&#xf075', // comment
+        }
+    }
+
+    subclassImageMap = {
+        File: 'assets/images/provenence-graph/1f4c4.svg',
+        State: 'assets/images/provenence-graph/1f4be.svg',
+        Dashboard: 'assets/images/provenence-graph/1f39b.svg',
+        App: 'assets/images/provenence-graph/1f4bb.svg',
+        Notebook: 'assets/images/provenence-graph/1f4ca.svg',
+        Protocol: 'assets/images/provenence-graph/2697.svg',
+        Report: 'assets/images/provenence-graph/1f4cb.svg',
+        Memo: 'assets/images/provenence-graph/1f516.svg',
+        Star: 'assets/images/provenence-graph/2b50.svg'
+    }
+
+    constructor(id: string, label: string, nodeClass: string = 'none', subclass: string) {
+        this.id = id;
+        this.label = NodeLabel[label];
+        this.nodeClass = nodeClass;
+        this.subclass = subclass;
     }
 
     get r() {
-        return 50 * this.normal() + 10;
+        return 25;
     }
 
     get fontSize() {
-        // return (30 * this.normal() + 10) + 'px';
-        return '40 px';
+        return '25px';
+    }
+
+    get subclassImage() {
+        return get(this.subclassImageMap, `[${this.subclass}]`)
+    }
+
+    get icon() {
+        return get(this.classIconMap, `[${this.label}][${this.nodeClass}]`, '')
     }
 
     get color() {
-        // let index = Math.floor(this.D3_CONFIG.COLORS.length * this.normal());
-        // return this.D3_CONFIG.COLORS[index];
-        if (this.node) {
-            const label = this.node.labels[0]
-            var color = this.classes2colors[label];
-            if (!color) {
-                color = this.D3_CONFIG.COLORS[this.numClasses % this.D3_CONFIG.COLORS.length];
-                this.classes2colors[label] = color;
-                this.numClasses++;
-            }
-
-            return color;
-        }
-
+        return get(this.activityColorsMap, `[${this.label}]`, '');
     }
 }

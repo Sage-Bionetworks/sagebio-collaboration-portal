@@ -1,6 +1,8 @@
 <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
     <g [zoomableOf]="svg">
         <g [provenanceLink]="link" *ngFor="let link of links"></g>
-        <g [activityNode]="node" *ngFor="let node of nodes" [draggableNode]="node" [draggableInGraph]="graph"></g>
+        <g *ngFor="let node of nodes" [draggableNode]="node" [draggableInGraph]="graph">
+            <g [activityNode]="node" />
+        </g>
     </g>
 </svg>

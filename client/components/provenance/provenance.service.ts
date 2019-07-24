@@ -28,7 +28,7 @@ export class ProvenanceService {
             result.data.forEach(function(data) {
                 data.graph.nodes.forEach(function(node) {
                     if (!includes(graph.nodes, node.id)) {
-                        graph.nodes.push(new Node(node, graph.nodes.length));
+                        graph.nodes.push(new Node(node.id, node.labels[0], node.properties._class, node.properties.subclass));
                     }
                 });
 
