@@ -50,7 +50,7 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
     ngOnDestroy() { }
 
     onEditUser(): void {
-        let editedUser = this.editForm.value;
+        let editedUser = {...this.user, ...this.editForm.value};
         console.log(`UserCardEditComponent onEditUser:
             this.editedUser: ${JSON.stringify(editedUser, null, 2)}
         `);
