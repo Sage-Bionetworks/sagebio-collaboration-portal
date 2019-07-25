@@ -37,6 +37,7 @@ export class ActivitySidenavComponent implements OnDestroy {
                 .subscribe(activity => {
                     // this.socketService.syncItemSubject(`activity:${insight._id}:insight`, this.activity);
                     this.provenanceGraph = activity;
+                    this.insight = insight
                 });
         }
     }

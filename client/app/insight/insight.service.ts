@@ -15,7 +15,7 @@ import { State } from 'models/insights/state.model';
 import { Report } from 'models/insights/report.model';
 import { Dashboard } from 'models/insights/dashboard.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { ActivitySidenavComponent } from './insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
+import { ActivitySidenavComponent } from '../../components/activity/insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
 
 @Injectable()
 export class InsightService {
