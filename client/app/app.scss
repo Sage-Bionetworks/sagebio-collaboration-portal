@@ -18,7 +18,7 @@ $foreground: mat-palette($mat-blue-grey);
 //// testing out using an additional theme
 .alternate-theme {
   $alternate-primary: mat-palette($mat-deep-purple);
-  $alternate-accent:  mat-palette($mat-teal, 700);
+  $alternate-accent:  mat-palette($mat-teal, 600);
   $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
   @include angular-material-theme($alternate-theme);
 }
