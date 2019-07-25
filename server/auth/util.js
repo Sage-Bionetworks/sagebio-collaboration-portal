@@ -16,7 +16,6 @@ export function handleUnauthorizedOrganization(done) {
 export function createOrUpdateUser(User, userDataFromProvider) {
     return function (organization) {
         if (organization) {
-            // WIP #170 - Use this User.findOne example to save details
             return User
                 .findOne({
                     email: userDataFromProvider.email

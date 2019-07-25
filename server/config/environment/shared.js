@@ -101,7 +101,6 @@ export const models = {
             maxlength: 1024
         },
     },
-    // WIP #170 - Define user/account/profile validation rules
 };
 
 export const datasetOrders = {
