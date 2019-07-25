@@ -37,7 +37,10 @@ export class UserCardComponent {
         this._user = user;
     }
 
-    onUserCardButtonClick(): void {
-        this.isEditing = !this.isEditing;
+    onEditUser(user: User): void {
+        this.isEditing = false;
+        this.user = user;
+        this.notificationService.info('Your profile has been successfully updated.');
     }
+
 }

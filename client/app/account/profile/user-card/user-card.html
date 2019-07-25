@@ -51,7 +51,7 @@
                         {{user.orcid}}
                     </a>
                 </div>
-                <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="onUserCardButtonClick()">{{ buttonText }}</a>
+                <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="isEditing=true">{{ buttonText }}</a>
                 <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
                     <mat-icon>edit</mat-icon>
                 </a> -->
@@ -61,5 +61,5 @@
 </div>
 
 <ng-template #showEditUserCardForm>
-    <user-card-edit *ngIf="user" [user]="user"></user-card-edit>
+    <user-card-edit *ngIf="user && isEditing" [user]="user" (editUser)="onEditUser($event)" (close)="isEditing=false"></user-card-edit>
 </ng-template>
