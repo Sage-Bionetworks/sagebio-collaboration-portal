@@ -15,7 +15,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserCardComponent } from './profile/user-card/user-card.component';
 import { UserCardEditComponent } from './profile/user-card-edit/user-card-edit.component';
-import { AccountService } from './account.service';
 
 const accountRoutes: Routes = [{
     path: 'login',
@@ -41,9 +40,6 @@ const accountRoutes: Routes = [{
         SSOButtonsModule,
         NotificationModule,
         MessagingModule
-    ],
-    providers: [
-        AccountService,
     ],
     declarations: [
         LoginComponent,
