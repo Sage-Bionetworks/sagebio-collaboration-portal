@@ -60,6 +60,10 @@ export class UserService {
             );
     }
 
+    updateUser(patches: Object[], userId: String): Observable<User> { // WIP #170 - Client-side call to PATCH user data
+        return this.httpClient.patch<User>(`/api/users/${userId}`, patches);
+    }
+
     /**
      * Returns a pre-signed URL to upload a temporary user face.
      * @param user The user whom face is being updated
