@@ -4,54 +4,11 @@ import {
 import rp from 'request-promise';
 import Provenance from './provenance.model';
 import config from '../../config/environment';
-
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
-}
-
-function patchUpdates(patches) {
-    return function (entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return entity.save();
-    };
-}
-
-function removeEntity(res) {
-    return function (entity) {
-        if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function handleEntityNotFound(res) {
-    return function (entity) {
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function (err) {
-        res.status(statusCode).send(err);
-    };
-}
+import {
+    respondWithResult,
+    handleEntityNotFound,
+    handleError
+} from '../util';
 
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
@@ -70,10 +27,10 @@ export function getProvenanceGraph(req, res) {
     };
 
     rp(options)
+        .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
-
-    }
+}
 
 // Returns the provenance subgraph for a user
 export function getProvenanceGraphByAgent(req, res) {
@@ -92,6 +49,7 @@ export function getProvenanceGraphByAgent(req, res) {
     };
 
     rp(options)
+        .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -114,6 +72,7 @@ export function getProvenanceGraphByReference(req, res) {
     };
 
     rp(options)
+        .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
