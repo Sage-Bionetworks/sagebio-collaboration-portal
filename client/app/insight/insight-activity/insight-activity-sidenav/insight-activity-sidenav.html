@@ -1,0 +1,22 @@
+<div *ngIf="insight">
+    <div class="app-primary-header app-insight-activity-header">
+        <h1 class="app-insight-activity-header-title">Recent Activity</h1>
+        <a class="app-insight-activity-header-close" mat-icon-button matTooltip="Close" aria-label="Close" (click)="close()">
+            <mat-icon aria-label="Icon of cross">close</mat-icon>
+        </a>
+    </div>
+
+    <div class="app-insight-activity-body">
+
+        <h4>Acivities for reference:</h4>
+        <p>{{ provenanceGraph | json }}</p>
+        <!-- <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
+        <message [message]="message" [showReplyButton]="false" [showStartThreadButton]="false"></message>
+        <ng-template ngFor let-reply let-i="index" let-first="first" [ngForOf]="replies | async">
+            <message-date-separator *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
+            <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: (replies | async)[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
+            <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false"></message>
+        </ng-template>
+        <message-new class="app-messaging-new" [thread]="message"></message-new> -->
+    </div>
+</div>
