@@ -4,16 +4,17 @@
 
 <div class="app-login-content">
   <div class="app-login-box">
-    <h2>Please log in to access these resources</h2>
+    <h3>Please log in to access these resources</h3>
     <div class="app-login-buttons">
         <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a>
         <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsTestUser()">Login as TEST USER</a>
-        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button [disabled]="true" color="primary" (click)="loginAsAdmin()">Log in using Roche IAM</a>
+        <div class="alternate-theme">
+        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="accent" (click)="loginAsAdmin()">Log in using Roche IAM</a>
+        </div>
         <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
     </div>
     <div class="app-request-questions">
-      <a href="" target="_blank">Request Access</a>
-      <a href="" target="_blank">Questions?</a>
+      <a href="https://webforms.roche.com/phcixcc" target="_blank">Questions?</a>
     </div>
 
   </div>
