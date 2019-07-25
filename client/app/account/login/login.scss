@@ -14,16 +14,21 @@
 }
 
 .app-login-box {
+  //display: flex;
+  //flex-flow: column nowrap;
+  //align-items: center;
+  //justify-content: flex-start;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-content: stretch;
   align-items: center;
-  justify-content: flex-start;
   height: 50%;
   width: 25%;
   border: solid 2px lightgrey;
   border-radius: 5px;
   box-shadow: 0 8px 6px -6px darkgrey;
-  padding:40px 20px;
+  padding:20px 20px 5px 20px;
 
   h2 {
     text-align: center;
@@ -36,9 +41,17 @@
 .app-login-buttons {
   display: flex;
   flex-flow: column nowrap;
-  width: 200px;
-  margin-bottom: 30%;
+  //width: 200px;
+  height: 60px;
+  width: 7em;
+  margin-bottom: 20%;
   margin-top: 20px;
+  font-size: 30px;
+
+  a {
+    line-height: 45px;
+    font-size: medium;
+  }
 
 }
 
@@ -56,6 +69,7 @@
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-end;
+    padding-top: 12px;
 
   }
 }
