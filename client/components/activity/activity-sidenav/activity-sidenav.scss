@@ -21,6 +21,15 @@
 //   margin: 20px 0 20px 0;
 // }
 
+.app-activity-filters-container {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  // min-width: 300px;
+  margin: 25px;
+}
+
 .app-activity-body {
   margin: 10px 10px 10px 10px
 }
