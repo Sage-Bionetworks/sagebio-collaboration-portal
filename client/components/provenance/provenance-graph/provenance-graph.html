@@ -1,8 +1,10 @@
 <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
     <g [zoomableOf]="svg">
         <g [provenanceLink]="link" *ngFor="let link of links"></g>
-        <g *ngFor="let node of nodes" [draggableNode]="node" [draggableInGraph]="graph">
-            <g [activityNode]="node" />
-        </g>
+        <ng-container *ngFor="let node of nodes">
+            <g *ngIf="node.label==='Activity'" activityNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
+            <g *ngIf="node.label==='Reference'" referenceNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
+            <g *ngIf="node.label==='Agent'" agentNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
+        </ng-container>
     </g>
 </svg>
