@@ -165,14 +165,13 @@ export function authCallback(req, res) {
 }
 
 // Updates an existing User in the DB
-export function patch(req, res) { // WIP #170 - Implementation to PATCH user data
+export function patch(req, res) {
     const patches = req.body.filter(patch => ![
         '_id',
         'createdAt',
         'createdBy'
     ].map(x => `/${x}`).includes(patch.path));
 
-    // WIP #170 - Refactor this to use async/await
     return User.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))

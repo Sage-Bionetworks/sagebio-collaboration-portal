@@ -84,7 +84,7 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
  *       '404':
  *         description: User not found
  */
-router.patch('/:id', auth.isAuthenticated(), controller.patch); // WIP #170 - PATCH user data
+router.patch('/:id', auth.isAuthenticated(), controller.patch);
 
 /**
  * @swagger

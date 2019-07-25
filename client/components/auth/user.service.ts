@@ -60,7 +60,7 @@ export class UserService {
             );
     }
 
-    updateUser(patches: Object[], userId: String): Observable<User> { // WIP #170 - Client-side call to PATCH user data
+    updateUser(patches: Object[], userId: String): Observable<User> {
         return this.httpClient.patch<User>(`/api/users/${userId}`, patches);
     }
 
