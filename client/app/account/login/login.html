@@ -3,9 +3,23 @@
 </div>
 
 <div class="app-login-content">
+  <div class="app-login-box">
+    <h2>Please log in to access these resources</h2>
     <div class="app-login-buttons">
-        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsAdmin()">Login as ADMIN USER</a>
-        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsTestUser()">Login as TEST USER</a>
+        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Log in using Roche IAM</a>
         <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
     </div>
+    <div class="app-request-questions">
+      <a href="" target="_blank">Request Access</a>
+      <a href="" target="_blank">Questions?</a>
+    </div>
+  </div>
 </div>
+
+<!--<div class="app-login-content">-->
+<!--    <div class="app-login-buttons">-->
+<!--        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsAdmin()">Login as ADMIN USER</a>-->
+<!--        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="primary" (click)="loginAsTestUser()">Login as TEST USER</a>-->
+<!--        <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>-->
+<!--    </div>-->
+<!--</div>-->

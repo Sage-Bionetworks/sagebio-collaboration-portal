@@ -13,13 +13,50 @@
   height: 100%;
 }
 
+.app-login-box {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50%;
+  width: 25%;
+  border: solid 2px lightgrey;
+  border-radius: 5px;
+  box-shadow: 0 8px 6px -6px darkgrey;
+  padding:40px 20px;
+
+  h2 {
+    text-align: center;
+    color: #263238;
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: 30px;
+  }
+}
+
 .app-login-buttons {
   display: flex;
   flex-flow: column nowrap;
-  width: 400px;
+  width: 200px;
+  margin-bottom: 30%;
+  margin-top: 20px;
+
 }
 
-.app-login-button {
-  margin: 10px;
-  flex-grow: 1;
+.app-request-questions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+
+  a {
+    font-size: 10px;
+    color: grey;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+  }
 }
+
