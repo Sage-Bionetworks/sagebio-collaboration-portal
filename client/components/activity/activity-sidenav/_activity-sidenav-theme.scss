@@ -1,16 +1,16 @@
-@mixin insight-activity-sidenav-theme($theme) {
+@mixin activity-sidenav-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  .app-insight-activity-header {
+  .app-activity-header {
     // background: mat-color($primary);
     background: #9d9d9d;
   }
 
-  .app-insight-activity-header-close {
+  .app-activity-header-close {
     color: mat-color($primary, default-contrast);
   }
 }

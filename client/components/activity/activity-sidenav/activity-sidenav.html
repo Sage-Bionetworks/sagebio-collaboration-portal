@@ -1,12 +1,12 @@
 <div>
-    <div class="app-primary-header app-insight-activity-header">
-        <h1 class="app-insight-activity-header-title">Recent Activity</h1>
-        <a class="app-insight-activity-header-close" mat-icon-button matTooltip="Close" aria-label="Close" (click)="close()">
+    <div class="app-primary-header app-activity-header">
+        <h1 class="app-activity-header-title">Recent Activity</h1>
+        <a class="app-activity-header-close" mat-icon-button matTooltip="Close" aria-label="Close" (click)="close()">
             <mat-icon aria-label="Icon of cross">close</mat-icon>
         </a>
     </div>
 
-    <div class="app-insight-activity-body">
+    <div class="app-activity-body">
 
         <h4>Acivities for reference:</h4>
         <p>{{ provenanceGraph | json }}</p>

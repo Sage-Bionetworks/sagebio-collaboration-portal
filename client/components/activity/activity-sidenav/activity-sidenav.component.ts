@@ -8,9 +8,9 @@ import { ProvenanceService } from 'components/provenance/provenance.service';
 import { Insight } from 'models/insights/insight.model';
 
 @Component({
-    selector: 'insight-activity-sidenav',
-    template: require('./insight-activity-sidenav.html'),
-    styles: [require('./insight-activity-sidenav.scss')]
+    selector: 'activity-sidenav',
+    template: require('./activity-sidenav.html'),
+    styles: [require('./activity-sidenav.scss')]
 })
 export class ActivitySidenavComponent implements OnDestroy {
     private insight: Insight;

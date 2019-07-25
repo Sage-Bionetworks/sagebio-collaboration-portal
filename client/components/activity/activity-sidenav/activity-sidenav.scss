@@ -1,4 +1,4 @@
-.app-insight-activity-header {
+.app-activity-header {
   // display: flex;
   // flex-flow: row nowrap;
   // align-items: center;
@@ -6,14 +6,14 @@
   padding-left: 10px;
 }
 
-.app-insight-activity-header-title {
+.app-activity-header-title {
   display: flex;
   flex-flow: column nowrap;
   flex: 1;
   justify-content: center;
 }
 
-.app-insight-activity-header-close {
+.app-activity-header-close {
   margin: 0 10px 0 0;
 }
 
@@ -21,6 +21,6 @@
 //   margin: 20px 0 20px 0;
 // }
 
-.app-insight-activity-body {
+.app-activity-body {
   margin: 10px 10px 10px 10px
 }

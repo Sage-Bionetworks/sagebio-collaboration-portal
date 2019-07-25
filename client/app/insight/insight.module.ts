@@ -12,7 +12,7 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
 import { ShowActivityButtonComponent } from 'components/activity/show-activity-button/show-activity-button.component';
-import { ActivitySidenavComponent } from '../../components/activity/insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
+import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { InsightComponent } from './insight-page/insight.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from './report-view/report-view.component';

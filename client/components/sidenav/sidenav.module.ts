@@ -6,7 +6,7 @@ import { SecondarySidenavService } from './secondary-sidenav/secondary-sidenav.s
 import { SidenavHostDirective } from './sidenav-host.directive';
 
 import { ThreadSidenavComponent } from 'components/messaging/thread/thread-sidenav/thread-sidenav.component';
-import { ActivitySidenavComponent } from '../activity/insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
+import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { UserNotificationSidenavComponent } from 'components/user-notification/user-notification-sidenav/user-notification-sidenav.component';
 
 @NgModule({
