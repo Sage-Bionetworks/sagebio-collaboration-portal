@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { includes } from 'lodash';
@@ -13,8 +13,29 @@ export class ProvenanceService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getProvenanceGraph(): Observable<any> {
-        return this.httpClient.get<any>(`/api/provenance`);
+    getProvenanceGraph(sortBy: string, order: string, limit: number): Observable<any> {
+        let params = new HttpParams()
+            .set('sortBy', sortBy)
+            .set('order', order)
+            .set('limit', String(limit));
+        return this.httpClient.get<any>(`/api/provenance`, { params });
+    }
+
+    getProvenanceGraphByAgent(agentId: string, sortBy: string, order: string, limit: number): Observable<any> {
+        let params = new HttpParams()
+            .set('sortBy', sortBy)
+            .set('order', order)
+            .set('limit', String(limit));
+        return this.httpClient.get<any>(`/api/provenance/byAgent/${agentId}`, { params });
+    }
+
+    getProvenanceGraphByReference(referenceId: string, direction: string, sortBy: string, order: string, limit: number): Observable<any> {
+        let params = new HttpParams()
+            .set('direction', direction)
+            .set('sortBy', sortBy)
+            .set('order', order)
+            .set('limit', String(limit));
+        return this.httpClient.get<any>(`/api/provenance/byReference/${referenceId}`, { params });
     }
 
     // TODO: testing purposes, remove after connecting to backend

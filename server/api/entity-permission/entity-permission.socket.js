@@ -3,7 +3,10 @@
  */
 
 import EntityPermissionEvents from './entity-permission.events';
-import { hasAccessToEntity } from '../../auth/auth';
+import {
+    hasAccessToEntity,
+} from '../../auth/auth';
+import config from '../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -20,19 +23,22 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
-        const userRole = doc.user.role || '';
-        const userId = doc.user._id || '';
-        // We only want admin users to be able to listen to these events
-        const requestedPermission = 'admin';
-        const entityId = doc.entityId || '';
-
-        hasAccessToEntity(userRole, userId, requestedPermission, entityId)
-            .then(isGrantedAccess => {
-                const isAuthorizedToAccessEntity = isGrantedAccess;
-
-                if (isAuthorizedToAccessEntity) { // Emit only if access has been granted
+        hasAccessToEntity(spark.userId, [
+                config.accessTypes.READ.value,
+                config.accessTypes.WRITE.value,
+                config.accessTypes.ADMIN.value
+            ], doc.entityId, [
+                config.inviteStatusTypes.ACCEPTED.value,
+                config.inviteStatusTypes.PENDING.value  // invite to send to user
+            ])
+            .then(hasAccess => {
+                if (hasAccess) {
+                    console.log(`Emitting entity:${doc.entityId}:${namespace}:${event}`);
                     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
                 }
+            })
+            .catch(err => {
+                console.log(`ERROR creating listener: ${err}`);
             });
         // We do not have to worry about error or exception handling here. If
         // authorization is unable to be granted, we will not emit our event.

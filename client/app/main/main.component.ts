@@ -14,8 +14,11 @@ export class MainComponent implements OnInit, OnDestroy {
     private isLoggedIn = false;
     private authInfoSub: Subscription;
     private d3testGraph: any;
-    private neoTestGraph: any
-    private provenanceGraph: any
+    // private neoTestGraph: any
+    private provenanceGraph: any;
+    private provenanceAgentSubgraph: any;
+    private provenanceRefSubgraphDown: any;
+    private provenanceRefSubgraphUp: any;
 
     static parameters = [PageTitleService, AuthService, ProvenanceService, ProvenanceNeoGraphService];
     constructor(private pageTitleService: PageTitleService,
@@ -28,10 +31,22 @@ export class MainComponent implements OnInit, OnDestroy {
             });
 
         this.d3testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
-        this.neoTestGraph = this.provenanceNeoGraphService.getSmallNodesInNeoFormat()
-        this.provenanceService.getProvenanceGraph()
+        // this.neoTestGraph = this.provenanceNeoGraphService.getSmallNodesInNeoFormat()
+        this.provenanceService.getProvenanceGraph('created_at', 'desc', 1)
             .subscribe(graph => {
                 this.provenanceGraph = graph;
+            });
+        this.provenanceService.getProvenanceGraphByAgent('UserID_1', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceAgentSubgraph = graph;
+            });
+        this.provenanceService.getProvenanceGraphByReference('TargetID_1', 'down', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceRefSubgraphDown = graph;
+            });
+        this.provenanceService.getProvenanceGraphByReference('TargetID_30', 'up', 'created_at', 'desc', 1)
+            .subscribe(graph => {
+                this.provenanceRefSubgraphUp = graph;
             });
     }
 

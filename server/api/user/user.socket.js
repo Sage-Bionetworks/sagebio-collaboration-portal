@@ -3,6 +3,11 @@
  */
 
 import UserEvents from './user.events';
+import User from './user.model';
+import {
+    isAdmin,
+    AuthorizationSignal
+} from '../../auth/auth';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -19,9 +24,16 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return function (doc) {
-        if (isAuthorized(doc, spark.userId)) {
-            spark.emit(event, doc);
-        }
+        belongsToUser(doc, userId)
+            .then(isAdmin(spark.userId))
+            .then(() => {
+                throw new AuthorizationSignal(false);
+            })
+            .catch(AuthorizationSignal, signal => {
+                if (signal.isAuthorized()) {
+                    spark.emit(event, doc);
+                }
+            });
     };
 }
 
@@ -31,6 +43,10 @@ function removeListener(event, listener) {
     };
 }
 
-function isAuthorized(doc, userId) {
-    return userId && doc._id.toString() === userId.toString();
+function belongsToUser(doc, userId) {
+    return new Promise(() => {
+        throw new AuthorizationSignal(
+            userId && doc._id.toString() === userId.toString()
+        );
+    });
 }
