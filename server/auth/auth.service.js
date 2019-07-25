@@ -3,8 +3,11 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
-import { hasAccessToEntity, hasUserPermission, hasUserRole } from './auth';
-
+import {
+    hasRole as _hasRole,
+    hasAccessToEntity as _hasAccessToEntity,
+    hasUserPermission as _hasUserPermission,
+} from './auth';
 const url = require('url');
 
 var validateJwt = expressJwt({
@@ -49,41 +52,22 @@ export function isAuthenticated() {
  *
  * Users that do not contain the appropriate permission - and have not been assigned
  * an admin role - will be blocked.
- * @param {*} requestedPermission
+ * @param {*} permission
  */
-export function isAuthorized(requestedPermission) {
+export function isAuthorized(permission) {
     return compose()
         .use((req, res, next) => {
-            const userRole = req.user.role || '';
-            const userId = req.user._id || '';
-
-            let isAuthorizedForUserPermission;
-            try {
-                hasUserPermission(userRole, userId, requestedPermission)
-                    .then(isPermitted => {
-                        isAuthorizedForUserPermission = isPermitted;
-
-                        if (isAuthorizedForUserPermission) { // Continue processing request if access is granted
-                            next();
-                            return null;
-                        }
-
-                        // Block request
-                        res.status(403).send('Forbidden');
-                        return null;
-                    })
-                    .catch(err => {
-                        console.log(`Error attempting authorization request: ${err}`);
-                        // Block request
-                        res.status(403).send('Forbidden');
-                        return null;
-                    });
-            } catch (err) {
-                console.log(`Error attempting authorization request: ${err}`);
-                // Block request
-                res.status(403).send('Forbidden');
-                return null;
-            }
+            return _hasUserPermission(req.user._id, permission)
+                .then((accessGranted) => {
+                    if (accessGranted) return next();
+                    return null;
+                })
+                .catch(err => {
+                    console.error(`ERROR attempting authorization request: ${err}`);
+                    // Block request
+                    res.status(403).send('Forbidden');
+                    return null;
+                });
         });
 }
 
@@ -91,79 +75,53 @@ export function isAuthorized(requestedPermission) {
  * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
  *
  * Users that have not been assigned or accepted the requested permission for the entity will be blocked.
- * @param {*} requestedPermission
+ * @param {*} allowedAccesses
  */
-export function isAuthorizedForEntity(requestedPermission) {
+export function isAuthorizedForEntity(allowedAccesses) {
     return compose()
         .use((req, res, next) => {
-            const userRole = req.user.role || '';
-            const userId = req.user._id || '';
-            const entityId = req.params.entityId || '';
-
-            let isAuthorizedToAccessEntity;
-            try {
-                hasAccessToEntity(userRole, userId, requestedPermission, entityId)
-                    .then(isGrantedAccess => {
-                        isAuthorizedToAccessEntity = isGrantedAccess;
-
-                        if (isAuthorizedToAccessEntity) { // Continue processing request if access is granted
-                            next();
-                            return null;
-                        }
-
-                        // Block request
-                        res.status(403).send('Forbidden');
-                        return null;
-                    })
-                    .catch(err => {
-                        console.log(`Error attempting authorization request: ${err}`);
-                        // Block request
-                        res.status(403).send('Forbidden');
-                        return null;
-                    });
-            } catch (err) {
-                console.log(`Error attempting authorization request: ${err}`);
-                // Block request
-                res.status(403).send('Forbidden');
-                return null;
-            }
+            return _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
+                .then((accessGranted) => {
+                    if (accessGranted) return next();
+                    return null;
+                })
+                .catch(err => {
+                    console.error(`ERROR attempting authorization request for entity: ${err}`);
+                    // Block request
+                    res.status(403).send('Forbidden');
+                    return null;
+                });
         });
 }
 
 /**
  * Allows request to continue if the user has authenticated and contains appropriate authorization
- * @param {string} requestedPermission (e.g. 'createTool')
+ * @param {string} permission (e.g. 'createTool')
  */
-export function hasPermission(requestedPermission) {
+export function hasPermission(permission) {
     return compose()
         .use(isAuthenticated())
-        .use(isAuthorized(requestedPermission));
+        .use(isAuthorized(permission));
 }
 
 /**
  * Allows request to continue if the user has authenticated and has appropriate authorization for the entity
- * @param {*} requestedPermission
+ * @param {*} allowedAccesses
  */
-export function hasPermissionForEntity(requestedPermission) {
+export function hasPermissionForEntity(allowedAccesses) {
     return compose()
         .use(isAuthenticated())
-        .use(isAuthorizedForEntity(requestedPermission));
+        .use(isAuthorizedForEntity(allowedAccesses));
 }
 
 /**
  * Checks if the user role meets the minimum requirements of the route
  */
-export function hasRole(roleRequired) {
-    if (!roleRequired) {
-        throw new Error('Required role needs to be set');
-    }
-
+export function hasRole(role) {
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            const userRole = req.user.role || '';
-            if (hasUserRole(userRole, roleRequired)) {
-                // Continue processing request when user has role
+            if (_hasRole(req.user._id, role)) {
                 return next();
             }
             return res.status(403).send('Forbidden');

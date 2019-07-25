@@ -18,6 +18,15 @@
     </div>
 </header>
 
+<h4>All activities:</h4>
+<p>{{ provenanceGraph | json }}</p>
+<h4>Activities for agent 'UserID_1':</h4>
+<p>{{ provenanceAgentSubgraph | json }}</p>
+<h4>Activities downstream of reference (entity) 'TargetID_1':</h4>
+<p>{{ provenanceRefSubgraphDown | json }}</p>
+<h4>Activities upstream of reference (entity) 'TargetID_30':</h4>
+<p>{{ provenanceRefSubgraphUp | json }}</p>
+
 <!--<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>-->
 
 

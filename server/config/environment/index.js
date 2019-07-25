@@ -97,7 +97,7 @@ var all = {
     },
 
     provenance: {
-        apiServerUrl: 'localhost:8081/prov/v1'
+        apiServerUrl: process.env.PROVENANCE_API_SERVER_URL || 'http://phccp-prov:8080/rest/v1'
     }
 };
 

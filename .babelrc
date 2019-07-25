@@ -2,4 +2,12 @@
     "presets": [
         ["@babel/preset-env", {}]
     ],
+    "plugins": [
+        ["@babel/transform-runtime", {
+            "regenerator": true
+        }]
+    ],
+    "ignore": [
+        "client/components/socket/primus.js",
+    ]
 }

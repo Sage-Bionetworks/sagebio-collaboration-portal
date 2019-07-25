@@ -4,7 +4,9 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-router.get('/', controller.getProvenanceGraph);  // auth.hasRole('admin'),
+router.get('/', controller.getProvenanceGraph);  // auth.hasRole('admin')
+router.get('/byAgent/:agentId', controller.getProvenanceGraphByAgent);
+router.get('/byReference/:referenceId', controller.getProvenanceGraphByReference);
 // router.get('/:id', controller.show);
 // router.post('/', controller.create);
 // router.put('/:id', controller.upsert);

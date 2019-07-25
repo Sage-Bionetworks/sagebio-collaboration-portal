@@ -102,8 +102,6 @@ export class UserPermissionDataService {
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
-        console.log('NEW USER PERMISSION DATA SERVICE');
-
         const isLoggedIn = this.authService.authInfo()
             .pipe(
                 map(authInfo => authInfo.isLoggedIn())
