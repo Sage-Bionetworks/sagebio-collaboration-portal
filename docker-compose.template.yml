@@ -2,10 +2,12 @@ version: '3.2'
 
 services:
   phccp:
-    build:
-        context: .
-        dockerfile: Dockerfile
-    image: phccp
+    # build:
+    #     context: .
+    #     dockerfile: Dockerfile
+    # image: phccp
+    # Or use the latest build from the docker registry
+    image: docker.synapse.org/syn18489221/phc-collaboration-portal:develop
     container_name: phccp
     ports:
         - 443:443
@@ -23,6 +25,8 @@ services:
         # MONGODB_SSL_CA:  # Content of CA's certificate (not the path)
         # MONGODB_SSL_KEY: # Content of the key (default: read ./certs/server.key)
         # MONGODB_SSL_CERT:  # Content of the certificate (default: read ./certs/server.cert)
+        # Enabling local authentication
+        AUTH_LOCAL: 'true'
         # Enabling Google OAuth 2.0
         OAUTH_GOOGLE_ID:
         OAUTH_GOOGLE_SECRET:
@@ -36,7 +40,7 @@ services:
         ROCHE_AZURE_AD_IDENTITY_METADATA:
         ROCHE_AZURE_AD_CLIENT_ID:
         ROCHE_AZURE_AD_CLIENT_SECRET:
-        # COnfiguring the Provenance service
+        # Provenance service
         PROVENANCE_API_SERVER_URL: http://phccp-prov:8080/rest/v1
     volumes:
         - ./certs/server.key:/usr/src/app/certs/server.key:ro
@@ -44,34 +48,6 @@ services:
     depends_on:
         - mongo-prod
         - phccp-prov
-
-  phccp-neo4j:
-    image: docker.synapse.org/syn18489221/phccp-neo4j
-    container_name: phccp-neo4j
-    ports:
-      - 7687:7687
-      - 7474:7474
-    environment:
-      NEO4J_AUTH: neo4j-username/neo4j-password
-    volumes:
-      - /tmp/neo4j/data:/var/lib/neo4j/data
-      - /tmp/neo4j/logs:/logs
-
-  phccp-prov:
-    image: docker.synapse.org/syn18489221/prov-service:develop
-    command: python3 -m synprov
-    container_name: phccp-prov
-    ports:
-      - 8080:8080
-    environment:
-      NEO4J_SCHEME: bolt
-      NEO4J_HOST: phccp-neo4j
-      NEO4J_PORT: 7687
-      NEO4J_USERNAME: neo4j-username
-      NEO4J_PASSWORD: neo4j-password
-      FLASK_HOST: "0.0.0.0"
-    links:
-      - phccp-neo4j
 
   mongo-prod:
     image: docker.synapse.org/syn18489221/phccp-mongo
@@ -89,3 +65,31 @@ services:
     volumes:
         - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
         # - ./mongodb:/data/db
+
+  phccp-neo4j:
+    image: docker.synapse.org/syn18489221/phccp-neo4j
+    container_name: phccp-neo4j
+    ports:
+      - 7687:7687
+      - 7474:7474
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+    volumes:
+      - /tmp/neo4j/data:/var/lib/neo4j/data
+      - /tmp/neo4j/logs:/logs
+
+  phccp-prov:
+    image: docker.synapse.org/syn18489221/prov-service:develop
+    command: python3 -m synprov
+    container_name: phccp-prov
+    ports:
+      - 8080:8080
+    environment:
+      NEO4J_SCHEME: bolt
+      NEO4J_HOST: phccp-neo4j
+      NEO4J_PORT: 7687
+      NEO4J_USERNAME: ${NEO4J_USERNAME}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+      FLASK_HOST: "0.0.0.0"
+    links:
+      - phccp-neo4j

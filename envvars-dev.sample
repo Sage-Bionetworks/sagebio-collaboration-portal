@@ -41,4 +41,7 @@ export ROCHE_AZURE_AD_CLIENT_ID=
 export ROCHE_AZURE_AD_CLIENT_SECRET=
 
 # PROVENANCE
-export PROV_API_SERVER_URL=http://localhost:8080/rest/v1
+export PROVENANCE_API_SERVER_URL=http://localhost:8080/rest/v1
+# Used by Provenance
+export NEO4J_USERNAME=neo4j
+export NEO4J_PASSWORD=neo4jpassword
