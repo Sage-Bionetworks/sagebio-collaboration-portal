@@ -12,8 +12,18 @@
 $primary: mat-palette($mat-blue-grey, 900);
 $accent: mat-palette($mat-blue-grey, 700);
 $warn: mat-palette($mat-amber, 600);
-$background: mat-palette($mat-amber);
-$foreground: mat-palette($mat-deep-orange);
+$background: mat-palette($mat-blue-grey);
+$foreground: mat-palette($mat-blue-grey);
+
+//// testing out using an additional theme
+.alternate-theme {
+  $alternate-primary: mat-palette($mat-deep-purple);
+  $alternate-accent:  mat-palette($mat-teal, 700);
+  $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+  @include angular-material-theme($alternate-theme);
+}
+//// end testing
+
 
 $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
