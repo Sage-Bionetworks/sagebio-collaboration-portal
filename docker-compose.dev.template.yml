@@ -54,6 +54,8 @@ services:
         ROCHE_AZURE_AD_IDENTITY_METADATA:
         ROCHE_AZURE_AD_CLIENT_ID:
         ROCHE_AZURE_AD_CLIENT_SECRET:
+        # Provenance service
+        PROVENANCE_API_SERVER_URL: http://prov-dev-server:8080/rest/v1
     depends_on:
         - mongo-dev
         - prov-dev-server
