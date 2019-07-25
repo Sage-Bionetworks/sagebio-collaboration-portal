@@ -34,7 +34,6 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.pageTitleService.title = 'Edit Profile';
         if (this.user) {
-            console.log(`UserCardEditComponent user: ${JSON.stringify(this.user, null, 2)}`);
             this.editForm = this.formBuilder.group({
                 // Declare edit form validators
                 position: [this.user.position, []],
@@ -50,9 +49,6 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
 
     onEditUser(): void {
         let editedUser = this.editForm.value;
-        console.log(`UserCardEditComponent onEditUser:
-            this.editedUser: ${JSON.stringify(editedUser, null, 2)}
-        `);
         const patches = map(editedUser, (value, key) => ({
             op: 'replace',
             path: `/${key}`,
