@@ -14,12 +14,15 @@ import { Insight } from 'models/insights/insight.model';
 import { State } from 'models/insights/state.model';
 import { Report } from 'models/insights/report.model';
 import { Dashboard } from 'models/insights/dashboard.model';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ActivitySidenavComponent } from './insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
 
 @Injectable()
 export class InsightService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, SecondarySidenavService];
+    constructor(private httpClient: HttpClient,
+        private secondarySidenavService: SecondarySidenavService) { }
 
     getInsights(query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
@@ -58,5 +61,16 @@ export class InsightService {
                 { op: 'replace', path: '/description', value: description }
             ]
         );
+    }
+
+    showActivity(insight: Insight): void {
+        let sidenavContentId = `activity:${insight._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ActivitySidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ActivitySidenavComponent))
+                .setInsight(insight);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
     }
 }

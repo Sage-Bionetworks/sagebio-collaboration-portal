@@ -11,6 +11,8 @@ import { FiltersModule } from 'components/filters/filters.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
+import { ShowActivityButtonComponent } from './show-activity-button/show-activity-button.component';
+import { ActivitySidenavComponent } from './insight-activity/insight-activity-sidenav/insight-activity-sidenav.component';
 import { InsightComponent } from './insight-page/insight.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from './report-view/report-view.component';
@@ -44,6 +46,8 @@ export const ROUTES: Routes = [{
     declarations: [
         InsightListComponent,
         InsightViewComponent,
+        ShowActivityButtonComponent,
+        ActivitySidenavComponent,
         InsightComponent,
         DashboardViewComponent,
         ReportViewComponent,
@@ -58,5 +62,8 @@ export const ROUTES: Routes = [{
         InsightViewComponent,
         InsightComponent
     ],
+    entryComponents: [
+        ActivitySidenavComponent
+    ]
 })
 export class InsightModule { }

@@ -149,4 +149,8 @@ export class InsightComponent implements OnInit, OnDestroy {
                 });
         } catch (e) { }
     }
+
+    showActivity(): void {
+        this.insightService.showActivity(this.insight);
+    }
 }

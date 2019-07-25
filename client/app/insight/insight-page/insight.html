@@ -8,6 +8,9 @@
         <mat-card class="insight-card">
             <div class="insight-card-top">
                 <div class="insight-card-left-container">
+                    <div class="insight-card-prov-graph-actions">
+                        <show-activity-button [insight]="insight" (click)="showActivity()"></show-activity-button>
+                    </div>
                     <h3>Description</h3>
                     <form [formGroup]="form" novalidate>
                         <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
@@ -27,7 +30,7 @@
                         <span><b>Tool:</b> FE Lite</span>
                     </div>
                 </div>
-                <div class="insight-card-right-container">
+                <!-- <div class="insight-card-right-container">
                     <h3>Recent Activity</h3>
                     <div class="insight-card-prov-graph-panel">
                         <img src="assets/images/insight-prov-graph-placeholder.png">
@@ -35,7 +38,7 @@
                     <div class="insight-card-prov-graph-actions">
                         <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">View Full Provenance</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="app-insight-actions">
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInFe(insight)">Open With PHCCP Shiny Tool Example</a>
