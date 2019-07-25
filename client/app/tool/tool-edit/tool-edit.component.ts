@@ -38,6 +38,7 @@ export class ToolEditComponent implements OnInit, OnDestroy {
         this.pageTitleService.title = 'Edit Tool';
         if (this.tool) {
           console.log('this.tool: ', this.tool);
+          // WIP #170 - Use this as an example for edit form validators
           this.editForm = this.formBuilder.group({
             name: [this.tool.name, [
                 Validators.required,
