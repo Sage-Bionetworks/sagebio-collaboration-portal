@@ -29,7 +29,6 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
         private pageTitleService: PageTitleService,
         private accountService: AccountService,
     ) {
-        // this.userSpecs = {}; // WIP #170 - config.models.TBD validation rules
     }
 
     ngOnInit() {
@@ -37,7 +36,7 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
         if (this.user) {
             console.log(`UserCardEditComponent user: ${JSON.stringify(this.user, null, 2)}`);
             this.editForm = this.formBuilder.group({
-                // WIP #170 - Declare edit form validators
+                // Declare edit form validators
                 position: [this.user.position, []],
                 info: [this.user.info, []],
                 industry: [this.user.industry, []],
@@ -57,9 +56,8 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
 
         this.accountService
             .updateUser(editedUser)
-            .then((success) => {
-                // WIP #170 - Handle updateUser success/fail
-                this.editUser.emit(editedUser);
+            .then((user: User) => {
+                this.editUser.emit(user);
                 this.close.emit(null);
             })
             .catch((err) => {
