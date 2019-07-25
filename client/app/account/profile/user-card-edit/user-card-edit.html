@@ -1,5 +1,5 @@
-<h1>[PLACEHOLDER] User edit</h1>
 <mat-card class="app-user-card" *ngIf="user">
+    <form [formGroup]="editForm" novalidate>
         <div class="app-user-card-header">
             <picture *ngIf="user.picture; else letterAvatar">
                 <!-- <source [srcset]="currentUser.face | webp: 'small'" type="image/webp"> -->
@@ -10,7 +10,7 @@
             </ng-template>
             <div class="app-user-card-header-text">
                 <h1>{{user.name}}</h1>
-                <input type='text' value="{{user.position}}" />
+                <input type='text' value="{{user.position}}" formControlName="position" />
                 <a [href]="'mailto:'+user.email">{{user.email}}</a>
             </div>
         </div>
@@ -18,19 +18,19 @@
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">More Info</p>
-                    <input type='text' class="app-user-card-content-meta-value" value="{{user.info}}">
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.info}}" formControlName="info">
                 </div>
             </div>
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">Industry</p>
-                    <input type='text' class="app-user-card-content-meta-value" value="{{user.industry}}">
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.industry}}" formControlName="industry">
                 </div>
             </div>
             <div class="app-user-card-content-meta">
                 <div class="app-user-card-content-meta-group">
                     <p class="app-user-card-content-meta-title">Location</p>
-                    <input type='text' class="app-user-card-content-meta-value" value="{{user.location}}">
+                    <input type='text' class="app-user-card-content-meta-value" value="{{user.location}}" formControlName="location">
                 </div>
             </div>
         </div>
@@ -38,9 +38,11 @@
         <div class="app-user-card-content">
             <div class="app-user-card-content-meta-orcid">
                 <div class="app-user-card-content-meta-group">
-                    <input class="app-user-card-content-meta-orcid" type='text' value="{{user.orcid}}" />
+                    <input class="app-user-card-content-meta-orcid" type='text' value="{{user.orcid}}" formControlName="orcid" />
                 </div>
-                <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="onUserCardButtonClick()">{{ buttonText }}</a>
+                <a mat-raised-button type="button" color='primary' (click)="onEditUser()">Save Profile</a>
             </div>
-        </div>
+            <a mat-raised-button type="button" color='warn' (click)="close.emit(null)">Cancel</a>
+    </div>
+    </form>
 </mat-card>
