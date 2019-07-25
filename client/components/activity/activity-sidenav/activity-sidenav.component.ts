@@ -33,7 +33,7 @@ export class ActivitySidenavComponent implements OnDestroy {
 
     setInsight(insight: Insight): void {
         if (insight) {
-            this.provenanceService.getProvenanceGraph('created_at', 'desc', 1)
+            this.provenanceService.getProvenanceGraphByReference(insight._id, 'up', 'created_at', 'desc', 1)
                 .subscribe(activity => {
                     // this.socketService.syncItemSubject(`activity:${insight._id}:insight`, this.activity);
                     this.provenanceGraph = activity;
