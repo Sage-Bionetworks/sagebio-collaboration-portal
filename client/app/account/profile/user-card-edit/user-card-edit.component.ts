@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { User } from 'models/auth/user.model';
-import { AccountService } from '../../account.service';
+import { UserService } from 'components/auth/user.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../../app.constants';
+import { map } from 'lodash'
 
 @Component({
     selector: 'user-card-edit',
@@ -22,12 +22,12 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
         editUser: undefined,
     };
 
-    static parameters = [FormBuilder, PageTitleService, AccountService];
+    static parameters = [FormBuilder, PageTitleService, UserService];
 
     constructor(
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private accountService: AccountService,
+        private userService: UserService,
     ) {
     }
 
@@ -49,20 +49,23 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
     ngOnDestroy() { }
 
     onEditUser(): void {
-        let editedUser = {...this.user, ...this.editForm.value};
+        let editedUser = this.editForm.value;
         console.log(`UserCardEditComponent onEditUser:
             this.editedUser: ${JSON.stringify(editedUser, null, 2)}
         `);
+        const patches = map(editedUser, (value, key) => ({
+            op: 'replace',
+            path: `/${key}`,
+            value: value
+        }))
 
-        this.accountService
-            .updateUser(editedUser)
-            .then((user: User) => {
+        this.userService.updateUser(patches, this.user._id)
+            .subscribe(user => {
                 this.editUser.emit(user);
                 this.close.emit(null);
-            })
-            .catch((err) => {
-                console.error(`ERROR updating user profile: ${err}`);
+            }, err => {
+                console.error(`ERROR attempting to update user: ${err}`);
                 this.errors.editUser = err.message;
-            })
+            });
     }
 }
