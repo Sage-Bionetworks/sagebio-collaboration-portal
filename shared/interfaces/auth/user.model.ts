@@ -24,6 +24,12 @@
  *           format: date-time
  *         createdBy:
  *           $ref: '#/components/schemas/User'
+ *         info:
+ *           type: string
+ *         industry:
+ *           type: string
+ *         location:
+ *           type: string
  */
 export interface User {
     _id?: string;
