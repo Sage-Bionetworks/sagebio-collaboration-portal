@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserCardComponent } from './profile/user-card/user-card.component';
+import { UserCardEditComponent } from './profile/user-card-edit/user-card-edit.component';
 
 const accountRoutes: Routes = [{
     path: 'login',
@@ -44,7 +45,8 @@ const accountRoutes: Routes = [{
         LoginComponent,
         SettingsComponent,
         ProfileComponent,
-        UserCardComponent
+        UserCardComponent,
+        UserCardEditComponent,
     ],
 })
 export class AccountModule { }

@@ -100,7 +100,7 @@ export const models = {
             minlength: 0,
             maxlength: 1024
         },
-    }
+    },
 };
 
 export const datasetOrders = {

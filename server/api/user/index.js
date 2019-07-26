@@ -59,6 +59,35 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 
 /**
  * @swagger
+ * /users/{id}:
+ *   patch:
+ *     tags:
+ *       - Users
+ *     summary: Updates a User.
+ *     description: Updates a User.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The User to update
+ *         schema:
+ *           $ref: '#/components/schemas/User'
+ *     responses:
+ *       '201':
+ *         description: The User updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '400':
+ *         description: Invalid User supplied
+ *       '404':
+ *         description: User not found
+ */
+router.patch('/:id', auth.isAuthenticated(), controller.patch);
+
+/**
+ * @swagger
  * /users/me:
  *   get:
  *     tags:

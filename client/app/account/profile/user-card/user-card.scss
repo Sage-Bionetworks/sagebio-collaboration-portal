@@ -29,6 +29,7 @@
   display: flex;
   flex-flow: column nowrap;
   padding-left: 17px;
+  width: 23vw;
 
   h1 {
     font-size: 16px;
@@ -56,14 +57,17 @@
 
     .app-user-card-content-meta-title {
       margin: 16px 0 0 0;
+
     }
 
     .app-user-card-content-meta-value {
       margin: 0 0 10px 0;
+      width: 30vw;
     }
 
     .app-user-card-content-meta-orcid {
       margin: 0;
+      width: 20vw;
     }
   }
 }

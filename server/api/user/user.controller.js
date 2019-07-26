@@ -5,6 +5,7 @@ import {
     pickBy,
     identity
 } from 'lodash/fp';
+import { applyPatch } from 'fast-json-patch';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -161,4 +162,51 @@ export function me(req, res, next) {
  */
 export function authCallback(req, res) {
     res.redirect('/');
+}
+
+// Updates an existing User in the DB
+export function patch(req, res) {
+    const patches = req.body.filter(patch => ![
+        '_id',
+        'createdAt',
+        'createdBy'
+    ].map(x => `/${x}`).includes(patch.path));
+
+    return User.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(patches))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+function handleEntityNotFound(res) {
+    return function (entity) {
+        if (!entity) {
+            res.status(404).end();
+            return null;
+        }
+        return entity;
+    };
+}
+
+function patchUpdates(patches) {
+    return function (entity) {
+        try {
+            applyPatch(entity, patches, /*validate*/ true);
+        } catch (err) {
+            return Promise.reject(err);
+        }
+
+        return entity.save();
+    };
+}
+
+function respondWithResult(res, statusCode) {
+    statusCode = statusCode || 200;
+    return function (entity) {
+        if (entity) {
+            return res.status(statusCode).json(entity);
+        }
+        return null;
+    };
 }

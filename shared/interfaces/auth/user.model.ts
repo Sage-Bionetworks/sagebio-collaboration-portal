@@ -24,6 +24,12 @@
  *           format: date-time
  *         createdBy:
  *           $ref: '#/components/schemas/User'
+ *         info:
+ *           type: string
+ *         industry:
+ *           type: string
+ *         location:
+ *           type: string
  */
 export interface User {
     _id?: string;
@@ -36,6 +42,9 @@ export interface User {
     orcid: string;
     createdAt: string;
     createdBy?: User;  // "Recursive rendering needs work", see https://github.com/swagger-api/swagger-ui/issues/3325
+    info?: string;
+    industry?: string;
+    location?: string;
 }
 
 /**
