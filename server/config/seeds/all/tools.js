@@ -14,7 +14,7 @@ let tools = [{
         communication between bench and computational scientists to accelerate
         discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
-    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer/?activeFDS=FacileAtezoDataSet%20v0.7.8',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
+    website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     apiServerUrl: 'plop',
     apiHealthCheckUrl: 'plop',
     resourceFormats: [],
@@ -60,41 +60,43 @@ let tools = [{
         insights into cancer and immune biology, and the mechanism of action of
         new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
-    website: 'https://iris-stage.navify.com/viewer/e22734db-f807-490c-9747-1bef4768040d/1',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
+    website: 'https://iris-e-explorer.navify.com/redirect/0oa2ysnuc9hso3LIb0i7/studies',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
     apiServerUrl: 'TBA',
     apiHealthCheckUrl: 'plop',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
-}, {
-    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd96'),
-    slug: 'rstudio',
-    name: 'RStudio',
-    description: `RStudio is a free and open-source integrated development
-        environment for R, a programming language for statistical computing
-        and graphics.`,
-    picture: 'assets/images/320px-RStudio-Logo.png',
-    website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
-    apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'plop',
-    resourceFormats: [],
-    organization: geneId,
-    createdBy: adminUserId
-}, {
-    _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd97'),
-    slug: 'jupyter',
-    name: 'Jupyter',
-    description: `Project Jupyter exists to develop open-source software,
-        open-standards, and services for interactive computing across dozens
-        of programming languages.`,
-    picture: 'assets/images/320px-Jupyter_logo.svg.png',
-    website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
-    apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'plop',
-    resourceFormats: [],
-    organization: geneId,
-    createdBy: adminUserId
-}, {
+},
+// {
+//     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd96'),
+//     slug: 'rstudio',
+//     name: 'RStudio',
+//     description: `RStudio is a free and open-source integrated development
+//         environment for R, a programming language for statistical computing
+//         and graphics.`,
+//     picture: 'assets/images/320px-RStudio-Logo.png',
+//     website: 'https://ksuruli-744024.rs.phcaa.science.roche.com/auth-sign-in',
+//     apiServerUrl: 'TBA',
+//     apiHealthCheckUrl: 'plop',
+//     resourceFormats: [],
+//     organization: geneId,
+//     createdBy: adminUserId
+// }, {
+//     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd97'),
+//     slug: 'jupyter',
+//     name: 'Jupyter',
+//     description: `Project Jupyter exists to develop open-source software,
+//         open-standards, and services for interactive computing across dozens
+//         of programming languages.`,
+//     picture: 'assets/images/320px-Jupyter_logo.svg.png',
+//     website: 'https://ksuruli-6c8242.jh.phcaa.science.roche.com',
+//     apiServerUrl: 'TBA',
+//     apiHealthCheckUrl: 'plop',
+//     resourceFormats: [],
+//     organization: geneId,
+//     createdBy: adminUserId
+// },
+{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd98'),
     slug: 'phcaa',
     name: 'PHC Advanced Analytics',
@@ -106,7 +108,7 @@ let tools = [{
         programming and data visualization tools to support advanced analytic
         tools (RStudio Pro, RSConnect, Jupyter).`,
     picture: 'assets/images/320px-PHC_IX.png',
-    website: 'TBA',
+    website: 'https://myapps.microsoft.com/signin/RStudio%20%20Jupyter/8eecef32-7c32-417f-b2a4-7b1ba4ee83e9?tenantId=c8036283-1408-4dc8-b870-31e789a0a528',
     apiServerUrl: 'TBA',
     apiHealthCheckUrl: 'plop',
     resourceFormats: [],
