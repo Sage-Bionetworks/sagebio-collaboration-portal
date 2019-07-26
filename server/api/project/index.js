@@ -1,6 +1,15 @@
 var express = require('express');
 var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
+import {
+    accessTypes,
+    userRolesNew
+} from '../../config/environment';
+
+const ADMIN_ROLE = userRolesNew.ADMIN.value;
+const READ_ACCESS = accessTypes.READ.value;
+const WRITE_ACCESS = accessTypes.WRITE.value;
+const ADMIN_ACCESS = accessTypes.ADMIN.value;
 
 var router = express.Router();
 
@@ -22,7 +31,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Project'
  */
-router.get('/', controller.index);
+router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
 
 /**
  * @swagger
@@ -54,7 +63,11 @@ router.get('/', controller.index);
  *       '404':
  *         description: Project not found
  */
-router.get('/:id', controller.show);
+router.get('/:id', auth.hasPermissionForEntity([
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.show);
 
 /**
  * @swagger
@@ -81,36 +94,10 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Project
  */
-router.post('/', auth.isAuthenticated(), controller.create);
-
-/**
- * @swagger
- * /projects:
- *   put:
- *     tags:
- *       - Projects
- *     summary: Upserts a Project in the DB at the specified ID.
- *     description: Upserts a Project in the DB at the specified ID.
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: The Project to upsert
- *         schema:
- *           $ref: '#/components/schemas/Project'
- *     responses:
- *       '201':
- *         description: The Project upserted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Project'
- *       '400':
- *         description: Invalid Project supplied
- *       '404':
- *         description: Project not found
- */
-router.put('/:id', controller.upsert);
+router.post('/', auth.hasPermissionForEntity([
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.create);
 
 /**
  * @swagger
@@ -139,7 +126,10 @@ router.put('/:id', controller.upsert);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id', controller.patch);
+router.patch('/:id', auth.hasPermissionForEntity([
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.patch);
 
 /**
  * @swagger
@@ -167,6 +157,9 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Project not found
  */
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.hasPermissionForEntity([
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.destroy);
 
 module.exports = router;
