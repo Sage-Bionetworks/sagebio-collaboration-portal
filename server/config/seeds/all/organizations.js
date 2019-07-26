@@ -22,7 +22,8 @@ let organizations = [{
     name: 'Roche/Genentech',
     website: 'https://www.gene.com',
     domains: [
-        'gene.com'
+        'gene.com',
+        'roche.com'
     ],
     picture: 'assets/images/320px-Roche_Logo.svg.png',
     active: true,
