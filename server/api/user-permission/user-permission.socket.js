@@ -4,8 +4,7 @@
 
 import UserPermissionEvents from './user-permission.events';
 import {
-    isAdmin,
-    AuthorizationSignal
+    isAdmin
 } from '../../auth/auth';
 
 // Model events to emit
@@ -24,15 +23,12 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return function (doc) {
-        belongsToUser(doc, userId)
-            .then(isAdmin(spark.userId))
-            .then(() => {
-                throw new AuthorizationSignal(false);
+        belongsToUser(doc, spark.userId)
+            .then(yes => {
+                yes && spark.emit(event, doc);
             })
-            .catch(AuthorizationSignal, signal => {
-                if (signal.isAuthorized()) {
-                    spark.emit(event, doc);
-                }
+            .catch(err => {
+                console.log(err);
             });
     };
 }
@@ -44,10 +40,8 @@ function removeListener(event, listener) {
 }
 
 function belongsToUser(doc, userId) {
-    return new Promise(() => {
+    return new Promise((resolve) => {
         const targetUserId = doc.user._id ? doc.user._id : doc.user;
-        throw new AuthorizationSignal(
-            userId && targetUserId.toString() === userId.toString()
-        );
+        return resolve(userId && targetUserId.toString() === userId.toString());
     });
 }
