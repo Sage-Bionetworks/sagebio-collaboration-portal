@@ -1,5 +1,5 @@
-import { Insight } from './insight.model';
+import { Resource } from './resource.model';
 
-export interface State extends Insight {
+export interface State extends Resource {
     data: string;
 }

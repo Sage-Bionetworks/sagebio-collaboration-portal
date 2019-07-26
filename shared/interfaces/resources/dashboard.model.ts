@@ -1,5 +1,3 @@
-import { Insight } from './insight.model';
+import { Resource } from './resource.model';
 
-export interface Dashboard extends Insight {
-    url: string;
-}
+export interface Dashboard extends Resource { }
