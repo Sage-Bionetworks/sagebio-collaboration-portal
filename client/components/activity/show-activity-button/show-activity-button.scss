@@ -1,0 +1,18 @@
+.app-show-activity-button {
+  // width: 100%;
+
+  .mat-button-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  user-avatar {
+    margin-right: 6px;
+  }
+}
+
+.app-show-activity-button-label {
+  font-size: 13px;
+}

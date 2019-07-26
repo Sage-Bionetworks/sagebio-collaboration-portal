@@ -1,5 +1,7 @@
 @import './insight-list/insight-list-theme';
 @import './insight-page/insight-page-theme';
+@import 'components/activity/activity-sidenav/activity-sidenav-theme';
+
 
 @mixin insight-theme($theme) {
   $primary: map-get($theme, primary);
@@ -10,4 +12,5 @@
 
   @include insight-list-theme($theme);
   @include insight-page-theme($theme);
+  @include activity-sidenav-theme($theme);
 }

@@ -1,0 +1,35 @@
+.app-activity-header {
+  // display: flex;
+  // flex-flow: row nowrap;
+  // align-items: center;
+  // padding: 0 0 0 10px;
+  padding-left: 10px;
+}
+
+.app-activity-header-title {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1;
+  justify-content: center;
+}
+
+.app-activity-header-close {
+  margin: 0 10px 0 0;
+}
+
+// .message-date-separator {
+//   margin: 20px 0 20px 0;
+// }
+
+.app-activity-filters-container {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  // min-width: 300px;
+  margin: 25px;
+}
+
+.app-activity-body {
+  margin: 10px 10px 10px 10px
+}

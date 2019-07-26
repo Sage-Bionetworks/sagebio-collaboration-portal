@@ -24,7 +24,16 @@ var config = {
     }, {
         value: 'State',
         title: 'State'
-    }]
+    }],
+
+    activityDirectionFilters: [{
+        value: 'down',
+        title: 'Down',
+        active: true
+    }, {
+        value: 'up',
+        title: 'Up'
+    }],
 };
 
 export default merge(config, shared);
