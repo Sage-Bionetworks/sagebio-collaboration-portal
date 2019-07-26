@@ -27,7 +27,8 @@
 <h4>Activities upstream of reference (entity) 'TargetID_30':</h4>
 <p>{{ provenanceRefSubgraphUp | json }}</p>
 
-<!--<provenance-graph class="provenance-graph" [nodes]="nodes" [links]="links"></provenance-graph>-->
+<!-- <provenance-neo-graph [graphNodes]="neoTestGraph"></provenance-neo-graph> -->
+<provenance-graph class="provenance-graph" [nodes]="d3testGraph.nodes" [links]="d3testGraph.relationships"></provenance-graph>
 
 
 <div class="app-main-fair-container">

@@ -1,8 +1,6 @@
 import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
 import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
-import { ActivityNodeComponent } from './activity-node/activity-node.component';
-import { ProvenanceLinkComponent } from './provenance-link/provenance-link.component';
 
 @Component({
     selector: 'provenance-graph',

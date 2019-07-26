@@ -1,0 +1,89 @@
+.provenance-graph-container {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  height: 500px;
+}
+
+.neo4jd3-graph {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.neo4jd3 {
+  width: 100%;
+}
+
+.activity-info-card {
+  left: 0;
+  padding: 10px;
+  height: 100px;
+  border: #888;
+  width: 50%;
+}
+
+svg.node.node-icon.node-highlighted .ring {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+  filter: alpha(opacity=50);
+  opacity: .5;
+  stroke: #888;
+  stroke-width: 12px;
+}
+svg.node .outline {
+  cursor: pointer;
+  fill: #a5abb6;
+  pointer-events: all;
+  stroke: #9aa1ac;
+  stroke-width: 2px;
+}
+.node .ring {
+  fill: none;
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+  filter: alpha(opacity=0);
+  opacity: 0;
+  stroke: #6ac6ff;
+  stroke-width: 8px;
+}
+.node .text.icon {
+  font-family: FontAwesome;
+}
+
+.node.selected .ring,
+.node:hover .ring {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+  filter: alpha(opacity=30);
+  opacity: .3;
+}
+
+.relationship {
+  cursor: default;
+}
+.relationship line {
+  stroke: #aaa;
+}
+.relationship .outline {
+  cursor: default;
+}
+.relationship .overlay {
+  cursor: default;
+  fill: #6ac6ff;
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+.relationship text {
+  cursor: default;
+}
+
+.relationship.selected .overlay,
+.relationship:hover .overlay {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+  filter: alpha(opacity=30);
+  opacity: .3;
+}
+
+svg {
+  cursor: move;
+}
