@@ -13,13 +13,66 @@
   height: 100%;
 }
 
+.app-login-box {
+  //display: flex;
+  //flex-flow: column nowrap;
+  //align-items: center;
+  //justify-content: flex-start;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-content: stretch;
+  align-items: center;
+  height: 50%;
+  width: 35%;
+  border: solid 2px lightgrey;
+  border-radius: 5px;
+  box-shadow: 0 8px 6px -6px darkgrey;
+  padding:20px 20px 5px 20px;
+
+  h3 {
+    text-align: center;
+    color: #263238;
+    //font-size: 20px;
+    //border-bottom: solid 1px lightgrey;
+    //padding-bottom: 30px;
+  }
+}
+
 .app-login-buttons {
   display: flex;
   flex-flow: column nowrap;
-  width: 400px;
+  //width: 200px;
+  //height: 60px;
+  width: 7em;
+  margin-bottom: 10px;
+  //margin-top: 20px;
+  font-size: 30px;
+
+  a {
+    line-height: 45px;
+    font-size: medium;
+    margin-top: 10px;
+  }
+
 }
 
-.app-login-button {
-  margin: 10px;
-  flex-grow: 1;
+.app-request-questions {
+  display: flex;
+  //flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  a {
+    font-size: 10px;
+    color: grey;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 12px;
+
+  }
 }
+
