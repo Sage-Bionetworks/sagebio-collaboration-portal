@@ -16,15 +16,15 @@ export class ReferenceNodeComponent extends ProvenanceNodeComponent {
   }
 
   subclassImageMap = {
-    File: 'assets/images/provenence-graph/1f4c4.svg',
-    State: 'assets/images/provenence-graph/1f4be.svg',
-    Dashboard: 'assets/images/provenence-graph/1f39b.svg',
-    App: 'assets/images/provenence-graph/1f4bb.svg',
-    Notebook: 'assets/images/provenence-graph/1f4ca.svg',
-    Protocol: 'assets/images/provenence-graph/2697.svg',
-    Report: 'assets/images/provenence-graph/1f4cb.svg',
-    Memo: 'assets/images/provenence-graph/1f516.svg',
-    Star: 'assets/images/provenence-graph/2b50.svg'
+    File: 'assets/images/provenence-graph/file.svg',
+    State: 'assets/images/provenence-graph/state.svg',
+    Dashboard: 'assets/images/provenence-graph/dashboard.svg',
+    App: 'assets/images/provenence-graph/app.svg',
+    Notebook: 'assets/images/provenence-graph/notebook.svg',
+    Protocol: 'assets/images/provenence-graph/protocol.svg',
+    Report: 'assets/images/provenence-graph/report.svg',
+    Memo: 'assets/images/provenence-graph/memo.svg',
+    Star: 'assets/images/provenence-graph/star.svg'
   }
 
   get icon() {
