@@ -8,72 +8,15 @@ import {
     accessTypes,
     inviteStatusTypes
 } from '../../config/environment';
-
-function createAdminPermissionForEntity(user, entityType) {
-    return function (entity) {
-        if (entity) {
-            return EntityPermission.create({
-                    entityId: entity._id.toString(),
-                    entityType: entityType,
-                    user: user._id.toString(),
-                    access: accessTypes.ADMIN.value,
-                    status: inviteStatusTypes.ACCEPTED.value,
-                    createdBy: user._id.toString()
-                })
-                .then(() => entity)
-                .catch(err => console.log(err));
-        }
-        return null;
-    };
-}
-
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
-}
-
-function patchUpdates(patches) {
-    return function (entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return entity.save();
-    };
-}
-
-function removeEntity(res) {
-    return function (entity) {
-        if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function handleEntityNotFound(res) {
-    return function (entity) {
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function (err) {
-        res.status(statusCode).send(err);
-    };
-}
+import {
+    respondWithResult,
+    patchUpdates,
+    protectFromPatchRemove,
+    protectFromPatchReplace,
+    removeEntity,
+    handleEntityNotFound,
+    handleError
+} from '../util';
 
 // Gets a list of Projects
 export function index(req, res) {
@@ -103,24 +46,6 @@ export function create(req, res) {
         .catch(handleError(res));
 }
 
-// Upserts the given Project in the DB at the specified ID
-export function upsert(req, res) {
-    Reflect.deleteProperty(req.body, '_id');
-    Reflect.deleteProperty(req.body, 'createdAt');
-    Reflect.deleteProperty(req.body, 'createdBy');
-
-    return Project.findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
 // Updates an existing Project in the DB
 export function patch(req, res) {
     const patches = req.body.filter(patch => ![
@@ -142,4 +67,24 @@ export function destroy(req, res) {
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
+}
+
+// HELPER FUNCTIONS
+
+function createAdminPermissionForEntity(user, entityType) {
+    return function (entity) {
+        if (entity) {
+            return EntityPermission.create({
+                    entityId: entity._id.toString(),
+                    entityType: entityType,
+                    user: user._id.toString(),
+                    access: accessTypes.ADMIN.value,
+                    status: inviteStatusTypes.ACCEPTED.value,
+                    createdBy: user._id.toString()
+                })
+                .then(() => entity)
+                .catch(err => console.log(err));
+        }
+        return null;
+    };
 }

@@ -6,9 +6,10 @@ import {
     userRolesNew
 } from '../../config/environment';
 
-var router = express.Router();
 const ADMIN_ROLE = userRolesNew.ADMIN.value;
 const ADMIN_ACCESS = accessTypes.ADMIN.value;
+
+var router = express.Router();
 
 router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
 router.get('/mine', auth.isAuthenticated(), controller.indexMine);

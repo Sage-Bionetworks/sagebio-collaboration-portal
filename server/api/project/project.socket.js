@@ -20,11 +20,13 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
+
+
         // if (isAuthorized(doc, spark.userId)) {
-            spark.emit(`${namespace}:${event}`, doc);
+            // spark.emit(`${namespace}:${event}`, doc);
             // captured by project data service
             // TODO: protect must be able to admin project
-            spark.emit(`${namespace}:${doc._id}:${event}`, doc);
+            // spark.emit(`${namespace}:${doc._id}:${event}`, doc);
         // }
     };
 }
