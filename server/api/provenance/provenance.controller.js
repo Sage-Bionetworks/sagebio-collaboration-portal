@@ -11,6 +11,55 @@ import {
     convertResponseCase
 } from '../util';
 
+// Creates a new activity
+export function createProvenanceActivity(req, res) {
+    var testBody = {
+        "agents": [
+            {
+                "userId": "agent1",
+                "name": "Admin",
+                "role": ""
+            }
+        ],
+        "description": "",
+        "generated": [
+            {
+                "role": "",
+                "name": "Molecular charecteristics of NSCLC (TCGA)",
+                "targetId": "5d00229797146c78d42a33f4",
+                "targetVersionId": "1",
+                "class": "Insight",
+                "subclass": "Report"
+            }
+        ],
+        "name": "DemoActivity2",
+        "used": [
+            {
+                "role": "",
+                "name": "PCA on TCGA breast cancer dataset",
+                "targetId": "5cb8de033f40db38a280a99e",
+                "targetVersionId": "1",
+                "class": "Resource",
+                "subclass": "State"
+            }
+        ]
+    }
+    var options = {
+        method: 'POST',
+        uri: `${config.provenance.apiServerUrl}/activities/graph`,
+        body: testBody,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
     var options = {
