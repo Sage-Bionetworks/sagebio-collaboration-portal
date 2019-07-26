@@ -8,9 +8,6 @@
     <div class="app-login-buttons">
         <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a>
         <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsTestUser()">Login as TEST USER</a>
-<!--        <div class="alternate-theme">-->
-<!--        <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="accent" (click)="loginAsAdmin()">Log in using Roche IAM</a>-->
-<!--        </div>-->
         <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
     </div>
     <div class="app-request-questions">
