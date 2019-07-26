@@ -1,4 +1,5 @@
-import { Component, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, Input, OnDestroy, EventEmitter } from '@angular/core';
+import { get } from 'lodash'
 
 @Component({
     selector: 'provenance-sidenav',
@@ -8,6 +9,9 @@ import { Component, Input, Output, OnChanges, OnDestroy, EventEmitter } from '@a
 
 export class ProvenanceSidenavComponent implements OnDestroy {
     @Input() contentDetails: any;
+
+    get = get
+
     ngOnDestroy() {
     }
 }

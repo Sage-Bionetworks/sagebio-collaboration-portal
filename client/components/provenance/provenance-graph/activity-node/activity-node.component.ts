@@ -9,11 +9,11 @@ import { get } from 'lodash'
 })
 export class ActivityNodeComponent extends ProvenanceNodeComponent {
   private classIconMap = {
-    'Tool session': '&#xf085', // gears,cogs
-    'Mention': '&#xf1fa', // at
-    'Memoization': '&#xf249', // sticky-note
-    'Report generation': '&#xf044', // edit,pencil-square-o
-    'Starred': '&#xf005', // star
+    'Tool session': this.iconDictionary.gears,
+    'Mention': this.iconDictionary.at,
+    'Memoization': this.iconDictionary.stickyNote,
+    'Report generation': this.iconDictionary.edit,
+    'Starred': this.iconDictionary.star,
   }
 
   get icon() {
@@ -21,6 +21,6 @@ export class ActivityNodeComponent extends ProvenanceNodeComponent {
   }
 
   get color() {
-    return '#679EC1' // blue
+    return this.colorDictionary.blue
   }
 }

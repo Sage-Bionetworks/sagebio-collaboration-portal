@@ -8,10 +8,10 @@ import { ProvenanceNodeComponent } from '../provenance-node/provenance-node.comp
 })
 export class AgentNodeComponent extends ProvenanceNodeComponent {
   get icon() {
-    return '&#xf007' // user
+    return this.iconDictionary.user
   }
 
   get color() {
-      return '#EB8231' // orange
+      return this.colorDictionary.orange
   }
 }

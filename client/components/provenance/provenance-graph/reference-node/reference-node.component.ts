@@ -9,10 +9,10 @@ import { get } from 'lodash'
 })
 export class ReferenceNodeComponent extends ProvenanceNodeComponent {
   private classIconMap = {
-    'Insight': '&#xf0eb', // lightbulb-o
-    'Resource': '&#xf1b2', // cube
-    'Tool': '&#xf013', // gear,cog
-    'Message': '&#xf075', // comment
+    'Insight': this.iconDictionary.lightbulb,
+    'Resource': this.iconDictionary.cube,
+    'Tool': this.iconDictionary.gear,
+    'Message': this.iconDictionary.comment,
   }
 
   subclassImageMap = {
@@ -32,7 +32,7 @@ export class ReferenceNodeComponent extends ProvenanceNodeComponent {
   }
 
   get color() {
-      return '#6DB56D' // green
+      return this.colorDictionary.green
   }
 
   get subclassImage() {
