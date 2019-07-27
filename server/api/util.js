@@ -1,9 +1,23 @@
 import {
     applyPatch
 } from 'fast-json-patch';
+import { snakeCase, isPlainObject, forOwn } from 'lodash'
 import {
     find
 } from 'lodash/fp';
+
+
+function deepMapKeys(obj, fn) {
+    var x = {};
+
+    forOwn(obj, function(v, k) {
+        if(isPlainObject(v))
+            v = deepMapKeys(v, fn);
+        x[fn(v, k)] = v;
+    });
+
+    return x;
+}
 
 export function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -13,6 +27,12 @@ export function respondWithResult(res, statusCode) {
         }
         return null;
     };
+}
+
+export function convertResponseCase(body, response, resolveWithFullResponse) {
+        let snakeCaseObject = deepMapKeys(response.body, (v, k) => snakeCase(k));
+        response.body = snakeCaseObject;
+        return resolveWithFullResponse ? response : response.body;
 }
 
 export function patchUpdates(patches) {

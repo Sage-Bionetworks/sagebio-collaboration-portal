@@ -20,6 +20,8 @@ import { StateViewComponent } from './state-view/state-view.component';
 
 import { InsightService } from './insight.service';
 import { SocketService } from 'components/socket/socket.service';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
+
 
 export const ROUTES: Routes = [{
     path: 'insights',
@@ -41,7 +43,8 @@ export const ROUTES: Routes = [{
         MaterialModule,
         RouterModule.forChild(ROUTES),
         AppQuillModule,
-        FiltersModule
+        FiltersModule,
+        ProvenanceModule,
     ],
     declarations: [
         InsightListComponent,

@@ -18,6 +18,7 @@ import { FiltersComponent } from 'components/filters/filters.component';
 export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
     private insight: Insight;
+    private d3testGraph: any;
     // private activity: BehaviorSubject<Insight> = new BehaviorSubject<Insight>();
     private provenanceGraph: any;
     // // private states: State[];
@@ -33,10 +34,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
         private socketService: SocketService) {
             this.activityDirectionFilters = values(config.activityDirectionFilters);
 
-            // this.activity = this.provenanceService.getProvenanceGraph('created_at', 'desc', 1)
-            //     .subscribe(graph => {
-            //         this.provenanceGraph = graph;
-            //     });
+            // this.d3testGraph = this.provenanceService.getMockedNodesAndRelationsForProvenanceGraph()
         }
 
     ngAfterViewInit() {
