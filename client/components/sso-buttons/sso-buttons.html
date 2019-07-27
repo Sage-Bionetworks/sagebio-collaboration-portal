@@ -1,4 +1,4 @@
-<a *ngIf="authStrategies?.includes('google-oauth20')" mat-raised-button class="app-button app-sso-button" color="primary" (click)="login('google-oauth20')">Connect with Google OAuth 2.0</a>
-<a *ngIf="authStrategies?.includes('google-saml')" mat-raised-button class="app-button app-sso-button" color="primary" (click)="login('google-saml')">Connect with Google SAML</a>
-<a *ngIf="authStrategies?.includes('azuread-openidconnect')" mat-raised-button class="app-button app-sso-button" color="primary" (click)="login('azuread-openidconnect')">Connect with Microsoft Azure OpenID Connect</a>
-<a *ngIf="authStrategies?.includes('phccp')" mat-raised-button class="app-button app-sso-button" color="primary" (click)="login('phccp')">Connect with Roche IAM</a>
+<a *ngIf="authStrategies?.includes('google-oauth20')" mat-raised-button class="app-button app-sso-button" color="warn" (click)="login('google-oauth20')">Connect with Google OAuth 2.0</a>
+<a *ngIf="authStrategies?.includes('google-saml')" mat-raised-button class="app-button app-sso-button" color="warn" (click)="login('google-saml')">Connect with Google SAML</a>
+<a *ngIf="authStrategies?.includes('azuread-openidconnect')" mat-raised-button class="app-button app-sso-button" color="warn" (click)="login('azuread-openidconnect')">Connect with Microsoft Azure OpenID Connect</a>
+<a *ngIf="authStrategies?.includes('phccp')" mat-raised-button class="app-button app-sso-button" color="warn" (click)="login('phccp')">Connect with Roche IAM</a>
