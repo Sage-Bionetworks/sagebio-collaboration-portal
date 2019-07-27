@@ -10,7 +10,7 @@ export const d3Json = {
                 name: 'Activity_16',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a5c1a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Starred'
+                class: 'Starred'
             }
         },
         {
@@ -25,7 +25,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_29',
                 id: 'e481788c-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -40,7 +40,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_30',
                 id: 'e4818296-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -67,7 +67,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_31',
                 id: 'e4819574-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -82,7 +82,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_42',
                 id: 'e4bc204a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -94,7 +94,7 @@ export const d3Json = {
                 name: 'Activity_22',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a6a3e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -118,7 +118,7 @@ export const d3Json = {
                 name: 'Activity_17',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a5e68-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -133,7 +133,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_33',
                 id: 'e48e2578-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -148,7 +148,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_20',
                 id: 'e443a1e2-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -172,7 +172,7 @@ export const d3Json = {
                 name: 'Activity_18',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a60b6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Mention'
+                class: 'Mention'
             }
         },
         {
@@ -187,7 +187,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_34',
                 id: 'e496f5d6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -202,7 +202,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_3',
                 id: 'e3e9d16c-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool'
+                class: 'Tool'
             }
         },
         {
@@ -225,7 +225,7 @@ export const d3Json = {
             properties: {
                 name: 'Activity_19',
                 created_at: '2019-07-10T23:41:18Z',
-                _class: 'Report generation',
+                class: 'Report generation',
                 id: 'e37a639a-a3a6-11e9-ad73-4c32759a3015'
             }
         },
@@ -241,7 +241,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_36',
                 id: 'e49e5ca4-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -256,7 +256,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_35',
                 id: 'e49e4a98-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool'
+                class: 'Tool'
             }
         },
         {
@@ -271,7 +271,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_34',
                 id: 'e49e41c4-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -295,7 +295,7 @@ export const d3Json = {
                 name: 'Activity_20',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a65fc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -310,7 +310,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_38',
                 id: 'e4aa163e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -325,7 +325,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_17',
                 id: 'e4354e94-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool'
+                class: 'Tool'
             }
         },
         {
@@ -349,7 +349,7 @@ export const d3Json = {
                 name: 'Activity_1',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e379c002-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Mention'
+                class: 'Mention'
             }
         },
         {
@@ -364,7 +364,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_2',
                 id: 'e3ad2ae6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -379,7 +379,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:18Z',
                 target_id: 'TargetID_1',
                 id: 'e37beac6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -391,7 +391,7 @@ export const d3Json = {
                 name: 'Activity_30',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a7a74-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -402,7 +402,7 @@ export const d3Json = {
             properties: {
                 name: 'Activity_3',
                 created_at: '2019-07-10T23:41:18Z',
-                _class: 'Report generation',
+                class: 'Report generation',
                 id: 'e37a38c0-a3a6-11e9-ad73-4c32759a3015'
             }
         },
@@ -418,7 +418,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_40',
                 id: 'e4b21c3a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -430,7 +430,7 @@ export const d3Json = {
                 name: 'Activity_21',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a6836-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -445,7 +445,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_22',
                 id: 'e44c8596-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -457,7 +457,7 @@ export const d3Json = {
                 name: 'Activity_11',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a5076-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -472,7 +472,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_18',
                 id: 'e43826d2-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -484,7 +484,7 @@ export const d3Json = {
                 name: 'Activity_9',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a4b62-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -508,7 +508,7 @@ export const d3Json = {
                 name: 'Activity_2',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a3406-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -523,7 +523,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_4',
                 id: 'e3e9e706-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -550,7 +550,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_6',
                 id: 'e3fc9bbc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -565,7 +565,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_28',
                 id: 'e479805a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -577,7 +577,7 @@ export const d3Json = {
                 name: 'Activity_15',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a59cc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -592,7 +592,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_39',
                 id: 'e4b1d798-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -607,7 +607,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_38',
                 id: 'e4b1ce60-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -619,7 +619,7 @@ export const d3Json = {
                 name: 'Activity_4',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a3ba4-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -634,7 +634,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_7',
                 id: 'e404eace-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -649,7 +649,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_6',
                 id: 'e404d408-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -661,7 +661,7 @@ export const d3Json = {
                 name: 'Activity_28',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a766e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -673,7 +673,7 @@ export const d3Json = {
                 name: 'Activity_5',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a3e42-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -688,7 +688,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_25',
                 id: 'e458a7cc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -700,7 +700,7 @@ export const d3Json = {
                 name: 'Activity_12',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a52d8-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool session'
+                class: 'Tool session'
             }
         },
         {
@@ -711,7 +711,7 @@ export const d3Json = {
             properties: {
                 name: 'Activity_10',
                 created_at: '2019-07-10T23:41:18Z',
-                _class: 'Report generation',
+                class: 'Report generation',
                 id: 'e37a4e00-a3a6-11e9-ad73-4c32759a3015'
             }
         },
@@ -727,7 +727,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_10',
                 id: 'e40d669a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -742,7 +742,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_9',
                 id: 'e40d50d8-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -754,7 +754,7 @@ export const d3Json = {
                 name: 'Activity_7',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a4310-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -769,7 +769,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_55',
                 id: 'e5018752-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -780,7 +780,7 @@ export const d3Json = {
             properties: {
                 name: 'Activity_29',
                 created_at: '2019-07-10T23:41:18Z',
-                _class: 'Report generation',
+                class: 'Report generation',
                 id: 'e37a786c-a3a6-11e9-ad73-4c32759a3015'
             }
         },
@@ -796,7 +796,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_27',
                 id: 'e471b0dc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -808,7 +808,7 @@ export const d3Json = {
                 name: 'Activity_14',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a577e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -820,7 +820,7 @@ export const d3Json = {
                 name: 'Activity_6',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a40b8-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Starred'
+                class: 'Starred'
             }
         },
         {
@@ -835,7 +835,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_12',
                 id: 'e416c316-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -850,7 +850,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_11',
                 id: 'e416aec6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -865,7 +865,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_10',
                 id: 'e416a53e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -880,7 +880,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_16',
                 id: 'e42bc90a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -892,7 +892,7 @@ export const d3Json = {
                 name: 'Activity_8',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a4766-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Mention'
+                class: 'Mention'
             }
         },
         {
@@ -907,7 +907,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_14',
                 id: 'e423a1f8-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -922,7 +922,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_15',
                 id: 'e42b86b6-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool'
+                class: 'Tool'
             }
         },
         {
@@ -937,7 +937,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:19Z',
                 target_id: 'TargetID_14',
                 id: 'e42b7e28-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -949,7 +949,7 @@ export const d3Json = {
                 name: 'Activity_26',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a725e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Mention'
+                class: 'Mention'
             }
         },
         {
@@ -964,7 +964,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_19',
                 id: 'e440d5de-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -979,7 +979,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_21',
                 id: 'e44c4644-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1003,7 +1003,7 @@ export const d3Json = {
                 name: 'Activity_13',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a5530-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Starred'
+                class: 'Starred'
             }
         },
         {
@@ -1018,7 +1018,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_25',
                 id: 'e4687918-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -1033,7 +1033,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_24',
                 id: 'e46864d2-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1045,7 +1045,7 @@ export const d3Json = {
                 name: 'Activity_25',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a7060-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -1060,7 +1060,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_49',
                 id: 'e4db812e-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -1075,7 +1075,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_44',
                 id: 'e4c5ea30-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -1087,7 +1087,7 @@ export const d3Json = {
                 name: 'Activity_23',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a6c50-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Starred'
+                class: 'Starred'
             }
         },
         {
@@ -1102,7 +1102,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_27',
                 id: 'e4790d78-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Tool'
+                class: 'Tool'
             }
         },
         {
@@ -1117,7 +1117,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_43',
                 id: 'e4c3c606-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1132,7 +1132,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:20Z',
                 target_id: 'TargetID_42',
                 id: 'e4c3bcce-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1156,7 +1156,7 @@ export const d3Json = {
                 name: 'Activity_24',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a6e58-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Memoization'
+                class: 'Memoization'
             }
         },
         {
@@ -1171,7 +1171,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_47',
                 id: 'e4d02a22-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -1186,7 +1186,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_46',
                 id: 'e4d01690-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1201,7 +1201,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_45',
                 id: 'e4d00d3a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1216,7 +1216,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_51',
                 id: 'e4e72d08-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -1240,7 +1240,7 @@ export const d3Json = {
                 name: 'Activity_27',
                 created_at: '2019-07-10T23:41:18Z',
                 id: 'e37a7466-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Mention'
+                class: 'Mention'
             }
         },
         {
@@ -1255,7 +1255,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_51',
                 id: 'e4f1189a-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -1270,7 +1270,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_50',
                 id: 'e4f103fa-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Message'
+                class: 'Message'
             }
         },
         {
@@ -1297,7 +1297,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_53',
                 id: 'e4f914fa-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         },
         {
@@ -1312,7 +1312,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_54',
                 id: 'e500d7bc-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1327,7 +1327,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_53',
                 id: 'e500cd58-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Resource'
+                class: 'Resource'
             }
         },
         {
@@ -1354,7 +1354,7 @@ export const d3Json = {
                 created_at: '2019-07-10T23:41:21Z',
                 target_id: 'TargetID_58',
                 id: 'e50b5930-a3a6-11e9-ad73-4c32759a3015',
-                _class: 'Insight'
+                class: 'Insight'
             }
         }
     ],

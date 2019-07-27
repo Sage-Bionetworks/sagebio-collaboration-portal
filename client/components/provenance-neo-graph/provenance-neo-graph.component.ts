@@ -22,16 +22,16 @@ export class ProvenanceNeoGraphComponent implements OnInit {
     getGraphOptions(graphNodes: Object) {
         return {
             icons: {
-                'Activity|_class|Tool session': 'cogs',
-                'Activity|_class|Mention': 'at',
-                'Activity|_class|Memoization': 'sticky-note',
-                'Activity|_class|Report generation': 'edit',
-                'Activity|_class|Starred': 'star',
+                'Activity|class|Tool session': 'cogs',
+                'Activity|class|Mention': 'at',
+                'Activity|class|Memoization': 'sticky-note',
+                'Activity|class|Report generation': 'edit',
+                'Activity|class|Starred': 'star',
                 'Agent': 'user',
-                'Reference|_class|Insight': 'lightbulb-o',
-                'Reference|_class|Resource': 'cube',
-                'Reference|_class|Tool': 'cog',
-                'Reference|_class|Message': 'comment'
+                'Reference|class|Insight': 'lightbulb-o',
+                'Reference|class|Resource': 'cube',
+                'Reference|class|Tool': 'cog',
+                'Reference|class|Message': 'comment'
             },
             images: {
                 'Reference|subclass|File': 'assets/images/provenence-graph/1f4c4.svg',

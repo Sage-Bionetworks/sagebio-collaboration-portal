@@ -20,7 +20,7 @@ export const neoJson = {
                                     name: 'Activity_16',
                                     created_at: '2019-07-10T23:41:18Z',
                                     id: 'e37a5c1a-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Starred'
+                                    class: 'Starred'
                                 }
                             },
                             {
@@ -35,7 +35,7 @@ export const neoJson = {
                                     created_at: '2019-07-10T23:41:20Z',
                                     target_id: 'TargetID_29',
                                     id: 'e481788c-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Resource'
+                                    class: 'Resource'
                                 }
                             },
                             {
@@ -50,7 +50,7 @@ export const neoJson = {
                                     created_at: '2019-07-10T23:41:20Z',
                                     target_id: 'TargetID_30',
                                     id: 'e4818296-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Message'
+                                    class: 'Message'
                                 }
                             },
                             {
@@ -77,7 +77,7 @@ export const neoJson = {
                                     created_at: '2019-07-10T23:41:20Z',
                                     target_id: 'TargetID_31',
                                     id: 'e4819574-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Insight'
+                                    class: 'Insight'
                                 }
                             },
                             {
@@ -92,7 +92,7 @@ export const neoJson = {
                                     created_at: '2019-07-10T23:41:20Z',
                                     target_id: 'TargetID_42',
                                     id: 'e4bc204a-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Resource'
+                                    class: 'Resource'
                                 }
                             },
                             {
@@ -104,7 +104,7 @@ export const neoJson = {
                                     name: 'Activity_22',
                                     created_at: '2019-07-10T23:41:18Z',
                                     id: 'e37a6a3e-a3a6-11e9-ad73-4c32759a3015',
-                                    _class: 'Tool session'
+                                    class: 'Tool session'
                                 }
                             },
                             {
