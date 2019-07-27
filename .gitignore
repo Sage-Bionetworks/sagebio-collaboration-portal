@@ -14,3 +14,6 @@ envvars-prod
 envvars-test
 docker-compose.yml
 docker-compose.dev.yml
+certs
+envvars
+mongodb

@@ -30,7 +30,7 @@ var all = {
 
     // Secret for session, you will want to change this and make it an environment variable
     secrets: {
-        session: 'phccp-secret'
+        session: process.env.SESSION_SECRET || 'phccp-secret'
     },
 
     // Lifetime for session
@@ -97,7 +97,11 @@ var all = {
     },
 
     provenance: {
-        apiServerUrl: process.env.PROVENANCE_API_SERVER_URL || 'http://localhost:8080/rest/v1'
+        apiServerUrl: process.env.PROVENANCE_API_SERVER_PROTOCOL + '://' +
+            process.env.PROVENANCE_API_SERVER_IP + ':' +
+            process.env.PROVENANCE_API_SERVER_PORT +
+            process.env.PROVENANCE_API_SERVER_PATH ||
+            'http://localhost:8080/rest/v1'
     }
 };
 

@@ -27,8 +27,8 @@ if (config.env === 'development' || config.env === 'test') {
     server = http.createServer(app);
 } else {
     server = https.createServer({
-        key: config.https.key,
-        cert: config.https.cert
+        key: config.ssl.key,
+        cert: config.ssl.cert
     }, app);
 }
 
