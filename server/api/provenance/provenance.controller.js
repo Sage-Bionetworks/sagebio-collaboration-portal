@@ -7,7 +7,8 @@ import config from '../../config/environment';
 import {
     respondWithResult,
     handleEntityNotFound,
-    handleError
+    handleError,
+    convertResponseCase
 } from '../util';
 
 // Returns the entire provenance graph
@@ -45,7 +46,8 @@ export function getProvenanceGraphByAgent(req, res) {
             'order': req.query.order,
             'limit': req.query.limit
         },
-        json: true
+        json: true,
+        transform: convertResponseCase(body, response, resolveWithFullResponse)
     };
 
     rp(options)
@@ -68,7 +70,8 @@ export function getProvenanceGraphByReference(req, res) {
             'order': req.query.order,
             'limit': req.query.limit
         },
-        json: true
+        json: true,
+        transform: convertResponseCase
     };
 
     rp(options)
