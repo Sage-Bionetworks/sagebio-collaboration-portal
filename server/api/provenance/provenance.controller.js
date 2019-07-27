@@ -72,8 +72,7 @@ export function getProvenanceGraphByAgent(req, res) {
             'order': req.query.order,
             'limit': req.query.limit
         },
-        json: true,
-        transform: convertResponseCase(body, response, resolveWithFullResponse)
+        json: true
     };
 
     rp(options)
@@ -96,8 +95,7 @@ export function getProvenanceGraphByReference(req, res) {
             'order': req.query.order,
             'limit': req.query.limit
         },
-        json: true,
-        transform: convertResponseCase
+        json: true
     };
 
     rp(options)
