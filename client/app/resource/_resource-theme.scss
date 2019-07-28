@@ -1,0 +1,14 @@
+@import './resource-list/resource-list-theme';
+@import './resource-page/resource-page-theme';
+@import 'components/activity/activity-sidenav/activity-sidenav-theme';
+
+@mixin resource-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  @include resource-list-theme($theme);
+  @include resource-page-theme($theme);
+}

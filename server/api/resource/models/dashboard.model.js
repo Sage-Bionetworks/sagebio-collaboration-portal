@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Insight from './insight.model';
+import Resource from './resource.model';
 
 var DashboardSchema = new mongoose.Schema({
     url: {
@@ -8,4 +8,4 @@ var DashboardSchema = new mongoose.Schema({
     }
 });
 
-export default Insight.discriminator('Dashboard', DashboardSchema);
+export default Resource.discriminator('Dashboard', DashboardSchema);

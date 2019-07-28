@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-// import { InsightService } from '../insight.service';
-import { State } from 'models/insights/state.model';
+// import { ResourceService } from '../resource.service';
+import { State } from 'models/resources/state.model';
 
 @Component({
     selector: 'state-view',

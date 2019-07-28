@@ -11,24 +11,25 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
-import { InsightListComponent } from './insight-list/insight-list.component';
-import { InsightViewComponent } from './insight-view/insight-view.component';
-import { InsightComponent } from './insight-page/insight.component';
-import { ReportViewComponent } from './report-view/report-view.component';
+import { ResourceListComponent } from './resource-list/resource-list.component';
+import { ResourceViewComponent } from './resource-view/resource-view.component';
+import { ResourceComponent } from './resource-page/resource.component';
+import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
+import { StateViewComponent } from './state-view/state-view.component';
 
-import { InsightService } from './insight.service';
+import { ResourceService } from './resource.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 
 export const ROUTES: Routes = [{
-    path: 'insights',
-    component: InsightListComponent,
+    path: 'resources',
+    component: ResourceListComponent,
     canActivate: [AuthGuard],
     data: {}
 }, {
-    path: 'insights/:id',
-    component: InsightComponent,
+    path: 'resources/:id',
+    component: ResourceComponent,
     canActivate: [AuthGuard],
     data: {}
 }];
@@ -44,23 +45,23 @@ export const ROUTES: Routes = [{
         FiltersModule,
         ShowActivityButtonModule,
         ActivitySidenavModule,
-        ProvenanceModule,
+        ProvenanceModule
     ],
     declarations: [
-        InsightListComponent,
-        InsightViewComponent,
-        InsightComponent,
-        ReportViewComponent,
+        ResourceListComponent,
+        ResourceViewComponent,
+        ResourceComponent,
+        DashboardViewComponent,
+        StateViewComponent
     ],
     providers: [
         SocketService,
-        InsightService
+        ResourceService
     ],
     exports: [
-        InsightListComponent,
-        InsightViewComponent,
-        InsightComponent
+        ResourceListComponent,
+        ResourceViewComponent,
+        ResourceComponent
     ],
-    entryComponents: []
 })
-export class InsightModule { }
+export class ResourceModule { }

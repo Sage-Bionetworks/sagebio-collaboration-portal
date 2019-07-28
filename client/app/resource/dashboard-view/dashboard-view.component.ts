@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-// import { InsightService } from '../insight.service';
-import { Dashboard } from 'models/insights/dashboard.model';
+// import { ResourceService } from '../resource.service';
+import { Dashboard } from 'models/resources/dashboard.model';
 
 @Component({
     selector: 'dashboard-view',

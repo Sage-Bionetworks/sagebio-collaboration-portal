@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Insight from './insight.model';
+import Resource from './resource.model';
 
 var StateSchema = new mongoose.Schema({
     data: {
@@ -8,4 +8,4 @@ var StateSchema = new mongoose.Schema({
     }
 });
 
-export default Insight.discriminator('State', StateSchema);
+export default Resource.discriminator('State', StateSchema);

@@ -10,52 +10,53 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
 
-import { Insight } from 'models/insights/insight.model';
-import { Report } from 'models/insights/report.model';
+import { Resource } from 'models/resources/resource.model';
+import { State } from 'models/resources/state.model';
+import { Dashboard } from 'models/resources/dashboard.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 
 @Injectable()
-export class InsightService {
+export class ResourceService {
 
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    getInsights(query?: {}): Observable<Insight[]> {
-        return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
+    getResources(query?: {}): Observable<Resource[]> {
+        return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
     }
 
-    getInsight(insightId: string): Observable<Insight> {
-        return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
+    getResource(resourceId: string): Observable<Resource> {
+        return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
     }
 
-    searchInsightsByName(terms: Observable<string>): Observable<Insight[] | null> {
+    searchResourcesByName(terms: Observable<string>): Observable<Resource[] | null> {
         return terms
             .pipe(
                 debounceTime(400),
                 distinctUntilChanged(),
-                switchMap(term => term ? this.getInsights({ searchTerms: term }) : of(null))
+                switchMap(term => term ? this.getResources({ searchTerms: term }) : of(null))
             );
     }
 
-    updateInsightDescription(insight: Insight, description: string): Observable<Insight> {
-        return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
+    updateResourceDescription(resource: Resource, description: string): Observable<Resource> {
+        return this.httpClient.patch<Resource>(`/api/resources/${resource._id}`,  // HACK
             [
                 { op: 'replace', path: '/description', value: description }
             ]
         );
     }
 
-    updateStateDescription(insight: Insight, description: string): Observable<Insight> {
-        return this.httpClient.patch<Insight>(`/api/states/${insight._id}`,  // HACK
+    updateStateDescription(resource: Resource, description: string): Observable<Resource> {
+        return this.httpClient.patch<Resource>(`/api/states/${resource._id}`,  // HACK
             [
                 { op: 'replace', path: '/description', value: description }
             ]
         );
     }
 
-    showActivity(insight: Insight): void {
+    showActivity(insight: Resource): void {
         let sidenavContentId = `activity:${insight._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService

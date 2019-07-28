@@ -1,5 +1,5 @@
 import { applyPatch } from 'fast-json-patch';
-import State from '../insight/models/state.model';
+import State from '../resource/models/state.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -55,7 +55,7 @@ function handleError(res, statusCode) {
 export function create(req, res) {
     let state = req.body;
     if (!state.title) {  // TODO: Fix in Shiny tool
-        state.title = state.name; 
+        state.title = state.name;
     }
     return State.create(req.body)
         .then(respondWithResult(res, 201))

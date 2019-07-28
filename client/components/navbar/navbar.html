@@ -8,6 +8,7 @@
 <!--            <img class="app-logo" [src]="'assets/images/app-logo.svg'" alt="PHCCP logo">-->
             <span>PHCCP</span>
         </a>
+        <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/resources" aria-label="Resources">Resources</a>
         <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/insights" aria-label="Insights">Insights</a>
         <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/projects" aria-label="Projects">Projects</a>
         <a *ngIf="isLoggedIn" mat-button class="app-button" routerLink="/datasets" aria-label="Datasets">Datasets</a>

@@ -17,15 +17,12 @@ var config = {
     },
 
     insightTypeFilters: [{
-        value: 'Dashboard',
-        title: 'Dashboard',
+        value: 'Report',
+        title: 'Report',
         active: true
     }, {
-        value: 'Report',
-        title: 'Report'
-    }, {
-        value: 'State',
-        title: 'State'
+        value: 'Memo',
+        title: 'Memo'
     }],
 
     activityDirectionFilters: [{
@@ -36,6 +33,15 @@ var config = {
         value: 'up',
         title: 'Up'
     }],
+
+    resourceTypeFilters: [{
+        value: 'Dashboard',
+        title: 'Dashboard',
+        active: true
+    }, {
+        value: 'State',
+        title: 'State'
+    }]
 };
 
 export default merge(config, shared);

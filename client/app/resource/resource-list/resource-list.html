@@ -1,0 +1,25 @@
+<div class="app-primary-header">
+    <h1>Resources</h1>
+</div>
+
+<div class="app-resource-list-container">
+    <div class="app-resource-list-filters-container">
+        <h3>Resource Type</h3>
+        <radio-button-filter [filters]="resourceTypeFilters" group="resourceType"></radio-button-filter>
+    </div>
+
+    <div class="app-resource-list-content-container">
+        <!-- <search-filter class="app-resource-list-search-filter" group="searchTerms"></search-filter> -->
+        <div class="app-resource-list-results">
+            <ng-template ngFor let-resource let-i="index" let-first="first" [ngForOf]="resources">
+                <dashboard-view *ngIf="resource.resourceType === 'Dashboard'" [dashboard]="resource"></dashboard-view>
+                <state-view *ngIf="resource.resourceType === 'State'" [state]="resource"></state-view>
+            </ng-template>
+
+            <!-- <resource-view *ngFor="let resource of resources" [resource]="resource"></resource-view> -->
+        </div>
+        <!-- <div class="app-resource-list-more-results-container" *ngIf="searchResultCount - resources.length > 0">
+          <a mat-raised-button class="app-resource-list-more-results" color="primary" (click)="showMoreResults()">More Results</a>
+      </div> -->
+    </div>
+</div>

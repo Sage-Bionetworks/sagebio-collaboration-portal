@@ -3,7 +3,7 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
-import Dashboard from '../api/insight/models/dashboard.model';
+import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
 import Message from '../api/message/message.model';
@@ -11,7 +11,7 @@ import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
 import Report from '../api/insight/models/report.model';
 import StarredMessage from '../api/starred-message/starred-message.model';
-import State from '../api/insight/models/state.model';
+import State from '../api/resource/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';

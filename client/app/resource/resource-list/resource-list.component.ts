@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChild
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { InsightService } from '../insight.service';
+import { ResourceService } from '../resource.service';
 // import { StateService } from '../../state/state.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
@@ -12,58 +12,60 @@ import config from '../../app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
-import { Insight } from 'models/insights/insight.model';
-import { Report } from 'models/insights/report.model';
-import { ReportViewComponent } from '../report-view/report-view.component';
+import { Resource } from 'models/resources/resource.model';
+import { State } from 'models/resources/state.model';
+import { Dashboard } from 'models/resources/dashboard.model';
+import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
+import { StateViewComponent } from '../state-view/state-view.component';
 
 @Component({
-    selector: 'insight-list',
-    template: require('./insight-list.html'),
-    styles: [require('./insight-list.scss')],
+    selector: 'resource-list',
+    template: require('./resource-list.html'),
+    styles: [require('./resource-list.scss')],
 })
-export class InsightListComponent implements OnInit, AfterViewInit {
+export class ResourceListComponent implements OnInit, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
     // private states: State[];
-    // private reports: Insight[];
-    private insights: Insight[] = [];
+    // private reports: Resource[];
+    private resources: Resource[] = [];
 
-    private insightTypeFilters: Filter[] = [];
+    private resourceTypeFilters: Filter[] = [];
 
     private numResultsPerPage = 8;
     // private searchData: any;
     private searchPageIndex: number;
     private searchResultCount = 0;
 
-    static parameters = [Router, FormBuilder, PageTitleService, InsightService,
+    static parameters = [Router, FormBuilder, PageTitleService, ResourceService,
         NotificationService];
     constructor(private router: Router, private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private insightService: InsightService,
+        private resourceService: ResourceService,
         private notificationService: NotificationService) {
 
-        this.insightTypeFilters = config.insightTypeFilters;
+        this.resourceTypeFilters = config.resourceTypeFilters;
 
 
-        // this.insights = this.insightService.getInsights();
+        // this.resources = this.resourceService.getResources();
 
         // const myStates = this.stateService.getStates();
 
         // combineLatest(
         //     this.stateService.getStates(),
-        //     this.insightService.getInsights()
+        //     this.resourceService.getResources()
         // )
         //     .pipe(
         //         map(([states, reports]) => {
         //             this.states = states;
         //             this.reports = reports;
-        //             this.insights = orderBy('createdAt', 'desc', reports.concat(states));
+        //             this.resources = orderBy('createdAt', 'desc', reports.concat(states));
         //         })
         //     )
         //     .subscribe(res => console.log('done', res));
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Insights';
+        this.pageTitleService.title = 'Resources';
     }
 
     ngAfterViewInit() {
@@ -76,11 +78,11 @@ export class InsightListComponent implements OnInit, AfterViewInit {
                         mapValues('value')
                     ])(myFilters)
                 ),
-                switchMap(query => this.insightService.getInsights(query)),
-                map(insights => orderBy('createdAt', 'asc', insights))
+                switchMap(query => this.resourceService.getResources(query)),
+                map(resources => orderBy('createdAt', 'asc', resources))
             )
-            .subscribe(insights => {
-                this.insights = insights;
+            .subscribe(resources => {
+                this.resources = resources;
             }, err => {
                 console.log(err);
                 this.notificationService.error(err.message);
@@ -146,7 +148,7 @@ export class InsightListComponent implements OnInit, AfterViewInit {
     }
 
     clearResults(): void {
-        this.insights = [];
+        this.resources = [];
         this.searchResultCount = 0;
         this.searchPageIndex = undefined;
     }
