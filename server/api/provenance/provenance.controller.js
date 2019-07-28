@@ -7,47 +7,16 @@ import config from '../../config/environment';
 import {
     respondWithResult,
     handleEntityNotFound,
-    handleError,
-    convertResponseCase
+    handleError
 } from '../util';
+
 
 // Creates a new activity
 export function createProvenanceActivity(req, res) {
-    var testBody = {
-        "agents": [
-            {
-                "userId": "agent1",
-                "name": "Admin",
-                "role": ""
-            }
-        ],
-        "description": "",
-        "generated": [
-            {
-                "role": "",
-                "name": "Molecular charecteristics of NSCLC (TCGA)",
-                "targetId": "5d00229797146c78d42a33f4",
-                "targetVersionId": "1",
-                "class": "Insight",
-                "subclass": "Report"
-            }
-        ],
-        "name": "DemoActivity2",
-        "used": [
-            {
-                "role": "",
-                "name": "PCA on TCGA breast cancer dataset",
-                "targetId": "5cb8de033f40db38a280a99e",
-                "targetVersionId": "1",
-                "class": "Resource",
-                "subclass": "State"
-            }
-        ]
-    }
     var options = {
         method: 'POST',
-        uri: `${config.provenance.apiServerUrl}/activities/graph`,
-        body: testBody,
+        uri: `${config.provenance.apiServerUrl}/activities`,
+        body: req.body,
         headers: {
             'User-Agent': 'Request-Promise'
         },
@@ -59,6 +28,38 @@ export function createProvenanceActivity(req, res) {
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
+
+// Creates multiple activities
+export function createActivitiesBatch(req, res) {
+    console.log(res)
+    var options = {
+        method: 'POST',
+        uri: `${config.provenance.apiServerUrl}/activities/batch`,
+        body: req.body,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+//     return Promise.all(requests.map(function(req) {
+//         return new Promise((resolve, reject) => {
+//             console.log(JSON.stringify(req));
+//             createProvenanceActivity(req, express.response.ServerResponse, function(err, data) {
+//                 if (err) {
+//                     reject(err);
+//                 } else {
+//                     resolve(data);
+//                 }
+//             });
+//         });
+//     }));
+// }
 
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
