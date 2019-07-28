@@ -55,7 +55,7 @@ var all = {
             email: process.env.APP_INIT_ADMIN_EMAIL || 'admin@sagebase.org',
             password: process.env.APP_INIT_ADMIN_PASSWORD || 'admin'
         },
-        dbSeedName: process.env.APP_INIT_DB_SEED_NAME || undefined
+        dbSeedName: process.env.APP_INIT_DB_SEED_NAME || 'default'
     },
 
     // List of auth strategies available
