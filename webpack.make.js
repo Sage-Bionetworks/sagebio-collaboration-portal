@@ -269,7 +269,6 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: http://webpack.github.io/docs/configuration.html#plugins
      * List: http://webpack.github.io/docs/list-of-plugins.html
      */
-    var gitRevisionPlugin = new GitRevisionPlugin();
     config.plugins = [
         // Hides the 'the request of a dependency is an expression' warnings
         new webpack.ContextReplacementPlugin(
@@ -287,15 +286,6 @@ module.exports = function makeWebpackConfig(options) {
                 sourceComments: false
             },
 
-        }),
-
-        new webpack.DefinePlugin({
-            'process.env': {
-                'GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
-                'GIT_COMMIT_HASH': JSON.stringify(gitRevisionPlugin.commithash()),
-                'GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
-                // 'CONTACT_US_URL2': process.env.CONTACT_US_URL
-            }
         }),
     ];
 
@@ -337,9 +327,28 @@ module.exports = function makeWebpackConfig(options) {
     localEnv = _.mapValues(localEnv, value => `"${value}"`);
     localEnv = _.mapKeys(localEnv, (value, key) => `process.env.${key}`);
 
+    var gitRevisionPlugin = new GitRevisionPlugin();
+
     let env = _.merge({
-        'process.env.NODE_ENV': DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"'
+        'process.env': {
+            'NODE_ENV': DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
+            'GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
+            'GIT_COMMIT_HASH': JSON.stringify(gitRevisionPlugin.commithash()),
+            'GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+        }
     }, localEnv);
+
+    if (DEV) {
+        // Define the envronment variables that appear in config/shared.js
+        // For some reason PORT is already set but I don't know how
+        let sharedEnv = {
+            'process.env': {
+                // 'NODE_ENV'  // already set above
+                'CONTACT_US_URL': `"${process.env.CONTACT_US_URL}"`
+            }
+        }
+        env = _.merge(env, sharedEnv);
+    }
 
     // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     // Define free global variables
