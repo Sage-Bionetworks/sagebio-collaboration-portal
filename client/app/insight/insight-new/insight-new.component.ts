@@ -34,6 +34,9 @@ export class InsightNewComponent implements OnInit, OnDestroy {
 
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
+            type: [config.models.insight.type.default, [
+                Validators.required
+            ]],
             name: ['', [
                 Validators.required,
                 Validators.minLength(config.models.insight.name.minlength),
@@ -43,9 +46,6 @@ export class InsightNewComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.minLength(config.models.insight.description.minlength),
                 Validators.maxLength(config.models.insight.description.maxlength)
-            ]],
-            visibility: [config.models.insight.visibility.default, [
-                Validators.required
             ]],
         });
         console.log('CONSTRUCTOR');
