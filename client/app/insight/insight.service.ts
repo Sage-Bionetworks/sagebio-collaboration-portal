@@ -30,12 +30,6 @@ export class InsightService {
         return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
     }
 
-
-
-
-
-
-
     searchInsightsByName(terms: Observable<string>): Observable<Insight[] | null> {
         return terms
             .pipe(

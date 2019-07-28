@@ -73,51 +73,6 @@ export class InsightComponent implements OnInit, OnDestroy {
                 console.log('INSIGHT', data);
                 this.errors.updateDescription = undefined;
             });
-
-        // this.route.params
-        //     .pipe(
-        //         mergeMap(res => {
-        //             return combineLatest(
-        //                 this.insightService.getInsight(res.id)
-        //                     .pipe(
-        //                         catchError(err => {
-        //                             // console.log(err);
-        //                             // this.notificationService.error('Unable to connect to Data Catalog');
-        //                             return of(<Insight>{});
-        //                         })
-        //                     ),
-        //
-        //                 this.stateService.getState(res.id)
-        //                     .pipe(
-        //                         catchError(err => {
-        //                             // console.log(err);
-        //                             // this.notificationService.error('Unable to connect to Data Catalog');
-        //                             return of(<Insight>{});
-        //                         })
-        //                     )
-        //             );
-        //         }),
-        //         map(([insight, state]) => {
-        //             // console.log()
-        //             return (insight._id) ? insight : state;
-        //         })
-        //         // tap([insight, state] => {
-        //         //     console.log('insight', insight);
-        //         //     console.log('state', state);
-        //         // })
-        //     )
-        //     .subscribe(insight => {
-        //         console.log(insight);
-        //         if (insight.description) {  // TODO: should be required
-        //             try {
-        //                 this.form.get('description').setValue(JSON.parse(insight.description));
-        //             } catch (e) {
-        //                 // the description is likely a string if specified from a tool
-        //                 this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
-        //             }
-        //         }
-        //         this.insight = insight;
-        //     });
     }
 
     ngOnDestroy() { }
