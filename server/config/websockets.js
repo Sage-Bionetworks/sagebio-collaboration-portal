@@ -13,7 +13,6 @@ const registerFunctions = [
     require('../api/entity-permission/entity-permission.socket').register,
     require('../api/starred-message/starred-message.socket').register,
     require('../api/message/message.socket').register,
-    require('../api/tag/tag.socket').register,
     require('../api/project/project.socket').register,
     require('../api/organization/organization.socket').register,
     require('../api/data-catalog/data-catalog.socket').register,
@@ -36,6 +35,8 @@ function onConnect(spark) {
     console.info(
         `WebSocket from ${spark.address.ip}:${spark.address.port} connected`
     );
+
+    spark.setMaxListeners(32);
 
     // When the client emits 'info', this listens and executes
     spark.on('info', data => {

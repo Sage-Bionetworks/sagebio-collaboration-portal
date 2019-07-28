@@ -18,15 +18,14 @@ module.exports = {
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_URI ||
-            process.env.MONGOHQ_URL ||
-            process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME ||
+        uri: process.env.MONGODB_PROTOCOL + '://' + process.env.MONGODB_IP +
+            ':' + process.env.MONGODB_PORT + process.env.MONGODB_PATH ||
             'mongodb://localhost/phccp'
     },
 
-    https: {
-        key: process.env.HTTPS_KEY || fs.readFileSync('certs/server.key'),
-        cert: process.env.HTTPS_CERT || fs.readFileSync('certs/server.cert')
+    ssl: {
+        key: process.env.SSL_KEY || fs.readFileSync('certs/server.key'),
+        cert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert')
     },
 
     phccpShinyToolExample: {

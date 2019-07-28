@@ -8,6 +8,14 @@ export class ProvenanceService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
+    createProvenanceActivity(body): Observable<any> {
+        return this.httpClient.post<any>(`/api/provenance`, body);
+    }
+
+    createActivitiesBatch(body): Observable<any> {
+        return this.httpClient.post<any>(`/api/provenance/batch`, body);
+    }
+
     getProvenanceGraph(sortBy: string, order: string, limit: number): Observable<any> {
         let params = new HttpParams()
             .set('sortBy', sortBy)

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/tool.model';
-import { geneId } from '../../../../server/config/seeds/all/organizations';  // TODO: Must use share
+import { geneId } from '../../../../server/config/seeds/default/organizations';  // TODO: get from API
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app.constants';
 import slugify from 'slugify';

@@ -7,9 +7,35 @@ import config from '../../config/environment';
 import {
     respondWithResult,
     handleEntityNotFound,
-    handleError,
-    convertResponseCase
+    handleError
 } from '../util';
+
+
+// Creates a new activity
+export function createProvenanceActivity(req, res) {
+    var options = {
+        method: 'POST',
+        uri: `${config.provenance.apiServerUrl}/activities`,
+        body: req.body,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Creates multiple activities
+export function createActivitiesBatch(req, res) {
+    createActivities(req.body)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
 
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
@@ -78,4 +104,20 @@ export function getProvenanceGraphByReference(req, res) {
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
+}
+
+// HELPER FUNCTIONS
+
+export function createActivities(activities) {
+    var options = {
+        method: 'POST',
+        uri: `${config.provenance.apiServerUrl}/activities/batch`,
+        body: activities,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    return rp(options);
 }

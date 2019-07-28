@@ -15,11 +15,15 @@ import {
 import {
     users
 } from './users';
+import {
+    activities
+} from './provenance';
 
 module.exports = {
     dataCatalogs: dataCatalogs,
     dashboards: dashboards,
     organizations: organizations,
     tools: tools,
-    users: users
+    users: users,
+    activities: activities
 };

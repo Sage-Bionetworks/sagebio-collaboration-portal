@@ -135,10 +135,6 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
-    // discourse,
-    // feliteWebsite
-
-    // authStrategies,
     models,
     datasetOrders,
     accessTypes,
