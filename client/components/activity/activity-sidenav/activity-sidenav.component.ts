@@ -49,12 +49,14 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 )
             )
             .subscribe(direction => {
-                this.provenanceService.getProvenanceGraphByReference(this.insight._id, direction.activityDirection, 'created_at', 'desc', 1)
+                this.provenanceService.getProvenanceGraphByReference(this.insight._id, direction.activityDirection, 'created_at', 'desc', 3)
                     .subscribe(activity => {
+                        console.log(activity)
                         // this.socketService.syncItemSubject(`activity:${insight._id}:insight`, this.activity);
                         this.provenanceGraph = activity;
                     });
             })
+
     }
 
     ngOnDestroy() {

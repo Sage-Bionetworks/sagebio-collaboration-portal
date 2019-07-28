@@ -13,9 +13,10 @@
             <b>Direction</b>
             <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
         </div>
-        <!-- <div class="app-activity-graph-container">
+        <div class="app-activity-graph-container">
             <provenance-graph class="provenance-graph" [graphData]="provenanceGraph"></provenance-graph>
-        </div> -->
-        <!-- <p>{{ provenanceGraph | json }}</p> -->
+            <pre>{{ provenanceGraph | json }}</pre>
+        </div>
+
     </div>
 </div>
