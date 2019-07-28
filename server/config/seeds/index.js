@@ -1,9 +1,11 @@
 /*eslint no-process-env:0*/
-import _ from 'lodash';
+import {
+    merge
+} from 'lodash';
+import config from '../../config/environment';
 
-var all = require('./all');
+var default_ = require('./default');
 
-module.exports = _.merge(
-    all,
-    // require('./shared').default,
-    require(`./${process.env.NODE_ENV}`) || {});
+module.exports = config.init.dbSeedName ? merge(
+    default_,
+    require(`./${config.init.dbSeedName}`) || {}) : null;
