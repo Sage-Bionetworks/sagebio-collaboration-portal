@@ -262,6 +262,7 @@ module.exports = function makeWebpackConfig(options) {
     };
 
     //TODO: TS Instrumenter
+    console.log('CONTACT US', process.env.CONTACT_US_URL);
 
     /**
      * Plugins
@@ -290,9 +291,10 @@ module.exports = function makeWebpackConfig(options) {
 
         new webpack.DefinePlugin({
             'process.env': {
-                'gitVersion': JSON.stringify(gitRevisionPlugin.version()),
-                'gitCommitHash': JSON.stringify(gitRevisionPlugin.commithash()),
-                'gitBranch': JSON.stringify(gitRevisionPlugin.branch())
+                'GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
+                'GIT_COMMIT_HASH': JSON.stringify(gitRevisionPlugin.commithash()),
+                'GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+                // 'CONTACT_US_URL2': process.env.CONTACT_US_URL
             }
         }),
     ];

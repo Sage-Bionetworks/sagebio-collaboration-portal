@@ -1,6 +1,8 @@
 import { merge } from 'lodash/fp';
 import shared from '../../server/config/environment/shared';
 
+console.log('shared', shared);
+
 var config = {
     avatar: {
         size: {

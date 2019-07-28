@@ -2,6 +2,7 @@
 
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
+export const contactUsUrl = process.env.CONTACT_US_URL || 'https://sagebionetworks.org';
 // List of user roles
 export const userRoles = ['user', 'admin']; // TODO: remove
 export const userRolesNew = {
@@ -58,9 +59,9 @@ export const inviteStatusTypes = {
     }
 };
 
-export const gitVersion = process.env.gitVersion;
-export const gitCommitHash = process.env.gitCommitHash;
-export const gitBranch = process.env.gitBranch;
+export const gitVersion = process.env.GIT_VERSION;
+export const gitCommitHash = process.env.GIT_COMMIT_HASH;
+export const gitBranch = process.env.GIT_BRANCH;
 
 export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 
@@ -129,6 +130,7 @@ export const datasetOrders = {
 export default {
     env,
     port,
+    contactUsUrl,
     userRoles,
     userRolesNew,
     permissionTypes,
