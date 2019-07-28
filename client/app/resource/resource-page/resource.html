@@ -8,6 +8,9 @@
         <mat-card class="resource-card">
             <div class="resource-card-top">
                 <div class="resource-card-left-container">
+                    <div class="resource-card-prov-graph-actions">
+                        <show-activity-button [insight]="resource" (click)="showActivity()"></show-activity-button>
+                    </div>
                     <h3>Description</h3>
                     <form [formGroup]="form" novalidate>
                         <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
@@ -22,18 +25,8 @@
 
                     <div class="resource-card-info">
                         <span><b>Created by:</b> Thomas</span>
-                        <span *ngIf="resource.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="resource.data !== undefined"><b>Type:</b> State</span>
                         <span><b>Tool:</b> FE Lite</span>
-                    </div>
-                </div>
-                <div class="resource-card-right-container">
-                    <h3>Recent Activity</h3>
-                    <div class="resource-card-prov-graph-panel">
-                        <img src="assets/images/resource-prov-graph-placeholder.png">
-                    </div>
-                    <div class="resource-card-prov-graph-actions">
-                        <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">View Full Provenance</a>
                     </div>
                 </div>
             </div>

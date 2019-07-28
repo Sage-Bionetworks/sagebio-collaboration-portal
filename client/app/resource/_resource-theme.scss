@@ -1,5 +1,6 @@
 @import './resource-list/resource-list-theme';
 @import './resource-page/resource-page-theme';
+@import 'components/activity/activity-sidenav/activity-sidenav-theme';
 
 @mixin resource-theme($theme) {
   $primary: map-get($theme, primary);

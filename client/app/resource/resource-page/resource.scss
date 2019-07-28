@@ -25,6 +25,26 @@
       width: 50%;
       min-height: 500px;
 
+      .resource-card-prov-graph-panel {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #6c6c6c;
+        height: 300px;
+
+        > img {
+          width: 300px;
+        }
+      }
+
+      .resource-card-prov-graph-actions {
+        display: flex;
+        flex-flow: row nowrap;
+        // justify-content: center;
+        margin-top: 20px;
+      }
+    }
       .resource-card-description {
         flex-grow: 1;
         margin-right: 20px;
@@ -53,27 +73,6 @@
       flex-flow: column nowrap;
       flex-grow: 1;
       width: 50%;
-
-      .resource-card-prov-graph-panel {
-        display: flex;
-        flex-flow: column nowrap;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #6c6c6c;
-        height: 300px;
-
-        > img {
-          width: 300px;
-        }
-      }
-
-      .resource-card-prov-graph-actions {
-        display: flex;
-        flex-flow: row nowrap;
-        // justify-content: center;
-        margin-top: 10px;
-      }
-    }
   }
 
   .app-resource-actions {
