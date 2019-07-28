@@ -16,7 +16,11 @@ var config = {
 
     insightTypeFilters: [{
         value: 'Report',
-        title: 'Report'
+        title: 'Report',
+        active: true
+    }, {
+        value: 'Memo',
+        title: 'Memo'
     }],
 
     activityDirectionFilters: [{
