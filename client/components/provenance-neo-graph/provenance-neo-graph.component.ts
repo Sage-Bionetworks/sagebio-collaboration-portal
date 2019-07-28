@@ -22,27 +22,27 @@ export class ProvenanceNeoGraphComponent implements OnInit {
     getGraphOptions(graphNodes: Object) {
         return {
             icons: {
-                'Activity|_class|Tool session': 'cogs',
-                'Activity|_class|Mention': 'at',
-                'Activity|_class|Memoization': 'sticky-note',
-                'Activity|_class|Report generation': 'edit',
-                'Activity|_class|Starred': 'star',
+                'Activity|class|Tool session': 'cogs',
+                'Activity|class|Mention': 'at',
+                'Activity|class|Memoization': 'sticky-note',
+                'Activity|class|Report generation': 'edit',
+                'Activity|class|Starred': 'star',
                 'Agent': 'user',
-                'Reference|_class|Insight': 'lightbulb-o',
-                'Reference|_class|Resource': 'cube',
-                'Reference|_class|Tool': 'cog',
-                'Reference|_class|Message': 'comment'
+                'Reference|class|Insight': 'lightbulb-o',
+                'Reference|class|Resource': 'cube',
+                'Reference|class|Tool': 'cog',
+                'Reference|class|Message': 'comment'
             },
             images: {
-                'Reference|subclass|File': 'assets/images/provenence-graph/1f4c4.svg',
-                'Reference|subclass|State': 'assets/images/provenence-graph/1f4be.svg',
-                'Reference|subclass|Dashboard': 'assets/images/provenence-graph/1f39b.svg',
-                'Reference|subclass|App': 'assets/images/provenence-graph/1f4bb.svg',
-                'Reference|subclass|Notebook': 'assets/images/provenence-graph/1f4ca.svg',
-                'Reference|subclass|Protocol': 'assets/images/provenence-graph/2697.svg',
-                'Reference|subclass|Report': 'assets/images/provenence-graph/1f4cb.svg',
-                'Reference|subclass|Memo': 'assets/images/provenence-graph/1f516.svg',
-                'Reference|subclass|Star': 'assets/images/provenence-graph/2b50.svg'
+                'Reference|subclass|File': 'assets/images/provenence-graph/filesvg',
+                'Reference|subclass|State': 'assets/images/provenence-graph/state.svg',
+                'Reference|subclass|Dashboard': 'assets/images/provenence-graph/dashboard.svg',
+                'Reference|subclass|App': 'assets/images/provenence-graph/app.svg',
+                'Reference|subclass|Notebook': 'assets/images/provenence-graph/notebook.svg',
+                'Reference|subclass|Protocol': 'assets/images/provenence-graph/protocol.svg',
+                'Reference|subclass|Report': 'assets/images/provenence-graph/report.svg',
+                'Reference|subclass|Memo': 'assets/images/provenence-graph/memo.svg',
+                'Reference|subclass|Star': 'assets/images/provenence-graph/star.svg'
             },
             minCollision: 60,
             neo4jData: graphNodes,

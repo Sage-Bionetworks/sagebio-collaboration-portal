@@ -29,6 +29,7 @@ export class ProvenanceGraphComponent implements AfterViewInit {
     ngAfterViewInit() {
         if (this.graphData) {
             this.convertToD3(this.graphData)
+            console.log(this.nodes)
             this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options)
 
             console.log(this.graph)
@@ -59,7 +60,7 @@ export class ProvenanceGraphComponent implements AfterViewInit {
             result.data.forEach(function (data) {
                 data.graph.nodes.forEach(function (node) {
                     if (!includes(graph.nodes, node.id)) {
-                        graph.nodes.push(new Node(node.id, node.labels[0], node.properties._class, node.properties.subclass));
+                        graph.nodes.push(new Node(node.id, node.labels[0], node.properties.class, node.properties.subclass));
                     }
                 });
 

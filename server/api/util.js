@@ -1,22 +1,28 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import { snakeCase, isPlainObject, forOwn } from 'lodash'
+import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash'
 import {
     find
 } from 'lodash/fp';
 
+function deeply(map) {
+    var deeplyArray = function (obj, fn) {
+      return obj.map(function(x) {
+        return isPlainObject(x) ? deeply(map)(x, fn) : x;
+      })
+    }
 
-function deepMapKeys(obj, fn) {
-    var x = {};
+    return function (obj, fn) {
+      if (isArray(obj)) {
+        return deeplyArray(obj, fn);
+      }
 
-    forOwn(obj, function(v, k) {
-        if(isPlainObject(v))
-            v = deepMapKeys(v, fn);
-        x[fn(v, k)] = v;
-    });
-
-    return x;
+      return map(mapValues(obj, function (v) {
+        return isPlainObject(v) ? deeply(map)(v, fn) : isArray(v) ?
+          deeplyArray(v, fn) : v;
+      }), fn);
+    }
 }
 
 export function respondWithResult(res, statusCode) {
@@ -30,7 +36,7 @@ export function respondWithResult(res, statusCode) {
 }
 
 export function convertResponseCase(body, response, resolveWithFullResponse) {
-        let snakeCaseObject = deepMapKeys(response.body, (v, k) => snakeCase(k));
+        let snakeCaseObject = deeply(mapKeys)(response.body, (v, k) => snakeCase(k));
         response.body = snakeCaseObject;
         return resolveWithFullResponse ? response : response.body;
 }
