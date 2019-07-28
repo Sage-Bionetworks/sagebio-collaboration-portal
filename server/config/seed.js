@@ -15,14 +15,15 @@ import State from '../api/insight/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
-import { createActivities } from '../api/provenance/provenance.controller';
+import {
+    createActivities
+} from '../api/provenance/provenance.controller';
 import config from './environment';
 import seeds from './seeds';
 
 var express = require('express');
 
-export default function seedDatabaseIfNeeded() {
-
+export function seedDatabaseIfNeeded() {
     // there is a race condition between the unit tests and the seed creation.
     if (config.env === 'test' || !seeds) {
         return;
