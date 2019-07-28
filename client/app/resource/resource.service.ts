@@ -13,12 +13,15 @@ import { stringifyQuery } from 'components/util';
 import { Resource } from 'models/resources/resource.model';
 import { State } from 'models/resources/state.model';
 import { Dashboard } from 'models/resources/dashboard.model';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 
 @Injectable()
 export class ResourceService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, SecondarySidenavService];
+    constructor(private httpClient: HttpClient,
+        private secondarySidenavService: SecondarySidenavService) { }
 
     getResources(query?: {}): Observable<Resource[]> {
         return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
@@ -27,12 +30,6 @@ export class ResourceService {
     getResource(resourceId: string): Observable<Resource> {
         return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
     }
-
-
-
-
-
-
 
     searchResourcesByName(terms: Observable<string>): Observable<Resource[] | null> {
         return terms
@@ -57,5 +54,16 @@ export class ResourceService {
                 { op: 'replace', path: '/description', value: description }
             ]
         );
+    }
+
+    showActivity(insight: Resource): void {
+        let sidenavContentId = `activity:${insight._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ActivitySidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ActivitySidenavComponent))
+                .setInsight(insight);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
     }
 }

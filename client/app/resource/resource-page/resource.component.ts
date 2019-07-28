@@ -70,54 +70,9 @@ export class ResourceComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe((data) => {
-                console.log('INSIGHT', data);
+                console.log('RESOURCE', data);
                 this.errors.updateDescription = undefined;
             });
-
-        // this.route.params
-        //     .pipe(
-        //         mergeMap(res => {
-        //             return combineLatest(
-        //                 this.resourceService.getResource(res.id)
-        //                     .pipe(
-        //                         catchError(err => {
-        //                             // console.log(err);
-        //                             // this.notificationService.error('Unable to connect to Data Catalog');
-        //                             return of(<Resource>{});
-        //                         })
-        //                     ),
-        //
-        //                 this.stateService.getState(res.id)
-        //                     .pipe(
-        //                         catchError(err => {
-        //                             // console.log(err);
-        //                             // this.notificationService.error('Unable to connect to Data Catalog');
-        //                             return of(<Resource>{});
-        //                         })
-        //                     )
-        //             );
-        //         }),
-        //         map(([resource, state]) => {
-        //             // console.log()
-        //             return (resource._id) ? resource : state;
-        //         })
-        //         // tap([resource, state] => {
-        //         //     console.log('resource', resource);
-        //         //     console.log('state', state);
-        //         // })
-        //     )
-        //     .subscribe(resource => {
-        //         console.log(resource);
-        //         if (resource.description) {  // TODO: should be required
-        //             try {
-        //                 this.form.get('description').setValue(JSON.parse(resource.description));
-        //             } catch (e) {
-        //                 // the description is likely a string if specified from a tool
-        //                 this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
-        //             }
-        //         }
-        //         this.resource = resource;
-        //     });
     }
 
     ngOnDestroy() { }
@@ -148,5 +103,9 @@ export class ResourceComponent implements OnInit, OnDestroy {
                     // this.errors.updateDescription = err.message;
                 });
         } catch (e) { }
+    }
+
+    showActivity(): void {
+        this.resourceService.showActivity(this.resource);
     }
 }
