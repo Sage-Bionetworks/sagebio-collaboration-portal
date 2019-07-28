@@ -36,7 +36,7 @@ export MONGODB_SSL_CERT=  # Content of the certificate (default: read ./certs/se
 ## Initialization (credentials works with local and SSO auth strategies)
 export APP_INIT_ADMIN_EMAIL=thomas.schaffter@sagebase.org
 export APP_INIT_ADMIN_PASSWORD=admin
-export APP_INIT_DB_SEED_NAME=development
+export APP_INIT_DB_SEED_NAME=default
 
 ## Enabling local authentication
 export AUTH_LOCAL=true

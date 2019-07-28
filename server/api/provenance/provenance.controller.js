@@ -31,35 +31,11 @@ export function createProvenanceActivity(req, res) {
 
 // Creates multiple activities
 export function createActivitiesBatch(req, res) {
-    console.log(res)
-    var options = {
-        method: 'POST',
-        uri: `${config.provenance.apiServerUrl}/activities/batch`,
-        body: req.body,
-        headers: {
-            'User-Agent': 'Request-Promise'
-        },
-        json: true
-    };
-
-    rp(options)
+    createActivities(req.body)
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
-//     return Promise.all(requests.map(function(req) {
-//         return new Promise((resolve, reject) => {
-//             console.log(JSON.stringify(req));
-//             createProvenanceActivity(req, express.response.ServerResponse, function(err, data) {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(data);
-//                 }
-//             });
-//         });
-//     }));
-// }
 
 // Returns the entire provenance graph
 export function getProvenanceGraph(req, res) {
@@ -128,4 +104,20 @@ export function getProvenanceGraphByReference(req, res) {
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
+}
+
+// HELPER FUNCTIONS
+
+export function createActivities(activities) {
+    var options = {
+        method: 'POST',
+        uri: `${config.provenance.apiServerUrl}/activities/batch`,
+        body: activities,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    return rp(options);
 }

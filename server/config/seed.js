@@ -15,7 +15,7 @@ import State from '../api/insight/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
-import { createActivitiesBatch } from '../api/provenance/provenance.controller';
+import { createActivities } from '../api/provenance/provenance.controller';
 import config from './environment';
 import seeds from './seeds';
 
@@ -146,14 +146,15 @@ export default function seedDatabaseIfNeeded() {
 
 export function seedProvenanceIfNeeded() {
     // there is a race condition between the unit tests and the seed creation.
-    if (config.env === 'test') {
+    if (config.env === 'test' || !seeds) {
         return;
     }
 
     let promises = [];
     let promise;
 
-    promise = createActivitiesBatch(seeds.activities, express.response)
+
+    promise = createActivities(seeds.activities)
         .then(() => console.log('finished populating activities'))
         .catch(err => console.log('error populating activities', err));
     promises.push(promise);
