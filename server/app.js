@@ -10,7 +10,7 @@ import http from 'http';
 import initWebSocketServer from './config/websockets';
 import expressConfig from './config/express';
 import registerRoutes from './routes';
-import seedDatabaseIfNeeded from './config/seed';
+import { seedDatabaseIfNeeded, seedProvenanceIfNeeded } from './config/seed';
 import https from 'https';
 
 // Connect to MongoDB
@@ -49,6 +49,7 @@ wsInitPromise
     })
     .then(() => mongooseConnectionPromise)
     .then(seedDatabaseIfNeeded)
+    .then(seedProvenanceIfNeeded)
     .then(startServer)
     .catch(err => {
         console.log('Server failed to start due to error: %s', err);

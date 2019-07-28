@@ -5,5 +5,6 @@ module.exports = {
     dashboards: undefined,
     organizations: undefined,
     tools: undefined,
-    users: undefined
+    users: undefined,
+    provenance: undefined
 };

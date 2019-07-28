@@ -15,8 +15,11 @@ import State from '../api/insight/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
+import { createActivitiesBatch } from '../api/provenance/provenance.controller';
 import config from './environment';
 import seeds from './seeds';
+
+var express = require('express');
 
 export default function seedDatabaseIfNeeded() {
 
@@ -109,6 +112,24 @@ export default function seedDatabaseIfNeeded() {
         .then(() => UserPermission.create(seeds.userPermissions))
         .then(() => console.log('finished populating user permissions'))
         .catch(err => console.log('error populating user permissions', err));
+    promises.push(promise);
+
+
+    return Promise.all(promises);
+}
+
+export function seedProvenanceIfNeeded() {
+    // there is a race condition between the unit tests and the seed creation.
+    if (config.env === 'test') {
+        return;
+    }
+
+    let promises = [];
+    let promise;
+
+    promise = createActivitiesBatch(seeds.activities, express.response)
+        .then(() => console.log('finished populating activities'))
+        .catch(err => console.log('error populating activities', err));
     promises.push(promise);
 
 
