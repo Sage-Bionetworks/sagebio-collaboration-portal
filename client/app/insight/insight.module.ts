@@ -14,9 +14,7 @@ import { InsightViewComponent } from './insight-view/insight-view.component';
 import { ShowActivityButtonComponent } from 'components/activity/show-activity-button/show-activity-button.component';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { InsightComponent } from './insight-page/insight.component';
-import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from './report-view/report-view.component';
-import { StateViewComponent } from './state-view/state-view.component';
 
 import { InsightService } from './insight.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -52,9 +50,7 @@ export const ROUTES: Routes = [{
         ShowActivityButtonComponent,
         ActivitySidenavComponent,
         InsightComponent,
-        DashboardViewComponent,
         ReportViewComponent,
-        StateViewComponent
     ],
     providers: [
         SocketService,

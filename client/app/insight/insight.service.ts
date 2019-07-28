@@ -11,9 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
 
 import { Insight } from 'models/insights/insight.model';
-import { State } from 'models/insights/state.model';
 import { Report } from 'models/insights/report.model';
-import { Dashboard } from 'models/insights/dashboard.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 

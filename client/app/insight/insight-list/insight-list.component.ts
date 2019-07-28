@@ -13,12 +13,8 @@ import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
 import { Insight } from 'models/insights/insight.model';
-import { State } from 'models/insights/state.model';
 import { Report } from 'models/insights/report.model';
-import { Dashboard } from 'models/insights/dashboard.model';
-import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from '../report-view/report-view.component';
-import { StateViewComponent } from '../state-view/state-view.component';
 
 @Component({
     selector: 'insight-list',
