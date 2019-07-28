@@ -8,6 +8,7 @@ module.exports = {
         useMongoClient: true,
         uri: 'mongodb://localhost/phccp-test'
     },
+
     sequelize: {
         uri: 'sqlite://',
         options: {
@@ -19,6 +20,7 @@ module.exports = {
             }
         }
     },
+
     port: '9001',
 
     authStrategies: [

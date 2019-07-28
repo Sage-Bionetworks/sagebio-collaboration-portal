@@ -10,11 +10,10 @@ import { MessagingModule } from './messaging/messaging.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { NavbarUserButtonModule } from './navbar-user-button/navbar-user-button.module';
 import { NotificationModule } from './notification/notification.module';
-import { SSOButtonsModule } from './sso-buttons/sso-buttons.module'
+import { SSOButtonsModule } from './sso-buttons/sso-buttons.module';
 import { SidenavModule } from './sidenav/sidenav.module';
 import { SocketModule } from './socket/socket.module';
 import { PageTitleService } from './page-title/page-title.service';
-import { TagService } from './tag/tag.service';
 
 @NgModule({
     imports: [
@@ -29,8 +28,7 @@ import { TagService } from './tag/tag.service';
         SocketModule
     ],
     providers: [
-        PageTitleService,
-        TagService
+        PageTitleService
     ],
     declarations: [
         // OauthButtonsComponent,
