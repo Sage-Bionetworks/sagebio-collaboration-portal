@@ -6,7 +6,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { InsightService } from '../insight.service';
 // import { StateService } from '../../state/state.service';
 
-import { Insight } from 'models/insights/insight.model';
+import { Insight } from 'models/entities/insights/insight.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';

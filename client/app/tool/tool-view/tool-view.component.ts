@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ToolService } from '../tool.service';
-import { Tool } from 'models/tool.model';
+import { Tool } from 'models/entities/tool.model';
 
 @Component({
     selector: 'tool-view',

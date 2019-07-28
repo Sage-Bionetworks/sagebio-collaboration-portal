@@ -5,7 +5,7 @@ import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceService } from 'components/provenance/provenance.service';
-import { Entity } from 'models/entity.model';
+import { Entity } from 'models/entities/entity.model';
 import config from '../../../../client/app/app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';

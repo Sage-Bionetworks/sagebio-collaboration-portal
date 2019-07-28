@@ -10,9 +10,9 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
 
-import { Resource } from 'models/resources/resource.model';
-import { State } from 'models/resources/state.model';
-import { Dashboard } from 'models/resources/dashboard.model';
+import { Resource } from 'models/entities/resources/resource.model';
+import { State } from 'models/entities/resources/state.model';
+import { Dashboard } from 'models/entities/resources/dashboard.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 

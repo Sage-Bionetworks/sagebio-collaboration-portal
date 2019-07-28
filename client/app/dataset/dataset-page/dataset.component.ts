@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DatasetService } from '../dataset.service';
 import { DataCatalogService } from '../../data-catalog/data-catalog.service';
 import { ToolService } from '../../tool/tool.service';
-import { Tool } from 'models/tool.model';
+import { Tool } from 'models/entities/tool.model';
 import { CkanDataset } from 'models/ckan/ckan-dataset.model';
 import { CkanDatasetResource } from 'models/ckan/ckan-dataset-resource.model';
 import { DataCatalog } from 'models/data-catalog.model';

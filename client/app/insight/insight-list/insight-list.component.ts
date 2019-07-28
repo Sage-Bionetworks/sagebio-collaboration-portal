@@ -12,8 +12,8 @@ import config from '../../app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
-import { Insight } from 'models/insights/insight.model';
-import { Report } from 'models/insights/report.model';
+import { Insight } from 'models/entities/insights/insight.model';
+import { Report } from 'models/entities/insights/report.model';
 import { ReportViewComponent } from '../report-view/report-view.component';
 
 @Component({

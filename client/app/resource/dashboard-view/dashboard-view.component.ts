@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 // import { ResourceService } from '../resource.service';
-import { Dashboard } from 'models/resources/dashboard.model';
+import { Dashboard } from 'models/entities/resources/dashboard.model';
 
 @Component({
     selector: 'dashboard-view',

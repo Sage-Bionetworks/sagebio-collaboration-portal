@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { Insight } from 'models/insights/insight.model';
+import { Insight } from 'models/entities/insights/insight.model';
 
 @Component({
     selector: 'show-activity-button',

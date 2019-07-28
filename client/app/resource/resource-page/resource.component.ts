@@ -6,7 +6,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from
 import { ResourceService } from '../resource.service';
 // import { StateService } from '../../state/state.service';
 
-import { Resource } from 'models/resources/resource.model';
+import { Resource } from 'models/entities/resources/resource.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';

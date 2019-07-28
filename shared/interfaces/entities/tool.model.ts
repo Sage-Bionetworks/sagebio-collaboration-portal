@@ -1,5 +1,6 @@
-import { User } from './auth/user.model';
-import { Organization } from './organization.model';
+import { Entity } from './entity.model';
+import { User } from '../auth/user.model';
+import { Organization } from '../organization.model';
 
 /**
  * @swagger
@@ -34,11 +35,9 @@ import { Organization } from './organization.model';
  *         createdBy:
  *           $ref: '#/components/schemas/User'
  */
-export interface Tool {
-    _id?: string;
+export interface Tool extends Entity {
     slug: string;
     name: string;
-    description: string;
     picture: string;
     website: string;
     organization: Organization;
@@ -46,6 +45,4 @@ export interface Tool {
     apiHealthCheckUrl: string;
     resourceFormats: string[];
     // supportedDataTypes: string[];
-    createdAt: string;
-    createdBy?: User;
 }
