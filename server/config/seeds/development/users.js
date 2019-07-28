@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import {
     users,
     adminUserId
-} from '../all/users';
+} from '../default/users';
 
 const testUserId = new mongoose.Types.ObjectId('5cb7acea2d718614d81cc97e');
 
