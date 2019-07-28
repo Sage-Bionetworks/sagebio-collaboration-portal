@@ -8,11 +8,11 @@ import { AppQuillModule } from 'components/quill/app-quill.module';
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { FiltersModule } from 'components/filters/filters.module';
+import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
+import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
-import { ShowActivityButtonComponent } from 'components/activity/show-activity-button/show-activity-button.component';
-import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { InsightComponent } from './insight-page/insight.component';
 import { ReportViewComponent } from './report-view/report-view.component';
 
@@ -42,13 +42,13 @@ export const ROUTES: Routes = [{
         RouterModule.forChild(ROUTES),
         AppQuillModule,
         FiltersModule,
+        ShowActivityButtonModule,
+        ActivitySidenavModule,
         ProvenanceModule,
     ],
     declarations: [
         InsightListComponent,
         InsightViewComponent,
-        ShowActivityButtonComponent,
-        ActivitySidenavComponent,
         InsightComponent,
         ReportViewComponent,
     ],
@@ -61,8 +61,6 @@ export const ROUTES: Routes = [{
         InsightViewComponent,
         InsightComponent
     ],
-    entryComponents: [
-        ActivitySidenavComponent
-    ]
+    entryComponents: []
 })
 export class InsightModule { }

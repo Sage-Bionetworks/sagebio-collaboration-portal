@@ -8,6 +8,8 @@ import { AppQuillModule } from 'components/quill/app-quill.module';
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { FiltersModule } from 'components/filters/filters.module';
+import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
+import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { ResourceListComponent } from './resource-list/resource-list.component';
 import { ResourceViewComponent } from './resource-view/resource-view.component';
@@ -17,6 +19,8 @@ import { StateViewComponent } from './state-view/state-view.component';
 
 import { ResourceService } from './resource.service';
 import { SocketService } from 'components/socket/socket.service';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
+
 
 export const ROUTES: Routes = [{
     path: 'resources',
@@ -38,7 +42,10 @@ export const ROUTES: Routes = [{
         MaterialModule,
         RouterModule.forChild(ROUTES),
         AppQuillModule,
-        FiltersModule
+        FiltersModule,
+        ShowActivityButtonModule,
+        ActivitySidenavModule,
+        ProvenanceModule
     ],
     declarations: [
         ResourceListComponent,
