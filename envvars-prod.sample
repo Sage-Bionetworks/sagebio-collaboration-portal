@@ -1,16 +1,16 @@
 # MONGODB
 export MONGO_PORT=27017
-export MONGO_INITDB_ROOT_USERNAME=
-export MONGO_INITDB_ROOT_PASSWORD=
+export MONGO_INITDB_ROOT_USERNAME=admin
+export MONGO_INITDB_ROOT_PASSWORD=password
 ## Configuring for the portal
-export MONGO_INITDB_DATABASE=phccp-dev
-export MONGO_USERNAME=
-export MONGO_PASSWORD=
+export MONGO_INITDB_DATABASE=phccp
+export MONGO_USERNAME=app
+export MONGO_PASSWORD=app123
 
 # PORTAL
-export NODE_ENV=development
-export CLIENT_PORT=443
-export PORT=
+export NODE_ENV=production
+export CLIENT_PORT=
+export PORT=443
 export DOMAIN=https://localhost
 
 ## Session secret
@@ -25,18 +25,18 @@ export MONGODB_PROTOCOL=mongodb
 export MONGODB_IP=localhost
 export MONGODB_PORT=${MONGO_PORT}
 export MONGODB_PATH=/${MONGO_INITDB_DATABASE}
-export MONGODB_USER=
-export MONGODB_PASSWORD=
-export MONGODB_SSL=
-export MONGODB_SSL_VALIDATE=  # Set to false when using self-signed certificate
-export MONGODB_SSL_CA=  # Content of CA's certificate (not the path)
-export MONGODB_SSL_KEY=  # Content of the key (default: read ./certs/server.key)
-export MONGODB_SSL_CERT=  # Content of the certificate (default: read ./certs/server.cert)
+export MONGODB_USER=${MONGO_USERNAME}
+export MONGODB_PASSWORD=${MONGO_PASSWORD}
+export MONGODB_SSL=true
+export MONGODB_SSL_VALIDATE=false  # Set to false when using self-signed certificate
+export MONGODB_SSL_CA=  # Content of CA's certificate
+export MONGODB_SSL_KEY=`cat ./certs/server.key`  # Content of the key (default: read ./certs/server.key)
+export MONGODB_SSL_CERT=`cat ./certs/server.cert`  # Content of the certificate (default: read ./certs/server.cert)
 
 ## Initialization (credentials works with local and SSO auth strategies)
 export APP_INIT_ADMIN_EMAIL=thomas.schaffter@sagebase.org
 export APP_INIT_ADMIN_PASSWORD=admin
-export APP_INIT_DB_SEED_NAME=development
+export APP_INIT_DB_SEED_NAME=phccp-pilot
 
 ## Enabling local authentication
 export AUTH_LOCAL=true
