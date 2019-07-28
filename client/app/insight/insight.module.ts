@@ -14,6 +14,8 @@ import { ActivitySidenavModule } from 'components/activity/activity-sidenav/acti
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
 import { InsightComponent } from './insight-page/insight.component';
+import { InsightNewComponent } from './insight-new/insight-new.component';
+import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { ReportViewComponent } from './report-view/report-view.component';
 
 import { InsightService } from './insight.service';
@@ -50,6 +52,8 @@ export const ROUTES: Routes = [{
         InsightListComponent,
         InsightViewComponent,
         InsightComponent,
+        InsightNewComponent,
+        DashboardViewComponent,
         ReportViewComponent,
     ],
     providers: [
