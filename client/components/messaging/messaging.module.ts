@@ -16,7 +16,6 @@ import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.c
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
-import { TagService } from '../tag/tag.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 import { AppQuillModule } from '../quill/app-quill.module';
 
