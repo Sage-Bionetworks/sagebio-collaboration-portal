@@ -60,7 +60,7 @@ export class InsightService {
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
-                .setInsight(insight);
+                .setEntity(insight);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
