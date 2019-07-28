@@ -18,6 +18,7 @@ const registerFunctions = [
     require('../api/data-catalog/data-catalog.socket').register,
     require('../api/tool/tool.socket').register,
     require('../api/insight/insight.socket').register,
+    require('../api/resource/resource.socket').register,
     require('../api/dataset/dataset.socket').register,
     require('../api/user/user.socket').register,
     require('../api/user-permission/user-permission.socket').register

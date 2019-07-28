@@ -22,6 +22,7 @@ export default app => {
     app.use('/api/data-catalogs', require('./api/data-catalog'));
     app.use('/api/tools', require('./api/tool'));
     app.use('/api/insights', require('./api/insight'));
+    app.use('/api/resources', require('./api/resource'));
     app.use('/api/datasets', require('./api/dataset'));
     app.use('/api/users', require('./api/user'));
     app.use('/api/user-permissions', require('./api/user-permission'));

@@ -1,0 +1,20 @@
+<mat-card *ngIf="state" class="app-state-container" [routerLink]="[state._id]">
+    <picture>
+        <img src="assets/images/320px-resource_logo.png" aria-label="State picture">
+    </picture>
+    <div class="app-state-metadata-container">
+        <h3 class="app-state-title">{{ state.title }}</h3>
+        <!-- <div class="dashboard-metadata-row-container-date">
+            <mat-icon>access_time</mat-icon>
+            <span>{{resource.createdAt | date}}</span>
+        </div> -->
+        <!-- <div class="dashboard-card-footer">
+            <div class="dashboard-metadata-row-container">
+                <span>Thomas</span>
+            </div>
+            <mat-chip-list>
+                <mat-chip selectable="false" color="primary" selected>Dashboard</mat-chip>
+            </mat-chip-list>
+        </div> -->
+    </div>
+</mat-card>

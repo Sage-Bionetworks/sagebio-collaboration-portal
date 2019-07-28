@@ -34,6 +34,15 @@ var config = {
         value: 'up',
         title: 'Up'
     }],
+
+    resourceTypeFilters: [{
+        value: 'Dashboard',
+        title: 'Dashboard',
+        active: true
+    }, {
+        value: 'State',
+        title: 'State'
+    }]
 };
 
 export default merge(config, shared);

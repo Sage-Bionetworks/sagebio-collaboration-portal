@@ -27,6 +27,7 @@ import { DataCatalogModule } from './data-catalog/data-catalog.module';
 import { ProjectModule } from './project/project.module';
 import { ToolModule } from './tool/tool.module';
 import { InsightModule } from './insight/insight.module';
+import { ResourceModule } from './resource/resource.module';
 import { DiscussionModule } from './discussion/discussion.module';
 
 import { DirectivesModule } from 'components/directives.module';
@@ -80,6 +81,7 @@ const appRoutes: Routes = [{
         ProjectModule,
         ToolModule,
         InsightModule,
+        ResourceModule,
         DiscussionModule,
 
         DirectivesModule,
