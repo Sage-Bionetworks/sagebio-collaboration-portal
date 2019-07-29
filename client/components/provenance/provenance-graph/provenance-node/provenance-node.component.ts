@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
-import * as d3 from 'd3'
-import { defaultTo, defaul } from "lodash";
+import * as d3 from 'd3';
+import { defaultTo } from 'lodash';
 
 @Component({
     selector: '[provenanceNode]',
@@ -12,14 +12,14 @@ export class ProvenanceNodeComponent implements OnInit {
     @Input() node: Node;
 
     ngOnInit() {
-        this.createTooltipElement()
+        this.createTooltipElement();
     }
 
     createTooltipElement() {
         d3.select('.provenance-graph')
-            .append("div")
+            .append('div')
             .classed(`tooltip tooltip-${this.node.id}`, true)
-            .style("opacity", 0)
+            .style('opacity', 0);
     }
 
     getTooltipContent() {
@@ -31,26 +31,26 @@ export class ProvenanceNodeComponent implements OnInit {
                     ${this.node.subclass ? `: ${this.node.subclass}` : ''}
                 </span>
             </div>
-        `
+        `;
     }
 
     handleMouseMove(event: MouseEvent) {
-        const tooltipElement = d3.select(`.tooltip-${this.node.id}`)
-        const dimensions = (tooltipElement as any).node().getBoundingClientRect()
+        const tooltipElement = d3.select(`.tooltip-${this.node.id}`);
+        const dimensions = (tooltipElement as any).node().getBoundingClientRect();
         tooltipElement
             .html(this.getTooltipContent())
-            .style("left", event.clientX - dimensions.width / 2+ "px")
-            .style("top", event.clientY - (dimensions.height + 25) + "px")
+            .style('left', event.clientX - dimensions.width / 2 + 'px')
+            .style('top', event.clientY - (dimensions.height + 25) + 'px')
             .transition()
             .duration(200)
-            .style("opacity", 1)
+            .style('opacity', 1);
     }
 
     handleMouseLeave() {
         d3.select(`.tooltip-${this.node.id}`)
             .transition()
             .duration(200)
-            .style("opacity", 0)
+            .style('opacity', 0);
     }
 
     iconDictionary = {
@@ -64,13 +64,13 @@ export class ProvenanceNodeComponent implements OnInit {
         lightbulb: '&#xf0eb',
         cube: '&#xf1b2',
         comment: '&#xf075',
-    }
+    };
 
     colorDictionary = {
         blue: '#679EC1',
         orange: '#EB8231',
         green: '#6DB56D',
-    }
+    };
 
     get r() {
         return this.node.r;
@@ -79,6 +79,4 @@ export class ProvenanceNodeComponent implements OnInit {
     get fontSize() {
         return '25px';
     }
-
-
 }
