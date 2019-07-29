@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
 import * as d3 from 'd3'
+import { defaultTo, defaul } from "lodash";
 
 @Component({
     selector: '[provenanceNode]',
@@ -21,11 +22,23 @@ export class ProvenanceNodeComponent implements OnInit {
             .style("opacity", 0)
     }
 
+    getTooltipContent() {
+        return `
+            <div><strong>${this.node.label}</strong></div>
+            <div>
+                <span>
+                    ${defaultTo(this.node.nodeClass, '')}
+                    ${this.node.subclass ? `: ${this.node.subclass}` : ''}
+                </span>
+            </div>
+        `
+    }
+
     handleMouseMove(event: MouseEvent) {
         const tooltipElement = d3.select(`.tooltip-${this.node.id}`)
         const dimensions = (tooltipElement as any).node().getBoundingClientRect()
         tooltipElement
-            .html(this.node.nodeClass)
+            .html(this.getTooltipContent())
             .style("left", event.clientX - dimensions.width / 2+ "px")
             .style("top", event.clientY - (dimensions.height + 25) + "px")
             .transition()

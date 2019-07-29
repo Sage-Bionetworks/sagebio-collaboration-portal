@@ -22,7 +22,7 @@ export class Node implements d3.SimulationNodeDatum {
 
     r = 25
 
-    constructor(id: string, label: string, nodeClass: string = 'none', subclass: string) {
+    constructor(id: string, label: string, nodeClass: string, subclass: string) {
         this.id = id;
         this.label = NodeLabel[label];
         this.nodeClass = nodeClass;
