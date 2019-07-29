@@ -10,6 +10,9 @@ import { User } from 'models/auth/user.model';
 import config from '../../../../client/app/app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
+import { ThenableWebDriver } from 'selenium-webdriver';
+
+type EntityOrUser = Entity | User;
 
 @Component({
     selector: 'activity-sidenav',
@@ -18,7 +21,7 @@ import { FiltersComponent } from 'components/filters/filters.component';
 })
 export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
-    private root: Entity | User;
+    private root: EntityOrUser;
     private provenanceGraph: any;
     private activityDirectionFilters: Filter[] = [];
 
@@ -41,11 +44,19 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 )
             )
             .subscribe(direction => {
-                this.provenanceService.getProvenanceGraphByReference(this.root._id, direction.activityDirection, 'created_at', 'desc', 3)
-                    .subscribe(activity => {
-                        console.log(activity)
-                        this.provenanceGraph = activity;
-                    });
+                if (this.checkIfUser(this.root)) {
+                    this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
+                        .subscribe(activity => {
+                            console.log(activity)
+                            this.provenanceGraph = activity;
+                        });
+                } else {
+                    this.provenanceService.getProvenanceGraphByReference(this.root._id, direction.activityDirection, 'created_at', 'desc', 3)
+                        .subscribe(activity => {
+                            console.log(activity)
+                            this.provenanceGraph = activity;
+                        });
+                }
             })
 
     }
@@ -54,14 +65,29 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
         this.socketService.unsyncUpdates(`activity:${this.root._id}:entity`);
     }
 
-    setRoot(root: Entity | User): void {
+    setRoot(root: EntityOrUser): void {
         if (root) {
-            this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 1)
-                .subscribe(activity => {
-                    this.provenanceGraph = activity;
-                    this.root = root;
-                });
+            if (this.checkIfUser(root)) {
+                this.provenanceService.getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
+                    .subscribe(activity => {
+                        this.provenanceGraph = activity;
+                        this.root = root;
+                    });
+            } else {
+                this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3)
+                    .subscribe(activity => {
+                        this.provenanceGraph = activity;
+                        this.root = root;
+                    });
+            }
         }
+    }
+
+    checkIfUser(tbd: EntityOrUser): tbd is User {
+        if ((tbd as User).username) {
+            return true
+        }
+            return false
     }
 
     close(): void {
