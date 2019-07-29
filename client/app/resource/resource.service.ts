@@ -61,7 +61,7 @@ export class ResourceService {
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
-                .setEntity(resource);
+                .setRoot(resource);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

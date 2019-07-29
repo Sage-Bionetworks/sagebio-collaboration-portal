@@ -58,7 +58,7 @@
         <div class="app-user-card-content">
             <div class="app-user-actions">
                 <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="isEditing=true">{{ buttonText }}</a>
-                <show-activity-button [entity]="user" (click)="showActivity()"></show-activity-button>
+                <show-activity-button [root]="user" (click)="showActivity()"></show-activity-button>
             </div>
         </div>
     </mat-card>

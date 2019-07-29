@@ -51,7 +51,7 @@ export class UserCardComponent {
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
-                .setUser(this._user);
+                .setRoot(this._user);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

@@ -6,6 +6,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceService } from 'components/provenance/provenance.service';
 import { Entity } from 'models/entities/entity.model';
+import { User } from 'models/auth/user.model';
 import config from '../../../../client/app/app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
@@ -17,7 +18,7 @@ import { FiltersComponent } from 'components/filters/filters.component';
 })
 export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
-    private entity: Entity;
+    private root: Entity | User;
     private provenanceGraph: any;
     private activityDirectionFilters: Filter[] = [];
 
@@ -40,7 +41,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 )
             )
             .subscribe(direction => {
-                this.provenanceService.getProvenanceGraphByReference(this.entity._id, direction.activityDirection, 'created_at', 'desc', 3)
+                this.provenanceService.getProvenanceGraphByReference(this.root._id, direction.activityDirection, 'created_at', 'desc', 3)
                     .subscribe(activity => {
                         console.log(activity)
                         this.provenanceGraph = activity;
@@ -50,15 +51,15 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy() {
-        this.socketService.unsyncUpdates(`activity:${this.entity._id}:entity`);
+        this.socketService.unsyncUpdates(`activity:${this.root._id}:entity`);
     }
 
-    setEntity(entity: Entity): void {
-        if (entity) {
-            this.provenanceService.getProvenanceGraphByReference(entity._id, 'down', 'created_at', 'desc', 1)
+    setRoot(root: Entity | User): void {
+        if (root) {
+            this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 1)
                 .subscribe(activity => {
                     this.provenanceGraph = activity;
-                    this.entity = entity;
+                    this.root = root;
                 });
         }
     }

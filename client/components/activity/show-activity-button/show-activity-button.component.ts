@@ -10,8 +10,7 @@ import { User } from 'models/auth/user.model';
     encapsulation: ViewEncapsulation.None
 })
 export class ShowActivityButtonComponent implements OnInit {
-    @Input() private entity: Entity;
-    @Input() private user: User;
+    @Input() private root: Entity | User;
     @Output() click: EventEmitter<any> = new EventEmitter<any>();
 
     static parameters = [SecondarySidenavService];

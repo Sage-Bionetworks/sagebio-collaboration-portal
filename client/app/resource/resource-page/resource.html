@@ -9,7 +9,7 @@
             <div class="resource-card-top">
                 <div class="resource-card-left-container">
                     <div class="resource-card-prov-graph-actions">
-                        <show-activity-button [entity]="resource" (click)="showActivity()"></show-activity-button>
+                        <show-activity-button [root]="resource" (click)="showActivity()"></show-activity-button>
                     </div>
                     <h3>Description</h3>
                     <form [formGroup]="form" novalidate>

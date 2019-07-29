@@ -78,7 +78,7 @@ export class ToolService {
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
-                .setEntity(tool);
+                .setRoot(tool);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
