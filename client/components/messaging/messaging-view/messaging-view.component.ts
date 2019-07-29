@@ -1,9 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash/fp';
 import { MessagingService } from 'components/messaging/messaging.service';
 import { SocketService } from 'components/socket/socket.service';
 import { Message } from 'models/messaging/message.model';
+import { Project } from 'models/project.model';
 
 @Component({
     selector: 'messaging-view',
@@ -12,6 +13,7 @@ import { Message } from 'models/messaging/message.model';
 })
 export class MessagingViewComponent implements OnDestroy {
     private messages: Message[];
+    private project: Project;
 
     static parameters = [MessagingService, SocketService];
     constructor(private messagingService: MessagingService,
@@ -25,6 +27,14 @@ export class MessagingViewComponent implements OnDestroy {
                 this.messages = messages;
                 this.socketService.syncUpdates('message', this.messages);
             });
+    }
+
+    @Input()
+    set entity(project) {
+        this.project = project;
+    }
+    get entity() {
+        return this.project;
     }
 
     ngOnDestroy() {

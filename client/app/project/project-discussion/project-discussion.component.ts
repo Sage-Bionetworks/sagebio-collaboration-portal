@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Project } from 'models/project.model';
+import { ProjectDataService } from  '../project-data.service';
 
 @Component({
     selector: 'project-discussion',
@@ -6,7 +9,12 @@ import { Component } from '@angular/core';
     styles: [require('./project-discussion.scss')]
 })
 export class ProjectDiscussionComponent {
+    private project: Observable<Project>;
 
-    static parameters = [];
-    constructor() { }
+    static parameters = [ProjectDataService];
+    constructor(
+        private projectDataService: ProjectDataService,
+    ) {
+        this.project = this.projectDataService.project();
+     }
 }
