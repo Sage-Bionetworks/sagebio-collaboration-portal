@@ -10,7 +10,10 @@
   [attr.id]="'edgepath-' + link.index"
   [attr.d]="'M ' + link.source.x + ' ' + link.source.y + ' L ' + link.target.x + ' ' + link.target.y"
 />
-<svg:text [attr.id]="'edgelabel-' + link.index">
+<svg:text
+  [attr.id]="'edgelabel-' + link.index"
+  [attr.transform]="rotateLabel"
+>
   <svg:textPath
     class='edgelabel'
     [attr.xlink:href]="'#edgepath-' + link.index"
