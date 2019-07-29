@@ -3,9 +3,6 @@ version: '3.2'
 
 services:
   phccp:
-    build:
-        context: .
-        dockerfile: Dockerfile
     image: docker.synapse.org/syn18489221/phc-collaboration-portal:develop
     container_name: phccp
     ports:
