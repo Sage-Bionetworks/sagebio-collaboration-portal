@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { Insight } from 'models/entities/insights/insight.model';
+import { Entity } from 'models/entities/entity.model';
 
 @Component({
     selector: 'show-activity-button',
@@ -9,7 +9,7 @@ import { Insight } from 'models/entities/insights/insight.model';
     encapsulation: ViewEncapsulation.None
 })
 export class ShowActivityButtonComponent implements OnInit {
-    @Input() private insight: Insight;
+    @Input() private insight: Entity;
     @Output() click: EventEmitter<any> = new EventEmitter<any>();
 
     static parameters = [SecondarySidenavService];
