@@ -47,14 +47,18 @@
         <div class="app-user-card-content">
             <div class="app-user-card-content-meta-orcid">
                 <div class="app-user-card-content-meta-group">
+                    <p><b>ORCID: </b>
                     <a [href]="user.orcid" target="_blank">
                         {{user.orcid}}
-                    </a>
+                    </a></p>
                 </div>
+            </div>
+        </div>
+        <hr class="app-user-card-content-divider">
+        <div class="app-user-card-content">
+            <div class="app-user-actions">
                 <a mat-raised-button type="button" color='{{ buttonColor }}' (click)="isEditing=true">{{ buttonText }}</a>
-                <!-- <a mat-icon-button aria-label="Edit More Info" (click)="edit()">
-                    <mat-icon>edit</mat-icon>
-                </a> -->
+                <show-activity-button [entity]="user" (click)="showActivity()"></show-activity-button>
             </div>
         </div>
     </mat-card>
