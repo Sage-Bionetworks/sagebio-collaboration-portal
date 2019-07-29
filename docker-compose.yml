@@ -7,7 +7,8 @@ services:
         context: .
         dockerfile: Dockerfile
     image: phccp
-    # Or use the latest build available on the docker registry
+    # OR comment the above `build` and `image` sections and uncomment
+    # the following line to use the official docker image:
     # image: docker.synapse.org/syn18489221/phc-collaboration-portal:develop
     container_name: phccp
     ports:
