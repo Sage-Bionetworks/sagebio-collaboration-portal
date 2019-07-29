@@ -6,25 +6,33 @@
 
     <div class="tool-content">
         <mat-card class="tool-card">
-            <picture>
-                <img [src]="tool.picture" aria-label="Tool picture">
-            </picture>
-            <div class="tool-metadata">
-                <h1>{{ tool.name }}</h1>
-                <div class="tool-metadata-row">
-                    <mat-icon>home</mat-icon>
-                    <span>{{ tool.organization.name }}</span>
-                </div>
-                <div *ngIf="toolHealth" class="data-catalog-metadata-row">
-                    <mat-icon>storage</mat-icon>
-                    <span>This tool is available.</span>
-                </div>
-                <div *ngIf="!toolHealth" class="tool-metadata-row">
-                    <mat-icon>cloud_off</mat-icon>
-                    <span>This tool can not be reached.</span>
-                </div>
-                <div class="tool-metadata-description">
-                    <span>{{tool.description}}</span>
+            <div class="tool-card-top">
+                <div class="tool-card-left-container">
+                    <div class="tool-card-prov-graph-actions">
+                        <show-activity-button [insight]="tool" (click)="showActivity()"></show-activity-button>
+                    </div>
+                    <h3>{{ tool.name }}</h3>
+                    <picture>
+                        <img [src]="tool.picture" aria-label="Tool picture">
+                    </picture>
+
+                    <div class="tool-metadata">
+                        <div class="tool-metadata-row">
+                            <mat-icon>home</mat-icon>
+                            <span>{{ tool.organization.name }}</span>
+                        </div>
+                        <div *ngIf="toolHealth" class="data-catalog-metadata-row">
+                            <mat-icon>storage</mat-icon>
+                            <span>This tool is available.</span>
+                        </div>
+                        <div *ngIf="!toolHealth" class="tool-metadata-row">
+                            <mat-icon>cloud_off</mat-icon>
+                            <span>This tool can not be reached.</span>
+                        </div>
+                        <div class="tool-metadata-description">
+                            <span>{{tool.description}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tool-actions">
