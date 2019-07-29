@@ -21,7 +21,7 @@ import { ProjectDataService } from '../project-data.service';
     styles: [require('./project-dashboard.scss')]
 })
 export class ProjectDashboardComponent implements OnInit, OnDestroy {
-    private project: Project;
+    private project: Observable<Project>;
     private form: FormGroup;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
@@ -41,27 +41,24 @@ export class ProjectDashboardComponent implements OnInit, OnDestroy {
                 ObjectValidators.jsonStringifyMaxLength(config.models.project.description.maxlength)
             ]]
         });
+
+        this.project = this.projectDataService.project();
     }
 
     ngOnInit() {
-        const project$ = this.route.params.pipe(
-            switchMap(res => this.projectService.getProject(res.id))
-        );
-
-        project$
+        this.project  // TODO: clean unsubscribe?
             .subscribe(project => {
-                this.form.get('description').setValue(JSON.parse(project.description));
-                this.project = project;
-
-                this.projectDataService.setProject(this.project);
+                if (project) {
+                    this.form.get('description').setValue(JSON.parse(project.description));
+                }
             });
     }
 
     ngOnDestroy() { }
 
-    updateDescription(): void {
+    updateDescription(projectId): void {
         let description = JSON.stringify(this.form.get('description').value);
-        this.projectService.updateProject(this.project._id, [
+        this.projectService.updateProject(projectId, [
             { op: 'replace', path: '/description', value: description }
         ])
             .subscribe(project => {

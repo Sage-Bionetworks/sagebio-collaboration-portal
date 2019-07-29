@@ -35,7 +35,7 @@ export const ROUTES: Routes = [{
     component: ProjectComponent,
     canActivate: [AuthGuard, ProjectGuard],
     children: [
-        { path: '', redirectTo: 'settings', pathMatch: 'full'},
+        { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
         { path: 'dashboard', component: ProjectDashboardComponent },
         { path: 'insights', component: ProjectInsightsComponent },
         { path: 'resources', component: ProjectResourcesComponent },
