@@ -56,12 +56,12 @@ export class ResourceService {
         );
     }
 
-    showActivity(insight: Resource): void {
-        let sidenavContentId = `activity:${insight._id}`;
+    showActivity(resource: Resource): void {
+        let sidenavContentId = `activity:${resource._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
-                .setEntity(insight);
+                .setEntity(resource);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

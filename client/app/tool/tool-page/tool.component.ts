@@ -109,4 +109,8 @@ export class ToolComponent implements OnInit, OnDestroy {
         this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Tool has been successfully update');
     }
+
+    showActivity(): void {
+        this.toolService.showActivity(this.tool);
+    }
 }

@@ -12,12 +12,15 @@ import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/tool-health.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 
 @Injectable()
 export class ToolService {
 
-    static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    static parameters = [HttpClient, SecondarySidenavService];
+    constructor(private httpClient: HttpClient,
+        private secondarySidenavService: SecondarySidenavService) { }
 
     getTools(query?: {}): Observable<Tool[]> {
         return this.httpClient.get<Tool[]>(`/api/tools${stringifyQuery(query)}`);
@@ -70,4 +73,14 @@ export class ToolService {
             );
     }
 
+    showActivity(tool: Tool): void {
+        let sidenavContentId = `activity:${tool._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ActivitySidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ActivitySidenavComponent))
+                .setEntity(tool);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
 }
