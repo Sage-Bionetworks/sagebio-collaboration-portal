@@ -1,6 +1,5 @@
-import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { includes } from 'lodash';
-import { Observable, of } from 'rxjs';
 
 import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
@@ -11,7 +10,7 @@ import { D3Service } from '../../d3/d3.service';
     template: require('./provenance-graph.html'),
     styles: [require('./provenance-graph.scss')]
 })
-export class ProvenanceGraphComponent implements AfterViewInit {
+export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     @Input() graphData: any;
     nodes: Node[];
     links: Link[];
@@ -27,12 +26,18 @@ export class ProvenanceGraphComponent implements AfterViewInit {
     constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) { }
 
     ngAfterViewInit() {
+        this.initGraph()
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        this.initGraph()
+        this.graph.simulation.tick(100)
+    }
+
+    initGraph() {
         if (this.graphData) {
             this.convertToD3(this.graphData)
-            console.log(this.nodes)
             this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options)
-
-            console.log(this.graph)
             /** Binding change detection check on each tick
              * This along with an onPush change detection strategy should enforce checking only when relevant!
             * This improves scripting computation duration in a couple of tests I've made, consistently.
@@ -43,7 +48,6 @@ export class ProvenanceGraphComponent implements AfterViewInit {
             });
         }
     }
-
     get options() {
         return this._options = {
             width: 425,
