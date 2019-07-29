@@ -6,7 +6,7 @@ import {
     distinctUntilChanged
 } from 'rxjs/operators';
 import { find, filter } from 'lodash/fp';
-import { Entity } from 'models/entity.model';
+import { Entity } from 'models/entities/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { EntityPermissionService } from 'components/auth/entity-permission.service';
 import { UserProfile } from 'models/auth/user-profile.model';

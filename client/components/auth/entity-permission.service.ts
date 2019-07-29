@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Entity } from 'models/entity.model';
+import { Entity } from 'models/entities/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { stringifyQuery } from 'components/util';
 

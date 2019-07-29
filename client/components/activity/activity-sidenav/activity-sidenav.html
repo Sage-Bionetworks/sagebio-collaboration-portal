@@ -8,14 +8,15 @@
 
     <div class="app-activity-body">
 
-        <h4>Acivities for {{ insight._id }}:</h4>
-        <div class="app-activity-filters-container">
+        <h4>Activities for {{ root._id }}:</h4>
+        <div *ngIf="!root.username" class="app-activity-filters-container">
             <b>Direction</b>
             <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
         </div>
-        <!-- <div class="app-activity-graph-container">
+        <div class="app-activity-graph-container">
             <provenance-graph class="provenance-graph" [graphData]="provenanceGraph"></provenance-graph>
-        </div> -->
-        <!-- <p>{{ provenanceGraph | json }}</p> -->
+            <pre>{{ provenanceGraph | json }}</pre>
+        </div>
+
     </div>
 </div>

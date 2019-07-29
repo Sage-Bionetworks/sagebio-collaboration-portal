@@ -32,7 +32,6 @@ export class ForceDirectedGraph {
         // }
 
         link = new Link(source, target, relationshipLink);
-        console.log('link: ', link);
         this.simulation.stop();
         this.links.push(link);
         this.simulation.alphaTarget(0.3).restart();

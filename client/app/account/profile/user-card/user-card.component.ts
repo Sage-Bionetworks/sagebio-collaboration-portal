@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'models/auth/user.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserCardEditComponent } from '../user-card-edit/user-card-edit.component';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 
 @Component({
     selector: 'user-card',
@@ -14,9 +16,10 @@ export class UserCardComponent {
     private isEditing = false;
     @ViewChild(UserCardEditComponent, { static: false }) editUser: UserCardEditComponent;
 
-    static parameters = [Router, NotificationService];
+    static parameters = [Router, NotificationService, SecondarySidenavService];
     constructor(private router: Router,
-        private notificationService: NotificationService) { }
+        private notificationService: NotificationService,
+        private secondarySidenavService: SecondarySidenavService) { }
 
     get buttonColor() {
         if (this.isEditing) return 'accent';
@@ -41,6 +44,17 @@ export class UserCardComponent {
         this.isEditing = false;
         this.user = user;
         this.notificationService.info('Your profile has been successfully updated.');
+    }
+
+    showActivity(): void {
+        let sidenavContentId = `activity:${this._user._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ActivitySidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ActivitySidenavComponent))
+                .setRoot(this._user);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
     }
 
 }

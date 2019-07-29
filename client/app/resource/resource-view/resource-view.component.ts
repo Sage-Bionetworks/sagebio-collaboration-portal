@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ResourceService } from '../resource.service';
-import { Resource } from 'models/resources/resource.model';
+import { Resource } from 'models/entities/resources/resource.model';
 
 @Component({
     selector: 'resource-view',

@@ -7,6 +7,9 @@ import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
+import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
+import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { ToolNewComponent } from './tool-new/tool-new.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
@@ -34,7 +37,10 @@ export const ROUTES: Routes = [{
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        RouterModule.forChild(ROUTES)
+        RouterModule.forChild(ROUTES),
+        ShowActivityButtonModule,
+        ActivitySidenavModule,
+        ProvenanceModule
     ],
     declarations: [
         ToolListComponent,

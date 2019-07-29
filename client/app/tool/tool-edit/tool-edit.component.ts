@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ToolService } from '../tool.service';
-import { Tool } from 'models/tool.model';
+import { Tool } from 'models/entities/tool.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app.constants';
 import slugify from 'slugify';

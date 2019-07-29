@@ -1,4 +1,8 @@
-<svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
+<svg:g
+    (mousemove)="handleMouseMove($event)"
+    (mouseleave)="handleMouseLeave($event)"
+    [attr.transform]="'translate(' + node.x + ',' + node.y + ')'"
+>
     <svg:circle class="node" [attr.fill]="color" cx="0" cy="0" [attr.r]="r" />
     <svg:text class="node-icon" [attr.font-size]="fontSize" [innerHTML]="icon" />
 </svg:g>

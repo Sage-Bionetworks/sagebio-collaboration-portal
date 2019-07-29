@@ -12,9 +12,9 @@ import config from '../../app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
-import { Resource } from 'models/resources/resource.model';
-import { State } from 'models/resources/state.model';
-import { Dashboard } from 'models/resources/dashboard.model';
+import { Resource } from 'models/entities/resources/resource.model';
+import { State } from 'models/entities/resources/state.model';
+import { Dashboard } from 'models/entities/resources/dashboard.model';
 import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
 import { StateViewComponent } from '../state-view/state-view.component';
 

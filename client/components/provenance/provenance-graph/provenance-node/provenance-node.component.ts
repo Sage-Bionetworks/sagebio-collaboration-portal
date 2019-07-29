@@ -1,13 +1,57 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
+import * as d3 from 'd3'
+import { defaultTo, defaul } from "lodash";
 
 @Component({
     selector: '[provenanceNode]',
     template: require('./provenance-node.html'),
     styles: [require('./provenance-node.scss')]
 })
-export class ProvenanceNodeComponent {
+export class ProvenanceNodeComponent implements OnInit {
     @Input() node: Node;
+
+    ngOnInit() {
+        this.createTooltipElement()
+    }
+
+    createTooltipElement() {
+        d3.select('.provenance-graph')
+            .append("div")
+            .classed(`tooltip tooltip-${this.node.id}`, true)
+            .style("opacity", 0)
+    }
+
+    getTooltipContent() {
+        return `
+            <div><strong>${this.node.label}</strong></div>
+            <div>
+                <span>
+                    ${defaultTo(this.node.nodeClass, '')}
+                    ${this.node.subclass ? `: ${this.node.subclass}` : ''}
+                </span>
+            </div>
+        `
+    }
+
+    handleMouseMove(event: MouseEvent) {
+        const tooltipElement = d3.select(`.tooltip-${this.node.id}`)
+        const dimensions = (tooltipElement as any).node().getBoundingClientRect()
+        tooltipElement
+            .html(this.getTooltipContent())
+            .style("left", event.clientX - dimensions.width / 2+ "px")
+            .style("top", event.clientY - (dimensions.height + 25) + "px")
+            .transition()
+            .duration(200)
+            .style("opacity", 1)
+    }
+
+    handleMouseLeave() {
+        d3.select(`.tooltip-${this.node.id}`)
+            .transition()
+            .duration(200)
+            .style("opacity", 0)
+    }
 
     iconDictionary = {
         gear: '&#xf013',
@@ -35,4 +79,6 @@ export class ProvenanceNodeComponent {
     get fontSize() {
         return '25px';
     }
+
+
 }

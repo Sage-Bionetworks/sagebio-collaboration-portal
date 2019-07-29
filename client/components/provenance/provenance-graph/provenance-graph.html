@@ -1,4 +1,9 @@
-<svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
+<svg
+    *ngIf="nodes.length > 0 else noActivitiesMessage"
+    #svg
+    [attr.width]="_options.width"
+    [attr.height]="_options.height"
+>
     <g [zoomableOf]="svg">
         <g [provenanceLink]="link" *ngFor="let link of links"></g>
         <ng-container *ngFor="let node of nodes">
@@ -8,3 +13,6 @@
         </ng-container>
     </g>
 </svg>
+<ng-template #noActivitiesMessage>
+    No Activities found
+</ng-template>

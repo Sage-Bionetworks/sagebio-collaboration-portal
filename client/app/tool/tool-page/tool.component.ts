@@ -7,7 +7,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ToolService } from '../tool.service';
-import { Tool } from 'models/tool.model';
+import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
@@ -108,5 +108,9 @@ export class ToolComponent implements OnInit, OnDestroy {
         this.showEditToolTemplate = false;
         this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Tool has been successfully update');
+    }
+
+    showActivity(): void {
+        this.toolService.showActivity(this.tool);
     }
 }
