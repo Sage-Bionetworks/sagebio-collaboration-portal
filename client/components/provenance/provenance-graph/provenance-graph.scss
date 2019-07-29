@@ -1,0 +1,11 @@
+:host ::ng-deep .tooltip {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #000;
+  position: fixed;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
