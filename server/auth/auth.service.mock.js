@@ -11,8 +11,8 @@ export const authServiceStub = {
     hasPermission(permission) {
         return `authService.hasPermission.${permission}`;
     },
-    hasPermissionForEntity(permission) {
-        return `authService.hasPermissionForEntity.${permission}`;
+    hasPermissionForEntity(allowedAccesses) {
+        return `authService.hasPermissionForEntity.${allowedAccesses}`;
     },
     hasRole(role) {
         return `authService.hasRole.${role}`;

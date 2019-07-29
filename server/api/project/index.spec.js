@@ -50,7 +50,7 @@ describe('Project API Router:', function () {
     // describe('GET /api/projects/:id', function () {
     //     it('should route to project.controller.show', function () {
     //         expect(routerStub.get
-    //             .withArgs('/:id', '???', 'projectCtrl.show')
+    //             .withArgs('/:id', 'authService.hasPermissionForEntity.allowedAccesses', 'projectCtrl.show')
     //         ).to.have.been.calledOnce;
     //     });
     // });

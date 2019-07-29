@@ -1,6 +1,9 @@
 /* globals sinon, describe, expect, it */
 
 var proxyquire = require('proxyquire').noPreserveCache();
+import {
+    authServiceStub
+} from '../../auth/auth.service.mock';
 
 var userCtrlStub = {
     index: 'userCtrl.index',
@@ -10,15 +13,6 @@ var userCtrlStub = {
     show: 'userCtrl.show',
     create: 'userCtrl.create',
     patch: 'userCtrl.patch'
-};
-
-var authServiceStub = {
-    isAuthenticated() {
-        return 'authService.isAuthenticated';
-    },
-    hasRole(role) {
-        return `authService.hasRole.${role}`;
-    }
 };
 
 var routerStub = {
