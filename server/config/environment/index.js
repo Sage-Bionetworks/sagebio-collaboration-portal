@@ -102,7 +102,7 @@ var all = {
             process.env.PROVENANCE_API_SERVER_IP + ':' +
             process.env.PROVENANCE_API_SERVER_PORT +
             process.env.PROVENANCE_API_SERVER_PATH ||
-            'http://localhost:8080/rest/v1'
+            ''
     }
 };
 
