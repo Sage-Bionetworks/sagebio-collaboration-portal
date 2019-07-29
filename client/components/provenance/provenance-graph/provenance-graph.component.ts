@@ -12,7 +12,7 @@ import { D3Service } from '../../d3/d3.service';
 })
 export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     @Input() graphData: any;
-    nodes: Node[];
+    nodes: Node[] = [];
     links: Link[];
     graph: ForceDirectedGraph;
     private _options: { width, height } = { width: 400, height: 300 };
