@@ -8,7 +8,7 @@
 
     <div class="app-activity-body">
 
-        <h4>Acivities for {{ root._id }}:</h4>
+        <h4>Activities for {{ root._id }}:</h4>
         <div *ngIf="!root.username" class="app-activity-filters-container">
             <b>Direction</b>
             <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
