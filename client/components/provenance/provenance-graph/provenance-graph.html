@@ -4,6 +4,20 @@
     [attr.width]="_options.width"
     [attr.height]="_options.height"
 >
+    <defs>
+        <marker
+            id="arrowhead"
+            viewBox="-0 -5 10 10"
+            refX="35"
+            refY="0"
+            orient="auto"
+            markerWidth="17"
+            markerHeight="17"
+            xoverflow="visible"
+        >
+            <path d="M 0,-5 L 10 ,0 L 0,5" fill="#999" style="stroke: none;"></path>
+        </marker>
+    </defs>
     <g [zoomableOf]="svg">
         <g [provenanceLink]="link" *ngFor="let link of links"></g>
         <ng-container *ngFor="let node of nodes">
