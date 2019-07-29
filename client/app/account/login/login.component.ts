@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     // errors = {
     //     login: undefined
     // };
+    private contactUsUrl = '';
 
     static parameters = [AuthService, Router, ActivatedRoute, FormBuilder,
         PageTitleService, NotificationService];
@@ -54,6 +55,8 @@ export class LoginComponent implements OnInit {
                 Validators.required,
             ]]
         });
+
+        this.contactUsUrl = config.contactUsUrl;
     }
 
     ngOnInit() {

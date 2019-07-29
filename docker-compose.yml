@@ -1,0 +1,101 @@
+# Deploys Sage's collaboration portal for production environment.
+version: '3.2'
+
+services:
+  phccp:
+    image: docker.synapse.org/syn18489221/phc-collaboration-portal:develop
+    container_name: phccp
+    ports:
+        - ${PORT}:${PORT}
+    environment:
+        NODE_ENV: production
+        PORT: ${PORT}
+        DOMAIN: ${DOMAIN}
+        # Session secret
+        SESSION_SECRET: ${SESSION_SECRET}
+        # Configuring SSL
+        SSL_KEY: ${SSL_KEY}
+        SSL_CERT: ${SSL_CERT}
+        # Configuring MongoDB
+        MONGODB_PROTOCOL: ${MONGODB_PROTOCOL}
+        MONGODB_IP: phccp-mongo
+        MONGODB_PORT: ${MONGODB_PORT}
+        MONGODB_PATH: ${MONGODB_PATH}
+        MONGODB_USER: ${MONGODB_USER}
+        MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+        MONGODB_SSL: ${MONGODB_SSL}
+        MONGODB_SSL_VALIDATE: ${MONGODB_SSL_VALIDATE}
+        MONGODB_SSL_CA: ${MONGODB_SSL_CA}
+        MONGODB_SSL_KEY: ${MONGODB_SSL_KEY}
+        MONGODB_SSL_CERT: ${MONGODB_SSL_CERT}
+        # Initialization (works with local and SSO auth strategies)
+        APP_INIT_ADMIN_EMAIL: ${APP_INIT_ADMIN_EMAIL}
+        APP_INIT_ADMIN_PASSWORD: ${APP_INIT_ADMIN_PASSWORD}
+        # Enabling local authentication
+        AUTH_LOCAL: ${AUTH_LOCAL}
+        # Enabling Google OAuth 2.0
+        OAUTH_GOOGLE_ID: ${OAUTH_GOOGLE_ID}
+        OAUTH_GOOGLE_SECRET: ${OAUTH_GOOGLE_SECRET}
+        # Enabling Google SAML
+        SAML_GOOGLE_ENTRY_POINT: ${SAML_GOOGLE_ENTRY_POINT}
+        SAML_GOOGLE_ISSUER: ${SAML_GOOGLE_ISSUER}
+        # Enabling Microsoft Azure AD OpenID Connect (demo)
+        AZUREAD_OPENIDCONNECT_IDENTITY_METADATA: ${AZUREAD_OPENIDCONNECT_IDENTITY_METADATA}
+        AZUREAD_OPENIDCONNECT_CLIENT_ID: ${AZUREAD_OPENIDCONNECT_CLIENT_ID}
+        # Enabling Roche Azure AD
+        ROCHE_AZURE_AD_IDENTITY_METADATA: ${ROCHE_AZURE_AD_IDENTITY_METADATA}
+        ROCHE_AZURE_AD_CLIENT_ID: ${ROCHE_AZURE_AD_CLIENT_ID}
+        ROCHE_AZURE_AD_CLIENT_SECRET: ${ROCHE_AZURE_AD_CLIENT_SECRET}
+        # Provenance service
+        PROVENANCE_API_SERVER_URL: ${PROVENANCE_API_SERVER_PROTOCOL}://${PROVENANCE_API_SERVER_IP}:${PROVENANCE_API_SERVER_PORT}${PROVENANCE_API_SERVER_PATH}
+    volumes:
+        - ./certs/server.key:/usr/src/app/certs/server.key:ro
+        - ./certs/server.cert:/usr/src/app/certs/server.cert:ro
+    depends_on:
+        - phccp-mongo
+        - phccp-prov
+
+  phccp-mongo:
+    image: docker.synapse.org/syn18489221/phccp-mongo
+    command: mongod --port ${MONGODB_PORT} --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
+    container_name: phccp-mongo
+    ports:
+        - ${MONGODB_PORT}:${MONGODB_PORT}
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        # Configuring for the portal
+        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+        MONGO_USERNAME: ${MONGO_USERNAME}
+        MONGO_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+        - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
+        # - ./mongodb:/data/db
+
+  phccp-neo4j:
+    image: docker.synapse.org/syn18489221/phccp-neo4j
+    container_name: phccp-neo4j
+    ports:
+      - 7687:7687
+      - 7474:7474
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+    volumes:
+      - /tmp/neo4j/data:/var/lib/neo4j/data
+      - /tmp/neo4j/logs:/logs
+
+  phccp-prov:
+    image: docker.synapse.org/syn18489221/prov-service:develop
+    command: python3 -m synprov
+    container_name: phccp-prov
+    ports:
+      - ${PROVENANCE_API_SERVER_PORT}:${PROVENANCE_API_SERVER_PORT}
+    environment:
+      NEO4J_SCHEME: bolt
+      NEO4J_HOST: phccp-neo4j
+      NEO4J_PORT: 7687
+      NEO4J_USERNAME: ${NEO4J_USERNAME}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+      FLASK_HOST: "0.0.0.0"
+    links:
+      - phccp-neo4j
