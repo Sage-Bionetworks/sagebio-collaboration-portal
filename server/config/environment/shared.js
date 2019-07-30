@@ -87,9 +87,17 @@ export const models = {
         }
     },
     insight: {
+        title: {
+            minlength: 3,
+            maxlength: 30
+        },
         description: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        type: {
+            values: ['Report', 'Memo'],
+            default: 'Report'
         }
     },
     resource: {
@@ -106,7 +114,7 @@ export const models = {
         description: {
             minlength: 0,
             maxlength: 1024
-        },
+        }
     },
 };
 
