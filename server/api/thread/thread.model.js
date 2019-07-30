@@ -86,4 +86,9 @@ ThreadSchema
     .post('save', autoPopulatePost);
 
 registerEvents(ThreadSchema);
-export default mongoose.model('Thread', ThreadSchema);
+
+var Thread = mongoose.model('Thread', ThreadSchema);
+// For now, we want to return all of the properties of our thread if we are populating references
+Thread.threadProperties = '_id title entityId entityType createdAt updatedAt createdBy';
+
+export default Thread;
