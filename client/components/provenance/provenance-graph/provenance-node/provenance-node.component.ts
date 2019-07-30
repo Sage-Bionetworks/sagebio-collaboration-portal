@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
 import * as d3 from 'd3';
-import { defaultTo, get } from 'lodash';
+import { get } from 'lodash';
 
 @Component({
     selector: '[provenanceNode]',
@@ -24,12 +24,17 @@ export class ProvenanceNodeComponent implements OnInit {
     }
 
     getTooltipContent() {
+        const { label, nodeClass, subclass, provenanceNode } = this.node
+
+        const typeText = nodeClass ? `<strong>Type: </strong>${nodeClass}` : ''
+        const subtypeText = subclass && subclass !== nodeClass ? `<br>Subtype: ${subclass}` : ''
+
         return `
-            <div><strong>${this.node.label}: </strong>${get(this.node.provenanceNode, 'properties.name')}</div>
+            <div><strong>${label}: </strong>${get(provenanceNode, 'properties.name')}</div>
             <div>
                 <span>
-                    <strong>Type: </strong>${defaultTo(this.node.nodeClass, '')}
-                    ${this.node.subclass ? `<br>Subtype: ${this.node.subclass}` : ''}
+                    ${typeText}
+                    ${subtypeText}
                 </span>
             </div>
         `;
