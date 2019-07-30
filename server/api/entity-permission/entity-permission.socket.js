@@ -33,6 +33,7 @@ function createListener(namespace, event, spark) {
             ])
             .then(hasAccess => {
                 if (hasAccess) {
+                    spark.emit(`${namespace}:${event}`, doc);
                     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
                 }
             })
