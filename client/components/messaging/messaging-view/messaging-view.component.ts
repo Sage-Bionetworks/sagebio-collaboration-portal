@@ -32,7 +32,7 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
 
     ngOnInit() {
         // Load messages for a specific project
-        if (this.entityId && this.entityType === config.entityTypes.PROJECT.value) {
+        if (this.entityId) {
             return this.loadMessagesForEntity(this.entityId, this.entityType);
         }
         // DEFAULT: Load messages
@@ -51,7 +51,8 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
             });
     }
 
-    loadMessagesForEntity(entityId, entityType = config.entityTypes.PROJECT.value) { // Default to project entity
+    loadMessagesForEntity(entityId, entityType) { // Default to project entity
+        // WIP #49 - Need to load messages from messaging service
         console.log(`[NOT YET IMPLEMENTED] Loading messages for
             entity type ${entityType}
             entity ID ${entityId}
