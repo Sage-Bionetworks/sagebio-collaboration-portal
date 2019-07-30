@@ -1,4 +1,5 @@
 import { UserProfile } from '../auth/user-profile.model';
+import { ThreadProperties } from '../auth/thread-properties.model';
 
 /**
  * @swagger
@@ -10,7 +11,8 @@ import { UserProfile } from '../auth/user-profile.model';
  *         _id:
  *           type: string
  *         thread:
- *           type: string
+ *           type: string | object
+ *           $ref: '#/components/schemas/ThreadProperties'
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -23,7 +25,7 @@ import { UserProfile } from '../auth/user-profile.model';
 export interface Message {
     _id?: string;
     body: string;
-    thread?: string;
+    thread?: ThreadProperties | string;
     createdAt: string;
     updatedAt: string;
     createdBy: UserProfile;
