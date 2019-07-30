@@ -33,8 +33,8 @@
             </form>
 
             <h3>Sign in with one of the following strategies</h3>
-            <!-- <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a>
-            <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsTestUser()">Login as TEST USER</a> -->
+            <!-- <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a> -->
+            <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsTestUser()">Login as TEST USER</a>
             <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
         </div>
         <div class="app-request-questions">

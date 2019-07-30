@@ -287,15 +287,15 @@ gulp.task('lint:scripts',
         'lint:scripts:server'
     ));
 
-gulp.task('lint:scripts:clientTest', () => {
-    return gulp.src(paths.client.test)
-        .pipe(lintClientScripts());
-});
-
-gulp.task('lint:scripts:serverTest', () => {
-    return gulp.src(paths.server.test)
-        .pipe(lintServerTestScripts());
-});
+// gulp.task('lint:scripts:clientTest', () => {
+//     return gulp.src(paths.client.test)
+//         .pipe(lintClientScripts());
+// });
+//
+// gulp.task('lint:scripts:serverTest', () => {
+//     return gulp.src(paths.server.test)
+//         .pipe(lintServerTestScripts());
+// });
 
 gulp.task('jscs', () => {
     return gulp.src(_.union(paths.client.scripts, paths.server.scripts))

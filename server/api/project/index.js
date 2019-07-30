@@ -31,7 +31,11 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Project'
  */
-router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
+router.get('/', auth.hasPermissionForEntity([
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.index);
 
 /**
  * @swagger
