@@ -13,7 +13,7 @@
 
 import { applyPatch } from 'fast-json-patch';
 
-// WIP #49 - Import Thread model
+import Thread from './thread.model';
 import Message from './message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
