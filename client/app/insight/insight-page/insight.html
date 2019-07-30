@@ -11,7 +11,7 @@
                     <div class="insight-card-prov-graph-actions">
                         <show-activity-button [root]="insight" (click)="showActivity()"></show-activity-button>
                     </div>
-                    <h3>Description</h3>
+                    <h3>{{ insight.insightType }} Content</h3>
                     <form [formGroup]="form" novalidate>
                         <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
@@ -26,25 +26,14 @@
                     <div class="insight-card-info">
                         <span><b>Created by:</b> Thomas</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
-                        <span *ngIf="insight.data !== undefined"><b>Type:</b> State</span>
-                        <span><b>Tool:</b> FE Lite</span>
+                        <span *ngIf="insight.data !== undefined"><b>Type:</b> Memo</span>
                     </div>
                 </div>
-                <!-- <div class="insight-card-right-container">
-                    <h3>Recent Activity</h3>
-                    <div class="insight-card-prov-graph-panel">
-                        <img src="assets/images/insight-prov-graph-placeholder.png">
-                    </div>
-                    <div class="insight-card-prov-graph-actions">
-                        <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">View Full Provenance</a>
-                    </div>
-                </div> -->
             </div>
             <div class="app-insight-actions">
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInFe(insight)">Open With PHCCP Shiny Tool Example</a>
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
-                <a *ngIf="insight.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Report</a>
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Share</a>
+                <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
+                <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Insight</a>
             </div>
         </mat-card>
     </div>

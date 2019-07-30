@@ -77,10 +77,6 @@ export class InsightComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
-    openInFe(insight): void {
-        window.open(insight.data, '_blank');
-    }
-
     updateDescription(): void {
         let description = JSON.stringify(this.form.get('description').value);
         // console.log('description', description);
