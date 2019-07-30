@@ -4,13 +4,14 @@ import config from '../../environment';
 
 let states = [{
     _id: new mongoose.Types.ObjectId('5cb8de033f40db38a280a99e'),
+    resourceType: 'State',
     title: 'PCA on TCGA breast cancer dataset',
-    description: 'plop',
     description: `{\"ops\":[{\"insert\":\"Plot of breast cancer classes based on the first 2 principal components of the cancer features.\\n\\n\"}]}`,
     data: `${config.phccpShinyToolExample.url}?_inputs_&bw_adjust=1&density=true&genename=%22ENSG00000000003%22&genename-selectized=%22%22&individual_obs=false&inputfile=%22%22&n_breaks=%2220%22&n_breaks-selectized=%22%22&rowstats_cell_clicked=%7B%7D&rowstats_rows_all=%5B1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%5D&rowstats_rows_current=%5B1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%5D&rowstats_rows_selected=null&rowstats_search=%22%22&rowstats_state=null&shinyjs-resettable-ok=%7B%7D&sidebarCollapsed=false&sidebarItemExpanded=null&sidebarmenu=%22dset_extra%22&state_description=%22plop%22&state_name=%22plop%22&state_project=%22Test%20Project%22&state_project-selectized=%22%22`,
     createdBy: adminUserId
 }, {
     _id: new mongoose.Types.ObjectId('5cb8de033f40db38a280a99f'),
+    resrouceType: 'State',
     title: `Diff express cancer indication breast/NSCLC w/ smoking history
         Description`,
     description: `{\"ops\":[{\"insert\":\"Differential expression & GSEA\"},{\"attributes\":{\"header\":1},\"insert\":\"\\n\"},{\"insert\":\"\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"2 filters:\"},{\"insert\":\"\\n- Atezo tx\\n- cancer indication (breast & NSCLC)\\n\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"test covariate\"},{\"insert\":\": cancer indication\\n\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"numerator\"},{\"insert\":\": breast\\n\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"denominator\"},{\"insert\":\": NSCLC\\n\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"Batch covariate\"},{\"insert\":\": Smoking history\\n\"}]}`,
