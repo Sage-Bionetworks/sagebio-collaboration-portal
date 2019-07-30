@@ -48,7 +48,7 @@ export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
     }
 
     decline(): void {
-        this.userPermissionDataService.acceptEntityPermission(this.invite.invite)
+        this.userPermissionDataService.declineEntityPermission(this.invite.invite)
             .subscribe(entityPermission => {
                 this.notificationService.info('The invite has been successfully declined.');
             }, err => {
