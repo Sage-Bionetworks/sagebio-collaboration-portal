@@ -80,7 +80,7 @@ services:
         MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes:
         - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
-        # - ./mongodb:/data/db
+        - /home/tschaffter/mongodb:/data/db
 
   phccp-neo4j:
     image: docker.synapse.org/syn18489221/phccp-neo4j

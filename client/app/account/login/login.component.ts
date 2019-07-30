@@ -17,9 +17,9 @@ import config from '../../app.constants';
 export class LoginComponent implements OnInit {
     private authStrategies: Observable<string[]>;
     loginForm: FormGroup;
-    // errors = {
-    //     login: undefined
-    // };
+    errors = {
+        login: undefined
+    };
     private contactUsUrl = '';
 
     static parameters = [AuthService, Router, ActivatedRoute, FormBuilder,
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
                     token: res.token,
                     expiresIn: res.expiresIn
                 }).subscribe(user => {
-                    this.router.navigate([ this.authService.getRedirectUrl() ]);
+                    this.router.navigate([this.authService.getRedirectUrl()]);
                 }, err => {
                     console.log(err);
                 });
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             email: values.email,
             password: values.password
         }).subscribe(user => {
-            this.router.navigate([ this.authService.getRedirectUrl() ]);
+            this.router.navigate([this.authService.getRedirectUrl()]);
             this.authService.resetRedirectUrl();
         }, err => {
             console.log(err);
@@ -85,17 +85,5 @@ export class LoginComponent implements OnInit {
             //     console.log(this.errors);
             // }
         });
-    }
-
-    loginAsAdmin(): void {
-        this.loginForm.get('email').setValue('admin@sagebase.org');
-        this.loginForm.get('password').setValue('admin');
-        this.login();
-    }
-
-    loginAsTestUser(): void {
-        this.loginForm.get('email').setValue('test@sagebase.org');
-        this.loginForm.get('password').setValue('test');
-        this.login();
     }
 }
