@@ -11,6 +11,12 @@
                 <user-avatar matListAvatar [user]="perm.user" [size]="listAvatarSize"></user-avatar>
                 <h4 matLine *ngIf="perm.user.name">{{ perm.user.name }}</h4>
                 <p matLine>{{ perm.user.username }}</p>
+
+                <mat-chip-list  class="app-entity-access-list-status">
+                  <mat-chip *ngIf="isPending(perm)" color="primary">Pending</mat-chip>
+                  <mat-chip *ngIf="isDeclined(perm)" color="accent">Declined</mat-chip>
+                </mat-chip-list>
+
                 <mat-select class="app-entity-access-list-access" [disabled]="disableAccessMenu(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
                     <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value">
                         {{ accessType.name }}
