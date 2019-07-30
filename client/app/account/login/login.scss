@@ -46,13 +46,13 @@
   flex-flow: column nowrap;
   // width: 85%;
   margin: 10px;
+}
 
-  a {
-    line-height: 50px;
-    margin: 10px;
-    // font-size: 15px;
-    padding: 5px;
-  }
+.app-login-button {
+  line-height: 50px;
+  margin: 10px;
+  // font-size: 15px;
+  padding: 5px;
 }
 
 .app-request-questions {
@@ -71,4 +71,21 @@
     align-items: flex-end;
     padding-top: 12px;
   }
+}
+
+// LOCAL AUTH FORM
+
+.app-login-local-form {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 10px;
+}
+
+.form-field-full-width {
+  width: 100%;
+}
+
+.app-login-local-login-btn {
+  margin-left: 0px;
+  margin-right: 0px;
 }

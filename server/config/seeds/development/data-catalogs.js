@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { adminUserId } from './users';
-import { sageId, geneId } from './organizations';
+import { adminUserId } from '../default/users';
+import { sageId, geneId } from '../default/organizations';
 
 let dataCatalogs = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd91'),

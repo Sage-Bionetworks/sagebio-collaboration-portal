@@ -1,6 +1,6 @@
 import {
     adminUserId
-} from './constants';
+} from '../default/constants';
 
 let activities = [
     {

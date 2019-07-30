@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import {
     adminUserId
-} from './users';
+} from '../default/users';
 
 let dashboards = [{
     title: 'Flatiron Dashboard',

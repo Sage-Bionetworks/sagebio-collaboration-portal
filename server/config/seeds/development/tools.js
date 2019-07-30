@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { sageId, geneId } from './organizations';
-import { adminUserId } from './users';
+import { sageId, geneId } from '../default/organizations';
+import { adminUserId } from '../default/users';
 import config from '../../environment';
 
 let tools = [{
