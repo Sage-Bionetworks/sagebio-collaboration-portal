@@ -21,6 +21,7 @@ export class ProjectDiscussionComponent {
                 this.entityId = project._id
             } catch (err) {
                 // If we do not have an ID to work with, it's fine to leave this as undefined
+                console.error(err);
             }
         });
     }
