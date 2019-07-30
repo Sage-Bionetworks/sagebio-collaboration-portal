@@ -1,1 +1,24 @@
-<svg:line class="link" [attr.x1]="link.source.x" [attr.y1]="link.source.y" [attr.x2]="link.target.x" [attr.y2]="link.target.y"></svg:line>
+<svg:line
+  class="link"
+  [attr.x1]="link.source.x"
+  [attr.y1]="link.source.y"
+  [attr.x2]="link.target.x"
+  [attr.y2]="link.target.y"
+  marker-end="url(#arrowhead)"
+/>
+<svg:path
+  [attr.id]="'edgepath-' + link.index"
+  [attr.d]="'M ' + link.source.x + ' ' + link.source.y + ' L ' + link.target.x + ' ' + link.target.y"
+/>
+<svg:text
+  [attr.id]="'edgelabel-' + link.index"
+  [attr.transform]="rotateLabel"
+>
+  <svg:textPath
+    class='edgelabel'
+    [attr.xlink:href]="'#edgepath-' + link.index"
+    startOffset="50%"
+  >
+    {{ link.link.type[0]}}
+  </svg:textPath>
+</svg:text>
