@@ -4,15 +4,18 @@ import {
 } from './thread.events';
 import User from '../user/user.model';
 
-// WIP #49 - Create the back-end Thread model
 var ThreadSchema = new mongoose.Schema({
-    body: {
+    title: {
         type: String,
         required: true
     },
-    thread: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Thread'
+    entityId: {
+        type: String,
+        required: true
+    },
+    entityType: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
