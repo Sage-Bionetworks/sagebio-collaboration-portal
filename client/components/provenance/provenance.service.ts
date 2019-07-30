@@ -40,10 +40,4 @@ export class ProvenanceService {
             .set('limit', String(limit));
         return this.httpClient.get<any>(`/api/provenance/byReference/${referenceId}`, {params});
     }
-
-
-    // TODO: testing purposes, remove after connecting to backend
-    // getMockedNodesAndRelationsForProvenanceGraph() {
-    //     return this.convertToD3(neoJson);
-    // }
 }

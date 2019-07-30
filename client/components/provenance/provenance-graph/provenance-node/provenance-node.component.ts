@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
 import * as d3 from 'd3';
-import { defaultTo } from 'lodash';
+import { defaultTo, get } from 'lodash';
 
 @Component({
     selector: '[provenanceNode]',
@@ -10,6 +10,7 @@ import { defaultTo } from 'lodash';
 })
 export class ProvenanceNodeComponent implements OnInit {
     @Input() node: Node;
+    @Input() rootId: string;
 
     ngOnInit() {
         this.createTooltipElement();
@@ -78,5 +79,12 @@ export class ProvenanceNodeComponent implements OnInit {
 
     get fontSize() {
         return '25px';
+    }
+
+    get isHighlighted() {
+        return (
+            get(this.node.provenanceNode, 'properties.targetId') === this.rootId ||
+            get(this.node.provenanceNode, 'properties.userId') === this.rootId
+        )
     }
 }

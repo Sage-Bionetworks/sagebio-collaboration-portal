@@ -7,8 +7,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'components/material/material.module';
 import { NotificationModule } from 'components/notification/notification.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
-import { ProvenanceNeoGraphModule } from 'components/provenance-neo-graph/provenance-neo-graph.module';
-
 
 import { MainComponent } from './main.component';
 import { SocketService } from 'components/socket/socket.service';
@@ -25,7 +23,6 @@ export const ROUTES: Routes = [
         MaterialModule,
         NotificationModule,
         ProvenanceModule,
-        ProvenanceNeoGraphModule
     ],
     declarations: [
         MainComponent
