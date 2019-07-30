@@ -34,7 +34,7 @@ export class InsightNewComponent implements OnInit, OnDestroy {
 
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
-            type: [config.models.insight.type.default, [
+            insightType: [config.models.insight.type.default, [
                 Validators.required
             ]],
             title: ['', [
