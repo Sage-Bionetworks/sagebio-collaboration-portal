@@ -23,6 +23,8 @@
                 <h2>Description</h2>
                 <app-quill-editor [isReadOnly]="true" editButtonLabel="Edit description" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription(project_._id)"></app-quill-editor>
             </div>
+
+            {{ userProjectPermission | json }}
         </mat-card>
     </div>
 </div>
