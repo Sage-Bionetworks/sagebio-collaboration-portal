@@ -28,6 +28,8 @@ export class ResourceService {
     }
 
     getResource(resourceId: string): Observable<Resource> {
+        var res = this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
+        console.log(res);
         return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
     }
 
