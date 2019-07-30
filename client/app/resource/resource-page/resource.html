@@ -11,7 +11,7 @@
                     <div class="resource-card-prov-graph-actions">
                         <show-activity-button [root]="resource" (click)="showActivity()"></show-activity-button>
                     </div>
-                    <h3>{{ resource.resourceType }} Content</h3>
+                    <h3>{{ resource.resourceType }} Description</h3>
                     <form [formGroup]="form" novalidate>
                         <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
                         <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
@@ -31,8 +31,8 @@
                 </div>
             </div>
             <div class="app-resource-actions">
-                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInTool(resource)">Open With PHCCP Shiny Tool Example</a>
-                <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="open(resource)">Open</a>
+                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInTool(resource)">Open with PHCCP Shiny Tool Example</a>
+                <a *ngIf="resource.resourceType === 'Dashboard'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="open(resource)">Open Dashboard</a>
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
                 <a *ngIf="resource.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Report</a>
             </div>
