@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InsightService } from '../insight.service';
-import { Insight } from 'models/insights/insight.model';
+import { Insight } from 'models/entities/insights/insight.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
