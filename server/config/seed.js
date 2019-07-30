@@ -147,7 +147,7 @@ export function seedDatabaseIfNeeded() {
 
 export function seedProvenanceIfNeeded() {
     // there is a race condition between the unit tests and the seed creation.
-    if (config.env === 'test' || !seeds) {
+    if (config.env === 'test' || !seeds || !seeds.activities) {
         return;
     }
 
