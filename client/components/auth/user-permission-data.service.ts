@@ -189,7 +189,6 @@ export class UserPermissionDataService {
                 if (entityPermissions) {
                     this.socketService.syncUpdates(`entityPermission`,
                         entityPermissions, (event, item, array) => {
-                            console.log('USER ENTITY PERMISSION WEBSCOKET UPDATE');
                             this._permissions.next(new UserPermissions(
                                 role,
                                 permissions,
