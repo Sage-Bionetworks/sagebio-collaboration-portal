@@ -18,9 +18,9 @@ import { Project } from 'models/project.model';
     styles: [require('./messaging-view.scss')],
 })
 export class MessagingViewComponent implements OnDestroy, OnInit {
-    private entityId: string;
     private messages: Message[];
 
+    @Input() entityId: string;
     @Input() entityType: string;
 
     static parameters = [MessagingService, SocketService, ProjectDataService];
@@ -31,25 +31,12 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     ) { }
 
     ngOnInit() {
-        console.log(`MessagingView component ngOnInit
-            this.entityType: ${this.entityType}
-        `)
-
-        switch (true) {
-            case (this.entityType === config.entityTypes.PROJECT.value):
-                this.projectDataService.project().subscribe(project => {
-                    try {
-                        this.entityId = project._id
-                    } catch (err) {
-                        // If we do not have an ID to work with, it's fine to leave this as undefined
-                        return this.loadMessages();
-                    }
-                });
-                this.loadMessagesForEntity(this.entityId);
-                break;
-            default:
-                this.loadMessages();
+        // Load messages for a specific project
+        if (this.entityId && this.entityType === config.entityTypes.PROJECT.value) {
+            return this.loadMessagesForEntity(this.entityId, this.entityType);
         }
+        // DEFAULT: Load messages
+        return this.loadMessages()
     }
 
     loadMessages() {
@@ -64,8 +51,11 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
             });
     }
 
-    loadMessagesForEntity(entityId) {
-        console.log(`[NOT YET IMPLEMENTED] Loading messages for entity ID ${entityId}`);
+    loadMessagesForEntity(entityId, entityType = config.entityTypes.PROJECT.value) { // Default to project entity
+        console.log(`[NOT YET IMPLEMENTED] Loading messages for
+            entity type ${entityType}
+            entity ID ${entityId}
+        `);
     }
 
     ngOnDestroy() {
