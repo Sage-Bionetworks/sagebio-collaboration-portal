@@ -87,7 +87,7 @@ export const models = {
         }
     },
     insight: {
-        name: {
+        title: {
             minlength: 3,
             maxlength: 30
         },

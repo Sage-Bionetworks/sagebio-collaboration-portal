@@ -7,9 +7,9 @@
     <mat-card-content>
         <form class="app-insight-new-card-form" [formGroup]="newForm" novalidate>
             <mat-form-field class="app-insight-new-form-field">
-                <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.name.invalid">
-                    Please enter a valid name ({{ insightSpecs.name.minlength }}-{{ insightSpecs.name.maxlength }} characters).
+                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.title.invalid">
+                    Please enter a valid name ({{ insightSpecs.title.minlength }}-{{ insightSpecs.title.maxlength }} characters).
                 </mat-error>
             </mat-form-field>
             <app-quill-editor class="app-insight-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>

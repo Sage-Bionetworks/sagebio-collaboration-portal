@@ -37,10 +37,10 @@ export class InsightNewComponent implements OnInit, OnDestroy {
             type: [config.models.insight.type.default, [
                 Validators.required
             ]],
-            name: ['', [
+            title: ['', [
                 Validators.required,
-                Validators.minLength(config.models.insight.name.minlength),
-                Validators.maxLength(config.models.insight.name.maxlength)
+                Validators.minLength(config.models.insight.title.minlength),
+                Validators.maxLength(config.models.insight.title.maxlength)
             ]],
             description: ['', [
                 Validators.required,
