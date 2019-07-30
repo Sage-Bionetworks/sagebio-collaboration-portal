@@ -3,7 +3,6 @@ import {
     registerEvents
 } from './message.events';
 import User from '../user/user.model';
-import Thread from '../thread/thread.model';
 // import BaseMessage from './base-message.model';
 
 var MessageSchema = new mongoose.Schema({
@@ -55,7 +54,7 @@ var MessageSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)
-        .populate('thread', Thread.threadProperties);
+        .populate('thread');
     // .populate('tags');
     next();
 };
@@ -68,7 +67,7 @@ const autoPopulatePre = function (next) {
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
-        .populate('thread', Thread.threadProperties)
+        .populate('thread')
         // .populate('tags')
         .execPopulate();
 };
