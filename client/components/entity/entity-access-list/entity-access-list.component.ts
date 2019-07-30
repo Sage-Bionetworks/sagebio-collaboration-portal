@@ -77,12 +77,9 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
             this.entityPermissionService.queryByEntity(this.entity)
                 .subscribe(permissions => {
                     this.permissions = permissions;
-                    console.log(`SUBSCRIBE TO entity:${this.entity._id}:entityPermission`);
                     this.socketService.syncUpdates(
                         `entity:${this.entity._id}:entityPermission`,
-                        this.permissions, (event, item, array) => {
-                          console.log('SOCKET UPDATE');
-                        }
+                        this.permissions
                     );
                 }, err => console.log(err));
         }
