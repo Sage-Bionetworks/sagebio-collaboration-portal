@@ -25,11 +25,11 @@ export class ProvenanceNodeComponent implements OnInit {
 
     getTooltipContent() {
         return `
-            <div><strong>${this.node.label}</strong></div>
+            <div><strong>${this.node.label}: </strong>${get(this.node.provenanceNode, 'properties.name')}</div>
             <div>
                 <span>
-                    ${defaultTo(this.node.nodeClass, '')}
-                    ${this.node.subclass ? `: ${this.node.subclass}` : ''}
+                    <strong>Type: </strong>${defaultTo(this.node.nodeClass, '')}
+                    ${this.node.subclass ? `<br>Subtype: ${this.node.subclass}` : ''}
                 </span>
             </div>
         `;
