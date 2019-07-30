@@ -1,8 +1,18 @@
-import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    Input,
+    ChangeDetectorRef,
+    HostListener,
+    ChangeDetectionStrategy,
+    AfterViewInit,
+    OnChanges,
+    SimpleChanges
+} from '@angular/core';
 import { includes } from 'lodash';
 
 import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
+import { ProvenanceNode } from 'models/provenance-node.model';
 
 @Component({
     selector: 'provenance-graph',
@@ -12,6 +22,7 @@ import { D3Service } from '../../d3/d3.service';
 })
 export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     @Input() graphData: any;
+    @Input() rootId: string;
     nodes: Node[] = [];
     links: Link[];
     graph: ForceDirectedGraph;
@@ -62,9 +73,15 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
         };
         neojson.results.forEach(function (result) {
             result.data.forEach(function (data) {
-                data.graph.nodes.forEach(function (node) {
+                data.graph.nodes.forEach(function (node: ProvenanceNode) {
                     if (!includes(graph.nodes, node.id)) {
-                        graph.nodes.push(new Node(node.id, node.labels[0], node.properties.class, node.properties.subclass));
+                        graph.nodes.push(new Node(
+                            node.id,
+                            node.labels[0],
+                            node.properties.class,
+                            node.properties.subclass,
+                            node
+                        ));
                     }
                 });
 
