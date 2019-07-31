@@ -13,6 +13,8 @@
             <ng-template ngFor let-resource let-i="index" let-first="first" [ngForOf]="resources">
                 <dashboard-view *ngIf="resource.resourceType === 'Dashboard'" [dashboard]="resource"></dashboard-view>
                 <state-view *ngIf="resource.resourceType === 'State'" [state]="resource"></state-view>
+                <webapp-view *ngIf="resource.resourceType === 'WebApp'" [webapp]="resource"></webapp-view>
+                <article-view *ngIf="resource.resourceType === 'Article'" [article]="resource"></article-view>
             </ng-template>
         </div>
     </div>

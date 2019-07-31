@@ -39,6 +39,12 @@ var config = {
     }, {
         value: 'State',
         title: 'State'
+    }, {
+        value: 'WebApp',
+        title: 'WebApp'
+    }, {
+        value: 'Article',
+        title: 'Article'
     }]
 };
 
