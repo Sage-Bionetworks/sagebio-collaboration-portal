@@ -52,11 +52,20 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     }
 
     loadMessagesForEntity(entityId, entityType) { // Default to project entity
-        // WIP #49 - Need to load messages from messaging service
         console.log(`[NOT YET IMPLEMENTED] Loading messages for
             entity type ${entityType}
             entity ID ${entityId}
         `);
+
+        // WIP #49 - Need to load messages from messaging service
+        this.messagingService.getMessages()
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
+            )
+            .subscribe(messages => {
+                this.messages = messages;
+                this.socketService.syncUpdates('message', this.messages);
+            });
     }
 
     ngOnDestroy() {

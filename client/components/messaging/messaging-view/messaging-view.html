@@ -1,7 +1,9 @@
-<!-- WIP #49 - Display thread-preview component -->
 <ng-template ngFor let-message let-i="index" let-first="first" [ngForOf]="messages">
     <message-date-separator *ngIf="first" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
     <message-date-separator *ngIf="!first && !(message.createdAt | sameDay: messages[i-1].createdAt)" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
-    <message [message]="message"></message>
+
+    <!-- <message [message]="message"></message> -->
+    <!-- WIP #49 - Display the thread-preview component instead of our message component -->
+    <div>[PLACEHOLDER] Thread Preview</div>
 </ng-template>
 <message-new class="app-messaging-new"></message-new>
