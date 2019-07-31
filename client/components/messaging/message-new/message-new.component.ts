@@ -7,6 +7,7 @@ import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/op
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { NotificationService } from 'components/notification/notification.service';
 import { ObjectValidators } from '../../validation/object-validators';
+import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import config from '../../../app/app.constants';
@@ -17,7 +18,7 @@ import config from '../../../app/app.constants';
     styles: [require('./message-new.scss')],
 })
 export class MessageNewComponent implements OnInit {
-    @Input() private thread: Message;
+    @Input() private thread: Message | Thread;
 
     private messageSpecs: {};
     private form: FormGroup;
@@ -58,12 +59,25 @@ export class MessageNewComponent implements OnInit {
             });
     }
 
+    addThread(): void {
+        let newThread = this.form.value;
+        newThread.title = JSON.stringify(this.form.get('title').value);
+
+        this.messagingService.addThread(newThread)
+            .subscribe(thread => {
+                console.log(`Created thread ${thread.title} (ID ${thread._id})`);
+                this.thread = thread;
+
+                // Once the thread has been created successfully, create the message
+                this.addMessage();
+            })
+    }
+
     addMessage(): void {
         let newMessage = this.form.value;
-        newMessage.title = JSON.stringify(this.form.get('title').value);
         newMessage.body = JSON.stringify(this.form.get('body').value);
         if (this.thread) {
-            newMessage.thread = this.thread._id;
+            newMessage.thread = this.thread;
         }
         this.messagingService.addMessage(newMessage)
             .subscribe(message => {
