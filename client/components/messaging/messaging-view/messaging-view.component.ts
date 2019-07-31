@@ -33,11 +33,11 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     ) { }
 
     ngOnInit() {
-        // Load messages for a specific project
+        // Load threads for a specific project
         if (this.entityId) {
             return this.loadThreadsForEntity(this.entityId, this.entityType);
         }
-        // DEFAULT: Load messages
+        // DEFAULT: Load threads
         return this.loadThreads()
     }
 
