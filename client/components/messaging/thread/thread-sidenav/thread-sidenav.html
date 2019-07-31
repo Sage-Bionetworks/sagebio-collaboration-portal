@@ -1,4 +1,4 @@
-<div *ngIf="message">
+<div *ngIf="thread">
     <div class="app-primary-header app-message-thread-header">
         <h1 class="app-message-thread-header-title">Thread</h1>
         <a class="app-message-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the thread" (click)="close()">
@@ -7,6 +7,9 @@
     </div>
 
     <div class="app-message-thread-body">
+        <h2>{{ thread.title }}</h2>
+    </div>
+    <!-- <div class="app-message-thread-body">
         <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
         <message [message]="message" [showReplyButton]="false" [showStartThreadButton]="false"></message>
         <ng-template ngFor let-reply let-i="index" let-first="first" [ngForOf]="replies | async">
@@ -15,5 +18,5 @@
             <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false"></message>
         </ng-template>
         <message-new class="app-messaging-new" [thread]="message"></message-new>
-    </div>
+    </div> -->
 </div>

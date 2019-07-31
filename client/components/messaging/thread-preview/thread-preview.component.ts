@@ -112,6 +112,10 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         //         });
     }
 
+    showThread(): void {
+        this.messagingService.showThread(this.thread);
+    }
+
     updateThread(): void { // WIP #49 - Implement update thread
         // let updatedMessage = this.form.value;
         // updatedMessage.body = JSON.stringify(this.form.get('body').value);
@@ -135,11 +139,6 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
     replyToThread(): void { // WIP #49 - Implement reply to thread
         this.notificationService.info('Not yet implemented');
-    }
-
-    showThread(): void { // WIP #49 - Implement show thread
-        console.log(`ThreadPreviewComponent - showThread() has been clicked`);
-        // this.messagingService.showThread(this.thread);
     }
 
 }

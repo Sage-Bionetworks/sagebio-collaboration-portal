@@ -59,7 +59,6 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
             entity ID ${entityId}
         `);
 
-        // WIP #49 - Need to load threads for a specific entity from messaging service
         this.messagingService.getThreadsByEntity(entityId)
             .pipe(
                 map(threads => orderBy(['createdAt'], ['asc'], threads))

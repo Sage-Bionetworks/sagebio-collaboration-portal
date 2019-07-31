@@ -77,12 +77,12 @@ export class MessagingService {
     }
 
     // WIP #49 - showThread in messaging service needs to accept a thread instead of a message
-    showThread(message: Message): void {
-        let sidenavContentId = `message:${message._id}`;
+    showThread(thread: Thread): void {
+        let sidenavContentId = `thread:${thread._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ThreadSidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ThreadSidenavComponent))
-                .setMessage(message);
+                .setThread(thread); // WIP #49 - Need to set a thread instead of a message
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
