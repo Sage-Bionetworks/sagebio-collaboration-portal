@@ -61,7 +61,7 @@ export class InsightNewComponent {
                     generatedTargetId: insight._id,
                     generatedClass: 'Insight',
                     generatedSubClass: insight.insightType
-                })
+                });
             }, err => {
                 console.log(err);
                 this.errors.newInsight = err.message;

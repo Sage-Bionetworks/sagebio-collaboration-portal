@@ -29,8 +29,8 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     constructor(private sidenavService: SecondarySidenavService,
         private provenanceService: ProvenanceService,
         private socketService: SocketService) {
-            this.activityDirectionFilters = values(config.activityDirectionFilters);
-        }
+        this.activityDirectionFilters = values(config.activityDirectionFilters);
+    }
 
     ngAfterViewInit() {
         let selectedFilters = this.filters.map(f => f.getSelectedFilter());
@@ -47,18 +47,21 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 if (this.checkIfUser(this.root)) {
                     this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            console.log(activity)
+                            console.log(activity);
                             this.provenanceGraph = activity;
                         });
                 } else {
-                    this.provenanceService.getProvenanceGraphByReference(this.root._id, direction.activityDirection, 'created_at', 'desc', 3)
+                    this.provenanceService
+                        .getProvenanceGraphByReference(
+                            this.root._id,
+                            direction.activityDirection,
+                            'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            console.log(activity)
+                            console.log(activity);
                             this.provenanceGraph = activity;
                         });
                 }
-            })
-
+            });
     }
 
     ngOnDestroy() {
@@ -85,9 +88,9 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
 
     checkIfUser(tbd: EntityOrUser): tbd is User {
         if ((tbd as User).username) {
-            return true
+            return true;
         }
-            return false
+        return false;
     }
 
     close(): void {

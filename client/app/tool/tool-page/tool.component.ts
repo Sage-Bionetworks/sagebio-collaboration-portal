@@ -11,7 +11,7 @@ import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
-import { omit } from 'lodash'
+import { omit } from 'lodash';
 
 @Component({
     selector: 'tool',
