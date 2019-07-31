@@ -11,6 +11,7 @@ import { ProjectDataService } from  '../../../app/project/project-data.service';
 
 import { Message } from 'models/messaging/message.model';
 import { Project } from 'models/project.model';
+import { Thread } from 'models/messaging/thread.model';
 
 @Component({
     selector: 'messaging-view',
@@ -19,6 +20,7 @@ import { Project } from 'models/project.model';
 })
 export class MessagingViewComponent implements OnDestroy, OnInit {
     private messages: Message[];
+    private threads: Thread[]; // Added threads array to MessagingViewComponent
 
     @Input() entityId: string;
     @Input() entityType: string;
@@ -33,31 +35,31 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     ngOnInit() {
         // Load messages for a specific project
         if (this.entityId) {
-            return this.loadMessagesForEntity(this.entityId, this.entityType);
+            return this.loadThreadsForEntity(this.entityId, this.entityType);
         }
         // DEFAULT: Load messages
-        return this.loadMessages()
+        return this.loadThreads()
     }
 
-    loadMessages() {
-        console.log(`[DEFAULT] Loading messages`)
-        this.messagingService.getMessages()
+    loadThreads() {
+        console.log(`[DEFAULT] Loading threads`)
+        this.messagingService.getThreads()
             .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
             )
-            .subscribe(messages => {
-                this.messages = messages;
-                this.socketService.syncUpdates('message', this.messages);
+            .subscribe(threads => {
+                this.threads = threads;
+                this.socketService.syncUpdates('thread', this.threads);
             });
     }
 
-    loadMessagesForEntity(entityId, entityType) { // Default to project entity
+    loadThreadsForEntity(entityId, entityType) { // Default to project entity
         console.log(`[NOT YET IMPLEMENTED] Loading messages for
             entity type ${entityType}
             entity ID ${entityId}
         `);
 
-        // WIP #49 - Need to load messages from messaging service
+        // WIP #49 - Need to load threads for a specific entity from messaging service
         this.messagingService.getMessages()
             .pipe(
                 map(messages => orderBy(['createdAt'], ['asc'], messages))
