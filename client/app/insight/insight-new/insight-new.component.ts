@@ -1,36 +1,36 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InsightService } from '../insight.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
-import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
+import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 
 @Component({
     selector: 'insight-new',
     template: require('./insight-new.html'),
     styles: [require('./insight-new.scss')],
 })
-export class InsightNewComponent implements OnInit, OnDestroy {
+export class InsightNewComponent {
     private insightSpecs: {};
     private newForm: FormGroup;
     private errors = {
         newInsight: undefined
     };
-    // private submitted = false;
 
     @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        InsightService];
-    constructor(private router: Router, private route: ActivatedRoute,
+        InsightService, CaptureProvenanceActivityService];
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
-        private insightService: InsightService) {
+        private insightService: InsightService,
+        private captureProvActivity: CaptureProvenanceActivityService) {
 
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
@@ -48,14 +48,7 @@ export class InsightNewComponent implements OnInit, OnDestroy {
                 Validators.maxLength(config.models.insight.description.maxlength)
             ]],
         });
-        console.log('CONSTRUCTOR');
     }
-
-    ngOnInit() {
-        // this.pageTitleService.title = 'New Insight';
-    }
-
-    ngOnDestroy() { }
 
     createNewInsight(): void {
         let newInsight = this.newForm.value;
@@ -63,6 +56,12 @@ export class InsightNewComponent implements OnInit, OnDestroy {
         this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);
+                this.captureProvActivity.save({
+                    generatedName: insight.title,
+                    generatedTargetId: insight._id,
+                    generatedClass: 'Insight',
+                    generatedSubClass: insight.insightType
+                })
             }, err => {
                 console.log(err);
                 this.errors.newInsight = err.message;
