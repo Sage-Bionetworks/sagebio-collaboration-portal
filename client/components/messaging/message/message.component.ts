@@ -139,8 +139,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
         this.notificationService.info('Not yet implemented');
     }
 
-    showThread(): void { // WIP #49 - Implement showThread in message component
-        console.log(`MessageComponent showThread()`)
+    showThread(): void {
         // this.messagingService.showThread(this.message);
     }
 

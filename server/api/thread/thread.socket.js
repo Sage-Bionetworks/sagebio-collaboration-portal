@@ -1,4 +1,3 @@
-// WIP #49 - Create relevant socket events
 /**
  * Broadcast updates to client when the model changes
  */

@@ -29,8 +29,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Thread'
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
-router.get('/', controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -62,8 +61,7 @@ router.get('/', controller.index);
  *       '404':
  *         description: Thread not found
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
-router.get('/:id', controller.show);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 
 /**
  * @swagger
@@ -120,8 +118,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Thread not found
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
-router.patch('/:id', controller.patch);
+router.patch('/:id', auth.isAuthenticated(), controller.patch);
 
 /**
  * @swagger
@@ -149,8 +146,7 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Thread not found
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([ADMIN])
-router.delete('/:id', controller.destroy);
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
 /**
  * @swagger
@@ -178,7 +174,6 @@ router.delete('/:id', controller.destroy);
  *       '400':
  *         description: Invalid Thread
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 router.post('/:id/star', auth.isAuthenticated(), controller.star);
 
 /**
@@ -205,7 +200,6 @@ router.post('/:id/star', auth.isAuthenticated(), controller.star);
  *       '404':
  *         description: Thread not found
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
 
 /**
@@ -238,7 +232,6 @@ router.delete('/:id/unstar', auth.isAuthenticated(), controller.unstar);
  *       '404':
  *         description: Thread not found
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 router.get('/:id/stars/count', controller.starsCount);
 
 /**
@@ -351,11 +344,11 @@ router.patch('/:id/star/unarchive', auth.isAuthenticated(), controller.unarchive
  *           items:
  *             $ref: '#/components/schemas/Thread'
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 router.get('/:id/replies', controller.indexReplies);
 
-// WIP #49 - Create GET /threads/entity/:entityId
+/**
+ *
+ */
 router.get('/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexByEntity);
-// WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 
 module.exports = router;

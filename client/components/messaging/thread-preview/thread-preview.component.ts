@@ -22,7 +22,7 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     styles: [require('./thread-preview.scss')],
     encapsulation: ViewEncapsulation.None
 })
-// WIP #49 - Implement thread-preview component
+
 export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     @Input() private showReplyButton = true;
     @Input() private showStartThreadButton = true;
@@ -116,7 +116,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         this.messagingService.showThread(this.thread);
     }
 
-    updateThread(): void { // WIP #49 - Implement update thread
+    updateThread(): void {
         // let updatedMessage = this.form.value;
         // updatedMessage.body = JSON.stringify(this.form.get('body').value);
         // this.messagingService.updateMessage(updatedMessage)
@@ -128,7 +128,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         // this.isReadOnly = true;
     }
 
-    removeThread(): void { // WIP #49 - Implement remove thread
+    removeThread(): void {
         // this.messagingService.removeMessage(this.thread)
         //     .subscribe(() => { },
         //         err => {
@@ -137,8 +137,8 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         //         });
     }
 
-    replyToThread(): void { // WIP #49 - Implement reply to thread
-        this.notificationService.info('Not yet implemented');
+    replyToThread(): void {
+        // this.notificationService.info('Not yet implemented');
     }
 
 }

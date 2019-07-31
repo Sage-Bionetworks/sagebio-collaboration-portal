@@ -12,7 +12,7 @@ import { MessageNewComponent } from './message-new/message-new.component';
 import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
-import { ThreadPreviewComponent} from './thread-preview/thread-preview.component' // WIP #49 - Import ThreadPreviewComponent in messaging module
+import { ThreadPreviewComponent} from './thread-preview/thread-preview.component'
 import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
