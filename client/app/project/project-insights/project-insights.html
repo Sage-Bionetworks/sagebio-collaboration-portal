@@ -1,1 +1,8 @@
-<entity-list *ngIf="insights" [entities]="insights"></entity-list>
+<entity-list
+  *ngIf="insights"
+  entityName="Insight"
+  [entities]="insights"
+  [entityTypeFilters]="insightTypeFilters"
+  filterGroup="insightType"
+  (onFilterChange)="onFilterChange($event)"
+></entity-list>
