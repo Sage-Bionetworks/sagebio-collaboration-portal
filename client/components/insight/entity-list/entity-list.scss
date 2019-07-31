@@ -1,0 +1,41 @@
+
+.app-insight-list-container {
+  display: flex;
+  flex-flow: row nowrap;
+
+  .app-insight-list-filters-container {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 0;
+    flex-shrink: 0;
+    // min-width: 300px;
+    margin: 25px;
+  }
+
+  .app-insight-list-content-container {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    margin: 20px 50px;
+
+    .app-insight-list-search-filter {
+      width: 600px;
+    }
+
+    .app-insight-list-results {
+      display: flex;
+      flex-flow: row wrap;
+    }
+
+    .app-insight-list-actions {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+    }
+
+    .app-insight-list-new-project {
+      margin-top: 25px;
+      width: 400px;
+    }
+  }
+}

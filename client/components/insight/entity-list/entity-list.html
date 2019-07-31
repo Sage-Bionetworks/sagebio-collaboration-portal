@@ -1,0 +1,14 @@
+<div class="app-insight-list-container">
+    <div class="app-insight-list-filters-container">
+        <h3>Insight Type</h3>
+        <!-- <radio-button-filter [filters]="insightTypeFilters" group="insightType"></radio-button-filter> -->
+    </div>
+
+    <div class="app-insight-list-content-container">
+        <div class="app-insight-list-results">
+            <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
+                <entity-view [entity]="entity"></entity-view>
+            </ng-template>
+        </div>
+    </div>
+</div>
