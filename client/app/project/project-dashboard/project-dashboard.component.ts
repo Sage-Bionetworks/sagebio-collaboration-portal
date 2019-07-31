@@ -24,6 +24,7 @@ import { UserProjectPermission } from '../models/user-project-permission.model';
 export class ProjectDashboardComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
     private userProjectPermission: UserProjectPermission = DEFAULT_USER_PERMISSION;
+    private showEditProjectTemplate = false;
 
     private form: FormGroup;
 
@@ -72,5 +73,9 @@ export class ProjectDashboardComponent implements OnInit, OnDestroy {
             .subscribe(project => {
                 this.notificationService.info('The description has been successfully saved');
             }, err => console.log(err));
+    }
+
+    deleteProject(): void {
+        this.notificationService.info('Not implemented');
     }
 }
