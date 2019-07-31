@@ -12,6 +12,9 @@ import {
     userRoles
 } from '../../config/environment';
 
+const USER_ROLES = Object.values(userRoles).map(role => role.value);
+const USER_ROLE = userRoles.USER.value;
+
 const authTypes = [
     'google-oauth20',
     'google-saml',
@@ -58,8 +61,8 @@ var UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: userRoles,
-        default: 'user'
+        enum: USER_ROLES,
+        default: USER_ROLE
     },
     password: {
         type: String,

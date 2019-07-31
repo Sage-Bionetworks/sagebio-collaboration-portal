@@ -3,10 +3,10 @@ var controller = require('./entity-permission.controller');
 import * as auth from '../../auth/auth.service';
 import {
     accessTypes,
-    userRolesNew
+    userRoles
 } from '../../config/environment';
 
-const ADMIN_ROLE = userRolesNew.ADMIN.value;
+const ADMIN_ROLE = userRoles.ADMIN.value;
 const ADMIN_ACCESS = accessTypes.ADMIN.value;
 
 var router = express.Router();
