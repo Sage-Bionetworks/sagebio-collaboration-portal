@@ -193,6 +193,22 @@ export function indexReplies(req, res) {
 // }
 
 /**
+ * Threads
+ */
+
+// Test
+export function test(req, res) { // WIP #49 - Use to test routes
+    // console.log(`[TEST] req.body: ${JSON.stringify(req.body, null, 2)}`);
+    const result = {
+        originalUrl: req.originalUrl,
+        route: req.route,
+        params: req.params,
+        body: req.body,
+    };
+    return res.status(200).json(result);
+}
+
+/**
  * Helper functions
  */
 

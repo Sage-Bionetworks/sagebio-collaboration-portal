@@ -4,6 +4,34 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+// WIP #49 - Fold Threads API into Messages API
+// POST /messages/threads/ - Create a new thread
+router.post('/threads', controller.test);
+
+// WIP #49 - Implement GET /messages/threads/
+// GET /messages/threads/ - Get all threads not associated with an entity
+router.get('/threads', controller.test);
+
+// WIP #49 - Implement GET /messages/threads/entity/:entityId/messages/:id
+// GET /messages/threads/entity/:entityId/messages/:id - Messages for a specific entity thread
+router.get('/threads/entity/:entityId/messages/:id', controller.test);
+
+// WIP #49 - Implement GET /messages/threads/entity/:entityId/:id
+// GET /messages/threads/entity/:entityId/:id - A specific thread for an entity
+router.get('/threads/entity/:entityId/:id', controller.test);
+
+// WIP #49 - Implement GET /messages/threads/entity/:entityId
+// GET /messages/threads/entity/:entityId - All threads for an entity
+router.get('/threads/entity/:entityId', controller.test);
+
+// WIP #49 - Implement GET /messages/threads/messages/:id
+// GET /messages/threads/messages/:id - Messages for a specific thread not associated with an entity
+router.get('/threads/messages/:id', controller.test);// GET /messages/threads/entity/:entityId - All threads for a specific entity
+
+// WIP #49 - Implement GET /messages/threads/:id
+// GET /messages/threads/:id - Specific thread not associated with an entity
+router.get('/threads/:id', controller.test);
+
 /**
  * @swagger
  * /messages:
