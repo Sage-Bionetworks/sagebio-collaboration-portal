@@ -25,14 +25,14 @@
 
                     <div class="resource-card-info">
                         <span><b>Created by:</b> Thomas</span>
-                        <span *ngIf="resource.data !== undefined"><b>Type:</b> State</span>
-                        <span><b>Tool:</b> FE Lite</span>
+                        <span><b>Type:</b> {{ resource.resourceType }}</span>
+                        <span *ngIf="resource.data !== undefined"><b>Tool:</b> FE Lite</span>
                     </div>
                 </div>
             </div>
             <div class="app-resource-actions">
-                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="openInTool(resource)">Open with PHCCP Shiny Tool Example</a>
-                <a *ngIf="resource.resourceType === 'Dashboard'" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" (click)="open(resource)">Open Dashboard</a>
+                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with PHCCP Shiny Tool Example</a>
+                <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
                 <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
                 <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a>
                 <a *ngIf="resource.data !== undefined" mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Report</a>

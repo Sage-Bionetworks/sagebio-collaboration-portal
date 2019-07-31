@@ -1,0 +1,8 @@
+<mat-card *ngIf="article" class="app-article-container" [routerLink]="[article._id]">
+    <picture>
+        <img src="assets/images/320px-resource_logo.png" aria-label="Article picture">
+    </picture>
+    <div class="app-article-metadata-container">
+        <h3 class="app-article-title">{{ article.title }}</h3>
+    </div>
+</mat-card>
