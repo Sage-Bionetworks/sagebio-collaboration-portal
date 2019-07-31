@@ -1,6 +1,3 @@
 <ng-template ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
-    <message-date-separator *ngIf="first" class="message-date-separator" [isoDate]="thread.createdAt"></message-date-separator>
-    <message-date-separator *ngIf="!first && !(thread.createdAt | sameDay: threads[i-1].createdAt)" class="message-date-separator" [isoDate]="thread.createdAt"></message-date-separator>
     <thread-preview [thread]="thread"></thread-preview>
 </ng-template>
-<message-new class="app-messaging-new"></message-new>
