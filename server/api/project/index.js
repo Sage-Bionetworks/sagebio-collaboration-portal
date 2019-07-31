@@ -98,10 +98,7 @@ router.get('/:id', auth.hasPermissionForEntity([
  *       '400':
  *         description: Invalid Project
  */
-router.post('/', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.create);
+router.post('/', auth.isAuthenticated(), controller.create);
 
 /**
  * @swagger
@@ -131,7 +128,6 @@ router.post('/', auth.hasPermissionForEntity([
  *         description: Project not found
  */
 router.patch('/:id', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.patch);
 
@@ -162,7 +158,6 @@ router.patch('/:id', auth.hasPermissionForEntity([
  *         description: Project not found
  */
 router.delete('/:id', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.destroy);
 
