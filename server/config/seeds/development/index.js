@@ -13,6 +13,9 @@ import {
     messages
 } from './messages';
 import {
+    threads
+} from './threads';
+import {
     projects
 } from './projects'
 import {
@@ -44,6 +47,7 @@ module.exports = {
     dataCatalogs: dataCatalogs,
     dashboards: dashboards,
     entityPermissions: entityPermissions,
+    threads: threads,
     messages: messages,
     projects: projects,
     activities: activities,
