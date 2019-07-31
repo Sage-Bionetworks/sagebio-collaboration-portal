@@ -36,6 +36,9 @@ import {
 import {
     userPermissions
 } from './user-permissions';
+import {
+    organizations
+} from './organizations';
 
 module.exports = {
     dataCatalogs: dataCatalogs,
@@ -50,4 +53,5 @@ module.exports = {
     tools: tools,
     users: users,
     userPermissions: userPermissions,
+    organizations: organizations,
 };
