@@ -1,19 +1,20 @@
 <!-- WIP #49 - Implement display of the thread-preview component -->
-<div class="app-message" *ngIf="message">
+<div class="app-message" *ngIf="thread">
     <div class="app-message-header">
-        <user-avatar class="app-message-header-avatar" [user]="message.createdBy" [size]="avatarSize"></user-avatar>
+        <user-avatar class="app-message-header-avatar" [user]="thread.createdBy" [size]="avatarSize"></user-avatar>
         <div class="app-message-header-metadata">
             <div class="app-message-header-metadata-line">
-                <span class="app-message-header-author">{{ message.createdBy.username }}</span>
-                <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.createdAt | date: 'shortTime' }}</span>
-                <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
-                <!-- <span>{{ message._id }}</span> -->
+                <span class="app-message-header-title">{{ thread.title }}</span>
+                <span class="app-message-header-author">{{ thread.createdBy.username }}</span>
+                <span class="app-message-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
+                <span *ngIf="edited" [matTooltip]="thread.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
+                <!-- <span>{{ thread._id }}</span> -->
             </div>
         </div>
 
-        <div class="app-message-header-reply-button">
+        <!-- <div class="app-message-header-reply-button">
             <message-reply-button *ngIf="showReplyButton" [message]="message" (click)="showThread()"></message-reply-button>
-        </div>
+        </div> -->
 
         <div class="app-message-header-actions">
             <message-star-button [message]="message"></message-star-button>
@@ -22,17 +23,17 @@
             </a>
             <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
                 <button mat-menu-item aria-label="Edit message" (click)="editor.edit()">
-                    <span>Edit message</span>
+                    <span>Edit thread</span>
                 </button>
-                <button mat-menu-item aria-label="Delete message" (click)="removeMessage()">
-                    <span class="app-message-delete-btn-label">Delete message</span>
+                <button mat-menu-item aria-label="Delete message" (click)="removeThread()">
+                    <span class="app-message-delete-btn-label">Delete thread</span>
                 </button>
-                <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button>
+                <!-- <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button> -->
             </mat-menu>
         </div>
     </div>
 
-    <form [formGroup]="form" class="app-message-body">
+    <!-- <form [formGroup]="form" class="app-message-body">
         <app-quill-editor #editor saveButtonLabel="Update" [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
-    </form>
+    </form> -->
 </div>

@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 
-// import { Thread } from 'models/messaging/thread.model';
+import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
@@ -27,7 +27,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     @Input() private showReplyButton = true;
     @Input() private showStartThreadButton = true;
 
-    private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
+    private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
     private tooltipPosition = 'above';
     @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
     @ViewChild(MessageReplyButtonComponent, { static: false }) replyButton: MessageReplyButtonComponent;
@@ -37,8 +37,8 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
     private form: FormGroup;
     private edited = false;
-    private messageSub: Subscription;
-    private getMessageSub: Subscription;
+    private threadSub: Subscription;
+    private getThreadSub: Subscription;
     private tooltipShowDelay: number;
     private avatarSize = 40;
 
@@ -51,20 +51,16 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
         this.form = formBuilder.group({
             _id: [''],
-            body: ['', [
-                Validators.required,
-                Validators.minLength(config.models.message.body.minlength),
-                Validators.maxLength(config.models.message.body.maxlength)
-            ]]
         });
 
-        this.messageSub = this._message
-            .subscribe(message => {
-                if (message) {
-                    this.form.get('_id').setValue(message._id);
-                    this.form.get('body').setValue(JSON.parse(message.body));
-                    let createdAt = new Date(message.createdAt);
-                    let updatedAt = new Date(message.updatedAt);
+        this.threadSub = this._thread
+            .subscribe(thread => {
+                if (thread) {
+                    this.form.get('_id').setValue(thread._id);
+                    // WIP #49 - Set the thread-preview title
+                    // this.form.get('body').setValue(JSON.parse(thread.body));
+                    let createdAt = new Date(thread.createdAt);
+                    let updatedAt = new Date(thread.updatedAt);
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
                 }
             });
@@ -76,76 +72,73 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     ngOnInit() { }
 
     ngAfterViewInit() {
-        this.starred = this.starButton.isStarred()
-            .pipe(
-                startWith(null),
-                delay(0)
-            );
-        if (this.replyButton) {
-            this.numReplies = this.replyButton.getNumReplies()
-                .pipe(
-                    startWith(null),
-                    delay(0)
-                );
-        }
+        // this.starred = this.starButton.isStarred()
+        //     .pipe(
+        //         startWith(null),
+        //         delay(0)
+        //     );
+        // if (this.replyButton) {
+        //     this.numReplies = this.replyButton.getNumReplies()
+        //         .pipe(
+        //             startWith(null),
+        //             delay(0)
+        //         );
+        // }
     }
 
     ngOnDestroy() {
-        if (this.messageSub) this.messageSub.unsubscribe();
-        if (this.getMessageSub) this.getMessageSub.unsubscribe();
+        if (this.threadSub) this.threadSub.unsubscribe();
+        if (this.getThreadSub) this.getThreadSub.unsubscribe();
     }
 
-    get message() {
-        return this._message.getValue();
-    }
-
-    @Input()
-    set message(message) {
-        this._message.next(message);
+    get thread() {
+        return this._thread.getValue();
     }
 
     @Input()
-    set messageId(messageId) {
-        if (!this.getMessageSub) {
-            this.getMessageSub.unsubscribe();
+    set thread(thread) {
+        this._thread.next(thread);
+    }
+
+    @Input()
+    set threadId(threadId) {
+        if (!this.getThreadSub) {
+            this.getThreadSub.unsubscribe();
         }
-        this.getMessageSub = this.messagingService.getMessage(messageId)
-            .subscribe(message => this._message.next(message),
-                err => {
-                    console.log('Unable to get message', err);
-                });
+        // this.getThreadSub = this.messagingService.getThread(messageId)
+        //     .subscribe(thread => this._thread.next(thread),
+        //         err => {
+        //             console.log('Unable to get message', err);
+        //         });
     }
 
-    updateMessage(): void {
-        let updatedMessage = this.form.value;
-        updatedMessage.body = JSON.stringify(this.form.get('body').value);
-        this.messagingService.updateMessage(updatedMessage)
-            .subscribe(message => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to update the message');
-                });
+    updateThread(): void { // WIP #49 - Implement update thread
+        // let updatedMessage = this.form.value;
+        // updatedMessage.body = JSON.stringify(this.form.get('body').value);
+        // this.messagingService.updateMessage(updatedMessage)
+        //     .subscribe(message => { },
+        //         err => {
+        //             console.log(err);
+        //             this.notificationService.error('Unable to update the message');
+        //         });
         // this.isReadOnly = true;
     }
 
-    removeMessage(): void {
-        this.messagingService.removeMessage(this.message)
-            .subscribe(() => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to remove the message');
-                });
+    removeThread(): void { // WIP #49 - Implement remove thread
+        // this.messagingService.removeMessage(this.thread)
+        //     .subscribe(() => { },
+        //         err => {
+        //             console.log(err);
+        //             this.notificationService.error('Unable to remove the message');
+        //         });
     }
 
-    replyToMessage(): void {
+    replyToThread(): void { // WIP #49 - Implement reply to thread
         this.notificationService.info('Not yet implemented');
     }
 
-    showThread(): void {
-        this.messagingService.showThread(this.message);
+    showThread(): void { // WIP #49 - Implement show thread
+        // this.messagingService.showThread(this.thread);
     }
 
-    // plop(): void {
-    //   this.isReadOnly = !this.isReadOnly;
-    // }
 }
