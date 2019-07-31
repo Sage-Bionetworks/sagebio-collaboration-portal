@@ -31,7 +31,7 @@ export class ProjectService {
         return this.httpClient.post<Project>('/api/projects', project);
     }
 
-    updateProject(projectId: string, patches: Patch[]): Observable<Project> {
+    update(projectId: string, patches: Patch[]): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
     }
 }

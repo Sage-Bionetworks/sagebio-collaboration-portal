@@ -12,6 +12,7 @@ import { EntityModule } from 'components/entity/entity.module';
 
 import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
@@ -35,7 +36,7 @@ export const ROUTES: Routes = [{
     component: ProjectComponent,
     canActivate: [AuthGuard, ProjectGuard],
     children: [
-        { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: 'dashboard', component: ProjectDashboardComponent },
         { path: 'insights', component: ProjectInsightsComponent },
         { path: 'resources', component: ProjectResourcesComponent },
@@ -64,6 +65,7 @@ export const ROUTES: Routes = [{
     declarations: [
         ProjectComponent,
         ProjectNewComponent,
+        ProjectEditComponent,
         ProjectListComponent,
         ProjectViewComponent,
         ProjectDashboardComponent,

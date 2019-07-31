@@ -15,12 +15,11 @@ import config from '../../app.constants';
     styles: [require('./project-new.scss')],
 })
 export class ProjectNewComponent implements OnInit, OnDestroy {
-    private projectSpecs: {};
+    private projectSpecs: any;
     private newForm: FormGroup;
     private errors = {
         newProject: undefined
     };
-    // private submitted = false;
 
     @Output() newProject: EventEmitter<Project> = new EventEmitter<Project>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
@@ -36,19 +35,18 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
         this.newForm = this.formBuilder.group({
             name: ['', [
                 Validators.required,
-                Validators.minLength(config.models.project.name.minlength),
-                Validators.maxLength(config.models.project.name.maxlength)
+                Validators.minLength(this.projectSpecs.name.minlength),
+                Validators.maxLength(this.projectSpecs.name.maxlength)
             ]],
             description: ['', [
                 Validators.required,
-                Validators.minLength(config.models.project.description.minlength),
-                Validators.maxLength(config.models.project.description.maxlength)
+                Validators.minLength(this.projectSpecs.description.minlength),
+                Validators.maxLength(this.projectSpecs.description.maxlength)
             ]],
-            visibility: [config.models.project.visibility.default, [
+            visibility: [this.projectSpecs.visibility.default, [
                 Validators.required
             ]],
         });
-        console.log('CONSTRUCTOR');
     }
 
     ngOnInit() {

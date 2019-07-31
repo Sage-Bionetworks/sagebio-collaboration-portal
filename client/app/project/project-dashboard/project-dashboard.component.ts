@@ -65,17 +65,25 @@ export class ProjectDashboardComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
-    updateDescription(projectId): void {
-        let description = JSON.stringify(this.form.get('description').value);
-        this.projectService.updateProject(projectId, [
-            { op: 'replace', path: '/description', value: description }
-        ])
-            .subscribe(project => {
-                this.notificationService.info('The description has been successfully saved');
-            }, err => console.log(err));
-    }
+    // updateDescription(projectId): void {
+    //     let description = JSON.stringify(this.form.get('description').value);
+    //     this.projectService.updateProject(projectId, [
+    //         { op: 'replace', path: '/description', value: description }
+    //     ])
+    //         .subscribe(project => {
+    //             this.notificationService.info('The description has been successfully saved');
+    //         }, err => console.log(err));
+    // }
 
     deleteProject(): void {
         this.notificationService.info('Not implemented');
+    }
+
+    onEditProject(project: Project): void {
+        this.showEditProjectTemplate = false;
+        this.projectDataService.setProject(project);
+        // console.log('onEditProject not yet implemented');
+        // this.tool = { ...this.tool, ... omit(tool, 'organization')};
+        this.notificationService.info('The Project has been successfully updated');
     }
 }

@@ -23,7 +23,7 @@
                 <h2>Description</h2>
                 <app-quill-editor [isReadOnly]="true" [showActions]="false" [body]="form.controls['description']"></app-quill-editor>
             </div>
-            
+
             <div class="project-actions">
                 <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a>
                 <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="warn" (click)="deleteProject()">Delete</a>
@@ -33,6 +33,5 @@
 </div>
 
 <ng-template #showEditProjectForm>
-      PLOP
-        <!-- <tool-edit *ngIf="tool" [tool]="tool" (editTool)="onEditTool($event)" (close)="showEditToolTemplate=false"></tool-edit> -->
+    <project-edit *ngIf="project | async; let project_" [project]="project_" (editProject)="onEditProject($event)" (close)="showEditProjectTemplate=false"></project-edit>
 </ng-template>
