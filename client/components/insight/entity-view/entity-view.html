@@ -1,14 +1,19 @@
-<!-- <mat-card *ngIf="insight" class="insight-container" [routerLink]="[insight._id]"> -->
-<mat-card class="insight-container">
+<!-- <mat-card *ngIf="entity" class="entity-container" [routerLink]="[entity._id]"> -->
+<mat-card *ngIf="entity" class="entity-container">
   <picture>
-      <img src="assets/images/320px-insight_logo.png" aria-label="Insight logo">
+      <img src="assets/images/320px-insight_logo.png" aria-label="Report picture">
   </picture>
-  <div class="insight-metadata-container">
-      <h3 class="insight-name">{{entity.title}}</h3>
-      <!-- <div class="insight-metadata-row-container-date">
+  <div class="entity-metadata-container">
+      <h3 class="entity-title">{{ entity.title }}</h3>
+      <div class="entity-metadata-row-container-date">
           <mat-icon>access_time</mat-icon>
-          <span>{{insight.createdAt | date}}</span>
-      </div> -->
+          <span>{{entity.createdAt | date}}</span>
+      </div>
+      <div class="entity-card-footer">
+          <div class="entity-metadata-row-container">
+              <mat-icon>person_outline</mat-icon>
+              <span>{{ entity.createdBy }}</span>
+          </div>
+      </div>
   </div>
 </mat-card>
-
