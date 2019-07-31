@@ -13,6 +13,9 @@ import {
     entityPermissions
 } from './entity-permissions';
 import {
+    memos
+} from './memos';
+import {
     messages
 } from './messages';
 import {

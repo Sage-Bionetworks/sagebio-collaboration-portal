@@ -25,6 +25,17 @@ export const entityTypes = {
     }
 };
 
+export const insightTypes = {
+    REPORT: {
+        value: 'report',
+        name: 'Report'
+    },
+    MEMO: {
+        value: 'memo',
+        name: 'Memo'
+    }
+};
+
 export const accessTypes = {
     READ: {
         value: 'read',
@@ -153,5 +164,6 @@ export default {
     datasetOrders,
     accessTypes,
     entityTypes,
+    insightTypes,
     inviteStatusTypes
 };
