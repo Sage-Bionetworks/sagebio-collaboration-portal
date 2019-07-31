@@ -54,23 +54,23 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     }
 
     loadThreadsForEntity(entityId, entityType) { // Default to project entity
-        console.log(`[NOT YET IMPLEMENTED] Loading messages for
+        console.log(`Loading messages for
             entity type ${entityType}
             entity ID ${entityId}
         `);
 
         // WIP #49 - Need to load threads for a specific entity from messaging service
-        this.messagingService.getMessages()
+        this.messagingService.getThreadsByEntity(entityId)
             .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
             )
-            .subscribe(messages => {
-                this.messages = messages;
-                this.socketService.syncUpdates('message', this.messages);
+            .subscribe(threads => {
+                this.threads = threads;
+                this.socketService.syncUpdates('thread', this.threads);
             });
     }
 
     ngOnDestroy() {
-        this.socketService.unsyncUpdates('message');
+        this.socketService.unsyncUpdates('thread');
     }
 }

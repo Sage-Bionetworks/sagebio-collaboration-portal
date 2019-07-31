@@ -34,7 +34,14 @@ export class MessagingService {
     getThreads(query?: {}): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/threads${stringifyQuery(query)}`)
             .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
+            );
+    }
+
+    getThreadsByEntity(entityId: string): Observable<Thread[]> {
+        return this.httpClient.get<Thread[]>(`/api/threads/entity/${entityId}`)
+            .pipe(
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
             );
     }
 

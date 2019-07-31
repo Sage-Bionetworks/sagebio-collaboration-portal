@@ -30,6 +30,16 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the permissions associated to an entity
+export function indexByEntity(req, res) {
+    return Thread.find({
+        entityId: req.params.entityId
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // WIP #49 - GET /api/threads/:id
 // Gets a single Thread from the DB
 export function show(req, res) {

@@ -2,6 +2,13 @@ var express = require('express');
 var controller = require('./thread.controller');
 var auth = require('../../auth/auth.service');
 
+import {
+    accessTypes,
+} from '../../config/environment';
+const ADMIN_ACCESS = accessTypes.ADMIN.value;
+const READ_ACCESS = accessTypes.READ.value;
+const WRITE_ACCESS = accessTypes.WRITE.value;
+
 var router = express.Router();
 
 /**
@@ -347,7 +354,8 @@ router.patch('/:id/star/unarchive', auth.isAuthenticated(), controller.unarchive
 // WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 router.get('/:id/replies', controller.indexReplies);
 
-// WIP #49 - Create GET /threads/:entityId
+// WIP #49 - Create GET /threads/entity/:entityId
+router.get('/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexByEntity);
 // WIP #49 - Protect using auth.hasPermissionForEntity([READ, WRITE, ADMIN])
 
 module.exports = router;
