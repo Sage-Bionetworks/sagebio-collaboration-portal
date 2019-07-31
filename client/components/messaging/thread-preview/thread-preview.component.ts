@@ -138,6 +138,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     }
 
     showThread(): void { // WIP #49 - Implement show thread
+        console.log(`ThreadPreviewComponent - showThread() has been clicked`);
         // this.messagingService.showThread(this.thread);
     }
 

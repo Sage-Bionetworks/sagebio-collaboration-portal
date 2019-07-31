@@ -1,6 +1,6 @@
 <!-- WIP #49 - Implement display of the thread-preview component -->
 <div class="app-message" *ngIf="thread">
-    <div class="app-message-header">
+    <div class="app-message-header" (click)="showThread()">
         <user-avatar class="app-message-header-avatar" [user]="thread.createdBy" [size]="avatarSize"></user-avatar>
         <div class="app-message-header-metadata">
             <div class="app-message-header-metadata-line">
@@ -11,6 +11,10 @@
                 <!-- <span>{{ thread._id }}</span> -->
             </div>
         </div>
+
+        <!-- <div class="app-message-header-reply-button">
+            <message-reply-button *ngIf="showReplyButton" [thread]="thread" (click)="showThread()"></message-reply-button>
+        </div> -->
 
         <div class="app-message-header-actions">
             <!-- <message-star-button [message]="message"></message-star-button> -->

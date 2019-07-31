@@ -69,8 +69,9 @@ export class MessagingService {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);
     }
 
+    // WIP #49 - showThread in messaging service needs to accept a thread instead of a message
     showThread(message: Message): void {
-        let sidenavContentId = `thread:${message._id}`;
+        let sidenavContentId = `message:${message._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ThreadSidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ThreadSidenavComponent))
