@@ -83,7 +83,6 @@ router.get('/:id', controller.show);
  *       '400':
  *         description: Invalid Thread
  */
-// WIP #49 - Protect using auth.hasPermissionForEntity([WRITE, ADMIN])
 router.post('/', auth.isAuthenticated(), controller.create);
 
 /**

@@ -1,7 +1,6 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/threads              ->  index
- * // WIP #49 - Do we need more than just GET /threads/:entityId
  * GET     /api/threads/:entityId    ->
  *
  * POST    /api/threads              ->  create
@@ -14,15 +13,14 @@
 import { applyPatch } from 'fast-json-patch';
 
 import Thread from './thread.model';
-import Message from './message.model';
+import Message from '../message/message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
-// WIP #49 - GET /api/threads
 // Gets a list of Threads
 export function index(req, res) {
     req.query;
-    return Message.find({
+    return Thread.find({
         thread: {
             $exists: false,
         },
@@ -43,7 +41,6 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-// WIP #49 - POST /api/threads
 // Creates a new Thread in the DB
 export function create(req, res) {
     var userId = req.user._id;
@@ -51,7 +48,7 @@ export function create(req, res) {
         .exec()
         .then(handleUserNotFound(res))
         .then(user => {
-            return Message.create({
+            return Thread.create({
                 ...req.body,
                 createdBy: user._id,
             });
