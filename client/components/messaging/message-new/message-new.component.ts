@@ -19,6 +19,7 @@ import config from '../../../app/app.constants';
 export class MessageNewComponent implements OnInit {
     @Input() private thread: Message;
 
+    private messageSpecs: {};
     private form: FormGroup;
     private errors = {
         createNewMessage: undefined
@@ -29,7 +30,13 @@ export class MessageNewComponent implements OnInit {
         private notificationService: NotificationService,
         private messagingService: MessagingService) {
 
+        this.messageSpecs = config.models.message;
         this.form = formBuilder.group({
+            title: ['', [
+                Validators.required,
+                ObjectValidators.jsonStringifyMinLength(config.models.message.title.minlength),
+                ObjectValidators.jsonStringifyMaxLength(config.models.message.title.maxlength)
+            ]],
             body: ['', [
                 Validators.required,
                 ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
@@ -53,6 +60,7 @@ export class MessageNewComponent implements OnInit {
 
     addMessage(): void {
         let newMessage = this.form.value;
+        newMessage.title = JSON.stringify(this.form.get('title').value);
         newMessage.body = JSON.stringify(this.form.get('body').value);
         if (this.thread) {
             newMessage.thread = this.thread._id;

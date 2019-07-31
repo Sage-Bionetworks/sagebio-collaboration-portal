@@ -1,4 +1,10 @@
 <form [formGroup]="form" novalidate>
+    <mat-form-field class="app-message-new-title">
+        <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" required>
+        <mat-error *ngIf="form.controls.title.invalid">
+            Please enter a valid title ({{ messageSpecs.title.minlength }}-{{ messageSpecs.title.maxlength }} characters).
+        </mat-error>
+    </mat-form-field>
     <app-quill-editor class="app-message-new-editor" #editor [isReadOnly]="false" [showActions]="false" placeholder="Start a new thread" [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
     <mat-error *ngIf="form.controls.body.errors?.jsonStringifyMaxLength">
         This message must be smaller than {{ form.controls.body.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value: {{ form.controls.body.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
