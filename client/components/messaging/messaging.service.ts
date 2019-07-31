@@ -8,6 +8,7 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { StarredMessage } from 'models/messaging/starred-message.model';
 import { NumberValue } from 'models/number-value.model';
@@ -22,6 +23,20 @@ export class MessagingService {
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
+
+    /**
+     * Threads
+     */
+    addThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.post<Thread>('/api/threads', thread);
+    }
+
+    getThreads(query?: {}): Observable<Thread[]> {
+        return this.httpClient.get<Thread[]>(`/api/threads${stringifyQuery(query)}`)
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
+            );
+    }
 
     /**
      * Messages
