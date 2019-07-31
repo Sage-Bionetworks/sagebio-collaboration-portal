@@ -15,11 +15,11 @@ var config = {
     },
 
     insightTypeFilters: [{
-        value: 'Report',
+        value: 'report',
         title: 'Report',
         active: true
     }, {
-        value: 'Memo',
+        value: 'memo',
         title: 'Memo'
     }],
 
