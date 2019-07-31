@@ -3,6 +3,7 @@ import {
     registerEvents
 } from './message.events';
 import User from '../user/user.model';
+import Thread from '../thread/thread.model';
 // import BaseMessage from './base-message.model';
 
 var MessageSchema = new mongoose.Schema({
@@ -69,7 +70,8 @@ const autoPopulatePost = function (doc) {
         .populate('createdBy', User.profileProperties)
         .populate('thread')
         // .populate('tags')
-        .execPopulate();
+        // .execPopulate();
+
 };
 
 // MessageSchema.pre('save', function (next) {
