@@ -29,6 +29,7 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     setThread(thread: Thread): void {
         this.thread = thread;
+        // WIP #49 - Load messages for our specific thread
     }
 
     // setMessage(message: Message): void {

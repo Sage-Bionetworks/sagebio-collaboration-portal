@@ -57,8 +57,6 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
             .subscribe(thread => {
                 if (thread) {
                     this.form.get('_id').setValue(thread._id);
-                    // WIP #49 - Set the thread-preview title
-                    // this.form.get('body').setValue(JSON.parse(thread.body));
                     let createdAt = new Date(thread.createdAt);
                     let updatedAt = new Date(thread.updatedAt);
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
