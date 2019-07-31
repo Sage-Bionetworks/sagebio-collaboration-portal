@@ -26,6 +26,7 @@ before_script:
 script:
   - npm test || travis_terminate 1;
   - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then docker build -f Dockerfile --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" . ; fi
+  - if [ "${TRAVIS_TAG}" != "" ]; then docker build -f Dockerfile --tag "${IMAGE_NAME}" . ; fi
 
 # after_success:
 #   - coveralls
@@ -35,12 +36,17 @@ before_deploy:
   - git_sha="$(git rev-parse --short HEAD)"
   - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
   - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
+  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_TAG}"
 
 deploy:
   - provider: script
     script: docker push "${IMAGE_NAME}:develop" && docker push "${IMAGE_NAME}:${git_sha}-develop"
     on:
       branch: develop
+  - provider: script
+    script: docker push "${IMAGE_NAME}:${TRAVIS_TAG}"
+    on:
+      tags: true
   - provider: codedeploy
     bucket: "phc-codedeploy-essentials-codedeploys3bucket-jumhvxvmnql0"
     key: deploy.zip
