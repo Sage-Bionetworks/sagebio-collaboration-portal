@@ -17,11 +17,11 @@ import Message from '../message/message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
-// Gets a list of Threads
+// Get a list of Threads that are not associated with an entity
 export function index(req, res) {
     req.query;
     return Thread.find({
-        thread: {
+        entityId: {
             $exists: false,
         },
     })
