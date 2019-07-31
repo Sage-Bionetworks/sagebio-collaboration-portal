@@ -10,6 +10,8 @@ import { switchMap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
 import { omit } from 'lodash';
 
+const USER_ROLES = Object.values(userRoles).map(role => role.value);
+
 @Component({
     selector: 'admin-user',
     template: require('./admin-user.html'),
@@ -18,7 +20,7 @@ import { omit } from 'lodash';
 
 export class AdminUserComponent implements OnInit, OnDestroy {
     private permissionOptions: String[] = permissionTypes;
-    private userRoles: String[] = userRoles;
+    private userRoles: String[] = USER_ROLES;
     private targetUser: User;
     private loggedUser: User;
     private role: String;

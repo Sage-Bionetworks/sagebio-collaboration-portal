@@ -7,7 +7,7 @@ import {
     entityTypes,
     accessTypes,
     inviteStatusTypes,
-    userRolesNew
+    userRoles
 } from '../../config/environment';
 import {
     respondWithResult,
@@ -19,7 +19,7 @@ import {
     handleError
 } from '../util';
 
-const ADMIN_ROLE = userRolesNew.ADMIN.value;
+const ADMIN_ROLE = userRoles.ADMIN.value;
 
 // Gets a list of Projects
 // TODO: Make the function more readable
