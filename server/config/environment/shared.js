@@ -3,9 +3,8 @@
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
 export const contactUsUrl = process.env.CONTACT_US_URL || 'https://sagebionetworks.org';
-// List of user roles
-export const userRoles = ['user', 'admin']; // TODO: remove
-export const userRolesNew = {
+
+export const userRoles = {
     USER: {
         value: 'user'
     },
@@ -157,7 +156,6 @@ export default {
     port,
     contactUsUrl,
     userRoles,
-    userRolesNew,
     permissionTypes,
     gitVersion,
     gitCommitHash,

@@ -3,10 +3,10 @@ var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
 import {
     accessTypes,
-    userRolesNew
+    userRoles
 } from '../../config/environment';
 
-const ADMIN_ROLE = userRolesNew.ADMIN.value;
+const ADMIN_ROLE = userRoles.ADMIN.value;
 const READ_ACCESS = accessTypes.READ.value;
 const WRITE_ACCESS = accessTypes.WRITE.value;
 const ADMIN_ACCESS = accessTypes.ADMIN.value;
