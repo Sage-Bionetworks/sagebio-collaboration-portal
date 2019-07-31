@@ -86,6 +86,4 @@ ThreadSchema
     .post('save', autoPopulatePost);
 
 registerEvents(ThreadSchema);
-
-var Thread = mongoose.model('Thread', ThreadSchema);
-export default Thread;
+export default mongoose.model('Thread', ThreadSchema);
