@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
-import { InsightService } from '../insight.service';
+import { InsightService } from 'components/insight/insight.service';
 // import { StateService } from '../../state/state.service';
 
 import { Insight } from 'models/entities/insights/insight.model';
@@ -82,22 +82,22 @@ export class InsightComponent implements OnInit, OnDestroy {
         // console.log('description', description);
         // console.log('DESCRIPTION', description);
         try {
-            this.insightService.updateInsightDescription(this.insight, description)
-                .subscribe(insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                }, err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                });
+            // this.insightService.updateInsightDescription(this.insight, description)
+            //     .subscribe(insight => {
+            //         this.notificationService.info('The description has been successfully saved');
+            //     }, err => {
+            //         console.log(err);
+            //         // this.errors.updateDescription = err.message;
+            //     });
         } catch (e) { }
         try {
-            this.insightService.updateStateDescription(this.insight, description)
-                .subscribe(insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                }, err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                });
+            // this.insightService.updateStateDescription(this.insight, description)
+            //     .subscribe(insight => {
+            //         this.notificationService.info('The description has been successfully saved');
+            //     }, err => {
+            //         console.log(err);
+            //         // this.errors.updateDescription = err.message;
+            //     });
         } catch (e) { }
     }
 

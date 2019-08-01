@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { InsightService } from '../insight.service';
+import { InsightService } from 'components/insight/insight.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app.constants';
@@ -53,18 +53,18 @@ export class InsightNewComponent {
     createNewInsight(): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        this.insightService.create(newInsight)
-            .subscribe(insight => {
-                this.newInsight.emit(insight);
-                this.captureProvActivity.save({
-                    generatedName: insight.title,
-                    generatedTargetId: insight._id,
-                    generatedClass: 'Insight',
-                    generatedSubClass: insight.insightType
-                });
-            }, err => {
-                console.log(err);
-                this.errors.newInsight = err.message;
-            });
+        // this.insightService.create(newInsight)
+        //     .subscribe(insight => {
+        //         this.newInsight.emit(insight);
+        //         this.captureProvActivity.save({
+        //             generatedName: insight.title,
+        //             generatedTargetId: insight._id,
+        //             generatedClass: 'Insight',
+        //             generatedSubClass: insight.insightType
+        //         });
+        //     }, err => {
+        //         console.log(err);
+        //         this.errors.newInsight = err.message;
+            // });
     }
 }

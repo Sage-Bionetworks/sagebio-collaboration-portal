@@ -17,10 +17,11 @@ import { InsightComponent } from './insight-page/insight.component';
 import { InsightNewComponent } from './insight-new/insight-new.component';
 import { ReportViewComponent } from './report-view/report-view.component';
 
-import { InsightService } from './insight.service';
+import { InsightService } from 'components/insight/insight.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
+import { EntityModule } from 'components/entity/entity.module';
 
 export const ROUTES: Routes = [{
     path: 'insights',
@@ -46,6 +47,7 @@ export const ROUTES: Routes = [{
         ShowActivityButtonModule,
         ActivitySidenavModule,
         ProvenanceModule,
+        EntityModule
     ],
     declarations: [
         InsightListComponent,
