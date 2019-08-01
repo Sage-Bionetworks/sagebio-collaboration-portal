@@ -70,6 +70,14 @@ export function indexByEntity(req, res) {
         .catch(handleError(res));
 }
 
+export function index(req, res) {
+    let filters = req.query;
+    return Insight.find(filters)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // // Gets a single Insight from the DB
 // export function show(req, res) {
 //     return Insight.findById(req.params.id).exec()

@@ -26,9 +26,13 @@ export class InsightService {
         return this.httpClient.get<Insight[]>(`/api/insights/entity/${project._id}${stringifyQuery(query)}`);
     }
 
-    // getInsight(insightId: string): Observable<Insight> {
-    //     return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
-    // }
+    getAll(query?: {}): Observable<Insight[]> {
+        return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
+    }
+
+    getInsight(insightId: string): Observable<Insight> {
+        return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
+    }
 
     // create(insight: Insight): Observable<Insight> {
     //     return this.httpClient.post<Insight>('/api/insights', insight);

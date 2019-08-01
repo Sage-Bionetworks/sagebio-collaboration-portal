@@ -25,4 +25,6 @@ router.get('/entity/:entityId', auth.hasPermissionForEntity([
   ADMIN_ACCESS
 ]), controller.indexByEntity);
 
+router.get('/', auth.isAuthenticated(), controller.index);
+
 module.exports = router;

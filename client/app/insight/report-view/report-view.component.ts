@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-// import { InsightService } from '../insight.service';
+// import { InsightService } from 'components/insight/insight.service';
 import { Report } from 'models/entities/insights/report.model';
 
 @Component({
