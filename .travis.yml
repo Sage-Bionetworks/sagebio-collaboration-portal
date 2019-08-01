@@ -27,7 +27,7 @@ script: >
   npm test || travis_terminate 1;
   if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then
     docker build -f Dockerfile --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" .
-  elif [ "${TRAVIS_TAG}" !=  ]; then
+  elif [ -z "${TRAVIS_TAG}" ]; then
     docker build -f Dockerfile --tag "${IMAGE_NAME}" .
   fi
 
@@ -37,10 +37,10 @@ script: >
 before_deploy: >
   docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
   git_sha="$(git rev-parse --short HEAD)"
-  docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
   if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then
+    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
     docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
-  elif [ "${TRAVIS_TAG}" !=  ]; then
+  elif [ -z "${TRAVIS_TAG}" ]; then
     docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_TAG}"
   fi
 
