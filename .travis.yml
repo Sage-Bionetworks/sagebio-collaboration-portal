@@ -37,7 +37,6 @@ deploy:
     script: bash docker-deploy.sh
     on:
       tags: true
-      condition: "$TRAVIS_TAG =~ -release$"
   - provider: codedeploy
     bucket: "phc-codedeploy-essentials-codedeploys3bucket-jumhvxvmnql0"
     key: deploy.zip
