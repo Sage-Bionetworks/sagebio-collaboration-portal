@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 import { MaterialModule } from 'components/material/material.module';
 import { FiltersModule } from 'components/filters/filters.module';
 
 import { EntityListComponent } from './entity-list/entity-list.component';
 import { EntityViewComponent } from './entity-view/entity-view.component';
+
 
 @NgModule({
     imports: [
@@ -14,6 +17,7 @@ import { EntityViewComponent } from './entity-view/entity-view.component';
       MaterialModule,
       BrowserModule,
       FiltersModule,
+      RouterModule
     ],
     declarations: [
         EntityListComponent,

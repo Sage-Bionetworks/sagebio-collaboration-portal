@@ -7,7 +7,7 @@
     <div class="entity-list-content-container">
         <div class="entity-list-results">
             <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
-                <entity-view [entity]="entity"></entity-view>
+                <entity-view [entity]="entity" [entityRoute]="entityRoute"></entity-view>
             </ng-template>
         </div>
     </div>
