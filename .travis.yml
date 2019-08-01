@@ -23,20 +23,26 @@ before_script:
   - npm install -g gulp-cli
   - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then docker pull "${IMAGE_NAME}:develop" || true ; fi
 
-script:
-  - npm test || travis_terminate 1;
-  - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then docker build -f Dockerfile --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" . ; fi
-  - if [ "${TRAVIS_TAG}" != "" ]; then docker build -f Dockerfile --tag "${IMAGE_NAME}" . ; fi
+script: >
+  npm test || travis_terminate 1;
+  if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then
+    docker build -f Dockerfile --pull --cache-from "${IMAGE_NAME}:develop" --tag "${IMAGE_NAME}" .
+  elif [ -n "${TRAVIS_TAG}" ]; then
+    docker build -f Dockerfile --tag "${IMAGE_NAME}" .
+  fi
 
 # after_success:
 #   - coveralls
 
-before_deploy:
-  - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
-  - git_sha="$(git rev-parse --short HEAD)"
-  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
-  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
-  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_TAG}"
+before_deploy: >
+  docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
+  git_sha="$(git rev-parse --short HEAD)"
+  if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then
+    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
+    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
+  elif [ -n "${TRAVIS_TAG}" ]; then
+    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_TAG}"
+  fi
 
 deploy:
   - provider: script
