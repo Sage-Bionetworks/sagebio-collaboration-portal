@@ -3,6 +3,7 @@ import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
 import { Insight } from 'models/entities/insights/insight.model';
+import { Resource } from 'models/entities/resources/resource.model';
 import { combineLatest } from 'rxjs';
 import { flow, keyBy, mapValues } from 'lodash/fp';
 import { map } from 'rxjs/operators';
@@ -20,7 +21,7 @@ export class EntityListComponent implements AfterViewInit {
     @Output() onFilterChange:EventEmitter<string>  = new EventEmitter<string>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
-    _entities: Insight[] = [];
+    _entities: Insight[] | Resource[]  = [];
 
     static parameters = [];
 

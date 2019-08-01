@@ -28,7 +28,7 @@ import { ProjectGuard } from './project-guard.service';
 
 import { InsightService } from 'components/insight/insight.service';
 
-import { EntityModule as EntityListModule } from '../../components/insight/entity.module'
+import { EntityModule as EntityListModule } from '../../components/entity/entity.module'
 
 export const ROUTES: Routes = [{
     path: 'projects',
