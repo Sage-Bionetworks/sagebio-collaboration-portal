@@ -9,5 +9,5 @@ git_sha="$(git rev-parse --short HEAD)"
 docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_BRANCH}"
 docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-${TRAVIS_BRANCH}"
 
-echo docker push "${IMAGE_NAME}:${TRAVIS_BRANCH}" 
-echo docker push "${IMAGE_NAME}:${git_sha}-${TRAVIS_BRANCH}"
+docker push "${IMAGE_NAME}:${TRAVIS_BRANCH}"
+docker push "${IMAGE_NAME}:${git_sha}-${TRAVIS_BRANCH}"
