@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-set -e
-set -v
-
 docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}" "${REGISTRY_SERVER}"
-git_sha="$(git rev-parse --short HEAD)"
 
-if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" = "develop" ]; then
-    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:develop"
-    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-develop"
-elif [ -n "${TRAVIS_TAG}" ]; then
-    docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_TAG}"
-fi
+docker pull "${IMAGE_NAME}:develop" || true
+docker build -f Dockerfile --pull --cache-from "${IMAGE_NAME}:${TRAVIS_BRANCH}" --tag "${IMAGE_NAME}" .
+
+git_sha="$(git rev-parse --short HEAD)"
+docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${TRAVIS_BRANCH}"
+docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${git_sha}-${TRAVIS_BRANCH}"
+
+echo docker push "${IMAGE_NAME}:${TRAVIS_BRANCH}" 
+echo docker push "${IMAGE_NAME}:${git_sha}-${TRAVIS_BRANCH}"
