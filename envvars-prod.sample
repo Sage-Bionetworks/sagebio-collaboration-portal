@@ -38,7 +38,7 @@ export APP_INIT_ADMIN_EMAIL=thomas.schaffter@sagebase.org
 export APP_INIT_ADMIN_PASSWORD=admin
 export APP_INIT_DB_SEED_NAME=default
 
-export CONTACT_US_URL=https://webforms.roche.com/phcixcc
+## export CONTACT_US_URL=https://webforms.roche.com/phcixcc
 
 ## Enabling local authentication
 export AUTH_LOCAL=true
