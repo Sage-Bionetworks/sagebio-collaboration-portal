@@ -39,7 +39,7 @@ var InsightSchema = new mongoose.Schema({
 
 const autoPopulatePre = function (next) {
     this
-        .populate('createdBy', User.profileProperties)
+        .populate('createdBy', User.profileProperties);
     next();
 };
 

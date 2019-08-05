@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InsightService } from 'components/insight/insight.service';
-import { InsightNewComponent } from '../insight-new/insight-new.component';
 import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { orderBy } from 'lodash/fp';
@@ -16,7 +15,6 @@ export class InsightListComponent implements OnInit {
     private insights: Insight[] = [];
     private insightTypeFilters = config.insightTypeFilters;
 
-    @ViewChild(InsightNewComponent, { static: false }) newInsight: InsightNewComponent;
     private createNewInsight = false;
 
     private searchPageIndex: number;

@@ -86,13 +86,17 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-// // Creates a new Insight in the DB
-// export function create(req, res) {
-//     return Insight.create(req.body)
-//         .then(respondWithResult(res, 201))
-//         .catch(handleError(res));
-// }
-//
+// Creates a new Insight in the DB
+export function create(req, res) {
+    return Insight.create({
+        ...req.body,
+        createdBy: req.user._id,
+        projectId: req.params.entityId
+    })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
 // // Upserts the given Insight in the DB at the specified ID
 // export function upsert(req, res) {
 //     if (req.body._id) {

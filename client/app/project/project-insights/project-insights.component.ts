@@ -35,12 +35,14 @@ export class ProjectInsightsComponent implements OnInit {
     }
 
     onFilterChange(query) {
-        this.insightService.query(this.project, query)
-            .subscribe(insights => {
-                this.insights = orderBy(insights, 'createdAt', 'asc');
-            }, err => {
-                console.log(err);
-            });
+        if (this.project) {
+            this.insightService.query(this.project, query)
+                .subscribe(insights => {
+                    this.insights = orderBy(insights, 'createdAt', 'asc');
+                }, err => {
+                    console.log(err);
+                });
+        }
     }
 
     onNewInsight(insight: Insight): void {

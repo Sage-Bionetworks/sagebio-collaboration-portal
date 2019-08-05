@@ -19,13 +19,23 @@ var router = express.Router();
 // router.patch('/:id', controller.patch);
 // router.delete('/:id', controller.destroy);
 
+// get insight by project id
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
   READ_ACCESS,
   WRITE_ACCESS,
   ADMIN_ACCESS
 ]), controller.indexByEntity);
 
+// get all insights
 router.get('/', auth.isAuthenticated(), controller.index);
+
+// get insight by id
 router.get('/:id', auth.isAuthenticated(), controller.show);
+
+router.post('/entity/:entityId', auth.hasPermissionForEntity([
+  READ_ACCESS,
+  WRITE_ACCESS,
+  ADMIN_ACCESS
+]), controller.create);
 
 module.exports = router;

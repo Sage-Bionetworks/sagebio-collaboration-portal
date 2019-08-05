@@ -7,6 +7,10 @@
     display: flex;
     flex-flow: column nowrap;
     margin: 20px;
+
+    select {
+      text-transform: capitalize;
+    }
   }
 
   .app-insight-new-form-field {

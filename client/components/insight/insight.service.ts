@@ -34,9 +34,9 @@ export class InsightService {
         return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
     }
 
-    // create(insight: Insight): Observable<Insight> {
-    //     return this.httpClient.post<Insight>('/api/insights', insight);
-    // }
+    create(project: Project, insight: Insight): Observable<Insight> {
+        return this.httpClient.post<Insight>(`/api/insights/entity/${project._id}`, insight);
+    }
 
     // searchInsightsByName(terms: Observable<string>): Observable<Insight[] | null> {
     //     return terms
