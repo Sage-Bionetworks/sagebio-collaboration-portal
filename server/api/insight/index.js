@@ -26,5 +26,6 @@ router.get('/entity/:entityId', auth.hasPermissionForEntity([
 ]), controller.indexByEntity);
 
 router.get('/', auth.isAuthenticated(), controller.index);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 
 module.exports = router;

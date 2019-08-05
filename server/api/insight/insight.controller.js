@@ -78,14 +78,14 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
-// // Gets a single Insight from the DB
-// export function show(req, res) {
-//     return Insight.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(respondWithResult(res))
-//         .catch(handleError(res));
-// }
-//
+// Gets a single Insight from the DB
+export function show(req, res) {
+    return Insight.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // // Creates a new Insight in the DB
 // export function create(req, res) {
 //     return Insight.create(req.body)
