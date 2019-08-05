@@ -50,35 +50,35 @@ describe('Insight API Router:', function() {
     });
   });
 
-  describe('POST /api/insights', function() {
-    it('should route to insight.controller.create', function() {
-      expect(routerStub.post
-        .withArgs('/', 'insightCtrl.create')
-        ).to.have.been.calledOnce;
-    });
-  });
+  // describe('POST /api/insights', function() {
+  //   it('should route to insight.controller.create', function() {
+  //     expect(routerStub.post
+  //       .withArgs('/', 'insightCtrl.create')
+  //       ).to.have.been.calledOnce;
+  //   });
+  // });
 
-  describe('PUT /api/insights/:id', function() {
-    it('should route to insight.controller.upsert', function() {
-      expect(routerStub.put
-        .withArgs('/:id', 'insightCtrl.upsert')
-        ).to.have.been.calledOnce;
-    });
-  });
+  // describe('PUT /api/insights/:id', function() {
+  //   it('should route to insight.controller.upsert', function() {
+  //     expect(routerStub.put
+  //       .withArgs('/:id', 'insightCtrl.upsert')
+  //       ).to.have.been.calledOnce;
+  //   });
+  // });
 
-  describe('PATCH /api/insights/:id', function() {
-    it('should route to insight.controller.patch', function() {
-      expect(routerStub.patch
-        .withArgs('/:id', 'insightCtrl.patch')
-        ).to.have.been.calledOnce;
-    });
-  });
+  // describe('PATCH /api/insights/:id', function() {
+  //   it('should route to insight.controller.patch', function() {
+  //     expect(routerStub.patch
+  //       .withArgs('/:id', 'insightCtrl.patch')
+  //       ).to.have.been.calledOnce;
+  //   });
+  // });
 
-  describe('DELETE /api/insights/:id', function() {
-    it('should route to insight.controller.destroy', function() {
-      expect(routerStub.delete
-        .withArgs('/:id', 'insightCtrl.destroy')
-        ).to.have.been.calledOnce;
-    });
-  });
+  // describe('DELETE /api/insights/:id', function() {
+  //   it('should route to insight.controller.destroy', function() {
+  //     expect(routerStub.delete
+  //       .withArgs('/:id', 'insightCtrl.destroy')
+  //       ).to.have.been.calledOnce;
+  //   });
+  // });
 });
