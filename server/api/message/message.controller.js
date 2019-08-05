@@ -197,7 +197,7 @@ export function indexReplies(req, res) {
  */
 
 // Test
-export function test(req, res) { // WIP #49 - Use to test routes
+export function test(req, res) { // Use to test routing
     // console.log(`[TEST] req.body: ${JSON.stringify(req.body, null, 2)}`);
     const result = {
         originalUrl: req.originalUrl,
