@@ -13,7 +13,7 @@ import { ActivitySidenavModule } from 'components/activity/activity-sidenav/acti
 
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightViewComponent } from './insight-view/insight-view.component';
-import { InsightComponent } from './insight-page/insight.component';
+// import { InsightComponent } from './insight-page/insight.component';
 import { ReportViewComponent } from './report-view/report-view.component';
 
 import { InsightService } from 'components/insight/insight.service';
@@ -27,11 +27,11 @@ export const ROUTES: Routes = [{
     component: InsightListComponent,
     canActivate: [AuthGuard],
     data: {}
-}, {
-    path: 'insights/:id',
-    component: InsightComponent,
-    canActivate: [AuthGuard],
-    data: {}
+// }, {
+//     path: 'insights/:id',
+//     component: InsightComponent,
+//     canActivate: [AuthGuard],
+//     data: {}
 }];
 
 @NgModule({
@@ -51,7 +51,7 @@ export const ROUTES: Routes = [{
     declarations: [
         InsightListComponent,
         InsightViewComponent,
-        InsightComponent,
+        // InsightComponent,
         ReportViewComponent,
     ],
     providers: [
@@ -60,8 +60,7 @@ export const ROUTES: Routes = [{
     ],
     exports: [
         InsightListComponent,
-        InsightViewComponent,
-        InsightComponent
+        InsightViewComponent
     ],
     entryComponents: []
 })

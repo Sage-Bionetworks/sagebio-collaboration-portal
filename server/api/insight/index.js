@@ -13,11 +13,14 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 var router = express.Router();
 
 // router.get('/', controller.index);
-// router.get('/:id', controller.show);
+router.get('/:id', controller.show);
 // router.post('/', controller.create);
 // router.put('/:id', controller.upsert);
 // router.patch('/:id', controller.patch);
 // router.delete('/:id', controller.destroy);
+
+// get all insights
+router.get('/', auth.isAuthenticated(), controller.index);
 
 // get insight by project id
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
@@ -26,12 +29,7 @@ router.get('/entity/:entityId', auth.hasPermissionForEntity([
   ADMIN_ACCESS
 ]), controller.indexByEntity);
 
-// get all insights
-router.get('/', auth.isAuthenticated(), controller.index);
-
-// get insight by id
-router.get('/:id', auth.isAuthenticated(), controller.show);
-
+// entityId should be in post body
 router.post('/entity/:entityId', auth.hasPermissionForEntity([
   READ_ACCESS,
   WRITE_ACCESS,

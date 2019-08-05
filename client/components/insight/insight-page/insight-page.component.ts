@@ -12,16 +12,16 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import config from '../../app.constants';
+import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 
 @Component({
     selector: 'insight',
-    template: require('./insight.html'),
-    styles: [require('./insight.scss')],
+    template: require('./insight-page.html'),
+    styles: [require('./insight-page.scss')],
 })
-export class InsightComponent implements OnInit, OnDestroy {
+export class InsightPageComponent implements OnInit, OnDestroy {
     private insight: Insight;
     private form: FormGroup;
     private errors = {
@@ -46,7 +46,7 @@ export class InsightComponent implements OnInit, OnDestroy {
 
         this.route.params
             .pipe(
-                switchMap(res => this.insightService.getInsight(res.id))
+                switchMap(params => this.insightService.getInsight(params.insightId))
             )
             .subscribe(insight => {
                 if (insight.description) {  // TODO: should be required
