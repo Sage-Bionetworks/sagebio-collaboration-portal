@@ -15,7 +15,16 @@
 }
 
 .app-footer-logo {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  text-align: left;
+  font-size: 14px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .app-logo {
@@ -23,18 +32,27 @@
 }
 
 .app-footer-version {
+  display: flex;
   flex: 1;
   text-align: center;
+  flex-direction: column;
+
+  a {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 8px;
+  }
 }
 
 .app-footer-copyright {
   display: flex;
   flex: 1;
-  justify-content: flex-end;
-  flex-direction: row;
+  flex-direction: column;
   // min-width: 225px;
   padding: 12px;
-  text-align: center;
+  text-align: right;
 
   a {
     color: white;
@@ -49,7 +67,7 @@
   vertical-align: bottom;
 
   a {
-    font-size: 16px;
+    font-size: 12px;
     padding: 0;
     text-decoration: none;
     color: inherit;
