@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InsightService } from 'components/insight/insight.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../app.constants';
+import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 
 @Component({

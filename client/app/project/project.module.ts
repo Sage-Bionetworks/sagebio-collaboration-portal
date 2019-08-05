@@ -27,6 +27,7 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
 import { ProjectGuard } from './project-guard.service';
 
 import { InsightService } from 'components/insight/insight.service';
+import { InsightNewComponent } from 'components/insight/insight-new/insight-new.component';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module'
 
@@ -79,7 +80,8 @@ export const ROUTES: Routes = [{
         ProjectInsightsComponent,
         ProjectResourcesComponent,
         ProjectSettingsComponent,
-        ProjectSidenavComponent
+        ProjectSidenavComponent,
+        InsightNewComponent
     ],
     exports: [
     ],

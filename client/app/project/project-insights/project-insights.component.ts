@@ -6,6 +6,7 @@ import { Insight } from 'models/entities/insights/insight.model';
 import { ProjectDataService } from '../project-data.service';
 import { Project } from 'models/project.model';
 import config from '../../../app/app.constants';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'project-insights',
@@ -16,10 +17,12 @@ export class ProjectInsightsComponent implements OnInit {
     private project: Project;
     private insights: Insight[];
     private insightTypeFilters = config.insightTypeFilters;
+    private showNewInsightForm = false;
 
-    static parameters = [InsightService, ProjectDataService];
+    static parameters = [InsightService, ProjectDataService, NotificationService];
     constructor(private insightService: InsightService,
-        private projectDataService: ProjectDataService) { }
+        private projectDataService: ProjectDataService,
+        private notificationService: NotificationService) { }
 
     ngOnInit() {
         this.projectDataService.project()
@@ -38,5 +41,10 @@ export class ProjectInsightsComponent implements OnInit {
             }, err => {
                 console.log(err);
             });
+    }
+
+    onNewInsight(insight: Insight): void {
+        this.showNewInsightForm = false;
+        this.notificationService.info('The Insight has been successfully created');
     }
 }
