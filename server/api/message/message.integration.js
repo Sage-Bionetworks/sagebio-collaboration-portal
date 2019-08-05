@@ -6,7 +6,7 @@ import User from '../user/user.model';
 import Organization from '../organization/organization.model';
 import {
     organizations
-} from '../../config/seeds';
+} from '../../config/seeds/default/organizations';
 
 var newMessage;
 
@@ -16,6 +16,7 @@ describe('Message API:', function () {
 
     // Clear users before testing, create user and authenticate it
     before(() => {
+        console.log(`organizations: ${JSON.stringify(organizations, null, 2)}`);
         return Organization.deleteMany()
             .then(() => User.deleteMany())
             .then(() => Organization.create(organizations))
