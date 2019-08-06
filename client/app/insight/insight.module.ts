@@ -12,9 +12,9 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
-import { InsightViewComponent } from './insight-view/insight-view.component';
-// import { InsightComponent } from './insight-page/insight.component';
 import { ReportViewComponent } from './report-view/report-view.component';
+
+import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
 
 import { InsightService } from 'components/insight/insight.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -27,11 +27,11 @@ export const ROUTES: Routes = [{
     component: InsightListComponent,
     canActivate: [AuthGuard],
     data: {}
-// }, {
-//     path: 'insights/:id',
-//     component: InsightComponent,
-//     canActivate: [AuthGuard],
-//     data: {}
+}, {
+    path: 'insights/:insightId',
+    component: InsightPageComponent,
+    canActivate: [AuthGuard],
+    data: {}
 }];
 
 @NgModule({
@@ -50,8 +50,6 @@ export const ROUTES: Routes = [{
     ],
     declarations: [
         InsightListComponent,
-        InsightViewComponent,
-        // InsightComponent,
         ReportViewComponent,
     ],
     providers: [
@@ -60,7 +58,6 @@ export const ROUTES: Routes = [{
     ],
     exports: [
         InsightListComponent,
-        InsightViewComponent
     ],
     entryComponents: []
 })
