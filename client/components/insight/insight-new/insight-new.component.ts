@@ -63,7 +63,8 @@ export class InsightNewComponent {
     createNewInsight(): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        this.insightService.create(this.project, newInsight)
+        newInsight.projectId = this.project._id
+        this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);
                 this.captureProvActivity.save({

@@ -82,23 +82,23 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         // console.log('description', description);
         // console.log('DESCRIPTION', description);
         try {
-            // this.insightService.updateInsightDescription(this.insight, description)
-            //     .subscribe(insight => {
-            //         this.notificationService.info('The description has been successfully saved');
-            //     }, err => {
-            //         console.log(err);
-            //         // this.errors.updateDescription = err.message;
-            //     });
+            this.insightService.updateInsightDescription(this.insight, description)
+                .subscribe(insight => {
+                    this.notificationService.info('The description has been successfully saved');
+                }, err => {
+                    console.log(err);
+                    // this.errors.updateDescription = err.message;
+                });
         } catch (e) { }
-        try {
-            // this.insightService.updateStateDescription(this.insight, description)
-            //     .subscribe(insight => {
-            //         this.notificationService.info('The description has been successfully saved');
-            //     }, err => {
-            //         console.log(err);
-            //         // this.errors.updateDescription = err.message;
-            //     });
-        } catch (e) { }
+        // try {
+        //     this.insightService.updateStateDescription(this.insight, description)
+        //         .subscribe(insight => {
+        //             this.notificationService.info('The description has been successfully saved');
+        //         }, err => {
+        //             console.log(err);
+        //             // this.errors.updateDescription = err.message;
+        //         });
+        // } catch (e) { }
     }
 
     showActivity(): void {

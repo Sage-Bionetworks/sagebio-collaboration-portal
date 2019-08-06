@@ -90,43 +90,42 @@ export function show(req, res) {
 export function create(req, res) {
     return Insight.create({
         ...req.body,
-        createdBy: req.user._id,
-        projectId: req.params.entityId
+        createdBy: req.user._id
     })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
-// // Upserts the given Insight in the DB at the specified ID
-// export function upsert(req, res) {
-//     if (req.body._id) {
-//         Reflect.deleteProperty(req.body, '_id');
-//     }
-//     return Insight
-//         .findOneAndUpdate({
-//             _id: req.params.id
-//         }, req.body, {
-//             new: true,
-//             upsert: true,
-//             setDefaultsOnInsert: true,
-//             runValidators: true
-//         }).exec()
-//         .then(respondWithResult(res))
-//         .catch(handleError(res));
-// }
-//
-// // Updates an existing Insight in the DB
-// export function patch(req, res) {
-//     if (req.body._id) {
-//         Reflect.deleteProperty(req.body, '_id');
-//     }
-//     return Insight.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(patchUpdates(req.body))
-//         .then(respondWithResult(res))
-//         .catch(handleError(res));
-// }
-//
+// Upserts the given Insight in the DB at the specified ID
+export function upsert(req, res) {
+    if (req.body._id) {
+        Reflect.deleteProperty(req.body, '_id');
+    }
+    return Insight
+        .findOneAndUpdate({
+            _id: req.params.id
+        }, req.body, {
+            new: true,
+            upsert: true,
+            setDefaultsOnInsert: true,
+            runValidators: true
+        }).exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Updates an existing Insight in the DB
+export function patch(req, res) {
+    if (req.body._id) {
+        Reflect.deleteProperty(req.body, '_id');
+    }
+    return Insight.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // // Deletes a Insight from the DB
 // export function destroy(req, res) {
 //     return Insight.findById(req.params.id).exec()
