@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { InsightService } from 'components/insight/insight.service';
 // import { StateService } from '../../state/state.service';
@@ -10,18 +9,17 @@ import { Insight } from 'models/entities/insights/insight.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-import { filter, map, switchMap, tap, concatMap, mergeMap, catchError, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
-import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 
 @Component({
-    selector: 'insight',
+    selector: 'insight-page',
     template: require('./insight-page.html'),
     styles: [require('./insight-page.scss')],
 })
 export class InsightPageComponent implements OnInit, OnDestroy {
+    @Output() insightOutput = new EventEmitter<Insight>();
     private insight: Insight;
     private form: FormGroup;
     private errors = {
@@ -58,6 +56,7 @@ export class InsightPageComponent implements OnInit, OnDestroy {
                     }
                 }
                 this.insight = insight;
+                this.insightOutput.emit(insight)
             });
     }
 
