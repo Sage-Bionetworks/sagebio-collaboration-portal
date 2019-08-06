@@ -12,7 +12,6 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
-import { ReportViewComponent } from './report-view/report-view.component';
 
 import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
 
@@ -50,7 +49,6 @@ export const ROUTES: Routes = [{
     ],
     declarations: [
         InsightListComponent,
-        ReportViewComponent,
     ],
     providers: [
         SocketService,
