@@ -16,6 +16,7 @@ import { MessagingService } from '../../messaging.service';
 export class ThreadSidenavComponent implements OnDestroy {
     private thread: Thread;
     private message: Message;
+    private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
     static parameters = [SecondarySidenavService, MessagingService, SocketService];
@@ -30,6 +31,8 @@ export class ThreadSidenavComponent implements OnDestroy {
     setThread(thread: Thread): void {
         this.thread = thread;
         // WIP #49 - Load messages for our specific thread
+        console.log(`thread-sidenav setThread this.thread: ${JSON.stringify(this.thread)}`);
+        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => this.messages = messages);
     }
 
     // setMessage(message: Message): void {

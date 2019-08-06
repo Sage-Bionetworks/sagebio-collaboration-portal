@@ -42,7 +42,6 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     }
 
     loadThreads() {
-        console.log(`[DEFAULT] Loading threads`)
         this.messagingService.getThreads()
             .pipe(
                 map(threads => orderBy(['createdAt'], ['asc'], threads))

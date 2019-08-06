@@ -27,6 +27,7 @@ export class MessagingService {
     /**
      * Threads
      */
+    // WIP #49 - Implement addThread
     addThread(thread: Thread): Observable<Thread> {
         return this.httpClient.post<Thread>('/api/threads', thread);
     }
@@ -39,9 +40,28 @@ export class MessagingService {
     }
 
     getThreadsByEntity(entityId: string): Observable<Thread[]> {
-        return this.httpClient.get<Thread[]>(`/api/threads/entity/${entityId}`)
+        return this.httpClient.get<Thread[]>(`/api/messages/threads/entity/${entityId}`)
             .pipe(
                 map(threads => orderBy(['createdAt'], ['asc'], threads))
+            );
+    }
+
+    showThread(thread: Thread): void {
+        let sidenavContentId = `thread:${thread._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ThreadSidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ThreadSidenavComponent))
+                .setThread(thread);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
+
+    // WIP #49 - Implement getMessagesForThread
+    getMessagesForThread(threadId: string): Observable<Message[]> {
+        return this.httpClient.get<Message[]>(`/api/messages/threads/messages/${threadId}`)
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
             );
     }
 
@@ -74,17 +94,6 @@ export class MessagingService {
 
     removeMessage(message: Message): Observable<void> {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);
-    }
-
-    showThread(thread: Thread): void {
-        let sidenavContentId = `thread:${thread._id}`;
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ThreadSidenavComponent>this.secondarySidenavService
-                .loadContentComponent(ThreadSidenavComponent))
-                .setThread(thread);
-            this.secondarySidenavService.setContentId(sidenavContentId);
-        }
-        this.secondarySidenavService.open();
     }
 
     /**

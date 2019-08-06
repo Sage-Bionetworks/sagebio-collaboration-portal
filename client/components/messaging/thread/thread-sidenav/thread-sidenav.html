@@ -19,4 +19,10 @@
         </ng-template>
         <message-new class="app-messaging-new" [thread]="message"></message-new>
     </div> -->
+    <div *ngFor="let message of messages">
+        <pre>
+            {{ message | json }}
+        </pre>
+    </div>
+
 </div>
