@@ -37,7 +37,7 @@ describe('Insight API Router:', function() {
   describe('GET /api/insights', function() {
     it('should route to insight.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', sinon.match.func, 'insightCtrl.index')
+        .withArgs('/', 'insightCtrl.index')
         ).to.have.been.calledOnce;
     });
   });
@@ -45,7 +45,7 @@ describe('Insight API Router:', function() {
   describe('GET /api/insights/:id', function() {
     it('should route to insight.controller.show', function() {
       expect(routerStub.get
-        .withArgs('/:id', sinon.match.func, 'insightCtrl.show')
+        .withArgs('/:id', 'insightCtrl.show')
         ).to.have.been.calledOnce;
     });
   });
