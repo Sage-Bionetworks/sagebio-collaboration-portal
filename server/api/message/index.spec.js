@@ -8,7 +8,8 @@ var messageCtrlStub = {
     create: 'messageCtrl.create',
     upsert: 'messageCtrl.upsert',
     patch: 'messageCtrl.patch',
-    destroy: 'messageCtrl.destroy'
+    destroy: 'messageCtrl.destroy',
+    test: 'messageCtrl.test',
 };
 
 var authServiceStub = {
@@ -17,7 +18,10 @@ var authServiceStub = {
     },
     hasRole(role) {
         return `authService.hasRole.${role}`;
-    }
+    },
+    hasPermissionForEntity() {
+        return 'authService.hasPermissionForEntity';
+    },
 };
 
 var routerStub = {
@@ -91,4 +95,81 @@ describe('Message API Router:', function () {
             ).to.have.been.calledOnce;
         });
     });
+
+    // WIP #49 - Threads API unit tests
+    // Threads API - Not associated with a specific entity
+    // POST /messages/threads/  -> Create a new thread and a new message ID that is not associated with an entity ID
+    describe('POST /api/messages/threads', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.post
+                .withArgs('/threads', 'authService.isAuthenticated', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/   -> Get all threads that are not associated with an entity ID
+    describe('GET /api/messages/threads', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads', 'authService.isAuthenticated', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/:id    -> Get details of a specific thread ID (including message IDs) not associated with an entity ID
+    describe('GET /api/messages/threads/:id', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/messages/:id   -> Get details of a specific message ID associated with a thread not associated with an entity ID
+    describe('GET /api/messages/threads/messages/:id', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads/messages/:id', 'authService.isAuthenticated', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    //
+    // Threads API - Associated with a specific entity
+    // POST /messages/threads/entity/:entityId  -> Create a new thread and a new message ID linked to the thread
+    describe('POST /api/messages/threads/entity/:entityId', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.post
+                .withArgs('/threads/entity/:entityId', 'authService.hasPermissionForEntity', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/entity/:entityId   -> Get all threads for a specific entity ID
+    describe('GET /api/messages/threads/entity/:entityId', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads/entity/:entityId', 'authService.hasPermissionForEntity', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/entity/:entityId/:id   -> Get details of a specific thread ID for a specific entity ID
+    describe('GET /api/messages/threads/entity/:entityId/:id', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads/entity/:entityId/:id', 'authService.hasPermissionForEntity', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // GET /messages/threads/entity/:entityId/messages/:id  -> Get details of a specific message for an entity ID
+    describe('GET /api/messages/threads/entity/:entityId/messages/:id', function () {
+        it('should route to message.controller.test', function () {
+            expect(routerStub.get
+                .withArgs('/threads/entity/:entityId/messages/:id', 'authService.hasPermissionForEntity', 'messageCtrl.test')  // WIP #49 - Add test to verify protected route
+            ).to.have.been.calledOnce;
+        });
+    });
+
 });

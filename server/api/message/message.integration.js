@@ -16,7 +16,6 @@ describe('Message API:', function () {
 
     // Clear users before testing, create user and authenticate it
     before(() => {
-        console.log(`organizations: ${JSON.stringify(organizations, null, 2)}`);
         return Organization.deleteMany()
             .then(() => User.deleteMany())
             .then(() => Organization.create(organizations))
@@ -229,4 +228,25 @@ describe('Message API:', function () {
                 });
         });
     });
+
+    // WIP #49 - Threads API integration tests
+    // Threads API - Not associated with a specific entity
+    // POST /messages/threads/  -> Create a new thread and a new message ID that is not associated with an entity ID
+
+    // GET /messages/threads/   -> Get all threads that are not associated with an entity ID
+
+    // GET /messages/threads/:id    -> Get details of a specific thread ID (including message IDs) not associated with an entity ID
+
+    // GET /messages/threads/messages/:id   -> Get details of a specific message ID associated with a thread not associated with an entity ID
+
+    //
+    // Threads API - Associated with a specific entity
+    // POST /messages/threads/entity/:entityId  -> Create a new thread and a new message ID linked to the thread
+
+    // GET /messages/threads/entity/:entityId   -> Get all threads for a specific entity ID
+
+    // GET /messages/threads/entity/:entityId/:id   -> Get details of a specific thread ID for a specific entity ID
+
+    // GET /messages/threads/entity/:entityId/messages/:id  -> Get details of a specific message for an entity ID
+
 });
