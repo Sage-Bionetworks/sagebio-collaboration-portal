@@ -16,7 +16,6 @@ export default app => {
     app.use('/api/provenance', require('./api/provenance'));
     app.use('/api/invites', require('./api/invite'));
     app.use('/api/entity-permissions', require('./api/entity-permission'));
-    app.use('/api/threads', require('./api/thread'));
     app.use('/api/messages', require('./api/message'));
     app.use('/api/projects', require('./api/project'));
     app.use('/api/organizations', require('./api/organization'));

@@ -11,7 +11,8 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import Message from './message.model'
+import Thread from './thread.model';
+import Message from './message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
@@ -206,6 +207,18 @@ export function test(req, res) { // Use to test routing
         body: req.body,
     };
     return res.status(200).json(result);
+}
+
+// Get a list of Threads that are not associated with an entity
+export function indexThreads(req, res) {
+    return Thread.find({
+        entityId: {
+            $exists: false,
+        },
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
 }
 
 /**

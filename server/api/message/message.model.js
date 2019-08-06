@@ -3,7 +3,6 @@ import {
     registerEvents
 } from './message.events';
 import User from '../user/user.model';
-import Thread from '../thread/thread.model';
 // import BaseMessage from './base-message.model';
 
 var MessageSchema = new mongoose.Schema({

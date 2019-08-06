@@ -21,7 +21,7 @@ router.post('/threads', auth.isAuthenticated(), controller.test);
 
 // WIP #49 - Implement GET /messages/threads/
 // GET /messages/threads/ - Get all threads not associated with an entity
-router.get('/threads', auth.isAuthenticated(), controller.test);
+router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
 
 // WIP #49 - Implement GET /messages/threads/:id
 // GET /messages/threads/:id - Specific thread not associated with an entity
