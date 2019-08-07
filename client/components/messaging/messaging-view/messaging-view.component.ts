@@ -46,7 +46,7 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     loadThreads() {
         this.messagingService.getThreads()
             .pipe(
-                map(threads => orderBy(['createdAt'], ['asc'], threads))
+                map(threads => orderBy(['createdAt'], ['desc'], threads))
             )
             .subscribe(threads => {
                 this.threads = threads;
@@ -62,7 +62,7 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
 
         this.messagingService.getThreadsByEntity(entityId)
             .pipe(
-                map(threads => orderBy(['createdAt'], ['asc'], threads))
+                map(threads => orderBy(['createdAt'], ['desc'], threads))
             )
             .subscribe(threads => {
                 this.threads = threads;
