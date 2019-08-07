@@ -231,12 +231,12 @@ export function indexThreadsForEntity(req, res) {
         .catch(handleError(res));
 }
 
-// WIP #49 - Implement showMessagesForThread
 // Get a list of Threads that are not associated with an entity
 export function showMessagesForThread(req, res) {
-    console.log(`showMessagesForThread req.params: ${JSON.stringify(req.params, null, 2)}`);
     return Message.find({
-        thread: req.params.id
+        thread: {
+            _id: req.params.id,
+        }
     })
         .exec()
         .then(respondWithResult(res))
