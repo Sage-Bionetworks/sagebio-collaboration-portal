@@ -14,6 +14,7 @@ var messageCtrlStub = {
     indexThreadsForEntity: 'messageCtrl.indexThreadsForEntity',
     showMessagesForThread: 'messageCtrl.showMessagesForThread',
     createThread: 'messageCtrl.createThread',
+    addMessageToThread: 'messageCtrl.addMessageToThread',
 };
 
 var authServiceStub = {
@@ -125,6 +126,15 @@ describe('Message API Router:', function () {
         it('should route to message.controller.test', function () {
             expect(routerStub.get
                 .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.test')
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // POST /messages/threads/:id    -> Add a Message to a specific thread ID not associated with an entity ID
+    describe('POST /api/messages/threads/:id', function () {
+        it('should route to message.controller.addMessageToThread', function () {
+            expect(routerStub.post
+                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.addMessageToThread')
             ).to.have.been.calledOnce;
         });
     });

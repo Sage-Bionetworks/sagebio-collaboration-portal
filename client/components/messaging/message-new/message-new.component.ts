@@ -18,7 +18,7 @@ import config from '../../../app/app.constants';
     styles: [require('./message-new.scss')],
 })
 export class MessageNewComponent implements OnInit {
-    @Input() private thread: Message | Thread;
+    @Input() private message: Message;
 
     private messageSpecs: {};
     private form: FormGroup;
@@ -33,11 +33,6 @@ export class MessageNewComponent implements OnInit {
 
         this.messageSpecs = config.models.message;
         this.form = formBuilder.group({
-            title: ['', [
-                Validators.required,
-                ObjectValidators.jsonStringifyMinLength(config.models.message.title.minlength),
-                ObjectValidators.jsonStringifyMaxLength(config.models.message.title.maxlength)
-            ]],
             body: ['', [
                 Validators.required,
                 ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
@@ -59,28 +54,15 @@ export class MessageNewComponent implements OnInit {
             });
     }
 
-    addThread(): void {
-        let newThread = this.form.value;
-        newThread.title = JSON.stringify(this.form.get('title').value);
-
-        this.messagingService.addThread(newThread)
-            .subscribe(thread => {
-                console.log(`Created thread ${thread.title} (ID ${thread._id})`);
-                this.thread = thread;
-
-                // Once the thread has been created successfully, create the message
-                this.addMessage();
-            })
-    }
-
-    addMessage(): void {
+    addMessageToThread(): void {
         let newMessage = this.form.value;
         newMessage.body = JSON.stringify(this.form.get('body').value);
-        if (this.thread) {
-            newMessage.thread = this.thread;
-        }
-        this.messagingService.addMessage(newMessage)
+        newMessage.thread = this.message.thread;
+        console.log(`message-new wants to add newMessage: ${JSON.stringify(newMessage, null, 2)}`);
+
+        this.messagingService.addMessageToThread(newMessage, newMessage.thread)
             .subscribe(message => {
+              console.log(`message-new received message: ${JSON.stringify(message, null, 2)}`);
               this.form.reset();
             }, err => {
                 console.log('ERROR', err);

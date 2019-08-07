@@ -15,7 +15,6 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
  * Threads API
  */
 
-// WIP #49 - Implement POST /messages/threads/
 // POST /messages/threads/ - Create a new thread not associated with an entity
 router.post('/threads', auth.isAuthenticated(), controller.createThread);
 
@@ -25,6 +24,10 @@ router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
 // WIP #49 - Implement GET /messages/threads/:id
 // GET /messages/threads/:id - Specific thread not associated with an entity
 router.get('/threads/:id', auth.isAuthenticated(), controller.test);
+
+// WIP #49 - Implement POST /messages/threads/:id
+// POST /messages/threads/:id - Specific thread not associated with an entity
+router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
 
 // GET /messages/threads/messages/:id - Messages for a specific thread not associated with an entity
 router.get('/threads/messages/:id', auth.isAuthenticated(), controller.showMessagesForThread);
@@ -37,7 +40,6 @@ router.get('/threads/entity/:entityId/messages/:id', auth.hasPermissionForEntity
 // GET /messages/threads/entity/:entityId/:id - A specific thread for an entity
 router.get('/threads/entity/:entityId/:id', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.test);
 
-// WIP #49 - Implement GET /messages/threads/entity/:entityId
 // GET /messages/threads/entity/:entityId - All threads for an entity
 router.get('/threads/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexThreadsForEntity);
 

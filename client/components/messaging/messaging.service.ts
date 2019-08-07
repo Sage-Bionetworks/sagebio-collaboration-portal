@@ -63,6 +63,10 @@ export class MessagingService {
             );
     }
 
+    addMessageToThread(message: Message, thread: Thread): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/messages/threads/${thread._id}`, message);
+    }
+
     /**
      * Messages
      */

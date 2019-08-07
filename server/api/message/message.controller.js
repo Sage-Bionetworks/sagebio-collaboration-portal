@@ -259,6 +259,22 @@ export function createThread(req, res) {
         .catch(handleError(res));
 }
 
+// Add a message to a public thread
+export function addMessageToThread(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(user => {
+            return Message.create({
+                ...req.body,
+                createdBy: user._id
+            });
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
 /**
  * Helper functions
  */
