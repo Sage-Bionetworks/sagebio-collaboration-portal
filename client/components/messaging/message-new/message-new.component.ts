@@ -58,11 +58,9 @@ export class MessageNewComponent implements OnInit {
         let newMessage = this.form.value;
         newMessage.body = JSON.stringify(this.form.get('body').value);
         newMessage.thread = this.message.thread;
-        console.log(`message-new wants to add newMessage: ${JSON.stringify(newMessage, null, 2)}`);
 
         this.messagingService.addMessageToThread(newMessage, newMessage.thread)
             .subscribe(message => {
-              console.log(`message-new received message: ${JSON.stringify(message, null, 2)}`);
               this.form.reset();
             }, err => {
                 console.log('ERROR', err);
