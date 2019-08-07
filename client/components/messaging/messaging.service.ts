@@ -15,7 +15,7 @@ import { NumberValue } from 'models/number-value.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
+import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
 
 @Injectable()
 export class MessagingService {

@@ -6,7 +6,7 @@ import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/seconda
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
-import { ThreadSidenavComponent } from '../thread/thread-sidenav/thread-sidenav.component';
+import { ThreadSidenavComponent } from '../thread-sidenav/thread-sidenav.component';
 import { flow, orderBy, last, map as mapFp, takeRight, uniqBy } from 'lodash/fp';
 import { LastUpdatedPipe } from '../../pipes/date/last-updated.pipe';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';

@@ -2,11 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash/fp';
-import { SecondarySidenavService } from '../../../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { SocketService } from '../../../socket/socket.service';
+import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
+import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
-import { MessagingService } from '../../messaging.service';
+import { MessagingService } from '../messaging.service';
 
 @Component({
     selector: 'thread-sidenav',
