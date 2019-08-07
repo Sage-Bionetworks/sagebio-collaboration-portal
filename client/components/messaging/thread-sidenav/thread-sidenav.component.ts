@@ -30,24 +30,11 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     setThread(thread: Thread): void {
         this.thread = thread;
-        // WIP #49 - Load messages for our specific thread
-        console.log(`thread-sidenav setThread this.thread: ${JSON.stringify(this.thread)}`);
-        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => this.messages = messages);
+        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
+            this.messages = messages;
+            this.message = messages[0];
+        });
     }
-
-    // setMessage(message: Message): void {
-    //     if (message) {
-    //         this.messagingService.getReplies(message)
-    //             .pipe(
-    //                 map(messages => orderBy(['createdAt'], ['asc'], messages))
-    //             )
-    //             .subscribe(replies => {
-    //                 this.replies.next(replies);
-    //                 // this.socketService.syncArraySubject(`thread:${message._id}:message`, this.replies);
-    //                 this.message = message;
-    //             });
-    //     }
-    // }
 
     close(): void {
         this.sidenavService.close();
