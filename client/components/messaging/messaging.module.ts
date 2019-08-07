@@ -20,6 +20,7 @@ import { StarredMessageListComponent } from './starred-message-list/starred-mess
 import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 import { AppQuillModule } from '../quill/app-quill.module';
+import { SocketService } from 'components/socket/socket.service';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { AppQuillModule } from '../quill/app-quill.module';
     ],
     providers: [
         MessagingService,
-        MessagingDataService
+        MessagingDataService,
+        SocketService,
     ],
     declarations: [
         MessageComponent,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -19,6 +19,7 @@ import config from '../../../app/app.constants';
 })
 export class ThreadNewComponent implements OnInit {
     @Input() private thread: Message | Thread;
+    @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
 
     private messageSpecs: {};
     private form: FormGroup;
@@ -65,7 +66,7 @@ export class ThreadNewComponent implements OnInit {
 
         this.messagingService.addThread(newThread)
             .subscribe(thread => {
-                this.notificationService.info(`Successfully created a new thread`);
+                this.newThread.emit(thread);
                 this.thread = thread;
 
                 // Once the thread has been created successfully, create the message

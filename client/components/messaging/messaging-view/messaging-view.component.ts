@@ -8,6 +8,7 @@ import { orderBy } from 'lodash/fp';
 import { MessagingService } from 'components/messaging/messaging.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProjectDataService } from  '../../../app/project/project-data.service';
+import { NotificationService } from 'components/notification/notification.service';
 
 import { Message } from 'models/messaging/message.model';
 import { Project } from 'models/project.model';
@@ -25,11 +26,12 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     @Input() entityId: string;
     @Input() entityType: string;
 
-    static parameters = [MessagingService, SocketService, ProjectDataService];
+    static parameters = [MessagingService, SocketService, ProjectDataService, NotificationService];
     constructor(
         private messagingService: MessagingService,
         private socketService: SocketService,
         private projectDataService: ProjectDataService,
+        private notificationService: NotificationService,
     ) { }
 
     ngOnInit() {
@@ -66,6 +68,11 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
                 this.threads = threads;
                 this.socketService.syncUpdates('thread', this.threads);
             });
+    }
+
+    onNewThread(thread: Thread): void {
+        this.loadThreads();
+        this.notificationService.info('The Thread has been successfully created');
     }
 
     ngOnDestroy() {
