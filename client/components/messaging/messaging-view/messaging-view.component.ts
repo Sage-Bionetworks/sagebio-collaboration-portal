@@ -71,8 +71,12 @@ export class MessagingViewComponent implements OnDestroy, OnInit {
     }
 
     onNewThread(thread: Thread): void {
-        this.loadThreads();
-        this.notificationService.info('The Thread has been successfully created');
+        if (this.entityId) {
+            this.loadThreadsForEntity(this.entityId, this.entityType);
+        } else {
+            this.loadThreads();
+        }
+        // this.notificationService.info('The Thread has been successfully created');
     }
 
     ngOnDestroy() {

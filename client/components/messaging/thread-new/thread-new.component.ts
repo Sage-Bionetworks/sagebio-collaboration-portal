@@ -18,9 +18,11 @@ import config from '../../../app/app.constants';
     styles: [require('./thread-new.scss')],
 })
 export class ThreadNewComponent implements OnInit {
-    @Input() private thread: Message | Thread;
+    @Input() entityId: string;
+    @Input() entityType: string;
     @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
 
+    private thread: Thread;
     private messageSpecs: {};
     private form: FormGroup;
     private errors = {
@@ -62,6 +64,12 @@ export class ThreadNewComponent implements OnInit {
 
     addThread(): void {
         let newThread = this.form.value;
+
+        // Add entity-specific details where applicable
+        if (this.entityId) {
+            newThread.entityId = this.entityId;
+            newThread.entityType = this.entityType || config.entityTypes.PROJECT.value; // DEFAULT entity type is project
+        }
 
         this.messagingService.addThread(newThread)
             .subscribe(thread => {

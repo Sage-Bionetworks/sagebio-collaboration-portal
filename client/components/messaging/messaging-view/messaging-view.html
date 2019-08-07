@@ -2,5 +2,5 @@
     <mat-list-item *ngFor="let thread of threads">
         <thread-preview [thread]="thread"></thread-preview>
     </mat-list-item>
-    <thread-new (newThread)="onNewThread($event)"></thread-new>
+    <thread-new [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)"></thread-new>
 </mat-list>

@@ -138,16 +138,7 @@ describe('Message API Router:', function () {
         });
     });
 
-    //
     // Threads API - Associated with a specific entity
-    // POST /messages/threads/entity/:entityId  -> Create a new thread and a new message ID linked to the thread
-    describe('POST /api/messages/threads/entity/:entityId', function () {
-        it('should route to message.controller.test', function () {
-            expect(routerStub.post
-                .withArgs('/threads/entity/:entityId', 'authService.hasPermissionForEntity', 'messageCtrl.test')
-            ).to.have.been.calledOnce;
-        });
-    });
 
     // GET /messages/threads/entity/:entityId   -> Get all threads for a specific entity ID
     describe('GET /api/messages/threads/entity/:entityId', function () {
