@@ -16,6 +16,6 @@
             <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: (messages)[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
             <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false"></message>
         </ng-template>
-        <message-new class="app-messaging-new" [message]="message"></message-new>
+        <message-new class="app-messaging-new" [message]="message" (newMessage)="onNewMessage($event)"></message-new>
     </div>
 </div>

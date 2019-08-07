@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -19,6 +19,7 @@ import config from '../../../app/app.constants';
 })
 export class MessageNewComponent implements OnInit {
     @Input() private message: Message;
+    @Output() newMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
     private messageSpecs: {};
     private form: FormGroup;
@@ -61,6 +62,7 @@ export class MessageNewComponent implements OnInit {
 
         this.messagingService.addMessageToThread(newMessage, newMessage.thread)
             .subscribe(message => {
+              this.newMessage.emit(message);
               this.form.reset();
             }, err => {
                 console.log('ERROR', err);
