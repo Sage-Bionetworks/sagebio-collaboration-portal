@@ -62,7 +62,6 @@ export class ThreadNewComponent implements OnInit {
 
     addThread(): void {
         let newThread = this.form.value;
-        newThread.title = JSON.stringify(this.form.get('title').value);
 
         this.messagingService.addThread(newThread)
             .subscribe(thread => {
