@@ -65,7 +65,7 @@ export class ThreadNewComponent implements OnInit {
 
         this.messagingService.addThread(newThread)
             .subscribe(thread => {
-                console.log(`Created thread ${thread.title} (ID ${thread._id})`);
+                this.notificationService.info(`Successfully created a new thread`);
                 this.thread = thread;
 
                 // Once the thread has been created successfully, create the message

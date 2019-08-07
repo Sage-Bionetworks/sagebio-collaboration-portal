@@ -17,7 +17,7 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
 
 // WIP #49 - Implement POST /messages/threads/
 // POST /messages/threads/ - Create a new thread not associated with an entity
-router.post('/threads', auth.isAuthenticated(), controller.test);
+router.post('/threads', auth.isAuthenticated(), controller.createThread);
 
 // GET /messages/threads/ - Get all threads not associated with an entity
 router.get('/threads', auth.isAuthenticated(), controller.indexThreads);

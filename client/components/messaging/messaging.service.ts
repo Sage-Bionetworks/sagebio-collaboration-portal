@@ -27,9 +27,8 @@ export class MessagingService {
     /**
      * Threads
      */
-    // WIP #49 - Implement addThread
     addThread(thread: Thread): Observable<Thread> {
-        return this.httpClient.post<Thread>('/api/threads', thread);
+        return this.httpClient.post<Thread>('/api/messages/threads', thread);
     }
 
     getThreads(query?: {}): Observable<Thread[]> {

@@ -243,6 +243,22 @@ export function showMessagesForThread(req, res) {
         .catch(handleError(res));
 }
 
+// Creates a new Thread in the DB
+export function createThread(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(user => {
+            return Thread.create({
+                ...req.body,
+                createdBy: user._id
+            });
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
 /**
  * Helper functions
  */

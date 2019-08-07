@@ -2,7 +2,7 @@
 @import './message-new/message-new-theme';
 @import './messaging-view/messaging-view-theme';
 @import './message-date-separator/message-date-separator-theme';
-@import './thread/thread-sidenav/thread-sidenav-theme';
+@import './thread-sidenav/thread-sidenav-theme';
 
 @mixin messaging-theme($theme) {
   $primary: map-get($theme, primary);
