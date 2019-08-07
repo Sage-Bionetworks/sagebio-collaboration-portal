@@ -1,0 +1,23 @@
+.app-thread-new-card {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 10px;
+
+    .app-thread-new-card-form {
+        display: flex;
+        flex-flow: column nowrap;
+        margin: 20px;
+    }
+
+    .app-thread-new-form-field {
+        margin-bottom: 10px;
+    }
+
+    .app-thread-new-form-actions {
+        margin-top: 20px;
+    }
+}
+
+.app-thread-new-description-editor {
+    margin-bottom: 20px;
+}

@@ -14,6 +14,7 @@ import { MessageStarArchiveButtonComponent } from './message-star-archive-button
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
 import { ThreadPreviewComponent} from './thread-preview/thread-preview.component'
 import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
+import { ThreadNewComponent } from './thread-new/thread-new.component'
 import { MessagingViewComponent } from './messaging-view/messaging-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
@@ -52,11 +53,13 @@ import { AppQuillModule } from '../quill/app-quill.module';
         MessageStarButtonComponent,
         ThreadPreviewComponent,
         ThreadSidenavComponent,
+        ThreadNewComponent,
         MessagingViewComponent,
         StarredMessageListComponent,
         MessageDateSeparatorComponent
     ],
     exports: [
+        ThreadNewComponent,
         MessageComponent,
         MessageNewComponent,
         MessagingViewComponent,
