@@ -15,13 +15,13 @@ import { Project } from 'models/project.model';
 import { Thread } from 'models/messaging/thread.model';
 
 @Component({
-    selector: 'thread-view',
-    template: require('./thread-view.html'),
-    styles: [require('./thread-view.scss')],
+    selector: 'thread-list',
+    template: require('./thread-list.html'),
+    styles: [require('./thread-list.scss')],
 })
-export class ThreadViewComponent implements OnDestroy, OnInit {
+export class ThreadListComponent implements OnDestroy, OnInit {
     private messages: Message[];
-    private threads: Thread[]; // Added threads array to ThreadViewComponent
+    private threads: Thread[]; // Added threads array to ThreadListComponent
 
     @Input() entityId: string;
     @Input() entityType: string;
