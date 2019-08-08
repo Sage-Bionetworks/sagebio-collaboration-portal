@@ -1,14 +1,18 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
 
 import { Message } from 'models/messaging/message.model';
+import { Thread } from 'models/messaging/thread.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
 import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { UserService } from 'components/auth/user.service';
+
 import config from '../../../app/app.constants';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
@@ -24,8 +28,13 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 export class MessageComponent implements OnInit, AfterViewInit {
     @Input() private showReplyButton = true;
     @Input() private showStartThreadButton = true;
+    @Output() deleteMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
+    private currentUserId = null;
+    private isMessageCreator = false;
+    private canDeleteMessage = false;
+    private canEditMessage = false;
     private tooltipPosition = 'above';
     @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
     @ViewChild(MessageReplyButtonComponent, { static: false }) replyButton: MessageReplyButtonComponent;
@@ -40,12 +49,14 @@ export class MessageComponent implements OnInit, AfterViewInit {
     private tooltipShowDelay: number;
     private avatarSize = 40;
 
-    static parameters = [FormBuilder, NotificationService, MessagingService,
-        MessagingDataService];
+    static parameters = [FormBuilder, NotificationService, MessagingService, MessagingDataService, UserPermissionDataService, UserService];
+
     constructor(private formBuilder: FormBuilder,
         private notificationService: NotificationService,
         private messagingService: MessagingService,
-        private messagingDataService: MessagingDataService) {
+        private messagingDataService: MessagingDataService,
+        private userPermissionDataService: UserPermissionDataService,
+        private userService: UserService) {
 
         this.form = formBuilder.group({
             _id: [''],
@@ -69,6 +80,17 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.avatarSize = config.avatar.size.mini;
+
+        // Determine if our user has access to edit or delete this message
+        this.userService.get()
+            .subscribe(user => this.currentUserId = user._id);
+
+        this.userPermissionDataService.permissions()
+            .subscribe(permissions => {
+                this.isMessageCreator = this.currentUserId === this.messageId;
+                this.canDeleteMessage = permissions.isAdmin() || this.isMessageCreator;
+                this.canEditMessage = permissions.isAdmin() || this.isMessageCreator;
+            })
     }
 
     ngOnInit() { }
@@ -91,6 +113,10 @@ export class MessageComponent implements OnInit, AfterViewInit {
     ngOnDestroy() {
         if (this.messageSub) this.messageSub.unsubscribe();
         if (this.getMessageSub) this.getMessageSub.unsubscribe();
+    }
+
+    get displayMoreActionsMenu() {
+        return this.canEditMessage || this.canDeleteMessage;
     }
 
     get message() {
@@ -128,7 +154,9 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     removeMessage(): void {
         this.messagingService.removeMessage(this.message)
-            .subscribe(() => { },
+            .subscribe(() => {
+                this.deleteMessage.emit();
+            },
                 err => {
                     console.log(err);
                     this.notificationService.error('Unable to remove the message');
