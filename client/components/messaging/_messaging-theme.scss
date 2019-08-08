@@ -1,6 +1,6 @@
 @import './message/message-theme';
 @import './message-new/message-new-theme';
-@import './messaging-view/messaging-view-theme';
+@import './thread-view/thread-view-theme';
 @import './message-date-separator/message-date-separator-theme';
 @import './thread-sidenav/thread-sidenav-theme';
 
@@ -13,7 +13,7 @@
 
   @include message-theme($theme);
   @include message-new-theme($theme);
-  @include messaging-view-theme($theme);
+  @include thread-view-theme($theme);
   @include message-date-separator-theme($theme);
   @include thread-sidenav-theme($theme);
 }

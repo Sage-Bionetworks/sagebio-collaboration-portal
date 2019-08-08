@@ -15,7 +15,7 @@ import { MessageStarButtonComponent } from './message-star-button/message-star-b
 import { ThreadPreviewComponent} from './thread-preview/thread-preview.component'
 import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
 import { ThreadNewComponent } from './thread-new/thread-new.component'
-import { MessagingViewComponent } from './messaging-view/messaging-view.component';
+import { ThreadViewComponent } from './thread-view/thread-view.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
@@ -56,7 +56,7 @@ import { SocketService } from 'components/socket/socket.service';
         ThreadPreviewComponent,
         ThreadSidenavComponent,
         ThreadNewComponent,
-        MessagingViewComponent,
+        ThreadViewComponent,
         StarredMessageListComponent,
         MessageDateSeparatorComponent
     ],
@@ -64,7 +64,7 @@ import { SocketService } from 'components/socket/socket.service';
         ThreadNewComponent,
         MessageComponent,
         MessageNewComponent,
-        MessagingViewComponent,
+        ThreadViewComponent,
         StarredMessageListComponent
     ],
     entryComponents: [
