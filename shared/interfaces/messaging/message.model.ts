@@ -23,9 +23,9 @@ import { Thread } from '../auth/thread.model';
  *           $ref: '#/components/schemas/UserProfile'
  */
 export interface Message {
-    _id?: string;
+    _id: string;
     body: string;
-    thread?: Thread | string;
+    thread: Thread | string;
     createdAt: string;
     updatedAt: string;
     createdBy: UserProfile;
