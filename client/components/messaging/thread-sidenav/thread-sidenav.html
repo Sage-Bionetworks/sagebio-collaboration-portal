@@ -14,7 +14,7 @@
         <ng-template *ngIf="messages" ngFor let-reply let-i="index" let-first="first" [ngForOf]="messages">
             <message-date-separator *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
             <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: (messages)[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
-            <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false"></message>
+            <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false" (deleteMessage)="onDeleteMessage($event)"></message>
         </ng-template>
         <message-new class="app-messaging-new" [message]="message" (newMessage)="onNewMessage($event)"></message-new>
     </div>
