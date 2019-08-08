@@ -9,20 +9,25 @@
                 <!-- <span>{{ message._id }}</span> -->
             </div>
         </div>
+        <div class="app-message-header-reply-button">
+            <message-reply-button *ngIf="showReplyButton" [message]="message" (click)="showThread()"></message-reply-button>
+        </div>
         <div class="app-message-header-actions">
-            <message-star-button [message]="message"></message-star-button>
-            <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
-                <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
-            </a>
-            <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
-                <!-- <button *ngIf="canEditMessage" mat-menu-item aria-label="Edit message" (click)="editor.edit()">
-                    <span>Edit message</span>
-                </button> -->
-                <button *ngIf="canDeleteMessage" mat-menu-item aria-label="Delete message" (click)="removeMessage()">
-                    <span class="app-message-delete-btn-label">Delete message</span>
-                </button>
-                <!-- <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button> -->
-            </mat-menu>
+            <!-- <message-star-button [message]="message"></message-star-button> -->
+            <div *ngIf="showMessageActions">
+                <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
+                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                </a>
+                <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+                    <button *ngIf="canEditMessage" mat-menu-item aria-label="Edit message" (click)="editor.edit()">
+                        <span>Edit message</span>
+                    </button>
+                    <button *ngIf="canDeleteMessage" mat-menu-item aria-label="Delete message" (click)="removeMessage()">
+                        <span class="app-message-delete-btn-label">Delete message</span>
+                    </button>
+                    <!-- <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button> -->
+                </mat-menu>
+            </div>
         </div>
     </div>
 

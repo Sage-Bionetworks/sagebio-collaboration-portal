@@ -92,18 +92,18 @@ export class MessageComponent implements OnInit, AfterViewInit {
     ngOnInit() { }
 
     ngAfterViewInit() {
-        this.starred = this.starButton.isStarred()
-            .pipe(
-                startWith(null),
-                delay(0)
-            );
-        if (this.replyButton) {
-            this.numReplies = this.replyButton.getNumReplies()
-                .pipe(
-                    startWith(null),
-                    delay(0)
-                );
-        }
+        // this.starred = this.starButton.isStarred()
+        //     .pipe(
+        //         startWith(null),
+        //         delay(0)
+        //     );
+        // if (this.replyButton) {
+        //     this.numReplies = this.replyButton.getNumReplies()
+        //         .pipe(
+        //             startWith(null),
+        //             delay(0)
+        //         );
+        // }
     }
 
     ngOnDestroy() {
