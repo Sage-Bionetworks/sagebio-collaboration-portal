@@ -25,7 +25,7 @@ import { UserProfile } from "./user-profile.model";
  *           $ref: '#/components/schemas/UserProfile'
  */
 export interface Thread {
-    _id?: string;
+    _id: string;
     title: string;
     entityId: string;
     entityType: string;
