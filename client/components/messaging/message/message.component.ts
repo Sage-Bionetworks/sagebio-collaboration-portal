@@ -31,8 +31,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
     @Output() deleteMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
-    private currentUserId = null;
-    private isMessageCreator = false;
+    private showMessageActions = false;
     private canDeleteMessage = false;
     private canEditMessage = false;
     private tooltipPosition = 'above';
@@ -81,15 +80,12 @@ export class MessageComponent implements OnInit, AfterViewInit {
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.avatarSize = config.avatar.size.mini;
 
-        // Determine if our user has access to edit or delete this message
-        this.userService.get()
-            .subscribe(user => this.currentUserId = user._id);
-
         this.userPermissionDataService.permissions()
             .subscribe(permissions => {
-                this.isMessageCreator = this.currentUserId === this.messageId;
-                this.canDeleteMessage = permissions.isAdmin() || this.isMessageCreator;
-                this.canEditMessage = permissions.isAdmin() || this.isMessageCreator;
+                // Eventually permissions should be implemented for user editing of messages
+                this.canDeleteMessage = permissions.isAdmin();
+                this.canEditMessage = permissions.isAdmin();
+                this.showMessageActions = this.canDeleteMessage || this.canEditMessage;
             })
     }
 
