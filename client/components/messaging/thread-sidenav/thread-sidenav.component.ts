@@ -24,9 +24,7 @@ export class ThreadSidenavComponent implements OnDestroy {
         private messagingService: MessagingService,
         private socketService: SocketService) { }
 
-    ngOnDestroy() {
-        // this.socketService.unsyncUpdates(`thread:${this.message._id}:message`);
-    }
+    ngOnDestroy() { }
 
     setThread(thread: Thread): void {
         this.thread = thread;
