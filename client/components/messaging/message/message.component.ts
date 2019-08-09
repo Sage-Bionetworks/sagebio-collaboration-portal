@@ -149,12 +149,4 @@ export class MessageComponent implements OnInit, AfterViewInit {
     replyToMessage(): void {
         this.notificationService.info('Not yet implemented');
     }
-
-    showThread(): void {
-        // this.messagingService.showThread(this.message);
-    }
-
-    // plop(): void {
-    //   this.isReadOnly = !this.isReadOnly;
-    // }
 }
