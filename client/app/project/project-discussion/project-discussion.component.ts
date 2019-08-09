@@ -13,7 +13,7 @@ export class ProjectDiscussionComponent {
     private entityId = '';
 
     static parameters = [ProjectDataService];
-    constructor(private projectDataService:ProjectDataService,) {}
+    constructor(private projectDataService:ProjectDataService) {}
 
     ngOnInit() {
         this.projectDataService.project().subscribe(project => {
