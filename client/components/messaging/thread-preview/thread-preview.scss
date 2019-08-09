@@ -1,42 +1,15 @@
 .app-thread {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 16px 0 16px 0;
-
-    .app-thread-header {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      border-width: 1px;
-      border-style: solid;
-      padding: 6px 12px 6px 12px;
-
-      .app-thread-header-avatar {
-        padding-right: 10px;
+    .app-thread-title {
+        font-size: 26px;
       }
 
-      .app-thread-header-metadata {
-        display: flex;
-        flex-flow: column nowrap;
-        align-items: flex-start;
-        padding-right: 8px;
-      }
+    .app-thread-time {
+        font-size: 13px;
+    }
 
-      .app-thread-header-metadata-line {
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: flex-end;
-      }
-
-      .app-thread-header-author {
+    .app-thread-author {
         font-size: 14px;
         font-weight: bold;
         padding-right: 6px;
       }
-
-      .app-thread-header-time {
-        font-size: 13px;
-      }
-
-    }
 }

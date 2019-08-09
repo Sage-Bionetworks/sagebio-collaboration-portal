@@ -1,13 +1,14 @@
-<div class="app-thread" *ngIf="thread">
-    <div class="app-thread-header" (click)="showThread()">
-        <user-avatar class="app-thread-header-avatar" [user]="thread.createdBy" [size]="avatarSize"></user-avatar>
-        <div class="app-thread-header-metadata">
-            <div class="app-thread-header-metadata-line">
-                <span class="app-thread-header-title">{{ thread.title }}</span>
-                <span class="app-thread-header-author">{{ thread.createdBy.username }}</span>
-                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
-                <span *ngIf="edited" [matTooltip]="thread.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
-            </div>
-        </div>
-    </div>
+<!-- thread-preview is displayed within a mat-list-item -->
+<div class="app-thread" *ngIf="thread" (click)="showThread()">
+    <span matLine class="app-thread-title">{{ thread.title }}</span>
+    Created by
+    <span class="app-thread-author">
+        {{ thread.createdBy.username }}
+    </span>
+    <span
+        class="app-thread-time"
+        matTooltip="{{ thread.createdAt | dateAndTime }}"
+    >
+        {{ thread.createdAt | dateAndTime }}
+    </span>
 </div>
