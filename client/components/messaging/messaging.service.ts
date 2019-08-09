@@ -45,6 +45,18 @@ export class MessagingService {
             );
     }
 
+    showNewThread(): void {
+        let sidenavContentId = `newthread:${Date.now()}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            // WIP - What component will be passed in for the sidebar to load?
+            // (<ThreadSidenavComponent>this.secondarySidenavService
+            //     .loadContentComponent(ThreadSidenavComponent))
+            //     .setThread(thread);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
+
     showThread(thread: Thread): void {
         let sidenavContentId = `thread:${thread._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {

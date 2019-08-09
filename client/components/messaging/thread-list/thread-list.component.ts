@@ -75,7 +75,7 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     }
 
     onStartADiscussion(): void {
-        console.log(`Start a discussion clicked`);
+        this.messagingService.showNewThread();
     }
 
     ngOnDestroy() {
