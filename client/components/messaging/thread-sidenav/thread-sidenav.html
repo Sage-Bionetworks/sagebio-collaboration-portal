@@ -7,7 +7,18 @@
     </div>
 
     <div class="app-message-thread-body">
-        <h2>{{ thread.title }}</h2>
+        <span class="app-thread-title">{{ thread.title }}</span>
+        <br />
+        Created by
+        <span class="app-thread-author">
+            {{ thread.createdBy.username }}
+        </span>
+        <span
+            class="app-thread-time"
+            matTooltip="{{ thread.createdAt | dateAndTime }}"
+        >
+            {{ thread.createdAt | dateAndTime }}
+        </span>
     </div>
     <div class="app-message-thread-body" *ngIf="message">
         <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>

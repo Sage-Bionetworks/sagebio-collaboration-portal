@@ -1,26 +1,40 @@
 .app-message-thread-header {
-  // display: flex;
-  // flex-flow: row nowrap;
-  // align-items: center;
-  // padding: 0 0 0 10px;
-  padding-left: 10px;
+    // display: flex;
+    // flex-flow: row nowrap;
+    // align-items: center;
+    // padding: 0 0 0 10px;
+    padding-left: 10px;
 }
 
 .app-message-thread-header-title {
-  display: flex;
-  flex-flow: column nowrap;
-  flex: 1;
-  justify-content: center;
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
 }
 
 .app-message-thread-header-close {
-  margin: 0 10px 0 0;
+    margin: 0 10px 0 0;
 }
 
 .message-date-separator {
-  margin: 20px 0 20px 0;
+    margin: 20px 0 20px 0;
 }
 
 .app-message-thread-body {
-  margin: 10px 10px 10px 10px
+    margin: 10px 10px 10px 10px;
+
+    .app-thread-title {
+        font-size: 26px;
+    }
+
+    .app-thread-time {
+        font-size: 13px;
+    }
+
+    .app-thread-author {
+        font-size: 14px;
+        font-weight: bold;
+        padding-right: 6px;
+    }
 }
