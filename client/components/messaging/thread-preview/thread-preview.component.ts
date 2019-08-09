@@ -69,20 +69,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
     ngOnInit() { }
 
-    ngAfterViewInit() {
-        // this.starred = this.starButton.isStarred()
-        //     .pipe(
-        //         startWith(null),
-        //         delay(0)
-        //     );
-        // if (this.replyButton) {
-        //     this.numReplies = this.replyButton.getNumReplies()
-        //         .pipe(
-        //             startWith(null),
-        //             delay(0)
-        //         );
-        // }
-    }
+    ngAfterViewInit() { }
 
     ngOnDestroy() {
         if (this.threadSub) this.threadSub.unsubscribe();
@@ -103,40 +90,10 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         if (!this.getThreadSub) {
             this.getThreadSub.unsubscribe();
         }
-        // this.getThreadSub = this.messagingService.getThread(messageId)
-        //     .subscribe(thread => this._thread.next(thread),
-        //         err => {
-        //             console.log('Unable to get message', err);
-        //         });
     }
 
     showThread(): void {
         this.messagingService.showThread(this.thread);
-    }
-
-    updateThread(): void {
-        // let updatedMessage = this.form.value;
-        // updatedMessage.body = JSON.stringify(this.form.get('body').value);
-        // this.messagingService.updateMessage(updatedMessage)
-        //     .subscribe(message => { },
-        //         err => {
-        //             console.log(err);
-        //             this.notificationService.error('Unable to update the message');
-        //         });
-        // this.isReadOnly = true;
-    }
-
-    removeThread(): void {
-        // this.messagingService.removeMessage(this.thread)
-        //     .subscribe(() => { },
-        //         err => {
-        //             console.log(err);
-        //             this.notificationService.error('Unable to remove the message');
-        //         });
-    }
-
-    replyToThread(): void {
-        // this.notificationService.info('Not yet implemented');
     }
 
 }
