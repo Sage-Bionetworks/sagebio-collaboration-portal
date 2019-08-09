@@ -5,4 +5,5 @@
 >
     <svg:circle class="node" [attr.fill]="color" cx="0" cy="0" [attr.r]="r" />
     <svg:text class="node-icon" [attr.font-size]="fontSize" [innerHTML]="icon" />
+    <svg:circle *ngIf="isHighlighted" fill="transparent" stroke="rgba(0,0,0,0.35)" stroke-width="10" cx="0" cy="0" [attr.r]="r + 5" />
 </svg:g>

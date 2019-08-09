@@ -24,8 +24,4 @@ export class DashboardViewComponent {
         this._dashboard = dashboard;
         console.log('DASHBOARD', dashboard);
     }
-
-    openDashboard(): void {
-        window.open(this.dashboard.url, '_blank');
-    }
 }

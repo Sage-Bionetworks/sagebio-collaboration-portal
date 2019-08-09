@@ -1,6 +1,9 @@
 /*eslint no-process-env:0*/
 
 import {
+    articles
+} from './articles';
+import {
     dataCatalogs
 } from './data-catalogs';
 import {
@@ -42,8 +45,12 @@ import {
 import {
     organizations
 } from './organizations';
+import {
+    webapps
+} from './webapps';
 
 module.exports = {
+    articles: articles,
     dataCatalogs: dataCatalogs,
     dashboards: dashboards,
     entityPermissions: entityPermissions,
@@ -58,4 +65,5 @@ module.exports = {
     users: users,
     userPermissions: userPermissions,
     organizations: organizations,
+    webapps: webapps,
 };

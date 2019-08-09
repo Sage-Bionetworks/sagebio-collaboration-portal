@@ -30,13 +30,14 @@
                             <span>This tool can not be reached.</span>
                         </div>
                         <div class="tool-metadata-description">
-                            <span>{{tool.description}}</span>
+                            <span>{{ tool.description }}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
+                <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a>
                 <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate=true">Edit</a>
                 <a *ngIf="canDeleteTool" mat-raised-button color="warn" (click)="displayConfirmationDialog()">Delete</a>
             </div>

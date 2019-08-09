@@ -30,6 +30,17 @@
       display: flex;
       flex-flow: row wrap;
     }
+
+    .app-insight-list-actions {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+    }
+
+    .app-insight-list-new-project {
+      margin-top: 25px;
+      width: 400px;
+    }
   }
 }
 

@@ -25,7 +25,6 @@
                     <option *ngFor="let value of projectSpecs.visibility.values" [value]="value">{{ value }}</option>
                 </select>
             </mat-form-field>
-
             <mat-error *ngIf="errors.newProject">
                 {{errors.newProject}}
             </mat-error>

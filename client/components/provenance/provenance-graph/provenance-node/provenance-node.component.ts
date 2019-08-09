@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3/models/node';
 import * as d3 from 'd3';
-import { defaultTo } from 'lodash';
+import { get } from 'lodash';
 
 @Component({
     selector: '[provenanceNode]',
@@ -10,6 +10,7 @@ import { defaultTo } from 'lodash';
 })
 export class ProvenanceNodeComponent implements OnInit {
     @Input() node: Node;
+    @Input() rootId: string;
 
     ngOnInit() {
         this.createTooltipElement();
@@ -23,12 +24,17 @@ export class ProvenanceNodeComponent implements OnInit {
     }
 
     getTooltipContent() {
+        const { label, nodeClass, subclass, provenanceNode } = this.node
+
+        const typeText = nodeClass ? `<strong>Type: </strong>${nodeClass}` : ''
+        const subtypeText = subclass && subclass !== nodeClass ? `<br>Subtype: ${subclass}` : ''
+
         return `
-            <div><strong>${this.node.label}</strong></div>
+            <div><strong>${label}: </strong>${get(provenanceNode, 'properties.name')}</div>
             <div>
                 <span>
-                    ${defaultTo(this.node.nodeClass, '')}
-                    ${this.node.subclass ? `: ${this.node.subclass}` : ''}
+                    ${typeText}
+                    ${subtypeText}
                 </span>
             </div>
         `;
@@ -78,5 +84,12 @@ export class ProvenanceNodeComponent implements OnInit {
 
     get fontSize() {
         return '25px';
+    }
+
+    get isHighlighted() {
+        return (
+            get(this.node.provenanceNode, 'properties.targetId') === this.rootId ||
+            get(this.node.provenanceNode, 'properties.userId') === this.rootId
+        )
     }
 }

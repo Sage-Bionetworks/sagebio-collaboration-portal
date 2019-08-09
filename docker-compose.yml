@@ -38,6 +38,7 @@ services:
         APP_INIT_ADMIN_EMAIL: ${APP_INIT_ADMIN_EMAIL}
         APP_INIT_ADMIN_PASSWORD: ${APP_INIT_ADMIN_PASSWORD}
         APP_INIT_DB_SEED_NAME: ${APP_INIT_DB_SEED_NAME}
+        CONTACT_US_URL: ${CONTACT_US_URL}
         # Enabling local authentication
         AUTH_LOCAL: ${AUTH_LOCAL}
         # Enabling Google OAuth 2.0
@@ -107,5 +108,5 @@ services:
       NEO4J_USERNAME: ${NEO4J_USERNAME}
       NEO4J_PASSWORD: ${NEO4J_PASSWORD}
       FLASK_HOST: "0.0.0.0"
-    links:
+    depends_on:
       - phccp-neo4j

@@ -2,10 +2,10 @@
 
 export const env = process.env.NODE_ENV;
 export const port = process.env.PORT || 9000;
-export const contactUsUrl = process.env.CONTACT_US_URL || 'https://sagebionetworks.org';
-// List of user roles
-export const userRoles = ['user', 'admin']; // TODO: remove
-export const userRolesNew = {
+export const contactUsUrl = process.env.CONTACT_US_URL || 'https://webforms.roche.com/phcixcc';
+// export const contactUsUrl = process.env.CONTACT_US_URL || 'https://sagebionetworks.org';
+
+export const userRoles = {
     USER: {
         value: 'user'
     },
@@ -91,9 +91,17 @@ export const models = {
         }
     },
     insight: {
+        title: {
+            minlength: 3,
+            maxlength: 30
+        },
         description: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        type: {
+            values: ['Report', 'Memo'],
+            default: 'Report'
         }
     },
     resource: {
@@ -110,7 +118,7 @@ export const models = {
         description: {
             minlength: 0,
             maxlength: 1024
-        },
+        }
     },
 };
 
@@ -142,7 +150,6 @@ export default {
     port,
     contactUsUrl,
     userRoles,
-    userRolesNew,
     permissionTypes,
     gitVersion,
     gitCommitHash,

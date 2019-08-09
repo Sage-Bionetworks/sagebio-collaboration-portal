@@ -13,10 +13,6 @@ import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
 import { Resource } from 'models/entities/resources/resource.model';
-import { State } from 'models/entities/resources/state.model';
-import { Dashboard } from 'models/entities/resources/dashboard.model';
-import { DashboardViewComponent } from '../dashboard-view/dashboard-view.component';
-import { StateViewComponent } from '../state-view/state-view.component';
 
 @Component({
     selector: 'resource-list',
@@ -25,14 +21,9 @@ import { StateViewComponent } from '../state-view/state-view.component';
 })
 export class ResourceListComponent implements OnInit, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
-    // private states: State[];
-    // private reports: Resource[];
     private resources: Resource[] = [];
-
     private resourceTypeFilters: Filter[] = [];
-
     private numResultsPerPage = 8;
-    // private searchData: any;
     private searchPageIndex: number;
     private searchResultCount = 0;
 
@@ -44,24 +35,6 @@ export class ResourceListComponent implements OnInit, AfterViewInit {
         private notificationService: NotificationService) {
 
         this.resourceTypeFilters = config.resourceTypeFilters;
-
-
-        // this.resources = this.resourceService.getResources();
-
-        // const myStates = this.stateService.getStates();
-
-        // combineLatest(
-        //     this.stateService.getStates(),
-        //     this.resourceService.getResources()
-        // )
-        //     .pipe(
-        //         map(([states, reports]) => {
-        //             this.states = states;
-        //             this.reports = reports;
-        //             this.resources = orderBy('createdAt', 'desc', reports.concat(states));
-        //         })
-        //     )
-        //     .subscribe(res => console.log('done', res));
     }
 
     ngOnInit() {
@@ -88,63 +61,6 @@ export class ResourceListComponent implements OnInit, AfterViewInit {
                 this.notificationService.error(err.message);
                 this.clearResults();
             });
-
-        // this.catalogService.getDataCatalogs()
-        //     .pipe(
-        //         map(catalogs => {
-        //             this.catalogs = orderBy('name', 'asc', catalogs);
-        //             console.log('catalog', this.catalogs);
-        //             this.catalogFilters = this.catalogs.map((c, i) => ({
-        //                 value: c._id,
-        //                 title: c.name,
-        //                 active: i === 0
-        //             }));
-        //             return this.filters.map(f => f.getSelectedFilter());
-        //         }),
-        //         mergeMap(f => {
-        //             return combineLatest(...f)
-        //                 .pipe(
-        //                     map(myFilters =>
-        //                         flow([
-        //                             keyBy('group'),
-        //                             mapValues('value')
-        //                         ])(myFilters)
-        //                     )
-        //                 );
-        //         }),
-        //         filter(query => !!query.catalog),
-        //         tap(query => {
-        //             // console.log('query', query);
-        //             this.searchData = query;
-        //             this.catalogNotReached = false;
-        //         }),
-        //         switchMap(query => this.datasetService.searchDatasetsByCatalog(
-        //             this.catalogs.find(c => c._id === query.catalog),
-        //             query.searchTerms,
-        //             query.orderedBy,
-        //             this.numDatasetsPerPage
-        //         )
-        //             .pipe(
-        //                 catchError(err => {
-        //                     console.log(err);
-        //                     // this.notificationService.error('Unable to connect to Data Catalog');
-        //                     this.clearResults();
-        //                     this.catalogNotReached = true;
-        //                     return empty();
-        //                 })
-        //             ))
-        //     )
-        //     .subscribe(res => {
-        //         this.catalog = this.catalogs.find(c => c._id === this.searchData.catalog);
-        //         this.datasets = res.result.results;
-        //         this.searchResultCount = res.result.count;
-        //         this.searchPageIndex = 1;
-        //         console.log('datasets', this.datasets);
-        //     }, err => {
-        //         console.log(err);
-        //         this.notificationService.error(err.message);
-        //         this.clearResults();
-        //     });
     }
 
     clearResults(): void {

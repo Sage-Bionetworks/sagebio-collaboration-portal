@@ -77,12 +77,10 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
             this.entityPermissionService.queryByEntity(this.entity)
                 .subscribe(permissions => {
                     this.permissions = permissions;
-                    console.log(`SUBSCRIBE TO entity:${this.entity._id}:entityPermission`);
+                    console.log(permissions);
                     this.socketService.syncUpdates(
                         `entity:${this.entity._id}:entityPermission`,
-                        this.permissions, (event, item, array) => {
-                          console.log('SOCKET UPDATE');
-                        }
+                        this.permissions
                     );
                 }, err => console.log(err));
         }
@@ -145,5 +143,13 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
 
     disableAccessMenu(permission: EntityPermission): boolean {
         return (<UserProfile>permission.user)._id === this.user._id;
+    }
+
+    isPending(permission: EntityPermission): boolean {
+        return permission.status === config.inviteStatusTypes.PENDING.value;
+    }
+
+    isDeclined(permission: EntityPermission): boolean {
+        return permission.status === config.inviteStatusTypes.DECLINED.value;
     }
 }

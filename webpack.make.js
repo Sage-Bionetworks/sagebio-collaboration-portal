@@ -261,9 +261,6 @@ module.exports = function makeWebpackConfig(options) {
         ]
     };
 
-    //TODO: TS Instrumenter
-    console.log('CONTACT US', process.env.CONTACT_US_URL);
-
     /**
      * Plugins
      * Reference: http://webpack.github.io/docs/configuration.html#plugins

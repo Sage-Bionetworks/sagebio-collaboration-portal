@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'models/auth/user.model';
 import { UserService } from 'components/auth/user.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { map } from 'lodash'
+import { map } from 'lodash';
 
 @Component({
     selector: 'user-card-edit',
@@ -53,7 +53,7 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
             op: 'replace',
             path: `/${key}`,
             value: value
-        }))
+        }));
 
         this.userService.updateUser(patches, this.user._id)
             .subscribe(user => {

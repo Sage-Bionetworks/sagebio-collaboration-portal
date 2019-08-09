@@ -39,15 +39,14 @@ export class UserNotificationSidenavComponent implements OnDestroy {
 
         const getInviteBundles = this.userPermissionDataService.permissions()
             .pipe(
-                map(permissions => permissions.getPendingEntityInvites()
-                    .map(invite => createInviteBundle(invite))
-                ),
+                map(permissions => permissions.getPendingEntityInvites()),
+                map(pendingInvites => pendingInvites.map(invite => createInviteBundle(invite))),
                 switchMap(invites => forkJoinWithProgress(invites))
             );
 
         getInviteBundles
             .pipe(
-                mergeMap(([finalResult, progress]) => merge(
+                switchMap(([finalResult, progress]) => merge(
                     progress.pipe(
                         // tap((value) => console.log(`${value} completed`)),
                         ignoreElements()
@@ -56,13 +55,15 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                 ))
             ).subscribe((invites: InviteBundle[]) => {
                 this.invites = invites;
-            }, console.warn);
+                if (this.invites.length < 1) {
+                    this.sidenavService.close();
+                }
+            }, err => console.error(err));
     }
 
     ngOnDestroy() { }
 
     close(): void {
         this.sidenavService.close();
-        // this.sidenavService.destroyContentComponent();
     }
 }

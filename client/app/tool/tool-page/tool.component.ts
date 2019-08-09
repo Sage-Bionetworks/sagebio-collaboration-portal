@@ -8,10 +8,10 @@ import { NotificationService } from 'components/notification/notification.servic
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/entities/tool.model';
-import { ToolHealth } from 'models/tool-health.model';
+import { ToolHealth } from 'models/entities/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
-import { omit } from 'lodash'
+import { omit } from 'lodash';
 
 @Component({
     selector: 'tool',
@@ -107,7 +107,7 @@ export class ToolComponent implements OnInit, OnDestroy {
     onEditTool(tool: Tool): void {
         this.showEditToolTemplate = false;
         this.tool = { ...this.tool, ... omit(tool, 'organization')};
-        this.notificationService.info('The Tool has been successfully update');
+        this.notificationService.info('The Tool has been successfully updated');
     }
 
     showActivity(): void {

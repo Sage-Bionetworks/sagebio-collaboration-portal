@@ -21,9 +21,30 @@
     <g [zoomableOf]="svg">
         <g [provenanceLink]="link" *ngFor="let link of links"></g>
         <ng-container *ngFor="let node of nodes">
-            <g *ngIf="node.label==='Activity'" activityNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
-            <g *ngIf="node.label==='Reference'" referenceNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
-            <g *ngIf="node.label==='Agent'" agentNode [node]="node" [draggableNode]="node" [draggableInGraph]="graph" />
+            <g
+                activityNode
+                *ngIf="node.label==='Activity'"
+                [node]="node"
+                [rootId]="rootId"
+                [draggableNode]="node"
+                [draggableInGraph]="graph"
+            />
+            <g
+                referenceNode
+                *ngIf="node.label==='Reference'"
+                [node]="node"
+                [rootId]="rootId"
+                [draggableNode]="node"
+                [draggableInGraph]="graph"
+            />
+            <g
+                agentNode
+                *ngIf="node.label==='Agent'"
+                [node]="node"
+                [rootId]="rootId"
+                [draggableNode]="node"
+                [draggableInGraph]="graph"
+            />
         </ng-container>
     </g>
 </svg>

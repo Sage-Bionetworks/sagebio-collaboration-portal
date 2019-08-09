@@ -3,10 +3,10 @@ var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
 import {
     accessTypes,
-    userRolesNew
+    userRoles
 } from '../../config/environment';
 
-const ADMIN_ROLE = userRolesNew.ADMIN.value;
+const ADMIN_ROLE = userRoles.ADMIN.value;
 const READ_ACCESS = accessTypes.READ.value;
 const WRITE_ACCESS = accessTypes.WRITE.value;
 const ADMIN_ACCESS = accessTypes.ADMIN.value;
@@ -31,7 +31,11 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Project'
  */
-router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
+router.get('/', auth.hasPermissionForEntity([
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+]), controller.index);
 
 /**
  * @swagger
@@ -94,10 +98,7 @@ router.get('/:id', auth.hasPermissionForEntity([
  *       '400':
  *         description: Invalid Project
  */
-router.post('/', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.create);
+router.post('/', auth.isAuthenticated(), controller.create);
 
 /**
  * @swagger
@@ -127,7 +128,6 @@ router.post('/', auth.hasPermissionForEntity([
  *         description: Project not found
  */
 router.patch('/:id', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.patch);
 
@@ -158,7 +158,6 @@ router.patch('/:id', auth.hasPermissionForEntity([
  *         description: Project not found
  */
 router.delete('/:id', auth.hasPermissionForEntity([
-    WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.destroy);
 

@@ -1,4 +1,4 @@
-import { of, forkJoin, defer, Subject } from 'rxjs';
+import { of, forkJoin, defer, Subject, from } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
 
 export function forkJoinWithProgress(arrayOfObservables) {
@@ -15,12 +15,14 @@ export function forkJoinWithProgress(arrayOfObservables) {
             )
         );
 
-        const finalResult$ = forkJoin(modilefiedObservablesList).pipe(
-            tap(() => {
-                percent$.next(100);
-                percent$.complete();
-            }
-            ));
+        const finalResult$ = (modilefiedObservablesList.length > 0 ?
+            forkJoin(modilefiedObservablesList) : of([]))
+            .pipe(
+                tap(() => {
+                    percent$.next(100);
+                    percent$.complete();
+                })
+            );
 
         return of([finalResult$, percent$.asObservable()]);
     });

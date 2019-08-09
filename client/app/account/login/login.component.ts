@@ -86,4 +86,10 @@ export class LoginComponent implements OnInit {
             // }
         });
     }
+
+    loginAsTestUser(): void {
+        this.loginForm.get('email').setValue('test@sagebase.org');
+        this.loginForm.get('password').setValue('test');
+        this.login();
+    }
 }

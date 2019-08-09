@@ -1,4 +1,4 @@
-<div *ngIf="project | async; let project_ ">
+<div *ngIf="!showEditProjectTemplate && project | async; let project_; else showEditProjectForm">
     <!-- <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
         <h1>{{ project.name }}</h1>
@@ -21,8 +21,17 @@
 
             <div class="app-project-card-box">
                 <h2>Description</h2>
-                <app-quill-editor [isReadOnly]="true" editButtonLabel="Edit description" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription(project_._id)"></app-quill-editor>
+                <app-quill-editor [isReadOnly]="true" [showActions]="false" [body]="form.controls['description']"></app-quill-editor>
+            </div>
+
+            <div class="project-actions">
+                <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a>
+                <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="warn" (click)="deleteProject()">Delete</a>
             </div>
         </mat-card>
     </div>
 </div>
+
+<ng-template #showEditProjectForm>
+    <project-edit *ngIf="project | async; let project_" [project]="project_" (editProject)="onEditProject($event)" (close)="showEditProjectTemplate=false"></project-edit>
+</ng-template>

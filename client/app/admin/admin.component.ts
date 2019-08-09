@@ -42,7 +42,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
 
     displayConfirmationDialog($event, user): void {
-        $event.stopPropagation()
+        $event.stopPropagation();
         this.dialog.open(ConfirmationDialog, {
             data: {
                 message: `Are you sure you want to delete this user? This action cannot be reversed!`,
@@ -58,5 +58,5 @@ export class AdminComponent implements OnInit, OnDestroy {
         })
             .afterClosed()
             .subscribe((confirmed: boolean) => confirmed && this.deleteUser(user));
-      }
+    }
 }

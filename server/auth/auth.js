@@ -16,7 +16,7 @@ export function hasRole(userId, role) {
 
         if (user) {
             // Determine if the user has the appropriate role
-            const roles = Object.values(config.userRolesNew).map(r => r.value);
+            const roles = Object.values(config.userRoles).map(r => r.value);
             const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
 
             // Authorize if the user has the requested role; otherwise deny access
@@ -35,7 +35,7 @@ export function hasRole(userId, role) {
  * @return {Promise<boolean>}
  */
 export function isAdmin(userId) {
-    return hasRole(userId, config.userRolesNew.ADMIN.value);
+    return hasRole(userId, config.userRoles.ADMIN.value);
 }
 
 /**

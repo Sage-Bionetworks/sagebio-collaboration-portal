@@ -16,6 +16,8 @@ import { ResourceViewComponent } from './resource-view/resource-view.component';
 import { ResourceComponent } from './resource-page/resource.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { StateViewComponent } from './state-view/state-view.component';
+import { ArticleViewComponent } from './article-view/article-view.component';
+import { WebAppViewComponent } from './webapp-view/webapp-view.component';
 
 import { ResourceService } from './resource.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -52,6 +54,8 @@ export const ROUTES: Routes = [{
         ResourceViewComponent,
         ResourceComponent,
         DashboardViewComponent,
+        ArticleViewComponent,
+        WebAppViewComponent,
         StateViewComponent
     ],
     providers: [

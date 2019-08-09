@@ -3,11 +3,6 @@
 </div>
 
 <div class="app-profile-content">
-    <span>{{ permissions | async | json }}</span>
-
-    <span>Can create tool: {{ (permissions | async).canCreateTool() }}</span>
-    <span>Can edit tool: {{ (permissions | async).canEditTool() }}</span>
-    <span>Can delete tool: {{ (permissions | async).canDeleteTool() }}</span>
     <user-card class="app-user-card" [user]="currentUser"></user-card>
-    <starred-message-list class="app-user-profile-messaging-stars"></starred-message-list>
+    <!-- <starred-message-list class="app-user-profile-messaging-stars"></starred-message-list> -->
 </div>

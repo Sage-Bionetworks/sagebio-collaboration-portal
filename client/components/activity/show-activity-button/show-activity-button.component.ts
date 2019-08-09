@@ -20,5 +20,4 @@ export class ShowActivityButtonComponent implements OnInit {
     ngOnInit() { }
 
     ngOnDestroy() { }
-
 }

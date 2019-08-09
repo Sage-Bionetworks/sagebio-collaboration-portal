@@ -3,6 +3,7 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
@@ -16,6 +17,7 @@ import State from '../api/resource/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
+import WebApp from '../api/resource/models/webapp.model';
 import {
     createActivities
 } from '../api/provenance/provenance.controller';
@@ -33,6 +35,15 @@ export function seedDatabaseIfNeeded() {
 
     let promises = [];
     let promise;
+
+    promise = Article.find({}).deleteMany()
+        .then(() => seeds.articles ? Article
+            .create(seeds.articles)
+            .then(() => console.log('finished populating articles')) : null
+        )
+        .catch(err => console.log('error populating articles', err));
+    promises.push(promise);
+
 
     promise = Dashboard.find({}).deleteMany()
         .then(() => seeds.dashboards ? Dashboard
@@ -149,6 +160,13 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating user permissions', err));
     promises.push(promise);
 
+    promise = WebApp.find({}).deleteMany()
+        .then(() => seeds.webapps ? WebApp
+            .create(seeds.webapps)
+            .then(() => console.log('finished populating webapps')) : null
+        )
+        .catch(err => console.log('error populating webapps', err));
+    promises.push(promise);
 
     return Promise.all(promises);
 }

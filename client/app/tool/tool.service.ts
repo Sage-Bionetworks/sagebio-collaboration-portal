@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Tool } from 'models/entities/tool.model';
-import { ToolHealth } from 'models/tool-health.model';
+import { ToolHealth } from 'models/entities/tool-health.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';

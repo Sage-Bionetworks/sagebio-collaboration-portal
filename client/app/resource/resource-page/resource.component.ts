@@ -77,8 +77,12 @@ export class ResourceComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
-    openInFe(resource): void {
+    openInTool(resource): void {
         window.open(resource.data, '_blank');
+    }
+
+    open(): void {
+        window.open(this.resource.url, '_blank');
     }
 
     updateDescription(): void {

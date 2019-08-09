@@ -27,6 +27,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
         private pageTitleService: PageTitleService,
         private projectService: ProjectService,
         private notificationService: NotificationService) {
+
         this.projects = this.projectService.getProjects()
             .pipe(
                 map(projects => orderBy('name', 'asc', projects))

@@ -6,7 +6,8 @@ import EntityPermission from '../entity-permission/entity-permission.model';
 import {
     entityTypes,
     accessTypes,
-    inviteStatusTypes
+    inviteStatusTypes,
+    userRoles
 } from '../../config/environment';
 import {
     respondWithResult,
@@ -18,12 +19,36 @@ import {
     handleError
 } from '../util';
 
+const ADMIN_ROLE = userRoles.ADMIN.value;
+
 // Gets a list of Projects
+// TODO: Make the function more readable
 export function index(req, res) {
-    // res.status(500).json({ message: 'You can not list the projects' });
-    return Project.find().exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    const user = req.user;
+    if (user.role === ADMIN_ROLE) {
+        return Project.find().exec()
+            .then(respondWithResult(res))
+            .catch(handleError(res));
+    } else {
+        return EntityPermission
+            .find({
+                user: user._id,
+                entityType: entityTypes.PROJECT.value,
+                status: inviteStatusTypes.ACCEPTED.value
+            })
+            .exec()
+            .then(permissions => {
+                const projectIds = permissions.map(perm => perm.entityId);
+                return Project.find({
+                        _id: {
+                            $in: projectIds
+                        }
+                    }).exec()
+                    .then(respondWithResult(res))
+                    .catch(handleError(res));
+            })
+            .catch(handleError(res));
+    }
 }
 
 // Gets a single Project from the DB

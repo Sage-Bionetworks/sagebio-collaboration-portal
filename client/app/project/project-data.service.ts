@@ -9,7 +9,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { UserProjectPermission } from './models/user-project-permission.model';
 import config from '../../app/app.constants';
 
-const DEFAULT_USER_PERMISSION: UserProjectPermission = {
+export const DEFAULT_USER_PERMISSION: UserProjectPermission = {
     canRead: false,
     canWrite: false,
     canAdmin: false

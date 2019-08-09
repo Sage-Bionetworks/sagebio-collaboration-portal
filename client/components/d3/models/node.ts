@@ -1,10 +1,4 @@
-import { get } from 'lodash'
-
-enum NodeLabel {
-    Activity = 'Activity',
-    Reference = 'Reference',
-    Agent = 'Agent',
-}
+import { NodeLabel, ProvenanceNode } from 'models/provenance-node.model';
 
 export class Node implements d3.SimulationNodeDatum {
     index?: number;
@@ -19,13 +13,15 @@ export class Node implements d3.SimulationNodeDatum {
     label: NodeLabel;
     nodeClass: string;
     subclass: string;
+    provenanceNode: ProvenanceNode;
 
-    r = 25
+    r = 25;
 
-    constructor(id: string, label: string, nodeClass: string, subclass: string) {
+    constructor(id: string, label: string, nodeClass: string, subclass: string, provenanceNode: ProvenanceNode) {
         this.id = id;
         this.label = NodeLabel[label];
         this.nodeClass = nodeClass;
         this.subclass = subclass;
+        this.provenanceNode = provenanceNode;
     }
 }

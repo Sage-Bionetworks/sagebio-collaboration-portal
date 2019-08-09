@@ -13,7 +13,8 @@ import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
-import { ProjectDataService } from '../project-data.service';
+import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.service';
+import { UserProjectPermission } from '../models/user-project-permission.model';
 
 @Component({
     selector: 'project-dashboard',
@@ -22,6 +23,9 @@ import { ProjectDataService } from '../project-data.service';
 })
 export class ProjectDashboardComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
+    private userProjectPermission: UserProjectPermission = DEFAULT_USER_PERMISSION;
+    private showEditProjectTemplate = false;
+
     private form: FormGroup;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
@@ -52,17 +56,34 @@ export class ProjectDashboardComponent implements OnInit, OnDestroy {
                     this.form.get('description').setValue(JSON.parse(project.description));
                 }
             });
+
+        this.projectDataService.userPermission()
+            .subscribe(userProjectPermission => {
+                this.userProjectPermission = userProjectPermission;
+            }, err => console.error(err));
     }
 
     ngOnDestroy() { }
 
-    updateDescription(projectId): void {
-        let description = JSON.stringify(this.form.get('description').value);
-        this.projectService.updateProject(projectId, [
-            { op: 'replace', path: '/description', value: description }
-        ])
-            .subscribe(project => {
-                this.notificationService.info('The description has been successfully saved');
-            }, err => console.log(err));
+    // updateDescription(projectId): void {
+    //     let description = JSON.stringify(this.form.get('description').value);
+    //     this.projectService.updateProject(projectId, [
+    //         { op: 'replace', path: '/description', value: description }
+    //     ])
+    //         .subscribe(project => {
+    //             this.notificationService.info('The description has been successfully saved');
+    //         }, err => console.log(err));
+    // }
+
+    deleteProject(): void {
+        this.notificationService.info('Not implemented');
+    }
+
+    onEditProject(project: Project): void {
+        this.showEditProjectTemplate = false;
+        this.projectDataService.setProject(project);
+        // console.log('onEditProject not yet implemented');
+        // this.tool = { ...this.tool, ... omit(tool, 'organization')};
+        this.notificationService.info('The Project has been successfully updated');
     }
 }
