@@ -55,11 +55,6 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     }
 
     loadThreadsForEntity(entityId, entityType) { // Default to project entity
-        console.log(`Loading messages for
-            entity type ${entityType}
-            entity ID ${entityId}
-        `);
-
         this.messagingService.getThreadsByEntity(entityId)
             .pipe(
                 map(threads => orderBy(['createdAt'], ['desc'], threads))
@@ -77,6 +72,10 @@ export class ThreadListComponent implements OnDestroy, OnInit {
             this.loadThreads();
         }
         // this.notificationService.info('The Thread has been successfully created');
+    }
+
+    onStartADiscussion(): void {
+        console.log(`Start a discussion clicked`);
     }
 
     ngOnDestroy() {
