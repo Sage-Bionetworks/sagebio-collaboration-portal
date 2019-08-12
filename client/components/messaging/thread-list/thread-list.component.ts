@@ -1,4 +1,4 @@
-import config from '../../../app/app.constants'
+import config from '../../../app/app.constants';
 
 import { Component, OnDestroy, Input, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
@@ -7,7 +7,7 @@ import { orderBy } from 'lodash/fp';
 
 import { MessagingService } from 'components/messaging/messaging.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ProjectDataService } from  '../../../app/project/project-data.service';
+import { ProjectDataService } from '../../../app/project/project-data.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { SecondarySidenavService } from '../../../components/sidenav/secondary-sidenav/secondary-sidenav.service';
 
@@ -29,14 +29,20 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     @Input() entityId: string;
     @Input() entityType: string;
 
-    static parameters = [MessagingService, SocketService, ProjectDataService, NotificationService, SecondarySidenavService];
+    static parameters = [
+        MessagingService,
+        SocketService,
+        ProjectDataService,
+        NotificationService,
+        SecondarySidenavService,
+    ];
     constructor(
         private messagingService: MessagingService,
         private socketService: SocketService,
-        private projectDataService: ProjectDataService,
-        private notificationService: NotificationService,
-        private secondarySidenavService: SecondarySidenavService,
-    ) { }
+        // private projectDataService: ProjectDataService,
+        // private notificationService: NotificationService,
+        // private secondarySidenavService: SecondarySidenavService
+    ) {}
 
     ngOnInit() {
         // Load threads for a specific project
@@ -44,25 +50,24 @@ export class ThreadListComponent implements OnDestroy, OnInit {
             return this.loadThreadsForEntity(this.entityId, this.entityType);
         }
         // DEFAULT: Load threads
-        return this.loadThreads()
+        return this.loadThreads();
     }
 
     loadThreads() {
-        this.messagingService.getThreads()
-            .pipe(
-                map(threads => orderBy(['createdAt'], ['desc'], threads))
-            )
+        this.messagingService
+            .getThreads()
+            .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)))
             .subscribe(threads => {
                 this.threads = threads;
                 this.socketService.syncUpdates('thread', this.threads);
             });
     }
 
-    loadThreadsForEntity(entityId, entityType) { // Default to project entity
-        this.messagingService.getThreadsByEntity(entityId)
-            .pipe(
-                map(threads => orderBy(['createdAt'], ['desc'], threads))
-            )
+    loadThreadsForEntity(entityId, entityType) {
+        // Default to project entity
+        this.messagingService
+            .getThreadsByEntity(entityId)
+            .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)))
             .subscribe(threads => {
                 this.threads = threads;
                 this.socketService.syncUpdates('thread', this.threads);
