@@ -9,10 +9,12 @@ import { MessagingService } from 'components/messaging/messaging.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProjectDataService } from  '../../../app/project/project-data.service';
 import { NotificationService } from 'components/notification/notification.service';
+import { SecondarySidenavService } from '../../../components/sidenav/secondary-sidenav/secondary-sidenav.service';
 
 import { Message } from 'models/messaging/message.model';
 import { Project } from 'models/project.model';
 import { Thread } from 'models/messaging/thread.model';
+import { ThreadNewComponent } from '../thread-new/thread-new.component';
 
 @Component({
     selector: 'thread-list',
@@ -26,12 +28,13 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     @Input() entityId: string;
     @Input() entityType: string;
 
-    static parameters = [MessagingService, SocketService, ProjectDataService, NotificationService];
+    static parameters = [MessagingService, SocketService, ProjectDataService, NotificationService, SecondarySidenavService];
     constructor(
         private messagingService: MessagingService,
         private socketService: SocketService,
         private projectDataService: ProjectDataService,
         private notificationService: NotificationService,
+        private secondarySidenavService: SecondarySidenavService,
     ) { }
 
     ngOnInit() {
@@ -75,7 +78,11 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     }
 
     onStartADiscussion(): void {
-        this.messagingService.showNewThread();
+        // WIP - Dynamically show/hide the form in our main view instead of the sidebar
+
+        // Display the start discussion form in the sidebar
+        this.secondarySidenavService.loadContentComponent(ThreadNewComponent);
+        this.secondarySidenavService.open();
     }
 
     ngOnDestroy() {

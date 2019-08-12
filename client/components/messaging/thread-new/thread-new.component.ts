@@ -10,6 +10,7 @@ import { ObjectValidators } from '../../validation/object-validators';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
+import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import config from '../../../app/app.constants';
 
 @Component({
@@ -29,10 +30,12 @@ export class ThreadNewComponent implements OnInit {
         createNewMessage: undefined
     };
 
-    static parameters = [FormBuilder, NotificationService, MessagingService];
+    static parameters = [FormBuilder, NotificationService, MessagingService, SecondarySidenavService];
     constructor(private formBuilder: FormBuilder,
         private notificationService: NotificationService,
-        private messagingService: MessagingService) {
+        private messagingService: MessagingService,
+        private secondarySidenavService: SecondarySidenavService,
+        ) {
 
         this.messageSpecs = config.models.message;
         this.form = formBuilder.group({
@@ -89,10 +92,18 @@ export class ThreadNewComponent implements OnInit {
         }
         this.messagingService.addMessage(newMessage)
             .subscribe(message => {
-              this.form.reset();
+                // WIP - Do not load the newly created thread in the sidebar
+                // Load the newly created thread in the sidebar
+                this.messagingService.showThread(this.thread);
             }, err => {
                 console.log('ERROR', err);
                 this.errors.createNewMessage = err.message;
             });
     }
+
+    close(): void {
+        this.secondarySidenavService.close();
+        this.secondarySidenavService.destroyContentComponent();
+    }
+
 }

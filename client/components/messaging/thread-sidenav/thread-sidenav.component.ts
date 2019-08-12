@@ -20,7 +20,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
     static parameters = [SecondarySidenavService, MessagingService, SocketService];
-    constructor(private sidenavService: SecondarySidenavService,
+    constructor(private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
         private socketService: SocketService) { }
 
@@ -49,7 +49,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     close(): void {
-        this.sidenavService.close();
-        this.sidenavService.destroyContentComponent();
+        this.secondarySidenavService.close();
+        this.secondarySidenavService.destroyContentComponent();
     }
 }

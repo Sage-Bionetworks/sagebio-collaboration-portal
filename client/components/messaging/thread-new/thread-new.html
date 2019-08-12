@@ -1,58 +1,68 @@
-<mat-card class="app-thread-new-card">
-    <mat-card-content>
-        <form class="app-thread-new-card-form" [formGroup]="form" novalidate>
-            <mat-form-field class="app-thread-new-form-field">
-                <input
-                    matInput
-                    placeholder="Title"
-                    formControlName="title"
-                    [errorStateMatcher]="matcher"
-                    required
-                />
-                <mat-error *ngIf="form.controls.title.invalid">
-                    Please enter a valid title ({{
-                        messageSpecs.title.minlength
-                    }}-{{ messageSpecs.title.maxlength }} characters).
-                </mat-error>
-            </mat-form-field>
-            <app-quill-editor
-                class="app-thread-new-description-editor"
-                #editor
-                [isReadOnly]="false"
-                [showActions]="false"
-                placeholder="Start a new discussion"
-                [body]="form.controls['body']"
-                (onSave)="updateMessage()"
-            ></app-quill-editor>
-            <mat-error
-                *ngIf="form.controls.body.errors?.jsonStringifyMaxLength"
-            >
-                This message must be smaller than
-                {{
-                    form.controls.body.errors.jsonStringifyMaxLength.limit /
-                        (2 * 1024) | number: '1.0-0'
-                }}
-                KB (value:
-                {{
-                    (form.controls.body.errors.jsonStringifyMaxLength.value *
-                        2) /
-                        1024 | number: '1.0-0'
-                }}
-                KB)
-            </mat-error>
-            <mat-error *ngIf="errors.createNewMessage">
-                {{ errors.createNewMessage }}
-            </mat-error>
-            <div class="app-thread-new-form-actions">
-                <a
-                    class="app-thread-new-push-button"
-                    mat-raised-button
-                    color="primary"
-                    [disabled]="form.invalid"
-                    (click)="form.invalid || addThread()"
-                    >Start a new discussion</a
+<div>
+    <div class="app-primary-header app-thread-header">
+        <h1 class="app-thread-header-title">Start a new discussion</h1>
+        <a class="app-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the start a new discussion form" (click)="close()">
+            <mat-icon aria-label="Icon of cross">close</mat-icon>
+        </a>
+    </div>
+
+    <mat-card class="app-thread-new-card">
+        <mat-card-content>
+            <form class="app-thread-new-card-form" [formGroup]="form" novalidate>
+                <mat-form-field class="app-thread-new-form-field">
+                    <input
+                        matInput
+                        placeholder="Title"
+                        formControlName="title"
+                        [errorStateMatcher]="matcher"
+                        required
+                    />
+                    <mat-error *ngIf="form.controls.title.invalid">
+                        Please enter a valid title ({{
+                            messageSpecs.title.minlength
+                        }}-{{ messageSpecs.title.maxlength }} characters).
+                    </mat-error>
+                </mat-form-field>
+                <app-quill-editor
+                    class="app-thread-new-description-editor"
+                    #editor
+                    [isReadOnly]="false"
+                    [showActions]="false"
+                    placeholder="Start a new discussion"
+                    [body]="form.controls['body']"
+                    (onSave)="updateMessage()"
+                ></app-quill-editor>
+                <mat-error
+                    *ngIf="form.controls.body.errors?.jsonStringifyMaxLength"
                 >
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+                    This message must be smaller than
+                    {{
+                        form.controls.body.errors.jsonStringifyMaxLength.limit /
+                            (2 * 1024) | number: '1.0-0'
+                    }}
+                    KB (value:
+                    {{
+                        (form.controls.body.errors.jsonStringifyMaxLength.value *
+                            2) /
+                            1024 | number: '1.0-0'
+                    }}
+                    KB)
+                </mat-error>
+                <mat-error *ngIf="errors.createNewMessage">
+                    {{ errors.createNewMessage }}
+                </mat-error>
+                <div class="app-thread-new-form-actions">
+                    <a
+                        class="app-thread-new-push-button"
+                        mat-raised-button
+                        color="primary"
+                        [disabled]="form.invalid"
+                        (click)="form.invalid || addThread()"
+                        >Start a new discussion</a
+                    >
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+</div>

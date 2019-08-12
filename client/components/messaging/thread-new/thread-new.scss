@@ -1,3 +1,18 @@
+.app-thread-header {
+    padding-left: 10px;
+}
+
+.app-thread-header-title {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
+}
+
+.app-thread-header-close {
+    margin: 0 10px 0 0;
+}
+
 .app-thread-new-card {
     display: flex;
     flex-flow: column nowrap;
