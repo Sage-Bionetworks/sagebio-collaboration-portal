@@ -233,6 +233,14 @@ export function indexThreadsForEntity(req, res) {
 
 // Deletes a Thread from the DB
 export function destroyThread(req, res) {
+    // Remove all messages associated with a thread
+    try {
+        removeMessagesForThread(req.params.id);
+    } catch (e) {
+        console.error(`Error removing messages associated with thread ID ${req.params.id} - ${e}`);
+    }
+
+    // Remove the thread
     return Thread.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
@@ -317,6 +325,11 @@ function removeMessage(res) {
                 .then(() => res.status(204).end());
         }
     };
+}
+
+function removeMessagesForThread(threadId) {
+    return Message.deleteMany({ thread: threadId})
+        .exec();
 }
 
 function removeThread(res) {
