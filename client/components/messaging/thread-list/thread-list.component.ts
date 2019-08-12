@@ -69,7 +69,7 @@ export class ThreadListComponent implements OnDestroy, OnInit {
             });
     }
 
-    onDeleteThread(): void {
+    refreshThreadList() {
         if (this.entityId) {
             this.loadThreadsForEntity(this.entityId, this.entityType);
         } else {
@@ -77,13 +77,13 @@ export class ThreadListComponent implements OnDestroy, OnInit {
         }
     }
 
+    onDeleteThread(): void {
+        this.refreshThreadList();
+    }
+
     onNewThread(thread: Thread): void {
         this.showNewThreadForm = false;
-        if (this.entityId) {
-            this.loadThreadsForEntity(this.entityId, this.entityType);
-        } else {
-            this.loadThreads();
-        }
+        this.refreshThreadList();
         // this.notificationService.info('The Thread has been successfully created');
     }
 
