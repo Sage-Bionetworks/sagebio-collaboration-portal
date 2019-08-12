@@ -24,6 +24,7 @@ import { ThreadNewComponent } from '../thread-new/thread-new.component';
 export class ThreadListComponent implements OnDestroy, OnInit {
     private messages: Message[];
     private threads: Thread[]; // Added threads array to ThreadListComponent
+    private showNewThreadForm: boolean = false;
 
     @Input() entityId: string;
     @Input() entityType: string;
@@ -69,6 +70,7 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     }
 
     onNewThread(thread: Thread): void {
+        this.showNewThreadForm = false;
         if (this.entityId) {
             this.loadThreadsForEntity(this.entityId, this.entityType);
         } else {
@@ -78,11 +80,12 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     }
 
     onStartADiscussion(): void {
-        // WIP - Dynamically show/hide the form in our main view instead of the sidebar
+        // Dynamically show/hide the form in our main view
+        this.showNewThreadForm = !this.showNewThreadForm;
 
-        // Display the start discussion form in the sidebar
-        this.secondarySidenavService.loadContentComponent(ThreadNewComponent);
-        this.secondarySidenavService.open();
+        // // Display the start discussion form in the sidebar
+        // this.secondarySidenavService.loadContentComponent(ThreadNewComponent);
+        // this.secondarySidenavService.open();
     }
 
     ngOnDestroy() {

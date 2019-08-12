@@ -92,9 +92,8 @@ export class ThreadNewComponent implements OnInit {
         }
         this.messagingService.addMessage(newMessage)
             .subscribe(message => {
-                // WIP - Do not load the newly created thread in the sidebar
-                // Load the newly created thread in the sidebar
-                this.messagingService.showThread(this.thread);
+                // // Load the newly created thread in the sidebar
+                // this.messagingService.showThread(this.thread);
             }, err => {
                 console.log('ERROR', err);
                 this.errors.createNewMessage = err.message;
