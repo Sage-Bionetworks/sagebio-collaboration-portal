@@ -15,6 +15,7 @@ var messageCtrlStub = {
     showMessagesForThread: 'messageCtrl.showMessagesForThread',
     createThread: 'messageCtrl.createThread',
     addMessageToThread: 'messageCtrl.addMessageToThread',
+    destroyThread: 'messageCtrl.destroyThread',
 };
 
 var authServiceStub = {
@@ -125,6 +126,15 @@ describe('Message API Router:', function () {
         it('should route to message.controller.addMessageToThread', function () {
             expect(routerStub.post
                 .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.addMessageToThread')
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // DELETE /messages/threads/:id    -> Delete a specific thread ID not associated with an entity ID
+    describe('DELETE /api/messages/threads/:id', function () {
+        it('should route to message.controller.destroyThread', function () {
+            expect(routerStub.delete
+                .withArgs('/threads/:id', 'authService.hasRole.admin', 'messageCtrl.destroyThread')
             ).to.have.been.calledOnce;
         });
     });

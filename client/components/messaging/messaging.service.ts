@@ -45,6 +45,10 @@ export class MessagingService {
             );
     }
 
+    removeThread(thread: Thread): Observable<void> {
+        return this.httpClient.delete<void>(`/api/messages/threads/${thread._id}`);
+    }
+
     showThread(thread: Thread): void {
         let sidenavContentId = `thread:${thread._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {

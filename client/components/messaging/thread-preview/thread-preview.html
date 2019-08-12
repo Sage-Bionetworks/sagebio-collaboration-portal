@@ -1,43 +1,31 @@
 <!-- thread-preview is displayed within a mat-list-item -->
-<div class="app-thread" *ngIf="thread" (click)="showThread()">
-    <span matLine class="app-thread-title">{{ thread.title }}</span>
-    Created by
-    <span class="app-thread-author">
-        {{ thread.createdBy.username }}
-    </span>
-    <span
-        class="app-thread-time"
-        matTooltip="{{ thread.createdAt | dateAndTime }}"
-    >
-        {{ thread.createdAt | dateAndTime }}
-    </span>
-
-    <!-- <span matLine class="app-thread-title">{{ thread.title }}</span>
-    Created by
-    <span class="app-thread-author">
-        {{ thread.createdBy.username }}
-    </span>
-    <span
-        class="app-thread-time"
-        matTooltip="{{ thread.createdAt | dateAndTime }}"
-    >
-        {{ thread.createdAt | dateAndTime }}
-    </span>
-    <div class="app-message-header-reply-button">
-        <message-reply-button *ngIf="showReplyButton" [message]="message" (click)="showThread()"></message-reply-button>
+<div class="app-thread" *ngIf="thread">
+    <div class="app-thread-header-metadata" (click)="showThread()">
+            <div class="app-thread-header-metadata-line">
+                <span class="app-thread-header-author">{{ thread.title }}</span>
+            </div>
+            <div class="app-thread-header-metadata-line">
+                <span class="app-thread-header-author">{{ thread.createdBy.username }}</span>
+                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
+                <span *ngIf="edited" [matTooltip]="thread.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
+                <!-- <span>{{ thread._id }}</span> -->
+            </div>
     </div>
-    <div class="app-message-header-actions">
-        <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
-            <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
-        </a>
-        <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
-            <button *ngIf="canEditMessage" mat-menu-item aria-label="Edit message" (click)="editor.edit()">
-                <span>Edit message</span>
-            </button>
-            <button *ngIf="canDeleteMessage" mat-menu-item aria-label="Delete message" (click)="removeMessage()">
-                <span class="app-message-delete-btn-label">Delete message</span>
-            </button>
-            <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button>
-        </mat-menu>
-    </div> -->
+    <div class="app-thread-header-reply-button">
+    </div>
+    <div class="app-thread-header-actions">
+        <div *ngIf="showThreadActions">
+            <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
+                <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+            </a>
+            <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+                <!-- <button mat-menu-item aria-label="Edit thread" (click)="">
+                    <span>Edit thread</span>
+                </button> -->
+                <button mat-menu-item aria-label="Delete thread" (click)="removeThread()">
+                    <span class="app-thread-delete-btn-label">Delete thread</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
 </div>

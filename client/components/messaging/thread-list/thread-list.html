@@ -2,6 +2,6 @@
     <button mat-raised-button class="app-button app-button-landing thread-button" (click)="onStartADiscussion()">+ Start a discussion</button>
     <thread-new *ngIf="showNewThreadForm" [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)"></thread-new>
     <mat-list-item *ngFor="let thread of threads">
-        <thread-preview class="thread-detail" [thread]="thread"></thread-preview>
+        <thread-preview class="thread-detail" [thread]="thread" (deleteThread)="onDeleteThread($event)"></thread-preview>
     </mat-list-item>
 </mat-list>

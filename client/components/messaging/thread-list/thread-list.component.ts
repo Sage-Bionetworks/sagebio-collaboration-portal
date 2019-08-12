@@ -69,6 +69,14 @@ export class ThreadListComponent implements OnDestroy, OnInit {
             });
     }
 
+    onDeleteThread(): void {
+        if (this.entityId) {
+            this.loadThreadsForEntity(this.entityId, this.entityType);
+        } else {
+            this.loadThreads();
+        }
+    }
+
     onNewThread(thread: Thread): void {
         this.showNewThreadForm = false;
         if (this.entityId) {

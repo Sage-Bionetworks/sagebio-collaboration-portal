@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } fro
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { NotificationService } from 'components/notification/notification.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
 import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
 import { MessagingService } from '../messaging.service';
@@ -26,6 +27,7 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     @Input() private showReplyButton = true;
     @Input() private showStartThreadButton = true;
+    @Output() deleteThread: EventEmitter<Thread> = new EventEmitter<Thread>();
 
     private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
     private tooltipPosition = 'above';
@@ -42,12 +44,17 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     private tooltipShowDelay: number;
     private avatarSize = 40;
 
-    static parameters = [FormBuilder, NotificationService, MessagingService,
-        MessagingDataService];
+    // More actions
+    private canDeleteThread = false;
+    private canEditThread = false;
+
+    static parameters = [FormBuilder, NotificationService, MessagingService, MessagingDataService, UserPermissionDataService];
     constructor(private formBuilder: FormBuilder,
         private notificationService: NotificationService,
         private messagingService: MessagingService,
-        private messagingDataService: MessagingDataService) {
+        private messagingDataService: MessagingDataService,
+        private userPermissionDataService: UserPermissionDataService
+        ) {
 
         this.form = formBuilder.group({
             _id: [''],
@@ -65,6 +72,15 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.avatarSize = config.avatar.size.mini;
+
+        this.userPermissionDataService.permissions()
+            .subscribe(permissions => {
+                // Eventually permissions should be implemented for user editing of threads
+                this.canDeleteThread = permissions.isAdmin();
+                this.canEditThread = permissions.isAdmin();
+                // this.showThreadActions = this.canDeleteThread || this.canEditThread;
+        })
+
     }
 
     ngOnInit() { }
@@ -74,6 +90,10 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     ngOnDestroy() {
         if (this.threadSub) this.threadSub.unsubscribe();
         if (this.getThreadSub) this.getThreadSub.unsubscribe();
+    }
+
+    get showThreadActions() {
+        return this.canDeleteThread || this.canEditThread;
     }
 
     get thread() {
@@ -90,6 +110,17 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
         if (!this.getThreadSub) {
             this.getThreadSub.unsubscribe();
         }
+    }
+
+    removeThread(): void {
+        this.messagingService.removeThread(this.thread)
+            .subscribe(() => {
+                this.deleteThread.emit();
+            },
+                err => {
+                    console.log(err);
+                    this.notificationService.error('Unable to remove the thread');
+                });
     }
 
     showThread(): void {
