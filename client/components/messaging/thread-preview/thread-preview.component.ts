@@ -34,6 +34,8 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
     @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
     @ViewChild(MessageReplyButtonComponent, { static: false }) replyButton: MessageReplyButtonComponent;
 
+    private message: Message;
+    private excerpt: string;
     private starred: Observable<boolean>;
     private numReplies: Observable<number>;
 
@@ -67,6 +69,14 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
                     let createdAt = new Date(thread.createdAt);
                     let updatedAt = new Date(thread.updatedAt);
                     this.edited = (updatedAt.getTime() - createdAt.getTime()) > MESSAGE_EDITED_DELTA_T;
+
+                    this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
+                        this.message = messages[0];
+
+                        // Parse the stringified text stored in this.message.body as the excerpt for our thread
+                        const body = JSON.parse(this.message.body);
+                        this.excerpt = <string>Object.values(body.ops[0])[0];
+                    });
                 }
             });
 

@@ -24,7 +24,7 @@ import { Thread } from '../auth/thread.model';
  */
 export interface Message {
     _id: string;
-    body: string;
+    body: string | any;
     thread: Thread | string;
     createdAt: string;
     updatedAt: string;

@@ -26,7 +26,7 @@
 
     .app-thread-header-metadata-line {
         align-items: flex-end;
-    }
+        }
 
     .app-thread-header-title {
         font-size: 18px;
@@ -40,6 +40,13 @@
         font-weight: 400;
         font-size: 11px;
         line-height: 13px;
+
+        width: 300px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
     }
 
     .app-thread-header-time {
