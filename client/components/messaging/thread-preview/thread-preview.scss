@@ -7,13 +7,9 @@
     border-style: solid;
     padding: 6px 12px 6px 12px;
 
-    .app-thread-header-avatar {
-        padding-right: 10px;
-    }
-
     .app-thread-header-metadata {
         display: flex;
-        flex: 0 0 95%; /* Make this column as wide as possible before displaying More Actions */
+        flex: 0 0 80%;
         flex-flow: column nowrap;
         align-items: flex-start;
         padding-right: 8px;
@@ -29,10 +25,17 @@
         font-size: 14px;
         font-weight: bold;
         padding-right: 6px;
+        padding-left: 3px;
     }
 
     .app-thread-header-time {
         font-size: 13px;
+    }
+
+    .app-thread-header-open-thread {
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
     }
 
     .app-thread-header-actions {
@@ -40,15 +43,5 @@
         flex-flow: row nowrap;
         flex-grow: 1;
         justify-content: flex-end;
-    }
-
-    .app-message-header-reply-button {
-        display: flex;
-        flex-grow: 1;
-        justify-content: flex-end;
-    }
-
-    .app-message-actions-update-btn {
-        margin: 10px 0 6px 0;
     }
 }

@@ -5,9 +5,13 @@
                 <span class="app-thread-header-author">{{ thread.title }}</span>
             </div>
             <div class="app-thread-header-metadata-line">
+                Created by
                 <span class="app-thread-header-author">{{ thread.createdBy.username }}</span>
-                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
+                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | dateAndTime }}</span>
             </div>
+    </div>
+    <div class="app-thread-header-open-thread">
+        <button mat-raised-button class="app-button app-button-landing thread-button" (click)="showThread()">Open thread</button>
     </div>
     <div class="app-thread-header-actions">
         <div *ngIf="showThreadActions">
