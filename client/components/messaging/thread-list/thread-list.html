@@ -1,7 +1,7 @@
 <mat-list class="thread-list">
     <button mat-raised-button class="app-button app-button-landing thread-button" (click)="onStartADiscussion()">+ Start a discussion</button>
     <thread-new *ngIf="showNewThreadForm" [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)"></thread-new>
-    <thread-date-separator *ngIf="threads" class="thread-date-separator" [isoDate]="threads[0].createdAt"></thread-date-separator>
+    <thread-date-separator *ngIf="threads && threads[0]" class="thread-date-separator" [isoDate]="threads[0].createdAt"></thread-date-separator>
     <ng-template *ngIf="threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
         <thread-date-separator *ngIf="first && !(thread.createdAt | sameDay: thread.createdAt)" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
         <thread-date-separator *ngIf="!first && !(thread.createdAt | sameDay: (threads)[i-1].createdAt)" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
