@@ -25,11 +25,18 @@
         align-items: flex-end;
     }
 
-    .app-thread-header-author {
-        font-size: 14px;
-        font-weight: bold;
+    .app-thread-header-title {
+        font-size: 18px;
+        font-weight: 500;
         padding-right: 6px;
-        padding-left: 3px;
+    }
+
+    .app-thread-header-subtitle {
+        color: #232F34;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
     }
 
     .app-thread-header-time {

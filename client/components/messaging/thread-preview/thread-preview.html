@@ -3,12 +3,13 @@
     <user-avatar class="app-thread-header-avatar" [user]="thread.createdBy" [size]="avatarSize"></user-avatar>
     <div class="app-thread-header-metadata" (click)="showThread()">
             <div class="app-thread-header-metadata-line">
-                <span class="app-thread-header-author">{{ thread.title }}</span>
+                <span class="app-thread-header-title">{{ thread.title }}</span>
+                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
             </div>
             <span class="app-thread-header-metadata-line">
-                Created by
-                <span class="app-thread-header-author">{{ thread.createdBy.username }}</span>
-                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
+                <span class="app-thread-header-subtitle">
+                    Here would be a summary sentence; one that has the exact length of one-hundred characters to review.
+                </span>
             </span>
     </div>
     <div class="app-thread-header-open-thread">
