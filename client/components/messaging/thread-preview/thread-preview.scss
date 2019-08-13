@@ -9,17 +9,19 @@
     margin-top: 10px;
     margin-bottom: 10px;
 
+    .app-thread-header-avatar {
+        padding-right: 10px;
+      }
+
     .app-thread-header-metadata {
         display: flex;
-        flex: 0 0 80%;
         flex-flow: column nowrap;
+        flex-grow: 1;
         align-items: flex-start;
         padding-right: 8px;
     }
 
     .app-thread-header-metadata-line {
-        display: flex;
-        flex-flow: row nowrap;
         align-items: flex-end;
     }
 
@@ -43,7 +45,7 @@
     .app-thread-header-actions {
         display: flex;
         flex-flow: row nowrap;
-        flex-grow: 1;
         justify-content: flex-end;
+        padding-right: 4px;
     }
 }
