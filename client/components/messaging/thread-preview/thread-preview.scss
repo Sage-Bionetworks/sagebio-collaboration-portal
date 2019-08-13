@@ -8,6 +8,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
 
+    &:hover {
+        background-color: azure;
+    }
+
     .app-thread-header-avatar {
         padding-right: 10px;
       }
