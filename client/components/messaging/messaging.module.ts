@@ -16,6 +16,7 @@ import { ThreadPreviewComponent} from './thread-preview/thread-preview.component
 import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
 import { ThreadNewComponent } from './thread-new/thread-new.component'
 import { ThreadListComponent } from './thread-list/thread-list.component';
+import { ThreadDateSeparatorComponent } from './thread-date-separator/thread-date-separator.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
@@ -57,6 +58,7 @@ import { SocketService } from 'components/socket/socket.service';
         ThreadSidenavComponent,
         ThreadNewComponent,
         ThreadListComponent,
+        ThreadDateSeparatorComponent,
         StarredMessageListComponent,
         MessageDateSeparatorComponent
     ],
