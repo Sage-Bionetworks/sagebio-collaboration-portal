@@ -1,5 +1,6 @@
 node_modules
 public
+.angulardoc.json
 .tmp
 .sass-cache
 .idea
