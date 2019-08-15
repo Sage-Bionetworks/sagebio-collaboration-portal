@@ -1,18 +1,21 @@
 import mongoose from 'mongoose';
 import {
     registerEvents
-} from './message.events';
+} from './thread.events';
 import User from '../user/user.model';
-// import BaseMessage from './base-message.model';
 
-var MessageSchema = new mongoose.Schema({
-    body: {
+var ThreadSchema = new mongoose.Schema({
+    title: {
         type: String,
         required: true
     },
-    thread: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Thread'
+    entityId: {
+        type: String,
+        required: false
+    },
+    entityType: {
+        type: String,
+        required: false
     },
     createdAt: {
         type: Date,
@@ -38,14 +41,14 @@ var MessageSchema = new mongoose.Schema({
  */
 
 // Whether the current user has starred the message.
-// MessageSchema
+// ThreadSchema
 //     .virtual('starred')
 //     .get(() => {
 //
 //     });
 
-// MessageSchema.set('toObject', { getters: true });
-// MessageSchema.set('toJSON', { getters: true });
+// ThreadSchema.set('toObject', { getters: true });
+// ThreadSchema.set('toJSON', { getters: true });
 
 /**
  * Middlewares
@@ -54,7 +57,6 @@ var MessageSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)
-        .populate('thread');
     // .populate('tags');
     next();
 };
@@ -67,23 +69,21 @@ const autoPopulatePre = function (next) {
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
-        .populate('thread')
         // .populate('tags')
-        // .execPopulate();
-
+        .execPopulate();
 };
 
-// MessageSchema.pre('save', function (next) {
+// ThreadSchema.pre('save', function (next) {
 //     this.updatedAt = Date.now();
 //     next();
 // });
 
-MessageSchema
+ThreadSchema
     .pre('find', autoPopulatePre);
 // .pre('save', updateUpdatedAt);
 
-MessageSchema
+ThreadSchema
     .post('save', autoPopulatePost);
 
-registerEvents(MessageSchema);
-export default mongoose.model('Message', MessageSchema);
+registerEvents(ThreadSchema);
+export default mongoose.model('Thread', ThreadSchema);

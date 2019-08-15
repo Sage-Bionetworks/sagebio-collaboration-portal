@@ -10,30 +10,40 @@ import { ObjectValidators } from '../../validation/object-validators';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
+import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import config from '../../../app/app.constants';
 
 @Component({
-    selector: 'message-new',
-    template: require('./message-new.html'),
-    styles: [require('./message-new.scss')],
+    selector: 'thread-new',
+    template: require('./thread-new.html'),
+    styles: [require('./thread-new.scss')],
 })
-export class MessageNewComponent implements OnInit {
-    @Input() private message: Message;
-    @Output() newMessage: EventEmitter<Message> = new EventEmitter<Message>();
+export class ThreadNewComponent implements OnInit {
+    @Input() entityId: string;
+    @Input() entityType: string;
+    @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
 
+    private thread: Thread;
     private messageSpecs: {};
     private form: FormGroup;
     private errors = {
         createNewMessage: undefined
     };
 
-    static parameters = [FormBuilder, NotificationService, MessagingService];
+    static parameters = [FormBuilder, NotificationService, MessagingService, SecondarySidenavService];
     constructor(private formBuilder: FormBuilder,
         private notificationService: NotificationService,
-        private messagingService: MessagingService) {
+        private messagingService: MessagingService,
+        private secondarySidenavService: SecondarySidenavService,
+        ) {
 
         this.messageSpecs = config.models.message;
         this.form = formBuilder.group({
+            title: ['', [
+                Validators.required,
+                ObjectValidators.jsonStringifyMinLength(config.models.message.title.minlength),
+                ObjectValidators.jsonStringifyMaxLength(config.models.message.title.maxlength)
+            ]],
             body: ['', [
                 Validators.required,
                 ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
@@ -55,18 +65,44 @@ export class MessageNewComponent implements OnInit {
             });
     }
 
-    addMessageToThread(): void {
+    addThread(): void {
+        let newThread = this.form.value;
+
+        // Add entity-specific details where applicable
+        if (this.entityId) {
+            newThread.entityId = this.entityId;
+            newThread.entityType = this.entityType || config.entityTypes.PROJECT.value; // DEFAULT entity type is project
+        }
+
+        this.messagingService.addThread(newThread)
+            .subscribe(thread => {
+                this.newThread.emit(thread);
+                this.thread = thread;
+
+                // Once the thread has been created successfully, create the message
+                this.addMessage();
+            })
+    }
+
+    addMessage(): void {
         let newMessage = this.form.value;
         newMessage.body = JSON.stringify(this.form.get('body').value);
-        newMessage.thread = this.message.thread;
-
-        this.messagingService.addMessageToThread(newMessage, newMessage.thread)
+        if (this.thread) {
+            newMessage.thread = this.thread;
+        }
+        this.messagingService.addMessage(newMessage)
             .subscribe(message => {
-              this.newMessage.emit(message);
-              this.form.reset();
+                // // Load the newly created thread in the sidebar
+                // this.messagingService.showThread(this.thread);
             }, err => {
                 console.log('ERROR', err);
                 this.errors.createNewMessage = err.message;
             });
     }
+
+    close(): void {
+        this.secondarySidenavService.close();
+        this.secondarySidenavService.destroyContentComponent();
+    }
+
 }

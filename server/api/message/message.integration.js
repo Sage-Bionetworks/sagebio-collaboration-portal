@@ -6,7 +6,7 @@ import User from '../user/user.model';
 import Organization from '../organization/organization.model';
 import {
     organizations
-} from '../../config/seeds';
+} from '../../config/seeds/default/organizations';
 
 var newMessage;
 
@@ -228,4 +228,12 @@ describe('Message API:', function () {
                 });
         });
     });
+
+    // Threads
+    // POST /messages/threads/  -> Create a new thread and a new message ID that is not associated with an entity ID
+    // GET /messages/threads/   -> Get all threads that are not associated with an entity ID
+    // POST /messages/threads/:id    -> Add a Message to a specific thread ID not associated with an entity ID
+    // GET /messages/threads/messages/:id   -> Get messages from a specific thread ID not associated with an entity ID
+    // GET /messages/threads/entity/:entityId   -> Get all threads for a specific entity ID
+
 });

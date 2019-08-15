@@ -11,7 +11,8 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import Message from './message.model'
+import Thread from './thread.model';
+import Message from './message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
@@ -193,6 +194,105 @@ export function indexReplies(req, res) {
 // }
 
 /**
+ * Threads
+ */
+
+// Test
+export function test(req, res) { // Use to test routing
+    // console.log(`[TEST] req.body: ${JSON.stringify(req.body, null, 2)}`);
+    const result = {
+        originalUrl: req.originalUrl,
+        route: req.route,
+        params: req.params,
+        body: req.body,
+    };
+    return res.status(200).json(result);
+}
+
+// Get a list of Threads that are not associated with an entity
+export function indexThreads(req, res) {
+    return Thread.find({
+        entityId: {
+            $exists: false,
+        },
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Get a list of Threads for an entity
+export function indexThreadsForEntity(req, res) {
+    return Thread.find({
+        entityId: req.params.entityId,
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Deletes a Thread from the DB
+export function destroyThread(req, res) {
+    // Remove all messages associated with a thread
+    try {
+        removeMessagesForThread(req.params.id);
+    } catch (e) {
+        console.error(`Error removing messages associated with thread ID ${req.params.id} - ${e}`);
+    }
+
+    // Remove the thread
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeThread(res))
+        .catch(handleError(res));
+}
+
+// Get a list of Threads that are not associated with an entity
+export function showMessagesForThread(req, res) {
+    return Message.find({
+        thread: {
+            _id: req.params.id,
+        }
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Creates a new Thread in the DB
+export function createThread(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(user => {
+            return Thread.create({
+                ...req.body,
+                createdBy: user._id
+            });
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// Add a message to a public thread
+export function addMessageToThread(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(user => {
+            return Message.create({
+                ...req.body,
+                createdBy: user._id
+            });
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+/**
  * Helper functions
  */
 
@@ -222,6 +322,21 @@ function removeMessage(res) {
         if (entity) {
             return entity.remove()
                 .then(removeStars(entity))
+                .then(() => res.status(204).end());
+        }
+    };
+}
+
+function removeMessagesForThread(threadId) {
+    return Message.deleteMany({ thread: threadId})
+        .exec();
+}
+
+function removeThread(res) {
+    return function (entity) {
+        if (entity) {
+            return entity.remove()
+                // .then(removeStars(entity))
                 .then(() => res.status(204).end());
         }
     };

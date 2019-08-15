@@ -1,18 +1,20 @@
-import { UserProfile } from '../auth/user-profile.model';
-import { Thread } from '../auth/thread.model';
+import { UserProfile } from "./user-profile.model";
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     Message:
+ *     Thread:
  *       type: object
  *       properties:
  *         _id:
  *           type: string
- *         thread:
- *           type: string | object
- *           $ref: '#/components/schemas/Thread'
+ *         title:
+ *           type: string
+ *         entityId:
+ *           type: string
+ *         entityType:
+ *           type: string
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -22,10 +24,11 @@ import { Thread } from '../auth/thread.model';
  *         createdBy:
  *           $ref: '#/components/schemas/UserProfile'
  */
-export interface Message {
+export interface Thread {
     _id: string;
-    body: string | any;
-    thread: Thread | string;
+    title: string;
+    entityId: string;
+    entityType: string;
     createdAt: string;
     updatedAt: string;
     createdBy: UserProfile;

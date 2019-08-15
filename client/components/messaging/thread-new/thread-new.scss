@@ -1,0 +1,38 @@
+.app-thread-header {
+    padding-left: 10px;
+}
+
+.app-thread-header-title {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
+}
+
+.app-thread-header-close {
+    margin: 0 10px 0 0;
+}
+
+.app-thread-new-card {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 10px;
+
+    .app-thread-new-card-form {
+        display: flex;
+        flex-flow: column nowrap;
+        margin: 20px;
+    }
+
+    .app-thread-new-form-field {
+        margin-bottom: 10px;
+    }
+
+    .app-thread-new-form-actions {
+        margin-top: 20px;
+    }
+}
+
+.app-thread-new-description-editor {
+    margin-bottom: 20px;
+}

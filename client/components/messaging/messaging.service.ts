@@ -8,13 +8,14 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { StarredMessage } from 'models/messaging/starred-message.model';
 import { NumberValue } from 'models/number-value.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { SecondarySidenavService } from '../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
+import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
 
 @Injectable()
 export class MessagingService {
@@ -22,6 +23,53 @@ export class MessagingService {
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
+
+    /**
+     * Threads
+     */
+    addThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.post<Thread>('/api/messages/threads', thread);
+    }
+
+    getThreads(query?: {}): Observable<Thread[]> {
+        return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
+            .pipe(
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
+            );
+    }
+
+    getThreadsByEntity(entityId: string): Observable<Thread[]> {
+        return this.httpClient.get<Thread[]>(`/api/messages/threads/entity/${entityId}`)
+            .pipe(
+                map(threads => orderBy(['createdAt'], ['asc'], threads))
+            );
+    }
+
+    removeThread(thread: Thread): Observable<void> {
+        return this.httpClient.delete<void>(`/api/messages/threads/${thread._id}`);
+    }
+
+    showThread(thread: Thread): void {
+        let sidenavContentId = `thread:${thread._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ThreadSidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ThreadSidenavComponent))
+                .setThread(thread);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
+
+    getMessagesForThread(threadId: string): Observable<Message[]> {
+        return this.httpClient.get<Message[]>(`/api/messages/threads/messages/${threadId}`)
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
+            );
+    }
+
+    addMessageToThread(message: Message, thread: Thread): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/messages/threads/${thread._id}`, message);
+    }
 
     /**
      * Messages
@@ -52,17 +100,6 @@ export class MessagingService {
 
     removeMessage(message: Message): Observable<void> {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);
-    }
-
-    showThread(message: Message): void {
-        let sidenavContentId = `thread:${message._id}`;
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ThreadSidenavComponent>this.secondarySidenavService
-                .loadContentComponent(ThreadSidenavComponent))
-                .setMessage(message);
-            this.secondarySidenavService.setContentId(sidenavContentId);
-        }
-        this.secondarySidenavService.open();
     }
 
     /**

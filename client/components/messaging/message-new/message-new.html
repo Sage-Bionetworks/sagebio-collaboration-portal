@@ -1,5 +1,5 @@
 <form [formGroup]="form" novalidate>
-    <app-quill-editor class="app-message-new-editor" #editor [isReadOnly]="false" [showActions]="false" placeholder="Start a new thread" [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
+    <app-quill-editor class="app-message-new-editor" #editor [isReadOnly]="false" [showActions]="false" placeholder="Your message..." [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
     <mat-error *ngIf="form.controls.body.errors?.jsonStringifyMaxLength">
         This message must be smaller than {{ form.controls.body.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value: {{ form.controls.body.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
     </mat-error>
@@ -7,6 +7,6 @@
         {{ errors.createNewMessage }}
     </mat-error>
     <div class="app-message-new-actions">
-        <a class="app-message-new-push-button" mat-raised-button color="primary" [disabled]="form.invalid" (click)="form.invalid || addMessage()">Push</a>
+        <a class="app-message-new-push-button" mat-raised-button color="primary" [disabled]="form.invalid" (click)="form.invalid || addMessageToThread()">Reply to thread</a>
     </div>
 </form>

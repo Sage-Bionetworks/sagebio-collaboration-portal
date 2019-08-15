@@ -1,0 +1,22 @@
+/* Override Material UI styling for proper spacing between thread details */
+.mat-list-base {
+    .mat-list-item {
+        height: 100%;
+    }
+}
+
+.thread-button {
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.thread-list {
+    height: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.thread-detail {
+    width: 100%;
+    padding-bottom: 10px;
+}

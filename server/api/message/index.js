@@ -4,6 +4,35 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+import {
+    accessTypes,
+} from '../../config/environment';
+const ADMIN_ACCESS = accessTypes.ADMIN.value;
+const READ_ACCESS = accessTypes.READ.value;
+const WRITE_ACCESS = accessTypes.WRITE.value;
+
+/**
+ * Threads API
+ */
+
+// POST /messages/threads/ - Create a new thread not associated with an entity
+router.post('/threads', auth.isAuthenticated(), controller.createThread);
+
+// GET /messages/threads/ - Get all threads not associated with an entity
+router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
+
+// POST /messages/threads/:id - Specific thread not associated with an entity
+router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
+
+// DELETE /messages/threads/:id - Delete a specific thread ID
+router.delete('/threads/:id', auth.hasRole(ADMIN_ACCESS), controller.destroyThread);
+
+// GET /messages/threads/messages/:id - Messages for a specific thread not associated with an entity
+router.get('/threads/messages/:id', auth.isAuthenticated(), controller.showMessagesForThread);
+
+// GET /messages/threads/entity/:entityId - All threads for an entity
+router.get('/threads/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexThreadsForEntity);
+
 /**
  * @swagger
  * /messages:

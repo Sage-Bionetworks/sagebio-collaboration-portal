@@ -1,0 +1,36 @@
+.app-thread-header {
+    padding-left: 10px;
+}
+
+.app-thread-header-title {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
+}
+
+.app-thread-header-close {
+    margin: 0 10px 0 0;
+}
+
+.message-date-separator {
+    margin: 20px 0 20px 0;
+}
+
+.app-thread-body {
+    margin: 10px 10px 10px 10px;
+
+    .app-thread-title {
+        font-size: 26px;
+    }
+
+    .app-thread-time {
+        font-size: 13px;
+    }
+
+    .app-thread-author {
+        font-size: 14px;
+        font-weight: bold;
+        padding-right: 6px;
+    }
+}

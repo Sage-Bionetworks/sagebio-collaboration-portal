@@ -19,6 +19,9 @@ import {
     messages
 } from './messages';
 import {
+    threads
+} from './threads';
+import {
     projects
 } from './projects'
 import {
@@ -43,6 +46,9 @@ import {
     userPermissions
 } from './user-permissions';
 import {
+    organizations
+} from './organizations';
+import {
     webapps
 } from './webapps';
 
@@ -51,6 +57,7 @@ module.exports = {
     dataCatalogs: dataCatalogs,
     dashboards: dashboards,
     entityPermissions: entityPermissions,
+    threads: threads,
     memos: memos,
     messages: messages,
     projects: projects,
@@ -61,5 +68,6 @@ module.exports = {
     tools: tools,
     users: users,
     userPermissions: userPermissions,
+    organizations: organizations,
     webapps: webapps,
 };

@@ -7,6 +7,7 @@ import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import Thread from '../api/message/thread.model';
 import Memo from '../api/insight/models/memo.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
@@ -71,6 +72,13 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating entity permissions', err));
     promises.push(promise);
 
+    promise = Thread.find({}).deleteMany()
+        .then(() => seeds.threads ? Thread
+            .create(seeds.threads)
+            .then(() => console.log('finished populating threads')) : null
+        )
+        .catch(err => console.log('error populating threads', err));
+    promises.push(promise);
 
     promise = Memo.find({}).deleteMany()
         .then(() => seeds.memos ? Memo

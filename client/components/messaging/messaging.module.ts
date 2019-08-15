@@ -12,12 +12,16 @@ import { MessageNewComponent } from './message-new/message-new.component';
 import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
-import { ThreadSidenavComponent } from './thread/thread-sidenav/thread-sidenav.component';
-import { MessagingViewComponent } from './messaging-view/messaging-view.component';
+import { ThreadPreviewComponent} from './thread-preview/thread-preview.component'
+import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
+import { ThreadNewComponent } from './thread-new/thread-new.component'
+import { ThreadListComponent } from './thread-list/thread-list.component';
+import { ThreadDateSeparatorComponent } from './thread-date-separator/thread-date-separator.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';
 import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 import { AppQuillModule } from '../quill/app-quill.module';
+import { SocketService } from 'components/socket/socket.service';
 
 @NgModule({
     imports: [
@@ -41,7 +45,8 @@ import { AppQuillModule } from '../quill/app-quill.module';
     ],
     providers: [
         MessagingService,
-        MessagingDataService
+        MessagingDataService,
+        SocketService,
     ],
     declarations: [
         MessageComponent,
@@ -49,15 +54,19 @@ import { AppQuillModule } from '../quill/app-quill.module';
         MessageReplyButtonComponent,
         MessageStarArchiveButtonComponent,
         MessageStarButtonComponent,
+        ThreadPreviewComponent,
         ThreadSidenavComponent,
-        MessagingViewComponent,
+        ThreadNewComponent,
+        ThreadListComponent,
+        ThreadDateSeparatorComponent,
         StarredMessageListComponent,
         MessageDateSeparatorComponent
     ],
     exports: [
+        ThreadNewComponent,
         MessageComponent,
         MessageNewComponent,
-        MessagingViewComponent,
+        ThreadListComponent,
         StarredMessageListComponent
     ],
     entryComponents: [
