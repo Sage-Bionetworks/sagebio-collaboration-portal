@@ -1,1 +1,9 @@
-<span>Project insights</span>
+<entity-list
+  *ngIf="insights"
+  entityName="Insight"
+  entityRoute="/insights"
+  [entities]="insights"
+  [entityTypeFilters]="insightTypeFilters"
+  filterGroup="insightType"
+  (onFilterChange)="onFilterChange($event)"
+></entity-list>

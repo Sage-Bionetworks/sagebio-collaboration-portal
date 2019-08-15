@@ -7,6 +7,7 @@ import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import Memo from '../api/insight/models/memo.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
@@ -68,6 +69,15 @@ export function seedDatabaseIfNeeded() {
             .then(() => console.log('finished populating entity permissions')) : null
         )
         .catch(err => console.log('error populating entity permissions', err));
+    promises.push(promise);
+
+
+    promise = Memo.find({}).deleteMany()
+        .then(() => seeds.memos ? Memo
+            .create(seeds.memos)
+            .then(() => console.log('finished populating memos')) : null
+        )
+        .catch(err => console.log('error populating memos', err));
     promises.push(promise);
 
 

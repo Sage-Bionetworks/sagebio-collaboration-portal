@@ -26,6 +26,10 @@ import { ProjectDataService } from './project-data.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
 import { ProjectGuard } from './project-guard.service';
 
+import { InsightService } from 'components/insight/insight.service';
+
+import { EntityModule as EntityListModule } from '../../components/entity/entity.module'
+
 export const ROUTES: Routes = [{
     path: 'projects',
     component: ProjectListComponent,
@@ -53,14 +57,16 @@ export const ROUTES: Routes = [{
         MaterialModule,
         RouterModule.forChild(ROUTES),
         AppQuillModule,
-        EntityModule
+        EntityModule,
+        EntityListModule,
     ],
     providers: [
         SocketService,
         ProjectService,
         ProjectDataService,
         ProjectSidenavService,
-        ProjectGuard
+        ProjectGuard,
+        InsightService
     ],
     declarations: [
         ProjectComponent,

@@ -1,15 +1,19 @@
-.app-report-container {
+:host {
+  display: flex;
+}
+
+.entity-container {
   display: flex;
   flex-flow: column nowrap;
   width: 200px;
   margin: 25px;
 }
 
-.app-report-container:hover {
+.entity-container:hover {
   cursor: pointer;
 }
 
-.app-report-container > picture {
+.entity-container > picture {
   display: flex;
   flex-grow: 1;
   justify-content: center;
@@ -28,13 +32,13 @@
   }
 }
 
-// .app-report-card-footer {
-//   display: flex;
-//   flex-direction: row nowrap;
-//   justify-content: space-between;
-// }
+.entity-card-footer {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+}
 
-.app-report-title {
+.entity-name {
   font-size: 15px;
   line-height: 20px;
   overflow: hidden;
@@ -49,23 +53,23 @@
   position: relative;
 }
 
-.app-report-metadata-container {
+.entity-metadata-container {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
 }
 
-// .app-report-metadata-row-container {
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-// }
+.entity-metadata-row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  word-break: break-word;
+}
 
-// .app-report-metadata-row-container > mat-icon {
-//   margin-right: 10px;
-// }
+.entity-metadata-row-container > mat-icon {
+  margin-right: 10px;
+}
 
-// .app-report-metadata-row-container-date {
-//   @extend .app-report-metadata-row-container;
-//   margin-bottom: 10px;
-// }
+.entity-metadata-row-container-date {
+  @extend .entity-metadata-row-container;
+  margin-bottom: 10px;
+}
