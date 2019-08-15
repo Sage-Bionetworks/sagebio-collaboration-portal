@@ -1,7 +1,7 @@
 import { Component, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
+import { flow, keyBy, mapValues, values } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceService } from 'components/provenance/provenance.service';
@@ -10,7 +10,6 @@ import { User } from 'models/auth/user.model';
 import config from '../../../../client/app/app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
-import { ThenableWebDriver } from 'selenium-webdriver';
 
 type EntityOrUser = Entity | User;
 
@@ -47,7 +46,6 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 if (this.checkIfUser(this.root)) {
                     this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            console.log(activity);
                             this.provenanceGraph = activity;
                         });
                 } else {
@@ -57,7 +55,6 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                             direction.activityDirection,
                             'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            console.log(activity);
                             this.provenanceGraph = activity;
                         });
                 }
@@ -65,7 +62,9 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy() {
-        this.socketService.unsyncUpdates(`activity:${this.root._id}:entity`);
+        if (this.root) {
+            this.socketService.unsyncUpdates(`activity:${this.root._id}:entity`);
+        }
     }
 
     setRoot(root: EntityOrUser): void {
