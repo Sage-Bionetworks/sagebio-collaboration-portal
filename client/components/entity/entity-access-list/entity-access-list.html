@@ -13,8 +13,8 @@
                 <p matLine>{{ perm.user.username }}</p>
 
                 <mat-chip-list  class="app-entity-access-list-status">
-                  <mat-chip *ngIf="isPending(perm)" color="warn">Pending</mat-chip>
-                  <mat-chip *ngIf="isDeclined(perm)" color="warn">Declined</mat-chip>
+                  <mat-chip *ngIf="isPending(perm)" color="warn" selected>Pending</mat-chip>
+                  <mat-chip *ngIf="isDeclined(perm)" color="warn" selected>Declined</mat-chip>
                 </mat-chip-list>
 
                 <mat-select class="app-entity-access-list-access" [disabled]="disableAccessMenu(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
