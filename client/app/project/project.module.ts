@@ -28,6 +28,9 @@ import { ProjectGuard } from './project-guard.service';
 
 import { InsightService } from 'components/insight/insight.service';
 
+import { InsightModule } from 'components/insight/insight.module'
+import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
+
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module'
 
 export const ROUTES: Routes = [{
@@ -43,6 +46,7 @@ export const ROUTES: Routes = [{
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: 'dashboard', component: ProjectDashboardComponent },
         { path: 'insights', component: ProjectInsightsComponent },
+        { path: 'insights/:insightId', component: InsightPageComponent },
         { path: 'resources', component: ProjectResourcesComponent },
         { path: 'discussion', component: ProjectDiscussionComponent },
         { path: 'settings', component: ProjectSettingsComponent }
@@ -59,6 +63,7 @@ export const ROUTES: Routes = [{
         AppQuillModule,
         EntityModule,
         EntityListModule,
+        InsightModule,
     ],
     providers: [
         SocketService,

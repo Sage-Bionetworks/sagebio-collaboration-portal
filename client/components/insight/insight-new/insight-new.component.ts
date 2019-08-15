@@ -4,8 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InsightService } from 'components/insight/insight.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../app.constants';
+import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
+import { ProjectDataService } from '../../../app/project/project-data.service';
+import { Project } from 'models/project.model';
+
 
 @Component({
     selector: 'insight-new',
@@ -18,19 +21,21 @@ export class InsightNewComponent {
     private errors = {
         newInsight: undefined
     };
+    private project: Project;
 
     @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        InsightService, CaptureProvenanceActivityService];
+        InsightService, CaptureProvenanceActivityService, ProjectDataService];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,
-        private captureProvActivity: CaptureProvenanceActivityService) {
+        private captureProvActivity: CaptureProvenanceActivityService,
+        private projectDataService: ProjectDataService) {
 
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
@@ -48,23 +53,29 @@ export class InsightNewComponent {
                 Validators.maxLength(config.models.insight.description.maxlength)
             ]],
         });
+
+        this.projectDataService.project()
+            .subscribe(project => {
+                this.project = project;
+            })
     }
 
     createNewInsight(): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        // this.insightService.create(newInsight)
-        //     .subscribe(insight => {
-        //         this.newInsight.emit(insight);
-        //         this.captureProvActivity.save({
-        //             generatedName: insight.title,
-        //             generatedTargetId: insight._id,
-        //             generatedClass: 'Insight',
-        //             generatedSubClass: insight.insightType
-        //         });
-        //     }, err => {
-        //         console.log(err);
-        //         this.errors.newInsight = err.message;
-            // });
+        newInsight.projectId = this.project._id
+        this.insightService.create(newInsight)
+            .subscribe(insight => {
+                this.newInsight.emit(insight);
+                this.captureProvActivity.save({
+                    generatedName: insight.title,
+                    generatedTargetId: insight._id,
+                    generatedClass: 'Insight',
+                    generatedSubClass: insight.insightType
+                });
+            }, err => {
+                console.log(err);
+                this.errors.newInsight = err.message;
+            });
     }
 }

@@ -37,7 +37,7 @@ describe('Insight API Router:', function() {
   describe('GET /api/insights', function() {
     it('should route to insight.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', sinon.match.func, 'insightCtrl.index')
+        .withArgs('/', 'insightCtrl.index')
         ).to.have.been.calledOnce;
     });
   });
@@ -45,34 +45,34 @@ describe('Insight API Router:', function() {
   describe('GET /api/insights/:id', function() {
     it('should route to insight.controller.show', function() {
       expect(routerStub.get
-        .withArgs('/:id', sinon.match.func, 'insightCtrl.show')
+        .withArgs('/:id', 'insightCtrl.show')
         ).to.have.been.calledOnce;
     });
   });
 
-  // describe('POST /api/insights', function() {
-  //   it('should route to insight.controller.create', function() {
-  //     expect(routerStub.post
-  //       .withArgs('/', 'insightCtrl.create')
-  //       ).to.have.been.calledOnce;
-  //   });
-  // });
+  describe('POST /api/insights', function() {
+    it('should route to insight.controller.create', function() {
+      expect(routerStub.post
+        .withArgs('/', sinon.match.func, 'insightCtrl.create')
+        ).to.have.been.calledOnce;
+    });
+  });
 
-  // describe('PUT /api/insights/:id', function() {
-  //   it('should route to insight.controller.upsert', function() {
-  //     expect(routerStub.put
-  //       .withArgs('/:id', 'insightCtrl.upsert')
-  //       ).to.have.been.calledOnce;
-  //   });
-  // });
+  describe('PUT /api/insights/:id', function() {
+    it('should route to insight.controller.upsert', function() {
+      expect(routerStub.put
+        .withArgs('/:id', 'insightCtrl.upsert')
+        ).to.have.been.calledOnce;
+    });
+  });
 
-  // describe('PATCH /api/insights/:id', function() {
-  //   it('should route to insight.controller.patch', function() {
-  //     expect(routerStub.patch
-  //       .withArgs('/:id', 'insightCtrl.patch')
-  //       ).to.have.been.calledOnce;
-  //   });
-  // });
+  describe('PATCH /api/insights/:id', function() {
+    it('should route to insight.controller.patch', function() {
+      expect(routerStub.patch
+        .withArgs('/:id', 'insightCtrl.patch')
+        ).to.have.been.calledOnce;
+    });
+  });
 
   // describe('DELETE /api/insights/:id', function() {
   //   it('should route to insight.controller.destroy', function() {

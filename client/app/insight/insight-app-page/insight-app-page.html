@@ -1,0 +1,5 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" routerLink="/insights">keyboard_arrow_left</mat-icon>
+    <h1 *ngIf="insight">{{ insight.title }}</h1>
+</div>
+<insight-page (insightOutput)="setInsight($event)"></insight-page>

@@ -12,16 +12,14 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
-import { InsightViewComponent } from './insight-view/insight-view.component';
-import { InsightComponent } from './insight-page/insight.component';
-import { InsightNewComponent } from './insight-new/insight-new.component';
-import { ReportViewComponent } from './report-view/report-view.component';
+import { InsightAppPageComponent } from './insight-app-page/insight-app-page.component';
 
 import { InsightService } from 'components/insight/insight.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ProvenanceModule } from 'components/provenance/provenance.module';
 
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
+import { InsightModule as InsightComponentModule } from 'components/insight/insight.module';
 
 export const ROUTES: Routes = [{
     path: 'insights',
@@ -29,8 +27,8 @@ export const ROUTES: Routes = [{
     canActivate: [AuthGuard],
     data: {}
 }, {
-    path: 'insights/:id',
-    component: InsightComponent,
+    path: 'insights/:insightId',
+    component: InsightAppPageComponent,
     canActivate: [AuthGuard],
     data: {}
 }];
@@ -47,14 +45,12 @@ export const ROUTES: Routes = [{
         ShowActivityButtonModule,
         ActivitySidenavModule,
         ProvenanceModule,
-        EntityModule
+        EntityModule,
+        InsightComponentModule
     ],
     declarations: [
         InsightListComponent,
-        InsightViewComponent,
-        InsightComponent,
-        InsightNewComponent,
-        ReportViewComponent,
+        InsightAppPageComponent,
     ],
     providers: [
         SocketService,
@@ -62,8 +58,6 @@ export const ROUTES: Routes = [{
     ],
     exports: [
         InsightListComponent,
-        InsightViewComponent,
-        InsightComponent
     ],
     entryComponents: []
 })

@@ -9,7 +9,6 @@ import { Insight } from 'models/entities/insights/insight.model';
 })
 export class EntityViewComponent {
     private _entity: Insight;
-    @Input() entityRoute: string = ''
 
     static parameters = [Router];
     constructor(private router: Router) { }

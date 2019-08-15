@@ -107,8 +107,8 @@ export const models = {
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         type: {
-            values: ['Report', 'Memo'],
-            default: 'Report'
+            values: ['report', 'memo'],
+            default: 'report'
         }
     },
     resource: {

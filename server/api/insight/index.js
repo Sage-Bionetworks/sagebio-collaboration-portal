@@ -12,20 +12,18 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 
 var router = express.Router();
 
-// router.get('/', controller.index);
-// router.get('/:id', controller.show);
-// router.post('/', controller.create);
-// router.put('/:id', controller.upsert);
-// router.patch('/:id', controller.patch);
+router.get('/', controller.index);
+router.get('/:id', controller.show);
+router.post('/', auth.isAuthenticated(), controller.create);
+router.put('/:id', controller.upsert);
+router.patch('/:id', controller.patch);
 // router.delete('/:id', controller.destroy);
 
+// get insight by project id
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
-  READ_ACCESS,
-  WRITE_ACCESS,
-  ADMIN_ACCESS
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
 ]), controller.indexByEntity);
-
-router.get('/', auth.isAuthenticated(), controller.index);
-router.get('/:id', auth.isAuthenticated(), controller.show);
 
 module.exports = router;

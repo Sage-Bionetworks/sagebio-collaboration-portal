@@ -15,7 +15,6 @@ import { map } from 'rxjs/operators';
 })
 export class EntityListComponent implements AfterViewInit {
     @Input() entityName: string
-    @Input() entityRoute: string = ''
     @Input() entityTypeFilters: Filter[] = []
     @Input() filterGroup: string
     @Output() onFilterChange:EventEmitter<string>  = new EventEmitter<string>();
