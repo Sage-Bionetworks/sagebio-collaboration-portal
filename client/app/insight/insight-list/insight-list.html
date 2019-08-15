@@ -4,27 +4,20 @@
     </div>
 
     <div class="app-insight-list-container">
-        <div class="app-insight-list-filters-container">
-            <h3>Insight Type</h3>
-            <radio-button-filter [filters]="insightTypeFilters" group="insightType"></radio-button-filter>
-        </div>
-
-        <div class="app-insight-list-content-container">
-            <!-- <search-filter class="app-insight-list-search-filter" group="searchTerms"></search-filter> -->
-            <div class="app-insight-list-results">
-                <ng-template ngFor let-insight let-i="index" let-first="first" [ngForOf]="insights">
-                    <report-view *ngIf="insight.insightType === 'Report'" [report]="insight"></report-view>
-                </ng-template>
-
-                <!-- <insight-view *ngFor="let insight of insights" [insight]="insight"></insight-view> -->
-            </div>
-            <div class="app-insight-list-actions">
-                <a mat-raised-button color="primary" class="app-insight-list-new-project" (click)="createNewInsight=true" aria-label="Create insight">Create a New Insight</a>
-            </div>
-        </div>
+        <entity-list
+            *ngIf="insights"
+            entityName="Insight"
+            [entities]="insights"
+            [entityTypeFilters]="insightTypeFilters"
+            filterGroup="insightType"
+            (onFilterChange)="onFilterChange($event)"
+        ></entity-list>
+        <!-- <div class="app-insight-list-actions">
+            <a mat-raised-button color="primary" class="app-insight-list-new-project" (click)="createNewInsight=true" aria-label="Create insight">Create a New Insight</a>
+        </div> -->
     </div>
 </div>
 
-<ng-template #showNewInsightForm>
+<!-- <ng-template #showNewInsightForm>
     <insight-new (newInsight)="onNewInsight($event)" (close)="createNewInsight=false"></insight-new>
-</ng-template>
+</ng-template> -->

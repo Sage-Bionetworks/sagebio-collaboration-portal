@@ -53,7 +53,7 @@ describe('Insight API Router:', function() {
   describe('POST /api/insights', function() {
     it('should route to insight.controller.create', function() {
       expect(routerStub.post
-        .withArgs('/', 'insightCtrl.create')
+        .withArgs('/', sinon.match.func, 'insightCtrl.create')
         ).to.have.been.calledOnce;
     });
   });
@@ -74,11 +74,11 @@ describe('Insight API Router:', function() {
     });
   });
 
-  describe('DELETE /api/insights/:id', function() {
-    it('should route to insight.controller.destroy', function() {
-      expect(routerStub.delete
-        .withArgs('/:id', 'insightCtrl.destroy')
-        ).to.have.been.calledOnce;
-    });
-  });
+  // describe('DELETE /api/insights/:id', function() {
+  //   it('should route to insight.controller.destroy', function() {
+  //     expect(routerStub.delete
+  //       .withArgs('/:id', 'insightCtrl.destroy')
+  //       ).to.have.been.calledOnce;
+  //   });
+  // });
 });

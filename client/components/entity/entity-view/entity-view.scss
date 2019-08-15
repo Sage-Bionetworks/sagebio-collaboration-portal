@@ -1,38 +1,44 @@
-.insight-container {
+:host {
+  display: flex;
+}
+
+.entity-container {
   display: flex;
   flex-flow: column nowrap;
   width: 200px;
   margin: 25px;
 }
 
-.insight-container:hover {
+.entity-container:hover {
   cursor: pointer;
 }
 
-.insight-container > picture {
+.entity-container > picture {
   display: flex;
-  flex-direction: row;
+  flex-grow: 1;
   justify-content: center;
   align-items: center;
-  // min-height: 200px;
+  max-width: 200px;
+  min-height: 125px;
+  max-height: 125px;
 
   img {
     display: block;
     max-width: 200px;
-    max-height: 200px;
+    // min-height: 125px;
     width: auto;
     height: auto;
     align-self: center;
   }
 }
 
-.insight-card-footer {
+.entity-card-footer {
   display: flex;
   flex-direction: row nowrap;
   justify-content: space-between;
 }
 
-.insight-name {
+.entity-name {
   font-size: 15px;
   line-height: 20px;
   overflow: hidden;
@@ -47,22 +53,23 @@
   position: relative;
 }
 
-.insight-metadata-container {
+.entity-metadata-container {
   display: flex;
   flex-flow: column nowrap;
 }
 
-.insight-metadata-row-container {
+.entity-metadata-row-container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  word-break: break-word;
 }
 
-.insight-metadata-row-container > mat-icon {
+.entity-metadata-row-container > mat-icon {
   margin-right: 10px;
 }
 
-.insight-metadata-row-container-date {
-  @extend .insight-metadata-row-container;
+.entity-metadata-row-container-date {
+  @extend .entity-metadata-row-container;
   margin-bottom: 10px;
 }

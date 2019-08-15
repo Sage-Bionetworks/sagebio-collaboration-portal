@@ -9,9 +9,8 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
-
+import { Project } from 'models/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
-import { Report } from 'models/entities/insights/report.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 
@@ -22,7 +21,11 @@ export class InsightService {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    getInsights(query?: {}): Observable<Insight[]> {
+    query(project: Project, query?: {}): Observable<Insight[]> {
+        return this.httpClient.get<Insight[]>(`/api/insights/entity/${project._id}${stringifyQuery(query)}`);
+    }
+
+    getAll(query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
     }
 
@@ -32,15 +35,6 @@ export class InsightService {
 
     create(insight: Insight): Observable<Insight> {
         return this.httpClient.post<Insight>('/api/insights', insight);
-    }
-
-    searchInsightsByName(terms: Observable<string>): Observable<Insight[] | null> {
-        return terms
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                switchMap(term => term ? this.getInsights({ searchTerms: term }) : of(null))
-            );
     }
 
     updateInsightDescription(insight: Insight, description: string): Observable<Insight> {

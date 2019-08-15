@@ -1,0 +1,18 @@
+<mat-card *ngIf="entity" class="entity-container" [routerLink]="[entity._id]">
+  <picture>
+      <img src="assets/images/320px-insight_logo.png" aria-label="Report picture">
+  </picture>
+  <div class="entity-metadata-container">
+      <h3 class="entity-title">{{ entity.title }}</h3>
+      <div class="entity-metadata-row-container-date">
+          <mat-icon>access_time</mat-icon>
+          <span>{{entity.createdAt | date}}</span>
+      </div>
+      <div class="entity-card-footer">
+          <div class="entity-metadata-row-container">
+              <mat-icon>person_outline</mat-icon>
+              <span>{{ entity.createdBy.name }}</span>
+          </div>
+      </div>
+  </div>
+</mat-card>
