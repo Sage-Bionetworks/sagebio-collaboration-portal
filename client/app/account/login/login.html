@@ -6,7 +6,7 @@
     <div class="app-login-box">
 
         <div class="app-login-buttons">
-            <form *ngIf="(authStrategies | async)?.includes('local')" class="app-login-local-form" [formGroup]="loginForm" novalidate>
+            <form *ngIf="(authStrategies | async)?.includes('local')" (ngSubmit)="login()" class="app-login-local-form" [formGroup]="loginForm" novalidate>
                 <h3>Sign in with your PHCCP account</h3>
                 <mat-form-field class="form-field-full-width">
                     <input matInput placeholder="Email" type="email" formControlName="email" [errorStateMatcher]="matcher">
@@ -29,7 +29,7 @@
                 <mat-error *ngIf="errors.login">
                     {{errors.login}}
                 </mat-error>
-                <a class="app-login-button app-login-local-login-btn" mat-raised-button color="warn" [disabled]="loginForm.invalid" (click)="login()">Login</a>
+                <button tpye="submit" class="app-login-button app-login-local-login-btn" mat-raised-button color="warn" [disabled]="loginForm.invalid">Login</button>
             </form>
 
             <h3>Sign in with one of the following strategies</h3>

@@ -13,6 +13,9 @@ import {
     entityPermissions
 } from './entity-permissions';
 import {
+    memos
+} from './memos';
+import {
     messages
 } from './messages';
 import {
@@ -55,6 +58,7 @@ module.exports = {
     dashboards: dashboards,
     entityPermissions: entityPermissions,
     threads: threads,
+    memos: memos,
     messages: messages,
     projects: projects,
     activities: activities,

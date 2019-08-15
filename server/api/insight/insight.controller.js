@@ -61,9 +61,18 @@ function handleError(res, statusCode) {
     };
 }
 
-// Gets a list of Insights
+export function indexByEntity(req, res) {
+    let filters = req.query;
+    filters.projectId = req.params.entityId;
+    return Insight.find(filters)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 export function index(req, res) {
-    return Insight.find(req.query)
+    let filters = req.query;
+    return Insight.find(filters)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -79,7 +88,10 @@ export function show(req, res) {
 
 // Creates a new Insight in the DB
 export function create(req, res) {
-    return Insight.create(req.body)
+    return Insight.create({
+        ...req.body,
+        createdBy: req.user._id
+    })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -114,10 +126,10 @@ export function patch(req, res) {
         .catch(handleError(res));
 }
 
-// Deletes a Insight from the DB
-export function destroy(req, res) {
-    return Insight.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
-}
+// // Deletes a Insight from the DB
+// export function destroy(req, res) {
+//     return Insight.findById(req.params.id).exec()
+//         .then(handleEntityNotFound(res))
+//         .then(removeEntity(res))
+//         .catch(handleError(res));
+// }
