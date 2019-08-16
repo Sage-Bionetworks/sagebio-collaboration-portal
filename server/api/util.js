@@ -1,7 +1,7 @@
 import {
     applyPatch
 } from 'fast-json-patch';
-import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash'
+import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash';
 import {
     find
 } from 'lodash/fp';

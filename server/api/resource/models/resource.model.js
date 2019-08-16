@@ -37,14 +37,26 @@ var ResourceSchema = new mongoose.Schema({
     }
 }, options);
 
+/**
+ * Middlewares
+ */
+
 const autoPopulatePre = function (next) {
+    // eslint-disable-next-line no-invalid-this
     this
         .populate('createdBy', User.profileProperties);
     next();
 };
 
-ResourceSchema
-    .pre('find', autoPopulatePre);
+const autoPopulatePost = function (doc) {
+    return doc
+        .populate('createdBy', User.profileProperties)
+        .execPopulate();
+};
+
+ResourceSchema.pre('find', autoPopulatePre);
+ResourceSchema.pre('findOne', autoPopulatePre);
+ResourceSchema.post('save', autoPopulatePost);
 
 registerEvents(ResourceSchema);
 export default mongoose.model('Resource', ResourceSchema);

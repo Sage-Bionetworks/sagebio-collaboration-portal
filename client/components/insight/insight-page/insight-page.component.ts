@@ -56,7 +56,7 @@ export class InsightPageComponent implements OnInit, OnDestroy {
                     }
                 }
                 this.insight = insight;
-                this.insightOutput.emit(insight)
+                this.insightOutput.emit(insight);
             });
     }
 

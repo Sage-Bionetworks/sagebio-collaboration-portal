@@ -1,65 +1,10 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/insights              ->  index
- * POST    /api/insights              ->  create
- * GET     /api/insights/:id          ->  show
- * PUT     /api/insights/:id          ->  upsert
- * PATCH   /api/insights/:id          ->  patch
- * DELETE  /api/insights/:id          ->  destroy
- */
-
 import {
-    applyPatch
-} from 'fast-json-patch';
+    respondWithResult,
+    patchUpdates,
+    handleEntityNotFound,
+    handleError
+} from '../util';
 import Insight from './models/insight.model';
-
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return entity => {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
-}
-
-function patchUpdates(patches) {
-    return entity => {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return entity.save();
-    };
-}
-
-function removeEntity(res) {
-    return entity => {
-        if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function handleEntityNotFound(res) {
-    return entity => {
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return err => {
-        res.status(statusCode).send(err);
-    };
-}
 
 export function indexByEntity(req, res) {
     let filters = req.query;
@@ -80,7 +25,9 @@ export function index(req, res) {
 
 // Gets a single Insight from the DB
 export function show(req, res) {
-    return Insight.findById(req.params.id).exec()
+    return Insight
+        .findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

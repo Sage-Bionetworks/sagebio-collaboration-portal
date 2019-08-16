@@ -38,13 +38,21 @@ var InsightSchema = new mongoose.Schema({
  */
 
 const autoPopulatePre = function (next) {
+    // eslint-disable-next-line no-invalid-this
     this
         .populate('createdBy', User.profileProperties);
     next();
 };
 
-InsightSchema
-    .pre('find', autoPopulatePre);
+const autoPopulatePost = function (doc) {
+    return doc
+        .populate('createdBy', User.profileProperties)
+        .execPopulate();
+};
+
+InsightSchema.pre('find', autoPopulatePre);
+InsightSchema.pre('findOne', autoPopulatePre);
+InsightSchema.post('save', autoPopulatePost);
 
 registerEvents(InsightSchema);
 export default mongoose.model('Insight', InsightSchema);

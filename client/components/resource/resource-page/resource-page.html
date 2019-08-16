@@ -19,7 +19,7 @@
                     </form>
 
                     <div class="resource-card-info">
-                        <span><b>Created by:</b> {{ resource.createdBy }}</span>
+                        <span><b>Created by:</b> {{ resource.createdBy.name }}</span>
                         <span *ngIf="resource.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="resource.data !== undefined"><b>Type:</b> Memo</span>
                     </div>

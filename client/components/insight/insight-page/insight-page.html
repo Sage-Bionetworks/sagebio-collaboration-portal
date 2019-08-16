@@ -19,7 +19,7 @@
                     </form>
 
                     <div class="insight-card-info">
-                        <span><b>Created by:</b> {{ insight.createdBy }}</span>
+                        <span><b>Created by:</b> {{ insight.createdBy.name }}</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="insight.data !== undefined"><b>Type:</b> Memo</span>
                     </div>
