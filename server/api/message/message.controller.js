@@ -197,17 +197,6 @@ export function indexReplies(req, res) {
  * Threads
  */
 
-// Test
-export function test(req, res) { // Use to test routing
-    // console.log(`[TEST] req.body: ${JSON.stringify(req.body, null, 2)}`);
-    const result = {
-        originalUrl: req.originalUrl,
-        route: req.route,
-        params: req.params,
-        body: req.body,
-    };
-    return res.status(200).json(result);
-}
 
 // Get a list of Threads that are not associated with an entity
 export function indexThreads(req, res) {
