@@ -34,6 +34,15 @@ export class ThreadSidenavComponent implements OnDestroy {
         });
     }
 
+    onEditMessage(): void {
+        // TODO Update the thread with the updatedBy/updatedAt details
+        // TODO Refactor this redundant code into refreshMessages()
+        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
+            this.messages = messages;
+            this.message = messages[0];
+        });
+    }
+
     onDeleteMessage(): void {
         this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
             this.messages = messages;
