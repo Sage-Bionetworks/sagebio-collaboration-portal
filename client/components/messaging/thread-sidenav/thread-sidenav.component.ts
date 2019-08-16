@@ -26,35 +26,29 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     ngOnDestroy() { }
 
-    setThread(thread: Thread): void {
-        this.thread = thread;
+    refreshMessages(): void {
         this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
             this.messages = messages;
             this.message = messages[0];
         });
+    }
+
+    setThread(thread: Thread): void {
+        this.thread = thread;
+        this.refreshMessages();
     }
 
     onEditMessage(): void {
         // TODO Update the thread with the updatedBy/updatedAt details
-        // TODO Refactor this redundant code into refreshMessages()
-        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
-            this.messages = messages;
-            this.message = messages[0];
-        });
+        this.refreshMessages();
     }
 
     onDeleteMessage(): void {
-        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
-            this.messages = messages;
-            this.message = messages[0];
-        });
+        this.refreshMessages();
     }
 
     onNewMessage(): void {
-        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
-            this.messages = messages;
-            this.message = messages[0];
-        });
+        this.refreshMessages();
     }
 
     close(): void {
