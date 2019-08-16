@@ -376,11 +376,11 @@ module.exports = function makeWebpackConfig(options) {
                 },
             },
             minimizer: [
-                new TerserPlugin({
-                    cache: true,
-                    parallel: true,
-                    // sourceMap: true,
-                }),
+                // new TerserPlugin({
+                //     cache: true,
+                //     parallel: true,
+                //     // sourceMap: true,
+                // }),
                 new OptimizeCssAssetsPlugin({}),
             ],
         };
