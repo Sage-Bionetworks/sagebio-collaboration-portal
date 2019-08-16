@@ -1,3 +1,7 @@
+:host ::ng-deep .ng-star-inserted {
+  border: 1px solid #000;
+}
+
 :host ::ng-deep .tooltip {
   background-color: rgba(0, 0, 0, 0.75);
   color: #fff;
