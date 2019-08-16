@@ -7,30 +7,6 @@
   display: flex;
   flex-flow: row nowrap;
 
-  .app-resource-list-filters-container {
-    display: flex;
-    flex-flow: column nowrap;
-    flex-grow: 0;
-    flex-shrink: 0;
-    // min-width: 300px;
-    margin: 25px;
-  }
-
-  .app-resource-list-content-container {
-    display: flex;
-    flex-flow: column nowrap;
-    flex-grow: 1;
-    margin: 20px 50px;
-
-    .app-resource-list-search-filter {
-      width: 600px;
-    }
-
-    .app-resource-list-results {
-      display: flex;
-      flex-flow: row wrap;
-    }
-  }
 }
 
 .app-resource-list-result-count {

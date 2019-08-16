@@ -12,6 +12,8 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { ResourceListComponent } from './resource-list/resource-list.component';
+// TODO: replace imports below with ResourceAppPageComponent
+// import { ResourceAppPageComponent } from './resource-app-page/resource-app-page.component';
 import { ResourceViewComponent } from './resource-view/resource-view.component';
 import { ResourceComponent } from './resource-page/resource.component';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
@@ -23,6 +25,8 @@ import { ResourceService } from './resource.service';
 import { SocketService } from 'components/socket/socket.service';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
+import { EntityModule } from 'components/entity/entity.module';
+import { ResourceModule as ResourceComponentModule } from 'components/resource/resource.module';
 
 export const ROUTES: Routes = [{
     path: 'resources',
@@ -47,10 +51,13 @@ export const ROUTES: Routes = [{
         FiltersModule,
         ShowActivityButtonModule,
         ActivitySidenavModule,
-        ProvenanceModule
+        ProvenanceModule,
+        EntityModule,
+        ResourceComponentModule
     ],
     declarations: [
         ResourceListComponent,
+        // TODO: replace declarations below with ResourceAppPageComponent
         ResourceViewComponent,
         ResourceComponent,
         DashboardViewComponent,
@@ -64,8 +71,6 @@ export const ROUTES: Routes = [{
     ],
     exports: [
         ResourceListComponent,
-        ResourceViewComponent,
-        ResourceComponent
     ],
 })
 export class ResourceModule { }

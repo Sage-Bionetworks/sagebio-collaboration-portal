@@ -14,10 +14,10 @@ import { map } from 'rxjs/operators';
     styles: [require('./entity-list.scss')],
 })
 export class EntityListComponent implements AfterViewInit {
-    @Input() entityName: string
-    @Input() entityTypeFilters: Filter[] = []
-    @Input() filterGroup: string
-    @Output() onFilterChange:EventEmitter<string>  = new EventEmitter<string>();
+    @Input() entityName: string;
+    @Input() entityTypeFilters: Filter[] = [];
+    @Input() filterGroup: string;
+    @Output() onFilterChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
     _entities: Insight[] | Resource[]  = [];
@@ -35,15 +35,15 @@ export class EntityListComponent implements AfterViewInit {
                     ])(myFilters)
                 ),
             )
-            .subscribe(query => this.onFilterChange.emit(query))
+            .subscribe(query => this.onFilterChange.emit(query));
     }
 
     get entities() {
-        return this._entities
+        return this._entities;
     }
 
     @Input()
     set entities(entities) {
-        this._entities = entities
+        this._entities = entities;
     }
 }

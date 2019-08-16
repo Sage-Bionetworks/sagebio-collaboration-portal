@@ -1,0 +1,28 @@
+.app-resource-new-card {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 40px;
+
+  .app-resource-new-card-form {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 20px;
+
+    select {
+      text-transform: capitalize;
+    }
+  }
+
+  .app-resource-new-form-field {
+    margin-bottom: 10px;
+  }
+
+  .app-resource-new-form-actions {
+    margin-top: 20px;
+  }
+}
+
+
+.app-resource-new-description-editor {
+  margin-bottom: 20px;
+}
