@@ -1,36 +1,28 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, ContentChildren, QueryList, forwardRef } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { ResourceService } from '../resource.service';
-// import { StateService } from '../../state/state.service';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { ResourceService } from 'components/resource/resource.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { flow, keyBy, mapValues, values, find, orderBy } from 'lodash/fp';
-import config from '../../app.constants';
-import { Filter } from 'components/filters/filter.model';
-import { FiltersComponent } from 'components/filters/filters.component';
-
+import { orderBy } from 'lodash/fp';
 import { Resource } from 'models/entities/resources/resource.model';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'resource-list',
     template: require('./resource-list.html'),
     styles: [require('./resource-list.scss')],
 })
-export class ResourceListComponent implements OnInit, AfterViewInit {
-    @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
+export class ResourceListComponent implements OnInit {
     private resources: Resource[] = [];
-    private resourceTypeFilters: Filter[] = [];
-    private numResultsPerPage = 8;
+    private resourceTypeFilters = config.resourceTypeFilters;
+
+    private createNewResource = false;
+
     private searchPageIndex: number;
     private searchResultCount = 0;
 
-    static parameters = [Router, FormBuilder, PageTitleService, ResourceService,
+    static parameters = [PageTitleService, ResourceService,
         NotificationService];
-    constructor(private router: Router, private formBuilder: FormBuilder,
-        private pageTitleService: PageTitleService,
+    constructor(private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
         private notificationService: NotificationService) {
 
@@ -41,26 +33,18 @@ export class ResourceListComponent implements OnInit, AfterViewInit {
         this.pageTitleService.title = 'Resources';
     }
 
-    ngAfterViewInit() {
-        let selectedFilters = this.filters.map(f => f.getSelectedFilter());
-        combineLatest(...selectedFilters)
-            .pipe(
-                map(myFilters =>
-                    flow([
-                        keyBy('group'),
-                        mapValues('value')
-                    ])(myFilters)
-                ),
-                switchMap(query => this.resourceService.getResources(query)),
-                map(resources => orderBy('createdAt', 'asc', resources))
-            )
+    onFilterChange(query) {
+        this.resourceService.getAll(query)
             .subscribe(resources => {
-                this.resources = resources;
+                this.resources = orderBy('createdAt', 'asc', resources);
             }, err => {
                 console.log(err);
-                this.notificationService.error(err.message);
-                this.clearResults();
             });
+    }
+
+    onNewResource(resource: Resource): void {
+        this.createNewResource = false;
+        this.notificationService.info('The Resource has been successfully created');
     }
 
     clearResults(): void {

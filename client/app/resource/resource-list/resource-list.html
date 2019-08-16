@@ -1,21 +1,23 @@
-<div class="app-primary-header">
-    <h1>Resources</h1>
-</div>
-
-<div class="app-resource-list-container">
-    <div class="app-resource-list-filters-container">
-        <h3>Resource Type</h3>
-        <radio-button-filter [filters]="resourceTypeFilters" group="resourceType"></radio-button-filter>
+<div *ngIf="!createNewResource; else showNewResourceForm">
+    <div class="app-primary-header">
+        <h1>Resources</h1>
     </div>
 
-    <div class="app-resource-list-content-container">
-        <div class="app-resource-list-results">
-            <ng-template ngFor let-resource let-i="index" let-first="first" [ngForOf]="resources">
-                <dashboard-view *ngIf="resource.resourceType === 'Dashboard'" [dashboard]="resource"></dashboard-view>
-                <state-view *ngIf="resource.resourceType === 'State'" [state]="resource"></state-view>
-                <webapp-view *ngIf="resource.resourceType === 'WebApp'" [webapp]="resource"></webapp-view>
-                <article-view *ngIf="resource.resourceType === 'Article'" [article]="resource"></article-view>
-            </ng-template>
-        </div>
+    <div class="app-resource-list-container">
+        <entity-list
+            *ngIf="resources"
+            entityName="Resource"
+            [entities]="resources"
+            [entityTypeFilters]="resourceTypeFilters"
+            filterGroup="resourceType"
+            (onFilterChange)="onFilterChange($event)"
+        ></entity-list>
+        <!-- <div class="app-resource-list-actions">
+            <a mat-raised-button color="primary" class="app-resource-list-new-project" (click)="createNewResource=true" aria-label="Create resource">Create a New Resource</a>
+        </div> -->
     </div>
 </div>
+
+<!-- <ng-template #showNewResourceForm>
+    <resource-new (newResource)="onNewResource($event)" (close)="createNewResource=false"></resource-new>
+</ng-template> -->
