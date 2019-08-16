@@ -28,10 +28,10 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
 import { ProjectGuard } from './project-guard.service';
 
 import { InsightService } from 'components/insight/insight.service';
-import { InsightModule } from 'components/insight/insight.module'
+import { InsightModule } from 'components/insight/insight.module';
 import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
 import { ResourceService } from 'components/resource/resource.service';
-import { ResourceModule } from 'components/resource/resource.module'
+import { ResourceModule } from 'components/resource/resource.module';
 import { ResourcePageComponent } from 'components/resource/resource-page/resource-page.component';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
