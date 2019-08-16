@@ -17,17 +17,22 @@
   margin: 0 10px 0 0;
 }
 
-// .message-date-separator {
-//   margin: 20px 0 20px 0;
-// }
+.app-activity-info {
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+
+  span {
+    margin: 10px;
+  }
+}
 
 .app-activity-filters-container {
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 0;
   flex-shrink: 0;
-  // min-width: 300px;
-  margin: 25px;
+  margin: 0 25px;
 }
 
 .app-activity-graph-container {
@@ -35,7 +40,7 @@
   flex-flow: column nowrap;
   flex-grow: 0;
   flex-shrink: 0;
-  margin: 25px;
+  margin: 0 25px;
 }
 
 .app-activity-body {
