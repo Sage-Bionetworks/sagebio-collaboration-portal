@@ -14,8 +14,6 @@ import { seedDatabaseIfNeeded, seedProvenanceIfNeeded } from './config/seed';
 import https from 'https';
 
 // Connect to MongoDB
-console.log('MONGO URI', config.mongo.uri);
-console.log('config.mongo.options', config.mongo.options);
 const mongooseConnectionPromise = mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', err => {
     console.error(`MongoDB connection error: ${err}`);

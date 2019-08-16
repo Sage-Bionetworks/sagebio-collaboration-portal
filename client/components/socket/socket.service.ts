@@ -26,7 +26,6 @@ export class SocketService {
      * Initializes a connection with the primus server.
      */
     connect(): void {
-        console.log('connecting to primus', Primus);
         const primus = (Primus as any).connect();
         // const primus = (Primus as any).connect('https://dev.phc.sagesandbox.org', {
         //     port: 443,
