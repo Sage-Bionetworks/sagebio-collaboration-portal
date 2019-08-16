@@ -61,6 +61,15 @@ function handleError(res, statusCode) {
     };
 }
 
+export function indexByEntity(req, res) {
+    let filters = req.query;
+    filters.projectId = req.params.entityId;
+    return Resource.find(filters)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Gets a list of Resources
 export function index(req, res) {
     return Resource.find(req.query)

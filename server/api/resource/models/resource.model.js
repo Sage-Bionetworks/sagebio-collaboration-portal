@@ -21,6 +21,10 @@ var ResourceSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    projectId: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
