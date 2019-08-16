@@ -5,6 +5,8 @@
     </a>
 </div>
 
+<span *ngIf="invites && invites.length === 0">Your Notification list is empty.</span>
+
 <div class="app-user-notification-sidenav-cards">
     <ng-template ngFor let-invite [ngForOf]="invites">
         <user-notification-view class="app-user-notification-view" [invite]="invite"></user-notification-view>
