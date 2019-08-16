@@ -32,6 +32,11 @@
       align-items: flex-end;
     }
 
+    .app-message-header-text {
+        font-size: 14px;
+        padding-right: 6px;
+      }
+
     .app-message-header-author {
       font-size: 14px;
       font-weight: bold;
@@ -40,6 +45,7 @@
 
     .app-message-header-time {
       font-size: 13px;
+      padding-left: 2px;
     }
 
     .app-message-header-actions {

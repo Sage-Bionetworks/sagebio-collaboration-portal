@@ -5,8 +5,12 @@
             <div class="app-message-header-metadata-line">
                 <span class="app-message-header-author">{{ message.createdBy.username }}</span>
                 <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.createdAt | date: 'shortTime' }}</span>
-                <span *ngIf="edited" [matTooltip]="message.updatedAt | date: 'shortTime'" matTooltipPosition="right">(edited)</span>
                 <!-- <span>{{ message._id }}</span> -->
+            </div>
+            <div *ngIf="edited" class="app-message-header-metadata-line">
+                    <span class="app-message-header-text">Edited by</span>
+                    <span class="app-message-header-author">{{ message.updatedBy.username || message.createdBy.username }}</span>
+                    <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.updatedAt | dateAndTime }}</span>
             </div>
         </div>
         <div class="app-message-header-reply-button">
