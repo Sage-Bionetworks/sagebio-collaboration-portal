@@ -58,6 +58,7 @@
         "VisualStudioExptTeam.vscodeintellicode",
         "vsciot-vscode.azure-iot-toolkit",
         "wix.vscode-import-cost",
+        "redhat.vscode-yaml",
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
