@@ -88,7 +88,10 @@ export function show(req, res) {
 
 // Creates a new Resource in the DB
 export function create(req, res) {
-    return Resource.create(req.body)
+    return Resource.create({
+        ...req.body,
+        createdBy: req.user._id
+    })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -123,10 +126,10 @@ export function patch(req, res) {
         .catch(handleError(res));
 }
 
-// Deletes a Resource from the DB
-export function destroy(req, res) {
-    return Resource.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
-}
+// // Deletes a Resource from the DB
+// export function destroy(req, res) {
+//     return Resource.findById(req.params.id).exec()
+//         .then(handleEntityNotFound(res))
+//         .then(removeEntity(res))
+//         .catch(handleError(res));
+// }

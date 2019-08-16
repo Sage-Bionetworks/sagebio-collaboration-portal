@@ -19,7 +19,7 @@ router.put('/:id', controller.upsert);
 router.patch('/:id', controller.patch);
 // router.delete('/:id', controller.destroy);
 
-// get insight by project id
+// get resource by project id
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
