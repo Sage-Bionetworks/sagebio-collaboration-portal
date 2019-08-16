@@ -61,6 +61,7 @@ var ThreadSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)
+        .populate('updatedBy', User.profileProperties)
     // .populate('tags');
     next();
 };
@@ -73,6 +74,7 @@ const autoPopulatePre = function (next) {
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
+        .populate('updatedBy', User.profileProperties)
         // .populate('tags')
         .execPopulate();
 };
