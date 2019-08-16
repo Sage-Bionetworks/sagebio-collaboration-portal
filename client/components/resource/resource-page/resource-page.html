@@ -1,0 +1,36 @@
+<div *ngIf="resource">
+    <div class="resource-content">
+        <mat-card class="resource-card">
+            <div class="resource-card-top">
+                <div class="resource-card-left-container">
+                    <div class="resource-card-prov-graph-actions">
+                        <show-activity-button [root]="resource" (click)="showActivity()"></show-activity-button>
+                    </div>
+                    <h3>{{ resource.resourceType }} Content</h3>
+                    <form [formGroup]="form" novalidate>
+                        <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
+                        <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
+                            This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value:
+                            {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
+                        </mat-error>
+                        <mat-error *ngIf="errors.updateDescription">
+                            {{ errors.updateDescription }}
+                        </mat-error>
+                    </form>
+
+                    <div class="resource-card-info">
+                        <span><b>Created by:</b> {{ resource.createdBy }}</span>
+                        <span *ngIf="resource.data === undefined"><b>Type:</b> Report</span>
+                        <span *ngIf="resource.data !== undefined"><b>Type:</b> Memo</span>
+                    </div>
+                </div>
+            </div>
+            <div class="app-resource-actions">
+                <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
+                <a mat-raised-button routerLink="..">Go Back</a>
+                <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Resource</a>
+            </div>
+        </mat-card>
+    </div>
+</div>
