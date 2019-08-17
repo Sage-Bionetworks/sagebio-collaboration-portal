@@ -7,14 +7,16 @@
     </div>
 
     <div *ngIf="root" class="app-activity-body">
-        <h4>Activities for {{ root._id }}:</h4>
+        <div class="app-activity-info">
+            <b>Activities for</b>
+            <span><em>{{ root.title }}</em></span>
+        </div>
         <div *ngIf="!root.username" class="app-activity-filters-container">
             <b>Direction</b>
             <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
         </div>
         <div class="app-activity-graph-container">
             <provenance-graph class="provenance-graph" [graphData]="provenanceGraph" [rootId]="root._id"></provenance-graph>
-            <pre>{{ provenanceGraph | json }}</pre>
         </div>
 
     </div>
