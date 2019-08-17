@@ -7,9 +7,9 @@ import { Resource } from 'models/entities/resources/resource.model';
     styles: [require('./resource-app-page.scss')],
 })
 export class ResourceAppPageComponent {
-  private resource: Resource
+  private resource: Resource;
 
   setResource(resource: Resource) {
-    this.resource = resource
+    this.resource = resource;
   }
 }

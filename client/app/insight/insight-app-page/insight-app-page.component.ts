@@ -7,9 +7,9 @@ import { Insight } from 'models/entities/insights/insight.model';
     styles: [require('./insight-app-page.scss')],
 })
 export class InsightAppPageComponent {
-  private insight: Insight
+  private insight: Insight;
 
   setInsight(insight: Insight) {
-    this.insight = insight
+    this.insight = insight;
   }
 }
