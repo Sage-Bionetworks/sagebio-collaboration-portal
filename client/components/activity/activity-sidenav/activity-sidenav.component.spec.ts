@@ -47,7 +47,7 @@ describe('ActivitySidenavComponent', () => {
         FiltersModule,
       ],
       providers: [
-        { provide: ProvenanceService, useClass: MockProvenanceService }, // use the mock version of the services in order to spy on their function calls
+        { provide: ProvenanceService, useClass: MockProvenanceService },
         { provide: SecondarySidenavService, useClass: MockSecondarySidenavService},
         { provide: SocketService, useClass: MockSocketService },
         {
