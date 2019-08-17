@@ -12,9 +12,9 @@ import { MessageNewComponent } from './message-new/message-new.component';
 import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
-import { ThreadPreviewComponent} from './thread-preview/thread-preview.component'
+import { ThreadPreviewComponent} from './thread-preview/thread-preview.component';
 import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.component';
-import { ThreadNewComponent } from './thread-new/thread-new.component'
+import { ThreadNewComponent } from './thread-new/thread-new.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { ThreadDateSeparatorComponent } from './thread-date-separator/thread-date-separator.component';
 import { StarredMessageListComponent } from './starred-message-list/starred-message-list.component';

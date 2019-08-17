@@ -70,7 +70,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         //     return throwError(err.error);
                         // } else {
                         //     console.log('INTERCEPTOR: DEFAULT ERROR');
-                        //     // return ErrorObservable.create({ message: 'Server error' }); // Observable.throw(new Error('woops')); instead?
+                        //     // return ErrorObservable.create({ message: 'Server error' });
+                        //     // Observable.throw(new Error('woops')); instead?
                         //     return throwError({ message: 'Server error' });
                         // }
                     }

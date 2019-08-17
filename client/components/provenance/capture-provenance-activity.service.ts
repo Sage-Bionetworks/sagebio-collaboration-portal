@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { AuthService } from "components/auth/auth.service";
-import { Subscription } from "rxjs";
-import { User } from "models/auth/user.model";
-import { ProvenanceService } from "./provenance.service";
+import { Injectable } from '@angular/core';
+import { AuthService } from 'components/auth/auth.service';
+import { Subscription } from 'rxjs';
+import { User } from 'models/auth/user.model';
+import { ProvenanceService } from './provenance.service';
 
 @Injectable()
 export class CaptureProvenanceActivityService {
     authInfoSub: Subscription;
     currentUser: User;
 
-    static parameters = [AuthService, ProvenanceService]
+    static parameters = [AuthService, ProvenanceService];
     constructor(private authService: AuthService, private provenanceService: ProvenanceService) {
         this.authInfoSub = this.authService.authInfo()
             .subscribe(authInfo => {
@@ -44,8 +44,8 @@ export class CaptureProvenanceActivityService {
                 class: '',
                 subclass: ''
             }]
-        }
+        };
 
-        this.provenanceService.createProvenanceActivity(activity)
+        this.provenanceService.createProvenanceActivity(activity);
     }
 }
