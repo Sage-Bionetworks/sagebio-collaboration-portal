@@ -24,10 +24,10 @@ export class ProvenanceNodeComponent implements OnInit {
     }
 
     getTooltipContent() {
-        const { label, nodeClass, subclass, provenanceNode } = this.node
+        const { label, nodeClass, subclass, provenanceNode } = this.node;
 
-        const typeText = nodeClass ? `<strong>Type: </strong>${nodeClass}` : ''
-        const subtypeText = subclass && subclass !== nodeClass ? `<br>Subtype: ${subclass}` : ''
+        const typeText = nodeClass ? `<strong>Type: </strong>${nodeClass}` : '';
+        const subtypeText = subclass && subclass !== nodeClass ? `<br>Subtype: ${subclass}` : '';
 
         return `
             <div><strong>${label}: </strong>${get(provenanceNode, 'properties.name')}</div>
@@ -90,6 +90,6 @@ export class ProvenanceNodeComponent implements OnInit {
         return (
             get(this.node.provenanceNode, 'properties.targetId') === this.rootId ||
             get(this.node.provenanceNode, 'properties.userId') === this.rootId
-        )
+        );
     }
 }
