@@ -12,19 +12,12 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
 import { ResourceListComponent } from './resource-list/resource-list.component';
-// TODO: replace imports below with ResourceAppPageComponent
-// import { ResourceAppPageComponent } from './resource-app-page/resource-app-page.component';
-import { ResourceViewComponent } from './resource-view/resource-view.component';
-import { ResourceComponent } from './resource-page/resource.component';
-import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
-import { StateViewComponent } from './state-view/state-view.component';
-import { ArticleViewComponent } from './article-view/article-view.component';
-import { WebAppViewComponent } from './webapp-view/webapp-view.component';
+import { ResourceAppPageComponent } from './resource-app-page/resource-app-page.component';
 
-import { ResourceService } from './resource.service';
+import { ResourceService } from 'components/resource/resource.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ProvenanceModule } from 'components/provenance/provenance.module';
 
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { ResourceModule as ResourceComponentModule } from 'components/resource/resource.module';
 
@@ -34,8 +27,8 @@ export const ROUTES: Routes = [{
     canActivate: [AuthGuard],
     data: {}
 }, {
-    path: 'resources/:id',
-    component: ResourceComponent,
+    path: 'resources/:resourceId',
+    component: ResourceAppPageComponent,
     canActivate: [AuthGuard],
     data: {}
 }];
@@ -57,13 +50,7 @@ export const ROUTES: Routes = [{
     ],
     declarations: [
         ResourceListComponent,
-        // TODO: replace declarations below with ResourceAppPageComponent
-        ResourceViewComponent,
-        ResourceComponent,
-        DashboardViewComponent,
-        ArticleViewComponent,
-        WebAppViewComponent,
-        StateViewComponent
+        ResourceAppPageComponent
     ],
     providers: [
         SocketService,

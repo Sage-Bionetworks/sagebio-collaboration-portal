@@ -76,6 +76,14 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() { }
 
+    openInTool(resource): void {
+        window.open(resource.data, '_blank');
+    }
+
+    open(): void {
+        window.open(this.resource.url, '_blank');
+    }
+
     updateDescription(): void {
         let description = JSON.stringify(this.form.get('description').value);
         // console.log('description', description);
