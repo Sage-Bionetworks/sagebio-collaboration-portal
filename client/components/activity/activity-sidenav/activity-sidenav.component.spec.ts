@@ -55,7 +55,8 @@ describe('ActivitySidenavComponent', () => {
           useValue: () => new Promise(() => {})
         }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // this schema prevent error in the console for missing child component allowing us to shallow render the component
+      // this schema prevents error in the console for missing child component allowing us to shallow render the component
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
