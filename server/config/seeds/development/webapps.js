@@ -28,7 +28,8 @@ let webapps = [{
     title: 'non-genetic and genetic determinants of immune cell parameters in 1,000 healthy subjects',
     description: `{\"ops\":[{\"insert\":\"Visualize the non-genetic and genetic determinants of immune cell parameters in our cohort (a companion Shiny application from Patin, Hasan, Bergstedt et al., Nat Immunol 2018).\\n\\n\"}]}`,
     url: 'https://www.synapse.org/#!Synapse:syn7059574',
-    projectId: testProjectId
+    projectId: testProjectId,
+    createdBy: adminUserId
 },
 {
     _id: new mongoose.Types.ObjectId('5d410e5aa70c0435f1bf221a'),
