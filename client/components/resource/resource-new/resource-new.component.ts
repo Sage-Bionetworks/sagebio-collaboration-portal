@@ -57,13 +57,13 @@ export class ResourceNewComponent {
         this.projectDataService.project()
             .subscribe(project => {
                 this.project = project;
-            })
+            });
     }
 
     createNewResource(): void {
         let newResource = this.newForm.value;
         newResource.description = JSON.stringify(newResource.description);
-        newResource.projectId = this.project._id
+        newResource.projectId = this.project._id;
         this.resourceService.create(newResource)
             .subscribe(resource => {
                 this.newResource.emit(resource);

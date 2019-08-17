@@ -57,13 +57,13 @@ export class InsightNewComponent {
         this.projectDataService.project()
             .subscribe(project => {
                 this.project = project;
-            })
+            });
     }
 
     createNewInsight(): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        newInsight.projectId = this.project._id
+        newInsight.projectId = this.project._id;
         this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);

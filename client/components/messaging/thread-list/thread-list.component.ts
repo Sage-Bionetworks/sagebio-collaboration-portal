@@ -24,7 +24,7 @@ import { ThreadNewComponent } from '../thread-new/thread-new.component';
 export class ThreadListComponent implements OnDestroy, OnInit {
     private messages: Message[];
     private threads: Thread[]; // Added threads array to ThreadListComponent
-    private showNewThreadForm: boolean = false;
+    private showNewThreadForm = false;
 
     @Input() entityId: string;
     @Input() entityType: string;

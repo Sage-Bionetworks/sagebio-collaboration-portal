@@ -37,18 +37,18 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) { }
 
     ngAfterViewInit() {
-        this.initGraph()
+        this.initGraph();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.initGraph()
-        this.graph.simulation.tick(100)
+        this.initGraph();
+        this.graph.simulation.tick(100);
     }
 
     initGraph() {
         if (this.graphData) {
-            this.convertToD3(this.graphData)
-            this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options)
+            this.convertToD3(this.graphData);
+            this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
             /** Binding change detection check on each tick
              * This along with an onPush change detection strategy should enforce checking only when relevant!
             * This improves scripting computation duration in a couple of tests I've made, consistently.
@@ -110,7 +110,9 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
                 });
 
                 for (var i = 0; i < data.graph.relationships.length; i++) {
-                    if (i !== 0 && data.graph.relationships[i].source === data.graph.relationships[i - 1].source && data.graph.relationships[i].target === data.graph.relationships[i - 1].target) {
+                    if (i !== 0
+                        && data.graph.relationships[i].source === data.graph.relationships[i - 1].source
+                        && data.graph.relationships[i].target === data.graph.relationships[i - 1].target) {
                         data.graph.relationships[i].linknum = data.graph.relationships[i - 1].linknum + 1;
                     } else {
                         data.graph.relationships[i].linknum = 1;
