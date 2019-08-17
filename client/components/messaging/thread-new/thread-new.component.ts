@@ -81,7 +81,7 @@ export class ThreadNewComponent implements OnInit {
 
                 // Once the thread has been created successfully, create the message
                 this.addMessage();
-            })
+            });
     }
 
     addMessage(): void {

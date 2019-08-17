@@ -89,8 +89,7 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
                 this.canDeleteThread = permissions.isAdmin();
                 this.canEditThread = permissions.isAdmin();
                 // this.showThreadActions = this.canDeleteThread || this.canEditThread;
-        })
-
+        });
     }
 
     ngOnInit() { }

@@ -63,6 +63,7 @@
         "@angular/flex-layout": "^8.0.0-beta.26",
         "@angular/forms": "^8.2.2",
         "@angular/http": "^7.2.15",
+        "@angular/language-service": "^8.2.2",
         "@angular/material": "^8.1.3",
         "@angular/platform-browser": "^8.2.2",
         "@angular/platform-browser-dynamic": "^8.2.2",
@@ -184,6 +185,7 @@
         "sinon-chai": "^3.3.0",
         "strip-ansi": "^5.2.0",
         "style-loader": "^1.0.0",
+        "stylelint-config-recommended": "^2.2.0",
         "supertest": "^4.0.2",
         "terser-webpack-plugin": "^1.4.1",
         "through2": "^3.0.1",
@@ -204,8 +206,9 @@
         "build": "gulp build",
         "build:server": "babel server -d dist/server --ignore spec.js,test.js,integration.js,local.env --source-maps",
         "lint": "npm run lint:client && npm run lint:server",
-        "lint:client": "tslint --format verbose ./client/{**/**,**}/*.ts",
+        "lint:client": "tslint --format verbose './client/**/*.ts'",
         "lint:server": "eslint ./server/**/*.js -c ./server/.eslintrc --ignore-pattern *.spec.js --ignore-pattern *.integration.js",
+        "lint:scss": "stylelint 'client/**/*.scss' --config client/.stylelintrc",
         "test": "gulp test",
         "test:client": "karma start ./karma.conf.js --single-run",
         "test:server": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --timeout 5000 --require ./mocha.conf.js ./server/**/*.{spec,integration}.js mocha.global.js",
@@ -213,9 +216,7 @@
         "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
         "start": "node server",
         "start:client": "webpack-dev-server --config webpack.dev.js",
-        "start:server": "nodemon --trace-warnings --watch server server",
-        "deploy:dev": "docker-compose -f docker-compose.dev.yml up --build",
-        "deploy:prod": "docker-compose up --build"
+        "start:server": "nodemon --trace-warnings --watch server server"
     },
     "sideEffects": [
         "*.css",

@@ -1,10 +1,10 @@
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { expect } from "chai";
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { expect } from 'chai';
 import { CommonModule } from '@angular/common';
-import { HAMMER_LOADER } from "@angular/platform-browser";
+import { HAMMER_LOADER } from '@angular/platform-browser';
 
-import { ActivitySidenavComponent } from "./activity-sidenav.component";
+import { ActivitySidenavComponent } from './activity-sidenav.component';
 import { UserRole, User } from '../../../../shared/interfaces/auth/user.model';
 import { Entity } from '../../../../shared/interfaces/entities/entity.model';
 import { MaterialModule } from '../../../components/material/material.module';
@@ -19,22 +19,22 @@ describe('ActivitySidenavComponent', () => {
   let fixture: ComponentFixture<ActivitySidenavComponent>;
 
   let entity: Entity = {
-    _id: "1",
+    _id: '1',
     title: '',
     description: '',
-    createdAt: "",
+    createdAt: '',
     createdBy: undefined
-  }
+  };
 
   let user: User = {
     email: '',
     position: '',
     orcid: '',
-    name: "test user",
-    username: "test",
+    name: 'test user',
+    username: 'test',
     role: UserRole.USER,
     createdAt: '',
-  }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,7 +47,7 @@ describe('ActivitySidenavComponent', () => {
         FiltersModule,
       ],
       providers: [
-        { provide: ProvenanceService, useClass: MockProvenanceService }, // use the mock version of the services in order to spy on their function calls
+        { provide: ProvenanceService, useClass: MockProvenanceService },
         { provide: SecondarySidenavService, useClass: MockSecondarySidenavService},
         { provide: SocketService, useClass: MockSocketService },
         {
@@ -55,7 +55,8 @@ describe('ActivitySidenavComponent', () => {
           useValue: () => new Promise(() => {})
         }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // this schema prevent error in the console for missing child component allowing us to shallow render the component
+      // this schema prevents error in the console for missing child component allowing us to shallow render the component
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -66,56 +67,56 @@ describe('ActivitySidenavComponent', () => {
   });
 
   it('should instantiate', () => {
-    expect(component).to.not.be.undefined
+    expect(component).to.not.be.undefined;
   });
 
   describe('#setRoot', () => {
     it('should get provenance graph by agent if entity is a user', () => {
-      component.setRoot(user)
+      component.setRoot(user);
       fixture.detectChanges();
-      const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(ProvenanceService) as any
-      expect(provenanceService.getProvenanceGraphByAgent.calledOnce).to.be.true
-      expect(provenanceService.getProvenanceGraphByReference.calledOnce).to.be.false
+      const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(ProvenanceService) as any;
+      expect(provenanceService.getProvenanceGraphByAgent.calledOnce).to.be.true;
+      expect(provenanceService.getProvenanceGraphByReference.calledOnce).to.be.false;
     });
 
     it('should get provenance graph by reference if entity is NOT a user', () => {
-      component.setRoot(entity)
+      component.setRoot(entity);
       fixture.detectChanges();
-      const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(ProvenanceService) as any
-      expect(provenanceService.getProvenanceGraphByReference.calledOnce).to.be.true
-      expect(provenanceService.getProvenanceGraphByAgent.calledOnce).to.be.false
+      const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(ProvenanceService) as any;
+      expect(provenanceService.getProvenanceGraphByReference.calledOnce).to.be.true;
+      expect(provenanceService.getProvenanceGraphByAgent.calledOnce).to.be.false;
     });
-  })
+  });
 
   describe('#checkIfUser ', () => {
     it('should return true if the entity is a user', () => {
-      expect(component.checkIfUser(user)).to.be.true
+      expect(component.checkIfUser(user)).to.be.true;
     });
     it('should return false if the entity is NOT a user', () => {
-      expect(component.checkIfUser(entity)).to.be.false
+      expect(component.checkIfUser(entity)).to.be.false;
     });
   });
 
   it('should close the sidenav if the close button is clicked', () => {
     const button = fixture.debugElement.nativeElement.querySelector('.app-activity-header-close');
-    button.click()
+    button.click();
 
-    const sidenavService: MockSecondarySidenavService = fixture.debugElement.injector.get(SecondarySidenavService) as any
-    expect(sidenavService.close.calledOnce).to.be.true
-    expect(sidenavService.destroyContentComponent.calledOnce).to.be.true
-  })
+    const sidenavService: MockSecondarySidenavService = fixture.debugElement.injector.get(SecondarySidenavService) as any;
+    expect(sidenavService.close.calledOnce).to.be.true;
+    expect(sidenavService.destroyContentComponent.calledOnce).to.be.true;
+  });
 
   it('should NOT render filter radio buttons if the entity is a user', () => {
-    component['root'] = user
+    component['root'] = user;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
-    expect(filtersContainer).to.be.null
+    expect(filtersContainer).to.be.null;
   });
 
   it('should render filter radio buttons if the entity is NOT a user', () => {
-    component['root'] = entity
+    component['root'] = entity;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
-    expect(filtersContainer).to.not.be.null
+    expect(filtersContainer).to.not.be.null;
   });
 });

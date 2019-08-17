@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProvenanceNodeComponent } from '../provenance-node/provenance-node.component';
-import { get } from 'lodash'
+import { get } from 'lodash';
 
 @Component({
     selector: '[activityNode]',
@@ -14,13 +14,13 @@ export class ActivityNodeComponent extends ProvenanceNodeComponent {
     'Memoization': this.iconDictionary.stickyNote,
     'Report generation': this.iconDictionary.edit,
     'Starred': this.iconDictionary.star,
-  }
+  };
 
   get icon() {
-    return get(this.classIconMap, `[${this.node.nodeClass}]`, '')
+    return get(this.classIconMap, `[${this.node.nodeClass}]`, '');
   }
 
   get color() {
-    return this.colorDictionary.blue
+    return this.colorDictionary.blue;
   }
 }

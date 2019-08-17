@@ -56,7 +56,7 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
                     }
                 }
                 this.resource = resource;
-                this.resourceOutput.emit(resource)
+                this.resourceOutput.emit(resource);
             });
     }
 

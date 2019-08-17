@@ -86,7 +86,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
                 this.canDeleteMessage = permissions.isAdmin();
                 this.canEditMessage = permissions.isAdmin();
                 this.showMessageActions = this.canDeleteMessage || this.canEditMessage;
-            })
+            });
     }
 
     ngOnInit() { }

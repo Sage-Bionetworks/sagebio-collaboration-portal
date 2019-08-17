@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProvenanceNodeComponent } from '../provenance-node/provenance-node.component';
-import { get } from 'lodash'
+import { get } from 'lodash';
 
 @Component({
     selector: '[referenceNode]',
@@ -13,7 +13,7 @@ export class ReferenceNodeComponent extends ProvenanceNodeComponent {
     'Resource': this.iconDictionary.cube,
     'Tool': this.iconDictionary.gear,
     'Message': this.iconDictionary.comment,
-  }
+  };
 
   subclassImageMap = {
     File: 'assets/images/provenence-graph/file.svg',
@@ -25,17 +25,17 @@ export class ReferenceNodeComponent extends ProvenanceNodeComponent {
     Report: 'assets/images/provenence-graph/report.svg',
     Memo: 'assets/images/provenence-graph/memo.svg',
     Star: 'assets/images/provenence-graph/star.svg'
-  }
+  };
 
   get icon() {
-      return get(this.classIconMap, `[${this.node.nodeClass}]`)
+      return get(this.classIconMap, `[${this.node.nodeClass}]`);
   }
 
   get color() {
-      return this.colorDictionary.green
+      return this.colorDictionary.green;
   }
 
   get subclassImage() {
-    return get(this.subclassImageMap, `[${this.node.subclass}]`)
+    return get(this.subclassImageMap, `[${this.node.subclass}]`);
   }
 }
