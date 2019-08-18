@@ -80,7 +80,7 @@ export const models = {
     project: {
         name: {
             minlength: 3,
-            maxlength: 30
+            maxlength: 64
         },
         description: {
             minlength: 0,
