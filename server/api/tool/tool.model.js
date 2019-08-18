@@ -30,10 +30,10 @@ var ToolSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    apiServerUrl: {
-        type: String,
-        required: true
-    },
+    // apiServerUrl: {
+    //     type: String,
+    //     required: true
+    // },
     apiHealthCheckUrl: {
         type: String,
         required: true

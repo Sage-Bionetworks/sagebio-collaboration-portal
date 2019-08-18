@@ -18,7 +18,7 @@
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-form-field app-tool-edit-form-field">
+            <!-- <mat-form-field class="app-form-field app-tool-edit-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.https">
                     The URL must begin with the https:// protocol identifier.
@@ -29,7 +29,7 @@
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.invalid">
                     Please enter a valid URL for the API.
                 </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="app-form-field app-tool-edit-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
@@ -58,7 +58,7 @@
                 {{ errors.editTool }}
             </mat-error>
             <div class="app-tool-edit-form-actions">
-                <a mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="onEditTool()">Update Tool</a>
+                <a mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="!editForm.invalid && onEditTool()">Update Tool</a>
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>

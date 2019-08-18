@@ -23,8 +23,6 @@ import { Organization } from '../organization.model';
  *           type: string
  *         organization:
  *           $ref: '#/components/schemas/Organization'
- *         apiServerUrl:
- *           type: string
  *         resourceFormats:
  *           type: array
  *           items:
@@ -41,7 +39,7 @@ export interface Tool extends Entity {
     picture: string;
     website: string;
     organization: Organization;
-    apiServerUrl: string;
+    // apiServerUrl: string;
     apiHealthCheckUrl: string;
     resourceFormats: string[];
     // supportedDataTypes: string[];

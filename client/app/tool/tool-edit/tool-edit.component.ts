@@ -16,7 +16,6 @@ import { map } from 'lodash';
     styles: [require('./tool-edit.scss')],
 })
 export class ToolEditComponent implements OnInit, OnDestroy {
-    private toolSpecs = {};
     private editForm: FormGroup;
     private errors = {
         editTool: undefined
@@ -31,40 +30,38 @@ export class ToolEditComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private toolService: ToolService) {
-        this.toolSpecs = config.models.tool;
-    }
-
-    ngOnInit() {
-        this.pageTitleService.title = 'Edit Tool';
-        if (this.tool) {
-            console.log('this.tool: ', this.tool);
+            this.pageTitleService.title = 'Edit Tool';
             this.editForm = this.formBuilder.group({
-                name: [this.tool.name, [
+                name: ['', [
                     Validators.required,
                     Validators.minLength(config.models.tool.name.minlength),
                     Validators.maxLength(config.models.tool.name.maxlength)
                 ]],
-                description: [this.tool.description, [
+                description: ['', [
                     Validators.required,
                     Validators.minLength(config.models.tool.description.minlength),
                     Validators.maxLength(config.models.tool.description.maxlength)
                 ]],
-                apiServerUrl: [this.tool.apiServerUrl, [
+                apiHealthCheckUrl: ['', [
                     Validators.required,
-                    UrlValidators.https(),
                     UrlValidators.noTrailingSlash()
                 ]],
-                apiHealthCheckUrl: [this.tool.apiHealthCheckUrl, [
+                website: ['', [
                     Validators.required,
-                    UrlValidators.https(),
-                    UrlValidators.noTrailingSlash()
-                ]],
-                website: [this.tool.website, [
-                    Validators.required,
-                    UrlValidators.https(),
                     UrlValidators.noTrailingSlash()
                 ]]
             });
+    }
+
+    ngOnInit() {
+        if (this.tool) {
+            this.editForm.setValue({
+                name: this.tool.name,
+                description: this.tool.description,
+                apiHealthCheckUrl: this.tool.apiHealthCheckUrl,
+                website: this.tool.website
+            });
+            this.editForm.markAllAsTouched();
         }
     }
 
@@ -84,7 +81,7 @@ export class ToolEditComponent implements OnInit, OnDestroy {
                 this.editTool.emit(tool);
                 this.close.emit(null);
             }, err => {
-                console.log('ERROR', err);
+                console.error(err);
                 this.errors.editTool = err.message;
             });
     }
