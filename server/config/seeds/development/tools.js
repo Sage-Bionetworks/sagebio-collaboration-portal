@@ -3,6 +3,23 @@ import { sageId, geneId } from '../default/organizations';
 import { adminUserId } from '../default/users';
 import config from '../../environment';
 
+const phccpShinyToolExample = {
+    _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
+    name: 'PHCCP Shiny Tool Example',
+    slug: 'phccp-shiny-tool-example',
+    description: `A Shiny App for demonstrating features of this collaboration ` +
+        `portal.`,
+    picture: 'assets/images/320px-shinyLogo.png',
+    // TODO: change website to the domain name running FE Lite.
+    // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
+    website: 'https://phccp-shiny.synapse.org/develop/app',
+    // apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'https://phccp-shiny.synapse.org/develop/app',
+    resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
+    organization: sageId,
+    createdBy: adminUserId
+};
+
 let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd93'),
     slug: 'facile-explorer',
@@ -33,22 +50,8 @@ let tools = [{
 //     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
 //     organization: geneId
 // },
-{
-    _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
-    name: 'PHCCP Shiny Tool Example',
-    slug: 'phccp-shiny-tool-example',
-    description: `A Shiny App for demonstrating features of this collaboration ` +
-        `portal.`,
-    picture: 'assets/images/320px-shinyLogo.png',
-    // TODO: change website to the domain name running FE Lite.
-    // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
-    website: 'https://phccp-shiny.synapse.org/develop/app',
-    // apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'https://phccp-shiny.synapse.org/develop/app',
-    resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
-    organization: sageId,
-    createdBy: adminUserId
-}, {
+phccpShinyToolExample
+, {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd95'),
     slug: 'iris-enterprise-explorer',
     name: 'IRIS Enterprise Explorer',
@@ -117,5 +120,6 @@ let tools = [{
 }];
 
 export {
-    tools
+    tools,
+    phccpShinyToolExample
 };

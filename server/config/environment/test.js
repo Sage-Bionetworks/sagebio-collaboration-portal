@@ -25,9 +25,5 @@ module.exports = {
 
     authStrategies: [
         'local'
-    ],
-
-    phccpShinyToolExample: {
-        url: process.env.PHCCP_SHINY_TOOL_EXAMPLE_URL || 'https://phccp-shiny.synapse.org/test/app'
-    }
+    ]
 };

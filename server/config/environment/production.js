@@ -26,9 +26,5 @@ module.exports = {
     ssl: {
         key: process.env.SSL_KEY || fs.readFileSync('certs/server.key'),
         cert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert')
-    },
-
-    phccpShinyToolExample: {
-        url: process.env.PHCCP_SHINY_TOOL_EXAMPLE_URL || 'https://phccp-shiny.synapse.org/master/app'
     }
 };
