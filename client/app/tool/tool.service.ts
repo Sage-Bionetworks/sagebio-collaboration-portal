@@ -59,7 +59,7 @@ export class ToolService {
     // }
 
     getToolHealth(tool: Tool): Observable<ToolHealth> {
-        return this.httpClient.get<ToolHealth>(`${tool.apiServerUrl}/health`);
+        return this.httpClient.get<ToolHealth>(`${tool.apiHealthCheckUrl}/health`);
     }
 
     create(tool: Tool): Observable<Tool> {

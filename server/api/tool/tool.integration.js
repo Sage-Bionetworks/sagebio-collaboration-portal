@@ -74,7 +74,6 @@ describe('Tool API:', function () {
                     description: 'New description',
                     organization: authOrganization._id.toString(),
                     website: 'New website',
-                    apiServerUrl: 'New apiServerUrl',
                     apiHealthCheckUrl: 'New apiHealthCheckUrl'
                 })
                 .expect(201)
@@ -94,7 +93,6 @@ describe('Tool API:', function () {
             expect(newTool.description).to.equal('New description');
             expect(newTool.organization).to.equal(authOrganization._id.toString());
             expect(newTool.website).to.equal('New website');
-            expect(newTool.apiServerUrl).to.equal('New apiServerUrl');
             expect(newTool.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
             expect(newTool.createdBy).to.equal(adminUser._id.toString());
         });
@@ -128,7 +126,6 @@ describe('Tool API:', function () {
             expect(tool.description).to.equal('New description');
             expect(tool.organization._id).to.equal(authOrganization._id.toString());
             expect(tool.website).to.equal('New website');
-            expect(tool.apiServerUrl).to.equal('New apiServerUrl');
             expect(tool.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
             expect(tool.createdBy).to.equal(adminUser._id.toString());
         });
@@ -147,7 +144,6 @@ describe('Tool API:', function () {
                     description: 'Updated description',
                     organization: anotherOrganization._id.toString(),
                     website: 'Updated website',
-                    apiServerUrl: 'Updated apiServerUrl',
                     apiHealthCheckUrl: 'Updated apiHealthCheckUrl'
                 })
                 .expect(200)
@@ -171,7 +167,6 @@ describe('Tool API:', function () {
             expect(updatedTool.description).to.equal('Updated description');
             expect(updatedTool.organization).to.equal(anotherOrganization._id.toString());
             expect(updatedTool.website).to.equal('Updated website');
-            expect(updatedTool.apiServerUrl).to.equal('Updated apiServerUrl');
             expect(updatedTool.apiHealthCheckUrl).to.equal('Updated apiHealthCheckUrl');
             expect(updatedTool.createdBy).to.equal(adminUser._id.toString());
         });
@@ -193,7 +188,6 @@ describe('Tool API:', function () {
                     expect(tool.description).to.equal('Updated description');
                     expect(tool.organization._id).to.equal(anotherOrganization._id.toString());
                     expect(tool.website).to.equal('Updated website');
-                    expect(tool.apiServerUrl).to.equal('Updated apiServerUrl');
                     expect(tool.apiHealthCheckUrl).to.equal('Updated apiHealthCheckUrl');
                     expect(tool.createdBy).to.equal(adminUser._id.toString());
 
@@ -231,10 +225,6 @@ describe('Tool API:', function () {
                     value: 'Patched website'
                 }, {
                     op: 'replace',
-                    path: '/apiServerUrl',
-                    value: 'Patched apiServerUrl'
-                }, {
-                    op: 'replace',
                     path: '/apiHealthCheckUrl',
                     value: 'Patched apiHealthCheckUrl'
                 }])
@@ -259,7 +249,6 @@ describe('Tool API:', function () {
             expect(patchedTool.description).to.equal('Patched description');
             expect(patchedTool.organization).to.equal(anotherOrganization._id.toString());
             expect(patchedTool.website).to.equal('Patched website');
-            expect(patchedTool.apiServerUrl).to.equal('Patched apiServerUrl');
             expect(patchedTool.apiHealthCheckUrl).to.equal('Patched apiHealthCheckUrl');
             expect(patchedTool.createdBy).to.equal(adminUser._id.toString());
         });

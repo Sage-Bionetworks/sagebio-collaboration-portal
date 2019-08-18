@@ -7,16 +7,16 @@ let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd93'),
     slug: 'facile-explorer',
     name: 'Facile Explorer',
-    description: `A Shiny App for self-service and exploratory analytics.
-        It empowers users to compute over data and is designed to enable
-        sustained independent data exploration. The FacileData ecosystem was
-        designed to support exploration of clinical trial data and facilitate
-        communication between bench and computational scientists to accelerate
-        discovery.`,
+    description: `A Shiny App for self-service and exploratory analytics. ` +
+        `It empowers users to compute over data and is designed to enable ` +
+        `sustained independent data exploration. The FacileData ecosystem was ` +
+        `designed to support exploration of clinical trial data and facilitate ` +
+        `communication between bench and computational scientists to accelerate ` +
+        `discovery.`,
     picture: 'assets/images/320px-shinyLogo.png',
     website: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',  // 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
-    apiServerUrl: 'plop',
-    apiHealthCheckUrl: 'plop',
+    // apiServerUrl: 'plop',
+    apiHealthCheckUrl: 'http://gred-shiny-p01.sc1.roche.com:3838/facileexplorer',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -37,14 +37,14 @@ let tools = [{
     _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
     name: 'PHCCP Shiny Tool Example',
     slug: 'phccp-shiny-tool-example',
-    description: `A Shiny App for demonstrating features of this collaboration
-        portal.`,
+    description: `A Shiny App for demonstrating features of this collaboration ` +
+        `portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
     // TODO: change website to the domain name running FE Lite.
     // If FE Lite is run as part of the portal stack, keep port 8082 as it is where FE Lite is listening
-    website: config.phccpShinyToolExample.url,
-    apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'plop',
+    website: 'https://phccp-shiny.synapse.org/develop/app',
+    // apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'https://phccp-shiny.synapse.org/develop/app',
     resourceFormats: ['CSV', 'JSON', 'plain text', 'TXT'],
     organization: sageId,
     createdBy: adminUserId
@@ -52,17 +52,17 @@ let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd95'),
     slug: 'iris-enterprise-explorer',
     name: 'IRIS Enterprise Explorer',
-    description: `IRIS Enterprise (IRISe) is a scalable cloud-based solution
-        designed to aggregate digital pathology images and derived
-        high-dimensional biomarker data collected in cancer immunotherapy
-        trials across Roche Pharma. It aims to assist pathologists and
-        biomarker scientists within Roche by providing visualized, contextual
-        insights into cancer and immune biology, and the mechanism of action of
-        new cancer treatments.`,
+    description: `IRIS Enterprise (IRISe) is a scalable cloud-based solution ` +
+        `designed to aggregate digital pathology images and derived ` +
+        `high-dimensional biomarker data collected in cancer immunotherapy ` +
+        `trials across Roche Pharma. It aims to assist pathologists and ` +
+        `biomarker scientists within Roche by providing visualized, contextual ` +
+        `insights into cancer and immune biology, and the mechanism of action of ` +
+        `new cancer treatments.`,
     picture: 'assets/images/320px-IRIS-Enterprise-Explorer.png',
     website: 'https://iris-e-explorer.navify.com/redirect/0oa2ysnuc9hso3LIb0i7/studies',  // 'https://iris-stage.navify.com/studies',  // 'https://iris-e-explorer.navify.com',
-    apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'plop',
+    // apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'https://iris-e-explorer.navify.com/redirect/0oa2ysnuc9hso3LIb0i7/studies',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
@@ -100,17 +100,17 @@ let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd98'),
     slug: 'phcaa',
     name: 'PHC Advanced Analytics',
-    description: `PHC Advanced Analytics Platform is a scalable analytics
-        platform allowing users (Data Scientists, Clinical/Statistical
-        Programmers, Statisticians and Epidemiologists) to establish their own
-        baseline analytics environments ("containers"). The containerized,
-        cloud-based environments provide a collection of statistical
-        programming and data visualization tools to support advanced analytic
-        tools (RStudio Pro, RSConnect, Jupyter).`,
+    description: `PHC Advanced Analytics Platform is a scalable analytics ` +
+        `platform allowing users (Data Scientists, Clinical/Statistical ` +
+        `Programmers, Statisticians and Epidemiologists) to establish their own ` +
+        `baseline analytics environments ("containers"). The containerized, ` +
+        `cloud-based environments provide a collection of statistical ` +
+        `programming and data visualization tools to support advanced analytic ` +
+        `tools (RStudio Pro, RSConnect, Jupyter).`,
     picture: 'assets/images/320px-PHC_IX.png',
     website: 'https://myapps.microsoft.com/signin/RStudio%20%20Jupyter/8eecef32-7c32-417f-b2a4-7b1ba4ee83e9?tenantId=c8036283-1408-4dc8-b870-31e789a0a528',
-    apiServerUrl: 'TBA',
-    apiHealthCheckUrl: 'plop',
+    // apiServerUrl: 'TBA',
+    apiHealthCheckUrl: 'https://myapps.microsoft.com/signin/RStudio%20%20Jupyter/8eecef32-7c32-417f-b2a4-7b1ba4ee83e9?tenantId=c8036283-1408-4dc8-b870-31e789a0a528',
     resourceFormats: [],
     organization: geneId,
     createdBy: adminUserId
