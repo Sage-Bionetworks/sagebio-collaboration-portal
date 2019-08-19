@@ -135,7 +135,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
         let updatedMessage = this.form.value;
         updatedMessage.body = JSON.stringify(this.form.get('body').value);
         updatedMessage.updatedBy = this.userId;
-        updatedMessage.updatedAt = Date.now();
 
         this.messagingService.updateMessage(updatedMessage)
             .subscribe(message => {

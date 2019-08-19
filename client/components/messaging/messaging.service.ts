@@ -105,7 +105,7 @@ export class MessagingService {
             [
                 { op: 'replace', path: '/body', value: message.body },
                 { op: 'add', path: '/updatedBy', value: message.updatedBy },
-                { op: 'add', path: '/updatedAt', value: message.updatedAt },
+                { op: 'add', path: '/updatedAt', value: Date.now() },
             ]
         );
     }
