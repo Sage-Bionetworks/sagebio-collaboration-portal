@@ -211,7 +211,7 @@
         "lint": "npm run lint:client && npm run lint:server",
         "lint:client": "npm run lint:ts && npm run lint:html && npm run lint:scss",
         "lint:server": "eslint ./server/**/*.js -c ./server/.eslintrc --ignore-pattern *.spec.js --ignore-pattern *.integration.js",
-        "lint:ts": "tslint --format verbose './client/**/*.ts'",
+        "lint:ts": "tslint --project tsconfig.json --config client/tslint.json --format verbose './client/**/*.ts'",
         "lint:html": "./node_modules/.bin/htmlhint --config client/.htmlhintrc 'client/**/*.html'",
         "lint:scss": "stylelint 'client/**/*.scss' --config client/.stylelintrc",
         "test": "gulp test",
