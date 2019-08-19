@@ -52,7 +52,6 @@ export class ThreadSidenavComponent implements OnDestroy {
     updateThread(): void {
         const updatedThread: Thread = this.thread;
         updatedThread.updatedBy = this.user;
-        updatedThread.updatedAt = Date.now().toString();
 
         this.messagingService.updateThread(updatedThread).subscribe(thread => {
             this.thread = thread;
@@ -63,7 +62,6 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     onEditMessage(): void {
         this.updateThread();
-        this.refreshMessages();
     }
 
     onDeleteMessage(): void {
@@ -72,7 +70,6 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     onNewMessage(): void {
         this.updateThread();
-        this.refreshMessages();
     }
 
     close(): void {
