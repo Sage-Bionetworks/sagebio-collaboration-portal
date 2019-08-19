@@ -34,14 +34,14 @@ export class MessagingService {
     getThreads(query?: {}): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
             .pipe(
-                map(threads => orderBy(['createdAt'], ['asc'], threads))
+                map(threads => orderBy(['updatedAt'], ['desc'], threads))
             );
     }
 
     getThreadsByEntity(entityId: string): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/messages/threads/entity/${entityId}`)
             .pipe(
-                map(threads => orderBy(['createdAt'], ['asc'], threads))
+                map(threads => orderBy(['updatedAt'], ['desc'], threads))
             );
     }
 
@@ -65,7 +65,7 @@ export class MessagingService {
             [
                 { op: 'replace', path: '/title', value: thread.title },
                 { op: 'add', path: '/updatedBy', value: thread.updatedBy },
-                { op: 'add', path: '/updatedAt', value: thread.updatedAt },
+                { op: 'add', path: '/updatedAt', value: Date.now() },
             ]
         );
     }
