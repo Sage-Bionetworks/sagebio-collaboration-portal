@@ -131,7 +131,14 @@ describe('Message API Router:', function () {
         });
     });
 
-    // TODO Write test to PATCH /messages/threads/:id
+    // PATCH /messages/threads/:id
+    describe('PATCH /api/messages/threads/:id', function () {
+        it('should route to message.controller.patchThread', function () {
+            expect(routerStub.patch
+                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.patchThread')
+            ).to.have.been.calledOnce;
+        });
+    });
 
     // DELETE /messages/threads/:id    -> Delete a specific thread ID not associated with an entity ID
     describe('DELETE /api/messages/threads/:id', function () {

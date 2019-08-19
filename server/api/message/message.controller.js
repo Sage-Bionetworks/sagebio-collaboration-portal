@@ -281,7 +281,6 @@ export function addMessageToThread(req, res) {
         .catch(handleError(res));
 }
 
-// TODO Create a patchThread function
 // Updates an existing Thread in the DB
 export function patchThread(req, res) {
     if (req.body._id) {
