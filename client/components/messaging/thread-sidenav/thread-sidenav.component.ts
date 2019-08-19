@@ -8,6 +8,7 @@ import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { UserService } from 'components/auth/user.service';
+import { User } from 'models/auth/user.model';
 
 @Component({
     selector: 'thread-sidenav',
@@ -19,13 +20,20 @@ export class ThreadSidenavComponent implements OnDestroy {
     private message: Message;
     private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+    private user: User;
 
     static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService];
     constructor(private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
         private socketService: SocketService,
         private userService: UserService,
-        ) { }
+        ) {
+            // Get the current user ID
+            this.userService.get()
+                .subscribe(user => {
+                    this.user = user;
+                });
+        }
 
     ngOnDestroy() { }
 
@@ -41,8 +49,20 @@ export class ThreadSidenavComponent implements OnDestroy {
         this.refreshMessages();
     }
 
+    updateThread(): void {
+        const updatedThread: Thread = this.thread;
+        updatedThread.updatedBy = this.user;
+        updatedThread.updatedAt = Date.now().toString();
+
+        this.messagingService.updateThread(updatedThread).subscribe(thread => {
+            this.thread = thread;
+            this.refreshMessages();
+        })
+
+    }
+
     onEditMessage(): void {
-        // TODO Update the thread with the updatedBy/updatedAt details
+        this.updateThread();
         this.refreshMessages();
     }
 
@@ -51,7 +71,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     onNewMessage(): void {
-        // TODO Update the thread with the updatedBy/updatedAt details
+        this.updateThread();
         this.refreshMessages();
     }
 

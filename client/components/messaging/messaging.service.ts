@@ -60,7 +60,15 @@ export class MessagingService {
         this.secondarySidenavService.open();
     }
 
-    // TODO Create an updateThread function
+    updateThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.patch<Thread>(`/api/messages/threads/${thread._id}`,
+            [
+                { op: 'replace', path: '/title', value: thread.title },
+                { op: 'add', path: '/updatedBy', value: thread.updatedBy },
+                { op: 'add', path: '/updatedAt', value: thread.updatedAt },
+            ]
+        );
+    }
 
     getMessagesForThread(threadId: string): Observable<Message[]> {
         return this.httpClient.get<Message[]>(`/api/messages/threads/messages/${threadId}`)
