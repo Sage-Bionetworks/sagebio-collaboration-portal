@@ -1,3 +1,5 @@
+/* tslint:disable no-unused-expression */
+
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from 'chai';
