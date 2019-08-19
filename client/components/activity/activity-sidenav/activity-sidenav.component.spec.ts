@@ -1,3 +1,5 @@
+/* tslint:disable no-unused-expression */
+
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { expect } from 'chai';
@@ -107,14 +109,14 @@ describe('ActivitySidenavComponent', () => {
   });
 
   it('should NOT render filter radio buttons if the entity is a user', () => {
-    component['root'] = user;
+    component[`root`] = user;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
     expect(filtersContainer).to.be.null;
   });
 
   it('should render filter radio buttons if the entity is NOT a user', () => {
-    component['root'] = entity;
+    component[`root`] = entity;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
     expect(filtersContainer).to.not.be.null;
