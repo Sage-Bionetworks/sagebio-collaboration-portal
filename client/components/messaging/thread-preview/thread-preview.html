@@ -4,7 +4,7 @@
     <div class="app-thread-header-metadata" (click)="showThread()">
             <div class="app-thread-header-metadata-line">
                 <span class="app-thread-header-title">{{ thread.title }}</span>
-                <span class="app-thread-header-time" matTooltip="{{ thread.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ thread.createdAt | date: 'shortTime' }}</span>
+                <span class="app-thread-header-time" matTooltip="{{ (thread.updatedAt || thread.createdAt) | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ (thread.updatedAt || thread.createdAt) | date: 'shortTime' }}</span>
             </div>
             <span class="app-thread-header-metadata-line">
                 <span class="app-thread-header-subtitle">

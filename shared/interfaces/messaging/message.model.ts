@@ -16,10 +16,12 @@ import { Thread } from '../auth/thread.model';
  *         createdAt:
  *           type: string
  *           format: date-time
+ *         createdBy:
+ *           $ref: '#/components/schemas/UserProfile'
  *         updatedAt:
  *           type: string
  *           format: date-time
- *         createdBy:
+ *         updatedBy:
  *           $ref: '#/components/schemas/UserProfile'
  */
 export interface Message {
@@ -27,6 +29,7 @@ export interface Message {
     body: string | any;
     thread: Thread | string;
     createdAt: string;
-    updatedAt: string;
     createdBy: UserProfile;
+    updatedAt: string;
+    updatedBy: UserProfile;
 }

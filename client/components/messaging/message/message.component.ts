@@ -29,6 +29,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
     @Input() private showReplyButton = true;
     @Input() private showStartThreadButton = true;
     @Output() deleteMessage: EventEmitter<Message> = new EventEmitter<Message>();
+    @Output() editMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private showMessageActions = false;
@@ -47,6 +48,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
     private getMessageSub: Subscription;
     private tooltipShowDelay: number;
     private avatarSize = 40;
+    private userId: string;
 
     static parameters = [FormBuilder, NotificationService, MessagingService, MessagingDataService, UserPermissionDataService, UserService];
 
@@ -79,6 +81,12 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.avatarSize = config.avatar.size.mini;
+
+        // Get the current user ID
+        this.userService.get()
+            .subscribe(user => {
+                this.userId = user._id;
+            });
 
         this.userPermissionDataService.permissions()
             .subscribe(permissions => {
@@ -126,8 +134,12 @@ export class MessageComponent implements OnInit, AfterViewInit {
     updateMessage(): void {
         let updatedMessage = this.form.value;
         updatedMessage.body = JSON.stringify(this.form.get('body').value);
+        updatedMessage.updatedBy = this.userId;
+
         this.messagingService.updateMessage(updatedMessage)
-            .subscribe(message => { },
+            .subscribe(message => {
+                this.editMessage.emit();
+             },
                 err => {
                     console.log(err);
                     this.notificationService.error('Unable to update the message');

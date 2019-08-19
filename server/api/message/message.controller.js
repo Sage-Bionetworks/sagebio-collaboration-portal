@@ -123,7 +123,7 @@ export function indexMyStars(req, res) {
         .exec()
         .then(user => {
             if (!user) {
-                return res.status(404).end(); // TODO: return auth error code
+                return res.status(404).end();
             }
             return StarredMessage
                 .find({
@@ -197,17 +197,6 @@ export function indexReplies(req, res) {
  * Threads
  */
 
-// Test
-export function test(req, res) { // Use to test routing
-    // console.log(`[TEST] req.body: ${JSON.stringify(req.body, null, 2)}`);
-    const result = {
-        originalUrl: req.originalUrl,
-        route: req.route,
-        params: req.params,
-        body: req.body,
-    };
-    return res.status(200).json(result);
-}
 
 // Get a list of Threads that are not associated with an entity
 export function indexThreads(req, res) {
@@ -289,6 +278,19 @@ export function addMessageToThread(req, res) {
             });
         })
         .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// Updates an existing Thread in the DB
+export function patchThread(req, res) {
+    if (req.body._id) {
+        Reflect.deleteProperty(req.body, '_id');
+    }
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(req.body))
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 

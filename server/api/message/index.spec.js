@@ -16,6 +16,7 @@ var messageCtrlStub = {
     createThread: 'messageCtrl.createThread',
     addMessageToThread: 'messageCtrl.addMessageToThread',
     destroyThread: 'messageCtrl.destroyThread',
+    patchThread: 'messageCtrl.patchThread',
 };
 
 var authServiceStub = {
@@ -126,6 +127,15 @@ describe('Message API Router:', function () {
         it('should route to message.controller.addMessageToThread', function () {
             expect(routerStub.post
                 .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.addMessageToThread')
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    // PATCH /messages/threads/:id
+    describe('PATCH /api/messages/threads/:id', function () {
+        it('should route to message.controller.patchThread', function () {
+            expect(routerStub.patch
+                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.patchThread')
             ).to.have.been.calledOnce;
         });
     });

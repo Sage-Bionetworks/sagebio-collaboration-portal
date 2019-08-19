@@ -56,7 +56,6 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     loadThreads() {
         this.messagingService
             .getThreads()
-            .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)))
             .subscribe(threads => {
                 this.threads = threads;
                 this.socketService.syncUpdates('thread', this.threads);
@@ -67,7 +66,6 @@ export class ThreadListComponent implements OnDestroy, OnInit {
         // Default to project entity
         this.messagingService
             .getThreadsByEntity(entityId)
-            .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)))
             .subscribe(threads => {
                 this.threads = threads;
                 this.socketService.syncUpdates('thread', this.threads);

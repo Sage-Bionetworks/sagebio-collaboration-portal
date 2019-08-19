@@ -18,14 +18,18 @@ var MessageSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     __v: {
         type: Number,
@@ -54,6 +58,7 @@ var MessageSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)
+        .populate('updatedBy', User.profileProperties)
         .populate('thread');
     // .populate('tags');
     next();
@@ -67,6 +72,7 @@ const autoPopulatePre = function (next) {
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
+        .populate('updatedBy', User.profileProperties)
         .populate('thread')
         // .populate('tags')
         // .execPopulate();
