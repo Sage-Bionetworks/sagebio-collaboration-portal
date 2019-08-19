@@ -109,14 +109,14 @@ describe('ActivitySidenavComponent', () => {
   });
 
   it('should NOT render filter radio buttons if the entity is a user', () => {
-    component['root'] = user;
+    component[`root`] = user;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
     expect(filtersContainer).to.be.null;
   });
 
   it('should render filter radio buttons if the entity is NOT a user', () => {
-    component['root'] = entity;
+    component[`root`] = entity;
     fixture.detectChanges();
     const filtersContainer = fixture.debugElement.nativeElement.querySelector('.app-activity-filters-container');
     expect(filtersContainer).to.not.be.null;
