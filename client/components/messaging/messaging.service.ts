@@ -60,6 +60,8 @@ export class MessagingService {
         this.secondarySidenavService.open();
     }
 
+    // TODO Create an updateThread function
+
     getMessagesForThread(threadId: string): Observable<Message[]> {
         return this.httpClient.get<Message[]>(`/api/messages/threads/messages/${threadId}`)
             .pipe(

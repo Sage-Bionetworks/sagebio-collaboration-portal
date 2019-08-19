@@ -7,6 +7,7 @@ import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
+import { UserService } from 'components/auth/user.service';
 
 @Component({
     selector: 'thread-sidenav',
@@ -19,10 +20,12 @@ export class ThreadSidenavComponent implements OnDestroy {
     private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
-    static parameters = [SecondarySidenavService, MessagingService, SocketService];
+    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService];
     constructor(private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
-        private socketService: SocketService) { }
+        private socketService: SocketService,
+        private userService: UserService,
+        ) { }
 
     ngOnDestroy() { }
 
@@ -48,6 +51,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     onNewMessage(): void {
+        // TODO Update the thread with the updatedBy/updatedAt details
         this.refreshMessages();
     }
 

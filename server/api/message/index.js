@@ -24,6 +24,8 @@ router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
 // POST /messages/threads/:id - Specific thread not associated with an entity
 router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
 
+// TODO Create a PATCH /messages/threads/:id route
+
 // DELETE /messages/threads/:id - Delete a specific thread ID
 router.delete('/threads/:id', auth.hasRole(ADMIN_ACCESS), controller.destroyThread);
 

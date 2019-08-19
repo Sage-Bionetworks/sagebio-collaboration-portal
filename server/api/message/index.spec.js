@@ -16,6 +16,7 @@ var messageCtrlStub = {
     createThread: 'messageCtrl.createThread',
     addMessageToThread: 'messageCtrl.addMessageToThread',
     destroyThread: 'messageCtrl.destroyThread',
+    patchThread: 'messageCtrl.patchThread',
 };
 
 var authServiceStub = {
@@ -129,6 +130,8 @@ describe('Message API Router:', function () {
             ).to.have.been.calledOnce;
         });
     });
+
+    // TODO Write test to PATCH /messages/threads/:id
 
     // DELETE /messages/threads/:id    -> Delete a specific thread ID not associated with an entity ID
     describe('DELETE /api/messages/threads/:id', function () {

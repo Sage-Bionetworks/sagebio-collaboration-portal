@@ -123,7 +123,7 @@ export function indexMyStars(req, res) {
         .exec()
         .then(user => {
             if (!user) {
-                return res.status(404).end(); // TODO: return auth error code
+                return res.status(404).end();
             }
             return StarredMessage
                 .find({
@@ -278,6 +278,20 @@ export function addMessageToThread(req, res) {
             });
         })
         .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// TODO Create a patchThread function
+// Updates an existing Thread in the DB
+export function patchThread(req, res) {
+    if (req.body._id) {
+        Reflect.deleteProperty(req.body, '_id');
+    }
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(req.body))
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
