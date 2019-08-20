@@ -1,19 +1,18 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { orderBy } from 'lodash/fp';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
 import { UserService } from 'components/auth/user.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { User } from 'models/auth/user.model';
 
 @Component({
     selector: 'thread-sidenav',
     template: require('./thread-sidenav.html'),
-    styles: [require('./thread-sidenav.scss')]
+    styles: [require('./thread-sidenav.scss')],
 })
 export class ThreadSidenavComponent implements OnDestroy {
     private thread: Thread;
@@ -21,21 +20,28 @@ export class ThreadSidenavComponent implements OnDestroy {
     private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
     private user: User;
+    private canEditThread = false;
+    private editThread = false;
 
-    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService];
-    constructor(private secondarySidenavService: SecondarySidenavService,
+    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService, UserPermissionDataService];
+    constructor(
+        private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
         private socketService: SocketService,
         private userService: UserService,
-        ) {
-            // Get the current user ID
-            this.userService.get()
-                .subscribe(user => {
-                    this.user = user;
-                });
-        }
+        private userPermissionDataService: UserPermissionDataService,
+    ) {
+        // Get the current user
+        this.userService.get().subscribe(user => {
+            this.user = user;
+        });
 
-    ngOnDestroy() { }
+        this.userPermissionDataService.permissions().subscribe(permissions => {
+            this.canEditThread = permissions.isAdmin();
+        });
+    }
+
+    ngOnDestroy() {}
 
     refreshMessages(): void {
         this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
@@ -59,6 +65,16 @@ export class ThreadSidenavComponent implements OnDestroy {
         });
     }
 
+    onEditThread(thread): void {
+        this.thread = thread;
+        this.editThread = false;
+        this.refreshMessages();
+    }
+
+    onCancel(): void {
+        this.editThread = false;
+    }
+
     onEditMessage(): void {
         this.updateThread();
     }
@@ -74,5 +90,9 @@ export class ThreadSidenavComponent implements OnDestroy {
     close(): void {
         this.secondarySidenavService.close();
         this.secondarySidenavService.destroyContentComponent();
+    }
+
+    editThreadTitle(): void {
+        this.editThread = !this.editThread;
     }
 }
