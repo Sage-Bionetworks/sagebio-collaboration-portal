@@ -60,6 +60,14 @@ export class ThreadSidenavComponent implements OnDestroy {
         });
     }
 
+    onEditThread(): void {
+        this.editThread = false;
+    }
+
+    onCancel(): void {
+        this.editThread = false;
+    }
+
     onEditMessage(): void {
         this.updateThread();
     }
@@ -78,8 +86,6 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     editThreadTitle(): void {
-        console.log(`editThreadTitle() before -> this.editThread: ${this.editThread}`);
         this.editThread = !this.editThread;
-        console.log(`editThreadTitle() after -> this.editThread: ${this.editThread}`);
     }
 }
