@@ -1,4 +1,3 @@
-// TODO High level overview of Messages and Threads API routes
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/messages              ->  index
@@ -7,6 +6,8 @@
  * PUT     /api/messages/:id          ->  upsert
  * PATCH   /api/messages/:id          ->  patch
  * DELETE  /api/messages/:id          ->  destroy
+ *
+ * NOTE High level overview of Threads API routes
  * POST    /api/messages/threads/     ->  createThread
  * GET     /api/messages/threads/     ->  indexThreads
  * GET     /api/messages/threads/messages/:id     -> showMessagesForThread
@@ -205,7 +206,7 @@ export function indexReplies(req, res) {
  * Threads
  */
 
-// TODO Threads API in the message.controller
+// NOTE Threads API in the message controller
 // Get a list of Threads that are not associated with an entity
 export function indexThreads(req, res) {
     return Thread.find({

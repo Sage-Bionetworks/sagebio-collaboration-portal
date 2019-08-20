@@ -103,6 +103,7 @@ describe('Message API Router:', function () {
         });
     });
 
+    // NOTE Unit tests for Threads API
     // Threads
     // POST /messages/threads/  -> Create a new thread and a new message ID that is not associated with an entity ID
     describe('POST /api/messages/threads', function () {

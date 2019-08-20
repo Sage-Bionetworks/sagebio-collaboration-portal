@@ -15,6 +15,7 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
  * Threads API
  */
 
+// NOTE Express routes for Threads API
 // POST /messages/threads/ - Create a new thread not associated with an entity
 router.post('/threads', auth.isAuthenticated(), controller.createThread);
 
