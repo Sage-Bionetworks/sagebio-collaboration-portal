@@ -1,7 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { orderBy } from 'lodash/fp';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
@@ -60,8 +58,11 @@ export class ThreadSidenavComponent implements OnDestroy {
         });
     }
 
-    onEditThread(): void {
+    onEditThread(thread): void {
+        this.thread = thread;
         this.editThread = false;
+        this.refreshMessages();
+        // TODO Emit an event so the main thread list refreshes
     }
 
     onCancel(): void {

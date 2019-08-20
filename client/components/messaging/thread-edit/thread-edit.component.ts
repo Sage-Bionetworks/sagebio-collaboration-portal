@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Thread } from 'models/messaging/thread.model';
+import { UserService } from 'components/auth/user.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { MessagingService } from 'components/messaging/messaging.service';
 
 import config from '../../../app/app.constants';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -17,6 +19,7 @@ export class ThreadEditComponent implements OnInit {
     @Output() editThread: EventEmitter<Thread> = new EventEmitter<Thread>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
+    private userId: string;
     private canEditThread = false;
     private form: FormGroup;
     private threadSpecs: object;
@@ -24,8 +27,13 @@ export class ThreadEditComponent implements OnInit {
         editThreadTitle: undefined,
     };
 
-    static parameters = [FormBuilder, UserPermissionDataService];
-    constructor(private formBuilder: FormBuilder, private userPermissionDataService: UserPermissionDataService) {
+    static parameters = [FormBuilder, UserService, UserPermissionDataService, MessagingService];
+    constructor(
+        private formBuilder: FormBuilder,
+        private userService: UserService,
+        private userPermissionDataService: UserPermissionDataService,
+        private messagingService: MessagingService
+    ) {
         this.threadSpecs = config.models.message;
         this.form = formBuilder.group({
             title: [
@@ -37,6 +45,11 @@ export class ThreadEditComponent implements OnInit {
                 ],
             ],
         });
+        // Get the current user ID
+        this.userService.get().subscribe(user => {
+            this.userId = user._id;
+        });
+
         this.userPermissionDataService.permissions().subscribe(permissions => {
             // Eventually permissions should be implemented for user editing of messages
             this.canEditThread = permissions.isAdmin();
@@ -55,7 +68,19 @@ export class ThreadEditComponent implements OnInit {
     }
 
     updateThread() {
-        this.editThread.emit();
-        this.form.reset();
+        let editedThread = this.form.value;
+        editedThread._id = this.thread._id;
+        editedThread.updatedBy = this.userId;
+
+        this.messagingService.updateThread(editedThread).subscribe(
+            thread => {
+                this.editThread.emit(thread);
+                this.form.reset();
+            },
+            err => {
+                console.error(err);
+                this.errors.editThreadTitle = err.message || err;
+            }
+        );
     }
 }
