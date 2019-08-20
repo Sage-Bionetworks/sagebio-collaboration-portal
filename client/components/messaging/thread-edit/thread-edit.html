@@ -1,0 +1,34 @@
+<mat-card class="app-thread-edit-card">
+    <mat-card-content>
+        <form class="app-thread-edit-card-form" [formGroup]="form" novalidate>
+            <mat-form-field class="app-thread-edit-form-field">
+                <input
+                    matInput
+                    value={{thread.title}}
+                    formControlName="title"
+                    [errorStateMatcher]="matcher"
+                    required
+                />
+                <mat-error *ngIf="form.controls.title.invalid">
+                    Please enter a valid title ({{
+                        threadSpecs.title.minlength
+                    }}-{{ threadSpecs.title.maxlength }} characters).
+                </mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="errors.editThreadTitle">
+                {{ errors.editThreadTitle }}
+            </mat-error>
+            <div *ngIf="canEditThread" class="app-thread-edit-form-actions">
+                <a
+                    class="app-thread-edit-push-button"
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="form.invalid"
+                    (click)="form.invalid || updateThread()"
+                    >Update</a
+                >
+                <a mat-button (click)="cancel.emit(null)">Cancel</a>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
