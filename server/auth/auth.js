@@ -39,6 +39,22 @@ export function isAdmin(userId) {
 }
 
 /**
+ * Resolves as true if the user has a portal admin role OR if the user has created the object
+ * @param {*} userId
+ * @param {*} createdByUserId
+ */
+export function isOwner(userId, createdByUserId) {
+    return new Promise((resolve) => {
+        // If the user has an admin role; grant access and exit
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) return resolve(true);
+
+        // If the user created the object, return true - otherwise deny access
+        return resolve(userId === createdByUserId);
+    });
+}
+
+/**
  * Resolves as true if the user has access to the specified entity.
  *
  * @param {string} userId
