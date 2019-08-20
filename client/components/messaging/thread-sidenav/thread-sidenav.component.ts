@@ -37,6 +37,11 @@ export class ThreadSidenavComponent implements OnDestroy {
         });
 
         this.userPermissionDataService.permissions().subscribe(permissions => {
+            // TODO Portal admin users should be able to edit public threads
+            // TODO Thread authors should be able to edit their own publicly created threads
+            // TODO Portal admin users should be able to edit entity threads
+            // TODO Entity admin users should be able to edit entity threads
+            // TODO Thread authors should be able to edit their own publicly created threads
             this.canEditThread = permissions.isAdmin();
         });
     }

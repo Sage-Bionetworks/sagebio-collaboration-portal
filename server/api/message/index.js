@@ -25,6 +25,7 @@ router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
 // POST /messages/threads/:id - Specific thread not associated with an entity
 router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
 
+// TODO Only allow portal admin or thread owners to update a thread
 // PATCH /messages/threads/:id route
 router.patch('/threads/:id', auth.isAuthenticated(), controller.patchThread);
 
@@ -34,8 +35,33 @@ router.delete('/threads/:id', auth.hasRole(ADMIN_ACCESS), controller.destroyThre
 // GET /messages/threads/messages/:id - Messages for a specific thread not associated with an entity
 router.get('/threads/messages/:id', auth.isAuthenticated(), controller.showMessagesForThread);
 
+// TODO Create a route to DELETE a message in a public thread
+// TODO Do not allow the original message of a public thread to be deleted if there are replies from other users
+// TODO Owners of a message in a public thread may delete
+// TODO Portal admin users can delete messages
+
 // GET /messages/threads/entity/:entityId - All threads for an entity
 router.get('/threads/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexThreadsForEntity);
+
+// VERIFY how posting to our shared endpoint handles creating threads for entities
+// NOTE Current behavior simply posts to our existing endpoint for creating a public thread and adds an entityId and entityType behind the scenes...should we create a new route?
+// TODO (?) Create a route to POST a new thread for portal admins or entity read/write/admin users
+
+// VERIFY how posting to our shared endpoint handles creating messages for entity threads
+// NOTE Current behavior simply posts to our existing endpoint for adding a new message to an entity thread...should we create a new route?
+// TODO (?) Create a route to POST a new message to an entity thread for portal admins or entity read/write/admin users
+
+// TODO Create a route to PATCH a specific message in a thread for an entity
+// TODO Only allow owners to edit their own titles for an entity thread
+// TODO Only allow owners to edit their own messages for an entity thread
+
+// TODO Create a route to DELETE a specific threadId for an entity
+// TODO Portal admin users and entity admin users may delete
+
+// TODO Create a route to DELETE a specific message for an entity thread
+// TODO Do not allow the original message of a thread to be deleted
+// TODO Owners of a message in an entity thread may delete
+// TODO Portal admin users or entity admin users can delete messages
 
 /**
  * @swagger
@@ -144,6 +170,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Message not found
  */
+// TODO Only message owners can edit an existing message
 router.patch('/:id', controller.patch);
 
 /**
@@ -172,6 +199,7 @@ router.patch('/:id', controller.patch);
  *       '404':
  *         description: Message not found
  */
+// TODO Do not allow first message of a thread to be deleted
 router.delete('/:id', controller.destroy);
 
 /**

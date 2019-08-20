@@ -1,3 +1,4 @@
+// NOTE High level overview of Messages and Threads API routes
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/messages              ->  index
@@ -7,7 +8,6 @@
  * PATCH   /api/messages/:id          ->  patch
  * DELETE  /api/messages/:id          ->  destroy
  *
- * NOTE High level overview of Threads API routes
  * POST    /api/messages/threads/     ->  createThread
  * GET     /api/messages/threads/     ->  indexThreads
  * GET     /api/messages/threads/messages/:id     -> showMessagesForThread
