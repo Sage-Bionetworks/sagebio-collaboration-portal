@@ -6,18 +6,12 @@
   $foreground: map-get($theme, foreground);
 
   .app-thread-header  {
-      color: mat-color($primary, default-contrast);
+      mat-icon {
+          color: mat-color($primary, default-contrast);
+      }
   }
   .app-message-thread-header {
       background: mat-color($primary);
   }
-  .app-message-thread-header-close {
-    color: mat-color($primary, default-contrast);
-  }
-  .app-thread-header-edit {
-    color: mat-color($primary, default-contrast);
-  }
-  .app-thread-header-pin {
-    color: mat-color($primary, default-contrast);
-  }
 }
+
