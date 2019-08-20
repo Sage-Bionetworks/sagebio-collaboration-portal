@@ -21,6 +21,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
     private user: User;
+    private editThread = false;
 
     static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService];
     constructor(private secondarySidenavService: SecondarySidenavService,
@@ -74,5 +75,11 @@ export class ThreadSidenavComponent implements OnDestroy {
     close(): void {
         this.secondarySidenavService.close();
         this.secondarySidenavService.destroyContentComponent();
+    }
+
+    editThreadTitle(): void {
+        console.log(`editThreadTitle() before -> this.editThread: ${this.editThread}`);
+        this.editThread = !this.editThread;
+        console.log(`editThreadTitle() after -> this.editThread: ${this.editThread}`);
     }
 }

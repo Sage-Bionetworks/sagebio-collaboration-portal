@@ -1,6 +1,10 @@
 <div *ngIf="thread">
     <div class="app-primary-header app-thread-header">
         <h1 class="app-thread-header-title">Thread</h1>
+        <!-- TODO Display pencil only when user has thread ownership permission -->
+        <a class="app-thread-header-edit" mat-icon-button matTooltip="Edit" aria-label="Edit the thread title" (click)="editThreadTitle()">
+            <mat-icon aria-label="Icon of pencil">edit</mat-icon>
+        </a>
         <a class="app-thread-header-pin" mat-icon-button matTooltip="Pin" aria-label="Pin the thread" (click)="pin()">
             <mat-icon aria-label="Icon of pin">lock_open</mat-icon>
         </a>
