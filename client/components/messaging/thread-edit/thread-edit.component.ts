@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Thread } from 'models/messaging/thread.model';
 import { UserService } from 'components/auth/user.service';
-import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { MessagingService } from 'components/messaging/messaging.service';
 
 import config from '../../../app/app.constants';
@@ -20,18 +19,16 @@ export class ThreadEditComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     private userId: string;
-    private canEditThread = false;
     private form: FormGroup;
     private threadSpecs: object;
     private errors = {
         editThreadTitle: undefined,
     };
 
-    static parameters = [FormBuilder, UserService, UserPermissionDataService, MessagingService];
+    static parameters = [FormBuilder, UserService, MessagingService];
     constructor(
         private formBuilder: FormBuilder,
         private userService: UserService,
-        private userPermissionDataService: UserPermissionDataService,
         private messagingService: MessagingService
     ) {
         this.threadSpecs = config.models.message;
@@ -45,14 +42,10 @@ export class ThreadEditComponent implements OnInit {
                 ],
             ],
         });
+
         // Get the current user ID
         this.userService.get().subscribe(user => {
             this.userId = user._id;
-        });
-
-        this.userPermissionDataService.permissions().subscribe(permissions => {
-            // Eventually permissions should be implemented for user editing of messages
-            this.canEditThread = permissions.isAdmin();
         });
     }
 

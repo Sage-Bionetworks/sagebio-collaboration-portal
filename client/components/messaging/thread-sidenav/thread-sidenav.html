@@ -1,8 +1,8 @@
 <div *ngIf="thread">
     <div class="app-primary-header app-thread-header">
         <h1 class="app-thread-header-title">Thread</h1>
-        <!-- TODO Display pencil only when user has thread ownership permission -->
         <a
+            *ngIf="canEditThread"
             class="app-thread-header-edit"
             mat-icon-button
             matTooltip="Edit"
