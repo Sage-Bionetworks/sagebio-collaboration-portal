@@ -17,6 +17,7 @@ import { Project } from 'models/project.model';
 })
 export class ResourceNewComponent {
     private resourceSpecs: {};
+    private toolOpts = [];
     private newForm: FormGroup;
     private errors = {
         newResource: undefined
@@ -38,6 +39,7 @@ export class ResourceNewComponent {
         private projectDataService: ProjectDataService) {
 
         this.resourceSpecs = config.models.resource;
+        this.toolOpts = config.defaultTools;
         console.log(this.resourceSpecs);
         this.newForm = this.formBuilder.group({
             resourceType: [config.models.resource.type.default, [

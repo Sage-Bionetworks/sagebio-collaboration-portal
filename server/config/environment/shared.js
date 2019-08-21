@@ -95,6 +95,14 @@ export const gitBranch = process.env.GIT_BRANCH;
 
 export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 
+// TODO: replace with tool service query
+export const defaultTools = [
+    'Facile Explorer',
+    'IRIS Enterprise Explorer',
+    'PHC Advanced Analytics',
+    'PHCCP Shiny Tool Example'
+];
+
 export const models = {
     project: {
         name: {
@@ -196,6 +204,7 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
+    defaultTools,
     models,
     datasetOrders,
     accessTypes,
