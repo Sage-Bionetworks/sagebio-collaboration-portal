@@ -15,19 +15,36 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
  * Threads API
  */
 
-// NOTE Express routes for Threads API
-// POST /messages/threads/ - Create a new thread not associated with an entity
-router.post('/threads', auth.isAuthenticated(), controller.createThread);
+// Creates a new thread
+router.post('/entity/:entityId/threads', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.createThread);
 
-// GET /messages/threads/ - Get all threads not associated with an entity
+
+
+
+// [x] Get all threads not associated with an entity
 router.get('/threads', auth.isAuthenticated(), controller.indexThreads);
 
-// POST /messages/threads/:id - Specific thread not associated with an entity
+// [ ] Patch the thread specified
+router.patch('/threads/:threadId', auth.isAuthenticated(), controller.patchThread);
+
+
+
+
+
+
+// [x] Specific thread not associated with an entity
 router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
 
-// TODO Only allow portal admin or thread owners to update a thread
-// PATCH /messages/threads/:id route
-router.patch('/threads/:id', auth.isAuthenticated(), controller.patchThread);
+
+
+
+
+
+
 
 // DELETE /messages/threads/:id - Delete a specific thread ID
 router.delete('/threads/:id', auth.hasRole(ADMIN_ACCESS), controller.destroyThread);

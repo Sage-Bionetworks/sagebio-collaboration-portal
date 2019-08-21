@@ -15,15 +15,10 @@ export function hasRole(userId, role) {
         const user = async () => await User.findById(userId).exec();
 
         if (user) {
-            // Determine if the user has the appropriate role
             const roles = Object.values(config.userRoles).map(r => r.value);
             const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
-
-            // Authorize if the user has the requested role; otherwise deny access
             return resolve(userHasRole);
         }
-
-        // DEFAULT: Deny access
         return resolve(false);
     });
 }
@@ -43,13 +38,12 @@ export function isAdmin(userId) {
  * @param {*} userId
  * @param {*} createdByUserId
  */
-export function isOwner(userId, createdByUserId) {
+export function isOwner(userId, createdByUserId) {  // TODO Specify entity ID instead?
     return new Promise((resolve) => {
-        // If the user has an admin role; grant access and exit
         const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) return resolve(true);
-
-        // If the user created the object, return true - otherwise deny access
+        if (_isAdmin) {
+            return resolve(true);
+        }
         return resolve(userId === createdByUserId);
     });
 }
@@ -62,13 +56,14 @@ export function isOwner(userId, createdByUserId) {
  * @param {string} entityId
  * @return {Promise<boolean>}
  */
-export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedStatus = [
+export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAccessStatus = [
     config.inviteStatusTypes.ACCEPTED.value
 ]) {
     return new Promise((resolve) => {
-        // If the user has an admin role; grant access and exit
         const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) return resolve(true);
+        if (_isAdmin) {
+            return resolve(true);
+        }
 
         // Deny access if a falsy value is provided and exit
         if (!allowedAccesses) return resolve(false);
@@ -80,17 +75,18 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedStat
             access: {
                 $in: allowedAccesses
             },
-            status: config.inviteStatusTypes.ACCEPTED.value
+            status: {
+                $in: allowedAccessStatus
+            }
         };
         const entityPermission = async () => await EntityPermission.find(filter).exec()
             .catch(err => {
                 throw new Error(err);
             });
 
-        // If we have a match; grant access and exit
-        if (entityPermission) return resolve(true);
-
-        // DEFAULT: Deny access
+        if (entityPermission) {
+            return resolve(true);
+        }
         return resolve(false);
     });
 }
