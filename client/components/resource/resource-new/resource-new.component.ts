@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ResourceService } from 'components/resource/resource.service';
 import { Resource } from 'models/entities/resources/resource.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
@@ -59,6 +59,16 @@ export class ResourceNewComponent {
                 Validators.maxLength(config.models.resource.url.maxlength)
             ]],
         });
+
+        this.newForm.get('resourceType').valueChanges
+            .subscribe(values => {
+                if(values === 'State') {
+                    this.newForm.addControl('tool', new FormControl('', Validators.required), ); // Add new form control
+                }
+                else {
+                    this.newForm.removeControl('tool');
+                }
+            });
 
         this.projectDataService.project()
             .subscribe(project => {

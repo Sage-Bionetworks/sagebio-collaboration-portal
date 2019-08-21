@@ -24,6 +24,12 @@
                     <option *ngFor="let value of resourceSpecs.type.values" [value]="value">{{ value }}</option>
                 </select>
             </mat-form-field>
+            <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('resourceType').value === 'State'">
+                <input matInput placeholder="Tool" formControlName="tool" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.tool.invalid">
+                    Please enter a valid Tool.
+                </mat-error>
+            </mat-form-field>
             <app-quill-editor class="app-resource-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
             <mat-error *ngIf="errors.newResource">
                 {{errors.newResource}}
