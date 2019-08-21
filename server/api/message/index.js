@@ -126,144 +126,144 @@ router.delete('/threads/:threadId', controller.destroyThread);
 // // TODO Owners of a message in an entity thread may delete
 // // TODO Portal admin users or entity admin users can delete messages
 
-// /**
-//  * @swagger
-//  * /messages:
-//  *   get:
-//  *     tags:
-//  *       - Messages
-//  *     summary: Returns all the Messages.
-//  *     description: Returns all the Messages.
-//  *     produces:
-//  *       - application/json
-//  *     responses:
-//  *       '200':
-//  *         description: An array of Messages
-//  *         schema:
-//  *           type: array
-//  *           items:
-//  *             $ref: '#/components/schemas/Message'
-//  */
-// router.get('/', controller.index);
+/**
+ * @swagger
+ * /messages:
+ *   get:
+ *     tags:
+ *       - Messages
+ *     summary: Returns all the Messages.
+ *     description: Returns all the Messages.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: An array of Messages
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Message'
+ */
+router.get('/', controller.index);
 
-// /**
-//  * @swagger
-//  * /messages/{id}:
-//  *   get:
-//  *     tags:
-//  *       - Messages
-//  *     summary: Gets a Message by ID.
-//  *     description: Gets a Message by ID.
-//  *     produces:
-//  *       - application/json
-//  *     parameters:
-//  *       - name: id
-//  *         in: path
-//  *         description: Message ID
-//  *         required: true
-//  *         schema:
-//  *           type: string
-//  *           format: uuid
-//  *     responses:
-//  *       '200':
-//  *         description: A Message
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               $ref: '#/components/schemas/Message'
-//  *       '400':
-//  *         description: Invalid ID supplied
-//  *       '404':
-//  *         description: Message not found
-//  */
-// router.get('/:id', controller.show);
+/**
+ * @swagger
+ * /messages/{id}:
+ *   get:
+ *     tags:
+ *       - Messages
+ *     summary: Gets a Message by ID.
+ *     description: Gets a Message by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: Message ID
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '200':
+ *         description: A Message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Message'
+ *       '400':
+ *         description: Invalid ID supplied
+ *       '404':
+ *         description: Message not found
+ */
+router.get('/:id', controller.show);
 
-// /**
-//  * @swagger
-//  * /messages:
-//  *   post:
-//  *     tags:
-//  *       - Messages
-//  *     summary: Creates a Message.
-//  *     description: Creates a Message.
-//  *     parameters:
-//  *       - in: body
-//  *         name: body
-//  *         required: true
-//  *         description: The Message to create
-//  *         schema:
-//  *           $ref: '#/components/schemas/Message'
-//  *     responses:
-//  *       '201':
-//  *         description: The Message created
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               $ref: '#/components/schemas/Message'
-//  *       '400':
-//  *         description: Invalid Message
-//  */
-// router.post('/', auth.isAuthenticated(), controller.create);
+/**
+ * @swagger
+ * /messages:
+ *   post:
+ *     tags:
+ *       - Messages
+ *     summary: Creates a Message.
+ *     description: Creates a Message.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Message to create
+ *         schema:
+ *           $ref: '#/components/schemas/Message'
+ *     responses:
+ *       '201':
+ *         description: The Message created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Message'
+ *       '400':
+ *         description: Invalid Message
+ */
+router.post('/', auth.isAuthenticated(), controller.create);
 
-// /**
-//  * @swagger
-//  * /messages:
-//  *   patch:
-//  *     tags:
-//  *       - Messages
-//  *     summary: Updates a Message.
-//  *     description: Updates a Message.
-//  *     parameters:
-//  *       - in: body
-//  *         name: body
-//  *         required: true
-//  *         description: The patches to apply
-//  *         schema:
-//  *           type: array
-//  *           $ref: '#/components/schemas/Patch'
-//  *     responses:
-//  *       '201':
-//  *         description: The Message updated
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               $ref: '#/components/schemas/Message'
-//  *       '400':
-//  *         description: Invalid Message supplied
-//  *       '404':
-//  *         description: Message not found
-//  */
-// // TODO Only message owners can edit an existing message
-// router.patch('/:id', controller.patch);
+/**
+ * @swagger
+ * /messages:
+ *   patch:
+ *     tags:
+ *       - Messages
+ *     summary: Updates a Message.
+ *     description: Updates a Message.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The patches to apply
+ *         schema:
+ *           type: array
+ *           $ref: '#/components/schemas/Patch'
+ *     responses:
+ *       '201':
+ *         description: The Message updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Message'
+ *       '400':
+ *         description: Invalid Message supplied
+ *       '404':
+ *         description: Message not found
+ */
+// TODO Only message owners can edit an existing message
+router.patch('/:id', controller.patch);
 
-// /**
-//  * @swagger
-//  * /messages/{id}:
-//  *   delete:
-//  *     tags:
-//  *       - Messages
-//  *     summary: Deletes a Message by ID.
-//  *     description: Deletes a Message by ID.
-//  *     produces:
-//  *       - application/json
-//  *     parameters:
-//  *       - name: id
-//  *         in: path
-//  *         description: ID of the Message that needs to be deleted
-//  *         required: true
-//  *         schema:
-//  *           type: string
-//  *           format: uuid
-//  *     responses:
-//  *       '204':
-//  *         description: Message successfully removed
-//  *       '400':
-//  *         description: Invalid Message supplied
-//  *       '404':
-//  *         description: Message not found
-//  */
-// // TODO Do not allow first message of a thread to be deleted
-// router.delete('/:id', controller.destroy);
+/**
+ * @swagger
+ * /messages/{id}:
+ *   delete:
+ *     tags:
+ *       - Messages
+ *     summary: Deletes a Message by ID.
+ *     description: Deletes a Message by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the Message that needs to be deleted
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '204':
+ *         description: Message successfully removed
+ *       '400':
+ *         description: Invalid Message supplied
+ *       '404':
+ *         description: Message not found
+ */
+// TODO Do not allow first message of a thread to be deleted
+router.delete('/:id', controller.destroy);
 
 // /**
 //  * @swagger
