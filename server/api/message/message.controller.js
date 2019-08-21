@@ -30,7 +30,7 @@ export function createThread(req, res) {
         .exec()
         .then(handleUserNotFound(res))
         .then(user => {
-            return Thread.create({pe
+            return Thread.create({
                 ...req.body,
                 createdBy: user._id,
             });
