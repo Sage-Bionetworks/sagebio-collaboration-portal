@@ -1,6 +1,11 @@
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import Insight from '../api/insight/models/insight.model';
+import Resource from '../api/resource/models/resource.model';
+import Tool from '../api/tool/tool.model';
+import DataCatalog from '../api/data-catalog/data-catalog.model';
+import Project from '../api/project/project.model';
 import config from '../config/environment';
 
 /**
@@ -53,6 +58,8 @@ export function isOwner(userId, createdByUserId) {
 /**
  * Resolves as true if the user has access to the specified entity.
  *
+ * ASSUMPTION: MongoDB Object ID are unique at the database level (in reality at the collection level).
+ *
  * @param {string} userId
  * @param {string} allowedAccesses
  * @param {string} entityId
@@ -68,6 +75,31 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
 
         const _isAdmin = async () => await isAdmin(userId);
         if (_isAdmin) {
+            return resolve(true);
+        }
+
+        const tool = async () => await Tool.findById(entityId)
+        if (tool) {
+            return resolve(true);
+        }
+
+        const dataCatalog = async () => await DataCatalog.findById(entityId);
+        if (dataCatalog) {
+            return resolve(true);
+        }
+
+        const insight = async () => await Insight.findById(entityId);
+        if (insight) {
+            entityId = insight.projectId;
+        } else {
+            const resource = async () => await Resource.findById(entityId);
+            if (resource) {
+                entityId = resource.projectId;
+            }
+        }
+
+        let project = async () => await Project.findById(entityId);
+        if (project.visibility === 'Public') {
             return resolve(true);
         }
 

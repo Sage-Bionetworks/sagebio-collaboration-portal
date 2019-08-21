@@ -51,7 +51,7 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
 
 
 // Creates a new thread associated to the entity specified.
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId`
+// NOTE: Authorized if 1) the user is a portal admin OR 2) has READ+ access to `:entityId`
 // NOTE: We need to check that the value `:entityId` match the value `entityId` in the posted object.
 // NOTE: For security measure, we may also need to check entityType as the same ID could be
 //       included in two DB collections, e.g. Projects and Memo collections.
