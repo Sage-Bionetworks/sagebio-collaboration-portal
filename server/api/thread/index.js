@@ -19,20 +19,22 @@ router.post('/entity/:entityId', auth.hasPermissionForEntity(
 ), controller.createThread);
 
 // Get all threads not associated with the entity specified.
-router.get('/entity/:entityId/threads', auth.hasPermissionForEntity(
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-), controller.indexThreads);
+// router.get('/entity/:entityId/threads', auth.hasPermissionForEntity(
+//     READ_ACCESS,
+//     WRITE_ACCESS,
+//     ADMIN_ACCESS
+// ), controller.indexThreads);
 
 // Patch the thread specified
 // Authorized if:
 //   - user is a portal admin
 //   - if the entity is a project or child of project (public or private), the user is an admin of this project
 //   - if the user is the owned of the entity
-router.patch('/entity/:entityId/threads/:threadId', auth.isOwner(), controller.patchThread);
+// router.patch('/entity/:entityId/threads/:threadId', auth.isOwner(), controller.patchThread);
 
 
 // Delete the thread specified.
 // NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId` OR 3) is the owner of the thread.
-router.delete('/threads/:threadId', controller.destroyThread);
+// router.delete('/threads/:threadId', controller.destroyThread);
+
+module.exports = router;

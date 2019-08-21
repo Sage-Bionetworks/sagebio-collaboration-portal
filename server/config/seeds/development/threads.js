@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import {
     adminUserId
 } from './users';
-import { testProjectId } from './projects';
+import { testProjectId, anotherProjectId } from './projects';
 
 const thread1Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3f9');
 const thread2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3fa');
@@ -20,6 +20,7 @@ let threads = [
     {
         _id: thread2Id,
         title: `Public thread #1`,
+        entityId: anotherProjectId,
         createdBy: adminUserId,
         createdAt: new Date(2019, 6, 31, 11, 33).toISOString(),
         updatedAt: new Date(2019, 6, 31, 11, 33).toISOString(),

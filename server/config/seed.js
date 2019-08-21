@@ -7,7 +7,7 @@ import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
-import Thread from '../api/message/thread.model';
+import Thread from '../api/thread/thread.model';
 import Memo from '../api/insight/models/memo.model';
 import Message from '../api/message/message.model';
 import Organization from '../api/organization/organization.model';

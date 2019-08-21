@@ -18,7 +18,7 @@
  */
 
 import { applyPatch } from "fast-json-patch";
-import Thread from "./thread.model";
+import Thread from '../thread/thread.model';
 import Message from "./message.model";
 import StarredMessage from "../starred-message/starred-message.model";
 import User from "../user/user.model";
