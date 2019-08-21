@@ -13,8 +13,8 @@ var authServiceStub = {
     hasRole(role) {
         return `authService.hasRole.${role}`;
     },
-    hasPermissionForEntity() {
-        return 'authService.hasPermissionForEntity';
+    hasPermissionForEntity(permission) {
+        return `authService.hasPermissionForEntity.${permission}`;
     },
 };
 
@@ -42,11 +42,13 @@ describe('Thread API Router', function () {
         expect(threadIndex).to.equal(routerStub);
     });
 
-    // describe('POST /api/threads/entity/:entityId', function () {
-    //     it('should route to thread.controller.createThread', function () {
-    //         expect(routerStub.post
-    //             .withArgs('/threads/entity/:entityId', 'authService.hasPermissionForEntity', 'threadCtrl.createThread')
-    //         ).to.have.been.calledOnce;
-    //     });
-    // });
+    describe('POST /api/threads/entity/:entityId', function () {
+        it('should route to thread.controller.createThread', function () {
+            expect(routerStub.post.withArgs(
+                '/entity/:entityId',
+                'authService.hasPermissionForEntity.read',
+                'threadCtrl.createThread')
+            ).to.have.been.calledOnce;
+        });
+    });
 });
