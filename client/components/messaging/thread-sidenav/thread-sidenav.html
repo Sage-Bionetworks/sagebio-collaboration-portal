@@ -1,10 +1,26 @@
 <div *ngIf="thread">
     <div class="app-primary-header app-thread-header">
         <h1 class="app-thread-header-title">Thread</h1>
+        <a
+            *ngIf="canEditThread"
+            class="app-thread-header-edit"
+            mat-icon-button
+            matTooltip="Edit"
+            aria-label="Edit the thread title"
+            (click)="editThreadTitle()"
+        >
+            <mat-icon aria-label="Icon of pencil">edit</mat-icon>
+        </a>
         <a class="app-thread-header-pin" mat-icon-button matTooltip="Pin" aria-label="Pin the thread" (click)="pin()">
             <mat-icon aria-label="Icon of pin">lock_open</mat-icon>
         </a>
-        <a class="app-thread-header-close" mat-icon-button matTooltip="Close" aria-label="Close the thread" (click)="close()">
+        <a
+            class="app-thread-header-close"
+            mat-icon-button
+            matTooltip="Close"
+            aria-label="Close the thread"
+            (click)="close()"
+        >
             <mat-icon aria-label="Icon of cross">close</mat-icon>
         </a>
     </div>
@@ -12,23 +28,50 @@
     <div class="app-thread-body">
         <span class="app-thread-title">{{ thread.title }}</span>
         <br />
-        Created by
-        <span class="app-thread-author">
-            {{ thread.createdBy.username }}
+        <span *ngIf="thread.createdAt === thread.updatedAt">
+            Created by
+            <span class="app-thread-author">
+                {{ thread.createdBy.username }}
+            </span>
+            <span class="app-thread-time" matTooltip="{{ thread.createdAt | dateAndTime }}">
+                {{ thread.createdAt | dateAndTime }}
+            </span>
         </span>
-        <span
-            class="app-thread-time"
-            matTooltip="{{ thread.createdAt | dateAndTime }}"
-        >
-            {{ thread.createdAt | dateAndTime }}
+        <span *ngIf="thread.createdAt !== thread.updatedAt">
+            Last updated by
+            <span class="app-thread-author">
+                {{ thread.updatedBy.username }}
+            </span>
+            <span class="app-thread-time" matTooltip="{{ thread.updatedAt | dateAndTime }}">
+                {{ thread.updatedAt | dateAndTime }}
+            </span>
         </span>
     </div>
+
+    <div *ngIf="editThread">
+        <thread-edit [thread]="thread" (editThread)="onEditThread($event)" (cancel)="onCancel($event)"></thread-edit>
+    </div>
+
     <div class="app-thread-body" *ngIf="message">
         <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
         <ng-template *ngIf="messages" ngFor let-reply let-i="index" let-first="first" [ngForOf]="messages">
-            <message-date-separator *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
-            <message-date-separator *ngIf="!first && !(reply.createdAt | sameDay: (messages)[i-1].createdAt)" class="message-date-separator" [isoDate]="reply.createdAt"></message-date-separator>
-            <message [message]="reply" [showReplyButton]="false" [showStartThreadButton]="false" (deleteMessage)="onDeleteMessage($event)" (editMessage)="onEditMessage($event)"></message>
+            <message-date-separator
+                *ngIf="first && !(reply.createdAt | sameDay: message.createdAt)"
+                class="message-date-separator"
+                [isoDate]="reply.createdAt"
+            ></message-date-separator>
+            <message-date-separator
+                *ngIf="!first && !(reply.createdAt | sameDay: messages[i - 1].createdAt)"
+                class="message-date-separator"
+                [isoDate]="reply.createdAt"
+            ></message-date-separator>
+            <message
+                [message]="reply"
+                [showReplyButton]="false"
+                [showStartThreadButton]="false"
+                (deleteMessage)="onDeleteMessage($event)"
+                (editMessage)="onEditMessage($event)"
+            ></message>
         </ng-template>
         <message-new class="app-messaging-new" [message]="message" (newMessage)="onNewMessage($event)"></message-new>
     </div>

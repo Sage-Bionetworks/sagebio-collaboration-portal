@@ -57,17 +57,16 @@ export default app => {
 
 
     // Persist sessions with MongoStore / sequelizeStore
-    // We need to enable sessions for passport-twitter because it's an
-    // oauth 1.0 strategy, and Lusca depends on sessions
-    // app.use(session({
-    //     secret: config.secrets.session,
-    //     saveUninitialized: true,
-    //     resave: false,
-    //     store: new MongoStore({
-    //         mongooseConnection: mongoose.connection,
-    //         db: 'phccp'
-    //     })
-    // }));
+    // We need to enable sessions for Azure SSO
+    app.use(session({
+        secret: config.secrets.session,
+        saveUninitialized: true,
+        resave: false,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            db: 'phccp'
+        })
+    }));
 
     // Enable flash message to pass server messages to the client
     // app.use(flash());
