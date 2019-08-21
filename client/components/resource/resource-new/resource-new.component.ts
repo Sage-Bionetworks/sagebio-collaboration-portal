@@ -38,6 +38,7 @@ export class ResourceNewComponent {
         private projectDataService: ProjectDataService) {
 
         this.resourceSpecs = config.models.resource;
+        console.log(this.resourceSpecs);
         this.newForm = this.formBuilder.group({
             resourceType: [config.models.resource.type.default, [
                 Validators.required
@@ -51,6 +52,11 @@ export class ResourceNewComponent {
                 Validators.required,
                 Validators.minLength(config.models.resource.description.minlength),
                 Validators.maxLength(config.models.resource.description.maxlength)
+            ]],
+            url: ['', [
+                Validators.required,
+                Validators.minLength(config.models.resource.url.minlength),
+                Validators.maxLength(config.models.resource.url.maxlength)
             ]],
         });
 
