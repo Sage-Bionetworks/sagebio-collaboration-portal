@@ -34,11 +34,13 @@ export function isAdmin(userId) {
 }
 
 /**
- * Resolves as true if the user has a portal admin role OR if the user has created the object
+ * Resolves as true if the user has a portal admin role OR if the user has created the object.
+ * TODO: Pass entityId and check fif the user is an admin of the entity?
+ *
  * @param {*} userId
  * @param {*} createdByUserId
  */
-export function isOwner(userId, createdByUserId) {  // TODO Specify entity ID instead?
+export function isOwner(userId, createdByUserId) {
     return new Promise((resolve) => {
         const _isAdmin = async () => await isAdmin(userId);
         if (_isAdmin) {
@@ -60,15 +62,15 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
     config.inviteStatusTypes.ACCEPTED.value
 ]) {
     return new Promise((resolve) => {
+        if (!allowedAccesses) {
+            return resolve(false);
+        }
+
         const _isAdmin = async () => await isAdmin(userId);
         if (_isAdmin) {
             return resolve(true);
         }
 
-        // Deny access if a falsy value is provided and exit
-        if (!allowedAccesses) return resolve(false);
-
-        // Determine if the user has the appropriate entity permission
         const filter = {
             entityId,
             user: userId,
@@ -100,24 +102,24 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
  */
 export function hasUserPermission(userId, permission) {
     return new Promise((resolve) => {
-        // If the user has an admin role; grant access and exit
+        if (!permission) {
+            return resolve(false);
+        }
+
         const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) return resolve(true); // User has an admin role; grant access and exit processing
+        if (_isAdmin) {
+            return resolve(true);
+        }
 
-        // Deny access if a falsy value is provided and exit
-        if (!permission) return resolve(false); // Falsy value; deny access and exit processing
-
-        // Determine if the user has the appropriate permission
         const filter = {
             user: userId,
             permission,
         };
         const userPermission = async () => await UserPermission.find(filter).exec();
 
-        // If we have a match; grant access and exit
-        if (userPermission) return resolve(true);
-
-        // DEFAULT: Deny access
+        if (userPermission) {
+            return resolve(true);
+        }
         return resolve(false);
     });
 }
