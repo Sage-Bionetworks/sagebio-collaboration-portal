@@ -1,12 +1,3 @@
-<mat-card *ngIf="project" class="project-container" [routerLink]="[project._id]">
-    <picture>
-        <img [src]="project.picture" aria-label="project preview">
-    </picture>
-    <div class="project-metadata-container">
-        <h3 class="project-name">{{project.name}}</h3>
-<!--        <div class="project-metadata-row-container">-->
-<!--            <mat-icon>home</mat-icon>-->
-<!--            <span>{{project.organization.name}}</span>-->
-<!--        </div>-->
-    </div>
-</mat-card>
+<mat-nav-list *ngIf="project" class="project-container" [routerLink]="[project._id]">
+    <h3 class="project-name">{{project.name}}</h3>
+</mat-nav-list>
