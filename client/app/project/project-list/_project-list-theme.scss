@@ -5,8 +5,16 @@
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    .app-project-list-content .app-project-list-results .project-container .app-project-list-item{
-        background: mat-color($warn);
+    .app-project-list-item {
+        background: mat-color($accent, lighter, 0.2);
+        border-color: mat-color($foreground, divider);
+        box-shadow: 0px 2px 4px mat-color($accent, lighter);
     }
 
+    .app-project-list-item {
+
+        &:hover, &:active, &:focus {
+            background-color: mat-color($background, hover);
+        }
+    }
 }
