@@ -32,10 +32,10 @@ export class ToolEditComponent implements OnInit, OnDestroy {
         private toolService: ToolService) {
             this.pageTitleService.title = 'Edit Tool';
             this.editForm = this.formBuilder.group({
-                name: ['', [
+                title: ['', [
                     Validators.required,
-                    Validators.minLength(config.models.tool.name.minlength),
-                    Validators.maxLength(config.models.tool.name.maxlength)
+                    Validators.minLength(config.models.tool.title.minlength),
+                    Validators.maxLength(config.models.tool.title.maxlength)
                 ]],
                 description: ['', [
                     Validators.required,
@@ -56,7 +56,7 @@ export class ToolEditComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.tool) {
             this.editForm.setValue({
-                name: this.tool.name,
+                title: this.tool.title,
                 description: this.tool.description,
                 apiHealthCheckUrl: this.tool.apiHealthCheckUrl,
                 website: this.tool.website
@@ -69,7 +69,7 @@ export class ToolEditComponent implements OnInit, OnDestroy {
 
     onEditTool(): void {
         let editedTool = this.editForm.value;
-        editedTool.slug = slugify(this.editForm.value.name).toLowerCase();
+        editedTool.slug = slugify(this.editForm.value.title).toLowerCase();
         const patches = map(editedTool, (value, key) => ({
             op: 'replace',
             path: `/${key}`,

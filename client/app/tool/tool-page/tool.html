@@ -1,7 +1,7 @@
 <div *ngIf="tool && !showEditToolTemplate; else showEditToolForm">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
-        <h1>{{ tool.name }}</h1>
+        <h1>{{ tool.title }}</h1>
     </div>
 
     <div class="tool-content">
@@ -11,7 +11,7 @@
                     <div class="tool-card-prov-graph-actions">
                         <show-activity-button [root]="tool" (click)="showActivity()"></show-activity-button>
                     </div>
-                    <h3>{{ tool.name }}</h3>
+                    <h3>{{ tool.title }}</h3>
                     <picture>
                         <img [src]="tool.picture" aria-label="Tool picture">
                     </picture>

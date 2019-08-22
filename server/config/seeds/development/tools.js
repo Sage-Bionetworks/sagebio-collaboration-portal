@@ -5,7 +5,7 @@ import config from '../../environment';
 
 const phccpShinyToolExample = {
     _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
-    name: 'PHCCP Shiny Tool Example',
+    title: 'PHCCP Shiny Tool Example',
     slug: 'phccp-shiny-tool-example',
     description: `A Shiny App for demonstrating features of this collaboration ` +
         `portal.`,
@@ -23,7 +23,7 @@ const phccpShinyToolExample = {
 let tools = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd93'),
     slug: 'facile-explorer',
-    name: 'Facile Explorer',
+    title: 'Facile Explorer',
     description: `A Shiny App for self-service and exploratory analytics. ` +
         `It empowers users to compute over data and is designed to enable ` +
         `sustained independent data exploration. The FacileData ecosystem was ` +
@@ -40,7 +40,7 @@ let tools = [{
 },
 // {
 //     _id: '5cb6a048e7bdc7740874fe42',
-//     name: 'TCGA Shiny',
+//     title: 'TCGA Shiny',
 //     description: `An R Shiny app to explore data from The Cancer Genome Atlas
 //         (TCGA). The data used has been processed with scripts from
 //         https://github.com/arnijohnsen/tcga-analysis`,
@@ -54,7 +54,7 @@ phccpShinyToolExample
 , {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd95'),
     slug: 'iris-enterprise-explorer',
-    name: 'IRIS Enterprise Explorer',
+    title: 'IRIS Enterprise Explorer',
     description: `IRIS Enterprise (IRISe) is a scalable cloud-based solution ` +
         `designed to aggregate digital pathology images and derived ` +
         `high-dimensional biomarker data collected in cancer immunotherapy ` +
@@ -73,7 +73,7 @@ phccpShinyToolExample
 // {
 //     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd96'),
 //     slug: 'rstudio',
-//     name: 'RStudio',
+//     title: 'RStudio',
 //     description: `RStudio is a free and open-source integrated development
 //         environment for R, a programming language for statistical computing
 //         and graphics.`,
@@ -87,7 +87,7 @@ phccpShinyToolExample
 // }, {
 //     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd97'),
 //     slug: 'jupyter',
-//     name: 'Jupyter',
+//     title: 'Jupyter',
 //     description: `Project Jupyter exists to develop open-source software,
 //         open-standards, and services for interactive computing across dozens
 //         of programming languages.`,
@@ -102,7 +102,7 @@ phccpShinyToolExample
 {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd98'),
     slug: 'phcaa',
-    name: 'PHC Advanced Analytics',
+    title: 'PHC Advanced Analytics',
     description: `PHC Advanced Analytics Platform is a scalable analytics ` +
         `platform allowing users (Data Scientists, Clinical/Statistical ` +
         `Programmers, Statisticians and Epidemiologists) to establish their own ` +

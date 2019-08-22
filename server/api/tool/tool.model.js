@@ -9,7 +9,7 @@ var ToolSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    name: {
+    title: {
         type: String,
         required: true
     },

@@ -35,7 +35,6 @@ import { Organization } from '../organization.model';
  */
 export interface Tool extends Entity {
     slug: string;
-    name: string;
     picture: string;
     website: string;
     organization: Organization;
