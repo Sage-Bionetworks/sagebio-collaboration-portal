@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
@@ -23,13 +25,14 @@ export class ThreadSidenavComponent implements OnDestroy {
     private canEditThread = false;
     private editThread = false;
 
-    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService, UserPermissionDataService];
+    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService, UserPermissionDataService, Router];
     constructor(
         private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
         private socketService: SocketService,
         private userService: UserService,
         private userPermissionDataService: UserPermissionDataService,
+        private router: Router
     ) {
         // Get the current user
         this.userService.get().subscribe(user => {
@@ -39,6 +42,10 @@ export class ThreadSidenavComponent implements OnDestroy {
         this.userPermissionDataService.permissions().subscribe(permissions => {
             this.canEditThread = permissions.isAdmin();
         });
+
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationStart)
+          ).subscribe(_ => this.close());
     }
 
     ngOnDestroy() {}
