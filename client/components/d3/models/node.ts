@@ -1,4 +1,4 @@
-import { NodeLabel, ProvenanceNode } from 'models/provenance-node.model';
+import { NodeLabel, ProvenanceNode } from 'models/provenance/provenance-node.model';
 
 export class Node implements d3.SimulationNodeDatum {
     index?: number;
