@@ -1,0 +1,8 @@
+<div *ngIf="catalog">
+    <div class="app-primary-header">
+        <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
+        <a class="app-primary-header-link" [routerLink]="['/data-catalogs',catalog.slug]"><h1>{{ catalog.title }}</h1></a>
+    </div>
+
+    <entity-discussion [entity]="catalog" [entityType]="entityType"></entity-discussion>
+</div>

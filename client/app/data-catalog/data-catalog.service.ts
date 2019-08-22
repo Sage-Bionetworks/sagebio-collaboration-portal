@@ -10,7 +10,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { DataCatalog } from 'models/entities/data-catalog.model';
 import { stringifyQuery } from 'components/util';
-import { head } from 'lodash/fp';
+import { head, orderBy } from 'lodash/fp';
 
 @Injectable()
 export class DataCatalogService {
@@ -18,20 +18,25 @@ export class DataCatalogService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getDataCatalogs(query?: {}): Observable<DataCatalog[]> {
-        return this.httpClient.get<DataCatalog[]>(`/api/data-catalogs${stringifyQuery(query)}`);
-    }
-
-    getDataCatalog(dataCatalogId: string): Observable<DataCatalog> {
-        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${dataCatalogId}`);
-    }
-
     getDataCatalogBySlug(slug: string): Observable<DataCatalog> {
         return this.getDataCatalogs({ slug: slug })
             .pipe(
                 map(catalogs => head(catalogs))
             );
     }
+
+    getDataCatalogs(query?: {}): Observable<DataCatalog[]> {
+        return this.httpClient.get<DataCatalog[]>(`/api/data-catalogs${stringifyQuery(query)}`)
+        .pipe(
+            map(catalogs => orderBy('title', 'asc', catalogs))
+        );
+    }
+
+    getDataCatalog(dataCatalogId: string): Observable<DataCatalog> {
+        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${dataCatalogId}`);
+    }
+
+
 
     searchDataCatalogsByName(terms: Observable<string>): Observable<DataCatalog[] | null> {
         return terms
