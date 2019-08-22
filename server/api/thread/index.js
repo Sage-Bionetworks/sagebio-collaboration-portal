@@ -1,6 +1,7 @@
 var express = require('express');
 var controller = require('./thread.controller');
 var auth = require('../../auth/auth.service');
+import Thread from './thread.model';
 
 var router = express.Router();
 
@@ -16,25 +17,19 @@ router.post('/entity/:entityId', auth.hasPermissionForEntity(
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
-), controller.createThread);
+), controller.create);
 
-// Get all threads not associated with the entity specified.
-// router.get('/entity/:entityId/threads', auth.hasPermissionForEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ), controller.indexThreads);
+// Returns the threads associated with the entity specified.
+router.get('/entity/:entityId', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.indexByEntity);
 
-// Patch the thread specified
-// Authorized if:
-//   - user is a portal admin
-//   - if the entity is a project or child of project (public or private), the user is an admin of this project
-//   - if the user is the owned of the entity
-// router.patch('/entity/:entityId/threads/:threadId', auth.isOwner(), controller.patchThread);
+// Patches the thread specified.
+router.patch('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.patch);
 
-
-// Delete the thread specified.
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId` OR 3) is the owner of the thread.
-// router.delete('/threads/:threadId', controller.destroyThread);
+// Deletes the thread specified.
+router.delete('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.destroy);
 
 module.exports = router;

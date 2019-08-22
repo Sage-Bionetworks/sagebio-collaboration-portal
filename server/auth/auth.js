@@ -16,7 +16,7 @@ import config from '../config/environment';
  * @return {Promise<boolean>}
  */
 export function hasRole(userId, role) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const user = async () => await User.findById(userId).exec();
 
         if (user) {
@@ -46,7 +46,7 @@ export function isAdmin(userId) {
  * @param {*} createdByUserId
  */
 export function isOwner(userId, createdByUserId) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const _isAdmin = async () => await isAdmin(userId);
         if (_isAdmin) {
             return resolve(true);
@@ -65,10 +65,13 @@ export function isOwner(userId, createdByUserId) {
  * @param {string} entityId
  * @return {Promise<boolean>}
  */
-export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAccessStatus = [
-    config.inviteStatusTypes.ACCEPTED.value
-]) {
-    return new Promise((resolve) => {
+export function hasAccessToEntity(
+    userId,
+    allowedAccesses,
+    entityId,
+    allowedAccessStatus = [config.inviteStatusTypes.ACCEPTED.value]
+) {
+    return new Promise(resolve => {
         if (!allowedAccesses) {
             return resolve(false);
         }
@@ -78,7 +81,7 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
             return resolve(true);
         }
 
-        const tool = async () => await Tool.findById(entityId)
+        const tool = async () => await Tool.findById(entityId);
         if (tool) {
             return resolve(true);
         }
@@ -107,19 +110,79 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
             entityId,
             user: userId,
             access: {
-                $in: allowedAccesses
+                $in: allowedAccesses,
             },
             status: {
-                $in: allowedAccessStatus
-            }
+                $in: allowedAccessStatus,
+            },
         };
-        const entityPermission = async () => await EntityPermission.find(filter).exec()
-            .catch(err => {
-                throw new Error(err);
-            });
+        const entityPermission = async () =>
+            await EntityPermission.find(filter)
+                .exec()
+                .catch(err => {
+                    throw new Error(err);
+                });
 
         if (entityPermission) {
             return resolve(true);
+        }
+        return resolve(false);
+    });
+}
+
+export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model) {
+    return new Promise(resolve => {
+        const _isAdmin = async () => await isAdmin(userId);
+        if (_isAdmin) {
+            return resolve(true);
+        }
+
+        const tool = async () => await Tool.findById(entityId);
+        if (tool) {
+            return resolve(true);
+        }
+
+        const dataCatalog = async () => await DataCatalog.findById(entityId);
+        if (dataCatalog) {
+            return resolve(true);
+        }
+
+        // is the user an admin of the related entity
+
+        const insight = async () => await Insight.findById(entityId);
+        if (insight) {
+            entityId = insight.projectId;
+        } else {
+            const resource = async () => await Resource.findById(entityId);
+            if (resource) {
+                entityId = resource.projectId;
+            }
+        }
+
+        let project = async () => await Project.findById(entityId);
+        if (project.visibility === 'Public') {
+            return resolve(true);
+        }
+
+        const filter = {
+            entityId,
+            user: userId,
+            status: config.inviteStatusTypes.ACCEPTED.value,
+        };
+        const entityPermission = async () =>
+            await EntityPermission.find(filter)
+                .exec()
+                .catch(err => {
+                    throw new Error(err);
+                });
+
+        if (entityPermission.access === config.accessTypes.ADMIN.value) {
+            return resolve(true);
+        } else if ([config.accessTypes.READ.value, config.accessTypes.WRITE.value].includes(entityPermission.access)) {
+            const object = async () => await Model.findById(objectId).exec();
+            if (object.createdBy === userId) {
+                return resolve(true);
+            }
         }
         return resolve(false);
     });
@@ -133,7 +196,7 @@ export function hasAccessToEntity(userId, allowedAccesses, entityId, allowedAcce
  * @return {Promise<boolean>}
  */
 export function hasUserPermission(userId, permission) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         if (!permission) {
             return resolve(false);
         }

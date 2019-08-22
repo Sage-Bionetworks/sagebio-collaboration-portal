@@ -50,51 +50,6 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
 // are themselves associated to the Project.
 
 
-// Creates a new thread associated to the entity specified.
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has READ+ access to `:entityId`
-// NOTE: We need to check that the value `:entityId` match the value `entityId` in the posted object.
-// NOTE: For security measure, we may also need to check entityType as the same ID could be
-//       included in two DB collections, e.g. Projects and Memo collections.
-router.post('/entity/:entityId/threads', auth.hasPermissionForEntity(
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-), controller.createThread);
-
-// Get all threads not associated with the entity specified.
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId`
-router.get('/entity/:entityId/threads', auth.hasPermissionForEntity(
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-), controller.indexThreads);
-
-// Patch the thread specified
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId` OR 3) is the owner of the thread.
-router.patch('/entity/:entityId/threads/:threadId', controller.patchThread);
-
-
-// Delete the thread specified.
-// NOTE: Authorized if 1) the user is a portal admin OR 2) has ADMIN access to `:entityId` OR 3) is the owner of the thread.
-router.delete('/threads/:threadId', controller.destroyThread);
-
-
-/**
- * Messages API
- */
-
-// [x] Specific thread not associated with an entity
-// router.post('/threads/:id', auth.isAuthenticated(), controller.addMessageToThread);
-
-
-
-
-
-
-
-
-
-
 // // GET /messages/threads/messages/:id - Messages for a specific thread not associated with an entity
 // router.get('/threads/messages/:id', auth.isAuthenticated(), controller.showMessagesForThread);
 
