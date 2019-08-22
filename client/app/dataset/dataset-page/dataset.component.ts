@@ -63,10 +63,10 @@ export class DatasetComponent implements OnInit, OnDestroy {
     getToolsByResource(resource: CkanDatasetResource): Tool[] {
         if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
             resource.id === 'cf4b928f-06e7-4049-aa46-06a88dc36830') {  // airway.RDS
-            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.name));
+            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.title));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
             resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
-            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.name));
+            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.title));
         } else {
             return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
         }
@@ -76,18 +76,18 @@ export class DatasetComponent implements OnInit, OnDestroy {
         if (this.catalog._id === '5cb6a048e7bdc7740874fd91' &&  // Roche Data Portal
             dataset.id === 'b9096985-1ae9-43f8-8276-3bf194c4ce59') {  // search "IMvigor Bladder 211"
             // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874fd91/b9096985-1ae9-43f8-8276-3bf194c4ce59
-            return this.tools.filter(tool => ['Facile Explorer'].includes(tool.name));
+            return this.tools.filter(tool => ['Facile Explorer'].includes(tool.title));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
             dataset.id === '6622834c-0bb8-43df-ab1d-203b0a7bc8fb') {  // IRIS Image Analysis Dataset
             // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/6622834c-0bb8-43df-ab1d-203b0a7bc8fb
-            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.name));
+            return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.title));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874f356' &&  // Kumar's CKAN
             dataset.id === '011e7b1a-87a3-459d-baa9-49a689d261e7') {  // Picnic Health Data
             // http://dev.phc.sagesandbox.org/datasets/5cb6a048e7bdc7740874f356/011e7b1a-87a3-459d-baa9-49a689d261e7
-            return this.tools.filter(tool => ['RStudio', 'Jupyter'].includes(tool.name));
+            return this.tools.filter(tool => ['RStudio', 'Jupyter'].includes(tool.title));
         } else if (this.catalog._id === '5cb6a048e7bdc7740874fd92' &&  // Sage Ckan
             dataset.id === 'fc0633f8-6a9d-4cb7-896d-186d0db19ff8') {  // Airway Smooth Muscle Cell Line RNA-seq
-            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.name));
+            return this.tools.filter(tool => ['PHCCP Shiny Tool Example'].includes(tool.title));
         }
     }
 

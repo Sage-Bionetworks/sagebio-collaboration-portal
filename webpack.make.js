@@ -427,6 +427,9 @@ module.exports = function makeWebpackConfig(options) {
                     target: `http://${webpackAppConfig.serverIp}:${webpackAppConfig.serverPort}`,
                     secure: false,
                     ws: true,
+                    onError(err) {
+                        console.log('Suppressing WDS proxy upgrade error:', err);
+                    }
                 },
             },
             stats: {

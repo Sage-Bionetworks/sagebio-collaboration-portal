@@ -23,7 +23,10 @@ export class ToolService {
         private secondarySidenavService: SecondarySidenavService) { }
 
     getTools(query?: {}): Observable<Tool[]> {
-        return this.httpClient.get<Tool[]>(`/api/tools${stringifyQuery(query)}`);
+        return this.httpClient.get<Tool[]>(`/api/tools${stringifyQuery(query)}`)
+            .pipe(
+                map(tools => orderBy('title', 'asc', tools))
+            );
     }
 
     getTool(toolId: string): Observable<Tool> {

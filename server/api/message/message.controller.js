@@ -1,3 +1,4 @@
+// NOTE High level overview of Messages and Threads API routes
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/messages              ->  index
@@ -6,24 +7,56 @@
  * PUT     /api/messages/:id          ->  upsert
  * PATCH   /api/messages/:id          ->  patch
  * DELETE  /api/messages/:id          ->  destroy
+ *
+ * POST    /api/messages/threads/     ->  createThread
+ * GET     /api/messages/threads/     ->  indexThreads
+ * GET     /api/messages/threads/messages/:id     -> showMessagesForThread
+ * POST    /api/messages/threads/:id  ->  addMessageToThread
+ * PATCH   /api/messages/threads/:id  ->  patchThread
+ * DELETE  /api/messages/threads/:id  ->  destroyThread
+ * GET     /api/messages/threads/entity/:entityId -> indexThreadsForEntity
  */
 
-import {
-    applyPatch
-} from 'fast-json-patch';
-import Thread from './thread.model';
+import { applyPatch } from 'fast-json-patch';
+import Thread from '../thread/thread.model';
 import Message from './message.model';
 import StarredMessage from '../starred-message/starred-message.model';
 import User from '../user/user.model';
 
+// Creates a new Thread in the DB
+export function createThread(req, res) {
+    var userId = req.user._id;
+    return User.findById(userId)
+        .exec()
+        .then(handleUserNotFound(res))
+        .then(user => Thread.create({
+            ...req.body,
+            createdBy: user._id,
+        }))
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// Get a list of Threads that are not associated with an entity
+export function indexThreads(req, res) {
+    return Thread.find({
+        entityId: {
+            $exists: false,
+        },
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Gets a list of Messages
 export function index(req, res) {
-    req.query
+    req.query;
     return Message.find({
-            thread: {
-                $exists: false
-            }
-        })
+        thread: {
+            $exists: false,
+        },
+    })
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -45,12 +78,10 @@ export function create(req, res) {
     return User.findById(userId)
         .exec()
         .then(handleUserNotFound(res))
-        .then(user => {
-            return Message.create({
-                ...req.body,
-                createdBy: user._id
-            });
-        })
+        .then(user => Message.create({
+            ...req.body,
+            createdBy: user._id,
+        }))
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -102,18 +133,21 @@ export function unstar(req, res) {
 
 // Returns the number of users who have starred a message
 export function starsCount(req, res) {
-    StarredMessage.countDocuments({
-        message: req.params.id
-    }, function (err, count) {
-        if (err) {
-            res.status(404).json({
-                error: err
+    StarredMessage.countDocuments(
+        {
+            message: req.params.id,
+        },
+        function (err, count) {
+            if (err) {
+                res.status(404).json({
+                    error: err,
+                });
+            }
+            res.status(200).json({
+                value: count,
             });
         }
-        res.status(200).json({
-            value: count
-        });
-    });
+    );
 }
 
 // Returns the messages starred by the user.
@@ -125,11 +159,9 @@ export function indexMyStars(req, res) {
             if (!user) {
                 return res.status(404).end();
             }
-            return StarredMessage
-                .find({
-                    starredBy: userId
-                })
-                .exec();
+            return StarredMessage.find({
+                starredBy: userId,
+            }).exec();
         })
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -164,7 +196,7 @@ export function unarchiveStar(req, res) {
 // Returns the replies of a message.
 export function indexReplies(req, res) {
     let query = Message.find({
-        thread: req.params.id
+        thread: req.params.id,
     });
     if (req.query.select) {
         query = query.select(req.query.select);
@@ -193,75 +225,15 @@ export function indexReplies(req, res) {
 //     });
 // }
 
-/**
- * Threads
- */
-
-
-// Get a list of Threads that are not associated with an entity
-export function indexThreads(req, res) {
-    return Thread.find({
-        entityId: {
-            $exists: false,
-        },
-    })
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Get a list of Threads for an entity
-export function indexThreadsForEntity(req, res) {
-    return Thread.find({
-        entityId: req.params.entityId,
-    })
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Deletes a Thread from the DB
-export function destroyThread(req, res) {
-    // Remove all messages associated with a thread
-    try {
-        removeMessagesForThread(req.params.id);
-    } catch (e) {
-        console.error(`Error removing messages associated with thread ID ${req.params.id} - ${e}`);
-    }
-
-    // Remove the thread
-    return Thread.findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(removeThread(res))
-        .catch(handleError(res));
-}
-
 // Get a list of Threads that are not associated with an entity
 export function showMessagesForThread(req, res) {
     return Message.find({
         thread: {
             _id: req.params.id,
-        }
+        },
     })
         .exec()
         .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Creates a new Thread in the DB
-export function createThread(req, res) {
-    var userId = req.user._id;
-    return User.findById(userId)
-        .exec()
-        .then(handleUserNotFound(res))
-        .then(user => {
-            return Thread.create({
-                ...req.body,
-                createdBy: user._id
-            });
-        })
-        .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
@@ -271,26 +243,11 @@ export function addMessageToThread(req, res) {
     return User.findById(userId)
         .exec()
         .then(handleUserNotFound(res))
-        .then(user => {
-            return Message.create({
-                ...req.body,
-                createdBy: user._id
-            });
-        })
+        .then(user => Message.create({
+            ...req.body,
+            createdBy: user._id,
+        }))
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Updates an existing Thread in the DB
-export function patchThread(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Thread.findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
@@ -322,23 +279,9 @@ function patchUpdates(patches) {
 function removeMessage(res) {
     return function (entity) {
         if (entity) {
-            return entity.remove()
+            return entity
+                .remove()
                 .then(removeStars(entity))
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function removeMessagesForThread(threadId) {
-    return Message.deleteMany({ thread: threadId})
-        .exec();
-}
-
-function removeThread(res) {
-    return function (entity) {
-        if (entity) {
-            return entity.remove()
-                // .then(removeStars(entity))
                 .then(() => res.status(204).end());
         }
     };
@@ -349,15 +292,13 @@ function removeStars() {
         if (message) {
             // remove the star one by one to fire websocket hook
             return StarredMessage.find({
-                    message: message._id
-                })
+                message: message._id,
+            })
                 .exec()
-                .then(stars => Promise.all(
-                    stars.map(star => star.remove())
-                ));
+                .then(stars => Promise.all(stars.map(star => star.remove())));
         }
         return null;
-    }
+    };
 }
 
 function handleEntityNotFound(res) {
@@ -392,31 +333,29 @@ function createStar(res, req) {
         if (user) {
             return StarredMessage.create({
                 message: req.params.id,
-                starredBy: user._id
+                starredBy: user._id,
             });
         }
         return null;
-    }
+    };
 }
 
 function removeStar(res, req) {
     return function (star) {
         if (star) {
-            return star.remove()
+            return star.remove();
         }
         return null;
-    }
+    };
 }
 
 function findStar(req) {
     return function (user) {
         if (user) {
-            return StarredMessage
-                .findOne({
-                    message: req.params.id,
-                    starredBy: user._id
-                })
-                .exec();
+            return StarredMessage.findOne({
+                message: req.params.id,
+                starredBy: user._id,
+            }).exec();
         }
         return null;
     };

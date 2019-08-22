@@ -33,7 +33,7 @@
                     Open With
                 </a>
                 <mat-menu #toolMenuForDataset="matMenu">
-                    <a mat-menu-item *ngFor="let tool of getToolsByDataset(dataset)" (click)="openDatasetWithTool(dataset, tool)">{{tool.name}}</a>
+                    <a mat-menu-item *ngFor="let tool of getToolsByDataset(dataset)" (click)="openDatasetWithTool(dataset, tool)">{{tool.title}}</a>
                 </mat-menu>
             </div>
         </mat-card>
@@ -55,7 +55,7 @@
                         Open With
                     </a>
                     <mat-menu #toolMenuForRsc="matMenu">
-                        <a mat-menu-item *ngFor="let tool of getToolsByResource(resource)" (click)="openResourceWithTool(resource, tool)">{{tool.name}}</a>
+                        <a mat-menu-item *ngFor="let tool of getToolsByResource(resource)" (click)="openResourceWithTool(resource, tool)">{{tool.title}}</a>
                     </mat-menu>
                 </mat-list-item>
             </mat-list>

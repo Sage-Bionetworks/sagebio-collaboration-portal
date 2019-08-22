@@ -61,7 +61,7 @@ export class ToolComponent implements OnInit, OnDestroy {
         getTool
             .subscribe(tool => {
                 this.tool = tool;
-                this.pageTitleService.title = tool.name;
+                this.pageTitleService.title = tool.title;
             }, err => console.log(err));
 
 
@@ -79,10 +79,10 @@ export class ToolComponent implements OnInit, OnDestroy {
         this.toolService.remove(this.tool)
             .subscribe(deletedTool => {
                 this.router.navigateByUrl('tools');
-                this.notificationService.info(`${deletedTool.name} has been successfully deleted'`);
+                this.notificationService.info(`${deletedTool.title} has been successfully deleted'`);
             }, err => {
                 console.log(err);
-                this.notificationService.error(`Unable to delete the tool ${this.tool.name}'`);
+                this.notificationService.error(`Unable to delete the tool ${this.tool.title}'`);
             });
     }
 

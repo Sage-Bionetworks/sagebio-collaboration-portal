@@ -25,6 +25,7 @@ export class ThreadListComponent implements OnDestroy, OnInit {
     private messages: Message[];
     private threads: Thread[]; // Added threads array to ThreadListComponent
     private showNewThreadForm = false;
+    // TODO Add an ability to indicate whether a user canStartNewDiscussion - if entityId is defined, they must have access granted or they should be blocked
 
     @Input() entityId: string;
     @Input() entityType: string;

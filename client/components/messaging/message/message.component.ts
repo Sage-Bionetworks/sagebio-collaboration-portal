@@ -90,9 +90,20 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
         this.userPermissionDataService.permissions()
             .subscribe(permissions => {
-                // Eventually permissions should be implemented for user editing of messages
+                // TODO Portal admin users can delete messages in a public thread as long as the message is not the only one in the thread
+                // TODO Thread authors can delete their own messages in a public thread as long as the message is not the only one in the thread
+                // TODO Portal admin users can delete messages in an entity thread as long as the message is not the only one in the thread
+                // TODO Entity admin users can delete messages in an entity thread as long as the message is not the only one in the thread
+                // TODO Thread authors can delete their own messages in an entity thread as long as the message is not the only one in the thread
                 this.canDeleteMessage = permissions.isAdmin();
+
+                // TODO Portal admin users can edit messages in a public thread
+                // TODO Thread authors can edit their own messages in a public thread
+                // TODO Portal admin users can edit messages in an entity thread
+                // TODO Entity admin users can edit messages in an entity thread
+                // TODO Thread authors can edit their own messages in an entity thread
                 this.canEditMessage = permissions.isAdmin();
+
                 this.showMessageActions = this.canDeleteMessage || this.canEditMessage;
             });
     }
