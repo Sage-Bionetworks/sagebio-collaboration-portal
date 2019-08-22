@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProvenanceService } from 'components/provenance/provenance.service';
-import { Activity } from 'models/activities/activity.model';
+import { Activity } from 'models/provenance/activity.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../../app/app.constants';
 import { ProjectDataService } from '../../../app/project/project-data.service';

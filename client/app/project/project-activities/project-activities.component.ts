@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { orderBy } from 'lodash';
 import { Observable } from 'rxjs';
 import { ProvenanceService } from 'components/provenance/provenance.service';
-import { Activity } from 'models/activities/activity.model';
+import { Activity } from 'models/provenance/activity.model';
 import { ProjectDataService } from '../project-data.service';
 import { Project } from 'models/project.model';
 import config from '../../app.constants';
