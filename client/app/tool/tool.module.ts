@@ -9,6 +9,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
+import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool-page/tool.component';
 import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
@@ -47,6 +48,7 @@ export const ROUTES: Routes = [
         ShowActivityButtonModule,
         ActivitySidenavModule,
         ProvenanceModule,
+        EntityModule
     ],
     declarations: [
         ToolComponent,

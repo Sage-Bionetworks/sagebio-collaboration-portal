@@ -27,6 +27,22 @@ export class MessagingService {
     /**
      * Threads
      */
+
+    getThreadsByEntity(entityId: string): Observable<Thread[]> {
+        return this.httpClient.get<Thread[]>(`/api/threads/entity/${entityId}`)
+            .pipe(
+                map(threads => orderBy(['updatedAt'], ['desc'], threads))
+            );
+    }
+
+
+
+
+
+
+
+
+
     addThread(thread: Thread): Observable<Thread> {
         return this.httpClient.post<Thread>('/api/messages/threads', thread);
     }
@@ -38,12 +54,7 @@ export class MessagingService {
             );
     }
 
-    getThreadsByEntity(entityId: string): Observable<Thread[]> {
-        return this.httpClient.get<Thread[]>(`/api/messages/threads/entity/${entityId}`)
-            .pipe(
-                map(threads => orderBy(['updatedAt'], ['desc'], threads))
-            );
-    }
+
 
     removeThread(thread: Thread): Observable<void> {
         return this.httpClient.delete<void>(`/api/messages/threads/${thread._id}`);

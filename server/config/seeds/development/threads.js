@@ -3,10 +3,14 @@ import {
     adminUserId
 } from './users';
 import { testProjectId, anotherProjectId } from './projects';
+import {
+    phccpShinyToolExample
+} from './tools';
 
 const thread1Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3f9');
 const thread2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3fa');
 const thread3Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3f4');
+const thread4Id = new mongoose.Types.ObjectId('5cf1eb9420a6a06be995c3f4');
 
 let threads = [
     {
@@ -33,6 +37,14 @@ let threads = [
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
     },
+    {
+        _id: thread4Id,
+        title: `This tool is awesome!`,
+        entityId: phccpShinyToolExample._id,
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
+        updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
+    }
 ];
 
 export {
