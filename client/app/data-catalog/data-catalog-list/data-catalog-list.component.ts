@@ -3,7 +3,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataCatalogService } from '../data-catalog.service';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
@@ -22,8 +22,7 @@ export class DataCatalogListComponent implements OnInit, AfterViewInit {
         private catalogService: DataCatalogService) {
         this.catalogs = catalogService.getDataCatalogs()
             .pipe(
-                map(catalogs => orderBy('name', 'asc', catalogs))
-            );
+                map(catalogs => orderBy('name', 'asc', catalogs)) );
     }
 
     ngOnInit() {

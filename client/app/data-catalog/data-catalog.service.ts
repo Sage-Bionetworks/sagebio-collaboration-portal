@@ -8,7 +8,7 @@ import {
     tap
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 import { stringifyQuery } from 'components/util';
 import { head } from 'lodash/fp';
 

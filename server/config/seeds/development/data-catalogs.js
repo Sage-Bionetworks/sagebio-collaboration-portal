@@ -5,7 +5,7 @@ import { sageId, geneId } from '../default/organizations';
 let dataCatalogs = [{
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd91'),
     slug: 'roche-data-portal',
-    name: 'Roche Data Portal',  // (Beta)
+    title: 'Roche Data Portal',  // (Beta)
     description: 'A discoverability portal for the GREX framework',
     apiType: 'CKAN',
     picture: 'assets/images/320px-Roche_Logo.svg.png',
@@ -16,7 +16,7 @@ let dataCatalogs = [{
 }, {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd92'),
     slug: 'sage',
-    name: 'Sage Catalog',
+    title: 'Sage Catalog',
     description: 'A test instance of CKAN',
     apiType: 'CKAN',
     picture: 'assets/images/320px-SageBionetworks_LogoShape.png',
@@ -27,7 +27,7 @@ let dataCatalogs = [{
 }, {
     _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874f356'),
     slug: 'phc-ix',
-    name: 'PHC-IX Data Catalog',
+    title: 'PHC-IX Data Catalog',
     description: 'A PHC-IX Advanced Analytics data source',
     apiType: 'CKAN',
     picture: 'assets/images/320px-Roche_Logo.svg.png',

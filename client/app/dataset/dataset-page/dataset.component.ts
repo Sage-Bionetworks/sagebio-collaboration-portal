@@ -7,7 +7,7 @@ import { ToolService } from '../../tool/tool.service';
 import { Tool } from 'models/entities/tool.model';
 import { CkanDataset } from 'models/ckan/ckan-dataset.model';
 import { CkanDatasetResource } from 'models/ckan/ckan-dataset-resource.model';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
