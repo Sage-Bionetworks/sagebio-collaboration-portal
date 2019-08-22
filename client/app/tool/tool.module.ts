@@ -11,12 +11,13 @@ import { ShowActivityButtonModule } from 'components/activity/show-activity-butt
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
-import { ToolNewComponent } from './tool-new/tool-new.component';
-import { ToolEditComponent } from './tool-edit/tool-edit.component';
-
-import { ToolListComponent } from './tool-list/tool-list.component';
-import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolComponent } from './tool-page/tool.component';
+import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
+import { ToolEditComponent } from './tool-edit/tool-edit.component';
+import { ToolListComponent } from './tool-list/tool-list.component';
+import { ToolNewComponent } from './tool-new/tool-new.component';
+import { ToolViewComponent } from './tool-view/tool-view.component';
+
 import { ToolService } from './tool.service';
 
 export const ROUTES: Routes = [{
@@ -43,24 +44,18 @@ export const ROUTES: Routes = [{
         ProvenanceModule
     ],
     declarations: [
-        ToolListComponent,
-        ToolViewComponent,
         ToolComponent,
-        ToolNewComponent,
-        ConfirmationDialog,
+        ToolDiscussionComponent,
         ToolEditComponent,
+        ToolListComponent,
+        ToolNewComponent,
+        ToolViewComponent
     ],
     providers: [
         SocketService,
         ToolService
     ],
     exports: [
-        ToolListComponent,
-        ToolViewComponent,
-        ToolComponent,
-        ToolNewComponent,
-        ConfirmationDialog,
-        ToolEditComponent,
     ],
     entryComponents: [
         ConfirmationDialog,
