@@ -1,0 +1,22 @@
+<div *ngIf="!showNewActivityForm; else activityForm">
+  <div class="project-activities-container">
+    <div class="activities-graph-container">
+        <div class="activities-graph-filters-container">
+            <h3>{{ entityName }} Type</h3>
+            <radio-button-filter [filters]="activityTypeFilters" [group]="filterGroup"></radio-button-filter>
+        </div>
+        <div class="activities-graph-content-container">
+            <div class="activities-graph-results">
+                <provenance-graph class="provenance-graph" [graphData]="provenanceGraph" [rootId]=""></provenance-graph>
+            </div>
+        </div>
+    </div>
+    <div class="project-activities-actions">
+        <a mat-raised-button color="primary" class="app-activity-list-new-project" (click)="showNewActivityForm=true" aria-label="Create activity">Create a New Activity</a>
+    </div>
+  </div>
+</div>
+
+<ng-template #activityForm>
+    <activity-new (newActivity)="onNewActivity($event)" (close)="showNewActivityForm=false"></activity-new>
+</ng-template>
