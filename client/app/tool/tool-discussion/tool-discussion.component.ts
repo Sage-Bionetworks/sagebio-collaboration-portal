@@ -6,6 +6,7 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/entities/tool.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'tool-discussion',
@@ -14,6 +15,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 })
 export class ToolDiscussionComponent implements OnInit {
     private tool: Tool;
+    private entityType: string;
 
     static parameters = [Router, ActivatedRoute, ToolService, PageTitleService];
     constructor(
@@ -21,7 +23,9 @@ export class ToolDiscussionComponent implements OnInit {
         private route: ActivatedRoute,
         private toolService: ToolService,
         private pageTitleService: PageTitleService
-    ) {}
+    ) {
+        this.entityType = config.entityTypes.TOOL.value;
+    }
 
     ngOnInit() {
         const getTool = this.route.params.pipe(switchMap(res => this.toolService.getToolBySlug(res.slug)));

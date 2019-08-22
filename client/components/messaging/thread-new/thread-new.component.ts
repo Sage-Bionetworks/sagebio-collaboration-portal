@@ -18,6 +18,7 @@ export class ThreadNewComponent implements OnInit {
     @Input() entityId: string;
     @Input() entityType: string;
     @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
+    @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
     private thread: Thread;
     private messageSpecs: {};
@@ -91,14 +92,12 @@ export class ThreadNewComponent implements OnInit {
                 // // Load the newly created thread in the sidebar
                 // this.messagingService.showThread(this.thread);
             }, err => {
-                console.log('ERROR', err);
+                console.error(err);
                 this.errors.createNewMessage = err.message;
             });
     }
 
-    close(): void {
-        this.secondarySidenavService.close();
-        this.secondarySidenavService.destroyContentComponent();
+    discard(): void {
+        this.close.emit(null);
     }
-
 }

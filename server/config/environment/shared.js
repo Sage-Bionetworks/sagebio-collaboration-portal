@@ -23,6 +23,9 @@ export const permissionTypes = [
 export const entityTypes = {
     PROJECT: {
         value: 'project'
+    },
+    TOOL: {
+        value: 'tool'
     }
 };
 
