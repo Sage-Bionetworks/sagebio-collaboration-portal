@@ -1,11 +1,12 @@
 @mixin project-list-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
 
-  .app-project-list .app-project-item {
-    color: mat-color($primary);
-  }
+    .app-project-list-content .app-project-list-results .project-container .app-project-list-item{
+        background: mat-color($warn);
+    }
+
 }

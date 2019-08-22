@@ -1,60 +1,67 @@
-.project-container {
-  display: flex;
-  flex-flow: row nowrap;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-  padding: 1px 30px 1px;
-  margin: 5px;
-  border: 1px solid grey;
-  border-radius: 4px;
-}
-
-.project-container:hover {
-  cursor: pointer;
-  background: #f1f1f1;
-}
-
-.project-container > picture {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-
-  img {
-    display: block;
-    max-width: 200px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    align-self: center;
-  }
-}
-
-.project-name {
-  font-size: 15px;
-  line-height: 20px;
-  overflow: hidden;
-  box-sizing: content-box;
-  max-height: 60px;
-  font-weight: 600;
-  opacity: 0.95;
-  padding-top: 5px;
-  padding-bottom: 2px;
-  white-space: normal;
-  position: relative;
-}
-
-.project-metadata-container {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.project-metadata-row-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.project-metadata-row-container > mat-icon {
-  margin-right: 10px;
-}
+//@import 'project-view-theme';
+//
+//.project-container {
+//  display: flex;
+//  flex-flow: row nowrap;
+//  padding: 1px 30px 1px;
+//  margin: 5px;
+//}
+//
+//.project-container:hover {
+//  cursor: pointer;
+//}
+//
+//.project-container > picture {
+//  display: flex;
+//  flex-direction: row;
+//  justify-content: center;
+//  align-items: center;
+//  min-height: 200px;
+//
+//  img {
+//    display: block;
+//    max-width: 200px;
+//    max-height: 200px;
+//    width: auto;
+//    height: auto;
+//    align-self: center;
+//  }
+//}
+//
+//.project-name {
+//  font-size: 15px;
+//  line-height: 20px;
+//  overflow: hidden;
+//  box-sizing: content-box;
+//  max-height: 60px;
+//  font-weight: 600;
+//  opacity: 0.95;
+//  padding-top: 5px;
+//  padding-bottom: 2px;
+//  white-space: normal;
+//  position: relative;
+//}
+//
+//.project-metadata-container {
+//  display: flex;
+//  flex-flow: column nowrap;
+//}
+//
+//.project-metadata-row-container {
+//  display: flex;
+//  flex-direction: row;
+//  align-items: center;
+//}
+//
+//.project-metadata-row-container > mat-icon {
+//  margin-right: 10px;
+//}
+//
+//.app-project-list-item {
+//  border-style: solid;
+//  border-width: 1px;
+//  border-radius: 4px;
+//}
+//
+//
+//
