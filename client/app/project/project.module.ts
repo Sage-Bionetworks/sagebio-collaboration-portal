@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { FiltersModule } from 'components/filters/filters.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from 'components/material/material.module';
@@ -20,6 +21,7 @@ import { ProjectDashboardComponent } from './project-dashboard/project-dashboard
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
+import { ProjectActivitiesComponent } from './project-activities/project-activities.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
@@ -31,8 +33,10 @@ import { InsightService } from 'components/insight/insight.service';
 import { InsightModule } from 'components/insight/insight.module';
 import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
 import { ResourceService } from 'components/resource/resource.service';
-import { ResourceModule } from 'components/resource/resource.module';
 import { ResourcePageComponent } from 'components/resource/resource-page/resource-page.component';
+import { ResourceModule } from 'components/resource/resource.module';
+import { ActivityModule } from 'components/activity/activity.module';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 
@@ -52,6 +56,7 @@ export const ROUTES: Routes = [{
         { path: 'insights/:insightId', component: InsightPageComponent },
         { path: 'resources', component: ProjectResourcesComponent },
         { path: 'resources/:resourceId', component: ResourcePageComponent },
+        { path: 'activities', component: ProjectActivitiesComponent },
         { path: 'discussion', component: ProjectDiscussionComponent },
         { path: 'settings', component: ProjectSettingsComponent }
     ]
@@ -69,7 +74,10 @@ export const ROUTES: Routes = [{
         MessagingModule,
         EntityListModule,
         InsightModule,
-        ResourceModule
+        ResourceModule,
+        ActivityModule,
+        ProvenanceModule,
+        FiltersModule
     ],
     providers: [
         SocketService,
@@ -90,6 +98,7 @@ export const ROUTES: Routes = [{
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
+        ProjectActivitiesComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent
     ],
