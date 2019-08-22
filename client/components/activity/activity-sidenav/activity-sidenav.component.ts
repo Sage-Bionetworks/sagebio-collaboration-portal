@@ -1,6 +1,7 @@
 import { Component, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { flow, keyBy, mapValues, values } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -24,11 +25,16 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     private provenanceGraph: any;
     private activityDirectionFilters: Filter[] = [];
 
-    static parameters = [SecondarySidenavService, ProvenanceService, SocketService];
+    static parameters = [SecondarySidenavService, ProvenanceService, SocketService, Router];
+
     constructor(private sidenavService: SecondarySidenavService,
         private provenanceService: ProvenanceService,
-        private socketService: SocketService) {
+        private socketService: SocketService,
+        private router: Router) {
         this.activityDirectionFilters = values(config.activityDirectionFilters);
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationStart)
+          ).subscribe(_ => this.close());
     }
 
     ngAfterViewInit() {
