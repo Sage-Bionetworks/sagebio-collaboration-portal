@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
@@ -20,17 +19,23 @@ import { ToolViewComponent } from './tool-view/tool-view.component';
 
 import { ToolService } from './tool.service';
 
-export const ROUTES: Routes = [{
-    path: 'tools',
-    component: ToolListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'tools/:slug',
-    component: ToolComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'tools',
+        component: ToolListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'tools/:slug',
+        component: ToolComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'tools/:slug/discussion',
+        component: ToolDiscussionComponent,
+        canActivate: [AuthGuard],
+    },
+];
 
 @NgModule({
     imports: [
@@ -41,7 +46,7 @@ export const ROUTES: Routes = [{
         RouterModule.forChild(ROUTES),
         ShowActivityButtonModule,
         ActivitySidenavModule,
-        ProvenanceModule
+        ProvenanceModule,
     ],
     declarations: [
         ToolComponent,
@@ -49,16 +54,9 @@ export const ROUTES: Routes = [{
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,
-        ToolViewComponent
+        ToolViewComponent,
     ],
-    providers: [
-        SocketService,
-        ToolService
-    ],
-    exports: [
-    ],
-    entryComponents: [
-        ConfirmationDialog,
-    ]
+    providers: [SocketService, ToolService],
+    exports: [],
 })
-export class ToolModule { }
+export class ToolModule {}
