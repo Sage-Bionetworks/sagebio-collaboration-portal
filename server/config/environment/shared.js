@@ -37,6 +37,25 @@ export const insightTypes = {
     }
 };
 
+export const resourceTypes = {
+    DASHBOARD: {
+        value: 'Dashboard',
+        name: 'Dashboard'
+    },
+    STATE: {
+        value: 'State',
+        name: 'State'
+    },
+    WEBAPP: {
+        value: 'WebApp',
+        name: 'WebApp'
+    },
+    ARTICLE: {
+        value: 'Article',
+        name: 'Article'
+    }
+};
+
 export const accessTypes = {
     READ: {
         value: 'read',
@@ -75,6 +94,14 @@ export const gitCommitHash = process.env.GIT_COMMIT_HASH;
 export const gitBranch = process.env.GIT_BRANCH;
 
 export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
+
+// TODO: replace with tool service query
+export const defaultTools = [
+    'Facile Explorer',
+    'IRIS Enterprise Explorer',
+    'PHC Advanced Analytics',
+    'PHCCP Shiny Tool Example'
+];
 
 export const models = {
     project: {
@@ -116,9 +143,21 @@ export const models = {
         }
     },
     resource: {
+        title: {
+            minlength: 3,
+            maxlength: 30
+        },
         description: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        type: {
+            values: ['Dashboard', 'State', 'WebApp', 'Article'],
+            default: 'Dashboard'
+        },
+        url: {
+            minlength: 10,
+            maxlength: 2000
         }
     },
     tool: {
@@ -165,10 +204,12 @@ export default {
     gitVersion,
     gitCommitHash,
     gitBranch,
+    defaultTools,
     models,
     datasetOrders,
     accessTypes,
     entityTypes,
     insightTypes,
+    resourceTypes,
     inviteStatusTypes
 };
