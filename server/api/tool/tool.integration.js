@@ -70,7 +70,7 @@ describe('Tool API:', function () {
                 .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'new-slug',
-                    name: 'New name',
+                    title: 'New title',
                     description: 'New description',
                     organization: authOrganization._id.toString(),
                     website: 'New website',
@@ -140,7 +140,7 @@ describe('Tool API:', function () {
                 .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'updated-slug',
-                    name: 'Updated name',
+                    title: 'Updated title',
                     description: 'Updated description',
                     organization: anotherOrganization._id.toString(),
                     website: 'Updated website',
@@ -209,8 +209,8 @@ describe('Tool API:', function () {
                     value: 'patched-slug'
                 }, {
                     op: 'replace',
-                    path: '/name',
-                    value: 'Patched name'
+                    path: '/title',
+                    value: 'Patched title'
                 }, {
                     op: 'replace',
                     path: '/description',
