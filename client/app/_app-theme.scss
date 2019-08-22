@@ -10,45 +10,49 @@
 
 // Styles for the app that are based on the current theme.
 @mixin app-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
 
-  // .app-background {
-  //   background: mat-color($background, background);
-  // }
+    // .app-background {
+    //   background: mat-color($background, background);
+    // }
 
-  .app-primary-header {
-    background: mat-color($accent);
+    .app-primary-header {
+        background: mat-color($accent);
 
-    h1 {
-      color: mat-color($primary, default-contrast);
+        h1 {
+            color: mat-color($primary, default-contrast);
+        }
+
+        .app-nav-back-icon {
+            color: mat-color($primary, default-contrast);
+        }
+
+        .app-primary-header-link {
+            text-decoration: none;
+        }
     }
 
-    .app-nav-back-icon {
-      color: mat-color($primary, default-contrast);
+    .app-button-landing {
+        background-color: mat-color($warn);
     }
-  }
 
-  .app-button-landing {
-      background-color: mat-color($warn)
-  }
+    .app-footer {
+        background: mat-color($primary);
+        color: mat-color($primary, default-contrast);
+    }
 
-  .app-footer {
-    background: mat-color($primary);
-    color: mat-color($primary, default-contrast);
-  }
-
-  // app
-  @include account-theme($theme);
-  @include admin-theme($theme);
-  @include dataset-theme($theme);
-  @include main-theme($theme);
-  // components
-  @include app-quill-theme($theme);
-  @include footer-theme($theme);
-  @include messaging-theme($theme);
-  @include navbar-theme($theme);
+    // app
+    @include account-theme($theme);
+    @include admin-theme($theme);
+    @include dataset-theme($theme);
+    @include main-theme($theme);
+    // components
+    @include app-quill-theme($theme);
+    @include footer-theme($theme);
+    @include messaging-theme($theme);
+    @include navbar-theme($theme);
 }
