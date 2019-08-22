@@ -5,12 +5,12 @@
 
 .app-project-list-content {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   margin: 20px;
 
   .app-project-list-results {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
   }
 
   .app-project-list-actions {
@@ -23,4 +23,13 @@
     margin-top: 25px;
     width: 400px;
   }
+
+  .app-project-list-item {
+      padding-top: 5px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border-width: 1px;
+      border-style: solid;
+  }
 }
+
