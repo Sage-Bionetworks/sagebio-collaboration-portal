@@ -7,11 +7,12 @@ import {
     hasRole as _hasRole,
     hasAccessToEntity as _hasAccessToEntity,
     hasUserPermission as _hasUserPermission,
+    hasAccessToEntityRelatedObject as _hasAccessToEntityRelatedObject
 } from './auth';
 const url = require('url');
 
 var validateJwt = expressJwt({
-    secret: config.secrets.session
+    secret: config.secrets.session,
 });
 
 /**
@@ -19,32 +20,35 @@ var validateJwt = expressJwt({
  * Otherwise returns 403
  */
 export function isAuthenticated() {
-    return compose()
-        // Validate jwt
-        .use((req, res, next) => {
-            // allow access_token to be passed through query parameter as well
-            if (req.query && req.query.hasOwnProperty('access_token')) {
-                req.headers.authorization = `Bearer ${req.query.access_token}`;
-            }
-            // IE11 forgets to set Authorization header sometimes. Pull from cookie instead.
-            if (req.query && typeof req.headers.authorization === 'undefined') {
-                req.headers.authorization = `Bearer ${req.cookies.token}`;
-            }
-            validateJwt(req, res, next);
-        })
-        // Attach user to request
-        .use((req, res, next) => {
-            User.findById(req.user._id).exec()
-                .then(user => {
-                    if (!user) {
-                        return res.status(401).end();
-                    }
-                    req.user = user;
-                    next();
-                    return null;
-                })
-                .catch(err => next(err));
-        });
+    return (
+        compose()
+            // Validate jwt
+            .use((req, res, next) => {
+                // allow access_token to be passed through query parameter as well
+                if (req.query && req.query.hasOwnProperty('access_token')) {
+                    req.headers.authorization = `Bearer ${req.query.access_token}`;
+                }
+                // IE11 forgets to set Authorization header sometimes. Pull from cookie instead.
+                if (req.query && typeof req.headers.authorization === 'undefined') {
+                    req.headers.authorization = `Bearer ${req.cookies.token}`;
+                }
+                validateJwt(req, res, next);
+            })
+            // Attach user to request
+            .use((req, res, next) => {
+                User.findById(req.user._id)
+                    .exec()
+                    .then(user => {
+                        if (!user) {
+                            return res.status(401).end();
+                        }
+                        req.user = user;
+                        next();
+                        return null;
+                    })
+                    .catch(err => next(err));
+            })
+    );
 }
 
 /**
@@ -55,20 +59,19 @@ export function isAuthenticated() {
  * @param {*} permission
  */
 export function isAuthorized(permission) {
-    return compose()
-        .use((req, res, next) => {
-            return _hasUserPermission(req.user._id, permission)
-                .then((accessGranted) => {
-                    if (accessGranted) return next();
-                    return null;
-                })
-                .catch(err => {
-                    console.error(`ERROR attempting authorization request: ${err}`);
-                    // Block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                });
-        });
+    return compose().use((req, res, next) =>
+        _hasUserPermission(req.user._id, permission)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(err => {
+                console.error(`ERROR attempting authorization request: ${err}`);
+                // Block request
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
 }
 
 /**
@@ -78,20 +81,33 @@ export function isAuthorized(permission) {
  * @param {*} allowedAccesses
  */
 export function isAuthorizedForEntity(allowedAccesses) {
-    return compose()
-        .use((req, res, next) => {
-            return _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
-                .then((accessGranted) => {
-                    if (accessGranted) return next();
-                    return null;
-                })
-                .catch(err => {
-                    console.error(`ERROR attempting authorization request for entity: ${err}`);
-                    // Block request
-                    res.status(403).send('Forbidden');
-                    return null;
-                });
-        });
+    return compose().use((req, res, next) =>
+        _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(err => {
+                console.error(`ERROR attempting authorization request for entity: ${err}`);
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
+}
+
+export function isAuthorizedForEntityRelatedObject(Model) {
+    return compose().use((req, res, next) =>
+        _hasAccessToEntityRelatedObject(req.user._id, req.params.entityId, req.params.id, Model)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(err => {
+                console.error(`ERROR attempting authorization request for entity-related object: ${err}`);
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
 }
 
 /**
@@ -114,6 +130,12 @@ export function hasPermissionForEntity(allowedAccesses) {
         .use(isAuthorizedForEntity(allowedAccesses));
 }
 
+export function hasPermissionForEntityRelatedObject(Model) {
+    return compose()
+        .use(isAuthenticated())
+        .use(isAuthorizedForEntityRelatedObject(Model));
+}
+
 /**
  * Checks if the user role meets the minimum requirements of the route
  */
@@ -132,12 +154,16 @@ export function hasRole(role) {
  * Returns a jwt token signed by the app secret
  */
 export function signToken(id, role) {
-    return jwt.sign({
-        _id: id,
-        role
-    }, config.secrets.session, {
-        expiresIn: config.expiresIn.session
-    });
+    return jwt.sign(
+        {
+            _id: id,
+            role,
+        },
+        config.secrets.session,
+        {
+            expiresIn: config.expiresIn.session,
+        }
+    );
 }
 
 /**
@@ -148,11 +174,13 @@ export function setTokenCookie(req, res) {
         return res.status(404).send('It looks like you aren\'t logged in, please try again.');
     }
     var token = signToken(req.user._id, req.user.role);
-    res.redirect(url.format({
-        pathname: '/login',
-        query: {
-            token,
-            expiresIn: config.expiresIn.session
-        }
-    }));
+    res.redirect(
+        url.format({
+            pathname: '/login',
+            query: {
+                token,
+                expiresIn: config.expiresIn.session,
+            },
+        })
+    );
 }

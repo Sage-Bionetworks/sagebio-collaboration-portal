@@ -10,13 +10,6 @@ var messageCtrlStub = {
     patch: 'messageCtrl.patch',
     destroy: 'messageCtrl.destroy',
     test: 'messageCtrl.test',
-    indexThreads: 'messageCtrl.indexThreads',
-    indexThreadsForEntity: 'messageCtrl.indexThreadsForEntity',
-    showMessagesForThread: 'messageCtrl.showMessagesForThread',
-    createThread: 'messageCtrl.createThread',
-    addMessageToThread: 'messageCtrl.addMessageToThread',
-    destroyThread: 'messageCtrl.destroyThread',
-    patchThread: 'messageCtrl.patchThread',
 };
 
 var authServiceStub = {
@@ -102,69 +95,4 @@ describe('Message API Router:', function () {
             ).to.have.been.calledOnce;
         });
     });
-
-    // Threads
-    // POST /messages/threads/  -> Create a new thread and a new message ID that is not associated with an entity ID
-    describe('POST /api/messages/threads', function () {
-        it('should route to message.controller.createThread', function () {
-            expect(routerStub.post
-                .withArgs('/threads', 'authService.isAuthenticated', 'messageCtrl.createThread')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // GET /messages/threads/   -> Get all threads that are not associated with an entity ID
-    describe('GET /api/messages/threads', function () {
-        it('should route to message.controller.indexThreads', function () {
-            expect(routerStub.get
-                .withArgs('/threads', 'authService.isAuthenticated', 'messageCtrl.indexThreads')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // POST /messages/threads/:id    -> Add a Message to a specific thread ID not associated with an entity ID
-    describe('POST /api/messages/threads/:id', function () {
-        it('should route to message.controller.addMessageToThread', function () {
-            expect(routerStub.post
-                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.addMessageToThread')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // PATCH /messages/threads/:id
-    describe('PATCH /api/messages/threads/:id', function () {
-        it('should route to message.controller.patchThread', function () {
-            expect(routerStub.patch
-                .withArgs('/threads/:id', 'authService.isAuthenticated', 'messageCtrl.patchThread')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // DELETE /messages/threads/:id    -> Delete a specific thread ID not associated with an entity ID
-    describe('DELETE /api/messages/threads/:id', function () {
-        it('should route to message.controller.destroyThread', function () {
-            expect(routerStub.delete
-                .withArgs('/threads/:id', 'authService.hasRole.admin', 'messageCtrl.destroyThread')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // GET /messages/threads/messages/:id   -> Get messages from a specific thread ID not associated with an entity ID
-    describe('GET /api/messages/threads/messages/:id', function () {
-        it('should route to message.controller.test', function () {
-            expect(routerStub.get
-                .withArgs('/threads/messages/:id', 'authService.isAuthenticated', 'messageCtrl.showMessagesForThread')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    // GET /messages/threads/entity/:entityId   -> Get all threads for a specific entity ID
-    describe('GET /api/messages/threads/entity/:entityId', function () {
-        it('should route to message.controller.indexThreadsForEntity', function () {
-            expect(routerStub.get
-                .withArgs('/threads/entity/:entityId', 'authService.hasPermissionForEntity', 'messageCtrl.indexThreadsForEntity')
-            ).to.have.been.calledOnce;
-        });
-    });
-
 });

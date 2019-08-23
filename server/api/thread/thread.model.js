@@ -11,11 +11,7 @@ var ThreadSchema = new mongoose.Schema({
     },
     entityId: {
         type: String,
-        required: false
-    },
-    entityType: {
-        type: String,
-        required: false
+        required: true
     },
     createdAt: {
         type: Date,

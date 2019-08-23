@@ -1,4 +1,5 @@
 <mat-list class="thread-list">
+    <!-- TODO Start a discussion button should only be visible if canStartNewDiscussion is true -->
     <button mat-raised-button class="app-button app-button-landing thread-button" (click)="onStartADiscussion()">+ Start a discussion</button>
     <thread-new *ngIf="showNewThreadForm" [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)"></thread-new>
     <thread-date-separator *ngIf="threads && threads[0]" class="thread-date-separator" [isoDate]="threads[0].updatedAt || threads[0].createdAt"></thread-date-separator>

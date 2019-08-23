@@ -21,6 +21,7 @@
                 <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
             </a>
             <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+                <!-- TODO Delete thread should only be visible if canDeleteThread is true -->
                 <button mat-menu-item aria-label="Delete thread" (click)="removeThread()">
                     <span class="app-thread-delete-btn-label">Delete thread</span>
                 </button>

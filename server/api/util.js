@@ -102,6 +102,16 @@ export function handleEntityNotFound(res) {
     };
 }
 
+function handleUserNotFound(res) {
+    return function(user) {
+        if (!user) {
+            res.status(401).end();
+            return null;
+        }
+        return user;
+    };
+}
+
 export function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {

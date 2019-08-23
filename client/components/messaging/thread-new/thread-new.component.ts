@@ -1,17 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
-import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'components/notification/notification.service';
-import { ObjectValidators } from '../../validation/object-validators';
 import { Thread } from 'models/messaging/thread.model';
-import { Message } from 'models/messaging/message.model';
-import { MessagingService } from '../messaging.service';
-import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 import config from '../../../app/app.constants';
+import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ObjectValidators } from '../../validation/object-validators';
+import { MessagingService } from '../messaging.service';
 
 @Component({
     selector: 'thread-new',

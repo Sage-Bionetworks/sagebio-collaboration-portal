@@ -85,9 +85,21 @@ export class ThreadPreviewComponent implements OnInit, AfterViewInit {
 
         this.userPermissionDataService.permissions()
             .subscribe(permissions => {
-                // Eventually permissions should be implemented for user editing of threads
+                // TODO Portal admins should be able to delete public threads
+                // TODO Thread authors should be able to delete their own public threads only if there are no replies to the thread
+                // TODO Portal admins should be able to delete entity threads
+                // TODO Entity admins should be able to delete entity threads
+                // TODO Thread authors should be able to delete their own entity threads only if there are no replies to the thread
                 this.canDeleteThread = permissions.isAdmin();
+
+                // TODO Portal admins should be able to edit public threads
+                // TODO Thread authors should be able to edit their own public thread details
+                // TODO Portal admins should be able to edit entity threads
+                // TODO Entity admins should be able to edit entity threads
+                // TODO Thread authors should be able to edit their own entity thread details
                 this.canEditThread = permissions.isAdmin();
+
+                // TODO Show more actions if the user can either delete or edit the thread
                 // this.showThreadActions = this.canDeleteThread || this.canEditThread;
         });
     }
