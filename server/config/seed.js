@@ -3,6 +3,7 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+import App from '../api/app/app.model';
 import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
@@ -36,6 +37,14 @@ export function seedDatabaseIfNeeded() {
 
     let promises = [];
     let promise;
+
+    promise = App.find({}).deleteMany()
+        .then(() => seeds.apps ? App
+            .create(seeds.apps)
+            .then(() => console.log('finished populating apps')) : null
+        )
+        .catch(err => console.log('error populating apps', err));
+    promises.push(promise);
 
     promise = Article.find({}).deleteMany()
         .then(() => seeds.articles ? Article
