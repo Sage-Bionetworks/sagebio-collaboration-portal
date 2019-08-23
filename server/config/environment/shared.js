@@ -314,13 +314,9 @@ export const models = {
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         type: {
-            values: ['Report generation', 'Memoization', 'Mention', 'Tool session'],
-            default: 'Report generation',
-        },
-        url: {
-            minlength: 10,
-            maxlength: 2000,
-        },
+            values: ['Report generation', 'Tool session'],
+            default: 'Report generation'
+        }
     },
     user: {
         // title: {
