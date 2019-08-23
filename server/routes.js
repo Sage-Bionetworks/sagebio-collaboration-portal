@@ -13,7 +13,7 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 export default app => {
     // Insert routes below
-    app.use('/api/provenance', require('./api/provenance'));
+    app.use('/api/apps', require('./api/app'));
     app.use('/api/invites', require('./api/invite'));
     app.use('/api/entity-permissions', require('./api/entity-permission'));
     app.use('/api/messages', require('./api/message'));
@@ -29,6 +29,7 @@ export default app => {
     app.use('/api/user-permissions', require('./api/user-permission'));
     app.use('/api/states', require('./api/state'));
     app.use('/api/health', require('./api/health'));
+    app.use('/api/provenance', require('./api/provenance'));
     app.use('/auth', require('./auth').default);
 
     // swagger definition
