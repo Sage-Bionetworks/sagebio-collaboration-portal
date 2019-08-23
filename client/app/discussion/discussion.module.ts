@@ -4,18 +4,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { EntityModule } from 'components/entity/entity.module';
 import { MaterialModule } from 'components/material/material.module';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
-import { PostListComponent } from './post-list/post-list.component';
-import { PostViewComponent } from './post-view/post-view.component';
 import { SocketService } from 'components/socket/socket.service';
+import { AppService } from '../app.service';
+
+import { DiscussionComponent } from './discussion.component';
 
 export const ROUTES: Routes = [{
     path: 'discussion',
-    component: PostListComponent,
-    canActivate: [AuthGuard],
-    data: {}
+    component: DiscussionComponent,
+    canActivate: [AuthGuard]
 }];
 
 @NgModule({
@@ -23,21 +24,18 @@ export const ROUTES: Routes = [{
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        EntityModule,
         MaterialModule,
         MessagingModule,
         RouterModule.forChild(ROUTES)
     ],
     declarations: [
-        PostListComponent,
-        PostViewComponent
+        DiscussionComponent
     ],
     providers: [
+        AppService,
         SocketService
     ],
-    exports: [
-        // ToolListComponent,
-        // ToolViewComponent,
-        // ToolComponent
-    ],
+    exports: [],
 })
 export class DiscussionModule { }

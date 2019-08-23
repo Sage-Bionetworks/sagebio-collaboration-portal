@@ -21,6 +21,9 @@ export const permissionTypes = [
 ];
 
 export const entityTypes = {
+    APP: {
+        value: 'app'
+    },
     PROJECT: {
         value: 'project'
     },
