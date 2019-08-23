@@ -30,7 +30,7 @@
                 <!-- <mat-error *ngIf="newForm.controls.tool.invalid">
                     Please enter a valid Tool.
                 </mat-error> -->
-                <option *ngFor="let value of toolOpts" [value]="value">{{ value }}</option>
+                <option *ngFor="let opt of toolOpts" [value]="opt.value">{{ opt.name }}</option>
                 </select>
             </mat-form-field>
             <app-quill-editor class="app-resource-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>

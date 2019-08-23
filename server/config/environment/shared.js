@@ -116,10 +116,19 @@ export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 
 // TODO: replace with tool service query
 export const defaultTools = [
-    'Facile Explorer',
-    'IRIS Enterprise Explorer',
-    'PHC Advanced Analytics',
-    'PHCCP Shiny Tool Example'
+    {
+        value: '5cb6a048e7bdc7740874fd93',
+        name: 'Facile Explorer'
+    }, {
+        value: '5cb6a048e7bdc7740874fd95',
+        name: 'IRIS Enterprise Explorer'
+    }, {
+        value: '5cb6a048e7bdc7740874fd98',
+        name: 'PHC Advanced Analytics'
+    }, {
+        value: '5cb7acb3167e4f14b29dfb1b',
+        name: 'PHCCP Shiny Tool Example'
+    }
 ];
 
 export const models = {
