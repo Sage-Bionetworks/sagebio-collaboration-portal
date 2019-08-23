@@ -12,20 +12,29 @@
                     Please enter a valid name ({{ activitySpecs.title.minlength }}-{{ activitySpecs.title.maxlength }} characters).
                 </mat-error>
             </mat-form-field>
-            <app-quill-editor class="app-activity-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
-            <!-- <mat-form-field class="app-activity-new-form-field">
-                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.description.invalid">
-                    Please enter a valid description ({{ activitySpecs.description.minlength }}-{{ activitySpecs.description.maxlength }} characters).
-                </mat-error>
-            </mat-form-field> -->
             <mat-form-field>
                 <mat-label>Type</mat-label>
                 <select matNativeControl formControlName="activityType" required>
                     <option *ngFor="let value of activitySpecs.type.values" [value]="value">{{ value }}</option>
                 </select>
             </mat-form-field>
-
+            <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('activityType').value === 'Report generation'">
+                <mat-label>Reference</mat-label>
+                <input matInput placeholder="Insert Insight or Resource..." formControlName="used" [errorStateMatcher]="matcher" required>
+            </mat-form-field>
+            <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('activityType').value === 'Report generation'">
+                <mat-label>Report</mat-label>
+                <input matInput placeholder="Insert Report..." formControlName="generated" [errorStateMatcher]="matcher" required>
+            </mat-form-field>
+            <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('activityType').value === 'Tool session'">
+                <mat-label>Tool</mat-label>
+                <input matInput placeholder="Insert Tool..." formControlName="used" [errorStateMatcher]="matcher" required>
+            </mat-form-field>
+            <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('activityType').value === 'Tool session'">
+                <mat-label>State</mat-label>
+                <input matInput placeholder="Insert State..." formControlName="generated" [errorStateMatcher]="matcher" required>
+            </mat-form-field>
+            <app-quill-editor class="app-activity-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
             <mat-error *ngIf="errors.newActivity">
                 {{errors.newActivity}}
             </mat-error>
