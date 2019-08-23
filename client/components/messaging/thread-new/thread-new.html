@@ -15,7 +15,6 @@
                 [showActions]="false"
                 placeholder="Start a new thread"
                 [body]="form.controls['body']"
-                (onSave)="updateMessage()"
             ></app-quill-editor>
             <mat-error *ngIf="form.controls.body.errors?.jsonStringifyMaxLength">
                 This message must be smaller than
@@ -24,8 +23,8 @@
                 {{ (form.controls.body.errors.jsonStringifyMaxLength.value * 2) / 1024 | number: '1.0-0' }}
                 KB)
             </mat-error>
-            <mat-error *ngIf="errors.createNewMessage">
-                {{ errors.createNewMessage }}
+            <mat-error *ngIf="errors.createNewThread">
+                {{ errors.createNewThread }}
             </mat-error>
             <div class="app-thread-new-form-actions">
                 <a
@@ -33,7 +32,7 @@
                     mat-raised-button
                     color="primary"
                     [disabled]="form.invalid"
-                    (click)="form.invalid || addThread()"
+                    (click)="form.invalid || createThread()"
                     >Create a new Thread</a
                 >
                 <a mat-raised-button (click)="discard()">Discard</a>

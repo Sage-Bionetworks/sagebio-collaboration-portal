@@ -24,7 +24,7 @@ export class ThreadNewComponent implements OnInit {
     private messageSpecs: {};
     private form: FormGroup;
     private errors = {
-        createNewMessage: undefined
+        createNewThread: undefined
     };
 
     static parameters = [FormBuilder, NotificationService, MessagingService, SecondarySidenavService];
@@ -58,44 +58,39 @@ export class ThreadNewComponent implements OnInit {
                 distinctUntilChanged()
             )
             .subscribe((data) => {
-                this.errors.createNewMessage = undefined;
+                this.errors.createNewThread = undefined;
             });
     }
 
-    addThread(): void {
+    createThread(): void {
         let newThread = this.form.value;
+        newThread.entityId = this.entityId;
+        newThread.entityType = this.entityType;
 
-        // Add entity-specific details where applicable
-        if (this.entityId) {
-            newThread.entityId = this.entityId;
-            newThread.entityType = this.entityType || config.entityTypes.PROJECT.value; // DEFAULT entity type is project
-        }
-
-        this.messagingService.addThread(newThread)
+        this.messagingService.createThread(newThread)
             .subscribe(thread => {
                 this.newThread.emit(thread);
                 this.thread = thread;
-
-                // Once the thread has been created successfully, create the message
-                this.addMessage();
+                // // Once the thread has been created successfully, create the message
+                // this.addMessage();
             });
     }
 
-    addMessage(): void {
-        let newMessage = this.form.value;
-        newMessage.body = JSON.stringify(this.form.get('body').value);
-        if (this.thread) {
-            newMessage.thread = this.thread;
-        }
-        this.messagingService.addMessage(newMessage)
-            .subscribe(message => {
-                // // Load the newly created thread in the sidebar
-                // this.messagingService.showThread(this.thread);
-            }, err => {
-                console.error(err);
-                this.errors.createNewMessage = err.message;
-            });
-    }
+    // addMessage(): void {
+    //     let newMessage = this.form.value;
+    //     newMessage.body = JSON.stringify(this.form.get('body').value);
+    //     if (this.thread) {
+    //         newMessage.thread = this.thread;
+    //     }
+    //     this.messagingService.addMessage(newMessage)
+    //         .subscribe(message => {
+    //             // // Load the newly created thread in the sidebar
+    //             // this.messagingService.showThread(this.thread);
+    //         }, err => {
+    //             console.error(err);
+    //             this.errors.createNewThread = err.message;
+    //         });
+    // }
 
     discard(): void {
         this.close.emit(null);

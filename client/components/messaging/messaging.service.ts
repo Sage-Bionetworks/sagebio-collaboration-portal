@@ -35,17 +35,17 @@ export class MessagingService {
             );
     }
 
-
-
-
-
-
-
-
-
-    addThread(thread: Thread): Observable<Thread> {
-        return this.httpClient.post<Thread>('/api/messages/threads', thread);
+    createThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.post<Thread>(`/api/threads/entity/${thread.entityId}`, thread);
     }
+
+
+
+
+
+
+
+
 
     getThreads(query?: {}): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
@@ -129,55 +129,55 @@ export class MessagingService {
      * Stars
      */
 
-    starMessage(message: Message): Observable<StarredMessage> {
-        return this.httpClient.post<StarredMessage>(`/api/messages/${message._id}/star`, {});
-    }
+    // starMessage(message: Message): Observable<StarredMessage> {
+    //     return this.httpClient.post<StarredMessage>(`/api/messages/${message._id}/star`, {});
+    // }
 
-    unstarMessage(message: Message): Observable<StarredMessage> {
-        return this.httpClient.delete<StarredMessage>(`/api/messages/${message._id}/unstar`);
-    }
+    // unstarMessage(message: Message): Observable<StarredMessage> {
+    //     return this.httpClient.delete<StarredMessage>(`/api/messages/${message._id}/unstar`);
+    // }
 
-    getNumStars(message: Message): Observable<number> {
-        return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/stars/count`)
-            .pipe(
-                map(count => count.value)
-            );
-    }
+    // getNumStars(message: Message): Observable<number> {
+    //     return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/stars/count`)
+    //         .pipe(
+    //             map(count => count.value)
+    //         );
+    // }
 
-    getStarredMessages(query?: {}): Observable<StarredMessage[]> {
-        return this.httpClient.get<StarredMessage[]>(`/api/messages/stars/mine${stringifyQuery(query)}`);
-    }
+    // getStarredMessages(query?: {}): Observable<StarredMessage[]> {
+    //     return this.httpClient.get<StarredMessage[]>(`/api/messages/stars/mine${stringifyQuery(query)}`);
+    // }
 
-    archiveStar(message: Message): Observable<StarredMessage> {
-        console.log(`/api/messages/${message._id}/star/archive`);
-        return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/archive`, []);
-    }
+    // archiveStar(message: Message): Observable<StarredMessage> {
+    //     console.log(`/api/messages/${message._id}/star/archive`);
+    //     return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/archive`, []);
+    // }
 
-    unarchiveStar(message: Message): Observable<StarredMessage> {
-        return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/unarchive`, []);
-    }
+    // unarchiveStar(message: Message): Observable<StarredMessage> {
+    //     return this.httpClient.patch<StarredMessage>(`/api/messages/${message._id}/star/unarchive`, []);
+    // }
 
     /**
      * Replies
      */
 
-    getReplies(message: Message, query?: {}): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`)
-            .pipe(
-                map(replies => orderBy(['createdAt'], ['asc'], replies))
-            );
-    }
+    // getReplies(message: Message, query?: {}): Observable<Message[]> {
+    //     return this.httpClient.get<Message[]>(`/api/messages/${message._id}/replies${stringifyQuery(query)}`)
+    //         .pipe(
+    //             map(replies => orderBy(['createdAt'], ['asc'], replies))
+    //         );
+    // }
 
-    getNumReplies(message: Message): Observable<number> {
-        return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/replies/count`)
-            .pipe(
-                map(count => count.value)
-            );
-    }
+    // getNumReplies(message: Message): Observable<number> {
+    //     return this.httpClient.get<NumberValue>(`/api/messages/${message._id}/replies/count`)
+    //         .pipe(
+    //             map(count => count.value)
+    //         );
+    // }
 
-    addReply(thread: Message, reply: Message): Observable<Message> {
-        return this.httpClient.post<Message>(`/api/messages/${thread._id}/replies`, reply);
-    }
+    // addReply(thread: Message, reply: Message): Observable<Message> {
+    //     return this.httpClient.post<Message>(`/api/messages/${thread._id}/replies`, reply);
+    // }
 
 
     // showThread(): void {

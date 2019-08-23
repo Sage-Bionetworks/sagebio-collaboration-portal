@@ -102,7 +102,7 @@ export function handleEntityNotFound(res) {
     };
 }
 
-function handleUserNotFound(res) {
+export function handleUserNotFound(res) {
     return function(user) {
         if (!user) {
             res.status(401).end();

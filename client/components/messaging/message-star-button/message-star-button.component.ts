@@ -29,15 +29,15 @@ export class MessageStarButtonComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.starredSub = this.messagingDataService.getStarredMessages()
-            .pipe(
-                map(stars => stars.map(star => star.message).includes(this.message._id))
-            )
-            .subscribe(starred => {
-                this.starred.next(starred);
-                this.messagingService.getNumStars(this.message)
-                    .subscribe(numStars => this.numStars = numStars);
-            });
+        // this.starredSub = this.messagingDataService.getStarredMessages()
+        //     .pipe(
+        //         map(stars => stars.map(star => star.message).includes(this.message._id))
+        //     )
+        //     .subscribe(starred => {
+        //         this.starred.next(starred);
+        //         this.messagingService.getNumStars(this.message)
+        //             .subscribe(numStars => this.numStars = numStars);
+        //     });
     }
 
     ngOnDestroy() {
@@ -45,21 +45,21 @@ export class MessageStarButtonComponent implements OnInit {
     }
 
     starMessage(): void {
-        this.messagingService.starMessage(this.message)
-            .subscribe(() => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to star message');
-                });
+        // this.messagingService.starMessage(this.message)
+        //     .subscribe(() => { },
+        //         err => {
+        //             console.log(err);
+        //             this.notificationService.error('Unable to star message');
+        //         });
     }
 
     unstarMessage(): void {
-        this.messagingService.unstarMessage(this.message)
-            .subscribe(() => { },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to unstar message');
-                });
+        // this.messagingService.unstarMessage(this.message)
+        //     .subscribe(() => { },
+        //         err => {
+        //             console.log(err);
+        //             this.notificationService.error('Unable to unstar message');
+        //         });
     }
 
     /**

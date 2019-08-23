@@ -42,27 +42,27 @@ export class MessageReplyButtonComponent implements OnInit {
 
     ngOnInit() {
         if (this.message) {
-            this.messagingService.getReplies(this.message, { select: 'createdBy createdAt updatedAt' })
-                .subscribe(replies => {
-                    this.numReplies.next(replies.length);
-                    this.contributors = flow([
-                        orderBy(['createdAt'], ['desc']),
-                        uniqBy('createdBy.username'),  // we have their most recent reply
-                        orderBy(['createdAt'], ['asc']),
-                        takeRight(this.maxNumContributorsInPreview),
-                        mapFp((reply: Message) => reply.createdBy)
-                    ])(replies);
+            // this.messagingService.getReplies(this.message, { select: 'createdBy createdAt updatedAt' })
+            //     .subscribe(replies => {
+            //         this.numReplies.next(replies.length);
+            //         this.contributors = flow([
+            //             orderBy(['createdAt'], ['desc']),
+            //             uniqBy('createdBy.username'),  // we have their most recent reply
+            //             orderBy(['createdAt'], ['asc']),
+            //             takeRight(this.maxNumContributorsInPreview),
+            //             mapFp((reply: Message) => reply.createdBy)
+            //         ])(replies);
 
-                    let lastReplyAt = flow([
-                        orderBy(['createddAt'], ['asc']),
-                        last
-                    ])(replies);
-                    if (lastReplyAt) {
-                        this.lastReplyAt.next(lastReplyAt.createdAt);
-                    }
-                }, err => {
-                    console.log(err);
-                });
+            //         let lastReplyAt = flow([
+            //             orderBy(['createddAt'], ['asc']),
+            //             last
+            //         ])(replies);
+            //         if (lastReplyAt) {
+            //             this.lastReplyAt.next(lastReplyAt.createdAt);
+            //         }
+            //     }, err => {
+            //         console.log(err);
+            //     });
         }
     }
 
