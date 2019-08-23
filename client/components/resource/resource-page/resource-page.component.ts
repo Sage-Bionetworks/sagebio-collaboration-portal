@@ -6,6 +6,7 @@ import { ResourceService } from 'components/resource/resource.service';
 // import { StateService } from '../../state/state.service';
 
 import { Resource } from 'models/entities/resources/resource.model';
+import { State } from 'models/entities/resources/state.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
@@ -21,6 +22,8 @@ import { ObjectValidators } from 'components/validation/object-validators';
 export class ResourcePageComponent implements OnInit, OnDestroy {
     @Output() resourceOutput = new EventEmitter<Resource>();
     private resource: Resource;
+    private toolOpts = [];
+    private toolName: string;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined
@@ -33,6 +36,8 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
         private notificationService: NotificationService) {
+
+        this.toolOpts = config.defaultTools;
 
         this.form = formBuilder.group({
             description: ['', [
@@ -54,6 +59,11 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
                         // the description is likely a string if specified from a tool
                         this.form.get('description').setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
                     }
+                }
+                if (resource.resourceType === 'State') {
+                    let state: any = resource;
+                    this.toolName = this.toolOpts.find(i => i.value === state.tool).name;
+                    console.log('TOOL', this.toolName);
                 }
                 this.resource = resource;
                 this.resourceOutput.emit(resource);
