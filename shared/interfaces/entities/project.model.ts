@@ -1,5 +1,5 @@
-import { Entity } from './entities/entity.model';
-import { User } from './auth/user.model';
+import { Entity } from './entity.model';
+import { User } from '../auth/user.model';
 
 /**
  * @swagger
@@ -25,12 +25,8 @@ import { User } from './auth/user.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface Project extends Entity {
-    name: string;
-    description: string;
     picture: string;
     visibility: ProjectVisibility;
-    createdAt: string;
-    createdBy: User;
 }
 
 /**

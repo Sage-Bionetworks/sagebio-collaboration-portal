@@ -12,7 +12,7 @@ import { NotificationService } from 'components/notification/notification.servic
 import { SecondarySidenavService } from '../../../components/sidenav/secondary-sidenav/secondary-sidenav.service';
 
 import { Message } from 'models/messaging/message.model';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { Thread } from 'models/messaging/thread.model';
 import { ThreadNewComponent } from '../thread-new/thread-new.component';
 

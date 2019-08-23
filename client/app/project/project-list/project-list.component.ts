@@ -4,7 +4,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ProjectService } from '../project.service';
 import { ProjectNewComponent } from '../project-new/project-new.component';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { orderBy } from 'lodash/fp';
@@ -30,7 +30,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
         this.projects = this.projectService.getProjects()
             .pipe(
-                map(projects => orderBy('name', 'asc', projects))
+                map(projects => orderBy('title', 'asc', projects))
             );
     }
 

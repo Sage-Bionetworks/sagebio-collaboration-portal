@@ -5,12 +5,12 @@ import {
 import config from '../../config/environment';
 
 var ProjectSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true,
-        minlength: config.models.project.name.minlength,
-        maxlength: config.models.project.name.maxlength
+        minlength: config.models.project.title.minlength,
+        maxlength: config.models.project.title.maxlength
     },
     description: {
         type: String,

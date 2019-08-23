@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angu
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { map } from 'lodash';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { ProjectService } from '../project.service';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { UrlValidators } from 'components/validation/url-validators';
@@ -35,10 +35,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.project) {
             this.editForm = this.formBuilder.group({
-                name: [this.project.name, [
+                title: [this.project.title, [
                     Validators.required,
-                    Validators.minLength(this.projectSpecs.name.minlength),
-                    Validators.maxLength(this.projectSpecs.name.maxlength)
+                    Validators.minLength(this.projectSpecs.title.minlength),
+                    Validators.maxLength(this.projectSpecs.title.maxlength)
                 ]],
                 description: [JSON.parse(this.project.description), [
                     Validators.required,

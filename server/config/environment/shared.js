@@ -111,7 +111,7 @@ export const defaultTools = [
 
 export const models = {
     project: {
-        name: {
+        title: {
             minlength: 3,
             maxlength: 64
         },
