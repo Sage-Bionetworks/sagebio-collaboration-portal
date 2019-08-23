@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import {
+    appId
+} from '../default/constants';
+import {
     adminUserId
 } from './users';
 import { testProjectId, anotherProjectId } from './projects';
@@ -15,6 +18,7 @@ const thread2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3fa');
 const thread3Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3f4');
 const thread4Id = new mongoose.Types.ObjectId('5cf1eb9420a6a06be995c3f4');
 const thread5Id = new mongoose.Types.ObjectId('5cf1eb9420a6a06b5995c3f4');
+const thread6Id = new mongoose.Types.ObjectId('5cf1eb9420a6a06a5995c3f4');
 
 let threads = [
     {
@@ -53,6 +57,14 @@ let threads = [
         _id: thread5Id,
         title: `This catalog is awesome!`,
         entityId: sageCkanCatalog._id,
+        createdBy: adminUserId,
+        createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
+        updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
+    },
+    {
+        _id: thread6Id,
+        title: `This portal is awesome!`,
+        entityId: appId,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
