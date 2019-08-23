@@ -7,7 +7,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 
 
 @Component({
