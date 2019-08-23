@@ -30,6 +30,8 @@ router.get('/entity/:entityId', auth.hasPermissionForEntity(
 router.patch('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.patch);
 
 // Deletes the thread specified.
-router.delete('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.destroy);
+router.delete('/entity/:entityId/:id', auth.hasPermissionForEntity(
+    ADMIN_ACCESS
+), controller.destroy);
 
 module.exports = router;
