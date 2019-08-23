@@ -46,7 +46,7 @@ export const ROUTES: Routes = [
         MaterialModule,
         RouterModule.forChild(ROUTES),
         ActivityModule,
-        ProvenanceModule
+        ProvenanceModule,
         EntityModule
     ],
     declarations: [
