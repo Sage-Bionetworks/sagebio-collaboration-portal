@@ -1,25 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
 import { Project } from 'models/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
 
 @Injectable()
 export class InsightService {
-
     static parameters = [HttpClient, SecondarySidenavService];
-    constructor(private httpClient: HttpClient,
-        private secondarySidenavService: SecondarySidenavService) { }
+    constructor(private httpClient: HttpClient, private secondarySidenavService: SecondarySidenavService) { }
 
     query(project: Project, query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights/entity/${project._id}${stringifyQuery(query)}`);
@@ -31,6 +23,10 @@ export class InsightService {
 
     getInsight(insightId: string): Observable<Insight> {
         return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
+    }
+
+    getUsersWithPermissionToInsight(insightId: string): Observable<Insight> {
+        return this.httpClient.get<Insight>(`/api/insights/${insightId}/users`);
     }
 
     create(insight: Insight): Observable<Insight> {
@@ -59,6 +55,17 @@ export class InsightService {
             (<ActivitySidenavComponent>this.secondarySidenavService
                 .loadContentComponent(ActivitySidenavComponent))
                 .setRoot(insight);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
+
+    shareInsight(insight: Insight): void {
+        let sidenavContentId = `insight:${insight._id}`;
+
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ShareSidenavComponent>this.secondarySidenavService.loadContentComponent(ShareSidenavComponent))
+                .setEntity(insight);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

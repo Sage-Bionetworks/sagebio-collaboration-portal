@@ -1,0 +1,50 @@
+<div>
+    <div class="app-primary-header app-share-header">
+        <h1 class="app-share-header-title">Share {{ entity.insightType }}</h1>
+        <a class="app-share-header-close" mat-icon-button matTooltip="Close" aria-label="Close" (click)="close()">
+            <mat-icon aria-label="Icon of cross">close</mat-icon>
+        </a>
+    </div>
+
+    <form class="app-share-form" [formGroup]="newForm" novalidate>
+        <div *ngIf="entity" class="app-share-body">
+            <div class="app-share-info">
+                <b>Title:</b>
+                <span
+                    ><em>{{ entity.title }}</em></span
+                >
+            </div>
+            <div class="app-share-info">
+                <b>Shared with:</b>
+                <span
+                    ><mat-form-field class="app-share-users-search-filter">
+                        <mat-label>Users</mat-label>
+                        <mat-select [formControl]="newForm.controls['invitedUsers']" multiple>
+                            <mat-option *ngFor="let user of users" [value]="user.name">{{ user.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+
+            <div class="app-share-info">
+                <b>Add a Comment (Optional)</b>
+                <span
+                    ><app-quill-editor
+                        class="app-share-comment-editor"
+                        [isReadOnly]="false"
+                        [showActions]="false"
+                        placeholder="Insert a comment..."
+                        [body]="newForm.controls['comments']"
+                    ></app-quill-editor>
+                </span>
+            </div>
+
+            <div class="app-share-form-button-container">
+                <button mat-button (click)="close()">Cancel</button>
+                <button mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="share()">
+                    Share
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

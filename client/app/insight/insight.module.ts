@@ -11,6 +11,9 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
 import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
 
+import { ShareButtonModule } from 'components/share/share-button/share-button.module';
+import { ShareSidenavModule } from 'components/share/share-sidenav/share-sidenav.module';
+
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightAppPageComponent } from './insight-app-page/insight-app-page.component';
 
@@ -21,17 +24,20 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { InsightModule as InsightComponentModule } from 'components/insight/insight.module';
 
-export const ROUTES: Routes = [{
-    path: 'insights',
-    component: InsightListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'insights/:insightId',
-    component: InsightAppPageComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'insights',
+        component: InsightListComponent,
+        canActivate: [AuthGuard],
+        data: {}
+    },
+    {
+        path: 'insights/:insightId',
+        component: InsightAppPageComponent,
+        canActivate: [AuthGuard],
+        data: {}
+    }
+];
 
 @NgModule({
     imports: [
@@ -44,6 +50,8 @@ export const ROUTES: Routes = [{
         FiltersModule,
         ShowActivityButtonModule,
         ActivitySidenavModule,
+        ShareButtonModule,
+        ShareSidenavModule,
         ProvenanceModule,
         EntityModule,
         InsightComponentModule

@@ -26,9 +26,10 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         updateDescription: undefined
     };
 
-    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        InsightService, NotificationService];
-    constructor(private router: Router, private route: ActivatedRoute,
+    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService];
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,
@@ -102,5 +103,9 @@ export class InsightPageComponent implements OnInit, OnDestroy {
 
     showActivity(): void {
         this.insightService.showActivity(this.insight);
+    }
+
+    shareInsight(): void {
+        this.insightService.shareInsight(this.insight);
     }
 }
