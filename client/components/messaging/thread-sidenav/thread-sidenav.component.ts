@@ -117,7 +117,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     onNewMessage(): void {
-        this.updateThread();
+        // this.updateThread();
     }
 
     close(): void {

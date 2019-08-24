@@ -58,7 +58,7 @@
             <message [message]="message" (deleteMessage)="onDeleteMessage($event)" (editMessage)="onEditMessage($event)"></message>
         </ng-template>
     </div>
-    <!-- <message-new class="app-messaging-new" [message]="message" (newMessage)="onNewMessage($event)"></message-new> -->
+    <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new>
 
 
     <!-- <ng-template *ngIf="threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
