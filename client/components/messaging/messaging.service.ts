@@ -43,6 +43,10 @@ export class MessagingService {
         return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}`);
     }
 
+    /**
+     * Messages
+     */
+
     getNumMessages(thread: Thread): Observable<number> {
         return this.httpClient.get<NumberValue>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/count`)
             .pipe(
@@ -50,8 +54,9 @@ export class MessagingService {
             );
     }
 
-
-
+    createMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`, message);
+    }
 
 
 
@@ -96,10 +101,6 @@ export class MessagingService {
             );
     }
 
-    addMessageToThread(message: Message, thread: Thread): Observable<Message> {
-        return this.httpClient.post<Message>(`/api/messages/threads/${thread._id}`, message);
-    }
-
     /**
      * Messages
      */
@@ -115,9 +116,9 @@ export class MessagingService {
         return this.httpClient.get<Message>(`/api/messages/${messageId}`);
     }
 
-    addMessage(message: Message): Observable<Message> {
-        return this.httpClient.post<Message>('/api/messages', message);
-    }
+    // addMessage(message: Message): Observable<Message> {
+    //     return this.httpClient.post<Message>('/api/messages', message);
+    // }
 
     updateMessage(message: Message): Observable<Message> {
         return this.httpClient.patch<Message>(`/api/messages/${message._id}`,

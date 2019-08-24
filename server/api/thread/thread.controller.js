@@ -1,4 +1,4 @@
-import { applyPatch } from 'fast-json-patch';
+import { omit } from 'lodash/fp';
 import {
     respondWithResult,
     handleUserNotFound,
@@ -64,6 +64,7 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the number of messages for the thread specified.
 export function messagesCount(req, res) {
     Message.countDocuments({
         thread: req.params.id
@@ -81,6 +82,16 @@ export function messagesCount(req, res) {
     });
 }
 
+// Adds a message to the thread specified.
+export function createMessage(req, res) {
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(addMessage(req.user, req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // HELPER FUNCTIONS
 
 function validateEntityId(res, targetEntityId) {
@@ -95,7 +106,7 @@ function validateEntityId(res, targetEntityId) {
 }
 
 function removeThread(res) {
-    return function(entity) {
+    return function (entity) {
         // TODO: Delete messages associated to this thread
         if (entity) {
             return entity
@@ -107,9 +118,21 @@ function removeThread(res) {
 }
 
 function removeMessagesByThread() {
-    return function(thread) {
+    return function (thread) {
         if (thread) {
             return Message.deleteMany({ thread: thread._id }).exec();
+        }
+        return null;
+    };
+}
+
+function addMessage(user, message) {
+    return function (thread) {
+        if (thread) {
+            message = omit(['_id', 'createdAt', 'updatedBy', 'updatedAt'], message);
+            message.thread = thread._id.toString();
+            message.createdBy = user._id.toString();
+            return Message.create(message);
         }
         return null;
     };

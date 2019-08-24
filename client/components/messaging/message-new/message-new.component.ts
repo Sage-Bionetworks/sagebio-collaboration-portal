@@ -60,7 +60,7 @@ export class MessageNewComponent implements OnInit {
         newMessage.body = JSON.stringify(this.form.get('body').value);
         newMessage.thread = this.message.thread;
 
-        this.messagingService.addMessageToThread(newMessage, newMessage.thread)
+        this.messagingService.createMessage(newMessage, newMessage.thread)
             .subscribe(message => {
               this.newMessage.emit(message);
               this.form.reset();

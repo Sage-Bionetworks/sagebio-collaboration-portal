@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, tap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { ObjectValidators } from 'components/validation/object-validators';
 import { Thread } from 'models/messaging/thread.model';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
-import config from '../../../app/app.constants';
-import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
-import { ObjectValidators } from '../../validation/object-validators';
+import { Message } from 'models/messaging/message.model';
 import { MessagingService } from '../messaging.service';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'thread-new',
@@ -20,7 +21,7 @@ export class ThreadNewComponent implements OnInit {
     @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-    private thread: Thread;
+    // private thread: Thread;
     private messageSpecs: {};
     private form: FormGroup;
     private errors = {
@@ -67,30 +68,36 @@ export class ThreadNewComponent implements OnInit {
         newThread.entityId = this.entityId;
         newThread.entityType = this.entityType;
 
+        // TODO Emit thread after creating message
+        let threadFromBackend: Thread;
         this.messagingService.createThread(newThread)
-            .subscribe(thread => {
-                this.newThread.emit(thread);
-                this.thread = thread;
-                // // Once the thread has been created successfully, create the message
-                // this.addMessage();
+            .pipe(
+                tap(thread => {
+                    threadFromBackend = thread;
+                    console.log('thread created', thread);
+                }),
+                switchMap(thread => this.createMessage(thread)
+                    .pipe(
+                        catchError(err => {
+                            console.error(`Unable to add message to thread: ${thread._id}`, err);
+                            return of(<Message>{});
+                        })
+                    )
+                )
+            )
+            .subscribe(message => {
+                this.newThread.emit(threadFromBackend);
+            }, err => {
+                console.error(err);
+                // TODO Emit error
             });
     }
 
-    // addMessage(): void {
-    //     let newMessage = this.form.value;
-    //     newMessage.body = JSON.stringify(this.form.get('body').value);
-    //     if (this.thread) {
-    //         newMessage.thread = this.thread;
-    //     }
-    //     this.messagingService.addMessage(newMessage)
-    //         .subscribe(message => {
-    //             // // Load the newly created thread in the sidebar
-    //             // this.messagingService.showThread(this.thread);
-    //         }, err => {
-    //             console.error(err);
-    //             this.errors.createNewThread = err.message;
-    //         });
-    // }
+    createMessage(thread: Thread): Observable<Message> {
+        let newMessage = this.form.value;
+        newMessage.body = JSON.stringify(this.form.get('body').value);
+        return this.messagingService.createMessage(thread, newMessage);
+    }
 
     discard(): void {
         this.close.emit(null);
