@@ -5,6 +5,6 @@
     <ng-template *ngIf="_threads | async; let threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
         <thread-date-separator *ngIf="first" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
         <thread-date-separator *ngIf="!first && !(thread.createdAt | sameDay: (threads)[i-1].createdAt)" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
-        <thread-preview class="thread-detail" [thread]="thread" (deleteThread)="onDeleteThread($event)"></thread-preview>
+        <thread-preview class="thread-detail" [thread]="thread"></thread-preview>
     </ng-template>
 </mat-list>

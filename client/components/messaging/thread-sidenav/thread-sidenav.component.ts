@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { filter, take, switchMap } from 'rxjs/operators';
+import { filter, take, switchMap, tap } from 'rxjs/operators';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
@@ -11,6 +11,7 @@ import { UserService } from 'components/auth/user.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { User } from 'models/auth/user.model';
 import { AuthService } from 'components/auth/auth.service';
+import { orderBy } from 'lodash/fp';
 
 @Component({
     selector: 'thread-sidenav',
@@ -32,6 +33,8 @@ export class ThreadSidenavComponent implements OnDestroy {
     private canDeleteThread = false;
     private canEditThread = false;
 
+    private socketMessagesEventName: string;
+
     static parameters = [SecondarySidenavService, MessagingService, SocketService,
         UserService, UserPermissionDataService, Router, AuthService];
     constructor(
@@ -47,45 +50,29 @@ export class ThreadSidenavComponent implements OnDestroy {
             .pipe(
                 filter(thread => !!thread),
                 take(1),
+                // TODO Emit socket event when Message is created or added
+                tap(thread => this.socketMessagesEventName = `thread:entity:${thread.entityId}:${thread._id}:message`),
                 switchMap(thread => this.messagingService.getMessagesByThread(thread))
             )
             .subscribe(messages => {
                 this._messages.next(messages);
+                this.socketService.syncArraySubject(this.socketMessagesEventName,
+                    this._messages, (items: Message[]) => {
+                        return orderBy('createdAt', 'asc', items);
+                    });
             }, err => console.error(err));
-
-        // // Get the current user
-        // this.auth
-        // // this.userService.get().subscribe(user => {
-        // //     this.user = user;
-        // // });
-
-        // this.userPermissionDataService.permissions().subscribe(permissions => {
-        //     // TODO Portal admin users should be able to edit public threads
-        //     // TODO Thread authors should be able to edit their own publicly created threads
-        //     // TODO Portal admin users should be able to edit entity threads
-        //     // TODO Entity admin users should be able to edit entity threads
-        //     // TODO Thread authors should be able to edit their own publicly created threads
-        //     this.canEditThread = permissions.isAdmin();
-        // });
 
         this.router.events.pipe(
             filter(event => event instanceof NavigationStart)
-          ).subscribe(_ => this.close());
+        ).subscribe(_ => this.close());
     }
 
-    ngOnDestroy() {}
-
-    // refreshMessages(): void {
-    //     this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
-    //         this.messages = messages;
-    //         this.message = messages[0];
-    //     });
-    // }
+    ngOnDestroy() {
+        if (this.socketMessagesEventName) this.socketService.unsyncUpdates(this.socketMessagesEventName);
+    }
 
     setThread(thread: Thread): void {
         this._thread.next(thread);
-        // this.thread = thread;
-        // this.refreshMessages();
     }
 
     updateThread(): void {
