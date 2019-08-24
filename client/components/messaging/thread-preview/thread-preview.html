@@ -7,14 +7,14 @@
             <span class="app-thread-header-time" matTooltip="{{ (thread.updatedAt || thread.createdAt) | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ (thread.updatedAt || thread.createdAt) | date: 'shortTime' }}</span>
         </div>
     </div>
-    <div *ngIf="numReplies <= 1" class="app-thread-header-metadata">
+    <div *ngIf="numReplies == 1" class="app-thread-header-metadata">
         {{ numReplies }} reply
     </div>
     <div *ngIf="numReplies > 1" class="app-thread-header-metadata">
             {{ numReplies }} replies
     </div>
     <div class="app-thread-header-open-thread">
-        <button mat-raised-button class="app-button app-button-landing thread-button" (click)="showThread()">Open thread</button>
+        <a mat-raised-button class="app-button app-button-landing thread-button" (click)="showThread()">Open thread</a>
     </div>
     <div class="app-thread-header-actions">
         <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">

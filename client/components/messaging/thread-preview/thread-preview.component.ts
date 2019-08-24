@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription, combineLatest, of } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, filter, startWith, delay, switchMap, catchError } from 'rxjs/operators';
 
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
@@ -23,10 +23,9 @@ import { AuthService } from 'components/auth/auth.service';
     encapsulation: ViewEncapsulation.None
 })
 
-export class ThreadPreviewComponent implements OnDestroy {
+export class ThreadPreviewComponent {
     @Output() deleteThread: EventEmitter<Thread> = new EventEmitter<Thread>();
     // @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
-    // @ViewChild(MessageReplyButtonComponent, { static: false }) replyButton: MessageReplyButtonComponent;
 
     private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
     private tooltipPosition = 'above';
@@ -36,8 +35,6 @@ export class ThreadPreviewComponent implements OnDestroy {
     // private initialMessage: Message;
     // private starred: Observable<boolean>;
     private numReplies: number;
-
-    private threadSub: Subscription;
 
     private canCreateThread = false;
     private canDeleteThread = false;
@@ -57,25 +54,15 @@ export class ThreadPreviewComponent implements OnDestroy {
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.avatarSize = config.avatar.size.mini;
 
-        this.threadSub = this._thread
-            .subscribe(thread => {
-                if (thread) {
-                    // this.form.get('_id').setValue(thread._id);
-                    let createdAt = new Date(thread.createdAt);
-                    let updatedAt = new Date(thread.updatedAt);
-
-                    this.messagingService.getNumMessages(this.thread)
-                        .subscribe(count => {
-                            this.numReplies = count - 1;
-                        }, err => console.error);
-
-
-                    // this.messagingService.getMessagesForThread(this.thread._id)
-                    //     .subscribe(messages => {
-                    //         this.initialMessage = messages[0];
-                    //     });
-                }
-            });
+        this._thread
+            .pipe(
+                filter(thread => !!thread),
+                switchMap(thread => this.messagingService.getNumMessages(thread)),
+                map(count => count - 1)
+            )
+            .subscribe(numReplies => {
+                this.numReplies = numReplies;
+            }, err => console.error(err));
 
         combineLatest(
             this.authService.authInfo(),
@@ -83,15 +70,11 @@ export class ThreadPreviewComponent implements OnDestroy {
             this._thread
         ).subscribe(([authInfo, permissions, thread]) => {
             const canAdminEntity = thread && permissions.canAdminEntity(thread.entityId, thread.entityType);
+            const canReadEntity = thread && permissions.canReadEntity(thread.entityId, thread.entityType);
             const isThreadOwner = thread && authInfo.user && thread.createdBy._id === authInfo.user._id;
-
             this.canDeleteThread = canAdminEntity;
-            this.canEditThread = canAdminEntity || isThreadOwner;
+            this.canEditThread = canReadEntity && isThreadOwner;
         }, err => console.error(err));
-    }
-
-    ngOnDestroy() {
-        if (this.threadSub) this.threadSub.unsubscribe();
     }
 
     get thread() {
@@ -107,6 +90,7 @@ export class ThreadPreviewComponent implements OnDestroy {
         this.messagingService.showThread(this.thread);
     }
 
+    // TODO Test that removing thread also remove message
     removeThread(): void {
         this.messagingService.removeThread(this.thread)
             .subscribe(() => {

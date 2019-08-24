@@ -10,6 +10,7 @@ import { MessagingService } from '../messaging.service';
 import { UserService } from 'components/auth/user.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { User } from 'models/auth/user.model';
+import { AuthService } from 'components/auth/auth.service';
 
 @Component({
     selector: 'thread-sidenav',
@@ -18,6 +19,7 @@ import { User } from 'models/auth/user.model';
 })
 export class ThreadSidenavComponent implements OnDestroy {
     private thread: Thread;
+
     private message: Message;
     private messages: Message[];
     private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
@@ -25,28 +27,33 @@ export class ThreadSidenavComponent implements OnDestroy {
     private canEditThread = false;
     private editThread = false;
 
-    static parameters = [SecondarySidenavService, MessagingService, SocketService, UserService, UserPermissionDataService, Router];
+    static parameters = [SecondarySidenavService, MessagingService, SocketService,
+        UserService, UserPermissionDataService, Router, AuthService];
     constructor(
         private secondarySidenavService: SecondarySidenavService,
         private messagingService: MessagingService,
         private socketService: SocketService,
         private userService: UserService,
         private userPermissionDataService: UserPermissionDataService,
-        private router: Router
+        private router: Router,
+        private authService: AuthService
     ) {
-        // Get the current user
-        this.userService.get().subscribe(user => {
-            this.user = user;
-        });
 
-        this.userPermissionDataService.permissions().subscribe(permissions => {
-            // TODO Portal admin users should be able to edit public threads
-            // TODO Thread authors should be able to edit their own publicly created threads
-            // TODO Portal admin users should be able to edit entity threads
-            // TODO Entity admin users should be able to edit entity threads
-            // TODO Thread authors should be able to edit their own publicly created threads
-            this.canEditThread = permissions.isAdmin();
-        });
+
+        // // Get the current user
+        // this.auth
+        // // this.userService.get().subscribe(user => {
+        // //     this.user = user;
+        // // });
+
+        // this.userPermissionDataService.permissions().subscribe(permissions => {
+        //     // TODO Portal admin users should be able to edit public threads
+        //     // TODO Thread authors should be able to edit their own publicly created threads
+        //     // TODO Portal admin users should be able to edit entity threads
+        //     // TODO Entity admin users should be able to edit entity threads
+        //     // TODO Thread authors should be able to edit their own publicly created threads
+        //     this.canEditThread = permissions.isAdmin();
+        // });
 
         this.router.events.pipe(
             filter(event => event instanceof NavigationStart)

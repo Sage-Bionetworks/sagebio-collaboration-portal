@@ -43,6 +43,17 @@ export class MessagingService {
         return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}`);
     }
 
+    showThread(thread: Thread): void {
+        let sidenavContentId = `thread:${thread._id}`;
+        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
+            (<ThreadSidenavComponent>this.secondarySidenavService
+                .loadContentComponent(ThreadSidenavComponent))
+                .setThread(thread);
+            this.secondarySidenavService.setContentId(sidenavContentId);
+        }
+        this.secondarySidenavService.open();
+    }
+
     /**
      * Messages
      */
@@ -73,16 +84,7 @@ export class MessagingService {
 
 
 
-    showThread(thread: Thread): void {
-        let sidenavContentId = `thread:${thread._id}`;
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ThreadSidenavComponent>this.secondarySidenavService
-                .loadContentComponent(ThreadSidenavComponent))
-                .setThread(thread);
-            this.secondarySidenavService.setContentId(sidenavContentId);
-        }
-        this.secondarySidenavService.open();
-    }
+
 
     updateThread(thread: Thread): Observable<Thread> {
         return this.httpClient.patch<Thread>(`/api/messages/threads/${thread._id}`,
