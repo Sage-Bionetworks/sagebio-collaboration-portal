@@ -90,7 +90,6 @@ export class ThreadPreviewComponent {
         this.messagingService.showThread(this.thread);
     }
 
-    // TODO Test that removing thread also remove message
     removeThread(): void {
         this.messagingService.removeThread(this.thread)
             .subscribe(() => {

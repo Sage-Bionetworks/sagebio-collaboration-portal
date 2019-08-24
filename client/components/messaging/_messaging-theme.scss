@@ -2,6 +2,7 @@
 @import './message-new/message-new-theme';
 @import './thread-list/thread-list-theme';
 @import './message-date-separator/message-date-separator-theme';
+@import './thread-preview/thread-preview-theme';
 @import './thread-sidenav/thread-sidenav-theme';
 
 @mixin messaging-theme($theme) {
@@ -15,5 +16,6 @@
   @include message-new-theme($theme);
   @include thread-list-theme($theme);
   @include message-date-separator-theme($theme);
+  @include thread-preview-theme($theme);
   @include thread-sidenav-theme($theme);
 }
