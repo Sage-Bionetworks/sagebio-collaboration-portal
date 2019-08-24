@@ -3,7 +3,6 @@ import {
     registerEvents
 } from './message.events';
 import User from '../user/user.model';
-// import BaseMessage from './base-message.model';
 
 var MessageSchema = new mongoose.Schema({
     body: {
@@ -38,20 +37,6 @@ var MessageSchema = new mongoose.Schema({
 });
 
 /**
- * Virtuals
- */
-
-// Whether the current user has starred the message.
-// MessageSchema
-//     .virtual('starred')
-//     .get(() => {
-//
-//     });
-
-// MessageSchema.set('toObject', { getters: true });
-// MessageSchema.set('toJSON', { getters: true });
-
-/**
  * Middlewares
  */
 
@@ -60,36 +45,18 @@ const autoPopulatePre = function (next) {
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
         .populate('thread');
-    // .populate('tags');
     next();
 };
-//
-// const updateUpdatedAt = function (next) {
-//     this.updatedAt = Date.now();
-//     next();
-// };
 
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
-        .populate('thread')
-        // .populate('tags')
-        // .execPopulate();
-
+        .populate('thread');
 };
 
-// MessageSchema.pre('save', function (next) {
-//     this.updatedAt = Date.now();
-//     next();
-// });
+MessageSchema.pre('find', autoPopulatePre);
+MessageSchema.post('save', autoPopulatePost);
 
-MessageSchema
-    .pre('find', autoPopulatePre);
-// .pre('save', updateUpdatedAt);
-
-MessageSchema
-    .post('save', autoPopulatePost);
-
-registerEvents(MessageSchema);
+registerEvents(MessageSchema, autoPopulatePost);
 export default mongoose.model('Message', MessageSchema);

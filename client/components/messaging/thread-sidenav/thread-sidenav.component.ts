@@ -51,7 +51,7 @@ export class ThreadSidenavComponent implements OnDestroy {
                 filter(thread => !!thread),
                 take(1),
                 // TODO Emit socket event when Message is created or added
-                tap(thread => this.socketMessagesEventName = `thread:entity:${thread.entityId}:${thread._id}:message`),
+                tap(thread => this.socketMessagesEventName = `message:entity:${thread.entityId}:${thread._id}`),
                 switchMap(thread => this.messagingService.getMessagesByThread(thread))
             )
             .subscribe(messages => {

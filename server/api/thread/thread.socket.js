@@ -2,11 +2,9 @@
  * Broadcast updates to client when the model changes
  */
 
-import {
-    hasAccessToEntity,
-} from '../../auth/auth';
-import config from '../../config/environment';
+import { hasAccessToEntity } from '../../auth/auth';
 import ThreadEvents from './thread.events';
+import config from '../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -21,21 +19,22 @@ export function register(spark) {
     }
 }
 
-function createListener(namespace, event, spark) {
+function createListener(modelName, event, spark) {
     return function (doc) {
-        // console.log(`Firing ${namespace}:entity:${doc.entityId}:${event}`);
-        hasAccessToEntity(spark.userId, [
-                config.accessTypes.READ.value,
-                config.accessTypes.WRITE.value,
-                config.accessTypes.ADMIN.value
-            ], doc.entityId, [
+        // console.log(`Firing ${modelName}:entity:${doc.entityId}:${event}`);
+        hasAccessToEntity(
+            spark.userId,
+            [config.accessTypes.READ.value, config.accessTypes.WRITE.value, config.accessTypes.ADMIN.value],
+            doc.entityId,
+            [
                 // TODO Rename inviteStatusTypes (do not use invite)
-                config.inviteStatusTypes.ACCEPTED.value
-            ])
+                config.inviteStatusTypes.ACCEPTED.value,
+            ]
+        )
             .then(hasAccess => {
                 if (hasAccess) {
-                    // spark.emit(`${namespace}:${event}`, doc);
-                    spark.emit(`${namespace}:entity:${doc.entityId}:${event}`, doc);
+                    // spark.emit(`${modelName}:${event}`, doc);
+                    spark.emit(`${modelName}:entity:${doc.entityId}:${event}`, doc);
                 }
             })
             .catch(err => {
