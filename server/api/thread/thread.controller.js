@@ -64,6 +64,23 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
+export function messagesCount(req, res) {
+    Message.countDocuments({
+        thread: req.params.id
+    }, function (err, count) {
+        if (err) {
+            res.status(404).json({
+                error: err
+            });
+        } else {
+            res.status(200).json({
+                value: count
+            });
+        }
+        return null;
+    });
+}
+
 // HELPER FUNCTIONS
 
 function validateEntityId(res, targetEntityId) {

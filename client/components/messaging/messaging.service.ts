@@ -40,10 +40,15 @@ export class MessagingService {
     }
 
     removeThread(thread: Thread): Observable<void> {
-        return this.httpClient.delete<void>(`/api/threads/entity/${thread._id}/${thread._id}`);
+        return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}`);
     }
 
-
+    getNumMessages(thread: Thread): Observable<number> {
+        return this.httpClient.get<NumberValue>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/count`)
+            .pipe(
+                map(count => count.value)
+            );
+    }
 
 
 
@@ -161,7 +166,7 @@ export class MessagingService {
     // }
 
     /**
-     * Replies
+     * Messages
      */
 
     // getReplies(message: Message, query?: {}): Observable<Message[]> {

@@ -34,4 +34,11 @@ router.delete('/entity/:entityId/:id', auth.hasPermissionForEntity(
     ADMIN_ACCESS
 ), controller.destroy);
 
+// Returns the number of messages for the thread specified.
+router.get('/entity/:entityId/:id/messages/count', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.messagesCount);
+
 module.exports = router;

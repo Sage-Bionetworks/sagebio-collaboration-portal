@@ -35,7 +35,7 @@ export class ThreadPreviewComponent implements OnDestroy {
 
     // private initialMessage: Message;
     // private starred: Observable<boolean>;
-    // private numReplies: Observable<number>;
+    private numReplies: number;
 
     private threadSub: Subscription;
 
@@ -63,6 +63,12 @@ export class ThreadPreviewComponent implements OnDestroy {
                     // this.form.get('_id').setValue(thread._id);
                     let createdAt = new Date(thread.createdAt);
                     let updatedAt = new Date(thread.updatedAt);
+
+                    this.messagingService.getNumMessages(this.thread)
+                        .subscribe(count => {
+                            this.numReplies = count - 1;
+                        }, err => console.error);
+
 
                     // this.messagingService.getMessagesForThread(this.thread._id)
                     //     .subscribe(messages => {
