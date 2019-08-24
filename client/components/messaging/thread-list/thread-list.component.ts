@@ -21,45 +21,58 @@ import { ThreadNewComponent } from '../thread-new/thread-new.component';
     template: require('./thread-list.html'),
     styles: [require('./thread-list.scss')],
 })
-export class ThreadListComponent implements AfterViewInit {
+export class ThreadListComponent implements OnInit, OnDestroy {
     @Input() entityId: string;
     @Input() entityType: string;
 
     private _threads: BehaviorSubject<Thread[]> = new BehaviorSubject<Thread[]>([]);
+    private socketEventName: string;
 
     // private messages: Message[];
     // private threads: Thread[]; // Added threads array to ThreadListComponent
-    // private showNewThreadForm = false;
+    private showNewThreadForm = false;
 
     static parameters = [
         MessagingService,
-        // SocketService,
+        SocketService,
         // ProjectDataService,
         // NotificationService,
         // SecondarySidenavService,
     ];
     constructor(
         private messagingService: MessagingService,
-        // private socketService: SocketService,
+        private socketService: SocketService,
         // private projectDataService: ProjectDataService,
         // private notificationService: NotificationService,
         // private secondarySidenavService: SecondarySidenavService
     ) {}
 
+    // ngOnInit() {
+    //     // // Load threads for a specific project
+    //     // if (this.entityId) {
+    //     //     return this.loadThreadsForEntity(this.entityId, this.entityType);
+    //     // }
+    //     // // DEFAULT: Load threads
+    //     // return this.loadThreads();
+    // }
+
     ngOnInit() {
-        // // Load threads for a specific project
-        // if (this.entityId) {
-        //     return this.loadThreadsForEntity(this.entityId, this.entityType);
-        // }
-        // // DEFAULT: Load threads
-        // return this.loadThreads();
+        if (this.entityId) {
+            this.socketEventName = `thread:entity:${this.entityId}`;
+            this.messagingService.getThreadsByEntity(this.entityId)
+                .subscribe(threads => {
+                    this._threads.next(threads);
+                    // TODO unsync
+                    this.socketService.syncArraySubject(this.socketEventName,
+                    this._threads, (items: Thread[]) => {
+                        return orderBy('createdAt', 'desc', items);
+                    });
+                }, err => console.error(err));
+        }
     }
 
-    ngAfterViewInit() {
-        this.messagingService.getThreadsByEntity(this.entityId)
-            .subscribe(threads => {
-                this._threads.next(threads);
-            }, err => console.error(err));
+    ngOnDestroy() {
+        if (this.socketEventName) this.socketService.unsyncUpdates(this.socketEventName);
     }
 
     // loadThreads() {
@@ -93,18 +106,18 @@ export class ThreadListComponent implements AfterViewInit {
     //     this.refreshThreadList();
     // }
 
-    // onNewThread(thread: Thread): void {
-    //     this.showNewThreadForm = false;
-    //     this.refreshThreadList();
-    //     // this.notificationService.info('The Thread has been successfully created');
-    // }
+    onNewThread(thread: Thread): void {
+        this.showNewThreadForm = false;
+        // this.refreshThreadList();
+        // this.notificationService.info('The thread has been successfully created');
+    }
 
-    // onStartADiscussion(): void {
-    //     // Dynamically show/hide the form in our main view
-    //     this.showNewThreadForm = !this.showNewThreadForm;
+    startNewDiscussion(): void {
+        // Dynamically show/hide the form in our main view
+        this.showNewThreadForm = !this.showNewThreadForm;
 
-    //     // // Display the start discussion form in the sidebar
-    //     // this.secondarySidenavService.loadContentComponent(ThreadNewComponent);
-    //     // this.secondarySidenavService.open();
-    // }
+        // // Display the start discussion form in the sidebar
+        // this.secondarySidenavService.loadContentComponent(ThreadNewComponent);
+        // this.secondarySidenavService.open();
+    }
 }

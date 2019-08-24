@@ -15,7 +15,7 @@ export function create(req, res) {
     var userId = req.user._id;
     Reflect.deleteProperty(req.body, 'createdAt');
     req.body.createdBy = req.user._id.toString();
-    req.body.entityId = req.params.entityId; // do not trust user
+    req.body.entityId = req.params.entityId;
 
     return User.findById(userId)
         .exec()

@@ -26,18 +26,7 @@ function registerEvents(Thread) {
 
 function emitEvent(event) {
     return function (doc) {
-        // console.log(`${event}:${doc._id}`);
-        ThreadEvents.emit(`${event}:${doc._id}`, doc);
         ThreadEvents.emit(event, doc);
-        // For thread
-        // if (doc.thread) {
-        //     console.log(`emitting message:thread:${doc.thread}:${event}`);
-        //     ThreadEvents.emit(`thread:${doc.thread}:${event}`, doc);
-        // }
-        // if (doc.thread) {
-        //     ThreadEvents.emit(`thread:${doc.thread}:${event}:${doc._id}`, doc);
-        // }
-        // ThreadEvents.emit(event, doc);
     };
 }
 

@@ -71,7 +71,6 @@ const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
-        // .populate('tags')
         .execPopulate();
 };
 
