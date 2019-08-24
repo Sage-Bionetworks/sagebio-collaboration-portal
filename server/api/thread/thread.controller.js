@@ -82,6 +82,18 @@ export function messagesCount(req, res) {
     });
 }
 
+// Returns the messages for the thread specified.
+export function indexMessages(req, res) {
+    return Message.find({
+        thread: {
+            _id: req.params.id,
+        },
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Adds a message to the thread specified.
 export function createMessage(req, res) {
     return Thread.findById(req.params.id)

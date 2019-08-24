@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take, switchMap } from 'rxjs/operators';
 import { SecondarySidenavService } from '../../sidenav/secondary-sidenav/secondary-sidenav.service';
 import { SocketService } from '../../socket/socket.service';
 import { Thread } from 'models/messaging/thread.model';
@@ -18,14 +18,19 @@ import { AuthService } from 'components/auth/auth.service';
     styles: [require('./thread-sidenav.scss')],
 })
 export class ThreadSidenavComponent implements OnDestroy {
-    private thread: Thread;
+    // private thread: Thread;
+    private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
+    private _messages: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
-    private message: Message;
-    private messages: Message[];
-    private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+    // private message: Message;
+    // private messages: Message[];
+    // private replies: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
     private user: User;
-    private canEditThread = false;
     private editThread = false;
+
+    private canCreateThread = false;
+    private canDeleteThread = false;
+    private canEditThread = false;
 
     static parameters = [SecondarySidenavService, MessagingService, SocketService,
         UserService, UserPermissionDataService, Router, AuthService];
@@ -38,7 +43,15 @@ export class ThreadSidenavComponent implements OnDestroy {
         private router: Router,
         private authService: AuthService
     ) {
-
+        this._thread
+            .pipe(
+                filter(thread => !!thread),
+                take(1),
+                switchMap(thread => this.messagingService.getMessagesByThread(thread))
+            )
+            .subscribe(messages => {
+                this._messages.next(messages);
+            }, err => console.error(err));
 
         // // Get the current user
         // this.auth
@@ -62,32 +75,33 @@ export class ThreadSidenavComponent implements OnDestroy {
 
     ngOnDestroy() {}
 
-    refreshMessages(): void {
-        this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
-            this.messages = messages;
-            this.message = messages[0];
-        });
-    }
+    // refreshMessages(): void {
+    //     this.messagingService.getMessagesForThread(this.thread._id).subscribe(messages => {
+    //         this.messages = messages;
+    //         this.message = messages[0];
+    //     });
+    // }
 
     setThread(thread: Thread): void {
-        this.thread = thread;
-        this.refreshMessages();
+        this._thread.next(thread);
+        // this.thread = thread;
+        // this.refreshMessages();
     }
 
     updateThread(): void {
-        const updatedThread: Thread = this.thread;
-        updatedThread.updatedBy = this.user;
+        // const updatedThread: Thread = this.thread;
+        // updatedThread.updatedBy = this.user;
 
-        this.messagingService.updateThread(updatedThread).subscribe(thread => {
-            this.thread = thread;
-            this.refreshMessages();
-        });
+        // this.messagingService.updateThread(updatedThread).subscribe(thread => {
+        //     this.thread = thread;
+        //     this.refreshMessages();
+        // });
     }
 
     onEditThread(thread): void {
-        this.thread = thread;
-        this.editThread = false;
-        this.refreshMessages();
+        // this.thread = thread;
+        // this.editThread = false;
+        // this.refreshMessages();
     }
 
     onCancel(): void {
@@ -99,7 +113,7 @@ export class ThreadSidenavComponent implements OnDestroy {
     }
 
     onDeleteMessage(): void {
-        this.refreshMessages();
+        // this.refreshMessages();
     }
 
     onNewMessage(): void {

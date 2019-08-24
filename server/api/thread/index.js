@@ -41,6 +41,13 @@ router.get('/entity/:entityId/:id/messages/count', auth.hasPermissionForEntity(
     ADMIN_ACCESS
 ), controller.messagesCount);
 
+// Returns the messages for the thread specified.
+router.get('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.indexMessages);
+
 // Adds a message to the thread specified.
 router.post('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
     READ_ACCESS,

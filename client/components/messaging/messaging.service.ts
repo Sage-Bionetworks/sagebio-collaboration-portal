@@ -58,6 +58,13 @@ export class MessagingService {
      * Messages
      */
 
+    getMessagesByThread(thread: Thread): Observable<Message[]> {
+        return this.httpClient.get<Message[]>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`)
+            .pipe(
+                map(messages => orderBy(['createdAt'], ['asc'], messages))
+            );
+    }
+
     getNumMessages(thread: Thread): Observable<number> {
         return this.httpClient.get<NumberValue>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/count`)
             .pipe(
@@ -96,23 +103,18 @@ export class MessagingService {
         );
     }
 
-    getMessagesForThread(threadId: string): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/messages/threads/messages/${threadId}`)
-            .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
-            );
-    }
+
 
     /**
      * Messages
      */
 
-    getMessages(query?: {}): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`)
-            .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
-            );
-    }
+    // getMessages(query?: {}): Observable<Message[]> {
+    //     return this.httpClient.get<Message[]>(`/api/messages${stringifyQuery(query)}`)
+    //         .pipe(
+    //             map(messages => orderBy(['createdAt'], ['asc'], messages))
+    //         );
+    // }
 
     getMessage(messageId: string): Observable<Message> {
         return this.httpClient.get<Message>(`/api/messages/${messageId}`);
