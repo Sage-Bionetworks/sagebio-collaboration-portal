@@ -31,7 +31,7 @@ export class MessagingService {
     getThreadsByEntity(entityId: string): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/threads/entity/${entityId}`)
             .pipe(
-                map(threads => orderBy(['updatedAt'], ['desc'], threads))
+                map(threads => orderBy(['createdAt'], ['desc'], threads))
             );
     }
 
@@ -80,12 +80,12 @@ export class MessagingService {
 
 
 
-    getThreads(query?: {}): Observable<Thread[]> {
-        return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
-            .pipe(
-                map(threads => orderBy(['updatedAt'], ['desc'], threads))
-            );
-    }
+    // getThreads(query?: {}): Observable<Thread[]> {
+    //     return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
+    //         .pipe(
+    //             map(threads => orderBy(['updatedAt'], ['desc'], threads))
+    //         );
+    // }
 
 
 
@@ -93,15 +93,15 @@ export class MessagingService {
 
 
 
-    updateThread(thread: Thread): Observable<Thread> {
-        return this.httpClient.patch<Thread>(`/api/messages/threads/${thread._id}`,
-            [
-                { op: 'replace', path: '/title', value: thread.title },
-                { op: 'add', path: '/updatedBy', value: thread.updatedBy },
-                { op: 'add', path: '/updatedAt', value: Date.now() },
-            ]
-        );
-    }
+    // updateThread(thread: Thread): Observable<Thread> {
+    //     return this.httpClient.patch<Thread>(`/api/messages/threads/${thread._id}`,
+    //         [
+    //             { op: 'replace', path: '/title', value: thread.title },
+    //             { op: 'add', path: '/updatedBy', value: thread.updatedBy },
+    //             { op: 'add', path: '/updatedAt', value: Date.now() },
+    //         ]
+    //     );
+    // }
 
 
 
