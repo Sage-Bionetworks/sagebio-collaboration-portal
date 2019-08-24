@@ -7,6 +7,9 @@ import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import MessageNotification from '../api/notification/models/message-notification.model';
+import EntityAccessNotification from '../api/notification/models/entity-access-notification.model';
+import EntityNotification from '../api/notification/models/entity-notification.model';
 import Thread from '../api/thread/thread.model';
 import Memo from '../api/insight/models/memo.model';
 import Message from '../api/message/message.model';
@@ -72,6 +75,29 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating entity permissions', err));
     promises.push(promise);
 
+    promise = MessageNotification.find({}).deleteMany()
+        .then(() => seeds.messageNotifications ? MessageNotification
+            .create(seeds.messageNotifications)
+            .then(() => console.log('finished populating message notifications')) : null)
+        .catch(err => console.log('error populating message notifications', err));
+    promises.push(promise);
+
+    promise = EntityAccessNotification.find({}).deleteMany()
+        .then(() => seeds.entityAccessNotifications ? EntityAccessNotification
+            .create(seeds.entityAccessNotifications)
+            .then(() => console.log('finished populating entity access notifications')) : null
+        )
+        .catch(err => console.log('error populating entity access notifications', err));
+    promises.push(promise);
+
+    promise = EntityNotification.find({}).deleteMany()
+        .then(() => seeds.entityNotifications ? EntityNotification
+            .create(seeds.entityNotifications)
+            .then(() => console.log('finished populating entity notifications')) : null
+        )
+        .catch(err => console.log('error populating entity notifications', err));
+    promises.push(promise);
+
     promise = Thread.find({}).deleteMany()
         .then(() => seeds.threads ? Thread
             .create(seeds.threads)
@@ -88,7 +114,6 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating memos', err));
     promises.push(promise);
 
-
     promise = Message.find({}).deleteMany()
         .then(() => seeds.messages ? Message
             .create(seeds.messages)
@@ -96,7 +121,6 @@ export function seedDatabaseIfNeeded() {
         )
         .catch(err => console.log('error populating messages', err));
     promises.push(promise);
-
 
     promise = Organization.find({}).deleteMany()
         .then(() => seeds.organizations ? Organization
@@ -107,7 +131,6 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating organizations', err));
     promises.push(promise);
 
-
     promise = Project.find({}).deleteMany()
         .then(() => seeds.projects ? Project
             .create(seeds.projects)
@@ -115,7 +138,6 @@ export function seedDatabaseIfNeeded() {
         )
         .catch(err => console.log('error populating projects', err));
     promises.push(promise);
-
 
     promise = StarredMessage.find({}).deleteMany()
         .then(() => seeds.starredMessages ? StarredMessage
@@ -125,7 +147,6 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating starred messages', err));
     promises.push(promise);
 
-
     promise = State.find({}).deleteMany()
         .then(() => seeds.states ? State
             .create(seeds.states)
@@ -133,7 +154,6 @@ export function seedDatabaseIfNeeded() {
         )
         .catch(err => console.log('error populating states', err));
     promises.push(promise);
-
 
     promise = Report.find({}).deleteMany()
         .then(() => seeds.reports ? Report
@@ -143,7 +163,6 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating reports', err));
     promises.push(promise);
 
-
     promise = Tool.find({}).deleteMany()
         .then(() => seeds.tools ? Tool
             .create(seeds.tools)
@@ -151,7 +170,6 @@ export function seedDatabaseIfNeeded() {
         )
         .catch(err => console.log('error populating tools', err));
     promises.push(promise);
-
 
     promise = User.find({}).deleteMany()
         .then(() => seeds.users ? User
@@ -190,12 +208,10 @@ export function seedProvenanceIfNeeded() {
     let promises = [];
     let promise;
 
-
     promise = createActivities(seeds.activities)
         .then(() => console.log('finished populating activities'))
         .catch(err => console.log('error populating activities', err));
     promises.push(promise);
-
 
     return Promise.all(promises);
 }

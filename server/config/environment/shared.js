@@ -23,7 +23,22 @@ export const permissionTypes = [
 export const entityTypes = {
     PROJECT: {
         value: 'project'
+    },
+    INSIGHT: {
+        value: 'insight'
     }
+};
+
+export const notificationTypes = {
+    ENTITY_ACCESS_NOTIFICATION: {
+        value: 'EntityAccessNotification'
+    },
+    ENTITY_NOTIFICATION: {
+        value: 'EntityNotification'
+    },
+    MESSAGE_NOTIFICATION: {
+        value: 'MessageNotification'
+    },
 };
 
 export const insightTypes = {
@@ -170,6 +185,15 @@ export const models = {
             maxlength: 1024
         }
     },
+    share: {
+        invitedUsers: {
+            minlength: 1
+        },
+        comment: {
+            minlength: 1,
+            maxlength: 1024
+        },
+    },
 };
 
 export const datasetOrders = {
@@ -209,6 +233,7 @@ export default {
     datasetOrders,
     accessTypes,
     entityTypes,
+    notificationTypes,
     insightTypes,
     resourceTypes,
     inviteStatusTypes

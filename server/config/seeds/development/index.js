@@ -13,6 +13,15 @@ import {
     entityPermissions
 } from './entity-permissions';
 import {
+    messageNotifications
+} from './message-notifications';
+import {
+    entityAccessNotifications
+} from './entity-access-notifications';
+import {
+    entityNotifications
+} from './entity-notifications';
+import {
     memos
 } from './memos';
 import {
@@ -57,6 +66,9 @@ module.exports = {
     dataCatalogs: dataCatalogs,
     dashboards: dashboards,
     entityPermissions: entityPermissions,
+    messageNotifications: messageNotifications,
+    entityAccessNotifications: entityAccessNotifications,
+    entityNotifications: entityNotifications,
     threads: threads,
     memos: memos,
     messages: messages,
