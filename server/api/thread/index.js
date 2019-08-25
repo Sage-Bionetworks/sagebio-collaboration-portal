@@ -59,4 +59,9 @@ router.post('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
 router.patch('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntityRelatedObject(Thread),
     controller.patchMessage);
 
+// Deletes the message specified.
+router.delete('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntity(
+    ADMIN_ACCESS
+), controller.destroyMessage);
+
 module.exports = router;

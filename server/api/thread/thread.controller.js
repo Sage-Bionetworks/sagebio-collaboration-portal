@@ -4,7 +4,8 @@ import {
     handleUserNotFound,
     handleEntityNotFound,
     handleError,
-    patchUpdates
+    patchUpdates,
+    removeEntity
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
@@ -95,6 +96,7 @@ export function indexMessages(req, res) {
 }
 
 // Adds a message to the thread specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
 export function createMessage(req, res) {
     return Thread.findById(req.params.id)
         .exec()
@@ -105,12 +107,23 @@ export function createMessage(req, res) {
 }
 
 // Patches the message specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
 export function patchMessage(req, res) {
     return Message.findById(req.params.messageId)
         .exec()
         .then(handleEntityNotFound(res))
         .then(updateMessage(req.user, req.body))
         .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Deletes the message specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
+export function destroyMessage(req, res) {
+    return Message.findById(req.params.messageId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
         .catch(handleError(res));
 }
 

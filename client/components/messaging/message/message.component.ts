@@ -160,13 +160,12 @@ export class MessageComponent implements OnInit, AfterViewInit {
     }
 
     removeMessage(): void {
-        // this.messagingService.removeMessage(this.message)
-        //     .subscribe(() => {
-        //         this.deleteMessage.emit();
-        //     },
-        //         err => {
-        //             console.log(err);
-        //             this.notificationService.error('Unable to remove the message');
-        //         });
+        this.messagingService.removeMessage(this.thread, this.form.value)
+            .subscribe(() => {
+                this.deleteMessage.emit();
+            }, err => {
+                console.error('Unable to remove the message', err);
+                this.notificationService.error('Unable to remove the message');
+            });
     }
 }

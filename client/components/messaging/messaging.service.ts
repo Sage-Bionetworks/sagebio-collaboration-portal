@@ -84,6 +84,10 @@ export class MessagingService {
         );
     }
 
+    removeMessage(thread: Thread, message: Message): Observable<void> {
+        return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`);
+    }
+
 
 
     // getThreads(query?: {}): Observable<Thread[]> {
@@ -122,9 +126,9 @@ export class MessagingService {
     //         );
     // }
 
-    getMessage(messageId: string): Observable<Message> {
-        return this.httpClient.get<Message>(`/api/messages/${messageId}`);
-    }
+    // getMessage(messageId: string): Observable<Message> {
+    //     return this.httpClient.get<Message>(`/api/messages/${messageId}`);
+    // }
 
     // addMessage(message: Message): Observable<Message> {
     //     return this.httpClient.post<Message>('/api/messages', message);
@@ -140,9 +144,9 @@ export class MessagingService {
     //     );
     // }
 
-    removeMessage(message: Message): Observable<void> {
-        return this.httpClient.delete<void>(`/api/messages/${message._id}`);
-    }
+    // removeMessage(message: Message): Observable<void> {
+    //     return this.httpClient.delete<void>(`/api/messages/${message._id}`);
+    // }
 
     /**
      * Stars
