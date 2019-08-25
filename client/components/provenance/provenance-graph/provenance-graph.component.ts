@@ -61,8 +61,8 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     }
     get options() {
         return this._options = {
-            width: 425,
-            height: 450
+            width: window.innerWidth,
+            height: window.innerHeight
         };
     }
 
