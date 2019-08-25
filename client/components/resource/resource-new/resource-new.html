@@ -38,7 +38,7 @@
                 {{errors.newResource}}
             </mat-error>
             <div class="app-resource-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewResource()">Add New Resource</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewResource()">Add New Resource</a>
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>

@@ -8,7 +8,6 @@ import { Message } from 'models/messaging/message.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
-import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
 import { MessagingService } from '../messaging.service';
 import { MessagingDataService } from '../messaging-data.service';
 import config from '../../../app/app.constants';
