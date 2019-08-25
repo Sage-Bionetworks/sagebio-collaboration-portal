@@ -13,6 +13,9 @@
     <div *ngIf="numReplies > 1" class="app-thread-header-metadata">
             {{ numReplies }} replies
     </div>
+    <div class="app-thread-header-metadata">
+        {{ thread.contributors }}
+    </div>
     <div class="app-thread-header-open-thread">
         <a mat-icon-button (click)="showThread()" matTooltip="Show thread" [matTooltipPosition]="tooltipPosition">
             <mat-icon>open_in_new</mat-icon>

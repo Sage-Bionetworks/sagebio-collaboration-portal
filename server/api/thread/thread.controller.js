@@ -1,4 +1,4 @@
-import { omit } from 'lodash/fp';
+import { omit, uniq } from 'lodash/fp';
 import {
     respondWithResult,
     handleUserNotFound,
@@ -10,6 +10,8 @@ import {
 import Thread from './thread.model';
 import User from '../user/user.model';
 import Message from '../message/message.model';
+
+// TODO Protect thread.contributors field
 
 // Creates a new Thread in the DB
 export function create(req, res) {
@@ -163,11 +165,34 @@ function removeMessagesByThread() {
 function addMessage(user, message) {
     return function (thread) {
         if (thread) {
-            message = omit(['_id', 'createdAt', 'updatedBy', 'updatedAt'], message);
+            message = omit([
+                '_id',
+                'createdAt',
+                'createdBy',
+                'updatedBy',
+                'updatedAt'
+            ], message);
             message.thread = thread._id.toString();
             message.createdBy = user._id.toString();
-            message.updatedBy = user._id.toString();
-            return Message.create(message);
+            return Message
+                .create(message)
+                .then(addContributorToThread(thread));
+        }
+        return null;
+    };
+}
+
+function addContributorToThread(thread) {
+    return function (message) {
+        if (message) {
+            // TODO Does not work + make sure to keep order information
+            thread.controbutors = uniq([
+                ...thread.contributors,
+                message.createdBy
+            ]);
+            return Thread(thread)
+                .save()
+                .then(() => message);
         }
         return null;
     };

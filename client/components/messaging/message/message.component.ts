@@ -1,23 +1,19 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, filter, startWith, delay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { Message } from 'models/messaging/message.model';
 import { Thread } from 'models/messaging/thread.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { AuthService } from 'components/auth/auth.service';
-
-import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
-import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
-import { MessagingService } from '../messaging.service';
-import { MessagingDataService } from '../messaging-data.service';
-import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { UserService } from 'components/auth/user.service';
-
-import config from '../../../app/app.constants';
-import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import config from '../../../app/app.constants';
+
+// import { MessageStarButtonComponent } from '../message-star-button/message-star-button.component';
+// import { MessageReplyButtonComponent } from '../message-reply-button/message-reply-button.component';
+import { MessagingService } from '../messaging.service';
 
 const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
 
@@ -27,7 +23,7 @@ const MESSAGE_EDITED_DELTA_T = 1000;  // 1 second
     styles: [require('./message.scss')],
     encapsulation: ViewEncapsulation.None
 })
-export class MessageComponent implements OnInit, AfterViewInit {
+export class MessageComponent {
     @Output() deleteMessage: EventEmitter<Message> = new EventEmitter<Message>();
     @Output() editMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
@@ -54,7 +50,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
         FormBuilder,
         NotificationService,
         MessagingService,
-        // MessagingDataService,
         UserPermissionDataService,
         AuthService
     ];
@@ -62,7 +57,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
         private formBuilder: FormBuilder,
         private notificationService: NotificationService,
         private messagingService: MessagingService,
-        // private messagingDataService: MessagingDataService,
         private userPermissionDataService: UserPermissionDataService,
         private authService: AuthService
         ) {
@@ -105,15 +99,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
         }, err => console.error(err));
     }
 
-    ngOnInit() { }
-
-    ngAfterViewInit() { }
-
-    ngOnDestroy() {
-        // if (this.messageSub) this.messageSub.unsubscribe();
-        // if (this.getMessageSub) this.getMessageSub.unsubscribe();
-    }
-
     get thread() {
         return this._thread.getValue();
     }
@@ -131,18 +116,6 @@ export class MessageComponent implements OnInit, AfterViewInit {
     set message(message) {
         this._message.next(message);
     }
-
-    // @Input()
-    // set messageId(messageId) {
-    //     if (!this.getMessageSub) {
-    //         this.getMessageSub.unsubscribe();
-    //     }
-    //     this.getMessageSub = this.messagingService.getMessage(messageId)
-    //         .subscribe(message => this._message.next(message),
-    //             err => {
-    //                 console.log('Unable to get message', err);
-    //             });
-    // }
 
     updateMessage(): void {
         let updatedMessage = this.form.value;
