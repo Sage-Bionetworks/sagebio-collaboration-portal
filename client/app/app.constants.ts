@@ -23,6 +23,21 @@ var config = {
         title: 'Memo'
     }],
 
+    activityTypeFilters: [{
+        value: 'Report generation',
+        title: 'Report generation',
+        active: true
+    }, {
+        value: 'Memoization',
+        title: 'Memoization',
+    }, {
+        value: 'Mention',
+        title: 'Mention',
+    }, {
+        value: 'Tool session',
+        title: 'Tool session'
+    }],
+
     activityDirectionFilters: [{
         value: 'down',
         title: 'Down',

@@ -2,6 +2,7 @@
 @import './account/account-theme';
 @import './admin/admin-theme';
 @import './dataset/dataset-theme';
+@import './project/project-theme';
 @import './main/main-theme';
 @import '~components/footer/footer-theme';
 @import '~components/messaging/messaging-theme';
@@ -46,10 +47,20 @@
         color: mat-color($primary, default-contrast);
     }
 
+    .app-button-landing {
+        background-color: mat-color($warn);
+    }
+
+    .app-footer {
+        background: mat-color($primary);
+        color: mat-color($primary, default-contrast);
+    }
+
     // app
     @include account-theme($theme);
     @include admin-theme($theme);
     @include dataset-theme($theme);
+    @include project-theme($theme);
     @include main-theme($theme);
     // components
     @include app-quill-theme($theme);

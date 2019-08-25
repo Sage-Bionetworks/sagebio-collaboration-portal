@@ -1,0 +1,38 @@
+<!-- <div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
+    <h1>Create a New Activity</h1>
+</div> -->
+
+<mat-card class="app-activity-new-card">
+    <mat-card-content>
+        <form class="app-activity-new-card-form" [formGroup]="newForm" novalidate>
+            <mat-form-field class="app-activity-new-form-field">
+                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.title.invalid">
+                    Please enter a valid name ({{ activitySpecs.title.minlength }}-{{ activitySpecs.title.maxlength }} characters).
+                </mat-error>
+            </mat-form-field>
+            <app-quill-editor class="app-activity-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
+            <!-- <mat-form-field class="app-activity-new-form-field">
+                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.description.invalid">
+                    Please enter a valid description ({{ activitySpecs.description.minlength }}-{{ activitySpecs.description.maxlength }} characters).
+                </mat-error>
+            </mat-form-field> -->
+            <mat-form-field>
+                <mat-label>Type</mat-label>
+                <select matNativeControl formControlName="activityType" required>
+                    <option *ngFor="let value of activitySpecs.type.values" [value]="value">{{ value }}</option>
+                </select>
+            </mat-form-field>
+
+            <mat-error *ngIf="errors.newActivity">
+                {{errors.newActivity}}
+            </mat-error>
+            <div class="app-activity-new-form-actions">
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewActivity()">Create New Activity</a>
+                <a mat-button (click)="close.emit(null)">Cancel</a>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

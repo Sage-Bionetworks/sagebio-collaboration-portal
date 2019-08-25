@@ -4,7 +4,10 @@ import Resource from './resource.model';
 var StateSchema = new mongoose.Schema({
     data: {
         type: String,
-        required: true
+    },
+    tool: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tool'
     }
 });
 
