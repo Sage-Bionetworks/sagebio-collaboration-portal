@@ -9,11 +9,11 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../../app/app.constants';
 
 @Component({
-    selector: 'tool-discussion',
-    template: require('./tool-discussion.html'),
-    styles: [require('./tool-discussion.scss')],
+    selector: 'tool-thread-list',
+    template: require('./tool-thread-list.html'),
+    styles: [require('./tool-thread-list.scss')],
 })
-export class ToolDiscussionComponent implements OnInit {
+export class ToolThreadListComponent implements OnInit {
     private tool: Tool;
     private entityType: string;
 
