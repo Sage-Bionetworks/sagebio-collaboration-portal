@@ -55,4 +55,8 @@ router.post('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
     ADMIN_ACCESS
 ), controller.createMessage);
 
+// Patches the message specified.
+router.patch('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntityRelatedObject(Thread),
+    controller.patchMessage);
+
 module.exports = router;

@@ -76,7 +76,13 @@ export class MessagingService {
         return this.httpClient.post<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`, message);
     }
 
-
+    updateMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.patch<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`,
+            [
+                { op: 'replace', path: '/body', value: message.body }
+            ]
+        );
+    }
 
 
 
@@ -124,15 +130,15 @@ export class MessagingService {
     //     return this.httpClient.post<Message>('/api/messages', message);
     // }
 
-    updateMessage(message: Message): Observable<Message> {
-        return this.httpClient.patch<Message>(`/api/messages/${message._id}`,
-            [
-                { op: 'replace', path: '/body', value: message.body },
-                { op: 'add', path: '/updatedBy', value: message.updatedBy },
-                { op: 'add', path: '/updatedAt', value: Date.now() },
-            ]
-        );
-    }
+    // updateMessage(message: Message): Observable<Message> {
+    //     return this.httpClient.patch<Message>(`/api/messages/${message._id}`,
+    //         [
+    //             { op: 'replace', path: '/body', value: message.body },
+    //             { op: 'add', path: '/updatedBy', value: message.updatedBy },
+    //             { op: 'add', path: '/updatedAt', value: Date.now() },
+    //         ]
+    //     );
+    // }
 
     removeMessage(message: Message): Observable<void> {
         return this.httpClient.delete<void>(`/api/messages/${message._id}`);

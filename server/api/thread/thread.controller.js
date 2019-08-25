@@ -104,6 +104,16 @@ export function createMessage(req, res) {
         .catch(handleError(res));
 }
 
+// Patches the message specified.
+export function patchMessage(req, res) {
+    return Message.findById(req.params.messageId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(updateMessage(req.user, req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // HELPER FUNCTIONS
 
 function validateEntityId(res, targetEntityId) {
@@ -119,7 +129,6 @@ function validateEntityId(res, targetEntityId) {
 
 function removeThread(res) {
     return function (entity) {
-        // TODO: Delete messages associated to this thread
         if (entity) {
             return entity
                 .remove()
@@ -144,7 +153,31 @@ function addMessage(user, message) {
             message = omit(['_id', 'createdAt', 'updatedBy', 'updatedAt'], message);
             message.thread = thread._id.toString();
             message.createdBy = user._id.toString();
+            message.updatedBy = user._id.toString();
             return Message.create(message);
+        }
+        return null;
+    };
+}
+
+function updateMessage(user, patches) {
+    return function (message) {
+        if (message) {
+            patches = patches.filter(
+                p => ![
+                    '_id',
+                    'thread',
+                    'createdAt',
+                    'createdBy',
+                    'updatedAt',
+                    'updatedBy'
+                ].map(x => `/${x}`).includes(p.path)
+            );
+            patches.push(...[
+                { op: 'add', path: '/updatedBy', value: user._id.toString() },
+                { op: 'replace', path: '/updatedAt', value: new Date() }
+            ]);
+            return patchUpdates(patches)(message);
         }
         return null;
     };

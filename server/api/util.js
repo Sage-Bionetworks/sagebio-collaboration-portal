@@ -6,6 +6,7 @@ import {
     find
 } from 'lodash/fp';
 
+// TODO Review purpose
 function deeply(map) {
     var deeplyArray = function (obj, fn) {
       return obj.map(function(x) {
@@ -35,10 +36,11 @@ export function respondWithResult(res, statusCode) {
     };
 }
 
+// TODO Review purpose
 export function convertResponseCase(body, response, resolveWithFullResponse) {
-        let snakeCaseObject = deeply(mapKeys)(response.body, (v, k) => snakeCase(k));
-        response.body = snakeCaseObject;
-        return resolveWithFullResponse ? response : response.body;
+    let snakeCaseObject = deeply(mapKeys)(response.body, (v, k) => snakeCase(k));
+    response.body = snakeCaseObject;
+    return resolveWithFullResponse ? response : response.body;
 }
 
 export function patchUpdates(patches) {
@@ -55,6 +57,7 @@ export function patchUpdates(patches) {
     };
 }
 
+// TODO Review purpose
 export function protectFromPatchReplace(res, patches, allowedProperties) {
     return function (entity) {
         let invalid = patches.find(patch =>
@@ -69,6 +72,7 @@ export function protectFromPatchReplace(res, patches, allowedProperties) {
     }
 }
 
+// TODO Review purpose
 export function protectFromPatchRemove(res, patches, allowedProperties) {
     return function (entity) {
         let invalid = patches.find(patch =>
@@ -103,7 +107,7 @@ export function handleEntityNotFound(res) {
 }
 
 export function handleUserNotFound(res) {
-    return function(user) {
+    return function (user) {
         if (!user) {
             res.status(401).end();
             return null;

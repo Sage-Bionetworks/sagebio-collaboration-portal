@@ -28,7 +28,7 @@ var MessageSchema = new mongoose.Schema({
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'User'
     },
     __v: {
         type: Number,

@@ -31,6 +31,8 @@ export class MessageComponent implements OnInit, AfterViewInit {
     @Output() deleteMessage: EventEmitter<Message> = new EventEmitter<Message>();
     @Output() editMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
+    @ViewChild('editor', { static: false }) editor: AppQuillEditorComponent;
+
     private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
     private _message: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
     private form: FormGroup;
@@ -50,16 +52,16 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     static parameters = [
         FormBuilder,
-        // NotificationService,
-        // MessagingService,
+        NotificationService,
+        MessagingService,
         // MessagingDataService,
         UserPermissionDataService,
         AuthService
     ];
     constructor(
         private formBuilder: FormBuilder,
-        // private notificationService: NotificationService,
-        // private messagingService: MessagingService,
+        private notificationService: NotificationService,
+        private messagingService: MessagingService,
         // private messagingDataService: MessagingDataService,
         private userPermissionDataService: UserPermissionDataService,
         private authService: AuthService
@@ -143,19 +145,18 @@ export class MessageComponent implements OnInit, AfterViewInit {
     // }
 
     updateMessage(): void {
-        // let updatedMessage = this.form.value;
-        // updatedMessage.body = JSON.stringify(this.form.get('body').value);
-        // updatedMessage.updatedBy = this.userId;
+        let updatedMessage = this.form.value;
+        updatedMessage.body = JSON.stringify(this.form.get('body').value);
+        updatedMessage.thread = this.thread._id;
 
-        // this.messagingService.updateMessage(updatedMessage)
-        //     .subscribe(message => {
-        //         this.editMessage.emit();
-        //      },
-        //         err => {
-        //             console.log(err);
-        //             this.notificationService.error('Unable to update the message');
-        //         });
-        // // this.isReadOnly = true;
+        this.messagingService.updateMessage(this.thread, updatedMessage)
+            .subscribe(message => {
+                this.editMessage.emit();
+             }, err => {
+                console.error('Unable to update the message', err);
+                this.notificationService.error('Unable to update the message');
+                this.editor.edit();
+            });
     }
 
     removeMessage(): void {
