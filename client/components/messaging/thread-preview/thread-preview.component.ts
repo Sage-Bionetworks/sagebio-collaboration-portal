@@ -73,7 +73,7 @@ export class ThreadPreviewComponent {
             const canReadEntity = thread && permissions.canReadEntity(thread.entityId, thread.entityType);
             const isThreadOwner = thread && authInfo.user && thread.createdBy._id === authInfo.user._id;
             this.canDeleteThread = canAdminEntity;
-            this.canEditThread = canReadEntity && isThreadOwner;
+            this.canEditThread = canAdminEntity || (canReadEntity && isThreadOwner);
         }, err => console.error(err));
     }
 
