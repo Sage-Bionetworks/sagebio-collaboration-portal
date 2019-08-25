@@ -185,12 +185,11 @@ function addMessage(user, message) {
 function addContributorToThread(thread) {
     return function (message) {
         if (message) {
-            // TODO Does not work + make sure to keep order information
-            thread.controbutors = uniq([
-                ...thread.contributors,
-                message.createdBy
+            thread.contributors = uniq([
+                ...thread.contributors.map(user => user.toString()),
+                message.createdBy.toString()
             ]);
-            return Thread(thread)
+            return thread
                 .save()
                 .then(() => message);
         }

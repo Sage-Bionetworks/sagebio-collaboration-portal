@@ -30,7 +30,8 @@ export class ThreadPreviewComponent {
     private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(undefined);
     private tooltipPosition = 'above';
     private tooltipShowDelay: number;
-    private avatarSize: number;
+    private authorAvatarSize: number;
+    private contributorAvatarSize: number;
 
     // private initialMessage: Message;
     // private starred: Observable<boolean>;
@@ -50,9 +51,9 @@ export class ThreadPreviewComponent {
         private userPermissionDataService: UserPermissionDataService,
         private authService: AuthService
         ) {
-
         this.tooltipShowDelay = config.tooltip.showDelay;
-        this.avatarSize = config.avatar.size.mini;
+        this.authorAvatarSize = config.avatar.size.mini;
+        this.contributorAvatarSize = config.avatar.size.nano;
 
         this._thread
             .pipe(

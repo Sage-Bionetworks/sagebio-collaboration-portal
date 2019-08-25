@@ -1,6 +1,6 @@
 <!-- thread-preview is displayed within a mat-list-item -->
 <div class="app-thread" *ngIf="thread">
-    <user-avatar class="app-thread-header-avatar" [user]="thread.createdBy" [size]="avatarSize"></user-avatar>
+    <user-avatar class="app-thread-header-avatar" [user]="thread.createdBy" [size]="authorAvatarSize"></user-avatar>
     <div class="app-thread-header-metadata">
         <div class="app-thread-header-metadata-line">
             <span class="app-thread-header-title">{{ thread.title }}</span>
@@ -14,7 +14,7 @@
             {{ numReplies }} replies
     </div>
     <div class="app-thread-header-metadata">
-        {{ thread.contributors }}
+        <user-avatar *ngFor="let contributor of thread.contributors | slice: 1" [user]="contributor" [size]="contributorAvatarSize"></user-avatar>
     </div>
     <div class="app-thread-header-open-thread">
         <a mat-icon-button (click)="showThread()" matTooltip="Show thread" [matTooltipPosition]="tooltipPosition">
