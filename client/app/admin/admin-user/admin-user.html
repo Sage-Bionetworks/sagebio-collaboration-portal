@@ -5,12 +5,12 @@
 
 <mat-card class="app-admin-user-card">
     <h2 class="app-admin-user-h2">Role</h2>
-    <mat-form-field *ngIf="loggedUser?._id !== targetUser?._id">
+    <!-- <mat-form-field *ngIf="loggedUser?._id !== targetUser?._id">
         <mat-label>User Role: </mat-label>
         <mat-select [(ngModel)]="role" (ngModelChange)="onChangeRole()">
             <mat-option *ngFor='let roleValue of userRoles' [value]="roleValue">{{ roleValue }}</mat-option>
         </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <h2 class="app-admin-user-h2">Permissions</h2>
     <section class="app-admin-user-permission-list">
