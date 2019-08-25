@@ -5,10 +5,10 @@
             <h3>{{ entityName }} Type</h3>
             <radio-button-filter [filters]="activityTypeFilters" [group]="filterGroup"></radio-button-filter>
         </div>
-        <div class="activities-graph-content-container">
-            <div class="activities-graph-results">
+        <div #plop class="activities-graph-content-container" appMeasurable>
+            <!-- <div class="activities-graph-results">
                 <provenance-graph class="provenance-graph" [graphData]="provenanceGraph" [rootId]=null></provenance-graph>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="project-activities-actions">
