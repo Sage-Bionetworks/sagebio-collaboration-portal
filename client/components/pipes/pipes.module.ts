@@ -4,6 +4,7 @@ import { DateAndTimePipe } from './date/date-and-time.pipe';
 import { DateLongPipe } from './date/date-long.pipe';
 import { LastUpdatedPipe } from './date/last-updated.pipe';
 import { SameDayPipe } from './date/same-day.pipe';
+import { TakeRightPipe } from './take-right.pipe';
 
 @NgModule({
     imports: [
@@ -13,13 +14,15 @@ import { SameDayPipe } from './date/same-day.pipe';
         DateAndTimePipe,
         DateLongPipe,
         LastUpdatedPipe,
-        SameDayPipe
+        SameDayPipe,
+        TakeRightPipe
     ],
     exports: [
         DateAndTimePipe,
         DateLongPipe,
         LastUpdatedPipe,
-        SameDayPipe
+        SameDayPipe,
+        TakeRightPipe
     ]
 })
 export class PipesModule { }
