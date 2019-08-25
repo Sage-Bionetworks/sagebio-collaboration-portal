@@ -30,11 +30,11 @@ script:
 
 deploy:
   - provider: script
-    script: bash docker-deploy.sh
+    script: bash .travis/docker-deploy.sh
     on:
       branch: develop
   - provider: script
-    script: bash docker-deploy.sh
+    script: bash .travis/docker-deploy.sh
     on:
       tags: true
   - provider: codedeploy
