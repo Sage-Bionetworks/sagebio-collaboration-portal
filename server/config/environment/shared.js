@@ -137,6 +137,15 @@ export const defaultTools = [
     }
 ];
 
+export const entityVisibility = {
+    PUBLIC: {
+        value: 'Public'
+    },
+    PRIVATE: {
+        value: 'Private'
+    }
+};
+
 export const models = {
     project: {
         title: {
@@ -148,9 +157,12 @@ export const models = {
             maxlength: 1000 * 1024 * 1024
         },
         visibility: {
-            values: ['Private', 'Public'],
-            default: 'Private'
+            default: entityVisibility.PRIVATE.value
         }
+        // visibility: {
+        //     values: ['Private', 'Public'],
+        //     default: 'Private'
+        // }
     },
     message: {
         title: {
@@ -263,5 +275,6 @@ export default {
     entityTypes,
     insightTypes,
     resourceTypes,
-    inviteStatusTypes
+    inviteStatusTypes,
+    entityVisibility
 };
