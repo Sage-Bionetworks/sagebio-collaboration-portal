@@ -1,18 +1,15 @@
-import { Component, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { filter } from 'rxjs/operators';
+import { uniq } from 'lodash';
+
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { EntityPermissionService } from 'components/auth/entity-permission.service'
 import { SocketService } from 'components/socket/socket.service';
 import { Entity } from 'models/entities/entity.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ObjectValidators } from 'components/validation/object-validators';
+import { UserProfile } from 'models/auth/user-profile.model';
 import config from '../../../app/app.constants';
-
-// import { User } from 'models/auth/user.model';
-// import { combineLatest } from 'rxjs';
-// import { flow, keyBy, mapValues, values } from 'lodash/fp';
-// import { Filter } from 'components/filters/filter.model';
-// import { FiltersComponent } from 'components/filters/filters.component';
 
 @Component({
     selector: 'share-sidenav',
@@ -20,36 +17,41 @@ import config from '../../../app/app.constants';
     styles: [require('./share-sidenav.scss')],
 })
 export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
-    // @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
     private entity: Entity;
     private newForm: FormGroup;
 
-    private searchUsersResultCount = 0;
-    private searchUsersFetchNotReached = true;
-    private users = [{ id: 1, name: 'Carlos Alvarado' }, { id: 2, name: 'Nick Greer' }, { id: 3, name: 'Kevin Thane' }];
-
-    static parameters = [SecondarySidenavService, SocketService, Router, FormBuilder];
+    private users: (String | UserProfile)[];
+    static parameters = [SecondarySidenavService, SocketService, Router, FormBuilder, EntityPermissionService];
 
     constructor(
         private sidenavService: SecondarySidenavService,
         private socketService: SocketService,
         private router: Router,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private entityPermissionService: EntityPermissionService
     ) {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
         this.newForm = formBuilder.group({
-            invitedUsers: ['', [Validators.required]],
+            shareUsers: ['', [Validators.required]],
             comments: [
                 '',
                 [
                     Validators.maxLength(config.models.share.comment.maxlength),
-                    // ObjectValidators.jsonStringifyMaxLength(config.models.share.comment.maxlength),
                 ],
             ],
         });
     }
 
-    ngAfterViewInit() {}
+    ngAfterViewInit() {
+        if (this.entity) {
+            this.entityPermissionService.queryByEntity(this.entity)
+                .subscribe(permissions => {
+                    this.users = uniq(permissions
+                        .filter(permission => (permission.status === config.inviteStatusTypes.ACCEPTED.value))
+                        .map(permission => permission.user))
+                })
+        }
+    }
 
     ngOnDestroy() {
         if (this.entity) {
