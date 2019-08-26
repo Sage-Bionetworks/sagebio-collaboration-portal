@@ -14,7 +14,7 @@
 
     .app-thread-header-metadata {
         display: flex;
-        flex-flow: column nowrap;
+        flex-flow: row nowrap;
         flex-grow: 1;
         align-items: flex-start;
         padding-right: 8px;
@@ -22,6 +22,10 @@
 
     .app-thread-header-metadata-line {
         align-items: flex-end;
+    }
+
+    .app-thread-preview-contributor-avatar {
+        padding-right: 5px;
     }
 
     .app-thread-header-title {

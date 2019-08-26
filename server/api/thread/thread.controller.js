@@ -1,4 +1,4 @@
-import { omit, uniq } from 'lodash/fp';
+import { omit, uniq, pull } from 'lodash/fp';
 import {
     respondWithResult,
     handleUserNotFound,
@@ -10,6 +10,7 @@ import {
 import Thread from './thread.model';
 import User from '../user/user.model';
 import Message from '../message/message.model';
+import { pluralize } from 'mongoose';
 
 // TODO Protect thread.contributors field
 
@@ -185,8 +186,14 @@ function addMessage(user, message) {
 function addContributorToThread(thread) {
     return function (message) {
         if (message) {
+            // // keep first contribution order
+            // thread.contributors = uniq([
+            //     ...thread.contributors.map(user => user.toString()),
+            //     message.createdBy.toString()
+            // ]);
+            // keep last contribution order
             thread.contributors = uniq([
-                ...thread.contributors.map(user => user.toString()),
+                ...pull(message.createdBy.toString(), thread.contributors),
                 message.createdBy.toString()
             ]);
             return thread
