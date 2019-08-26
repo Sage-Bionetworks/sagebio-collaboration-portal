@@ -4,7 +4,8 @@ import {
     anotherProjectId
 } from './projects';
 import {
-    report1Id
+    report1Id,
+    report2Id
 } from './reports';
 import {
     adminUserId,
@@ -21,7 +22,7 @@ const entityPermission1Id = new mongoose.Types.ObjectId('1d40f40a32464473f4f07b9
 const entityPermission2Id = new mongoose.Types.ObjectId('22e2f70a32464473f4f07b72');
 const entityPermission3Id = new mongoose.Types.ObjectId('3d40f40a12345678f4f07b93');
 const entityPermission4Id = new mongoose.Types.ObjectId('4d4a12345678f442f4f07104');
-const entityPermission5Id = new mongoose.Types.ObjectId('5d4a123456ef3442f4fab105');
+const entityPermission5Id = new mongoose.Types.ObjectId('5d4a123456ef3212f4fab105');
 
 let entityPermissions = [{
     status: inviteStatusTypes.ACCEPTED.value,
@@ -65,12 +66,13 @@ let entityPermissions = [{
 }, {
     _id: entityPermission5Id,
     status: inviteStatusTypes.ACCEPTED.value,
-    entityId: report1Id,
+    entityId: report2Id,
     entityType: entityTypes.INSIGHT.value,
     user: testUser1Id,
     access: accessTypes.WRITE.value,
     createdBy: testUserId,
 }];
+
 export {
     entityPermissions,
     entityPermission1Id,

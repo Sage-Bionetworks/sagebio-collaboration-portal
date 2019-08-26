@@ -32,7 +32,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
     ) {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
         this.newForm = formBuilder.group({
-            shareUsers: ['', [Validators.required]],
+            shareWithUsers: ['', [Validators.required]],
             comments: [
                 '',
                 [
