@@ -1,11 +1,10 @@
 <mat-list class="thread-list">
     <!-- TODO Start a discussion button should only be visible if canStartNewDiscussion is true -->
-    <button mat-raised-button class="app-button app-button-landing thread-button" (click)="onStartADiscussion()">+ Start a discussion</button>
-    <thread-new *ngIf="showNewThreadForm" [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)"></thread-new>
-    <thread-date-separator *ngIf="threads && threads[0]" class="thread-date-separator" [isoDate]="threads[0].updatedAt || threads[0].createdAt"></thread-date-separator>
-    <ng-template *ngIf="threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
-        <thread-date-separator *ngIf="first && !(thread.updatedAt | sameDay: thread.updatedAt)" class="thread-date-separator" [isoDate]="thread.updatedAt"></thread-date-separator>
-        <thread-date-separator *ngIf="!first && !(thread.updatedAt | sameDay: (threads)[i-1].updatedAt)" class="thread-date-separator" [isoDate]="thread.updatedAt"></thread-date-separator>
-        <thread-preview class="thread-detail" [thread]="thread" (deleteThread)="onDeleteThread($event)"></thread-preview>
+    <a mat-raised-button class="app-button app-button-landing thread-button" (click)="startNewDiscussion()">Start a discussion</a>
+    <thread-new *ngIf="showNewThreadForm" [entityId]="entityId" [entityType]="entityType" (newThread)="onNewThread($event)" (close)="showNewThreadForm = false"></thread-new>
+    <ng-template *ngIf="_threads | async; let threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
+        <thread-date-separator *ngIf="first" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
+        <thread-date-separator *ngIf="!first && !(thread.createdAt | sameDay: (threads)[i-1].createdAt)" class="thread-date-separator" [isoDate]="thread.createdAt"></thread-date-separator>
+        <thread-preview class="thread-detail" [thread]="thread"></thread-preview>
     </ng-template>
 </mat-list>

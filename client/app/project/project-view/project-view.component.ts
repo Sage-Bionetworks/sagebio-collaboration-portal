@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ProjectService } from '../project.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 
 @Component({
     selector: 'project-view',

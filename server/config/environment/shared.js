@@ -21,8 +21,14 @@ export const permissionTypes = [
 ];
 
 export const entityTypes = {
+    APP: {
+        value: 'app'
+    },
     PROJECT: {
         value: 'project'
+    },
+    TOOL: {
+        value: 'tool'
     }
 };
 
@@ -131,9 +137,18 @@ export const defaultTools = [
     }
 ];
 
+export const entityVisibility = {
+    PUBLIC: {
+        value: 'Public'
+    },
+    PRIVATE: {
+        value: 'Private'
+    }
+};
+
 export const models = {
     project: {
-        name: {
+        title: {
             minlength: 3,
             maxlength: 64
         },
@@ -142,9 +157,12 @@ export const models = {
             maxlength: 1000 * 1024 * 1024
         },
         visibility: {
-            values: ['Private', 'Public'],
-            default: 'Private'
+            default: entityVisibility.PRIVATE.value
         }
+        // visibility: {
+        //     values: ['Private', 'Public'],
+        //     default: 'Private'
+        // }
     },
     message: {
         title: {
@@ -257,5 +275,6 @@ export default {
     entityTypes,
     insightTypes,
     resourceTypes,
-    inviteStatusTypes
+    inviteStatusTypes,
+    entityVisibility
 };

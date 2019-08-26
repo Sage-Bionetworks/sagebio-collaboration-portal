@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ProjectService } from '../project.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { ObjectValidators } from 'components/validation/object-validators';

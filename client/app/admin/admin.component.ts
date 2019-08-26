@@ -5,7 +5,6 @@ import { UserProfile } from 'models/auth/user-profile.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
-
 import config from '../app.constants';
 
 @Component({

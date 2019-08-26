@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { InsightService } from 'components/insight/insight.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { ProjectDataService } from '../project-data.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import config from '../../../app/app.constants';
 import { NotificationService } from 'components/notification/notification.service';
 

@@ -12,7 +12,7 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool-page/tool.component';
-import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
+import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolNewComponent } from './tool-new/tool-new.component';
@@ -33,9 +33,14 @@ export const ROUTES: Routes = [
     },
     {
         path: 'tools/:slug/discussion',
-        component: ToolDiscussionComponent,
-        canActivate: [AuthGuard],
+        component: ToolThreadListComponent,
+        canActivate: [AuthGuard]
     },
+    // {
+    //     path: 'tools/:slug/discussion/:threadId',
+    //     component: ToolDiscussionComponent,
+    //     canActivate: [AuthGuard]
+    // },
 ];
 
 @NgModule({
@@ -51,7 +56,7 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         ToolComponent,
-        ToolDiscussionComponent,
+        ToolThreadListComponent,
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,

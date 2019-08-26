@@ -1,9 +1,0 @@
-<a class="app-message-reply-button" *ngIf="(numReplies | async) > 0; else noReplies" mat-button type="button" (click)="click.emit(null)" matTooltip="Last reply on {{ lastReplyAt | async | dateAndTime }}" matTooltipPosition="above">
-    <user-avatar *ngFor="let user of contributors" [user]="user" [size]="avatarSize"></user-avatar>
-    <span class="app-message-reply-button-label">{{ lastReplyAt | async | lastUpdated }}</span>
-</a>
-<ng-template #noReplies>
-    <a mat-button type="button" (click)="click.emit(null)">
-        <span>Start a thread</span>
-    </a>
-</ng-template>

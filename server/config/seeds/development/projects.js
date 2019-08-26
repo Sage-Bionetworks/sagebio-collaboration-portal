@@ -6,13 +6,13 @@ const anotherProjectId = new mongoose.Types.ObjectId('5cb7acea2d718614d81db97f')
 
 let projects = [{
     _id: testProjectId,
-    name: 'Test Project',
+    title: 'Test Project',
     description: `{\"ops\":[{\"insert\":\"This is a test project.\\n\\n\"}]}`,
     visibility: 'Public',
     createdBy: adminUserId
 }, {
     _id: anotherProjectId,
-    name: 'Another Project',
+    title: 'Another Project',
     description: `{\"ops\":[{\"insert\":\"This is another project.\\n\\n\"}]}`,
     visibility: 'Public',
     createdBy: testUserId

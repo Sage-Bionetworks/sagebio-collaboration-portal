@@ -2,11 +2,11 @@
  * Broadcast updates to client when the model changes
  */
 
-import EntityPermissionEvents from './entity-permission.events';
 import {
     hasAccessToEntity,
 } from '../../auth/auth';
 import config from '../../config/environment';
+import EntityPermissionEvents from './entity-permission.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -40,8 +40,6 @@ function createListener(namespace, event, spark) {
             .catch(err => {
                 console.log(`ERROR creating listener: ${err}`);
             });
-        // We do not have to worry about error or exception handling here. If
-        // authorization is unable to be granted, we will not emit our event.
     };
 }
 

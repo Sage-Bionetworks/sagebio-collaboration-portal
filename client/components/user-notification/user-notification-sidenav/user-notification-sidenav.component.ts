@@ -5,7 +5,7 @@ import { pickBy, identity } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 // TODO: Do not refer to something in app/, instead move ProjectService to components
 import { ProjectService } from '../../../app/project/project.service';
 import { InviteBundle } from '../models/invite-bundle.model';

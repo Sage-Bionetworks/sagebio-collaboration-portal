@@ -58,7 +58,6 @@ export function show(req, res) {
 export function create(req, res) {
     Reflect.deleteProperty(req.body, 'createdAt');
     req.body.createdBy = req.user._id.toString();
-    console.log('here', entityTypes.PROJECT.value);
 
     return Project.create(req.body)
         .then(createAdminPermissionForEntity(req.user, entityTypes.PROJECT.value))

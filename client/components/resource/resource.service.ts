@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';

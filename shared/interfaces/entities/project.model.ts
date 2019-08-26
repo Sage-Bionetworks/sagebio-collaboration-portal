@@ -1,5 +1,4 @@
-import { Entity } from './entities/entity.model';
-import { User } from './auth/user.model';
+import { Entity } from './entity.model';
 
 /**
  * @swagger
@@ -17,7 +16,7 @@ import { User } from './auth/user.model';
  *         picture:
  *           type: string
  *         visibility:
- *           $ref: '#/components/schemas/ProjectVisibility'
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -25,25 +24,5 @@ import { User } from './auth/user.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface Project extends Entity {
-    name: string;
-    description: string;
     picture: string;
-    visibility: ProjectVisibility;
-    createdAt: string;
-    createdBy: User;
-}
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     ProjectVisibility:
- *       type: string
- *       enum:
- *         - Public
- *         - Private
- */
-export enum ProjectVisibility {
-    PUBLIC = 'Public',
-    PRIVATE = 'Private'
 }

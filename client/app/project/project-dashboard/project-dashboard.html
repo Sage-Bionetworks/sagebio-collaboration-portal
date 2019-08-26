@@ -1,9 +1,4 @@
 <div *ngIf="!showEditProjectTemplate && project | async; let project_; else showEditProjectForm">
-    <!-- <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
-        <h1>{{ project.name }}</h1>
-    </div> -->
-
     <div class="app-project-content">
         <mat-card class="app-project-card">
             <div class="app-project-card-box app-project-card-box-top">
@@ -11,7 +6,7 @@
                     <img [src]="project_.picture" aria-label="Project picture">
                 </picture>
                 <div class="app-project-metadata">
-                    <h1>{{ project_.name }}</h1>
+                    <h1>{{ project_.title }}</h1>
                     <!-- <div class="tool-metadata-row">
                       <mat-icon>home</mat-icon>
                       <span>{{ tool.organization.name }}</span>

@@ -17,27 +17,25 @@ var events = {
 };
 
 // Register the event emitter to the model events
-function registerEvents(Message) {
+function registerEvents(Message, autoPopulatePost) {
     for (var e in events) {
         let event = events[e];
-        Message.post(e, emitEvent(event));
+        Message.post(e, emitEvent(event, autoPopulatePost));
     }
 }
 
-function emitEvent(event) {
+function emitEvent(event, autoPopulatePost) {
     return function (doc) {
-        // console.log(`${event}:${doc._id}`);
-        MessageEvents.emit(`${event}:${doc._id}`, doc);
+        if (event === 'save') {
+            autoPopulatePost(doc)
+                .execPopulate()
+                .then(document => {
+                    MessageEvents.emit(event, document);
+                });
+            return;
+        }
+        // MessageEvents.emit(`${event}:${doc._id}`, doc);
         MessageEvents.emit(event, doc);
-        // For thread
-        // if (doc.thread) {
-        //     console.log(`emitting message:thread:${doc.thread}:${event}`);
-        //     MessageEvents.emit(`thread:${doc.thread}:${event}`, doc);
-        // }
-        // if (doc.thread) {
-        //     MessageEvents.emit(`thread:${doc.thread}:${event}:${doc._id}`, doc);
-        // }
-        // MessageEvents.emit(event, doc);
     };
 }
 

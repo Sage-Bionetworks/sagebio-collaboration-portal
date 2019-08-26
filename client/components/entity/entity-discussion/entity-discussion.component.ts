@@ -10,6 +10,8 @@ import { MessagingService } from 'components/messaging/messaging.service';
 })
 export class EntityDiscussionComponent implements AfterViewInit {
     @Input() entity: Entity;
+    @Input() entityType: string;
+
     private threads: Thread[];
 
     static parameters = [MessagingService];

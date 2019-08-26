@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../project.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
@@ -33,10 +33,10 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
 
         this.projectSpecs = config.models.project;
         this.newForm = this.formBuilder.group({
-            name: ['', [
+            title: ['', [
                 Validators.required,
-                Validators.minLength(this.projectSpecs.name.minlength),
-                Validators.maxLength(this.projectSpecs.name.maxlength)
+                Validators.minLength(this.projectSpecs.title.minlength),
+                Validators.maxLength(this.projectSpecs.title.maxlength)
             ]],
             description: ['', [
                 Validators.required,

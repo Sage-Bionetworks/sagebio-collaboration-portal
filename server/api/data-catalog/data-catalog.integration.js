@@ -2,7 +2,6 @@
 
 var app = require('../..');
 import request from 'supertest';
-import mongoose from 'mongoose';
 import User from '../user/user.model';
 import Organization from '../organization/organization.model';
 import DataCatalog from './data-catalog.model';
@@ -71,7 +70,7 @@ describe('DataCatalog API:', function () {
                 .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'new-slug',
-                    name: 'New name',
+                    title: 'New title',
                     description: 'New description',
                     website: 'New website',
                     organization: authOrganization._id.toString(),
@@ -91,7 +90,7 @@ describe('DataCatalog API:', function () {
 
         it('should respond with the newly created dataCatalog', function () {
             expect(newDataCatalog.slug).to.equal('new-slug');
-            expect(newDataCatalog.name).to.equal('New name');
+            expect(newDataCatalog.title).to.equal('New title');
             expect(newDataCatalog.description).to.equal('New description');
             expect(newDataCatalog.organization).to.equal(authOrganization._id.toString());
             expect(newDataCatalog.website).to.equal('New website');
@@ -125,7 +124,7 @@ describe('DataCatalog API:', function () {
 
         it('should respond with the requested dataCatalog', function () {
             expect(dataCatalog.slug).to.equal('new-slug');
-            expect(dataCatalog.name).to.equal('New name');
+            expect(dataCatalog.title).to.equal('New title');
             expect(dataCatalog.description).to.equal('New description');
             expect(dataCatalog.organization._id).to.equal(authOrganization._id.toString());
             expect(dataCatalog.website).to.equal('New website');
@@ -144,7 +143,7 @@ describe('DataCatalog API:', function () {
                 .set('authorization', `Bearer ${token}`)
                 .send({
                     slug: 'updated-slug',
-                    name: 'Updated name',
+                    title: 'Updated title',
                     description: 'Updated description',
                     organization: anotherOrganization._id.toString(),
                     website: 'Updated website',
@@ -168,7 +167,7 @@ describe('DataCatalog API:', function () {
 
         it('should respond with the updated dataCatalog', function () {
             expect(updatedDataCatalog.slug).to.equal('updated-slug');
-            expect(updatedDataCatalog.name).to.equal('Updated name');
+            expect(updatedDataCatalog.title).to.equal('Updated title');
             expect(updatedDataCatalog.description).to.equal('Updated description');
             expect(updatedDataCatalog.organization).to.equal(anotherOrganization._id.toString());
             expect(updatedDataCatalog.website).to.equal('Updated website');
@@ -190,7 +189,7 @@ describe('DataCatalog API:', function () {
                     let dataCatalog = res.body;
 
                     expect(dataCatalog.slug).to.equal('updated-slug');
-                    expect(dataCatalog.name).to.equal('Updated name');
+                    expect(dataCatalog.title).to.equal('Updated title');
                     expect(dataCatalog.description).to.equal('Updated description');
                     expect(dataCatalog.organization._id).to.equal(anotherOrganization._id.toString());
                     expect(dataCatalog.website).to.equal('Updated website');
@@ -216,8 +215,8 @@ describe('DataCatalog API:', function () {
                     value: 'patched-slug'
                 }, {
                     op: 'replace',
-                    path: '/name',
-                    value: 'Patched name'
+                    path: '/title',
+                    value: 'Patched title'
                 }, {
                     op: 'replace',
                     path: '/description',
@@ -256,7 +255,7 @@ describe('DataCatalog API:', function () {
 
         it('should respond with the patched dataCatalog', function () {
             expect(patchedDataCatalog.slug).to.equal('patched-slug');
-            expect(patchedDataCatalog.name).to.equal('Patched name');
+            expect(patchedDataCatalog.title).to.equal('Patched title');
             expect(patchedDataCatalog.description).to.equal('Patched description');
             expect(patchedDataCatalog.organization).to.equal(anotherOrganization._id.toString());
             expect(patchedDataCatalog.website).to.equal('Patched website');

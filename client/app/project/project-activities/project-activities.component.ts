@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ContentChild } from '@angular/core';
 import { orderBy } from 'lodash';
 import { Observable } from 'rxjs';
 import { ProvenanceService } from 'components/provenance/provenance.service';
 import { Activity } from 'models/provenance/activity.model';
 import { ProjectDataService } from '../project-data.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
+import { MeasurableDirective } from 'components/directives/measurable.directive';
 
 @Component({
     selector: 'project-activities',
     template: require('./project-activities.html'),
-    styles: [require('./project-activities.scss')]
+    styles: [require('./project-activities.scss')],
 })
-export class ProjectActivitiesComponent implements OnInit {
+export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
+    @ViewChild('plop', { static: false }) container: ElementRef<HTMLElement>; // OR viewContainerRef?
+    @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
+
     private project: Project;
     private provenanceGraph: any;
     private activityTypeFilters = config.activityTypeFilters;
@@ -33,6 +37,30 @@ export class ProjectActivitiesComponent implements OnInit {
                 this.onFilterChange(defaultQuery);
             }, err => console.error(err));
     }
+
+    ngAfterViewInit() {
+        // console.log(this.container);
+        // console.log(this.container.nativeElement.offsetWidth);
+        setTimeout(_ => this.inflate());
+    }
+
+    inflate() {
+        this.measurable.width()
+            .subscribe(width => console.log('WIDTH', width));
+        // console.log('measurable', this.measurable.getWidth());
+        // let bounds = <ClientRect>this.container.nativeElement.getBoundingClientRect();
+        // console.log('BOUND', bounds);
+        // if(bounds.bottom > 0 && bounds.top < window.innerHeight) {
+        //   this.isLoading = true;
+        //   let img = new Image();
+        //   img.src = this.url;
+        //   img.onload = _=> {
+        //     this.isLoaded = true;
+        //     this.isLoading = false;
+        //     this.renderer.setElementStyle(this.holder,
+        //       'background-image', 'url("' + this.url + '")');
+        //   };
+        }
 
     onFilterChange(query) {
         if (this.project) {

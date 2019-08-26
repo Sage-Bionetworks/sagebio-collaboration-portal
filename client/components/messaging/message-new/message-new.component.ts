@@ -18,10 +18,10 @@ import config from '../../../app/app.constants';
     styles: [require('./message-new.scss')],
 })
 export class MessageNewComponent implements OnInit {
-    @Input() private message: Message;
+    @Input() private thread: Thread;
     @Output() newMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
-    private messageSpecs: {};
+    private messageSpecs: any;
     private form: FormGroup;
     private errors = {
         createNewMessage: undefined
@@ -36,8 +36,8 @@ export class MessageNewComponent implements OnInit {
         this.form = formBuilder.group({
             body: ['', [
                 Validators.required,
-                ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
-                ObjectValidators.jsonStringifyMaxLength(config.models.message.body.maxlength)
+                ObjectValidators.jsonStringifyMinLength(this.messageSpecs.body.minlength),
+                ObjectValidators.jsonStringifyMaxLength(this.messageSpecs.body.maxlength)
             ]]
         });
     }
@@ -58,14 +58,14 @@ export class MessageNewComponent implements OnInit {
     addMessageToThread(): void {
         let newMessage = this.form.value;
         newMessage.body = JSON.stringify(this.form.get('body').value);
-        newMessage.thread = this.message.thread;
+        newMessage.thread = this.thread._id;
 
-        this.messagingService.addMessageToThread(newMessage, newMessage.thread)
+        this.messagingService.createMessage(this.thread, newMessage)
             .subscribe(message => {
               this.newMessage.emit(message);
               this.form.reset();
             }, err => {
-                console.log('ERROR', err);
+                console.error('Unable to add message to thread', err);
                 this.errors.createNewMessage = err.message;
             });
     }

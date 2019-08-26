@@ -68,7 +68,7 @@ describe('Project API:', function () {
     //             .post('/api/projects')
     //             .set('authorization', `Bearer ${token}`)
     //             .send({
-    //                 name: 'New name',
+    //                 title: 'New title',
     //                 description: 'New description',
     //                 visibility: 'Private'
     //             })
@@ -84,7 +84,7 @@ describe('Project API:', function () {
     //     });
     //
     //     it('should respond with the newly created project', function () {
-    //         expect(newProject.name).to.equal('New name');
+    //         expect(newProject.title).to.equal('New title');
     //         expect(newProject.description).to.equal('New description');
     //         expect(newProject.visibility).to.equal('Private');
     //         expect(newProject.createdBy).to.equal(adminUser._id.toString());
@@ -113,7 +113,7 @@ describe('Project API:', function () {
     //     });
     //
     //     it('should respond with the requested project', function () {
-    //         expect(project.name).to.equal('New name');
+    //         expect(project.title).to.equal('New title');
     //         expect(project.description).to.equal('New description');
     //         expect(project.visibility).to.equal('Private');
     //         expect(project.createdBy).to.equal(adminUser._id.toString());
@@ -128,8 +128,8 @@ describe('Project API:', function () {
     //             .patch(`/api/projects/${newProject._id}`)
     //             .send([{
     //                 op: 'replace',
-    //                 path: '/name',
-    //                 value: 'Patched name'
+    //                 path: '/title',
+    //                 value: 'Patched title'
     //             }, {
     //                 op: 'replace',
     //                 path: '/description',
@@ -155,7 +155,7 @@ describe('Project API:', function () {
     //     });
     //
     //     it('should respond with the patched project', function () {
-    //         expect(patchedProject.name).to.equal('Patched name');
+    //         expect(patchedProject.title).to.equal('Patched title');
     //         expect(patchedProject.description).to.equal('Patched description');
     //         expect(patchedProject.visibility).to.equal('Public');
     //         expect(patchedProject.createdBy).to.equal(adminUser._id.toString());
