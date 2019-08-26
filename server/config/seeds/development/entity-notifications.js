@@ -1,8 +1,5 @@
-// import { testProjectId, anotherProjectId } from './projects';
+import { report2Id, report3Id } from './reports';
 import { adminUserId, testUserId } from './users';
-import {
-    report2Id, report3Id
-} from './reports';
 
 import { notificationTypes, entityTypes } from '../../environment/shared';
 

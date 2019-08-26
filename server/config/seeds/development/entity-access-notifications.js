@@ -1,9 +1,7 @@
-// import { testProjectId, anotherProjectId } from './projects';
+import { entityPermission1Id, entityPermission2Id } from './entity-permissions';
 import { adminUserId, testUserId } from './users';
 import { memo1Id } from './memos';
 import { report1Id } from './reports';
-import { entityPermission1Id, entityPermission2Id } from './entity-permissions';
-
 import { notificationTypes, entityTypes } from '../../environment/shared';
 
 let entityAccessNotifications = [{
