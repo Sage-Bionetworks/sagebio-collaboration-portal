@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { DatasetService } from '../dataset.service';
 import { CkanDataset } from 'models/ckan/ckan-dataset.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 import { DataCatalogService } from '../../data-catalog/data-catalog.service';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
@@ -54,11 +54,11 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
         this.catalogService.getDataCatalogs()
             .pipe(
                 map(catalogs => {
-                    this.catalogs = orderBy('name', 'asc', catalogs);
+                    this.catalogs = orderBy('title', 'asc', catalogs);
                     console.log('catalog', this.catalogs);
                     this.catalogFilters = this.catalogs.map((c, i) => ({
                         value: c._id,
-                        title: c.name,
+                        title: c.title,
                         active: i === 0
                     }));
                     return this.filters.map(f => f.getSelectedFilter());

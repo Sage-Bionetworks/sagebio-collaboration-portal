@@ -21,16 +21,16 @@
                     <div class="resource-card-info">
                         <span><b>Created by:</b> {{ resource.createdBy.name }}</span>
                         <span><b>Type:</b> {{ resource.resourceType }}</span>
-                        <span *ngIf="resource.data !== undefined"><b>Tool:</b> FE Lite</span>
+                        <span *ngIf="resource.resourceType === 'State'"><b>Tool:</b> {{ toolName }}</span>
                     </div>
                 </div>
             </div>
             <div class="app-resource-actions">
                 <a mat-raised-button routerLink="..">Go Back</a>
-                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with PHCCP Shiny Tool Example</a>
+                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ toolName }}</a>
                 <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
                 <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
-                <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a>
+                <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
                 <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Insight</a>
             </div>
         </mat-card>

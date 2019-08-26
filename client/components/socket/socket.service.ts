@@ -158,7 +158,7 @@ export class SocketService {
     /**
      * Syncs the content (array) of the BehaviorSubject specified.
      */
-    syncArraySubject(modelName: string, subject: BehaviorSubject<any[]>): void {
+    syncArraySubject(modelName: string, subject: BehaviorSubject<any[]>, orderItems: (items: any[]) => any[]): void {
         if (this.primus && this.primus.getValue()) {
             const primus = this.primus.getValue();
 
@@ -171,7 +171,7 @@ export class SocketService {
                 } else {
                     items.push(item);
                 }
-                subject.next(items);
+                subject.next(orderItems(items));
                 console.log(`${modelName}:save CATCHED`);
             });
 

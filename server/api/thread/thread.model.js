@@ -13,6 +13,10 @@ var ThreadSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    contributors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     createdAt: {
         type: Date,
         default: Date.now
@@ -37,20 +41,6 @@ var ThreadSchema = new mongoose.Schema({
 });
 
 /**
- * Virtuals
- */
-
-// Whether the current user has starred the message.
-// ThreadSchema
-//     .virtual('starred')
-//     .get(() => {
-//
-//     });
-
-// ThreadSchema.set('toObject', { getters: true });
-// ThreadSchema.set('toJSON', { getters: true });
-
-/**
  * Middlewares
  */
 
@@ -58,31 +48,19 @@ const autoPopulatePre = function (next) {
     this
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
-    // .populate('tags');
+        .populate('contributors', User.profileProperties);
     next();
 };
-//
-// const updateUpdatedAt = function (next) {
-//     this.updatedAt = Date.now();
-//     next();
-// };
-
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
-        // .populate('tags')
+        .populate('contributors', User.profileProperties)
         .execPopulate();
 };
 
-// ThreadSchema.pre('save', function (next) {
-//     this.updatedAt = Date.now();
-//     next();
-// });
-
 ThreadSchema
     .pre('find', autoPopulatePre);
-// .pre('save', updateUpdatedAt);
 
 ThreadSchema
     .post('save', autoPopulatePost);

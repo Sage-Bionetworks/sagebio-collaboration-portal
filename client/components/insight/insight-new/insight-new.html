@@ -30,7 +30,7 @@
                 {{errors.newInsight}}
             </mat-error>
             <div class="app-insight-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewInsight()">Create New Insight</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewInsight()">Create New Insight</a>
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>

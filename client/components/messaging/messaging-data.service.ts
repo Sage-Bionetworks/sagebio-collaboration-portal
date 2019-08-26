@@ -16,11 +16,11 @@ export class MessagingDataService implements OnDestroy {
         private socketService: SocketService,
         private messagingService: MessagingService) {
 
-        this.messagingService.getStarredMessages()
-            .subscribe(starred => {
-                this._starredMessages.next(starred);
-                this.socketService.syncArraySubject('starredMessage', this._starredMessages);
-            });
+        // this.messagingService.getStarredMessages()
+        //     .subscribe(starred => {
+        //         this._starredMessages.next(starred);
+        //         this.socketService.syncArraySubject('starredMessage', this._starredMessages);
+        //     });
     }
 
     ngOnDestroy() { }
@@ -29,7 +29,7 @@ export class MessagingDataService implements OnDestroy {
      * Returns the starred messages.
      * @return {Observable<StarredMessage[]>}
      */
-    getStarredMessages(): Observable<StarredMessage[]> {
-        return this._starredMessages.asObservable();
-    }
+    // getStarredMessages(): Observable<StarredMessage[]> {
+    //     return this._starredMessages.asObservable();
+    // }
 }

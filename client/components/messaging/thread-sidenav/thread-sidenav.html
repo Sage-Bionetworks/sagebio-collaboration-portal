@@ -1,4 +1,4 @@
-<div *ngIf="thread">
+<div *ngIf="_thread | async; let thread">
     <div class="app-primary-header app-thread-header">
         <h1 class="app-thread-header-title">Thread</h1>
         <a
@@ -33,9 +33,6 @@
             <span class="app-thread-author">
                 {{ thread.createdBy.username }}
             </span>
-            <span class="app-thread-time" matTooltip="{{ thread.createdAt | dateAndTime }}">
-                {{ thread.createdAt | dateAndTime }}
-            </span>
         </span>
         <span *ngIf="thread.createdAt !== thread.updatedAt">
             Last updated by
@@ -52,7 +49,25 @@
         <thread-edit [thread]="thread" (editThread)="onEditThread($event)" (cancel)="onCancel($event)"></thread-edit>
     </div>
 
-    <div class="app-thread-body" *ngIf="message">
+    <div *ngIf="_messages | async; let messages">
+        <ng-template ngFor let-message let-i="index" let-first="first" [ngForOf]="messages">
+            <message-date-separator *ngIf="first" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
+            <message-date-separator *ngIf="!first && !(message.createdAt | sameDay: (messages)[i-1].createdAt)" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
+            <!-- TODO Remove message.showStartThreadButton -->
+            <!-- TODO Remove message.showReplyButton -->
+            <message [thread]="thread" [message]="message" (deleteMessage)="onDeleteMessage($event)" (editMessage)="onEditMessage($event)"></message>
+        </ng-template>
+    </div>
+    <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new>
+
+
+    <!-- <ng-template *ngIf="threads" ngFor let-thread let-i="index" let-first="first" [ngForOf]="threads">
+        <thread-date-separator *ngIf="first && !(thread.updatedAt | sameDay: thread.updatedAt)" class="thread-date-separator" [isoDate]="thread.updatedAt"></thread-date-separator>
+        <thread-date-separator *ngIf="!first && !(thread.updatedAt | sameDay: (threads)[i-1].updatedAt)" class="thread-date-separator" [isoDate]="thread.updatedAt"></thread-date-separator>
+        <thread-preview class="thread-detail" [thread]="thread" (deleteThread)="onDeleteThread($event)"></thread-preview>
+    </ng-template> -->
+
+    <!-- <div class="app-thread-body" *ngIf="message">
         <message-date-separator class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator>
         <ng-template *ngIf="messages" ngFor let-reply let-i="index" let-first="first" [ngForOf]="messages">
             <message-date-separator
@@ -74,5 +89,5 @@
             ></message>
         </ng-template>
         <message-new class="app-messaging-new" [message]="message" (newMessage)="onNewMessage($event)"></message-new>
-    </div>
+    </div> -->
 </div>

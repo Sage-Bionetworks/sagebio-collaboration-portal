@@ -16,11 +16,11 @@ export class StarredMessageListComponent implements OnInit {
     static parameters = [MessagingDataService, NotificationService];
     constructor(private messagingDataService: MessagingDataService,
         private notificationService: NotificationService) {
-        this.messagingDataService.getStarredMessages()
-            .subscribe(messages => {
-                this.stars = messages.filter(message => !message.archived);
-                this.archivedStars = messages.filter(message => message.archived);
-            });
+        // this.messagingDataService.getStarredMessages()
+        //     .subscribe(messages => {
+        //         this.stars = messages.filter(message => !message.archived);
+        //         this.archivedStars = messages.filter(message => message.archived);
+        //     });
     }
 
     ngOnInit() { }

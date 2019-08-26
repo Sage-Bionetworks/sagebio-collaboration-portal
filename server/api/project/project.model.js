@@ -5,12 +5,12 @@ import {
 import config from '../../config/environment';
 
 var ProjectSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true,
-        minlength: config.models.project.name.minlength,
-        maxlength: config.models.project.name.maxlength
+        minlength: config.models.project.title.minlength,
+        maxlength: config.models.project.title.maxlength
     },
     description: {
         type: String,
@@ -25,7 +25,7 @@ var ProjectSchema = new mongoose.Schema({
     visibility: {
         type: String,
         required: false,
-        enum: config.models.project.visibility.values,
+        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
         default: config.models.project.visibility.default
     },
     createdAt: {
@@ -34,8 +34,8 @@ var ProjectSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     __v: {
         type: Number,

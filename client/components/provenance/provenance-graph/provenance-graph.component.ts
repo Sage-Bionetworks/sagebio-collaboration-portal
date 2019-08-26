@@ -12,7 +12,7 @@ import { includes } from 'lodash';
 
 import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
-import { ProvenanceNode } from 'models/provenance-node.model';
+import { ProvenanceNode } from 'models/provenance/provenance-node.model';
 
 @Component({
     selector: 'provenance-graph',
@@ -61,8 +61,8 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     }
     get options() {
         return this._options = {
-            width: 425,
-            height: 450
+            width: window.innerWidth,
+            height: window.innerHeight
         };
     }
 

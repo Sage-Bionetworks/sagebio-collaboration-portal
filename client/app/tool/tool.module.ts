@@ -6,13 +6,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
-import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
+import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
+import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool-page/tool.component';
-import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
+import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolNewComponent } from './tool-new/tool-new.component';
@@ -33,9 +33,14 @@ export const ROUTES: Routes = [
     },
     {
         path: 'tools/:slug/discussion',
-        component: ToolDiscussionComponent,
-        canActivate: [AuthGuard],
+        component: ToolThreadListComponent,
+        canActivate: [AuthGuard]
     },
+    // {
+    //     path: 'tools/:slug/discussion/:threadId',
+    //     component: ToolDiscussionComponent,
+    //     canActivate: [AuthGuard]
+    // },
 ];
 
 @NgModule({
@@ -45,14 +50,13 @@ export const ROUTES: Routes = [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
-        ShowActivityButtonModule,
-        ActivitySidenavModule,
+        ActivityModule,
         ProvenanceModule,
         EntityModule
     ],
     declarations: [
         ToolComponent,
-        ToolDiscussionComponent,
+        ToolThreadListComponent,
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,

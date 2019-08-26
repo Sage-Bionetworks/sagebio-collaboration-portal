@@ -30,6 +30,38 @@ router.get('/entity/:entityId', auth.hasPermissionForEntity(
 router.patch('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.patch);
 
 // Deletes the thread specified.
-router.delete('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.destroy);
+router.delete('/entity/:entityId/:id', auth.hasPermissionForEntity(
+    ADMIN_ACCESS
+), controller.destroy);
+
+// Returns the number of messages for the thread specified.
+router.get('/entity/:entityId/:id/messages/count', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.messagesCount);
+
+// Returns the messages for the thread specified.
+router.get('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.indexMessages);
+
+// Adds a message to the thread specified.
+router.post('/entity/:entityId/:id/messages', auth.hasPermissionForEntity(
+    READ_ACCESS,
+    WRITE_ACCESS,
+    ADMIN_ACCESS
+), controller.createMessage);
+
+// Patches the message specified.
+router.patch('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntityRelatedObject(Thread),
+    controller.patchMessage);
+
+// Deletes the message specified.
+router.delete('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntity(
+    ADMIN_ACCESS
+), controller.destroyMessage);
 
 module.exports = router;

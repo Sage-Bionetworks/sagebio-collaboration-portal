@@ -1,21 +1,25 @@
-import { applyPatch } from 'fast-json-patch';
+import { omit, uniq, pull } from 'lodash/fp';
 import {
     respondWithResult,
     handleUserNotFound,
     handleEntityNotFound,
     handleError,
-    patchUpdates
+    patchUpdates,
+    removeEntity
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
 import Message from '../message/message.model';
+import { pluralize } from 'mongoose';
+
+// TODO Protect thread.contributors field
 
 // Creates a new Thread in the DB
 export function create(req, res) {
     var userId = req.user._id;
     Reflect.deleteProperty(req.body, 'createdAt');
     req.body.createdBy = req.user._id.toString();
-    req.body.entityId = req.params.entityId; // do not trust user
+    req.body.entityId = req.params.entityId;
 
     return User.findById(userId)
         .exec()
@@ -64,6 +68,68 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the number of messages for the thread specified.
+export function messagesCount(req, res) {
+    Message.countDocuments({
+        thread: req.params.id
+    }, function (err, count) {
+        if (err) {
+            res.status(404).json({
+                error: err
+            });
+        } else {
+            res.status(200).json({
+                value: count
+            });
+        }
+        return null;
+    });
+}
+
+// Returns the messages for the thread specified.
+export function indexMessages(req, res) {
+    return Message.find({
+        thread: {
+            _id: req.params.id,
+        },
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Adds a message to the thread specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
+export function createMessage(req, res) {
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(addMessage(req.user, req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Patches the message specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
+export function patchMessage(req, res) {
+    return Message.findById(req.params.messageId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(updateMessage(req.user, req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Deletes the message specified.
+// TODO: Check that the message belong to the thread and entity specified as URL parameters
+export function destroyMessage(req, res) {
+    return Message.findById(req.params.messageId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
 // HELPER FUNCTIONS
 
 function validateEntityId(res, targetEntityId) {
@@ -78,8 +144,7 @@ function validateEntityId(res, targetEntityId) {
 }
 
 function removeThread(res) {
-    return function(entity) {
-        // TODO: Delete messages associated to this thread
+    return function (entity) {
         if (entity) {
             return entity
                 .remove()
@@ -90,9 +155,73 @@ function removeThread(res) {
 }
 
 function removeMessagesByThread() {
-    return function(thread) {
+    return function (thread) {
         if (thread) {
             return Message.deleteMany({ thread: thread._id }).exec();
+        }
+        return null;
+    };
+}
+
+function addMessage(user, message) {
+    return function (thread) {
+        if (thread) {
+            message = omit([
+                '_id',
+                'createdAt',
+                'createdBy',
+                'updatedBy',
+                'updatedAt'
+            ], message);
+            message.thread = thread._id.toString();
+            message.createdBy = user._id.toString();
+            return Message
+                .create(message)
+                .then(addContributorToThread(thread));
+        }
+        return null;
+    };
+}
+
+function addContributorToThread(thread) {
+    return function (message) {
+        if (message) {
+            // // keep first contribution order
+            // thread.contributors = uniq([
+            //     ...thread.contributors.map(user => user.toString()),
+            //     message.createdBy.toString()
+            // ]);
+            // keep last contribution order
+            thread.contributors = uniq([
+                ...pull(message.createdBy.toString(), thread.contributors),
+                message.createdBy.toString()
+            ]);
+            return thread
+                .save()
+                .then(() => message);
+        }
+        return null;
+    };
+}
+
+function updateMessage(user, patches) {
+    return function (message) {
+        if (message) {
+            patches = patches.filter(
+                p => ![
+                    '_id',
+                    'thread',
+                    'createdAt',
+                    'createdBy',
+                    'updatedAt',
+                    'updatedBy'
+                ].map(x => `/${x}`).includes(p.path)
+            );
+            patches.push(...[
+                { op: 'add', path: '/updatedBy', value: user._id.toString() },
+                { op: 'replace', path: '/updatedAt', value: new Date() }
+            ]);
+            return patchUpdates(patches)(message);
         }
         return null;
     };

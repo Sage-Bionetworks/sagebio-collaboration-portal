@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';

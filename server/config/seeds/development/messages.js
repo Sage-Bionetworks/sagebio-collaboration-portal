@@ -2,9 +2,11 @@ import mongoose from 'mongoose';
 import {
     adminUserId
 } from './users';
-import { thread1Id, // Thread associated with an entity
-    thread2Id, // Thread not associated with an entity
-    thread3Id // Thread associated with an entity
+import {
+    thread1Id,
+    thread2Id,
+    thread3Id,
+    thread4Id
 } from './threads';
 
 const message1Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3e9');
@@ -72,18 +74,9 @@ let messages = [{
         createdAt: new Date(2019, 5, 10, 14, 32).toISOString(),
         updatedAt: new Date(2019, 5, 10, 14, 32).toISOString()
     },
-    //
-    // REPLIES
-    //
     {
+        thread: thread4Id,
         body: `{\"ops\":[{\"insert\":\"Reply to a body\\n\"}]}`,
-        thread: message1Id,
-        createdBy: adminUserId,
-        createdAt: new Date(2019, 4, 28, 12, 57).toISOString(),
-        updatedAt: new Date(2019, 4, 28, 12, 57).toISOString()
-    }, {
-        body: `{\"ops\":[{\"insert\":\"Reply to another body\\n\"}]}`,
-        thread: message2Id,
         createdBy: adminUserId,
         createdAt: new Date(2019, 5, 10, 14, 36).toISOString(),
         updatedAt: new Date(2019, 5, 10, 14, 36).toISOString()

@@ -65,15 +65,15 @@ export class ThreadEditComponent implements OnInit {
         editedThread._id = this.thread._id;
         editedThread.updatedBy = this.userId;
 
-        this.messagingService.updateThread(editedThread).subscribe(
-            thread => {
-                this.editThread.emit(thread);
-                this.form.reset();
-            },
-            err => {
-                console.error(err);
-                this.errors.editThreadTitle = err.message || err;
-            }
-        );
+        // this.messagingService.updateThread(editedThread).subscribe(
+        //     thread => {
+        //         this.editThread.emit(thread);
+        //         this.form.reset();
+        //     },
+        //     err => {
+        //         console.error(err);
+        //         this.errors.editThreadTitle = err.message || err;
+        //     }
+        // );
     }
 }

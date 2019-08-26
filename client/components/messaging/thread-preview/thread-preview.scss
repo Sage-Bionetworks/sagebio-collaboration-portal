@@ -1,5 +1,5 @@
 .app-thread {
-    background: #F6F6F6;
+    background: #f6f6f6;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-flow: row wrap;
@@ -10,11 +10,11 @@
 
     .app-thread-header-avatar {
         padding-right: 10px;
-      }
+    }
 
     .app-thread-header-metadata {
         display: flex;
-        flex-flow: column nowrap;
+        flex-flow: row nowrap;
         flex-grow: 1;
         align-items: flex-start;
         padding-right: 8px;
@@ -22,7 +22,11 @@
 
     .app-thread-header-metadata-line {
         align-items: flex-end;
-        }
+    }
+
+    .app-thread-preview-contributor-avatar {
+        padding-right: 5px;
+    }
 
     .app-thread-header-title {
         font-size: 18px;
@@ -31,7 +35,7 @@
     }
 
     .app-thread-header-subtitle {
-        color: #232F34;
+        color: #232f34;
         font-style: italic;
         font-weight: 400;
         font-size: 11px;
@@ -42,7 +46,6 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
     }
 
     .app-thread-header-time {

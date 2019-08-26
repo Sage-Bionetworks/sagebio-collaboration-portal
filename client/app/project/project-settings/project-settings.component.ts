@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { UserProfile } from 'models/auth/user-profile.model';
 import { AuthService } from 'components/auth/auth.service';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { ProjectDataService } from '../project-data.service';
 
 @Component({

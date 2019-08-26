@@ -1,7 +1,7 @@
-import { Dataset } from '../dataset.model';
+// import { Dataset } from '../dataset.model';
 import { CkanOrganizationPreview } from './ckan-organization-preview.model';
 import { CkanDatasetResource } from './ckan-dataset-resource.model';
-import { DataCatalog } from '../data-catalog.model';
+// import { DataCatalog } from '../entities/data-catalog.model';
 
 // @flow
 export interface CkanDataset {

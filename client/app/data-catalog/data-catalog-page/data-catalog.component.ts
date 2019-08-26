@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataCatalogService } from '../data-catalog.service';
 import { DatasetService } from '../../dataset/dataset.service';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
@@ -57,7 +57,7 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
             .subscribe(([catalog, stats]) => {
                 this.catalogStats = stats;
                 this.catalog = catalog;
-                this.pageTitleService.title = catalog.name;
+                this.pageTitleService.title = catalog.title;
             });
     }
 

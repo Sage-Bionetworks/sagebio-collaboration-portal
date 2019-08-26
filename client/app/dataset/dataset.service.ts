@@ -25,7 +25,7 @@ import {
 } from 'models/ckan/ckan-dataset-search-response.model';
 import { stringifyQuery } from 'components/util';
 import { DataCatalogService } from '../data-catalog/data-catalog.service';
-import { DataCatalog } from 'models/data-catalog.model';
+import { DataCatalog } from 'models/entities/data-catalog.model';
 
 @Injectable()
 export class DatasetService {

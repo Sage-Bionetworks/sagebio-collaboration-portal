@@ -2,9 +2,9 @@
     <mat-card-content>
         <form class="app-project-edit-card-form" [formGroup]="editForm" novalidate>
             <mat-form-field class="app-project-edit-form-field">
-                <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="editForm.controls.name.invalid">
-                    Please enter a valid name ({{ projectSpecs.name.minlength }}-{{ projectSpecs.name.maxlength }} characters).
+                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="editForm.controls.title.invalid">
+                    Please enter a valid name ({{ projectSpecs.title.minlength }}-{{ projectSpecs.title.maxlength }} characters).
                 </mat-error>
             </mat-form-field>
             <app-quill-editor class="app-project-edit-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="editForm.controls['description']"></app-quill-editor>

@@ -9,6 +9,7 @@ const enum itemTitles {
     INSIGHTS = 'Insights',
     RESOURCES = 'Resources',
     DISCUSSION = 'Discussion',
+    ACTIVITY = 'Activity',
     SETTINGS = 'Settings'
 }
 
@@ -38,6 +39,12 @@ export class ProjectSidenavService implements OnDestroy {
         title: itemTitles.DISCUSSION,
         icon: 'forum',
         routerLink: ['discussion'],
+        routerLinkActiveOptions: {},
+        visible: true
+    }, {
+        title: itemTitles.ACTIVITY,
+        icon: 'bubble_chart',
+        routerLink: ['activities'],
         routerLinkActiveOptions: {},
         visible: true
     }, {

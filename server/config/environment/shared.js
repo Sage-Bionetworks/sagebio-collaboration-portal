@@ -21,11 +21,17 @@ export const permissionTypes = [
 ];
 
 export const entityTypes = {
+    APP: {
+        value: 'app'
+    },
     PROJECT: {
         value: 'project'
     },
     INSIGHT: {
         value: 'insight'
+    },
+    TOOL: {
+        value: 'tool'
     }
 };
 
@@ -68,6 +74,25 @@ export const resourceTypes = {
     ARTICLE: {
         value: 'Article',
         name: 'Article'
+    }
+}
+    ;
+export const activityTypes = {
+    RESOURCEGENERATION: {
+        value: 'Resource generation',
+        name: 'Resouce generation'
+    },
+    MEMOIZATION: {
+        value: 'Memoization',
+        name: 'Memoization'
+    },
+    MENTION: {
+        value: 'Mention',
+        name: 'Mention'
+    },
+    TOOLSESSION: {
+        value: 'Tool session',
+        name: 'Tool session'
     }
 };
 
@@ -112,15 +137,33 @@ export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 
 // TODO: replace with tool service query
 export const defaultTools = [
-    'Facile Explorer',
-    'IRIS Enterprise Explorer',
-    'PHC Advanced Analytics',
-    'PHCCP Shiny Tool Example'
+    {
+        value: '5cb6a048e7bdc7740874fd93',
+        name: 'Facile Explorer'
+    }, {
+        value: '5cb6a048e7bdc7740874fd95',
+        name: 'IRIS Enterprise Explorer'
+    }, {
+        value: '5cb6a048e7bdc7740874fd98',
+        name: 'PHC Advanced Analytics'
+    }, {
+        value: '5cb7acb3167e4f14b29dfb1b',
+        name: 'PHCCP Shiny Tool Example'
+    }
 ];
+
+export const entityVisibility = {
+    PUBLIC: {
+        value: 'Public'
+    },
+    PRIVATE: {
+        value: 'Private'
+    }
+};
 
 export const models = {
     project: {
-        name: {
+        title: {
             minlength: 3,
             maxlength: 64
         },
@@ -129,9 +172,12 @@ export const models = {
             maxlength: 1000 * 1024 * 1024
         },
         visibility: {
-            values: ['Private', 'Public'],
-            default: 'Private'
+            default: entityVisibility.PRIVATE.value
         }
+        // visibility: {
+        //     values: ['Private', 'Public'],
+        //     default: 'Private'
+        // }
     },
     message: {
         title: {
@@ -169,6 +215,24 @@ export const models = {
         type: {
             values: ['Dashboard', 'State', 'WebApp', 'Article'],
             default: 'Dashboard'
+        },
+        url: {
+            minlength: 10,
+            maxlength: 2000
+        }
+    },
+    activity: {
+        title: {
+            minlength: 3,
+            maxlength: 30
+        },
+        description: {
+            minlength: 26, // 1 character when stringifying Quill content
+            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        type: {
+            values: ['Report generation', 'Memoization', 'Mention', 'Tool session'],
+            default: 'Report generation'
         },
         url: {
             minlength: 10,
@@ -236,5 +300,6 @@ export default {
     notificationTypes,
     insightTypes,
     resourceTypes,
-    inviteStatusTypes
+    inviteStatusTypes,
+    entityVisibility
 };

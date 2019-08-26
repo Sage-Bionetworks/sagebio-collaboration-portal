@@ -4,8 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppQuillModule } from 'components/quill/app-quill.module';
 import { MaterialModule } from 'components/material/material.module';
-import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
-import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
+import { ActivityModule } from 'components/activity/activity.module';
 
 import { ResourcePageComponent } from './resource-page/resource-page.component';
 import { ResourceNewComponent } from './resource-new/resource-new.component';
@@ -20,8 +19,7 @@ import { RouterModule } from '@angular/router';
         ReactiveFormsModule,
         MaterialModule,
         AppQuillModule,
-        ShowActivityButtonModule,
-        ActivitySidenavModule,
+        ActivityModule,
         RouterModule,
     ],
     declarations: [

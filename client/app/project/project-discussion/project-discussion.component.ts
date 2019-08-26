@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import config from '../../app.constants';
 import { ProjectDataService } from '../project-data.service';
+import { Project } from 'models/entities/project.model';
 
 @Component({
     selector: 'project-discussion',
@@ -9,20 +10,13 @@ import { ProjectDataService } from '../project-data.service';
     styles: [require('./project-discussion.scss')]
 })
 export class ProjectDiscussionComponent {
+    private project$: Observable<Project>;
     private entityType = config.entityTypes.PROJECT.value;
-    private entityId = '';
 
     static parameters = [ProjectDataService];
     constructor(private projectDataService: ProjectDataService) {}
 
     ngOnInit() {
-        this.projectDataService.project().subscribe(project => {
-            try {
-                this.entityId = project._id;
-            } catch (err) {
-                // If we do not have an ID to work with, it's fine to leave this as undefined
-                console.error(err);
-            }
-        });
+        this.project$ = this.projectDataService.project();
     }
 }

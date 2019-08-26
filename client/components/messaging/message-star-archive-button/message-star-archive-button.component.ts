@@ -31,45 +31,45 @@ export class MessageStarArchiveButtonComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.message) {
-            this.messagingDataService.getStarredMessages()
-                .pipe(
-                    map(stars => stars.find(star => star.message === this.message._id)),
-                    map(star => star ? star.archived : false)
-                )
-                .subscribe(archived => {
-                    console.log('archived', archived);
-                    this.archived = archived;
-                },
-                    err => {
-                        console.log(err);
-                    });
-        }
+        // if (this.message) {
+        //     this.messagingDataService.getStarredMessages()
+        //         .pipe(
+        //             map(stars => stars.find(star => star.message === this.message._id)),
+        //             map(star => star ? star.archived : false)
+        //         )
+        //         .subscribe(archived => {
+        //             console.log('archived', archived);
+        //             this.archived = archived;
+        //         },
+        //             err => {
+        //                 console.log(err);
+        //             });
+        // }
     }
 
     ngOnDestroy() { }
 
-    archive(): void {
-        this.messagingService.archiveStar(this.message)
-            .subscribe(star => {
-                console.log('star returned', star);
-            },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to archive message star');
-                });
-    }
+    // archive(): void {
+    //     this.messagingService.archiveStar(this.message)
+    //         .subscribe(star => {
+    //             console.log('star returned', star);
+    //         },
+    //             err => {
+    //                 console.log(err);
+    //                 this.notificationService.error('Unable to archive message star');
+    //             });
+    // }
 
-    unarchive(): void {
-        this.messagingService.unarchiveStar(this.message)
-            .subscribe(star => {
-                console.log('star returned', star);
-            },
-                err => {
-                    console.log(err);
-                    this.notificationService.error('Unable to unarchive message star');
-                });
-    }
+    // unarchive(): void {
+    //     this.messagingService.unarchiveStar(this.message)
+    //         .subscribe(star => {
+    //             console.log('star returned', star);
+    //         },
+    //             err => {
+    //                 console.log(err);
+    //                 this.notificationService.error('Unable to unarchive message star');
+    //             });
+    // }
 
     // toggleArchiveStatus(): void {
     //     // this.notificationService.info('Not yet implemented');

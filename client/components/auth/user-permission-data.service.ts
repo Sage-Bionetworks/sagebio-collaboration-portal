@@ -9,7 +9,7 @@ import { UserPermissionService } from './user-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
 import { find, identity } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
-import { Project } from 'models/project.model';
+import { Project } from 'models/entities/project.model';
 import { SocketService } from 'components/socket/socket.service';
 import config from '../../app/app.constants';
 

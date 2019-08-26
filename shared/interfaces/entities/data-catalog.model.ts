@@ -1,5 +1,6 @@
-import { User } from './auth/user.model';
-import { Organization } from './organization.model';
+import { User } from '../auth/user.model';
+import { Organization } from '../organization.model';
+import { Entity } from './entity.model';
 
 /**
  * @swagger
@@ -32,18 +33,14 @@ import { Organization } from './organization.model';
  *         createdBy:
  *           $ref: '#/components/schemas/User'
  */
-export interface DataCatalog {
+export interface DataCatalog extends Entity {
     _id?: string;
     slug: string;
-    name: string;
-    description: string;
     picture: string;
     website: string;
     organization: Organization;
     apiType: DataCatalogApiType;
     apiServerUrl: string;
-    createdAt: string;
-    createdBy: User;
 }
 
 /**

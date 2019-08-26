@@ -9,7 +9,6 @@ import { UserAvatarModule } from '../user-avatar/user-avatar.module';
 import { MessagingService } from './messaging.service';
 import { MessageComponent } from './message/message.component';
 import { MessageNewComponent } from './message-new/message-new.component';
-import { MessageReplyButtonComponent } from './message-reply-button/message-reply-button.component';
 import { MessageStarArchiveButtonComponent } from './message-star-archive-button/message-star-archive-button.component';
 import { MessageStarButtonComponent } from './message-star-button/message-star-button.component';
 import { ThreadPreviewComponent} from './thread-preview/thread-preview.component';
@@ -52,7 +51,6 @@ import { SocketService } from 'components/socket/socket.service';
     declarations: [
         MessageComponent,
         MessageNewComponent,
-        MessageReplyButtonComponent,
         MessageStarArchiveButtonComponent,
         MessageStarButtonComponent,
         ThreadPreviewComponent,

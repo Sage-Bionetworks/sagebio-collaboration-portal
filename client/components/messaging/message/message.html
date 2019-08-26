@@ -1,4 +1,4 @@
-<div class="app-message" *ngIf="message">
+<div class="app-message" *ngIf="_message | async; let message">
     <div class="app-message-header">
         <user-avatar class="app-message-header-avatar" [user]="message.createdBy" [size]="avatarSize"></user-avatar>
         <div class="app-message-header-metadata">
@@ -18,7 +18,7 @@
         </div>
         <div class="app-message-header-actions">
             <!-- <message-star-button [message]="message"></message-star-button> -->
-            <div *ngIf="showMessageActions">
+            <div>
                 <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
                     <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
                 </a>

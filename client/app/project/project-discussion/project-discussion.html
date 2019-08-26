@@ -1,3 +1,4 @@
-<div class="app-post-list-content">
-    <thread-list [entityId]="entityId" [entityType]="entityType"></thread-list>
+<div *ngIf="project$ | async; let project">
+    <entity-discussion [entity]="project" [entityType]="entityType"></entity-discussion>
 </div>
+

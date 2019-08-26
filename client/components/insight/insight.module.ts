@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppQuillModule } from 'components/quill/app-quill.module';
 import { MaterialModule } from 'components/material/material.module';
-import { ShowActivityButtonModule } from 'components/activity/show-activity-button/show-activity-button.module';
-import { ActivitySidenavModule } from 'components/activity/activity-sidenav/activity-sidenav.module';
-import { ShareButtonModule } from 'components/share/share-button/share-button.module';
-import { ShareSidenavModule } from 'components/share/share-sidenav/share-sidenav.module';
+import { ShareModule } from 'components/share/shareModule';
+import { ActivityModule } from 'components/activity/activity.module';
 import { InsightPageComponent } from './insight-page/insight-page.component';
 import { InsightNewComponent } from './insight-new/insight-new.component';
-
 import { InsightService } from 'components/insight/insight.service';
 import { RouterModule } from '@angular/router';
 
@@ -21,10 +17,8 @@ import { RouterModule } from '@angular/router';
         ReactiveFormsModule,
         MaterialModule,
         AppQuillModule,
-        ShowActivityButtonModule,
-        ActivitySidenavModule,
-        ShareButtonModule,
-        ShareSidenavModule,
+        ShareModule,
+        ActivityModule,
         RouterModule,
     ],
     declarations: [
