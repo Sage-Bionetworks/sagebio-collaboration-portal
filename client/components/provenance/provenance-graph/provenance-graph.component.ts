@@ -60,9 +60,13 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
         }
     }
     get options() {
+        const el = document.getElementsByClassName('provenance-graph')[0];
+        const { parentElement } = el;
+        const { clientWidth: containerWidth } = parentElement;
+
         return this._options = {
-            width: window.innerWidth,
-            height: window.innerHeight
+            ...this._options,
+            width: containerWidth * .9,
         };
     }
 

@@ -36,11 +36,11 @@
 }
 
 .app-activity-graph-container {
-  display: flex;
-  flex-flow: column nowrap;
-  flex-grow: 0;
-  flex-shrink: 0;
   margin: 0 25px;
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 .app-activity-body {

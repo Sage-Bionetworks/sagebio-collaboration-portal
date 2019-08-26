@@ -9,8 +9,8 @@ $margin-promotion-sections-small: 15px;
 // }
 
 .provenance-graph {
-    width: 400;
-    height: 300;
+    position: relative;
+    height: 300; // Current acceptance criteria allows for height to be defined and for the width to be responsive
 }
 
 .app-main-fair-container {
