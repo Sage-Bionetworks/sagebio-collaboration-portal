@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, pipe, throwError } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, filter } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { User } from 'models/auth/user.model';
@@ -34,8 +34,8 @@ const loginWithTokenResponse = (authService: AuthService) => pipe(
 export class AuthService {
     private uuid; // TODO: remove
 
-    static UNKNOWN_USER = new AuthInfo(null);
-    private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
+    static UNKNOWN_USER = new AuthInfo(undefined);
+    private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(undefined);
     private loginUrl = '/login';
     private redirectUrl = '/';
 
@@ -49,6 +49,7 @@ export class AuthService {
 
     /**
      * Updates and returns the authentification information.
+     *
      * @return {Observable<AuthInfo>}
      */
     getAuthInfo(): Observable<AuthInfo> {
@@ -72,13 +73,22 @@ export class AuthService {
         }
     }
 
-    /**
-     * Sets the user specified as the current user.
-     */
-    // setUser(user): void {
-    //     console.log('FIRING NEXT AUTHUSER', )
-    //     this._authInfo.next(new AuthInfo(user));
-    // }
+    initAuthInfo(): void {
+        if (this.tokenService.get()) {
+            this.userService.get()
+                .pipe(
+                    map(user => new AuthInfo(user)),
+                    catchError(() => {
+                        this.tokenService.deleteToken();
+                        return of(AuthService.UNKNOWN_USER);
+                    })
+                )
+                .subscribe(authInfo => this._authInfo.next(authInfo));
+        } else {
+            this.tokenService.deleteToken();
+            this._authInfo.next(AuthService.UNKNOWN_USER);
+        }
+    }
 
     /**
      * Authenticates user and save token.
@@ -154,10 +164,17 @@ export class AuthService {
 
     /**
      * Returns the authentification information.
+     *
      * @return {Observable<AuthInfo>}
      */
     authInfo(): Observable<AuthInfo> {
-        return this._authInfo.asObservable();
+        if (!this._authInfo.getValue()) {
+            this.initAuthInfo();
+        }
+        return this._authInfo
+            .pipe(
+                filter(authInfo => !!authInfo)
+            );
     }
 
     /**
@@ -169,6 +186,7 @@ export class AuthService {
 
     /**
      * Gets auth token.
+     *
      * @return {string} A token string used for authenticating
      */
     getToken(): string {

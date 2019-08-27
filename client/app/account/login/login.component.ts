@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { share, take, tap } from 'rxjs/operators';
 import { AuthService } from 'components/auth/auth.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { SSOButtonsComponent } from 'components/sso-buttons/sso-buttons.component';
@@ -40,9 +40,7 @@ export class LoginComponent implements OnInit {
                     expiresIn: res.expiresIn
                 }).subscribe(user => {
                     this.router.navigate([this.authService.getRedirectUrl()]);
-                }, err => {
-                    console.log(err);
-                });
+                }, err => console.error(err));
             }
         });
 

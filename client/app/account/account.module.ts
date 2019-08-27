@@ -20,6 +20,7 @@ import { UserCardEditComponent } from './profile/user-card-edit/user-card-edit.c
 const accountRoutes: Routes = [{
     path: 'login',
     component: LoginComponent,
+    canActivate: [AuthGuard]
 }, {
     path: 'settings',
     component: SettingsComponent,
