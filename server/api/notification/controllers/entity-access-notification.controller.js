@@ -26,9 +26,9 @@ export function show(req, res) {
 
 // Returns the entity access notifications of the user
 export function indexMine(req, res) {
-    var userId = req.user._id;
+    var userId = req.user._id.toString();
     return EntityAccessNotification.find({
-        userId
+        user: userId
     })
         .exec()
         .then(respondWithResult(res))

@@ -6,7 +6,7 @@ import { notificationTypes, entityTypes } from '../../environment/shared';
 
 let entityAccessNotifications = [{
     notificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
-    userId: adminUserId,
+    user: adminUserId,
     createdBy: testUserId,
     archived: false,
     entityId: memo1Id,
@@ -15,8 +15,8 @@ let entityAccessNotifications = [{
 },
 {
     notificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
-    userId: adminUserId,
-    createdBy: testUserId,
+    user: testUserId,
+    createdBy: adminUserId,
     archived: false,
     entityId: report1Id,
     entityType: entityTypes.INSIGHT.value,

@@ -11,7 +11,7 @@ export class NotificationService {
   constructor(private httpClient: HttpClient) { }
 
   queryMineEntityAccessNotifications(): Observable<EntityAccessNotification[]> {
-    return this.httpClient.get<EntityAccessNotification[]>('/api/notifications/entity-access/mine');
+    return this.httpClient.get<EntityAccessNotification[]>('/api/notifications/entity-access-mine');
   }
 
   createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
@@ -19,7 +19,7 @@ export class NotificationService {
   }
 
   queryMineEntityNotifications(): Observable<EntityNotification[]> {
-    return this.httpClient.get<EntityNotification[]>('/api/notifications/entity/mine');
+    return this.httpClient.get<EntityNotification[]>('/api/notifications/entity-mine');
   }
 
   createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
@@ -27,7 +27,7 @@ export class NotificationService {
   }
 
   queryMineMessageNotification(): Observable<MessageNotification[]> {
-    return this.httpClient.get<MessageNotification[]>('/api/notifications/message/mine');
+    return this.httpClient.get<MessageNotification[]>('/api/notifications/message-mine');
   }
 
   createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {

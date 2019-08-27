@@ -26,9 +26,9 @@ export function show(req, res) {
 
 // Returns the message notifications of the user
 export function indexMine(req, res) {
-    var userId = req.user._id;
+    var userId = req.user._id.toString();
     return MessageNotification.find({
-        userId
+        user: userId
     })
         .exec()
         .then(respondWithResult(res))

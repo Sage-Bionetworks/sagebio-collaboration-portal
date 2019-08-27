@@ -13,6 +13,7 @@ import { UserNotificationService } from '../user-notification.service';
 })
 export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() invite: InviteBundle;
+    @Input() notification;
 
     static parameters = [Router, UserPermissionDataService,
         NotificationService, UserNotificationService, UserNotificationService];

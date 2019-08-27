@@ -15,7 +15,7 @@ var NotificationSchema = new mongoose.Schema({
         enum: Object.values(config.notificationTypes).map(notification => notification.value),
         required: true,
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,

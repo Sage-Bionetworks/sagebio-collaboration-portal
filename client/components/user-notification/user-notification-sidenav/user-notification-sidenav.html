@@ -1,14 +1,22 @@
 <div class="app-primary-header app-user-notification-sidenav-header">
-    <h1 class="app-user-notification-sidenav-header-title">Notifications</h1>
-    <a class="app-user-notification-sidenav-header-close" mat-icon-button matTooltip="Close" aria-label="Hide the notifications" (click)="close()">
+    <h1 class="app-user-notification-sidenav-header-title">Notifications</h1><a
+        class="app-user-notification-sidenav-header-close" mat-icon-button matTooltip="Close"
+        aria-label="Hide the notifications" (click)="close()">
         <mat-icon aria-label="Icon of cross">close</mat-icon>
     </a>
 </div>
 
-<span *ngIf="invites && invites.length === 0">Your Notification list is empty.</span>
-
+<!-- <span *ngIf="notifications && notifications.length === 0">Your Notification list is empty.</span>
+notifications: {{notifications}}
 <div class="app-user-notification-sidenav-cards">
+    <ng-template ngFor let-notification [ngForOf]="notifications">
+        <user-notification-view class="app-user-notification-view" [notification]="notification">
+        </user-notification-view>
+    </ng-template>
+</div> -->
+
+<!-- <div class="app-user-notification-sidenav-cards">
     <ng-template ngFor let-invite [ngForOf]="invites">
         <user-notification-view class="app-user-notification-view" [invite]="invite"></user-notification-view>
     </ng-template>
-</div>
+</div> -->

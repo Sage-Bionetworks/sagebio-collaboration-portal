@@ -26,10 +26,9 @@ export function show(req, res) {
 
 // Returns the entity notifications of the user
 export function indexMine(req, res) {
-    var userId = req.user._id;
-    console.log('userId: ?????', userId);
+    var userId = req.user._id.toString();
     return EntityNotification.find({
-        userId
+        user: userId
     })
         .exec()
         .then(respondWithResult(res))
