@@ -34,8 +34,8 @@ export class ToolEditComponent implements OnInit, OnDestroy {
             this.editForm = this.formBuilder.group({
                 title: ['', [
                     Validators.required,
-                    Validators.minLength(config.models.tool.title.minlength),
-                    Validators.maxLength(config.models.tool.title.maxlength)
+                    Validators.minLength(config.models.tool.name.minlength),
+                    Validators.maxLength(config.models.tool.name.maxlength)
                 ]],
                 description: ['', [
                     Validators.required,
