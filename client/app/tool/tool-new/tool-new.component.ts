@@ -35,8 +35,8 @@ export class ToolNewComponent implements OnInit, OnDestroy {
         this.newForm = this.formBuilder.group({
             title: ['', [
                 Validators.required,
-                Validators.minLength(config.models.tool.title.minlength),
-                Validators.maxLength(config.models.tool.title.maxlength)
+                Validators.minLength(config.models.tool.name.minlength),
+                Validators.maxLength(config.models.tool.name.maxlength)
             ]],
             description: ['', [
                 Validators.required,
