@@ -14,7 +14,7 @@ let projects = [{
     _id: anotherProjectId,
     title: 'Another Project',
     description: `{\"ops\":[{\"insert\":\"This is another project.\\n\\n\"}]}`,
-    visibility: 'Public',
+    visibility: 'Private',
     createdBy: testUserId
 }];
 

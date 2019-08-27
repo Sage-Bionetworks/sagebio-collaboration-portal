@@ -128,7 +128,7 @@ export function handleError(res, statusCode) {
 
 export function getEntityIdsWithEntityPermissionsByUser(
     userId,
-    allowedAccessTypes = Object.values(accessTypes),
+    allowedAccessTypes = Object.values(accessTypes).map(access => access.value),
     allowedInviteStatus = [inviteStatusTypes.ACCEPTED.value],
     entityType = null) {
     const filter = pickBy(identity, {
@@ -141,7 +141,7 @@ export function getEntityIdsWithEntityPermissionsByUser(
         },
         entityType
     });
-    return EntityPermission.find(filter)
-        .populate('_id')
-        .exec();
+    return EntityPermission.find(filter, '_id')
+        .exec()
+        .then(permissions => permissions.map(p => p._id.toString()));
 }
