@@ -7,6 +7,7 @@ import { UserNotificationButtonComponent } from './user-notification-button/user
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
 import { UserNotificationViewComponent } from './user-notification-view/user-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
+import { NotificationService } from './notification.service'
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { UserNotificationService } from './user-notification.service';
         UserAvatarModule
     ],
     providers: [
-        UserNotificationService
+        UserNotificationService,
+        NotificationService
     ],
     declarations: [
         UserNotificationButtonComponent,
@@ -24,8 +26,8 @@ import { UserNotificationService } from './user-notification.service';
         UserNotificationViewComponent
     ],
     exports: [
-      UserNotificationButtonComponent,
-      UserNotificationSidenavComponent
+        UserNotificationButtonComponent,
+        UserNotificationSidenavComponent
     ]
 })
 export class UserNotificationModule { }

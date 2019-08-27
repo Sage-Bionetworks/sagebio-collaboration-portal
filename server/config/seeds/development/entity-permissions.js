@@ -18,11 +18,8 @@ import {
     inviteStatusTypes,
 } from '../../environment/shared';
 
-const entityPermission1Id = new mongoose.Types.ObjectId('1d40f40a32464473f4f07b91');
-const entityPermission2Id = new mongoose.Types.ObjectId('22e2f70a32464473f4f07b72');
-const entityPermission3Id = new mongoose.Types.ObjectId('3d40f40a12345678f4f07b93');
-const entityPermission4Id = new mongoose.Types.ObjectId('4d4a12345678f442f4f07104');
-const entityPermission5Id = new mongoose.Types.ObjectId('5d4a123456ef3212f4fab105');
+const entityPermissionInsightTypeId = new mongoose.Types.ObjectId('1d40f40a32464473f4f07b91');
+const entityPermissionInsightType2Id = new mongoose.Types.ObjectId('22e2f70a32464473f4f07b72');
 
 let entityPermissions = [{
     status: inviteStatusTypes.ACCEPTED.value,
@@ -32,7 +29,6 @@ let entityPermissions = [{
     access: accessTypes.ADMIN.value,
     createdBy: adminUserId,
 }, {
-    _id: entityPermission1Id,
     status: inviteStatusTypes.PENDING.value,
     entityId: anotherProjectId,
     entityType: entityTypes.PROJECT.value,
@@ -40,7 +36,7 @@ let entityPermissions = [{
     access: accessTypes.ADMIN.value,
     createdBy: testUserId,
 }, {
-    _id: entityPermission2Id,
+    _id: entityPermissionInsightType2Id,
     status: inviteStatusTypes.PENDING.value,
     entityId: anotherProjectId,
     entityType: entityTypes.PROJECT.value,
@@ -48,7 +44,7 @@ let entityPermissions = [{
     access: accessTypes.READ.value,
     createdBy: testUserId,
 }, {
-    _id: entityPermission3Id,
+    _id: entityPermissionInsightTypeId,
     status: inviteStatusTypes.ACCEPTED.value,
     entityId: report1Id,
     entityType: entityTypes.INSIGHT.value,
@@ -56,7 +52,6 @@ let entityPermissions = [{
     access: accessTypes.READ.value,
     createdBy: adminUserId,
 }, {
-    _id: entityPermission4Id,
     status: inviteStatusTypes.ACCEPTED.value,
     entityId: report1Id,
     entityType: entityTypes.INSIGHT.value,
@@ -64,7 +59,6 @@ let entityPermissions = [{
     access: accessTypes.READ.value,
     createdBy: adminUserId,
 }, {
-    _id: entityPermission5Id,
     status: inviteStatusTypes.ACCEPTED.value,
     entityId: report2Id,
     entityType: entityTypes.INSIGHT.value,
@@ -75,6 +69,6 @@ let entityPermissions = [{
 
 export {
     entityPermissions,
-    entityPermission1Id,
-    entityPermission2Id
+    entityPermissionInsightTypeId,
+    entityPermissionInsightType2Id
 };

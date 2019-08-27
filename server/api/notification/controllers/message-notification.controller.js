@@ -1,10 +1,10 @@
-import MessageNotification from './models/message-notification.model';
+import MessageNotification from '../models/message-notification.model';
 import {
     respondWithResult,
     handleEntityNotFound,
     removeEntity,
     handleError
-} from '../util';
+} from '../../util';
 
 // Gets a list of MessageNotifications
 export function index(req, res) {
@@ -28,7 +28,7 @@ export function show(req, res) {
 export function indexMine(req, res) {
     var userId = req.user._id;
     return MessageNotification.find({
-        user: userId
+        userId
     })
         .exec()
         .then(respondWithResult(res))

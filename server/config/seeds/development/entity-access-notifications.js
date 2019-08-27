@@ -1,4 +1,4 @@
-import { entityPermission1Id, entityPermission2Id } from './entity-permissions';
+import { entityPermissionInsightTypeId, entityPermissionInsightType2Id } from './entity-permissions';
 import { adminUserId, testUserId } from './users';
 import { memo1Id } from './memos';
 import { report1Id } from './reports';
@@ -11,7 +11,7 @@ let entityAccessNotifications = [{
     archived: false,
     entityId: memo1Id,
     entityType: entityTypes.INSIGHT.value,
-    entityPermissionId: entityPermission1Id
+    entityPermissionId: entityPermissionInsightTypeId
 },
 {
     notificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
@@ -20,7 +20,7 @@ let entityAccessNotifications = [{
     archived: false,
     entityId: report1Id,
     entityType: entityTypes.INSIGHT.value,
-    entityPermissionId: entityPermission2Id
+    entityPermissionId: entityPermissionInsightType2Id
 }];
 
 export { entityAccessNotifications };

@@ -1,10 +1,10 @@
-import EntityAccessNotification from './models/entity-access-notification.model';
+import EntityAccessNotification from '../models/entity-access-notification.model';
 import {
     respondWithResult,
     handleEntityNotFound,
     removeEntity,
     handleError
-} from '../util';
+} from '../../util';
 
 // Gets a list of EntityAccessNotifications
 export function index(req, res) {
@@ -28,7 +28,7 @@ export function show(req, res) {
 export function indexMine(req, res) {
     var userId = req.user._id;
     return EntityAccessNotification.find({
-        user: userId
+        userId
     })
         .exec()
         .then(respondWithResult(res))

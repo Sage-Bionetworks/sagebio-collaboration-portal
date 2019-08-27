@@ -1,11 +1,10 @@
-import EntityNotification from './models/entity-notification.model';
+import EntityNotification from '../models/entity-notification.model';
 import {
     respondWithResult,
     handleEntityNotFound,
     removeEntity,
     handleError
-} from '../util';
-
+} from '../../util';
 
 // Gets a list of EntityNotifications
 export function index(req, res) {
@@ -28,8 +27,9 @@ export function show(req, res) {
 // Returns the entity notifications of the user
 export function indexMine(req, res) {
     var userId = req.user._id;
+    console.log('userId: ?????', userId);
     return EntityNotification.find({
-        user: userId
+        userId
     })
         .exec()
         .then(respondWithResult(res))
