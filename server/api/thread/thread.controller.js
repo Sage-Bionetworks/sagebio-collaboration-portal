@@ -5,14 +5,66 @@ import {
     handleEntityNotFound,
     handleError,
     patchUpdates,
-    removeEntity
+    removeEntity,
+    getEntityIdsWithEntityPermissionsByUser
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
 import Message from '../message/message.model';
-import { pluralize } from 'mongoose';
+import EntityPermission from '../entity-permission/entity-permission.model';
+import { accessTypes, inviteStatusTypes } from '../../config/environment';
+import Project from '../project/project.model';
+import DataCatalog from '../data-catalog/data-catalog.model';
+import Tool from '../tool/tool.model';
+import App from '../app/app.model';
 
 // TODO Protect thread.contributors field
+
+export function getPublicProjectIds() {
+    return Project
+        .find({ visibility: true }, '_id')
+        .exec();
+}
+
+export function getPublicDataCatalogIds() {
+    return DataCatalog
+        .find({ visibility: true }, '_id')
+        .exec();
+}
+
+export function getPublicToolIds() {
+    return Tool
+        .find({ visibility: true }, '_id')
+        .exec();
+}
+
+export function getAppId() {
+    return App.findOne({}, '_id')
+        .exec();
+}
+
+export function getEntityIdsByUser(userId) {
+    return Promise.all([
+        getPublicProjectIds(),
+        getPublicDataCatalogIds(),
+        getPublicToolIds(),
+        getAppId(),
+        // getEntityIdsWithEntityPermissionsByUser(userId)
+    ]);
+}
+
+// Returns the threads that the user has access to.
+export function indexByUser(req, res) {
+    console.log('HERE');
+    // return res.status(200).json({});
+    getEntityIdsByUser(req.user._id)
+        .then(result => {
+            console.log('RESULT', result);
+            return result;
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
 
 // Creates a new Thread in the DB
 export function create(req, res) {

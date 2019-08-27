@@ -3,8 +3,10 @@ import {
 } from 'fast-json-patch';
 import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash';
 import {
-    find
+    find, pickBy, identity
 } from 'lodash/fp';
+import { accessTypes, inviteStatusTypes } from '../config/environment';
+import EntityPermission from './entity-permission/entity-permission.model';
 
 // TODO Review purpose
 function deeply(map) {
@@ -122,4 +124,24 @@ export function handleError(res, statusCode) {
         console.log(err);
         res.status(statusCode).send(err.message || err);
     };
+}
+
+export function getEntityIdsWithEntityPermissionsByUser(
+    userId,
+    allowedAccessTypes = Object.values(accessTypes),
+    allowedInviteStatus = [inviteStatusTypes.ACCEPTED.value],
+    entityType = null) {
+    const filter = pickBy(identity, {
+        user: userId,
+        access: {
+            $in: allowedAccessTypes
+        },
+        status: {
+            $in: allowedInviteStatus
+        },
+        entityType
+    });
+    return EntityPermission.find(filter)
+        .populate('_id')
+        .exec();
 }
