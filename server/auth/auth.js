@@ -17,14 +17,16 @@ import config from '../config/environment';
  */
 export function hasRole(userId, role) {
     return new Promise(resolve => {
-        const user = async () => await User.findById(userId).exec();
-
-        if (user) {
-            const roles = Object.values(config.userRoles).map(r => r.value);
-            const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
-            return resolve(userHasRole);
-        }
-        return resolve(false);
+        User.findById(userId)
+            .exec()
+            .then(user => {
+                if (user) {
+                    const roles = Object.values(config.userRoles).map(r => r.value);
+                    const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
+                    return resolve(userHasRole);
+                }
+                return resolve(false);
+            });
     });
 }
 
@@ -35,6 +37,7 @@ export function hasRole(userId, role) {
  * @return {Promise<boolean>}
  */
 export function isAdmin(userId) {
+    console.log('isAdmin function', userId);
     return hasRole(userId, config.userRoles.ADMIN.value);
 }
 

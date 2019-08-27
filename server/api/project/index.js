@@ -35,7 +35,7 @@ router.get('/', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
-]), controller.index);
+]), controller.indexByUser);
 
 /**
  * @swagger

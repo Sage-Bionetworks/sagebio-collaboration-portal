@@ -125,23 +125,3 @@ export function handleError(res, statusCode) {
         res.status(statusCode).send(err.message || err);
     };
 }
-
-export function getEntityIdsWithEntityPermissionsByUser(
-    userId,
-    allowedAccessTypes = Object.values(accessTypes).map(access => access.value),
-    allowedInviteStatus = [inviteStatusTypes.ACCEPTED.value],
-    entityType = null) {
-    const filter = pickBy(identity, {
-        user: userId,
-        access: {
-            $in: allowedAccessTypes
-        },
-        status: {
-            $in: allowedInviteStatus
-        },
-        entityType
-    });
-    return EntityPermission.find(filter, '_id')
-        .exec()
-        .then(permissions => permissions.map(p => p._id.toString()));
-}
