@@ -19,8 +19,8 @@ var router = express.Router();
  *   get:
  *     tags:
  *       - Projects
- *     summary: Returns all the Projects.
- *     description: Returns all the Projects.
+ *     summary: Returns the Projects visible to the user.
+ *     description: Returns the Projects visible to the user.
  *     produces:
  *       - application/json
  *     responses:
@@ -31,11 +31,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Project'
  */
-router.get('/', auth.hasPermissionForEntity([
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.indexByUser);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -64,6 +60,8 @@ router.get('/', auth.hasPermissionForEntity([
  *               $ref: '#/components/schemas/Project'
  *       '400':
  *         description: Invalid ID supplied
+ *       '401':
+ *         description: Unauthorized
  *       '404':
  *         description: Project not found
  */
@@ -157,8 +155,8 @@ router.patch('/:id', auth.hasPermissionForEntity([
  *       '404':
  *         description: Project not found
  */
-router.delete('/:id', auth.hasPermissionForEntity([
-    ADMIN_ACCESS
-]), controller.destroy);
+// router.delete('/:id', auth.hasPermissionForEntity([
+//     ADMIN_ACCESS
+// ]), controller.destroy);
 
 module.exports = router;

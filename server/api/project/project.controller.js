@@ -1,12 +1,9 @@
-import { applyPatch } from 'fast-json-patch';
 import Project from './project.model';
 import EntityPermission from '../entity-permission/entity-permission.model';
-import { entityTypes, accessTypes, inviteStatusTypes, userRoles, entityVisibility } from '../../config/environment';
+import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
 import {
     respondWithResult,
     patchUpdates,
-    protectFromPatchRemove,
-    protectFromPatchReplace,
     removeEntity,
     handleEntityNotFound,
     handleError,
@@ -15,11 +12,8 @@ import { union } from 'lodash/fp';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
 
-const ADMIN_ROLE = userRoles.ADMIN.value;
-
 // Gets a list of Projects
-// TODO: Make the function more readable
-export function indexByUser(req, res) {
+export function index(req, res) {
     getProjectIdsByUser(req.user._id)
         .then(projectIds => Project.find({
             _id: {
@@ -29,34 +23,6 @@ export function indexByUser(req, res) {
         )
         .then(respondWithResult(res))
         .catch(handleError(res));
-
-
-
-    // if (user.role === ADMIN_ROLE) {
-    //     return Project.find()
-    //         .exec()
-    //         .then(respondWithResult(res))
-    //         .catch(handleError(res));
-    // } else {
-    //     return EntityPermission.find({
-    //         user: user._id,
-    //         entityType: entityTypes.PROJECT.value,
-    //         status: inviteStatusTypes.ACCEPTED.value,
-    //     })
-    //         .exec()
-    //         .then(permissions => {
-    //             const projectIds = permissions.map(perm => perm.entityId);
-    //             return Project.find({
-    //                 _id: {
-    //                     $in: projectIds,
-    //                 },
-    //             })
-    //                 .exec()
-    //                 .then(respondWithResult(res))
-    //                 .catch(handleError(res));
-    //         })
-    //         .catch(handleError(res));
-    // }
 }
 
 // Gets a single Project from the DB
@@ -137,7 +103,6 @@ export function getPublicProjectIds() {
  * @return {string[]}
  */
 export function getProjectIds() {
-    console.log('IS ADMIN');
     return Project.find({}, '_id')
         .exec()
         .then(projects => projects.map(project => project._id.toString()));
@@ -165,8 +130,3 @@ export function getProjectIdsByUser(userId) {
                 ]).then(result => union(...result)))
         );
 }
-
-// export function getProjectIds(user) {
-//     return isAdmin(user._id.toString())
-//         then(isAdmin => isAdmin ? getProjectIds() : getProjectIdsByUser(user._id.toString()));
-// }
