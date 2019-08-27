@@ -160,10 +160,6 @@ export const models = {
             values: Object.values(entityVisibility).map(visibility => visibility.value),
             default: entityVisibility.PRIVATE.value
         }
-        // visibility: {
-        //     values: ['Private', 'Public'],
-        //     default: 'Private'
-        // }
     },
     message: {
         title: {
@@ -226,12 +222,12 @@ export const models = {
         }
     },
     tool: {
-        name: {
+        title: {
             minlength: 3,
             maxlength: 30
         },
         description: {
-            minlength: 0,
+            minlength: 3,
             maxlength: 1024
         }
     },

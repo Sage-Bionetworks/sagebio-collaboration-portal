@@ -15,7 +15,7 @@ import { UrlValidators } from 'components/validation/url-validators';
     styles: [require('./tool-new.scss')],
 })
 export class ToolNewComponent implements OnInit, OnDestroy {
-    private toolSpecs = {};
+    private toolSpecs: any;
     private newForm: FormGroup;
     private errors = {
         newTool: undefined
@@ -32,16 +32,17 @@ export class ToolNewComponent implements OnInit, OnDestroy {
         private toolService: ToolService) {
 
         this.toolSpecs = config.models.tool;
+        console.log('toolSpecs', this.toolSpecs);
         this.newForm = this.formBuilder.group({
             title: ['', [
                 Validators.required,
-                Validators.minLength(config.models.tool.title.minlength),
-                Validators.maxLength(config.models.tool.title.maxlength)
+                Validators.minLength(this.toolSpecs.title.minlength),
+                Validators.maxLength(this.toolSpecs.title.maxlength)
             ]],
             description: ['', [
                 Validators.required,
-                Validators.minLength(config.models.tool.description.minlength),
-                Validators.maxLength(config.models.tool.description.maxlength)
+                Validators.minLength(this.toolSpecs.description.minlength),
+                Validators.maxLength(this.toolSpecs.description.maxlength)
             ]],
             apiServerUrl: ['', [
                 Validators.required,
