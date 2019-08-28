@@ -13,8 +13,10 @@ import {
     handleError
 } from '../util';
 import {
-    accessTypes
+    accessTypes,
+    inviteStatusTypes
 } from '../../config/environment';
+import { pickBy, identity } from 'lodash/fp';
 
 // Gets a list of EntityPermissions
 export function index(req, res) {
@@ -147,4 +149,34 @@ function handleEntityIdMismatch(res, entityIdFromParams) {
         }
         return entity;
     };
+}
+
+/**
+ * Returns the ids of the entities that have an entity-permission associated
+ * to the user specified.
+ *
+ * @param {string} userId
+ * @param {string[]} allowedAccessTypes (default: null)
+ * @param {string[]} allowedInviteStatus (default: inviteStatusTypes.ACCEPTED.value)
+ * @param {string} entityType (default: null)
+ * @return {string[]}
+ */
+export function getEntityIdsWithEntityPermissionByUser(
+    userId,
+    allowedAccessTypes = null,
+    allowedInviteStatus = [inviteStatusTypes.ACCEPTED.value],
+    entityType = null) {
+    const filter = pickBy(identity, {
+        user: userId,
+        access: {
+            $in: allowedAccessTypes
+        },
+        status: {
+            $in: allowedInviteStatus
+        },
+        entityType
+    });
+    return EntityPermission.find(filter, '_id')
+        .exec()
+        .then(permissions => permissions.map(p => p._id.toString()));
 }

@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
 
+import { AuthModule } from 'components/auth/auth.module';
 import { MaterialModule } from 'components/material/material.module';
 import { SSOButtonsModule } from 'components/sso-buttons/sso-buttons.module';
 import { NotificationModule } from 'components/notification/notification.module';
@@ -19,7 +20,8 @@ import { UserCardEditComponent } from './profile/user-card-edit/user-card-edit.c
 
 const accountRoutes: Routes = [{
     path: 'login',
-    component: LoginComponent,
+    component: LoginComponent
+    // canActivate: [AuthGuard]
 }, {
     path: 'settings',
     component: SettingsComponent,

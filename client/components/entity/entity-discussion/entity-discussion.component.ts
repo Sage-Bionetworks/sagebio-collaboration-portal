@@ -13,6 +13,7 @@ export class EntityDiscussionComponent implements AfterViewInit {
     @Input() entityType: string;
 
     private threads: Thread[];
+    private allThreads: Thread[];
 
     static parameters = [MessagingService];
     constructor(private messagingService: MessagingService) { }
@@ -23,6 +24,6 @@ export class EntityDiscussionComponent implements AfterViewInit {
             .subscribe(threads => {
                 this.threads = threads;
                 // this.socketService.syncUpdates('thread', this.threads);
-            });
+            }, err => console.error(err));
     }
 }

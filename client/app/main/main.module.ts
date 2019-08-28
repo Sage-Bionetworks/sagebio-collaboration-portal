@@ -30,8 +30,6 @@ export const ROUTES: Routes = [
     providers: [
         SocketService,
     ],
-    exports: [
-        MainComponent,
-    ],
+    exports: [],
 })
 export class MainModule {}

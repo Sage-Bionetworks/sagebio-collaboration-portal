@@ -3,8 +3,10 @@ import {
 } from 'fast-json-patch';
 import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash';
 import {
-    find
+    find, pickBy, identity
 } from 'lodash/fp';
+import { accessTypes, inviteStatusTypes } from '../config/environment';
+import EntityPermission from './entity-permission/entity-permission.model';
 
 // TODO Review purpose
 function deeply(map) {

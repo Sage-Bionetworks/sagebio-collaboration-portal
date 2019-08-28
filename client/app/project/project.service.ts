@@ -19,8 +19,8 @@ export class ProjectService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getProjects(query?: {}): Observable<Project[]> {
-        return this.httpClient.get<Project[]>(`/api/projects${stringifyQuery(query)}`);
+    getProjects(/*query?: {}*/): Observable<Project[]> {
+        return this.httpClient.get<Project[]>(`/api/projects`);  // ${stringifyQuery(query)}
     }
 
     getProject(projectId: string): Observable<Project> {

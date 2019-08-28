@@ -10,7 +10,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { ActivitySidenavComponent } from './activity-sidenav.component';
 import { UserRole, User } from '../../../../shared/interfaces/auth/user.model';
-import { Entity } from '../../../../shared/interfaces/entities/entity.model';
+import { Entity, EntityVisibility } from '../../../../shared/interfaces/entities/entity.model';
 import { MaterialModule } from '../../../components/material/material.module';
 import { FiltersModule } from '../../../components/filters/filters.module';
 import { SecondarySidenavService } from '../../../components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -26,6 +26,7 @@ describe('ActivitySidenavComponent', () => {
     _id: '1',
     title: '',
     description: '',
+    visibility: EntityVisibility.PUBLIC,
     createdAt: '',
     createdBy: undefined
   };
