@@ -29,7 +29,6 @@ describe('ActivitySidenavComponent', () => {
     visibility: EntityVisibility.PUBLIC,
     createdAt: '',
     createdBy: undefined,
-    visibility: EntityVisibility.PRIVATE,
   };
 
   let user: User = {
