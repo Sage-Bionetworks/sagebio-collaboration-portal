@@ -1,5 +1,7 @@
 .project-activities-container {
-  .activities-graph-container {
+    width: 100%;
+
+    .activities-graph-container {
       .activities-graph-filters-container {
         display: flex;
         flex-flow: column nowrap;
@@ -8,11 +10,9 @@
         // min-width: 300px;
         margin: 25px;
       }
+
       .activities-graph-content-container {
-        display: flex;
-        flex-flow: column nowrap;
-        flex-grow: 1;
-        margin: 20px 50px;
+        margin: 20px 20px;
 
         .activities-graph-results {
             display: flex;
@@ -22,10 +22,11 @@
             margin: 0 auto;
         }
       }
-  }
+    }
   .project-activities-actions {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    width: 94%;
   }
 }
