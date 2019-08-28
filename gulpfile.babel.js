@@ -266,12 +266,6 @@ gulp.task('transpile:server', () => {
         .pipe(gulp.dest(`${paths.dist}/${serverPath}`));
 });
 
-// WIP #461 - gulp lint:scripts:clientTest
-// gulp.task('lint:scripts:clientTest', () => {
-//     return gulp.src(paths.client.test)
-//         .pipe(lintClientScripts());
-// });
-
 gulp.task('lint:scripts:client', cb => {
     return gulp.src(_.union(
             paths.client.scripts,
@@ -289,8 +283,6 @@ gulp.task('lint:scripts:server', cb => {
 
 gulp.task('lint:scripts',
     gulp.parallel(
-        // 'lint:scripts:clientTest',
-        // WIP #461 - gulp lint:scripts
         'lint:scripts:client',
         'lint:scripts:server',
     ));
@@ -440,7 +432,6 @@ gulp.task('test:client', done => {
     }).start();
 });
 
-// WIP #461 - gulp test
 gulp.task('test', gulp.series(
     'test:server',
     'test:client'
