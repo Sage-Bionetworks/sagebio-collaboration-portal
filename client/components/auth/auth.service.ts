@@ -6,14 +6,7 @@ import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { User } from 'models/auth/user.model';
 import { TokenResponse } from 'models/auth/token-response.model';
-
-class AuthInfo {
-    constructor(public user: User) { }
-
-    isLoggedIn() {
-        return !!(this.user && this.user._id);
-    }
-}
+import { AuthInfo } from './auth-info.model';
 
 const _loginWithTokenResponse = (authService: AuthService) => pipe(
     mergeMap((res: TokenResponse) => {
@@ -33,9 +26,11 @@ const _loginWithTokenResponse = (authService: AuthService) => pipe(
 @Injectable()
 export class AuthService {
     private uuid; // TODO: remove
+    static GUEST = new AuthInfo(undefined);
 
-    static UNKNOWN_USER = new AuthInfo(undefined);
     private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(undefined);
+    private initStarted = false;
+
     private loginUrl = '/login';
     private redirectUrl = '/';
 
@@ -43,52 +38,25 @@ export class AuthService {
     constructor(private httpClient: HttpClient, private userService: UserService,
         private tokenService: TokenService) {
 
-        console.log('AUTH SERVICE CONSTRUCTOR');
-        // this.getAuthInfo();
-        // if (!this._authInfo.getValue()) {
-            // this.initAuthInfo();
-        // }
         this.uuid = Math.floor(Math.random() * 100) + 1;
-        console.log('UUID', this.uuid);
+        console.log('AUTH SERVICE UUID', this.uuid);
     }
 
-    // this.initAuthInfo();
-
     /**
-     * Updates and returns the authentification information.
+     * Contacts the token service to check if the user is logged in.
      *
-     * @return {Observable<AuthInfo>}
+     * Note: For some reason this function generates a near-infinite loop
+     * when called from the constructor of this service.
      */
-    // getAuthInfo(): Observable<AuthInfo> {
-    //     if (this.tokenService.get()) {
-    //         return this.userService.get()
-    //             .pipe(
-    //                 map(user => {
-    //                     this._authInfo.next(new AuthInfo(user));
-    //                     return this._authInfo.getValue();
-    //                 }),
-    //                 catchError(() => {
-    //                     this.tokenService.deleteToken();
-    //                     this._authInfo.next(AuthService.UNKNOWN_USER);
-    //                     return this._authInfo.asObservable();
-    //                 })
-    //             );
-    //     } else {
-    //         this.tokenService.deleteToken();
-    //         this._authInfo.next(AuthService.UNKNOWN_USER);
-    //         return this._authInfo.asObservable();
-    //     }
-    // }
-
     initAuthInfo(): void {
-        console.log('INIT AUTH INFO -----');
+        this.initStarted = true;
         if (this.tokenService.get()) {
             this.userService.get()
                 .pipe(
                     map(user => new AuthInfo(user)),
                     catchError(err => {
                         this.tokenService.deleteToken();
-                        return of(AuthService.UNKNOWN_USER);
+                        return of(AuthService.GUEST);
                     })
                 )
                 .subscribe(authInfo =>
@@ -96,7 +64,7 @@ export class AuthService {
                 , err => console.error(err));
         } else {
             this.tokenService.deleteToken();
-            this._authInfo.next(AuthService.UNKNOWN_USER);
+            this._authInfo.next(AuthService.GUEST);
         }
     }
 
@@ -128,16 +96,18 @@ export class AuthService {
 
     /**
      * Deletes access token and user info.
+     *
      * @return {Observable}
      */
     logout(): Observable<null> {
         this.tokenService.deleteToken();
-        this._authInfo.next(AuthService.UNKNOWN_USER);
+        this._authInfo.next(AuthService.GUEST);
         return of(null);
     }
 
     /**
      * Creates a new user.
+     *
      * @param {Object} user User info
      * @return {Observable<User>}
      */
@@ -161,6 +131,7 @@ export class AuthService {
 
     /**
      * Changes password.
+     *
      * @param {String} oldPassword
      * @param {String} newPassword
      * @return {Observable<User>}
@@ -178,7 +149,7 @@ export class AuthService {
      * @return {Observable<AuthInfo>}
      */
     authInfo(): Observable<AuthInfo> {
-                if (!this._authInfo.getValue()) {
+        if (!this._authInfo.getValue() && !this.initStarted) {
             this.initAuthInfo();
         }
         return this._authInfo
@@ -188,14 +159,7 @@ export class AuthService {
     }
 
     /**
-     * Returns the current authentification information value.
-     */
-    // authInfoValue(): AuthInfo {
-    //     return this._authInfo.getValue();
-    // }
-
-    /**
-     * Gets auth token.
+     * Gets authentication token.
      *
      * @return {string} A token string used for authenticating
      */
