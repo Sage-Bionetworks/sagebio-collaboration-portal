@@ -289,6 +289,7 @@ module.exports = function makeWebpackConfig(options) {
         function () {
             this.plugin("done", function(stats)
             {
+                // prevents the plugin from hanging if --watch is specified
                 if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1)
                 {
                     console.log(stats.compilation.errors);

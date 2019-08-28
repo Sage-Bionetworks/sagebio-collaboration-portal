@@ -37,7 +37,6 @@ export function hasRole(userId, role) {
  * @return {Promise<boolean>}
  */
 export function isAdmin(userId) {
-    console.log('isAdmin function', userId);
     return hasRole(userId, config.userRoles.ADMIN.value);
 }
 
@@ -79,57 +78,75 @@ export function hasAccessToEntity(
             return resolve(false);
         }
 
-        const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) {
-            return resolve(true);
-        }
-
-        const tool = async () => await Tool.findById(entityId);
-        if (tool) {
-            return resolve(true);
-        }
-
-        const dataCatalog = async () => await DataCatalog.findById(entityId);
-        if (dataCatalog) {
-            return resolve(true);
-        }
-
-        const insight = async () => await Insight.findById(entityId);
-        if (insight) {
-            entityId = insight.projectId;
-        } else {
-            const resource = async () => await Resource.findById(entityId);
-            if (resource) {
-                entityId = resource.projectId;
-            }
-        }
-
-        let project = async () => await Project.findById(entityId);
-        if (project.visibility === 'Public') {
-            return resolve(true);
-        }
-
-        const filter = {
-            entityId,
-            user: userId,
-            access: {
-                $in: allowedAccesses,
-            },
-            status: {
-                $in: allowedAccessStatus,
-            },
-        };
-        const entityPermission = async () =>
-            await EntityPermission.find(filter)
-                .exec()
-                .catch(err => {
-                    throw new Error(err);
-                });
-
-        if (entityPermission) {
-            return resolve(true);
-        }
-        return resolve(false);
+        return isAdmin(userId)
+            .then(isAuthorized => isAuthorized)
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Tool
+                        .findById(entityId)
+                        .exec()
+                        .then(tool => !!tool) // tool are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? DataCatalog
+                        .findById(entityId)
+                        .exec()
+                        .then(catalog => !!catalog) // data catalog are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .exec()
+                        .then(project => !!project && project.visibility === 'Public') // project is public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .then(project => project && project._id)
+                        .then(entityIdToCheck =>
+                            (!entityIdToCheck
+                                ? Insight.findById(entityId)
+                                    .exec()
+                                    .then(insight => insight && insight._id)
+                                : null)
+                        )
+                        .then(entityIdToCheck =>
+                            (!entityIdToCheck
+                                ? Resource.findById(entityId)
+                                    .exec()
+                                    .then(resource => resource && resource._id)
+                                : null)
+                        )
+                        .then(entityIdToCheck => {
+                            if (entityIdToCheck) {
+                                const filter = {
+                                    entityId: entityIdToCheck,
+                                    user: userId,
+                                    access: {
+                                        $in: allowedAccesses,
+                                    },
+                                    status: {
+                                        $in: allowedAccessStatus,
+                                    },
+                                };
+                                return EntityPermission.find(filter)
+                                    .exec()
+                                    .then(entityPermission => entityPermission);
+                            }
+                            return false;
+                        })
+                    : isAuthorized)
+            )
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            });
     });
 }
 
