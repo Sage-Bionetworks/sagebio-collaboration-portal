@@ -58,9 +58,16 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.authStrategies = this.authService.getAuthStrategies()
-            .pipe(share());
-        this.pageTitleService.title = 'Login';
+        this.authService.authInfo()
+            .subscribe(authInfo => {
+                if (authInfo.isLoggedIn()) {
+                    this.router.navigate(['/']);
+                } else {
+                    this.authStrategies = this.authService.getAuthStrategies()
+                        .pipe(share());
+                    this.pageTitleService.title = 'Login';
+                }
+            }, err => console.error(err));
     }
 
     login(): void {
