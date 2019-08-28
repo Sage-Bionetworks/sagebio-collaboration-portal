@@ -42,7 +42,9 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         this.initGraph();
-        this.graph.simulation.tick(100);
+        if (this.graph) {
+            this.graph.simulation.tick(100);
+        }
     }
 
     initGraph() {
