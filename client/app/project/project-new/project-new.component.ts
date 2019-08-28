@@ -51,6 +51,7 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // this.pageTitleService.title = 'New Project';
+
     }
 
     ngOnDestroy() { }

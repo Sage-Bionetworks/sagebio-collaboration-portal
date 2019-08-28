@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import {
     adminUserId
 } from './constants';
@@ -7,7 +6,7 @@ import config from '../../environment';
 let users = [{
     _id: adminUserId,
     provider: 'local',
-    role: 'admin',
+    role: config.userRoles.ADMIN.value,
     name: 'Admin',
     username: 'admin',
     email: config.init.admin.email,
