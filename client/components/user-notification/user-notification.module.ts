@@ -5,9 +5,12 @@ import { SidenavModule } from 'components/sidenav/sidenav.module';
 import { UserAvatarModule } from 'components/user-avatar/user-avatar.module';
 import { UserNotificationButtonComponent } from './user-notification-button/user-notification-button.component';
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
-import { UserNotificationViewComponent } from './user-notification-view/user-notification-view.component';
+import { MessageNotificationViewComponent } from './message-notification-view/message-notification-view.component';
+import { EntityNotificationViewComponent } from './entity-notification-view/entity-notification-view.component';
+import { EntityAccessNotificationViewComponent } from './entity-access-notification-view/entity-access-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
-import { NotificationService } from './notification.service'
+
+// import { UserNotificationViewComponent } from './user-notification-view/user-notification-view.component';
 
 @NgModule({
     imports: [
@@ -17,13 +20,15 @@ import { NotificationService } from './notification.service'
         UserAvatarModule
     ],
     providers: [
-        UserNotificationService,
-        NotificationService
+        UserNotificationService
     ],
     declarations: [
         UserNotificationButtonComponent,
         UserNotificationSidenavComponent,
-        UserNotificationViewComponent
+        MessageNotificationViewComponent,
+        EntityNotificationViewComponent,
+        EntityAccessNotificationViewComponent,
+        // UserNotificationViewComponent,
     ],
     exports: [
         UserNotificationButtonComponent,

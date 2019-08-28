@@ -8,14 +8,13 @@ const options = {
     collection: 'notifications',
 };
 
-
 var NotificationSchema = new mongoose.Schema({
     notificationType: {
         type: String,
         enum: Object.values(config.notificationTypes).map(notification => notification.value),
         required: true,
     },
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
@@ -44,13 +43,20 @@ var NotificationSchema = new mongoose.Schema({
  * Middlewares
  */
 
+const autoPopulatePre = function (next) {
+    this.populate('userId', User.profileProperties)
+        .populate('createdBy', User.profileProperties)
+    next();
+};
+
 const autoPopulatePost = function (doc) {
     return doc
-        .populate('user', User.profileProperties)
+        .populate('userId', User.profileProperties)
         .populate('createdBy', User.profileProperties)
         .execPopulate();
 };
 
+NotificationSchema.pre('find', autoPopulatePre);
 NotificationSchema.post('save', autoPopulatePost);
 
 registerEvents(NotificationSchema);

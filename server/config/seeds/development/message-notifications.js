@@ -3,14 +3,14 @@ import { notificationTypes } from '../../environment/shared';
 
 let messageNotifications = [{
     notificationType: notificationTypes.MESSAGE_NOTIFICATION.value,
-    user: adminUserId,
+    userId: adminUserId,
     createdBy: testUserId,
     archived: false,
     messageBody: 'test message body'
 },
 {
     notificationType: notificationTypes.MESSAGE_NOTIFICATION.value,
-    user: testUserId,
+    userId: testUserId,
     createdBy: adminUserId,
     archived: false,
     messageBody: 'test message 2'

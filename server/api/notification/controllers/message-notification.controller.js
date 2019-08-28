@@ -2,13 +2,16 @@ import MessageNotification from '../models/message-notification.model';
 import {
     respondWithResult,
     handleEntityNotFound,
-    removeEntity,
     handleError
 } from '../../util';
 
-// Gets a list of MessageNotifications
-export function index(req, res) {
-    return MessageNotification.find()
+// Returns the message notifications of the user
+export function indexMine(req, res) {
+    var userId = req.user._id.toString();
+    return MessageNotification.find({
+        ...req.query,
+        userId
+    })
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -24,17 +27,6 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-// Returns the message notifications of the user
-export function indexMine(req, res) {
-    var userId = req.user._id.toString();
-    return MessageNotification.find({
-        user: userId
-    })
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
 // Creates a new MessageNotification
 export function create(req, res) {
     Reflect.deleteProperty(req.body, '_id');
@@ -43,13 +35,5 @@ export function create(req, res) {
 
     return MessageNotification.create(req.body)
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Deletes a MessageNotification from the DB
-export function destroy(req, res) {
-    return MessageNotification.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
         .catch(handleError(res));
 }

@@ -1,23 +1,25 @@
 import { Component, OnDestroy } from '@angular/core';
-import { merge, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { NotificationService } from '../notification.service';
-import { EntityAccessNotification } from 'models/auth/notificiation.model';
-import { MessageNotification } from 'models/auth/notificiation.model';
-import { EntityNotification } from 'models/auth/notificiation.model';
+import { UserNotificationService } from '../user-notification.service';
+import { MessageNotification } from '../models/message-notificiation.model';
+import { EntityNotification } from '../models/entity-notificiation.model';
+import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
+import { mergeMap, map, switchMap, tap, ignoreElements } from 'rxjs/operators';
 
 // TODO: Do not refer to something in app/, instead move ProjectService to components
-import { ProjectService } from '../../../app/project/project.service';
-import { InviteBundle } from '../models/invite-bundle.model';
+// import { ProjectService } from '../../../app/project/project.service';
 import config from '../../../app/app.constants';
 
+// import { InviteBundle } from '../models/invite-bundle.model';
 // import { forkJoinWithProgress } from 'components/rxjs/util';
 // import { Project } from 'models/entities/project.model';
 // import { EntityPermission } from 'models/auth/entity-permission.model';
-// import { mergeMap, map, switchMap, tap, ignoreElements } from 'rxjs/operators';
 // import { pickBy, identity } from 'lodash/fp';
 // import { from, of, forkJoin, merge } from 'rxjs';
+// import { SocketService } from 'components/socket/socket.service';
+
 
 
 @Component({
@@ -27,23 +29,67 @@ import config from '../../../app/app.constants';
 })
 
 export class UserNotificationSidenavComponent implements OnDestroy {
-    private invites: InviteBundle[] = [];
-    private notifications: EntityAccessNotification | MessageNotification | EntityNotification = []
+    // private invites: InviteBundle[] = [];
     private avatarSize = 40;
+
+    private _messages: BehaviorSubject<MessageNotification[]> = new BehaviorSubject<MessageNotification[]>([]);
+    private _entityInvites: BehaviorSubject<EntityNotification[]> = new BehaviorSubject<EntityNotification[]>([]);
+    private _entityAccessInvites: BehaviorSubject<EntityAccessNotification[]> = new BehaviorSubject<EntityAccessNotification[]>([]);
+
+    // private socketEventName: string;
 
     static parameters = [
         SecondarySidenavService,
         UserPermissionDataService,
-        ProjectService,
-        NotificationService
+        // ProjectService,
+        UserNotificationService
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
         private userPermissionDataService: UserPermissionDataService,
-        private projectService: ProjectService,
-        private notificationService: NotificationService
+        // private projectService: ProjectService,
+        private userNotificationService: UserNotificationService
     ) {
         this.avatarSize = config.avatar.size.mini;
+    }
+
+
+    ngOnInit() {
+        // const createNotificationBundle = notification => of(notification)
+        //     .pipe(
+        //         switchMap(noti => forkJoin({
+        //             notification: of(noti),
+        //             author: this.projectService.getProject(noti.cratedBy),
+        //             entity: this.projectService.getProject(noti.cratedBy),
+        //             entityPermission: this.projectService.getProject(noti.cratedBy),
+        //         }))
+        //     );
+
+        this.userNotificationService.queryMessageNotifications()
+            .subscribe(messages => {
+                this._messages.next(messages);
+                console.log('this._messages: ', this._messages);
+            }, err => console.error(err));
+        this.userNotificationService.queryEntityNotifications()
+            .subscribe(entityInvites => {
+                this._entityInvites.next(entityInvites);
+                console.log('this._entityInvites: ', this._entityInvites);
+            }, err => console.error(err));
+        this.userNotificationService.queryEntityAccessNotifications()
+            .subscribe(entityAccessInvites => {
+                this._entityAccessInvites.next(entityAccessInvites);
+                console.log('this._entityAccessInvites: ', this._entityAccessInvites);
+            }, err => console.error(err));
+    }
+
+
+
+    ngOnDestroy() { }
+
+    close(): void {
+        this.sidenavService.close();
+    }
+}
 
         // const createInviteBundle = invite => of(invite)
         //     .pipe(
@@ -75,25 +121,3 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         //             this.sidenavService.close();
         //         }
         //     }, err => console.error(err));
-
-        const getMessageNotificationBundles = this.notificationService.queryMineMessageNotification()
-        const getEntityNotificationBundles = this.notificationService.queryMineEntityNotifications()
-        const getEntityAccessNotificationBundles = this.notificationService.queryMineEntityAccessNotifications()
-
-        merge([
-            getMessageNotificationBundles,
-            getEntityNotificationBundles,
-            getEntityAccessNotificationBundles
-        ]).subscribe((notifications: Observable<EntityAccessNotification[] | MessageNotification[] | EntityNotification[]>) => {
-            console.log('notifications: ', notifications);
-            this.notifications = notifications
-        })
-
-    }
-
-    ngOnDestroy() { }
-
-    close(): void {
-        this.sidenavService.close();
-    }
-}

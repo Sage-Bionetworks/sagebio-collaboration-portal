@@ -14,6 +14,7 @@ var EntityAccessNotificationSchema = new mongoose.Schema({
     },
     entityPermissionId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'EntityPermission',
         required: true,
     }
 });
