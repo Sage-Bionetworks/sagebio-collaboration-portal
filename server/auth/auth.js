@@ -79,7 +79,6 @@ export function hasAccessToEntity(
         }
 
         return isAdmin(userId)
-            .then(isAuthorized => isAuthorized)
             .then(isAuthorized =>
                 (!isAuthorized
                     ? Tool
@@ -221,20 +220,22 @@ export function hasUserPermission(userId, permission) {
             return resolve(false);
         }
 
-        const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) {
-            return resolve(true);
-        }
-
-        const filter = {
-            user: userId,
-            permission,
-        };
-        const userPermission = async () => await UserPermission.find(filter).exec();
-
-        if (userPermission) {
-            return resolve(true);
-        }
-        return resolve(false);
+        return isAdmin(userId)
+            .then(isAuthorized => {
+                if (!isAuthorized) {
+                    const filter = {
+                        user: userId,
+                        permission,
+                    };
+                    return UserPermission.find(filter)
+                        .exec()
+                        .then(userPermission => !!userPermission);
+                }
+                return false;
+            })
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            });
     });
 }
