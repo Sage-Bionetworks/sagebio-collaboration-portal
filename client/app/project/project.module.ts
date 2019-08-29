@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FiltersModule } from 'components/filters/filters.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularResizedEventModule } from 'angular-resize-event';
 
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
@@ -11,7 +12,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { AppQuillModule } from 'components/quill/app-quill.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { MessagingModule } from 'components/messaging/messaging.module';
-import { MeasurableDirective } from 'components/directives/measurable.directive';
+import { DirectivesModule } from 'components/directives/directives.module';
 
 import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
@@ -70,6 +71,7 @@ export const ROUTES: Routes = [{
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
+        AngularResizedEventModule,
         AppQuillModule,
         EntityModule,
         MessagingModule,
@@ -78,7 +80,8 @@ export const ROUTES: Routes = [{
         ResourceModule,
         ActivityModule,
         ProvenanceModule,
-        FiltersModule
+        FiltersModule,
+        DirectivesModule
     ],
     providers: [
         SocketService,
@@ -90,8 +93,6 @@ export const ROUTES: Routes = [{
         ResourceService
     ],
     declarations: [
-        MeasurableDirective,
-
         ProjectComponent,
         ProjectNewComponent,
         ProjectEditComponent,

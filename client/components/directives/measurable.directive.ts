@@ -25,7 +25,7 @@ export class MeasurableDirective {
                     const bounds = <ClientRect>this.elem.nativeElement.getBoundingClientRect();
                     return bounds.width;
                 }),
-                debounceTime(100),
+                // debounceTime(50),
                 distinctUntilChanged()
             );
     }

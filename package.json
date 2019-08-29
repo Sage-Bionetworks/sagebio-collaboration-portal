@@ -5,6 +5,7 @@
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
         "@babel/runtime": "^7.5.5",
+        "angular-resize-event": "^1.1.0",
         "babel-plugin-istanbul": "^5.2.0",
         "bluebird": "^3.5.5",
         "body-parser": "^1.19.0",
@@ -13,6 +14,7 @@
         "connect-mongo": "^3.0.0",
         "cookie-parser": "^1.4.4",
         "core-js": "^3.2.1",
+        "css-element-queries": "^1.2.1",
         "d3": "^5.9.7",
         "ejs": "^2.6.2",
         "errorhandler": "^1.5.1",

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { User } from 'models/auth/user.model';
 import config from '../../../../client/app/app.constants';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
+import { MeasurableDirective } from 'components/directives/measurable.directive';
 
 type EntityOrUser = Entity | User;
 
@@ -21,6 +22,8 @@ type EntityOrUser = Entity | User;
 })
 export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
+
+    @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
     private root: EntityOrUser;
     private provenanceGraph: any;
     private activityDirectionFilters: Filter[] = [];

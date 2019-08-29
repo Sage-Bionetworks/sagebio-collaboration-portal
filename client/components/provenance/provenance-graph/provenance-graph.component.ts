@@ -8,7 +8,8 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { includes } from 'lodash';
+import { includes, merge } from 'lodash';
+import { pickBy, identity } from 'lodash/fp';
 
 import { ForceDirectedGraph, Node, Link } from '../../d3/models';
 import { D3Service } from '../../d3/d3.service';
@@ -26,7 +27,7 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     nodes: Node[] = [];
     links: Link[];
     graph: ForceDirectedGraph;
-    private _options: { width, height } = { width: 400, height: 300 };
+    private _options: { width: number, height: number } = { width: 400, height: 300 };
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -61,15 +62,25 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
             });
         }
     }
-    get options() {
-        const el = document.getElementsByClassName('provenance-graph')[0];
-        const { parentElement } = el;
-        const { clientWidth: containerWidth } = parentElement;
 
-        return this._options = {
-            ...this._options,
-            width: containerWidth * .9,
-        };
+    get options() {
+        return this._options;
+        // const el = document.getElementsByClassName('provenance-graph')[0];
+        // const { parentElement } = el;
+        // const { clientWidth: containerWidth } = parentElement;
+
+        // return this._options = {
+        //     ...this._options,
+        //     width: containerWidth * .9,
+        // };
+    }
+
+    set options(options: any) {
+        this._options = merge(this._options, options);
+    }
+
+    setDimentions(width: number, height: number = null): void {
+        this.options = pickBy(identity, { width, height });
     }
 
     convertToD3(neojson) {

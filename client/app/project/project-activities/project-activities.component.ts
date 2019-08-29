@@ -8,6 +8,8 @@ import { Project } from 'models/entities/project.model';
 import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
 import { MeasurableDirective } from 'components/directives/measurable.directive';
+import { ProvenanceGraphComponent } from 'components/provenance/provenance-graph/provenance-graph.component';
+import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
     selector: 'project-activities',
@@ -15,11 +17,11 @@ import { MeasurableDirective } from 'components/directives/measurable.directive'
     styles: [require('./project-activities.scss')],
 })
 export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
-    @ViewChild('plop', { static: false }) container: ElementRef<HTMLElement>; // OR viewContainerRef?
     @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
+    @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private project: Project;
-    private provenanceGraph: any;
+    private provenanceGraphData: any;
     private activityTypeFilters = config.activityTypeFilters;
     private showNewActivityForm = false;
 
@@ -39,34 +41,18 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // console.log(this.container);
-        // console.log(this.container.nativeElement.offsetWidth);
-        setTimeout(_ => this.inflate());
+        // this.measurable.width()
+        //     .subscribe(width => {
+        //         console.log('WIDTH', width);
+        //         this.provenanceGraph.setDimentions(width);
+        //     });
     }
-
-    inflate() {
-        this.measurable.width()
-            .subscribe(width => console.log('WIDTH', width));
-        // console.log('measurable', this.measurable.getWidth());
-        // let bounds = <ClientRect>this.container.nativeElement.getBoundingClientRect();
-        // console.log('BOUND', bounds);
-        // if(bounds.bottom > 0 && bounds.top < window.innerHeight) {
-        //   this.isLoading = true;
-        //   let img = new Image();
-        //   img.src = this.url;
-        //   img.onload = _=> {
-        //     this.isLoaded = true;
-        //     this.isLoading = false;
-        //     this.renderer.setElementStyle(this.holder,
-        //       'background-image', 'url("' + this.url + '")');
-        //   };
-        }
 
     onFilterChange(query) {
         if (this.project) {
             this.provenanceService.getProvenanceGraph('created_at', 'desc', 10)
                 .subscribe(activity => {
-                    this.provenanceGraph = activity;
+                    this.provenanceGraphData = activity;
                 }, err => {
                     console.log(err);
                 });
@@ -76,5 +62,12 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
     onNewActivity(activity: Activity): void {
         this.showNewActivityForm = false;
         this.notificationService.info('The Activity has been successfully created');
+    }
+
+    onResized(event: ResizedEvent) {
+        console.log('RESIZE EVENT', event);
+        if (this.provenanceGraph) {
+            this.provenanceGraph.setDimentions(event.newWidth);
+        }
     }
 }
