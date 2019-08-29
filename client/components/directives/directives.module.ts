@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MeasurableDirective } from './measurable.directive';
+import { ResizedDirective } from './resized/resized.directive';
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        MeasurableDirective
+        ResizedDirective
     ],
     exports: [
-        MeasurableDirective
+        ResizedDirective
     ]
 })
 export class DirectivesModule { }

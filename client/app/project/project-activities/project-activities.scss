@@ -2,31 +2,31 @@
     width: 100%;
 
     .activities-graph-container {
-      .activities-graph-filters-container {
-        display: flex;
-        flex-flow: column nowrap;
-        flex-grow: 0;
-        flex-shrink: 0;
-        // min-width: 300px;
-        margin: 25px;
-      }
-
-      .activities-graph-content-container {
-        margin: 20px 20px;
-
-        .activities-graph-results {
+        .activities-graph-filters-container {
             display: flex;
             flex-flow: column nowrap;
             flex-grow: 0;
             flex-shrink: 0;
-            margin: 0 auto;
+            // min-width: 300px;
+            margin: 25px;
         }
-      }
+
+        .activities-graph-content-container {
+            margin: 20px 20px;
+
+            .activities-graph-results {
+                display: flex;
+                flex-flow: column nowrap;
+                flex-grow: 0;
+                flex-shrink: 0;
+                margin: 0 auto;
+            }
+        }
     }
-  .project-activities-actions {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    width: 94%;
-  }
+    .project-activities-actions {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        width: 94%;
+    }
 }

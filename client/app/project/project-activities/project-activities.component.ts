@@ -1,23 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ContentChild } from '@angular/core';
-import { orderBy } from 'lodash';
-import { Observable } from 'rxjs';
-import { ProvenanceService } from 'components/provenance/provenance.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Activity } from 'models/provenance/activity.model';
-import { ProjectDataService } from '../project-data.service';
 import { Project } from 'models/entities/project.model';
-import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
-import { MeasurableDirective } from 'components/directives/measurable.directive';
+import { ProvenanceService } from 'components/provenance/provenance.service';
 import { ProvenanceGraphComponent } from 'components/provenance/provenance-graph/provenance-graph.component';
-import { ResizedEvent } from 'angular-resize-event';
+import { ResizedEvent } from 'components/directives/resized/resized-event';
+import config from '../../app.constants';
+
+import { ProjectDataService } from '../project-data.service';
 
 @Component({
     selector: 'project-activities',
     template: require('./project-activities.html'),
     styles: [require('./project-activities.scss')],
 })
-export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
-    @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
+export class ProjectActivitiesComponent implements OnInit {
     @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private project: Project;
@@ -40,14 +38,6 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
             }, err => console.error(err));
     }
 
-    ngAfterViewInit() {
-        // this.measurable.width()
-        //     .subscribe(width => {
-        //         console.log('WIDTH', width);
-        //         this.provenanceGraph.setDimentions(width);
-        //     });
-    }
-
     onFilterChange(query) {
         if (this.project) {
             this.provenanceService.getProvenanceGraph('created_at', 'desc', 10)
@@ -65,9 +55,9 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
     }
 
     onResized(event: ResizedEvent) {
-        console.log('RESIZE EVENT', event);
-        if (this.provenanceGraph) {
-            this.provenanceGraph.setDimentions(event.newWidth);
+        if (this.provenanceGraph && event) {
+            let newHeight = Math.max(Math.min(400, event.newHeight), (9 / 16) * event.newWidth);
+            this.provenanceGraph.setDimentions(event.newWidth, newHeight);
         }
     }
 }

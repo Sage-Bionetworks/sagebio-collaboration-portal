@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FiltersModule } from 'components/filters/filters.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularResizedEventModule } from 'angular-resize-event';
 
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
@@ -71,7 +70,7 @@ export const ROUTES: Routes = [{
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
-        AngularResizedEventModule,
+        // AngularResizedEventModule,
         AppQuillModule,
         EntityModule,
         MessagingModule,

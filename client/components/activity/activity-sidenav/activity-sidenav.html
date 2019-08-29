@@ -15,8 +15,8 @@
             <b>Direction</b>
             <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
         </div>
-        <div class="app-activity-graph-container">
-            <provenance-graph class="provenance-graph" [graphData]="provenanceGraph" [rootId]="root._id"></provenance-graph>
+        <div class="app-activity-graph-container" (resized)="onResized($event)">
+            <provenance-graph class="provenance-graph" [graphData]="provenanceGraphData" [rootId]="root._id"></provenance-graph>
         </div>
 
     </div>

@@ -3,15 +3,17 @@ import { Router, NavigationStart } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { flow, keyBy, mapValues, values } from 'lodash/fp';
-import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { SocketService } from 'components/socket/socket.service';
-import { ProvenanceService } from 'components/provenance/provenance.service';
+
 import { Entity } from 'models/entities/entity.model';
 import { User } from 'models/auth/user.model';
-import config from '../../../../client/app/app.constants';
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { SocketService } from 'components/socket/socket.service';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
-import { MeasurableDirective } from 'components/directives/measurable.directive';
+import { ProvenanceService } from 'components/provenance/provenance.service';
+import { ProvenanceGraphComponent } from 'components/provenance/provenance-graph/provenance-graph.component';
+import { ResizedEvent } from 'components/directives/resized/resized-event';
+import config from '../../../../client/app/app.constants';
 
 type EntityOrUser = Entity | User;
 
@@ -22,10 +24,10 @@ type EntityOrUser = Entity | User;
 })
 export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
+    @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
-    @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
     private root: EntityOrUser;
-    private provenanceGraph: any;
+    private provenanceGraphData: any;
     private activityDirectionFilters: Filter[] = [];
 
     static parameters = [SecondarySidenavService, ProvenanceService, SocketService, Router];
@@ -55,7 +57,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 if (this.checkIfUser(this.root)) {
                     this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            this.provenanceGraph = activity;
+                            this.provenanceGraphData = activity;
                         });
                 } else {
                     this.provenanceService
@@ -64,7 +66,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                             direction.activityDirection,
                             'created_at', 'desc', 3)
                         .subscribe(activity => {
-                            this.provenanceGraph = activity;
+                            this.provenanceGraphData = activity;
                         });
                 }
             });
@@ -81,13 +83,13 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
             if (this.checkIfUser(root)) {
                 this.provenanceService.getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
                     .subscribe(activity => {
-                        this.provenanceGraph = activity;
+                        this.provenanceGraphData = activity;
                         this.root = root;
                     });
             } else {
                 this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3)
                     .subscribe(activity => {
-                        this.provenanceGraph = activity;
+                        this.provenanceGraphData = activity;
                         this.root = root;
                     });
             }
@@ -104,5 +106,11 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     close(): void {
         this.sidenavService.close();
         this.sidenavService.destroyContentComponent();
+    }
+
+    onResized(event: ResizedEvent) {
+        if (this.provenanceGraph && event) {
+            this.provenanceGraph.setDimentions(event.newWidth);
+        }
     }
 }
