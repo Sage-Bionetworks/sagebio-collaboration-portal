@@ -18,6 +18,7 @@ export class ProjectGuard implements CanActivate {
         const entityId = route.params.id;
         return this.userPermissionDataService.permissions()
             .pipe(
+                // TODO: Get project visibility via api
                 map(permissions => permissions.canReadEntity(entityId, 'project')),
                 filter(canReadEntity => canReadEntity),
                 tap(canAccess => {

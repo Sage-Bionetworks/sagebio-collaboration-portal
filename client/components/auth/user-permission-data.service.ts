@@ -49,7 +49,10 @@ export class UserPermissions {
         return permission ? permission.access : null;
     }
 
-    public canReadEntity(entityId: string, entityType: string): boolean {
+    public canReadEntity(entityId: string, entityType: string, visibility = false): boolean {
+        if (visibility) {
+            return true;
+        }
         const access = this.getEntityUserAccess(entityId, entityType);
         return this.isAdmin() || identity([
             config.accessTypes.READ.value,
