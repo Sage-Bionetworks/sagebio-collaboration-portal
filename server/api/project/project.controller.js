@@ -4,7 +4,7 @@ import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '.
 import {
     respondWithResult,
     patchUpdates,
-    removeEntity,
+    // removeEntity,
     handleEntityNotFound,
     handleError,
 } from '../util';
@@ -27,7 +27,7 @@ export function index(req, res) {
 
 // Gets a single Project from the DB
 export function show(req, res) {
-    return Project.findById(req.params.id)
+    return Project.findById(req.params.entityId)
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -49,7 +49,7 @@ export function create(req, res) {
 export function patch(req, res) {
     const patches = req.body.filter(patch => !['_id', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
 
-    return Project.findById(req.params.id)
+    return Project.findById(req.params.entityId)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -58,13 +58,13 @@ export function patch(req, res) {
 }
 
 // Deletes a Project from the DB
-export function destroy(req, res) {
-    return Project.findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
-}
+// export function destroy(req, res) {
+//     return Project.findById(req.params.id)
+//         .exec()
+//         .then(handleEntityNotFound(res))
+//         .then(removeEntity(res))
+//         .catch(handleError(res));
+// }
 
 // Returns whether a project is public or private
 export function showVisibility(req, res) {
@@ -104,7 +104,7 @@ function createAdminPermissionForEntity(user, entityType) {
 export function getPublicProjectIds() {
     return Project.find({ visibility: entityVisibility.PUBLIC.value }, '_id')
         .exec()
-        .then(projects => projects.map(project => project._id.toString()));
+        .then(projects => projects.map(project => project._id));
 }
 
 /**
@@ -115,7 +115,7 @@ export function getPublicProjectIds() {
 export function getProjectIds() {
     return Project.find({}, '_id')
         .exec()
-        .then(projects => projects.map(project => project._id.toString()));
+        .then(projects => projects.map(project => project._id));
 }
 
 /**

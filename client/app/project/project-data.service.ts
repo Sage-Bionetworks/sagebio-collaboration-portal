@@ -68,6 +68,7 @@ export class ProjectDataService implements OnDestroy {
     }
 
     public setProject(project: Project): void {
+        console.log('PROJECT IS SET TO', project);
         this._project.next(project);
     }
 

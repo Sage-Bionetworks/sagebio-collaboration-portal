@@ -176,7 +176,7 @@ export function getEntityIdsWithEntityPermissionByUser(
         },
         entityType
     });
-    return EntityPermission.find(filter, '_id')
+    return EntityPermission.find(filter, 'entityId')
         .exec()
-        .then(permissions => permissions.map(p => p._id.toString()));
+        .then(permissions => permissions.map(p => p.entityId));
 }
