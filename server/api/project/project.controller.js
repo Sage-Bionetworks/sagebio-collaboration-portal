@@ -15,6 +15,10 @@ import { isAdmin } from '../../auth/auth';
 // Gets a list of Projects
 export function index(req, res) {
     getProjectIdsByUser(req.user._id)
+        .then(projectIds => {
+            console.log('PROJECT IDS', projectIds);
+            return projectIds;
+        })
         .then(projectIds => Project.find({
             _id: {
                 $in: projectIds,
@@ -63,6 +67,16 @@ export function destroy(req, res) {
         .exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
+// Returns whether a project is public or private
+export function showVisibility(req, res) {
+    return Project.findById(req.params.id, 'visibility')
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(project => project && project.visibility)
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 

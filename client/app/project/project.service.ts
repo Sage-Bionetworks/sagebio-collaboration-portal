@@ -12,6 +12,7 @@ import { Project } from 'models/entities/project.model';
 import { Patch } from 'models/patch.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
+import { EntityVisibility } from 'models/entities/entity.model';
 
 @Injectable()
 export class ProjectService {
@@ -25,6 +26,10 @@ export class ProjectService {
 
     getProject(projectId: string): Observable<Project> {
         return this.httpClient.get<Project>(`/api/projects/${projectId}`);
+    }
+
+    getVisibility(projectId: string): Observable<EntityVisibility> {
+        return this.httpClient.get<EntityVisibility>(`/api/projects/${projectId}/visibility`);
     }
 
     create(project: Project): Observable<Project> {

@@ -22,7 +22,7 @@ export function hasRole(userId, role) {
             .exec()
             .then(user => {
                 if (user) {
-                    throw new Error('plop');
+                    // throw new Error('plop');
                     const roles = Object.values(config.userRoles).map(r => r.value);
                     const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
                     return resolve(userHasRole);
@@ -127,8 +127,10 @@ export function hasAccessToEntity(
                                     .then(resource => resource && resource.projectId)
                                 : null)
                         )
+                        // TODO: Check if the entity is public
                         .then(entityIdToCheck => {
                             if (entityIdToCheck) {
+                                console.log('CHECKING PERMISSION FOR ENTITY', entityId);
                                 const filter = {
                                     entityId: entityIdToCheck,
                                     user: userId,
@@ -140,8 +142,8 @@ export function hasAccessToEntity(
                                     },
                                 };
                                 return EntityPermission.find(filter)
-                                    .exec()
-                                    .then(entityPermission => entityPermission);
+                                    .exec();
+                                    // .then(entityPermission => entityPermission);
                             }
                             return false;
                         })

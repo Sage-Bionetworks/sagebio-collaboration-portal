@@ -12,6 +12,7 @@ import { UserRole } from 'models/auth/user.model';
 import { Project } from 'models/entities/project.model';
 import { SocketService } from 'components/socket/socket.service';
 import config from '../../app/app.constants';
+import { EntityVisibility } from 'models/entities/entity.model';
 
 export class UserPermissions {
     constructor(private role: UserRole, private permissions: UserPermission[],
@@ -49,8 +50,9 @@ export class UserPermissions {
         return permission ? permission.access : null;
     }
 
-    public canReadEntity(entityId: string, entityType: string, visibility = false): boolean {
-        if (visibility) {
+    public canReadEntity(entityId: string, entityType: string, visibility: EntityVisibility = EntityVisibility.PRIVATE): boolean {
+        if (visibility === EntityVisibility.PUBLIC) {
+            console.log('YOU CAN SEE PUBLIC ENTITY');
             return true;
         }
         const access = this.getEntityUserAccess(entityId, entityType);
