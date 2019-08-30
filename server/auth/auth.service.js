@@ -46,7 +46,8 @@ export function isAuthenticated() {
                         next();
                         return null;
                     })
-                    .catch(err => next(err));
+                    // .catch(err => next(err));
+                    .catch(next); // handled by the built-in error handler if not catched later
             })
     );
 }
@@ -59,19 +60,20 @@ export function isAuthenticated() {
  * @param {*} permission
  */
 export function isAuthorized(permission) {
-    return compose().use((req, res, next) =>
-        _hasUserPermission(req.user._id, permission)
-            .then(accessGranted => {
-                if (accessGranted) return next();
-                return null;
-            })
-            .catch(err => {
-                console.error(`ERROR attempting authorization request: ${err}`);
-                // Block request
-                res.status(403).send('Forbidden');
-                return null;
-            })
-    );
+    return compose()
+        .use((req, res, next) =>
+            _hasUserPermission(req.user._id, permission)
+                .then(accessGranted => {
+                    if (accessGranted) return next();
+                    return null;
+                })
+                .catch(err => {
+                    console.error(`ERROR attempting authorization request: ${err}`);
+                    // Block request
+                    res.status(403).send('Forbidden');
+                    return null;
+                })
+        );
 }
 
 /**
@@ -146,6 +148,7 @@ export function hasRole(role) {
             if (_hasRole(req.user._id, role)) {
                 return next();
             }
+
             return res.status(403).send('Forbidden');
         });
 }
