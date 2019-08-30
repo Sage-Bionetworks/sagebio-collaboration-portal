@@ -6,6 +6,7 @@ import Resource from '../api/resource/models/resource.model';
 import Tool from '../api/tool/tool.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Project from '../api/project/project.model';
+import App from '../api/app/app.model';
 import config from '../config/environment';
 import AuthError from './auth-error';
 
@@ -86,6 +87,14 @@ export function hasAccessToEntity(
         return isAdmin(userId)
             .then(isAuthorized =>
                 (!isAuthorized
+                    ? App
+                        .findById(entityId)
+                        .exec()
+                        .then(app => !!app) // app is public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
                     ? Tool
                         .findById(entityId)
                         .exec()
@@ -105,7 +114,7 @@ export function hasAccessToEntity(
                     ? Project
                         .findById(entityId)
                         .exec()
-                        .then(project => !!project && project.visibility === 'Public') // project is public
+                        .then(project => !!project && project.visibility === 'Public') // project is public // TODO use enum
                     : isAuthorized)
             )
             .then(isAuthorized =>
@@ -113,24 +122,24 @@ export function hasAccessToEntity(
                     ? Project
                         .findById(entityId)
                         .then(project => project && project._id)
-                        .then(entityIdToCheck =>
-                            (!entityIdToCheck
-                                ? Insight.findById(entityId)
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Insight.findById(entityId)
                                     .exec()
-                                    .then(insight => insight && insight.projectId)
-                                : null)
-                        )
-                        .then(entityIdToCheck =>
-                            (!entityIdToCheck
-                                ? Resource.findById(entityId)
+                                    .then(insight => insight && insight.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Resource.findById(entityId)
                                     .exec()
-                                    .then(resource => resource && resource.projectId)
-                                : null)
-                        )
-                        // TODO: Check if the entity is public
+                                    .then(resource => resource && resource.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
                         .then(entityIdToCheck => {
                             if (entityIdToCheck) {
-                                console.log('CHECKING PERMISSION FOR ENTITY', entityId);
                                 const filter = {
                                     entityId: entityIdToCheck,
                                     user: userId,
@@ -143,7 +152,6 @@ export function hasAccessToEntity(
                                 };
                                 return EntityPermission.find(filter)
                                     .exec();
-                                    // .then(entityPermission => entityPermission);
                             }
                             return false;
                         })
@@ -157,8 +165,16 @@ export function hasAccessToEntity(
 }
 
 export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model) {
-    return new Promise(resolve => {
-        return isAdmin(userId)
+    return new Promise(resolve =>
+        isAdmin(userId)
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? App
+                        .findById(entityId)
+                        .exec()
+                        .then(app => !!app) // app is public
+                    : isAuthorized)
+            )
             .then(isAuthorized =>
                 (!isAuthorized
                     ? Tool
@@ -188,20 +204,22 @@ export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model
                     ? Project
                         .findById(entityId)
                         .then(project => project && project._id)
-                        .then(entityIdToCheck =>
-                            (!entityIdToCheck
-                                ? Insight.findById(entityId)
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Insight.findById(entityId)
                                     .exec()
-                                    .then(insight => insight && insight.projectId)
-                                : null)
-                        )
-                        .then(entityIdToCheck =>
-                            (!entityIdToCheck
-                                ? Resource.findById(entityId)
+                                    .then(insight => insight && insight.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Resource.findById(entityId)
                                     .exec()
-                                    .then(resource => resource && resource.projectId)
-                                : null)
-                        )
+                                    .then(resource => resource && resource.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
                         .then(entityIdToCheck => {
                             if (entityIdToCheck) {
                                 const filter = {
@@ -211,7 +229,6 @@ export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model
                                 };
                                 return EntityPermission.find(filter)
                                     .exec()
-                                    // .then(entityPermission => entityPermission);
                                     .then(entityPermission => {
                                         if (entityPermission) {
                                             if (entityPermission.access === config.accessTypes.ADMIN.value) {
@@ -236,8 +253,8 @@ export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model
             .then(isAuthorized => resolve(isAuthorized))
             .catch(err => {
                 throw new Error(err);
-            });
-    });
+            })
+    );
 }
 
 /**

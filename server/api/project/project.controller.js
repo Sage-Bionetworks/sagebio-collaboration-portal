@@ -15,20 +15,11 @@ import { isAdmin } from '../../auth/auth';
 // Gets a list of Projects
 export function index(req, res) {
     getProjectIdsByUser(req.user._id)
-    // getProjectIds()
-        .then(projectIds => {
-            console.log('PROJECT IDS', projectIds);
-            return projectIds;
-        })
         .then(projectIds => Project.find({
             _id: {
                 $in: projectIds,
             }})
             .exec()
-            .then(P => {
-                console.log('P FOUND', P);
-                return P;
-            })
         )
         .then(respondWithResult(res))
         .catch(handleError(res));
