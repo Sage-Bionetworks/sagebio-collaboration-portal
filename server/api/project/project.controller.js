@@ -66,6 +66,16 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
+// Returns whether a project is public or private
+export function showVisibility(req, res) {
+    return Project.findById(req.params.id, 'visibility')
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(project => project && project.visibility)
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // HELPER FUNCTIONS
 
 function createAdminPermissionForEntity(user, entityType) {

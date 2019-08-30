@@ -15,7 +15,6 @@ export class AuthGuard implements CanActivate {
         return this.authService.authInfo()
             .pipe(
                 map(authInfo => {
-                    console.log('ROUTE PLOP', route.url[0].path);
                     const isLoggedIn = authInfo.isLoggedIn();
                     if (!isLoggedIn) {
                         this.authService.setRedirectUrl(state.url);

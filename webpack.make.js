@@ -286,16 +286,16 @@ module.exports = function makeWebpackConfig(options) {
         }),
 
         // TypeScript compilation errors WILL NOT FAIL THE BUILD unless we explicitly handle it here
-        function () {
-            this.plugin("done", function(stats)
-            {
-                if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1)
-                {
-                    console.log(stats.compilation.errors);
-                    process.exit(1); // or throw new Error('webpack build failed.');
-                }
-            });
-        }
+        // function () {
+        //     this.plugin("done", function(stats)
+        //     {
+        //         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1)
+        //         {
+        //             console.log(stats.compilation.errors);
+        //             process.exit(1); // or throw new Error('webpack build failed.');
+        //         }
+        //     });
+        // }
 
     ];
 
