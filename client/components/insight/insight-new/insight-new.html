@@ -25,7 +25,7 @@
                     <option *ngFor="let value of insightSpecs.type.values" [value]="value">{{ value }}</option>
                 </select>
             </mat-form-field>
-            <entity-attachments></entity-attachments>
+            <entity-attachments *ngIf="project" [entityId]="project._id"></entity-attachments>
 
             <mat-error *ngIf="errors.newInsight">
                 {{errors.newInsight}}
