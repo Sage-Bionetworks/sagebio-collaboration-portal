@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { registerEvents } from '../notification.events';
+import { registerEvents } from '../user-notification.events';
 import User from '../../user/user.model';
 import config from '../../../config/environment';
 
@@ -44,15 +44,17 @@ var NotificationSchema = new mongoose.Schema({
  */
 
 const autoPopulatePre = function (next) {
-    this.populate('userId', User.profileProperties)
-        .populate('createdBy', User.profileProperties)
+    // eslint-disable-next-line no-invalid-this
+    this
+        .populate('userId', User.profile)
+        .populate('createdBy', User.profile)
     next();
 };
 
 const autoPopulatePost = function (doc) {
     return doc
-        .populate('userId', User.profileProperties)
-        .populate('createdBy', User.profileProperties)
+        .populate('userId', User.profile)
+        .populate('createdBy', User.profile)
         .execPopulate();
 };
 

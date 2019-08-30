@@ -10,6 +10,7 @@ import { EntityNotificationViewComponent } from './entity-notification-view/enti
 import { EntityAccessNotificationViewComponent } from './entity-access-notification-view/entity-access-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
 
+// import { UserCardComponent } from '../../app/account/profile/user-card/user-card.component'
 // import { UserNotificationViewComponent } from './user-notification-view/user-notification-view.component';
 
 @NgModule({
@@ -17,7 +18,7 @@ import { UserNotificationService } from './user-notification.service';
         CommonModule,
         MaterialModule,
         SidenavModule,
-        UserAvatarModule
+        UserAvatarModule,
     ],
     providers: [
         UserNotificationService
@@ -28,7 +29,7 @@ import { UserNotificationService } from './user-notification.service';
         MessageNotificationViewComponent,
         EntityNotificationViewComponent,
         EntityAccessNotificationViewComponent,
-        // UserNotificationViewComponent,
+        // UserCardComponent
     ],
     exports: [
         UserNotificationButtonComponent,

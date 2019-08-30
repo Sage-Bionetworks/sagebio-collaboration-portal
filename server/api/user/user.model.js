@@ -45,7 +45,8 @@ var UserSchema = new Schema({
         }
     },
     picture: {
-        type: String
+        type: String,
+        default: null,
     },
     info: {
         type: String,

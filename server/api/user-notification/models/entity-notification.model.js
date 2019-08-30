@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import Notification from './notification.model';
-import Insight from '../../insight/models/insight.model';
 import config from '../../../config/environment';
 
 var EntityNotificationSchema = new mongoose.Schema({
@@ -15,15 +14,4 @@ var EntityNotificationSchema = new mongoose.Schema({
     },
 });
 
-/**
- * Middlewares
- */
-
-// const autoPopulatePre = function (next) {
-//     return doc
-//         .populate('entityId', Insight)
-//         .execPopulate();
-// };
-
-// EntityNotificationSchema.pre('find', autoPopulatePre);
 export default Notification.discriminator('EntityNotification', EntityNotificationSchema);

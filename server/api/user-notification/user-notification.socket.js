@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import NotificationEvents from './notification.events';
+import NotificationEvents from './user-notification.events';
 
 // Model events to emit
 var events = ['save', 'remove'];

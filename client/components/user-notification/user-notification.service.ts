@@ -31,26 +31,26 @@ export class UserNotificationService {
 
 
     queryMessageNotifications(query?: {}): Observable<MessageNotification[]> {
-        return this.httpClient.get<MessageNotification[]>(`/api/notifications/message${stringifyQuery(query)}`);
+        return this.httpClient.get<MessageNotification[]>(`/api/user-notifications/message${stringifyQuery(query)}`);
     }
 
     createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
-        return this.httpClient.post<MessageNotification>(`/api/notifications/message/${messageNotification.userId}`, messageNotification);
+        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message/${messageNotification.userId}`, messageNotification);
     }
 
     queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
-        return this.httpClient.get<EntityNotification[]>(`/api/notifications/entity${stringifyQuery(query)}`);
+        return this.httpClient.get<EntityNotification[]>(`/api/user-notifications/entity${stringifyQuery(query)}`);
     }
 
     createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
-        return this.httpClient.post<EntityNotification>(`/api/notifications/entity/${entityNotification.userId}`, entityNotification);
+        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity/${entityNotification.userId}`, entityNotification);
     }
 
     queryEntityAccessNotifications(query?: {}): Observable<EntityAccessNotification[]> {
-        return this.httpClient.get<EntityAccessNotification[]>(`/api/notifications/entity-access${stringifyQuery(query)}`);
+        return this.httpClient.get<EntityAccessNotification[]>(`/api/user-notifications/entity-access${stringifyQuery(query)}`);
     }
 
     createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
-        return this.httpClient.post<EntityAccessNotification>(`/api/notifications/entity-access/${entityAccessNotification.userId}`, entityAccessNotification);
+        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access/${entityAccessNotification.userId}`, entityAccessNotification);
     }
 }

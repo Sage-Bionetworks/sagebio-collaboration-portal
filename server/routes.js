@@ -16,7 +16,7 @@ export default app => {
     app.use('/api/apps', require('./api/app'));
     app.use('/api/invites', require('./api/invite'));
     app.use('/api/entity-permissions', require('./api/entity-permission'));
-    app.use('/api/notifications', require('./api/notification'));
+    app.use('/api/user-notifications', require('./api/user-notification'));
     app.use('/api/messages', require('./api/message'));
     app.use('/api/threads', require('./api/thread'));
     app.use('/api/projects', require('./api/project'));

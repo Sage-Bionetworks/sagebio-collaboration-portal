@@ -9,7 +9,8 @@ import { EntityAccessNotification } from '../models/entity-access-notificiation.
 import { mergeMap, map, switchMap, tap, ignoreElements } from 'rxjs/operators';
 
 // TODO: Do not refer to something in app/, instead move ProjectService to components
-// import { ProjectService } from '../../../app/project/project.service';
+import { ProjectService } from '../../../app/project/project.service';
+import { InsightService } from 'components/insight/insight.service'
 import config from '../../../app/app.constants';
 
 // import { InviteBundle } from '../models/invite-bundle.model';
@@ -41,30 +42,22 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     static parameters = [
         SecondarySidenavService,
         UserPermissionDataService,
-        // ProjectService,
-        UserNotificationService
+        UserNotificationService,
+        InsightService,
+        ProjectService
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
         private userPermissionDataService: UserPermissionDataService,
-        // private projectService: ProjectService,
-        private userNotificationService: UserNotificationService
+        private userNotificationService: UserNotificationService,
+        private projectService: ProjectService,
+        private insightService: InsightService
     ) {
         this.avatarSize = config.avatar.size.mini;
     }
 
 
     ngOnInit() {
-        // const createNotificationBundle = notification => of(notification)
-        //     .pipe(
-        //         switchMap(noti => forkJoin({
-        //             notification: of(noti),
-        //             author: this.projectService.getProject(noti.cratedBy),
-        //             entity: this.projectService.getProject(noti.cratedBy),
-        //             entityPermission: this.projectService.getProject(noti.cratedBy),
-        //         }))
-        //     );
-
         this.userNotificationService.queryMessageNotifications()
             .subscribe(messages => {
                 this._messages.next(messages);
@@ -73,12 +66,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         this.userNotificationService.queryEntityNotifications()
             .subscribe(entityInvites => {
                 this._entityInvites.next(entityInvites);
-                console.log('this._entityInvites: ', this._entityInvites);
             }, err => console.error(err));
         this.userNotificationService.queryEntityAccessNotifications()
             .subscribe(entityAccessInvites => {
                 this._entityAccessInvites.next(entityAccessInvites);
-                console.log('this._entityAccessInvites: ', this._entityAccessInvites);
             }, err => console.error(err));
     }
 
