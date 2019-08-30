@@ -1,25 +1,25 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ContentChild } from '@angular/core';
-import { orderBy } from 'lodash';
-import { Observable } from 'rxjs';
-import { ProvenanceService } from 'components/provenance/provenance.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Activity } from 'models/provenance/activity.model';
-import { ProjectDataService } from '../project-data.service';
 import { Project } from 'models/entities/project.model';
-import config from '../../app.constants';
 import { NotificationService } from 'components/notification/notification.service';
-import { MeasurableDirective } from 'components/directives/measurable.directive';
+import { ProvenanceService } from 'components/provenance/provenance.service';
+import { ProvenanceGraphComponent } from 'components/provenance/provenance-graph/provenance-graph.component';
+import { ResizedEvent } from 'components/directives/resized/resized-event';
+import config from '../../app.constants';
+
+import { ProjectDataService } from '../project-data.service';
 
 @Component({
     selector: 'project-activities',
     template: require('./project-activities.html'),
     styles: [require('./project-activities.scss')],
 })
-export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
-    @ViewChild('plop', { static: false }) container: ElementRef<HTMLElement>; // OR viewContainerRef?
-    @ViewChild(MeasurableDirective, { static: false }) measurable: MeasurableDirective;
+export class ProjectActivitiesComponent implements OnInit {
+    @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private project: Project;
-    private provenanceGraph: any;
+    private provenanceGraphData: any;
     private activityTypeFilters = config.activityTypeFilters;
     private showNewActivityForm = false;
 
@@ -38,35 +38,11 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
             }, err => console.error(err));
     }
 
-    ngAfterViewInit() {
-        // console.log(this.container);
-        // console.log(this.container.nativeElement.offsetWidth);
-        setTimeout(_ => this.inflate());
-    }
-
-    inflate() {
-        this.measurable.width()
-            .subscribe(width => console.log('WIDTH', width));
-        // console.log('measurable', this.measurable.getWidth());
-        // let bounds = <ClientRect>this.container.nativeElement.getBoundingClientRect();
-        // console.log('BOUND', bounds);
-        // if(bounds.bottom > 0 && bounds.top < window.innerHeight) {
-        //   this.isLoading = true;
-        //   let img = new Image();
-        //   img.src = this.url;
-        //   img.onload = _=> {
-        //     this.isLoaded = true;
-        //     this.isLoading = false;
-        //     this.renderer.setElementStyle(this.holder,
-        //       'background-image', 'url("' + this.url + '")');
-        //   };
-        }
-
     onFilterChange(query) {
         if (this.project) {
             this.provenanceService.getProvenanceGraph('created_at', 'desc', 10)
                 .subscribe(activity => {
-                    this.provenanceGraph = activity;
+                    this.provenanceGraphData = activity;
                 }, err => {
                     console.log(err);
                 });
@@ -76,5 +52,12 @@ export class ProjectActivitiesComponent implements OnInit, AfterViewInit {
     onNewActivity(activity: Activity): void {
         this.showNewActivityForm = false;
         this.notificationService.info('The Activity has been successfully created');
+    }
+
+    onResized(event: ResizedEvent) {
+        if (this.provenanceGraph && event) {
+            let newHeight = Math.max(Math.min(400, event.newHeight), (9 / 16) * event.newWidth);
+            this.provenanceGraph.setDimentions(event.newWidth, newHeight);
+        }
     }
 }

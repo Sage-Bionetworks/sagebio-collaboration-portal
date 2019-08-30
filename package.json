@@ -13,6 +13,7 @@
         "connect-mongo": "^3.0.0",
         "cookie-parser": "^1.4.4",
         "core-js": "^3.2.1",
+        "css-element-queries": "^1.2.1",
         "d3": "^5.9.7",
         "ejs": "^2.6.2",
         "errorhandler": "^1.5.1",
