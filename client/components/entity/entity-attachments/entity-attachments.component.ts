@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'entity-attachments',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
     styles: [require('./entity-attachments.scss')],
 })
 export class EntityAttachmentsComponent {
+    @Input() entityId: string;
+
     static parameters = [];
     constructor () {}
 
