@@ -86,6 +86,7 @@ export function isAuthorizedForEntity(allowedAccesses) {
     return compose().use((req, res, next) =>
         _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
             .then(accessGranted => {
+                console.log('_hasAccessToEntity OUTPUT', accessGranted);
                 if (accessGranted) return next();
                 return null;
             })
