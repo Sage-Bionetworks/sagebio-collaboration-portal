@@ -1,6 +1,6 @@
 {
     "name": "phccp",
-    "version": "1.0.0-alpha.4",
+    "version": "1.0.0-alpha.6",
     "main": "server/index.js",
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
@@ -80,7 +80,6 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/plugin-syntax-export-default-from": "^7.2.0",
-        "@babel/plugin-syntax-export-extensions": "^7.0.0-beta.32",
         "@babel/plugin-transform-async-to-generator": "^7.5.0",
         "@babel/plugin-transform-runtime": "^7.5.5",
         "@babel/preset-env": "^7.5.5",
@@ -106,7 +105,6 @@
         "awesome-typescript-loader": "^5.2.1",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
-        "babel-plugin-angular2-annotations": "^5.1.0",
         "bs-fullscreen-message": "^1.1.0",
         "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
