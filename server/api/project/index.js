@@ -65,7 +65,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Project not found
  */
-router.get('/:id', auth.hasPermissionForEntity([
+router.get('/:entityId', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
@@ -125,7 +125,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id', auth.hasPermissionForEntity([
+router.patch('/:entityId', auth.hasPermissionForEntity([
     ADMIN_ACCESS
 ]), controller.patch);
 
@@ -138,16 +138,16 @@ router.patch('/:id', auth.hasPermissionForEntity([
  *     summary: Returns the visibility of the project.
  *     description: Returns the visibility of the project.
  *     produces:
- *       - application/json
+ *       - text/plain
  *     responses:
  *       '200':
  *         description: The visibility of the project
  *         content:
- *           application/json:
+ *           text/plain:
  *             schema:
  *               $ref: '#/components/schemas/EntityVisibility'
  */
-router.get('/:id/visibility', controller.showVisibility);
+router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
 
 /**
  * @swagger

@@ -29,10 +29,11 @@ export class ProjectGuard implements CanActivate {
             .pipe(
                 map(data => data.permissions.canReadEntity(entityId, 'project', data.visibility)),
                 tap(canAccess => {
+                    console.log('CAN ACCESS', canAccess);
                     if (!canAccess) {
                         this.notificationService.info('You do not have access to this project.');
-                        return of(false);
                     }
+                    return of(canAccess);
                 }),
                 catchError(err => {
                     console.error(err);

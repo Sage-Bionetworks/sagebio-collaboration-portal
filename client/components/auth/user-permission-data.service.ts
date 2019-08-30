@@ -52,6 +52,7 @@ export class UserPermissions {
 
     public canReadEntity(entityId: string, entityType: string, visibility: EntityVisibility = EntityVisibility.PRIVATE): boolean {
         if (visibility === EntityVisibility.PUBLIC) {
+            console.log('YOU CAN SEE PUBLIC ENTITY');
             return true;
         }
         const access = this.getEntityUserAccess(entityId, entityType);

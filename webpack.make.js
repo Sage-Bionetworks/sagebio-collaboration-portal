@@ -296,7 +296,6 @@ module.exports = function makeWebpackConfig(options) {
         //         }
         //     });
         // }
-
     ];
 
     if (BUILD) {

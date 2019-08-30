@@ -6,7 +6,9 @@ import Resource from '../api/resource/models/resource.model';
 import Tool from '../api/tool/tool.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import Project from '../api/project/project.model';
+import App from '../api/app/app.model';
 import config from '../config/environment';
+import AuthError from './auth-error';
 
 /**
  * Resolves as true if the user has the requested role.
@@ -21,11 +23,15 @@ export function hasRole(userId, role) {
             .exec()
             .then(user => {
                 if (user) {
+                    // throw new Error('plop');
                     const roles = Object.values(config.userRoles).map(r => r.value);
                     const userHasRole = roles.indexOf(user.role) === roles.indexOf(role);
                     return resolve(userHasRole);
                 }
                 return resolve(false);
+            })
+            .catch(err => {
+                throw new AuthError(`Unable to check user role: ${err.message}`);
             });
     });
 }
@@ -37,7 +43,6 @@ export function hasRole(userId, role) {
  * @return {Promise<boolean>}
  */
 export function isAdmin(userId) {
-    console.log('isAdmin function', userId);
     return hasRole(userId, config.userRoles.ADMIN.value);
 }
 
@@ -79,116 +84,177 @@ export function hasAccessToEntity(
             return resolve(false);
         }
 
-        const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) {
-            return resolve(true);
-        }
-
-        const tool = async () => await Tool.findById(entityId);
-        if (tool) {
-            return resolve(true);
-        }
-
-        const dataCatalog = async () => await DataCatalog.findById(entityId);
-        if (dataCatalog) {
-            return resolve(true);
-        }
-
-        const insight = async () => await Insight.findById(entityId);
-        if (insight) {
-            entityId = insight.projectId;
-        } else {
-            const resource = async () => await Resource.findById(entityId);
-            if (resource) {
-                entityId = resource.projectId;
-            }
-        }
-
-        let project = async () => await Project.findById(entityId);
-        if (project.visibility === 'Public') {
-            return resolve(true);
-        }
-
-        const filter = {
-            entityId,
-            user: userId,
-            access: {
-                $in: allowedAccesses,
-            },
-            status: {
-                $in: allowedAccessStatus,
-            },
-        };
-        const entityPermission = async () =>
-            await EntityPermission.find(filter)
-                .exec()
-                .catch(err => {
-                    throw new Error(err);
-                });
-
-        if (entityPermission) {
-            return resolve(true);
-        }
-        return resolve(false);
+        return isAdmin(userId)
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? App
+                        .findById(entityId)
+                        .exec()
+                        .then(app => !!app) // app is public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Tool
+                        .findById(entityId)
+                        .exec()
+                        .then(tool => !!tool) // tool are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? DataCatalog
+                        .findById(entityId)
+                        .exec()
+                        .then(catalog => !!catalog) // data catalog are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .exec()
+                        .then(project => !!project && project.visibility === 'Public') // project is public // TODO use enum
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .then(project => project && project._id)
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Insight.findById(entityId)
+                                    .exec()
+                                    .then(insight => insight && insight.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Resource.findById(entityId)
+                                    .exec()
+                                    .then(resource => resource && resource.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (entityIdToCheck) {
+                                const filter = {
+                                    entityId: entityIdToCheck,
+                                    user: userId,
+                                    access: {
+                                        $in: allowedAccesses,
+                                    },
+                                    status: {
+                                        $in: allowedAccessStatus,
+                                    },
+                                };
+                                return EntityPermission.find(filter)
+                                    .exec();
+                            }
+                            return false;
+                        })
+                    : isAuthorized)
+            )
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            });
     });
 }
 
 export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model) {
-    return new Promise(resolve => {
-        const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) {
-            return resolve(true);
-        }
-
-        const tool = async () => await Tool.findById(entityId);
-        if (tool) {
-            return resolve(true);
-        }
-
-        const dataCatalog = async () => await DataCatalog.findById(entityId);
-        if (dataCatalog) {
-            return resolve(true);
-        }
-
-        // is the user an admin of the related entity
-
-        const insight = async () => await Insight.findById(entityId);
-        if (insight) {
-            entityId = insight.projectId;
-        } else {
-            const resource = async () => await Resource.findById(entityId);
-            if (resource) {
-                entityId = resource.projectId;
-            }
-        }
-
-        let project = async () => await Project.findById(entityId);
-        if (project.visibility === 'Public') {
-            return resolve(true);
-        }
-
-        const filter = {
-            entityId,
-            user: userId,
-            status: config.inviteStatusTypes.ACCEPTED.value,
-        };
-        const entityPermission = async () =>
-            await EntityPermission.find(filter)
-                .exec()
-                .catch(err => {
-                    throw new Error(err);
-                });
-
-        if (entityPermission.access === config.accessTypes.ADMIN.value) {
-            return resolve(true);
-        } else if ([config.accessTypes.READ.value, config.accessTypes.WRITE.value].includes(entityPermission.access)) {
-            const object = async () => await Model.findById(objectId).exec();
-            if (object.createdBy === userId) {
-                return resolve(true);
-            }
-        }
-        return resolve(false);
-    });
+    return new Promise(resolve =>
+        isAdmin(userId)
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? App
+                        .findById(entityId)
+                        .exec()
+                        .then(app => !!app) // app is public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Tool
+                        .findById(entityId)
+                        .exec()
+                        .then(tool => !!tool) // tool are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? DataCatalog
+                        .findById(entityId)
+                        .exec()
+                        .then(catalog => !!catalog) // data catalog are currently public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .exec()
+                        .then(project => !!project && project.visibility === 'Public') // project is public
+                    : isAuthorized)
+            )
+            .then(isAuthorized =>
+                (!isAuthorized
+                    ? Project
+                        .findById(entityId)
+                        .then(project => project && project._id)
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Insight.findById(entityId)
+                                    .exec()
+                                    .then(insight => insight && insight.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (!entityIdToCheck) {
+                                return Resource.findById(entityId)
+                                    .exec()
+                                    .then(resource => resource && resource.projectId);
+                            }
+                            return entityIdToCheck;
+                        })
+                        .then(entityIdToCheck => {
+                            if (entityIdToCheck) {
+                                const filter = {
+                                    entityId: entityIdToCheck,
+                                    user: userId,
+                                    status: config.inviteStatusTypes.ACCEPTED.value,
+                                };
+                                return EntityPermission.find(filter)
+                                    .exec()
+                                    .then(entityPermission => {
+                                        if (entityPermission) {
+                                            if (entityPermission.access === config.accessTypes.ADMIN.value) {
+                                                return true;
+                                            } else if ([config.accessTypes.READ.value, config.accessTypes.WRITE.value].includes(entityPermission.access)) {
+                                                return Model.findById(objectId)
+                                                    .exec()
+                                                    .then(object =>
+                                                        (object
+                                                            ? object.createdBy === userId
+                                                            : false)
+                                                    );
+                                            }
+                                        }
+                                        return false;
+                                    });
+                            }
+                            return false;
+                        })
+                    : isAuthorized)
+            )
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            })
+    );
 }
 
 /**
@@ -204,20 +270,22 @@ export function hasUserPermission(userId, permission) {
             return resolve(false);
         }
 
-        const _isAdmin = async () => await isAdmin(userId);
-        if (_isAdmin) {
-            return resolve(true);
-        }
-
-        const filter = {
-            user: userId,
-            permission,
-        };
-        const userPermission = async () => await UserPermission.find(filter).exec();
-
-        if (userPermission) {
-            return resolve(true);
-        }
-        return resolve(false);
+        return isAdmin(userId)
+            .then(isAuthorized => {
+                if (!isAuthorized) {
+                    const filter = {
+                        user: userId,
+                        permission,
+                    };
+                    return UserPermission.find(filter)
+                        .exec()
+                        .then(userPermission => !!userPermission);
+                }
+                return isAuthorized;
+            })
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            });
     });
 }

@@ -4,23 +4,16 @@ import app from '../..';
 import User from './user.model';
 import Organization from '../organization/organization.model';
 import request from 'supertest';
-import {
-    pick
-} from 'lodash/fp';
+import { pick } from 'lodash/fp';
 import { adminUser, authOrganization } from '../integration-util';
 
 describe('User API:', function () {
-    before(() => {
-        return User.deleteMany()
-            .then(() => Organization.deleteMany())
-            .then(() => new User(adminUser).save())
-            .then(() => new Organization(authOrganization).save());
-    });
+    before(() => User.deleteMany()
+        .then(() => Organization.deleteMany())
+        .then(() => new User(adminUser).save())
+        .then(() => new Organization(authOrganization).save()));
 
-    after(() => Promise.all([
-        Organization.deleteMany(),
-        User.deleteMany()
-    ]));
+    after(() => Promise.all([Organization.deleteMany(), User.deleteMany()]));
 
     describe('GET /api/users/me', function () {
         var token;
@@ -28,13 +21,10 @@ describe('User API:', function () {
         before(function (done) {
             request(app)
                 .post('/auth/local')
-                .send(pick([
-                    'email',
-                    'password'
-                ], adminUser))
+                .send(pick(['email', 'password'], adminUser))
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .end((err, res) => {
+                .end((_, res) => {
                     token = res.body.token;
                     done();
                 });
@@ -46,7 +36,7 @@ describe('User API:', function () {
                 .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .end((err, res) => {
+                .end((_, res) => {
                     expect(res.body._id.toString()).to.equal(adminUser._id.toString());
                     done();
                 });
