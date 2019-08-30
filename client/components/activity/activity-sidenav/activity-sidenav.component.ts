@@ -109,9 +109,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     onResized(event: ResizedEvent) {
-        console.log('RESIZE');
         if (this.provenanceGraph && event) {
-            console.log('WIDTH SIDENAV', event.newWidth);
             this.provenanceGraph.setDimentions(event.newWidth);
         }
     }

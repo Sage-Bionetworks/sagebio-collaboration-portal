@@ -27,7 +27,7 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
     nodes: Node[] = [];
     links: Link[];
     graph: ForceDirectedGraph;
-    private _options: { width: number; height: number } = { width: 200, height: 300 };
+    private _options: { width: number; height: number } = { width: 400, height: 300 };
 
     static parameters = [D3Service, ChangeDetectorRef];
     constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) {}
@@ -68,7 +68,9 @@ export class ProvenanceGraphComponent implements AfterViewInit, OnChanges {
 
     setDimentions(width: number, height: number = null): void {
         this.options = pickBy(identity, { width, height });
-        this.graph.initSimulation(this.options);
+        if (this.graph) {
+            this.graph.initSimulation(this.options);  // TODO: graph should subscribe to option changes
+        }
     }
 
     convertToD3(neojson) {

@@ -43,7 +43,6 @@
         flex-flow: column nowrap;
         flex-grow: 0;
         flex-shrink: 0;
-        // min-width: 300px;
         margin: 25px;
     }
 
@@ -53,54 +52,7 @@
         .activities-graph-results {
             display: flex;
             flex-flow: column nowrap;
-            // flex-grow: 0;
-            // flex-shrink: 0;
             margin: 0 auto;
         }
     }
 }
-
-// .app-activity-graph-container {
-//     margin: 0 25px;
-//     // display: block;
-//     // position: relative;
-//     // width: 100%;
-//     // overflow: hidden;
-
-//     .activities-graph-results {
-//         display: flex;
-//         flex-flow: column nowrap;
-//         flex-grow: 0;
-//         flex-shrink: 0;
-//         margin: 0 auto;
-//     }
-// }
-
-// .app-activity-body {
-//     width: 100%;
-//     margin: 10px 10px 10px 10px;
-
-//     .activities-graph-content-container {
-//         margin: 20px 20px;
-
-//         .activities-graph-results {
-//             display: flex;
-//             flex-flow: column nowrap;
-//             flex-grow: 0;
-//             flex-shrink: 0;
-//             margin: 0 auto;
-//         }
-//     }
-// }
-
-// .activities-graph-content-container {
-//     margin: 20px 20px;
-
-//     .activities-graph-results {
-//         display: flex;
-//         flex-flow: column nowrap;
-//         flex-grow: 0;
-//         flex-shrink: 0;
-//         margin: 0 auto;
-//     }
-// }
