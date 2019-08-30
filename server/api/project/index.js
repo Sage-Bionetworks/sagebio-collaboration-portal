@@ -131,6 +131,26 @@ router.patch('/:id', auth.hasPermissionForEntity([
 
 /**
  * @swagger
+ * /projects:
+ *   get:
+ *     tags:
+ *       - Projects
+ *     summary: Returns the visibility of the project.
+ *     description: Returns the visibility of the project.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: The visibility of the project
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EntityVisibility'
+ */
+router.get('/:id/visibility', controller.showVisibility);
+
+/**
+ * @swagger
  * /projects/{id}:
  *   delete:
  *     tags:
