@@ -1,48 +1,106 @@
 .app-activity-header {
-  // display: flex;
-  // flex-flow: row nowrap;
-  // align-items: center;
-  // padding: 0 0 0 10px;
-  padding-left: 10px;
+    // display: flex;
+    // flex-flow: row nowrap;
+    // align-items: center;
+    // padding: 0 0 0 10px;
+    padding-left: 10px;
 }
 
 .app-activity-header-title {
-  display: flex;
-  flex-flow: column nowrap;
-  flex: 1;
-  justify-content: center;
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
 }
 
 .app-activity-header-close {
-  margin: 0 10px 0 0;
+    margin: 0 10px 0 0;
 }
 
-.app-activity-info {
-  margin: 25px;
-  display: flex;
-  flex-direction: column;
+.activities-graph-container {
+    width: 100%;
 
-  span {
-    margin: 10px;
-  }
+    .app-activity-info {
+        margin: 25px;
+        display: flex;
+        flex-direction: column;
+
+        span {
+            margin: 10px;
+        }
+    }
+
+    .app-activity-filters-container {
+        display: flex;
+        flex-flow: column nowrap;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin: 0 25px;
+    }
+
+    .activities-graph-filters-container {
+        display: flex;
+        flex-flow: column nowrap;
+        flex-grow: 0;
+        flex-shrink: 0;
+        // min-width: 300px;
+        margin: 25px;
+    }
+
+    .activities-graph-content-container {
+        margin: 20px 20px;
+
+        .activities-graph-results {
+            display: flex;
+            flex-flow: column nowrap;
+            // flex-grow: 0;
+            // flex-shrink: 0;
+            margin: 0 auto;
+        }
+    }
 }
 
-.app-activity-filters-container {
-  display: flex;
-  flex-flow: column nowrap;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin: 0 25px;
-}
+// .app-activity-graph-container {
+//     margin: 0 25px;
+//     // display: block;
+//     // position: relative;
+//     // width: 100%;
+//     // overflow: hidden;
 
-.app-activity-graph-container {
-  margin: 0 25px;
-  display: block;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
+//     .activities-graph-results {
+//         display: flex;
+//         flex-flow: column nowrap;
+//         flex-grow: 0;
+//         flex-shrink: 0;
+//         margin: 0 auto;
+//     }
+// }
 
-.app-activity-body {
-  margin: 10px 10px 10px 10px
-}
+// .app-activity-body {
+//     width: 100%;
+//     margin: 10px 10px 10px 10px;
+
+//     .activities-graph-content-container {
+//         margin: 20px 20px;
+
+//         .activities-graph-results {
+//             display: flex;
+//             flex-flow: column nowrap;
+//             flex-grow: 0;
+//             flex-shrink: 0;
+//             margin: 0 auto;
+//         }
+//     }
+// }
+
+// .activities-graph-content-container {
+//     margin: 20px 20px;
+
+//     .activities-graph-results {
+//         display: flex;
+//         flex-flow: column nowrap;
+//         flex-grow: 0;
+//         flex-shrink: 0;
+//         margin: 0 auto;
+//     }
+// }
