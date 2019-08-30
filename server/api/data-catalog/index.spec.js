@@ -54,7 +54,7 @@ describe('DataCatalog API Router:', function () {
     describe('POST /api/data-catalogs', function () {
         it('should route to dataCatalog.controller.create', function () {
             expect(
-                routerStub.post.withArgs('/', /*'authService.hasPermission.createDataCatalog'*/ 'authService.hasRole.admin', 'dataCatalogCtrl.create')
+                routerStub.post.withArgs('/', 'authService.hasPermission.createDataCatalog', 'dataCatalogCtrl.create')
             ).to.have.been.calledOnce;
         });
     });
@@ -62,7 +62,7 @@ describe('DataCatalog API Router:', function () {
     // describe('PUT /api/data-catalogs/:id', function () {
     //     it('should route to dataCatalog.controller.upsert', function () {
     //         expect(
-    //             routerStub.put.withArgs('/:id', /*'authService.hasPermission.editDataCatalog'*/ 'authService.hasRole.admin', 'dataCatalogCtrl.upsert')
+    //             routerStub.put.withArgs('/:id', 'authService.hasPermission.editDataCatalog', 'dataCatalogCtrl.upsert')
     //         ).to.have.been.calledOnce;
     //     });
     // });
@@ -70,7 +70,7 @@ describe('DataCatalog API Router:', function () {
     describe('PATCH /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.patch', function () {
             expect(
-                routerStub.patch.withArgs('/:id', /*'authService.hasPermission.editDataCatalog'*/ 'authService.hasRole.admin', 'dataCatalogCtrl.patch')
+                routerStub.patch.withArgs('/:id', 'authService.hasPermission.editDataCatalog', 'dataCatalogCtrl.patch')
             ).to.have.been.calledOnce;
         });
     });
@@ -80,7 +80,7 @@ describe('DataCatalog API Router:', function () {
             expect(
                 routerStub.delete.withArgs(
                     '/:id',
-                    /*'authService.hasPermission.deleteDataCatalog'*/ 'authService.hasRole.admin',
+                    'authService.hasPermission.deleteDataCatalog',
                     'dataCatalogCtrl.destroy'
                 )
             ).to.have.been.calledOnce;
