@@ -1,6 +1,11 @@
 var express = require('express');
 var controller = require('./data-catalog.controller');
 var auth = require('../../auth/auth.service');
+import {
+    userRoles
+} from '../../config/environment';
+
+const ADMIN_ROLE = userRoles.ADMIN.value;
 
 var router = express.Router();
 
@@ -81,7 +86,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Data Catalog
  */
-router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
+router.post('/', /*auth.hasPermission('createDataCatalog')*/ auth.hasRole(ADMIN_ROLE), controller.create);
 
 /**
  * @swagger
@@ -110,7 +115,7 @@ router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
  *       '404':
  *         description: Data Catalog not found
  */
-router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
+router.put('/:id', /*auth.hasPermission('editDataCatalog')*/ auth.hasRole(ADMIN_ROLE), controller.upsert);
 
 /**
  * @swagger
@@ -139,7 +144,7 @@ router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
  *       '404':
  *         description: Data Catalog not found
  */
-router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
+router.patch('/:id', /*auth.hasPermission('editDataCatalog')*/ auth.hasRole(ADMIN_ROLE), controller.patch);
 
 /**
  * @swagger
@@ -167,6 +172,6 @@ router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
  *       '404':
  *         description: Data Catalog not found
  */
-router.delete('/:id', auth.hasPermission('deleteDataCatalog'), controller.destroy);
+router.delete('/:id', /*auth.hasPermission('deleteDataCatalog')*/ auth.hasRole(ADMIN_ROLE), controller.destroy);
 
 module.exports = router;
