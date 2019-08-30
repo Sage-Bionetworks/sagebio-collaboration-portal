@@ -22,6 +22,7 @@ export class InsightNewComponent {
         newInsight: undefined
     };
     private project: Project;
+    private attachments;
 
     @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
@@ -64,6 +65,8 @@ export class InsightNewComponent {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
         newInsight.projectId = this.project._id;
+        // WIP Update model so that a proper attachments array is received
+        // newInsight.attachments = this.attachments;
         this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);
@@ -77,5 +80,9 @@ export class InsightNewComponent {
                 console.log(err);
                 this.errors.newInsight = err.message;
             });
+    }
+
+    updateAttachments(attachments): void {
+        this.attachments = attachments;
     }
 }
