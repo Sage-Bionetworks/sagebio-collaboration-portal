@@ -4,7 +4,7 @@ import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '.
 import {
     respondWithResult,
     patchUpdates,
-    removeEntity,
+    // removeEntity,
     handleEntityNotFound,
     handleError,
 } from '../util';
@@ -15,6 +15,7 @@ import { isAdmin } from '../../auth/auth';
 // Gets a list of Projects
 export function index(req, res) {
     getProjectIdsByUser(req.user._id)
+    // getProjectIds()
         .then(projectIds => {
             console.log('PROJECT IDS', projectIds);
             return projectIds;
@@ -24,6 +25,10 @@ export function index(req, res) {
                 $in: projectIds,
             }})
             .exec()
+            .then(P => {
+                console.log('P FOUND', P);
+                return P;
+            })
         )
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -108,7 +113,7 @@ function createAdminPermissionForEntity(user, entityType) {
 export function getPublicProjectIds() {
     return Project.find({ visibility: entityVisibility.PUBLIC.value }, '_id')
         .exec()
-        .then(projects => projects.map(project => project._id.toString()));
+        .then(projects => projects.map(project => project._id));
 }
 
 /**
@@ -119,7 +124,7 @@ export function getPublicProjectIds() {
 export function getProjectIds() {
     return Project.find({}, '_id')
         .exec()
-        .then(projects => projects.map(project => project._id.toString()));
+        .then(projects => projects.map(project => project._id));
 }
 
 /**
