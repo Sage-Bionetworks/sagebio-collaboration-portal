@@ -22,6 +22,7 @@ export class InsightNewComponent {
     private errors = {
         newInsight: undefined,
     };
+    private attachments;
 
     static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
     constructor(
@@ -55,9 +56,11 @@ export class InsightNewComponent {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
         newInsight.projectId = project._id;
-
-        this.insightService.create(newInsight).subscribe(
-            insight => {
+        // WIP Update model so that a proper attachments array is received
+        // newInsight.attachments = this.attachments;
+        this.insightService.create(newInsight)
+            .subscribe(insight => {
+                this.newInsight.emit(insight);
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
@@ -71,5 +74,9 @@ export class InsightNewComponent {
                 this.errors.newInsight = err.message;
             }
         );
+    }
+
+    updateAttachments(attachments): void {
+        this.attachments = attachments;
     }
 }
