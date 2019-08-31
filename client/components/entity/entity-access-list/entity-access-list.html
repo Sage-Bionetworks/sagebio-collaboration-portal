@@ -17,13 +17,13 @@
                   <mat-chip *ngIf="isDeclined(perm)" color="warn" selected>Declined</mat-chip>
                 </mat-chip-list>
 
-                <mat-select class="app-entity-access-list-access" [disabled]="disableAccessMenu(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
+                <mat-select class="app-entity-access-list-access" [disabled]="freezePermission(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
                     <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value">
                         {{ accessType.name }}
                     </mat-option>
                 </mat-select>
                 <div class="app-entity-access-list-remove">
-                    <a *ngIf="!hideRemoveButton(perm)" mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
+                    <a *ngIf="!freezePermission(perm)" mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
                         <mat-icon>clear</mat-icon>
                     </a>
                 </div>
