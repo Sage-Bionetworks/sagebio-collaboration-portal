@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Danger Zone</mat-card-title>
+    </mat-card-header>
+
+    <div class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Make this {{ entityName }} public</span>
+            <span class="app-danger-zone-option-metadata-description">Make this {{ entityName }} visible to anyone.</span>
+        </div>
+        <a mat-raised-button color="warn" (click)="makePublic()">Make public</a>
+    </div>
+
+    <div class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Archive this {{ entityName }}</span>
+            <span class="app-danger-zone-option-metadata-description">Mark this {{ entityName }} as archived and read-only.</span>
+        </div>
+        <a mat-raised-button color="warn" [disabled]="true" (click)="archiveProject()">Archive this {{ entityName }}</a>
+    </div>
+
+    <div class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Delete this {{ entityName }}</span>
+            <span class="app-danger-zone-option-metadata-description">Once you delete a {{ entityName }}, there is no going back. Please be certain.</span>
+        </div>
+        <a mat-raised-button color="warn" [disabled]="true" (click)="deleteProject()">Delete this {{ entityName }}</a>
+    </div>
+</mat-card>
