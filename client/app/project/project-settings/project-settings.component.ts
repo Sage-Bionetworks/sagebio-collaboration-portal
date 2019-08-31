@@ -4,6 +4,7 @@ import { UserProfile } from 'models/auth/user-profile.model';
 import { AuthService } from 'components/auth/auth.service';
 import { Project } from 'models/entities/project.model';
 import { ProjectDataService } from '../project-data.service';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'project-settings',
@@ -15,9 +16,9 @@ export class ProjectSettingsComponent implements OnDestroy {
     private user: UserProfile;
     private authInfoSub: Subscription;
 
-    static parameters = [ProjectDataService, AuthService];
+    static parameters = [ProjectDataService, AuthService, NotificationService];
     constructor(private projectDataService: ProjectDataService,
-        private authService: AuthService) {
+        private authService: AuthService, private notificationService: NotificationService) {
 
         this.project = this.projectDataService.project();
         this.authInfoSub = this.authService.authInfo()
@@ -26,5 +27,17 @@ export class ProjectSettingsComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.authInfoSub.unsubscribe();
+    }
+
+    makePublic(): void {
+
+    }
+
+    archiveProject(): void {
+        this.notificationService.info('Not implemented');
+    }
+
+    deleteProject(): void {
+        this.notificationService.info('Not implemented');
     }
 }

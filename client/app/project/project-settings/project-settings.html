@@ -1,1 +1,31 @@
-<entity-access-list class="app-project-card-box" [entity]="project | async" [user]="user"></entity-access-list>
+<entity-access-list class="app-project-card" [entity]="project | async" [user]="user"></entity-access-list>
+
+<mat-card class="app-project-card">
+    <mat-card-header>
+        <mat-card-title>Danger Zone</mat-card-title>
+    </mat-card-header>
+
+    <div class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Make this repository public</span>
+            <span class="app-danger-zone-option-metadata-description">Make this repository visible to anyone.</span>
+        </div>
+        <a mat-raised-button color="warn" (click)="makePublic()">Make public</a>
+    </div>
+
+    <div class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Archive this project</span>
+            <span class="app-danger-zone-option-metadata-description">Mark this project as archived and read-only.</span>
+        </div>
+        <a mat-raised-button color="warn" [disabled]="true" (click)="archiveProject()">Archive this project</a>
+    </div>
+
+    <div class="app-danger-zone-option">
+            <div class="app-danger-zone-option-metadata">
+                <span class="app-danger-zone-option-metadata-title">Delete this project</span>
+                <span class="app-danger-zone-option-metadata-description">Once you delete a repository, there is no going back. Please be certain.</span>
+            </div>
+            <a mat-raised-button color="warn" [disabled]="true" (click)="deleteProject()">Delete this project</a>
+        </div>
+</mat-card>
