@@ -13,9 +13,10 @@ import { Project } from 'models/entities/project.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { EntityService } from 'components/entity/entity.service';
 
 @Injectable()
-export class ResourceService {
+export class ResourceService implements EntityService<Resource> {
 
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
@@ -62,5 +63,12 @@ export class ResourceService {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
+    }
+
+    makePublic(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
     }
 }

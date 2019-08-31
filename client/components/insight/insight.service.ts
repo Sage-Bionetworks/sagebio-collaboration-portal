@@ -13,9 +13,10 @@ import { Project } from 'models/entities/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { EntityService } from 'components/entity/entity.service';
 
 @Injectable()
-export class InsightService {
+export class InsightService implements EntityService<Insight> {
 
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
@@ -62,5 +63,12 @@ export class InsightService {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
+    }
+
+    makePublic(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
     }
 }
