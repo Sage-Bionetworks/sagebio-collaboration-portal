@@ -28,6 +28,8 @@ export class ProjectDataService implements OnDestroy {
     private _acl: BehaviorSubject<EntityPermission[]> = new BehaviorSubject<EntityPermission[]>([]);
     private unsubscribe = new Subject<void>();
 
+    private socketEventName: string;
+
     static parameters = [UserPermissionDataService, EntityPermissionService,
         SocketService];
     constructor(private userPermissionDataService: UserPermissionDataService,
@@ -65,11 +67,16 @@ export class ProjectDataService implements OnDestroy {
         this._project.next(null);
         this.unsubscribe.next();
         this.unsubscribe.complete();
+        if (this.socketEventName) {
+            this.socketService.unsyncUpdates(this.socketEventName);
+        }
     }
 
     public setProject(project: Project): void {
         console.log('PROJECT IS SET TO', project);
         this._project.next(project);
+        this.socketEventName = `project:${project._id}`;
+        this.socketService.syncItemSubject(this.socketEventName, this._project);
     }
 
     /**
