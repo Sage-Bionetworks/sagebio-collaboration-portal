@@ -51,7 +51,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
         this.userService.searchUserByUsername(this.inviteForm.controls.username.valueChanges)
             .subscribe(users => {
                 this.userResults = users;
-            }, err => console.log(err));
+            }, err => console.error(err));
     }
 
     ngOnInit() {
@@ -77,12 +77,11 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
             this.entityPermissionService.queryByEntity(this.entity)
                 .subscribe(permissions => {
                     this.permissions = permissions;
-                    console.log(permissions);
                     this.socketService.syncUpdates(
                         `entity:${this.entity._id}:entityPermission`,
                         this.permissions
                     );
-                }, err => console.log(err));
+                }, err => console.error(err));
         }
     }
 
@@ -132,17 +131,22 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
             .subscribe(perm => {
                 //
             }, err => {
-                console.log(err);
+                console.error(err);
                 this.errors.inviteForm = err.message;
             });
     }
 
-    hideRemoveButton(permission: EntityPermission): boolean {
-        return (<UserProfile>permission.user)._id === this.user._id;
-    }
-
-    disableAccessMenu(permission: EntityPermission): boolean {
-        return (<UserProfile>permission.user)._id === this.user._id;
+    freezePermission(permission: EntityPermission): boolean {
+        const isCurrentUser = (<UserProfile>permission.user)._id === this.user._id;
+        const currentUserIsAppAdmin = this.user.role === config.userRoles.ADMIN.value;
+        const isAdmin = permission.access === config.accessTypes.ADMIN.value
+            && permission.status === config.inviteStatusTypes.ACCEPTED.value;
+        const isLastAdmin = this.permissions
+            .filter(perm =>
+                (perm.access === config.accessTypes.ADMIN.value
+                    && perm.status === config.inviteStatusTypes.ACCEPTED.value)
+            ).length <= 1;
+        return (isCurrentUser && !currentUserIsAppAdmin) || (isAdmin && isLastAdmin);
     }
 
     isPending(permission: EntityPermission): boolean {
