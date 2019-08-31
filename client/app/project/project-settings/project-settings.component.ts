@@ -28,16 +28,4 @@ export class ProjectSettingsComponent implements OnDestroy {
     ngOnDestroy() {
         this.authInfoSub.unsubscribe();
     }
-
-    makePublic(): void {
-
-    }
-
-    archiveProject(): void {
-        this.notificationService.info('Not implemented');
-    }
-
-    deleteProject(): void {
-        this.notificationService.info('Not implemented');
-    }
 }

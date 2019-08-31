@@ -10,6 +10,7 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { MessagingModule } from 'components/messaging/messaging.module';
 
 import { EntityAccessListComponent } from './entity-access-list/entity-access-list.component';
+import { EntityDangerZoneOptionsComponent } from './entity-danger-zone-options/entity-danger-zone-options.component';
 import { EntityDiscussionComponent } from './entity-discussion/entity-discussion.component';
 import { EntityListComponent } from './entity-list/entity-list.component';
 import { EntityViewComponent } from './entity-view/entity-view.component';
@@ -28,12 +29,14 @@ import { EntityViewComponent } from './entity-view/entity-view.component';
     ],
     declarations: [
         EntityAccessListComponent,
+        EntityDangerZoneOptionsComponent,
         EntityDiscussionComponent,
         EntityListComponent,
         EntityViewComponent,
     ],
     exports: [
         EntityAccessListComponent,
+        EntityDangerZoneOptionsComponent,
         EntityDiscussionComponent,
         EntityListComponent
     ]
