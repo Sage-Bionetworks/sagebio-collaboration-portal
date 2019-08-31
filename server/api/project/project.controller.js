@@ -47,7 +47,49 @@ export function create(req, res) {
 
 // Updates an existing Project in the DB
 export function patch(req, res) {
-    const patches = req.body.filter(patch => !['_id', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+    const patches = req.body.filter(patch => !['_id', 'visibility', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+
+    return Project.findById(req.params.entityId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(patches))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Returns whether a project is public or private
+export function showVisibility(req, res) {
+    return Project.findById(req.params.id, 'visibility')
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(project => project && project.visibility)
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Makes a project public.
+export function makePublic(req, res) {
+    const patches = [{
+        op: 'replace',
+        path: '/visibility',
+        value: entityVisibility.PUBLIC.value
+    }];
+
+    return Project.findById(req.params.entityId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(patches))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Makes a project private.
+export function makePrivate(req, res) {
+    const patches = [{
+        op: 'replace',
+        path: '/visibility',
+        value: entityVisibility.PRIVATE.value
+    }];
 
     return Project.findById(req.params.entityId)
         .exec()
@@ -65,16 +107,6 @@ export function patch(req, res) {
 //         .then(removeEntity(res))
 //         .catch(handleError(res));
 // }
-
-// Returns whether a project is public or private
-export function showVisibility(req, res) {
-    return Project.findById(req.params.id, 'visibility')
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(project => project && project.visibility)
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
 
 // HELPER FUNCTIONS
 
