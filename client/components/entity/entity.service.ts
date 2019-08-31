@@ -15,17 +15,17 @@ import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
 
 @Injectable()
-export abstract class EntityService {
+export abstract class EntityService<E extends Entity> {
 
     /**
      * Makes an entity public.
      * @param entity
      */
-    abstract makePublic(entity: Entity): Observable<Entity>;
+    abstract makePublic(entity: E): Observable<E>;
 
     /**
      * Makes an entity private.
      * @param entity
      */
-    abstract makePrivate(entity: Entity): Observable<Entity>;
+    abstract makePrivate(entity: E): Observable<E>;
   }

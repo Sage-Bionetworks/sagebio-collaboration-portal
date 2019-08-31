@@ -16,7 +16,7 @@ import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
 
 @Injectable()
-export class ProjectService implements EntityService {
+export class ProjectService implements EntityService<Project> {
 
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
