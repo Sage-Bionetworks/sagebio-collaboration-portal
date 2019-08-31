@@ -131,7 +131,7 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
 
 /**
  * @swagger
- * /projects:
+ * /projects/{id}/visibility:
  *   get:
  *     tags:
  *       - Projects
@@ -141,7 +141,7 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
  *       - text/plain
  *     responses:
  *       '200':
- *         description: The visibility of the project
+ *         description: The visibility of the Project
  *         content:
  *           text/plain:
  *             schema:

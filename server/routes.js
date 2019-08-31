@@ -4,6 +4,7 @@
 
 import errors from './components/errors';
 import path from 'path';
+import config from './config/environment';
 
 const swaggerUi = require('swagger-ui-express');
 var swaggerJSDoc = require('swagger-jsdoc');
@@ -38,7 +39,7 @@ export default app => {
         openapi: '3.0.2',
         info: {
             title: 'PHC Collaboration Portal API',
-            version: '1.0.0',
+            version: '1.0.0', // TODO Get version from config
             description: `Personalized Health Care (PHC) Collaboration Portal
                 developed by Sage Bionetworks and Roche/Genentech`,
             contact: {
@@ -52,8 +53,8 @@ export default app => {
             }
         },
         servers: [{
-            url: 'https://dev.phc.sagesandbox.org/api',
-            description: 'Development server'
+            url: `${config.domain}/api`,
+            description: 'This app'
         }],
         components: {
             securitySchemes: {

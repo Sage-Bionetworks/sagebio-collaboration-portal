@@ -16,14 +16,15 @@ router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.upsert);
-router.patch('/:id', controller.patch);
-// router.delete('/:id', controller.destroy);
 
-// get resource by project id
+router.patch('/:id', controller.patch);
+
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.indexByEntity);
+
+// router.delete('/:id', controller.destroy);
 
 module.exports = router;
