@@ -139,14 +139,14 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
     freezePermission(permission: EntityPermission): boolean {
         const isCurrentUser = (<UserProfile>permission.user)._id === this.user._id;
         const currentUserIsAppAdmin = this.user.role === config.userRoles.ADMIN.value;
-        const isAdmin = permission.access === config.accessTypes.ADMIN.value
+        const isProjectAdmin = permission.access === config.accessTypes.ADMIN.value
             && permission.status === config.inviteStatusTypes.ACCEPTED.value;
-        const isLastAdmin = this.permissions
+        const isLastProjectAdmin = this.permissions
             .filter(perm =>
                 (perm.access === config.accessTypes.ADMIN.value
                     && perm.status === config.inviteStatusTypes.ACCEPTED.value)
             ).length <= 1;
-        return (isCurrentUser && !currentUserIsAppAdmin) || (isAdmin && isLastAdmin);
+        return (isCurrentUser && !currentUserIsAppAdmin) || (isProjectAdmin && isLastProjectAdmin);
     }
 
     isPending(permission: EntityPermission): boolean {
