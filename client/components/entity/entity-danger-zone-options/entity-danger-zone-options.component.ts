@@ -14,6 +14,7 @@ import { UserService } from 'components/auth/user.service';
 import { SocketService } from 'components/socket/socket.service';
 import config from '../../../app/app.constants';
 import { NotificationService } from 'components/notification/notification.service';
+import { EntityService } from '../entity.service';
 
 @Component({
     selector: 'entity-danger-zone-options',
@@ -23,6 +24,7 @@ import { NotificationService } from 'components/notification/notification.servic
 export class EntityDangerZoneOptionsComponent {
     @Input() entity: Entity;
     @Input() entityName: string;
+    @Input() entityService: EntityService<Entity>;
 
     static parameters = [NotificationService];
     constructor(private notificationService: NotificationService) {
@@ -30,11 +32,23 @@ export class EntityDangerZoneOptionsComponent {
     }
 
     makePublic(): void {
-
+        this.entityService.makePublic(this.entity)
+            .subscribe(entity => {
+                this.notificationService.info(`The ${this.entityName} is now public.`);
+            }, err => {
+                console.error(err);
+                this.notificationService.error(`Unable to make the ${this.entityName} public.`);
+            });
     }
 
     makePrivate(): void {
-
+        this.entityService.makePrivate(this.entity)
+            .subscribe(entity => {
+                this.notificationService.info(`The ${this.entityName} is now private.`);
+            }, err => {
+                console.error(err);
+                this.notificationService.error(`Unable to make the ${this.entityName} private.`);
+            });
     }
 
     archive(): void {

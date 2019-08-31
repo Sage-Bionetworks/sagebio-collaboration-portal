@@ -155,7 +155,7 @@ router.patch('/:entityId/visibility/public', auth.hasPermissionForEntity([
 ]), controller.makePublic);
 
 // TODO Document
-router.patch('/:id/visibility/private', auth.hasPermissionForEntity([
+router.patch('/:entityId/visibility/private', auth.hasPermissionForEntity([
     ADMIN_ACCESS
 ]), controller.makePrivate);
 
