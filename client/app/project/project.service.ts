@@ -41,12 +41,11 @@ export class ProjectService implements EntityService {
         return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
     }
 
-    /**
-     * Make the project public.
-     *
-     * @param entity
-     */
     makePublic(entity: Project): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
+    }
+
+    makePrivate(entity: Project): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 }

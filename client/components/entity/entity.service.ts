@@ -16,8 +16,16 @@ import { EntityVisibility, Entity } from 'models/entities/entity.model';
 
 @Injectable()
 export abstract class EntityService {
+
     /**
-     * Returns a list of all of the current user's todos.
+     * Makes an entity public.
+     * @param entity
      */
     abstract makePublic(entity: Entity): Observable<Entity>;
+
+    /**
+     * Makes an entity private.
+     * @param entity
+     */
+    abstract makePrivate(entity: Entity): Observable<Entity>;
   }

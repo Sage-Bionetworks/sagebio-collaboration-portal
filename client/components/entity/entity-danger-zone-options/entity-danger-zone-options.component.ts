@@ -38,6 +38,7 @@ export class EntityDangerZoneOptionsComponent {
     }
 
     archive(): void {
+        console.log('Entity', this.entity);
         this.notificationService.info('Not implemented');
     }
 

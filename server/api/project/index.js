@@ -149,6 +149,16 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
  */
 router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
 
+// TODO Document
+router.patch('/:entityId/visibility/public', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePublic);
+
+// TODO Document
+router.patch('/:id/visibility/private', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePrivate);
+
 /**
  * @swagger
  * /projects/{id}:

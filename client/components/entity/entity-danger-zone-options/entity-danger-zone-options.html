@@ -1,9 +1,9 @@
-<mat-card>
+<mat-card *ngIf="entity">
     <mat-card-header>
         <mat-card-title>Danger Zone</mat-card-title>
     </mat-card-header>
 
-    <div class="app-danger-zone-option">
+    <div *ngIf="entity.visibility === 'Private'" class="app-danger-zone-option">
         <div class="app-danger-zone-option-metadata">
             <span class="app-danger-zone-option-metadata-title">Make this {{ entityName }} public</span>
             <span class="app-danger-zone-option-metadata-description">Make this {{ entityName }} visible to anyone.</span>
@@ -11,12 +11,20 @@
         <a mat-raised-button color="warn" (click)="makePublic()">Make public</a>
     </div>
 
+    <div *ngIf="entity.visibility === 'Public'" class="app-danger-zone-option">
+        <div class="app-danger-zone-option-metadata">
+            <span class="app-danger-zone-option-metadata-title">Make this {{ entityName }} private</span>
+            <span class="app-danger-zone-option-metadata-description">Hide this {{ entityName }} from the public.</span>
+        </div>
+        <a mat-raised-button color="warn" (click)="makePrivate()">Make private</a>
+    </div>
+
     <div class="app-danger-zone-option">
         <div class="app-danger-zone-option-metadata">
             <span class="app-danger-zone-option-metadata-title">Archive this {{ entityName }}</span>
             <span class="app-danger-zone-option-metadata-description">Mark this {{ entityName }} as archived and read-only.</span>
         </div>
-        <a mat-raised-button color="warn" [disabled]="true" (click)="archiveProject()">Archive this {{ entityName }}</a>
+        <a mat-raised-button color="warn" [disabled]="true" (click)="archive()">Archive this {{ entityName }}</a>
     </div>
 
     <div class="app-danger-zone-option">
@@ -24,6 +32,6 @@
             <span class="app-danger-zone-option-metadata-title">Delete this {{ entityName }}</span>
             <span class="app-danger-zone-option-metadata-description">Once you delete a {{ entityName }}, there is no going back. Please be certain.</span>
         </div>
-        <a mat-raised-button color="warn" [disabled]="true" (click)="deleteProject()">Delete this {{ entityName }}</a>
+        <a mat-raised-button color="warn" [disabled]="true" (click)="delete()">Delete this {{ entityName }}</a>
     </div>
 </mat-card>
