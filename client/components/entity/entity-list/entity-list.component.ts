@@ -25,7 +25,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     _entities: E[]  = [];
 
-    @Output() onFilterChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() onFilterChange: EventEmitter<any> = new EventEmitter<any>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
     // https://stackoverflow.com/a/50818532

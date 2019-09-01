@@ -18,12 +18,12 @@ export class ResourceListComponent implements OnInit {
     // private searchPageIndex: number;
     // private searchResultCount = 0;
 
-    static parameters = [PageTitleService, ResourceService,
-        NotificationService];
-    constructor(private pageTitleService: PageTitleService,
+    static parameters = [PageTitleService, ResourceService, NotificationService];
+    constructor(
+        private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
-        private notificationService: NotificationService) {
-
+        private notificationService: NotificationService
+    ) {
         this.resourceTypeFilters = config.resourceTypeFilters;
     }
 
@@ -34,11 +34,8 @@ export class ResourceListComponent implements OnInit {
     onFilterChange(query) {
         console.log('Filter has changed', query);
         this.resourceService.getResources(query)
-            .subscribe(resources => {
-                this.resources = orderBy('createdAt', 'asc', resources);
-            }, err => {
-                console.log(err);
-            });
+            .subscribe(resources => (this.resources = resources),
+            err => console.error(err));
     }
 
     // clearResults(): void {

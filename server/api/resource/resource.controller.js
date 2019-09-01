@@ -8,22 +8,30 @@ import {
     handleEntityNotFound,
     handleError,
 } from '../util';
-import { union } from 'lodash/fp';
+import { union, pick } from 'lodash/fp';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds } from '../project/project.controller';
+import { merge } from 'lodash';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
+    const query = pick(['resourceType'], req.query);  // TODO add order filter
+
+
+
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
             console.log('Resource visible to user', resourceIds);
-            return resourceIds;
+            const filter = merge({
+                _id: {
+                    $in: resourceIds,
+                }
+            }, query);
+            console.log('filter', filter);
+            return filter;
         })
-        .then(resourceIds => Resource.find({
-            _id: {
-                $in: resourceIds,
-            }})
+        .then(filter => Resource.find(filter)
             .exec()
         )
         .then(respondWithResult(res))
