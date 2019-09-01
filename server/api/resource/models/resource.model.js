@@ -3,6 +3,7 @@ import {
     registerEvents
 } from '../resource.events';
 import User from '../../user/user.model';
+import config from '../../../config/environment';
 
 const options = {
     discriminatorKey: 'resourceType',
@@ -25,6 +26,12 @@ var ResourceSchema = new mongoose.Schema({
     projectId: {
         type: String,
         required: true
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
+        default: config.models.project.visibility.default
     },
     createdAt: {
         type: Date,
