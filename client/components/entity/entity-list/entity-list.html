@@ -1,11 +1,11 @@
-<div class="entity-list-container">
-    <div class="entity-list-filters-container">
+<div class="app-entity-list">
+    <div class="app-entity-list-filters">
         <h3>{{ entityName }} Type</h3>
         <radio-button-filter [filters]="entityTypeFilters" [group]="filterGroup"></radio-button-filter>
     </div>
 
-    <div class="entity-list-content-container">
-        <div class="entity-list-results">
+    <div class="app-entity-list-content">
+        <div class="app-entity-list-content-results">
             <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
                 <entity-view [entity]="entity"></entity-view>
             </ng-template>

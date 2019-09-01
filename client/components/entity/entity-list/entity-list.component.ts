@@ -5,7 +5,7 @@ import { FiltersComponent } from 'components/filters/filters.component';
 import { Insight } from 'models/entities/insights/insight.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { combineLatest } from 'rxjs';
-import { flow, keyBy, mapValues } from 'lodash/fp';
+import { flow, keyBy, mapValues, capitalize } from 'lodash/fp';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -14,7 +14,10 @@ import { map } from 'rxjs/operators';
     styles: [require('./entity-list.scss')],
 })
 export class EntityListComponent implements AfterViewInit {
-    @Input() entityName: string;
+    private _entityName: string;
+
+
+
     @Input() entityTypeFilters: Filter[] = [];
     @Input() filterGroup: string;
     @Output() onFilterChange: EventEmitter<string> = new EventEmitter<string>();
@@ -36,6 +39,15 @@ export class EntityListComponent implements AfterViewInit {
                 ),
             )
             .subscribe(query => this.onFilterChange.emit(query));
+    }
+
+    get entityName() {
+        return capitalize(this._entityName);
+    }
+
+    @Input()
+    set entityName(entityName: string) {
+        this._entityName = entityName;
     }
 
     get entities() {

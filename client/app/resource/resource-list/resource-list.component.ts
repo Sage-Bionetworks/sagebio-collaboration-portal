@@ -28,7 +28,7 @@ export class ResourceListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Resources';
+        this.pageTitleService.title = 'resources';
     }
 
     onFilterChange(query) {
