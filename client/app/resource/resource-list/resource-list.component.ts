@@ -34,7 +34,10 @@ export class ResourceListComponent implements OnInit {
     onFilterChange(query) {
         console.log('Filter has changed', query);
         this.resourceService.getResources(query)
-            .subscribe(resources => (this.resources = resources),
+            .subscribe(resources => {
+                this.resources = resources;
+                console.log('resources received', resources);
+            },
             err => console.error(err));
     }
 

@@ -36,12 +36,12 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     ngOnInit() {
         this.orderFilters = values({
             NEWEST: {
-                value: 'metadata_created desc',
+                value: '-createdAt',
                 title: `Newest ${this.entityName}`,
                 active: true
             },
             OLDEST: {
-                value: 'metadata_created asc',
+                value: 'createdAt',
                 title: `Oldest ${this.entityName}`,
                 active: false
             }

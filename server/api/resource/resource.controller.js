@@ -8,7 +8,7 @@ import {
     handleEntityNotFound,
     handleError,
 } from '../util';
-import { union, pick } from 'lodash/fp';
+import { union, pick, pickBy, identity } from 'lodash/fp';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
@@ -18,10 +18,7 @@ import { merge } from 'lodash';
 export function index(req, res) {
     // sanitize user query
     const query = pick(['resourceType'], req.query);  // TODO add order filter
-    // if (req.query.orderedBy) {
-    //     console.log()
-    // }
-
+    const orderedBy = req.query.orderedBy ? req.query.orderedBy : 'createdAt'; // TODO UI and backend should use same default value
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
@@ -34,6 +31,7 @@ export function index(req, res) {
             return filter;
         })
         .then(filter => Resource.find(filter)
+            .sort(orderedBy)
             .exec()
         )
         .then(respondWithResult(res))
