@@ -8,13 +8,13 @@ let projects = [{
     _id: testProjectId,
     title: 'Test Project',
     description: `{\"ops\":[{\"insert\":\"This is a test project.\\n\\n\"}]}`,
-    visibility: 'Public',
+    visibility: 'Public',  // TODO use enum
     createdBy: adminUserId
 }, {
     _id: anotherProjectId,
     title: 'Another Project',
     description: `{\"ops\":[{\"insert\":\"This is another project.\\n\\n\"}]}`,
-    visibility: 'Private',
+    visibility: 'Private',  // TODO use enum
     createdBy: testUserId
 }];
 

@@ -121,13 +121,21 @@ export function getPublicResourceIds() {
     //     .then(resources => resources.map(resource => resource._id));
     // Meanwhile when Resources inherit permission from Project
     return getPublicProjectIds()
+        .then(projectIds => {
+            console.log('public project found', projectIds);
+            return projectIds;
+        })
         .then(projectIds => Resource.find({
             projectId: {
                 $in: projectIds
             }}, '_id')
             .exec()
         )
-        .then(resources => resources.map(resource => resource._id));
+        .then(resources => {
+            const a = resources.map(resource => resource._id);
+            console.log('resource of public project found', a);
+            return resources.map(resource => resource._id);
+        });
 }
 
 /**
@@ -154,6 +162,7 @@ export function getResourceIdsByUser(userId) {
                 ? getResourceIds()
                 : Promise.all([
                     getPublicResourceIds(),
+                    []
                     // getEntityIdsWithEntityPermissionByUser(
                     //     userId,
                     //     Object.values(accessTypes).map(access => access.value),
