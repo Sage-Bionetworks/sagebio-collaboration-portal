@@ -18,7 +18,7 @@
             </mat-nav-list>
 
             <mat-nav-list class="app-entity-list-content-results-list" *ngIf="previewType === 'list'">
-                <entity-list-item *ngFor="let entity of entities" [entity]="entity"></entity-list-item>
+                <entity-list-item *ngFor="let entity of entities" [entity]="entity" (entityClick)="onEntityClick($event)"></entity-list-item>
             </mat-nav-list>
         </div>
     </div>

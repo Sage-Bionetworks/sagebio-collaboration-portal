@@ -27,7 +27,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     _entities: E[] = [];
 
-    @Output() onFilterChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() filterChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() entityClick: EventEmitter<E> = new EventEmitter<E>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
     // https://stackoverflow.com/a/50818532
@@ -45,12 +46,12 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
         this.orderFilters = values({
             NEWEST: {
                 value: '-createdAt',
-                title: `Newest ${this.entityName}`,
+                title: `Newest ${this.entityName}s`, // assumes plural simply ends with 's'
                 active: true,
             },
             OLDEST: {
                 value: 'createdAt',
-                title: `Oldest ${this.entityName}`,
+                title: `Oldest ${this.entityName}s`, // assumes plural simply ends with 's'
             },
         });
 
@@ -76,7 +77,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             .pipe(map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters)))
             .subscribe(query => {
                 this.previewType = query && query.previewType;
-                this.onFilterChange.emit(query);
+                this.filterChange.emit(query);
             });
     }
 
@@ -96,5 +97,9 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input()
     set entities(entities) {
         this._entities = entities;
+    }
+
+    onEntityClick(entity: E): void {
+        this.entityClick.emit(entity);
     }
 }

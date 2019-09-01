@@ -7,12 +7,15 @@ import { Entity } from '../entity.model';
  *     Resource:
  *       type: object
  *       properties:
+*          projectId:
+ *           type: string
  *         url:
  *           type: string
  *         resourceType:
  *           type: string
  */
 export interface Resource extends Entity {
+    projectId: string;
     url: string;
     resourceType?: string;
 }

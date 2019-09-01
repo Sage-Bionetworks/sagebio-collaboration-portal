@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ResourceService } from 'components/resource/resource.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
@@ -18,8 +19,9 @@ export class ResourceListComponent implements OnInit {
     // private searchPageIndex: number;
     // private searchResultCount = 0;
 
-    static parameters = [PageTitleService, ResourceService, NotificationService];
+    static parameters = [Router, PageTitleService, ResourceService, NotificationService];
     constructor(
+        private router: Router,
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
         private notificationService: NotificationService
@@ -41,9 +43,9 @@ export class ResourceListComponent implements OnInit {
             err => console.error(err));
     }
 
-    // clearResults(): void {
-    //     this.resources = [];
-    //     this.searchResultCount = 0;
-    //     this.searchPageIndex = undefined;
-    // }
+    onEntityClick(resource: Resource) {
+        if (resource) {
+            this.router.navigate(['/projects', resource.projectId, 'resources', resource._id]);
+        }
+    }
 }
