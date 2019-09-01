@@ -22,6 +22,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input() entityTypeFilters: Filter[] = [];
     @Input() entityTypeFilterGroup: string;
     private orderFilters: Filter[] = [];
+    private previewTypeFilters: Filter[] = [];
 
     _entities: E[]  = [];
 
@@ -37,7 +38,21 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     // private catalogNotReached = false;
 
     static parameters = [];
-    constructor() {}
+    constructor() {
+        this.previewTypeFilters = values({
+            ARRAY: {
+                value: 'array',
+                title: 'Array',
+                icon: 'view_array',
+                active: true
+            },
+            LIST: {
+                value: 'list',
+                title: 'List',
+                icon: 'view_list',
+            }
+        })
+    }
 
     ngOnInit() {
         this.orderFilters = values({
@@ -48,8 +63,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             },
             OLDEST: {
                 value: 'createdAt',
-                title: `Oldest ${this.entityName}`,
-                active: false
+                title: `Oldest ${this.entityName}`
             }
         });
     }

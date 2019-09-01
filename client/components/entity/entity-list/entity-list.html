@@ -4,15 +4,28 @@
         <radio-button-filter [filters]="entityTypeFilters" [group]="entityTypeFilterGroup"></radio-button-filter>
         <h3>Order by</h3>
         <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
+        <h3>Preview</h3>
+        <button-toggle-filter [filters]="previewTypeFilters" group="previewTypeFilterGroup"></button-toggle-filter>
     </div>
 
     <div class="app-entity-list-content">
         <search-filter class="app-entity-list-content-search-filter" group="searchTerms"></search-filter>
         <span class="app-entity-list-content-results-count">{{ searchResultCount }} results</span>
         <div class="app-entity-list-content-results">
-            <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
+            <!-- <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
                 <entity-view [entity]="entity"></entity-view>
-            </ng-template>
+            </ng-template> -->
+
+            <mat-nav-list class="app-entity-list-content-results">
+            <!-- <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
+                <entity-view [entity]="entity" mat-list-item></entity-view>
+            </ng-template> -->
+                <entity-view *ngFor="let entity of entities" [entity]="entity" mat-list-item></entity-view>
+                    <!-- <a mat-list-item>
+                      <mat-icon class="icon">input</mat-icon>
+                      <span class="label">Login</span>
+                    </a> -->
+            </mat-nav-list>
         </div>
     </div>
 </div>

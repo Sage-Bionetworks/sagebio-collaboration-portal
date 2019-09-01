@@ -42,7 +42,8 @@ import { EntityViewComponent } from './entity-view/entity-view.component';
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
         EntityDiscussionComponent,
-        EntityListComponent
+        EntityListComponent,
+        // EntityViewComponent
     ]
 })
 export class EntityModule { }
