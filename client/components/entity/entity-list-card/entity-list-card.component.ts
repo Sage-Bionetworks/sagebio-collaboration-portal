@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Entity } from 'models/entities/entity.model';
 
 @Component({
-    selector: 'entity-view',
-    template: require('./entity-view.html'),
-    styles: [require('./entity-view.scss')],
+    selector: 'entity-list-card',
+    template: require('./entity-list-card.html'),
+    styles: [require('./entity-list-card.scss')],
 })
-export class EntityViewComponent<E extends Entity> {
+export class EntityListCardComponent<E extends Entity> {
     private _entity: E;
 
     static parameters = [Router];

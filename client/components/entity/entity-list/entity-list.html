@@ -13,7 +13,7 @@
         <span class="app-entity-list-content-results-count">{{ searchResultCount }} results</span>
         <div class="app-entity-list-content-results">
             <mat-nav-list class="app-entity-list-content-results-array" *ngIf="previewType === 'array'">
-                <entity-view *ngFor="let entity of entities" [entity]="entity"></entity-view>
+                <entity-list-card *ngFor="let entity of entities" [entity]="entity"></entity-list-card>
                 <!-- mat-list-item -->
             </mat-nav-list>
 
