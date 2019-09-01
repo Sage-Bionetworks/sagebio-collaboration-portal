@@ -22,12 +22,12 @@ export class ResourceService implements EntityService<Resource> {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    query(project: Project, query?: {}): Observable<Resource[]> {
-        return this.httpClient.get<Resource[]>(`/api/resources/entity/${project._id}${stringifyQuery(query)}`);
+    getResources(query?: {}): Observable<Resource[]> {
+        return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
     }
 
-    getAll(query?: {}): Observable<Resource[]> {
-        return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
+    query(project: Project, query?: {}): Observable<Resource[]> {
+        return this.httpClient.get<Resource[]>(`/api/resources/entity/${project._id}${stringifyQuery(query)}`);
     }
 
     getResource(resourceId: string): Observable<Resource> {

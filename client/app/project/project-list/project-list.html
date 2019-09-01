@@ -8,6 +8,7 @@
             <mat-nav-list class="project-container">
                 <mat-list-item class="app-project-list-item" *ngFor="let project of projects | async" [routerLink]="[project._id]">
                     <h3 class="project-name">{{ project.title }}</h3>
+                    <span>{{ project.visibility }}</span>
                 </mat-list-item>
 <!--                <project-view *ngFor="let project of projects | async" [project]="project">-->
 <!--                </project-view>-->

@@ -1,65 +1,36 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/resources              ->  index
- * POST    /api/resources              ->  create
- * GET     /api/resources/:id          ->  show
- * PUT     /api/resources/:id          ->  upsert
- * PATCH   /api/resources/:id          ->  patch
- * DELETE  /api/resources/:id          ->  destroy
- */
-
-import {
-    applyPatch
-} from 'fast-json-patch';
 import Resource from './models/resource.model';
+import EntityPermission from '../entity-permission/entity-permission.model';
+import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
+import {
+    respondWithResult,
+    patchUpdates,
+    // removeEntity,
+    handleEntityNotFound,
+    handleError,
+} from '../util';
+import { union } from 'lodash/fp';
+import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
+import { isAdmin } from '../../auth/auth';
+import { getPublicProjectIds } from '../project/project.controller';
 
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return entity => {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
+// Returns the Resources visible to the user.
+export function index(req, res) {
+    getResourceIdsByUser(req.user._id)
+        .then(resourceIds => {
+            console.log('Resource visible to user', resourceIds);
+            return resourceIds;
+        })
+        .then(resourceIds => Resource.find({
+            _id: {
+                $in: resourceIds,
+            }})
+            .exec()
+        )
+        .then(respondWithResult(res))
+        .catch(handleError(res));
 }
 
-function patchUpdates(patches) {
-    return entity => {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
 
-        return entity.save();
-    };
-}
-
-function removeEntity(res) {
-    return entity => {
-        if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function handleEntityNotFound(res) {
-    return entity => {
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return err => {
-        res.status(statusCode).send(err);
-    };
-}
 
 export function indexByEntity(req, res) {
     let filters = req.query;
@@ -70,13 +41,7 @@ export function indexByEntity(req, res) {
         .catch(handleError(res));
 }
 
-// Gets a list of Resources
-export function index(req, res) {
-    return Resource.find(req.query)
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
+
 
 // Gets a single Resource from the DB
 export function show(req, res) {
@@ -133,3 +98,60 @@ export function patch(req, res) {
 //         .then(removeEntity(res))
 //         .catch(handleError(res));
 // }
+
+// HELPER FUNCTIONS
+
+/**
+ * Returns the ids of the public resources.
+ *
+ * @return {string[]}
+ */
+export function getPublicResourceIds() {
+    // For when visibility of Resources will be used
+    // return Resource.find({ visibility: entityVisibility.PUBLIC.value }, '_id')
+    //     .exec()
+    //     .then(resources => resources.map(resource => resource._id));
+    // Meanwhile when Resources inherit permission from Project
+    return getPublicProjectIds()
+        .then(projectIds => Resource.find({
+            projectId: {
+                $in: projectIds
+            }}, '_id')
+            .exec()
+        )
+        .then(resources => resources.map(resource => resource._id));
+}
+
+/**
+ * Returns the ids of all the resources.
+ *
+ * @return {string[]}
+ */
+export function getResourceIds() {
+    return Resource.find({}, '_id')
+        .exec()
+        .then(resources => resources.map(resource => resource._id));
+}
+
+/**
+ * Returns the ids of the resources visible to the user.
+ *
+ * @param {string} userId
+ * @return {string[]}
+ */
+export function getResourceIdsByUser(userId) {
+    return isAdmin(userId)
+        .then(is =>
+            (is
+                ? getResourceIds()
+                : Promise.all([
+                    getPublicResourceIds(),
+                    // getEntityIdsWithEntityPermissionByUser(
+                    //     userId,
+                    //     Object.values(accessTypes).map(access => access.value),
+                    //     [inviteStatusTypes.ACCEPTED.value],
+                    //     entityTypes.PROJECT.value
+                    // ),
+                ]).then(result => union(...result)))
+        );
+}

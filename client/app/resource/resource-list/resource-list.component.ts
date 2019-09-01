@@ -15,10 +15,8 @@ export class ResourceListComponent implements OnInit {
     private resources: Resource[] = [];
     private resourceTypeFilters = config.resourceTypeFilters;
 
-    private createNewResource = false;
-
-    private searchPageIndex: number;
-    private searchResultCount = 0;
+    // private searchPageIndex: number;
+    // private searchResultCount = 0;
 
     static parameters = [PageTitleService, ResourceService,
         NotificationService];
@@ -34,7 +32,7 @@ export class ResourceListComponent implements OnInit {
     }
 
     onFilterChange(query) {
-        this.resourceService.getAll(query)
+        this.resourceService.getResources(query)
             .subscribe(resources => {
                 this.resources = orderBy('createdAt', 'asc', resources);
             }, err => {
@@ -42,14 +40,9 @@ export class ResourceListComponent implements OnInit {
             });
     }
 
-    onNewResource(resource: Resource): void {
-        this.createNewResource = false;
-        this.notificationService.info('The Resource has been successfully created');
-    }
-
-    clearResults(): void {
-        this.resources = [];
-        this.searchResultCount = 0;
-        this.searchPageIndex = undefined;
-    }
+    // clearResults(): void {
+    //     this.resources = [];
+    //     this.searchResultCount = 0;
+    //     this.searchPageIndex = undefined;
+    // }
 }

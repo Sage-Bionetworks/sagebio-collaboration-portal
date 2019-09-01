@@ -1,23 +1,14 @@
-<div *ngIf="!createNewResource; else showNewResourceForm">
-    <div class="app-primary-header">
-        <h1>Resources</h1>
-    </div>
-
-    <div class="app-resource-list-container">
-        <entity-list
-            *ngIf="resources"
-            entityName="Resource"
-            [entities]="resources"
-            [entityTypeFilters]="resourceTypeFilters"
-            filterGroup="resourceType"
-            (onFilterChange)="onFilterChange($event)"
-        ></entity-list>
-        <!-- <div class="app-resource-list-actions">
-            <a mat-raised-button color="primary" class="app-resource-list-new-project" (click)="createNewResource=true" aria-label="Create resource">Create a New Resource</a>
-        </div> -->
-    </div>
+<div class="app-primary-header">
+    <h1>Resources</h1>
 </div>
 
-<!-- <ng-template #showNewResourceForm>
-    <resource-new (newResource)="onNewResource($event)" (close)="createNewResource=false"></resource-new>
-</ng-template> -->
+<div class="app-resource-list-container">
+    <entity-list
+        *ngIf="resources"
+        entityName="Resource"
+        [entities]="resources"
+        [entityTypeFilters]="resourceTypeFilters"
+        filterGroup="resourceType"
+        (onFilterChange)="onFilterChange($event)"
+    ></entity-list>
+</div>
