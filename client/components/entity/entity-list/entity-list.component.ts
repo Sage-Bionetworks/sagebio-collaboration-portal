@@ -23,8 +23,9 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input() entityTypeFilterGroup: string;
     private orderFilters: Filter[] = [];
     private previewTypeFilters: Filter[] = [];
+    @Input() previewType = 'array';
 
-    _entities: E[]  = [];
+    _entities: E[] = [];
 
     @Output() onFilterChange: EventEmitter<any> = new EventEmitter<any>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
@@ -38,48 +39,45 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     // private catalogNotReached = false;
 
     static parameters = [];
-    constructor() {
-        this.previewTypeFilters = values({
-            ARRAY: {
-                value: 'array',
-                title: 'Array',
-                icon: 'view_array',
-                active: true
-            },
-            LIST: {
-                value: 'list',
-                title: 'List',
-                icon: 'view_list',
-            }
-        })
-    }
+    constructor() {}
 
     ngOnInit() {
         this.orderFilters = values({
             NEWEST: {
                 value: '-createdAt',
                 title: `Newest ${this.entityName}`,
-                active: true
+                active: true,
             },
             OLDEST: {
                 value: 'createdAt',
-                title: `Oldest ${this.entityName}`
-            }
+                title: `Oldest ${this.entityName}`,
+            },
+        });
+
+        this.previewTypeFilters = values({
+            ARRAY: {
+                value: 'array',
+                title: 'Array',
+                icon: 'view_array',
+                active: this.previewType === 'array',
+            },
+            LIST: {
+                value: 'list',
+                title: 'List',
+                icon: 'view_list',
+                active: this.previewType === 'list',
+            },
         });
     }
 
     ngAfterViewInit() {
         let selectedFilters = this.filters.map(f => f.getSelectedFilter());
         combineLatest(...selectedFilters)
-            .pipe(
-                map(myFilters =>
-                    flow([
-                        keyBy('group'),
-                        mapValues('value')
-                    ])(myFilters)
-                ),
-            )
-            .subscribe(query => this.onFilterChange.emit(query));
+            .pipe(map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters)))
+            .subscribe(query => {
+                this.previewType = query && query.previewType;
+                this.onFilterChange.emit(query);
+            });
     }
 
     get entityName(): string {
