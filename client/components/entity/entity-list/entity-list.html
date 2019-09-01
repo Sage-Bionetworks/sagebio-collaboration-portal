@@ -12,33 +12,13 @@
         <search-filter class="app-entity-list-content-search-filter" group="searchTerms"></search-filter>
         <span class="app-entity-list-content-results-count">{{ searchResultCount }} results</span>
         <div class="app-entity-list-content-results">
-            <!-- <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
-                <entity-view [entity]="entity"></entity-view>
-            </ng-template> -->
+            <mat-nav-list class="app-entity-list-content-results-array" *ngIf="previewType === 'array'">
+                <entity-view *ngFor="let entity of entities" [entity]="entity"></entity-view>
+                <!-- mat-list-item -->
+            </mat-nav-list>
 
-            <mat-nav-list class="app-entity-list-content-results">
-                <!-- <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
-                <entity-view [entity]="entity" mat-list-item></entity-view>
-            </ng-template> -->
-                <ng-container *ngIf="previewType === 'array'">
-                    <entity-view
-                        *ngFor="let entity of entities"
-                        [entity]="entity"
-                        mat-list-item
-                    ></entity-view>
-                </ng-container>
-                <ng-container *ngIf="previewType === 'list'">
-                    <entity-list-item
-                        *ngFor="let entity of entities"
-                        [entity]="entity"
-                        mat-list-item
-                    ></entity-list-item>
-                </ng-container>
-                <!-- <entity-view *ngFor="let entity of entities" [entity]="entity" mat-list-item></entity-view> -->
-                <!-- <a mat-list-item>
-                      <mat-icon class="icon">input</mat-icon>
-                      <span class="label">Login</span>
-                    </a> -->
+            <mat-nav-list class="app-entity-list-content-results-list" *ngIf="previewType === 'list'">
+                <entity-list-item *ngFor="let entity of entities" [entity]="entity"></entity-list-item>
             </mat-nav-list>
         </div>
     </div>

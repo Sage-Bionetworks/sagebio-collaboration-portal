@@ -26,7 +26,13 @@
     margin-bottom: 20px;
   }
 
-.app-entity-list-content-results {
+.app-entity-list-content-results-array {
     display: flex;
     flex-flow: row wrap;
+}
+
+.app-entity-list-content-results-list {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
 }
