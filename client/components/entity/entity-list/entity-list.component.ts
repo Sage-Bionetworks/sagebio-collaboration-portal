@@ -30,6 +30,12 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     // https://stackoverflow.com/a/50818532
 
+    // private numDatasetsPerPage = 8;
+    // private searchData: any;
+    // private searchPageIndex: number;
+    private searchResultCount = 0;
+    // private catalogNotReached = false;
+
     static parameters = [];
     constructor() {}
 

@@ -7,6 +7,8 @@
     </div>
 
     <div class="app-entity-list-content">
+        <search-filter class="app-entity-list-content-search-filter" group="searchTerms"></search-filter>
+        <span class="app-entity-list-content-results-count">{{ searchResultCount }} results</span>
         <div class="app-entity-list-content-results">
             <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
                 <entity-view [entity]="entity"></entity-view>
