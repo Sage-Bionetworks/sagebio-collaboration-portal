@@ -11,18 +11,20 @@ import {
 import { union, pick } from 'lodash/fp';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
-import { getPublicProjectIds } from '../project/project.controller';
+import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { merge } from 'lodash';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
+    // sanitize user query
     const query = pick(['resourceType'], req.query);  // TODO add order filter
-
+    // if (req.query.orderedBy) {
+    //     console.log()
+    // }
 
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
-            console.log('Resource visible to user', resourceIds);
             const filter = merge({
                 _id: {
                     $in: resourceIds,
@@ -114,36 +116,42 @@ export function patch(req, res) {
  *
  * @return {string[]}
  */
-export function getPublicResourceIds() {
+function getPublicResourceIds() {
     // For when visibility of Resources will be used
     // return Resource.find({ visibility: entityVisibility.PUBLIC.value }, '_id')
     //     .exec()
     //     .then(resources => resources.map(resource => resource._id));
     // Meanwhile when Resources inherit permission from Project
     return getPublicProjectIds()
-        .then(projectIds => {
-            console.log('public project found', projectIds);
-            return projectIds;
-        })
         .then(projectIds => Resource.find({
             projectId: {
                 $in: projectIds
             }}, '_id')
             .exec()
         )
-        .then(resources => {
-            const a = resources.map(resource => resource._id);
-            console.log('resource of public project found', a);
-            return resources.map(resource => resource._id);
-        });
+        .then(resources => resources.map(resource => resource._id));
+}
+
+/**
+ * Returns the ids of the private resources visible to a user.
+ * @param {string} userId
+ */
+function getPrivateResourcecIds(userId) {
+    return getPrivateProjectIds(userId)
+        .then(projectIds => Resource.find({
+            projectId: {
+                $in: projectIds
+            }}, '_id')
+            .exec()
+        )
+        .then(resources => resources.map(resource => resource._id));
 }
 
 /**
  * Returns the ids of all the resources.
- *
  * @return {string[]}
  */
-export function getResourceIds() {
+function getAllResourceIds() {
     return Resource.find({}, '_id')
         .exec()
         .then(resources => resources.map(resource => resource._id));
@@ -151,24 +159,18 @@ export function getResourceIds() {
 
 /**
  * Returns the ids of the resources visible to the user.
- *
  * @param {string} userId
  * @return {string[]}
  */
-export function getResourceIdsByUser(userId) {
+function getResourceIdsByUser(userId) {
     return isAdmin(userId)
         .then(is =>
             (is
-                ? getResourceIds()
+                ? getAllResourceIds()
                 : Promise.all([
                     getPublicResourceIds(),
-                    []
-                    // getEntityIdsWithEntityPermissionByUser(
-                    //     userId,
-                    //     Object.values(accessTypes).map(access => access.value),
-                    //     [inviteStatusTypes.ACCEPTED.value],
-                    //     entityTypes.PROJECT.value
-                    // ),
-                ]).then(result => union(...result)))
+                    getPrivateResourcecIds(userId)
+                ]).then(result => union(...result))
+            )
         );
 }

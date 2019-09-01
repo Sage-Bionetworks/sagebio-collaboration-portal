@@ -130,7 +130,6 @@ function createAdminPermissionForEntity(user, entityType) {
 
 /**
  * Returns the ids of the public projects.
- *
  * @return {string[]}
  */
 export function getPublicProjectIds() {
@@ -140,11 +139,23 @@ export function getPublicProjectIds() {
 }
 
 /**
+ * Returns the ids of the private projects visible to a user.
+ * @param {string} userId
+ */
+export function getPrivateProjectIds(userId) {
+    return getEntityIdsWithEntityPermissionByUser(
+        userId,
+        Object.values(accessTypes).map(access => access.value),
+        [inviteStatusTypes.ACCEPTED.value],
+        entityTypes.PROJECT.value
+    );
+}
+
+/**
  * Returns the ids of all the projects.
- *
  * @return {string[]}
  */
-export function getProjectIds() {
+export function getAllProjectIds() {
     return Project.find({}, '_id')
         .exec()
         .then(projects => projects.map(project => project._id));
@@ -152,7 +163,6 @@ export function getProjectIds() {
 
 /**
  * Returns the ids of the projects visible to the user.
- *
  * @param {string} userId
  * @return {string[]}
  */
@@ -160,15 +170,11 @@ export function getProjectIdsByUser(userId) {
     return isAdmin(userId)
         .then(is =>
             (is
-                ? getProjectIds()
+                ? getAllProjectIds()
                 : Promise.all([
                     getPublicProjectIds(),
-                    getEntityIdsWithEntityPermissionByUser(
-                        userId,
-                        Object.values(accessTypes).map(access => access.value),
-                        [inviteStatusTypes.ACCEPTED.value],
-                        entityTypes.PROJECT.value
-                    ),
-                ]).then(result => union(...result)))
+                    getPrivateProjectIds(userId)
+                ]).then(result => union(...result))
+            )
         );
 }
