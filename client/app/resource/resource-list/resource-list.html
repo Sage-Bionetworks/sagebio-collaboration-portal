@@ -5,10 +5,10 @@
 <div class="app-resource-list-container">
     <entity-list
         *ngIf="resources"
-        entityName="Resource"
+        entityName="resource"
         [entities]="resources"
         [entityTypeFilters]="resourceTypeFilters"
-        filterGroup="resourceType"
+        entityTypeFilterGroup="resourceType"
         (onFilterChange)="onFilterChange($event)"
     ></entity-list>
 </div>

@@ -1,4 +1,6 @@
-import { Component, Input, ViewChildren, QueryList, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, ViewChildren, QueryList, OnInit, AfterViewInit, EventEmitter, Output } from '@angular/core';
+
+import { Entity } from 'models/entities/entity.model';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 
@@ -7,25 +9,44 @@ import { Resource } from 'models/entities/resources/resource.model';
 import { combineLatest } from 'rxjs';
 import { flow, keyBy, mapValues, capitalize } from 'lodash/fp';
 import { map } from 'rxjs/operators';
+import { values } from 'lodash/fp';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'entity-list',
     template: require('./entity-list.html'),
     styles: [require('./entity-list.scss')],
 })
-export class EntityListComponent implements AfterViewInit {
+export class EntityListComponent<E extends Entity> implements OnInit, AfterViewInit {
     private _entityName: string;
-
-
-
     @Input() entityTypeFilters: Filter[] = [];
-    @Input() filterGroup: string;
+    @Input() entityTypeFilterGroup: string;
+    private orderFilters: Filter[] = [];
+
+    _entities: E[]  = [];
+
     @Output() onFilterChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
-    _entities: Insight[] | Resource[]  = [];
+    // https://stackoverflow.com/a/50818532
 
     static parameters = [];
+    constructor() {}
+
+    ngOnInit() {
+        this.orderFilters = values({
+            NEWEST: {
+                value: 'metadata_created desc',
+                title: `Newest ${this.entityName}`,
+                active: true
+            },
+            OLDEST: {
+                value: 'metadata_created asc',
+                title: `Oldest ${this.entityName}`,
+                active: false
+            }
+        });
+    }
 
     ngAfterViewInit() {
         let selectedFilters = this.filters.map(f => f.getSelectedFilter());
@@ -41,7 +62,7 @@ export class EntityListComponent implements AfterViewInit {
             .subscribe(query => this.onFilterChange.emit(query));
     }
 
-    get entityName() {
+    get entityName(): string {
         return capitalize(this._entityName);
     }
 

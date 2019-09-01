@@ -32,6 +32,7 @@ export class ResourceListComponent implements OnInit {
     }
 
     onFilterChange(query) {
+        console.log('Filter has changed', query);
         this.resourceService.getResources(query)
             .subscribe(resources => {
                 this.resources = orderBy('createdAt', 'asc', resources);
