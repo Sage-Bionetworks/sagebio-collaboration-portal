@@ -38,11 +38,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     private limit = 2;
     private page = 0;
-    // private pageSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-    // private searchData: any;
-    // private searchPageIndex: number;
-    private searchResultCount = 0;
-    // private catalogNotReached = false;
+    private count = 0;
+    private searchResultsCount = 0;
 
     private query: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
@@ -95,7 +92,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             .pipe(map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters)))
             .subscribe(query => {
                 this.entities = [];
-                this.searchResultCount = 0;
+                this.searchResultsCount = 0;
                 this.page = 0;
                 this.query.next(query);
 
@@ -118,9 +115,10 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             .pipe(
                 switchMap(query => this.entityService.query(query))
             )
-            .subscribe(entities => {
-                console.log('OBJECTS FOUND', entities);
-                this.entities.push(...entities);
+            .subscribe(res => {
+                this.searchResultsCount = res.count;
+                console.log('OBJECTS FOUND', res);
+                this.entities.push(...res.results);
 
             }, err => console.error(err));
 

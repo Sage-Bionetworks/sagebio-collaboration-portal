@@ -14,6 +14,7 @@ import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
+import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
@@ -21,8 +22,8 @@ export class ProjectService implements EntityService<Project> {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    query(query?: {}): Observable<Project[]> {
-        return this.httpClient.get<Project[]>(`/api/projects${stringifyQuery(query)}`);
+    query(query?: {}): Observable<QueryListResponse<Project>> {
+        return this.httpClient.get<QueryListResponse<Project>>(`/api/projects${stringifyQuery(query)}`);
     }
 
     makePublic(entity: Project): Observable<Project> {

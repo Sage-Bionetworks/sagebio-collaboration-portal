@@ -76,11 +76,12 @@ export function index(req, res) {
                 .exec()
         ]))
         .then(([count, resources]) => {
-            // console.log(res);
             console.log('COUNT', count);
             console.log('RESOURCES', resources);
-            return resources;
-            // return [];
+            return {
+                count,
+                results: resources
+            };
         })
         .then(respondWithResult(res))
         .catch(handleError(res));

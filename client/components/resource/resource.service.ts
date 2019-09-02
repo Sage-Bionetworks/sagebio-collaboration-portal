@@ -1,3 +1,4 @@
+import { QueryListResponse } from './../../../shared/interfaces/query-list-response.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -22,8 +23,8 @@ export class ResourceService implements EntityService<Resource> {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    query(query?: {}): Observable<Resource[]> {
-        return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
+    query(query?: {}): Observable<QueryListResponse<Resource>> {
+        return this.httpClient.get<QueryListResponse<Resource>>(`/api/resources${stringifyQuery(query)}`);
     }
 
     makePublic(entity: Resource): Observable<Resource> {

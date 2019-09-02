@@ -28,10 +28,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
         private projectService: ProjectService,
         private notificationService: NotificationService) {
 
-        this.projects = this.projectService.query()
-            .pipe(
-                map(projects => orderBy('title', 'asc', projects))
-            );
+        // this.projects = this.projectService.query()
+        //     .pipe(
+        //         map(projects => orderBy('title', 'asc', projects))
+        //     );
     }
 
     ngOnInit() {

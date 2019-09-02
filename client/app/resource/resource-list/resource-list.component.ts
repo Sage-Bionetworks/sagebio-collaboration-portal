@@ -39,12 +39,12 @@ export class ResourceListComponent implements OnInit {
         // query.page = 0;
         // query.limit = 2;
 
-        this.resourceService.query(query)
-            .subscribe(resources => {
-                this.resources = resources;
-                console.log('resources received', resources);
-            },
-            err => console.error(err));
+        // this.resourceService.query(query)
+        //     .subscribe(resources => {
+        //         this.resources = resources;
+        //         console.log('resources received', resources);
+        //     },
+        //     err => console.error(err));
     }
 
     onEntityClick(resource: Resource) {
