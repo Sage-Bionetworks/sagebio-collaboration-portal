@@ -21,6 +21,7 @@ import { EntityService } from '../entity.service';
 })
 export class EntityListComponent<E extends Entity> implements OnInit, AfterViewInit {
     private _entityName: string;
+    @Input() entityService: EntityService<E>;
     @Input() entityTypeFilters: Filter[] = [];
     @Input() entityTypeFilterGroup: string;
     private orderFilters: Filter[] = [];
@@ -28,17 +29,12 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input() previewType = 'array';
 
     private entities: E[] = [];
-    @Input() entityService: EntityService<E>;
 
-    @Output() filterChange: EventEmitter<any> = new EventEmitter<any>();
     @Output() entityClick: EventEmitter<E> = new EventEmitter<E>();
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
 
-    // https://stackoverflow.com/a/50818532
-
     private limit = 2;
     private page = 0;
-    private count = 0;
     private searchResultsCount = 0;
 
     private query: BehaviorSubject<any> = new BehaviorSubject<any>({});
@@ -95,20 +91,6 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
                 this.searchResultsCount = 0;
                 this.page = 0;
                 this.query.next(query);
-
-                // this.query.next(assign(query, {
-                //         page: this.page,
-                //         limit: this.limit
-                //     }
-                // ));
-
-                // this._entities = [];
-                // query = assign(query, {
-                //     page: this.page,
-                //     limit: this.limit
-                // });
-                // console.log('query', query);
-                // this.filterChange.emit(query);
             });
 
         this.query
@@ -117,20 +99,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             )
             .subscribe(res => {
                 this.searchResultsCount = res.count;
-                console.log('OBJECTS FOUND', res);
                 this.entities.push(...res.results);
-
             }, err => console.error(err));
-
-
-
-            // .subscribe(query => {
-            //     // this.filterChange.emit(query);
-            //     this.entityService.query(query)
-            //         .subscribe()
-
-
-            // }, err => console.error(err));
 
         previewTypeFilter
             .pipe(
@@ -150,17 +120,6 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
         this._entityName = entityName;
     }
 
-    // get entities(): E[] {
-    //     return this._entities;
-    // }
-
-    // @Input()
-    // set entities(entities: E[]) {
-    //     console.log('NEW ENTITIES', entities);
-    //     this._entities.push(...entities);
-    //     this.searchResultCount = this._entities.length;
-    // }
-
     onEntityClick(entity: E): void {
         this.entityClick.emit(entity);
     }
@@ -172,7 +131,6 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
                 limit: this.limit
             }
         );
-        console.log('QUERY', query);
         this.query.next(query);
     }
 }
