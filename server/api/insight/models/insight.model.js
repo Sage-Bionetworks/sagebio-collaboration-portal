@@ -54,5 +54,7 @@ InsightSchema.pre('find', autoPopulatePre);
 InsightSchema.pre('findOne', autoPopulatePre);
 InsightSchema.post('save', autoPopulatePost);
 
+InsightSchema.index({ title: 'text' }, { weights: { title: 1 }});
+
 registerEvents(InsightSchema);
 export default mongoose.model('Insight', InsightSchema);

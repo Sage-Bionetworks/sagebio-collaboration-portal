@@ -13,49 +13,11 @@ import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/ent
 import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { merge } from 'lodash';
+import { buildEntityIndexQuery } from '../entity-util';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
-    let filter = {};
-    let projection = {};
-    let sort = 'createdAt'; // TODO UI and backend should use same default value
-
-    const pageSize = 2;
-    let skip = req.query.page
-        ? req.query.page * pageSize
-        : 0;
-    let limit = req.query.limit
-        ? Math.max(Math.min(1, req.query.limit), pageSize)
-        : pageSize;
-
-    if (req.query) {
-        // sanitize query
-        filter = pick(['resourceType'], req.query);
-
-        if (req.query.searchTerms) {
-            filter.$text = {
-                $search: req.query.searchTerms,
-                $caseSensitive: false,
-                $diacriticSensitive: true
-            };
-            projection.score = { $meta: 'textScore' };
-            if (req.query.orderedBy === 'relevance') {
-                sort = { score: { $meta: 'textScore' } };
-            }
-        }
-
-        if (req.query.orderedBy !== 'relevance') {
-            sort = req.query.orderedBy;
-        }
-    }
-
-    console.log('filter', filter);
-    console.log('projection', projection);
-    console.log('sort', sort);
-    console.log('req.query.page', req.query.page);
-    console.log('req.query.limit', req.query.limit);
-    console.log('skip', skip);
-    console.log('limit', limit);
+    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query);
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
@@ -64,7 +26,6 @@ export function index(req, res) {
                     $in: resourceIds,
                 }
             }, filter);
-            console.log('filter', filter);
             return filter;
         })
         .then(filter_ => Promise.all([
@@ -75,17 +36,18 @@ export function index(req, res) {
                 .limit(limit)
                 .exec()
         ]))
-        .then(([count, resources]) => {
-            console.log('COUNT', count);
-            console.log('RESOURCES', resources);
-            return {
-                count,
-                results: resources
-            };
-        })
+        .then(([count, resources]) => ({
+            count,
+            results: resources
+        }))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
+
+
+
+
+
 
 export function indexByEntity(req, res) {
     let filters = req.query;
@@ -158,7 +120,6 @@ export function patch(req, res) {
 
 /**
  * Returns the ids of the public resources.
- *
  * @return {string[]}
  */
 function getPublicResourceIds() {
@@ -181,7 +142,7 @@ function getPublicResourceIds() {
  * Returns the ids of the private resources visible to a user.
  * @param {string} userId
  */
-function getPrivateResourcecIds(userId) {
+function getPrivateResourceIds(userId) {
     return getPrivateProjectIds(userId)
         .then(projectIds => Resource.find({
             projectId: {
@@ -214,7 +175,7 @@ function getResourceIdsByUser(userId) {
                 ? getAllResourceIds()
                 : Promise.all([
                     getPublicResourceIds(),
-                    getPrivateResourcecIds(userId)
+                    getPrivateResourceIds(userId)
                 ]).then(result => union(...result))
             )
         );
