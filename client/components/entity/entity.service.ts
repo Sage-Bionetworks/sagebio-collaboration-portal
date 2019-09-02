@@ -18,6 +18,12 @@ import { EntityVisibility, Entity } from 'models/entities/entity.model';
 export abstract class EntityService<E extends Entity> {
 
     /**
+     * Returns the entity visible to the user.
+     * @param query
+     */
+    abstract query(query?: {}): Observable<E[]>;
+
+    /**
      * Makes an entity public.
      * @param entity
      */

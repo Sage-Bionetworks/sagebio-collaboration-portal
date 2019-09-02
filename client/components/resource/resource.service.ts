@@ -22,13 +22,25 @@ export class ResourceService implements EntityService<Resource> {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    getResources(query?: {}): Observable<Resource[]> {
+    query(query?: {}): Observable<Resource[]> {
         return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
     }
 
-    query(project: Project, query?: {}): Observable<Resource[]> {
+    makePublic(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
+    }
+
+    queryByProject(project: Project, query?: {}): Observable<Resource[]> {
         return this.httpClient.get<Resource[]>(`/api/resources/entity/${project._id}${stringifyQuery(query)}`);
     }
+
+
+    // getResources(query?: {}): Observable<Resource[]> {
+    //     return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
+    // }
 
     getResource(resourceId: string): Observable<Resource> {
         return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
@@ -63,12 +75,5 @@ export class ResourceService implements EntityService<Resource> {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
-    }
-
-    makePublic(entity: Resource): Observable<Resource> {
-        throw new Error('Method not implemented.');
-    }
-    makePrivate(entity: Resource): Observable<Resource> {
-        throw new Error('Method not implemented.');
     }
 }

@@ -22,7 +22,19 @@ export class InsightService implements EntityService<Insight> {
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    query(project: Project, query?: {}): Observable<Insight[]> {
+    query(query?: {}): Observable<Insight[]> {
+        return this.httpClient.get<Insight[]>(`/api/insights${stringifyQuery(query)}`);
+    }
+
+    makePublic(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
+    }
+
+
+    queryByProject(project: Project, query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights/entity/${project._id}${stringifyQuery(query)}`);
     }
 
@@ -63,12 +75,5 @@ export class InsightService implements EntityService<Insight> {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
-    }
-
-    makePublic(entity: Insight): Observable<Insight> {
-        throw new Error('Method not implemented.');
-    }
-    makePrivate(entity: Insight): Observable<Insight> {
-        throw new Error('Method not implemented.');
     }
 }

@@ -39,7 +39,7 @@ export class ResourceListComponent implements OnInit {
         // query.page = 0;
         // query.limit = 2;
 
-        this.resourceService.getResources(query)
+        this.resourceService.query(query)
             .subscribe(resources => {
                 this.resources = resources;
                 console.log('resources received', resources);
