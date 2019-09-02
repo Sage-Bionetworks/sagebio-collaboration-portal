@@ -107,4 +107,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     onEntityClick(entity: E): void {
         this.entityClick.emit(entity);
     }
+
+    showMoreResults(): void {
+
+    }
 }

@@ -20,9 +20,18 @@ export function index(req, res) {
     let projection = {};
     let sort = {};
 
+    const pageSize = 2;
+    let skip = req.query.page
+        ? req.query.page * pageSize
+        : 0;
+    let limit = req.query.limit
+        ? Math.max(Math.min(1, req.query.limit), pageSize)
+        : pageSize;
+
     if (req.query) {
         // sanitize query
         filter = pick(['resourceType'], req.query);
+
         if (req.query.searchTerms) {
             filter.$text = {
                 $search: req.query.searchTerms,
@@ -34,6 +43,7 @@ export function index(req, res) {
                 sort = { score: { $meta: 'textScore' } };
             }
         }
+
         if (req.query.orderedBy !== 'relevance') {
             sort = req.query.orderedBy || 'createdAt'; // TODO UI and backend should use same default value
         }
@@ -55,6 +65,8 @@ export function index(req, res) {
         })
         .then(filter_ => Resource.find(filter_, projection)
             .sort(sort)
+            .skip(skip)
+            .limit(limit)
             .exec()
         )
         .then(respondWithResult(res))

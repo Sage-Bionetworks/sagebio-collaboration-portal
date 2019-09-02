@@ -24,7 +24,7 @@
 
 .app-entity-list-content-results-count {
     margin-bottom: 20px;
-  }
+}
 
 .app-entity-list-content-results-array {
     display: flex;
@@ -35,4 +35,14 @@
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;
+}
+
+.app-entity-list-more-results {
+    display: flex;
+    justify-content: center;
+}
+
+.app-entity-list-more-results-btn {
+    margin-top: 25px;
+    width: 400px;
 }

@@ -18,8 +18,19 @@
             </mat-nav-list>
 
             <mat-nav-list class="app-entity-list-content-results-list" *ngIf="previewType === 'list'">
-                <entity-list-item *ngFor="let entity of entities" [entity]="entity" (entityClick)="onEntityClick($event)"></entity-list-item>
+                <entity-list-item
+                    *ngFor="let entity of entities"
+                    [entity]="entity"
+                    (entityClick)="onEntityClick($event)"
+                ></entity-list-item>
             </mat-nav-list>
+
+            <!-- *ngIf="searchResultCount - datasets.length > 0" -->
+            <div class="app-entity-list-more-results">
+                <a mat-raised-button class="app-entity-list-more-results-btn" color="primary" (click)="showMoreResults()">
+                    More Results
+                </a>
+            </div>
         </div>
     </div>
 </div>
