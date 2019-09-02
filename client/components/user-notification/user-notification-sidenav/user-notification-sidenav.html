@@ -6,19 +6,19 @@
     </a>
 </div>
 
-<span *ngIf="_messages && _messages.length === 0">Your Notification list is empty.</span>
+<span *ngIf="_messagesNotifications && _messagesNotifications.length === 0">Your Notification list is empty.</span>
 <div class="app-user-notification-sidenav-cards">
-    <ng-template *ngIf="_messages | async; let messages" ngFor let-message let-i="index" let-first="first"
+    <ng-template *ngIf="_messagesNotifications | async; let messages" ngFor let-message let-i="index" let-first="first"
         [ngForOf]="messages">
         <message-notification-view *ngIf="message" class="app-user-notification-view" [message]="message">
         </message-notification-view>
     </ng-template>
-    <ng-template *ngIf="_entityInvites | async; let entityInvites" ngFor let-entityInvite let-i="index"
+    <ng-template *ngIf="_entityNotifications | async; let entityInvites" ngFor let-entityInvite let-i="index"
         let-first="first" [ngForOf]="entityInvites">
         <entity-notification-view *ngIf="entityInvite" class="app-user-notification-view" [entityInvite]="entityInvite">
         </entity-notification-view>
     </ng-template>
-    <ng-template *ngIf="_entityAccessInvites | async; let entityAccessInvites" ngFor let-entityAccessInvite
+    <ng-template *ngIf="_entityAccessNotifications | async; let entityAccessInvites" ngFor let-entityAccessInvite
         let-i="index" let-first="first" [ngForOf]="entityAccessInvites">
         <entity-access-notification-view *ngIf="entityAccessInvite" class="app-user-notification-view"
             [entityAccessInvite]="entityAccessInvite">

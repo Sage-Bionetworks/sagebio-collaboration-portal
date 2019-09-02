@@ -2,8 +2,8 @@ import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../user-notification.service';
-import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
-
+// import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
+import { NotificationBundle } from '../models/notification-bundle.model';
 
 @Component({
     selector: 'entity-access-notification-view',
@@ -11,7 +11,8 @@ import { EntityAccessNotification } from '../models/entity-access-notificiation.
     styles: [require('./entity-access-notification-view.scss')]
 })
 export class EntityAccessNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() entityAccessInvite: EntityAccessNotification;
+    @Input() entityAccessInvite: NotificationBundle;
+
 
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];

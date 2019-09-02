@@ -2,7 +2,8 @@ import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../user-notification.service';
-import { EntityNotification } from '../models/entity-notificiation.model';
+// import { EntityNotification } from '../models/entity-notificiation.model';
+import { NotificationBundle } from '../models/notification-bundle.model';
 
 
 @Component({
@@ -11,8 +12,8 @@ import { EntityNotification } from '../models/entity-notificiation.model';
     styles: [require('./entity-notification-view.scss')]
 })
 export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() entityInvite: EntityNotification;
-
+    // @Input() entityInvite: EntityNotification;
+    @Input() entityInvite: NotificationBundle;
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];
     constructor(private router: Router,

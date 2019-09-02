@@ -1,25 +1,29 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { of, forkJoin, merge } from 'rxjs';
+import { switchMap, map, ignoreElements } from 'rxjs/operators';
+
+import { InsightService } from 'components/insight/insight.service';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { UserNotificationService } from '../user-notification.service';
-import { MessageNotification } from '../models/message-notificiation.model';
-import { EntityNotification } from '../models/entity-notificiation.model';
-import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
-import { mergeMap, map, switchMap, tap, ignoreElements } from 'rxjs/operators';
 
-// TODO: Do not refer to something in app/, instead move ProjectService to components
-import { ProjectService } from '../../../app/project/project.service';
-import { InsightService } from 'components/insight/insight.service'
+import { NotificationBundle } from '../models/notification-bundle.model';
+import { forkJoinWithProgress } from 'components/rxjs/util';
 import config from '../../../app/app.constants';
 
-// import { InviteBundle } from '../models/invite-bundle.model';
-// import { forkJoinWithProgress } from 'components/rxjs/util';
+// ---------------------------------------------------------------
+// TODO: Do not refer to something in app/, instead move ProjectService to components
+import { ProjectService } from '../../../app/project/project.service';
+// ---------------------------------------------------------------
+
 // import { Project } from 'models/entities/project.model';
 // import { EntityPermission } from 'models/auth/entity-permission.model';
 // import { pickBy, identity } from 'lodash/fp';
-// import { from, of, forkJoin, merge } from 'rxjs';
 // import { SocketService } from 'components/socket/socket.service';
+// import { MessageNotification } from '../models/message-notificiation.model';
+// import { EntityNotification } from '../models/entity-notificiation.model';
+// import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
 
 
 
@@ -30,21 +34,21 @@ import config from '../../../app/app.constants';
 })
 
 export class UserNotificationSidenavComponent implements OnDestroy {
-    // private invites: InviteBundle[] = [];
+    // private invites: NotificationBundle[] = [];
+    // private socketEventName: string;
+
     private avatarSize = 40;
 
-    private _messages: BehaviorSubject<MessageNotification[]> = new BehaviorSubject<MessageNotification[]>([]);
-    private _entityInvites: BehaviorSubject<EntityNotification[]> = new BehaviorSubject<EntityNotification[]>([]);
-    private _entityAccessInvites: BehaviorSubject<EntityAccessNotification[]> = new BehaviorSubject<EntityAccessNotification[]>([]);
-
-    // private socketEventName: string;
+    private _messagesNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
+    private _entityNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
+    private _entityAccessNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
 
     static parameters = [
         SecondarySidenavService,
         UserPermissionDataService,
         UserNotificationService,
-        InsightService,
-        ProjectService
+        ProjectService,
+        InsightService
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
@@ -56,24 +60,80 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         this.avatarSize = config.avatar.size.mini;
     }
 
+    getEntityDetails(entityType: string, entityID: string) {
+        switch (entityType) {
+            case config.entityTypes.PROJECT.value:
+                return this.projectService.getProject(entityID)
+            case config.entityTypes.INSIGHT.value:
+                return this.insightService.getInsight(entityID)
+            default:
+                return of(null)
+        }
+    }
 
-    ngOnInit() {
+    createNotificationBundle(notification) {
+        return of(notification)
+            .pipe(
+                switchMap(inv => forkJoin({
+                    notification: of(notification),
+                    associatedEntity: this.getEntityDetails(inv.entityType, inv.entityId)
+                }))
+            )
+    }
+
+    getMessagesNotifications() {
         this.userNotificationService.queryMessageNotifications()
-            .subscribe(messages => {
-                this._messages.next(messages);
-                console.log('this._messages: ', this._messages);
-            }, err => console.error(err));
-        this.userNotificationService.queryEntityNotifications()
-            .subscribe(entityInvites => {
-                this._entityInvites.next(entityInvites);
-            }, err => console.error(err));
-        this.userNotificationService.queryEntityAccessNotifications()
-            .subscribe(entityAccessInvites => {
-                this._entityAccessInvites.next(entityAccessInvites);
+            .pipe(
+                map(messageNotifications => messageNotifications.map(notification => this.createNotificationBundle(notification))),
+                switchMap(bundles => forkJoinWithProgress(bundles)),
+                switchMap(([finalResult, progress]) => merge(
+                    progress.pipe(ignoreElements()),
+                    finalResult
+                ))
+            )
+            .subscribe((messagesNotifications: NotificationBundle[]) => {
+                console.log('messagesNotifications: ', messagesNotifications);
+                this._messagesNotifications.next(messagesNotifications);
             }, err => console.error(err));
     }
 
+    getEntityNotifications() {
+        this.userNotificationService.queryEntityNotifications()
+            .pipe(
+                map(entityNotifications => entityNotifications.map(notification => this.createNotificationBundle(notification))),
+                switchMap(bundles => forkJoinWithProgress(bundles)),
+                switchMap(([finalResult, progress]) => merge(
+                    progress.pipe(ignoreElements()),
+                    finalResult
+                ))
+            )
+            .subscribe((entityNotifications: NotificationBundle[]) => {
+                console.log('entityNotifications: ', entityNotifications);
+                this._entityNotifications.next(entityNotifications);
+            }, err => console.error(err));
+    }
 
+    getEntityAccessNotifications() {
+        this.userNotificationService.queryEntityAccessNotifications()
+            .pipe(
+                map(entityAceessNotifications => entityAceessNotifications.map(notification => this.createNotificationBundle(notification))),
+                switchMap(bundles => forkJoinWithProgress(bundles)),
+                switchMap(([finalResult, progress]) => merge(
+                    progress.pipe(ignoreElements()),
+                    finalResult
+                ))
+            )
+            .subscribe((entityAccessNotifications: NotificationBundle[]) => {
+                console.log('entityAccessNotifications: ', entityAccessNotifications);
+                this._entityAccessNotifications.next(entityAccessNotifications);
+            }, err => console.error(err));
+    }
+
+    ngOnInit() {
+        this.getMessagesNotifications()
+        this.getEntityNotifications()
+        this.getEntityAccessNotifications()
+    }
 
     ngOnDestroy() { }
 
@@ -82,33 +142,3 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 }
 
-        // const createInviteBundle = invite => of(invite)
-        //     .pipe(
-        //         switchMap(inv => forkJoin({
-        //             invite: of(inv),
-        //             project: this.projectService.getProject(inv.entityId)
-        //         }))
-        //     );
-
-        // const getInviteBundles = this.userPermissionDataService.permissions()
-        //     .pipe(
-        //         map(permissions => permissions.getPendingEntityInvites()),
-        //         map(pendingInvites => pendingInvites.map(invite => createInviteBundle(invite))),
-        //         switchMap(invites => forkJoinWithProgress(invites))
-        //     );
-
-        // getInviteBundles
-        //     .pipe(
-        //         switchMap(([finalResult, progress]) => merge(
-        //             progress.pipe(
-        //                 // tap((value) => console.log(`${value} completed`)),
-        //                 ignoreElements()
-        //             ),
-        //             finalResult
-        //         ))
-        //     ).subscribe((invites: InviteBundle[]) => {
-        //         this.invites = invites;
-        //         if (this.invites.length < 1) {
-        //             this.sidenavService.close();
-        //         }
-        //     }, err => console.error(err));

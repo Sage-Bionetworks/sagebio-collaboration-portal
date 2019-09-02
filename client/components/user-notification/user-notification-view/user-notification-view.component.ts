@@ -1,9 +1,10 @@
+// CARLOS - clean up this view
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { InviteBundle } from '../models/invite-bundle.model';
+import { NotificationBundle } from '../models/notification-bundle.model';
 import { UserNotificationService } from '../user-notification.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { UserNotificationService } from '../user-notification.service';
     styles: [require('./user-notification-view.scss')]
 })
 export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() invite: InviteBundle;
+    @Input() invite: NotificationBundle;
     @Input() notification;
 
     static parameters = [Router, UserPermissionDataService,

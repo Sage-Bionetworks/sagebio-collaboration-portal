@@ -35,7 +35,7 @@ export class UserNotificationService {
     }
 
     createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
-        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message/${messageNotification.userId}`, messageNotification);
+        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.userId}`, messageNotification);
     }
 
     queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
