@@ -97,6 +97,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input()
     set entities(entities) {
         this._entities = entities;
+        this.searchResultCount = entities ? entities.length : 0;
     }
 
     onEntityClick(entity: E): void {

@@ -17,20 +17,26 @@ import { merge } from 'lodash';
 // Returns the Resources visible to the user.
 export function index(req, res) {
     // sanitize user query
-    const query = pick(['resourceType'], req.query);  // TODO add order filter
+    let filter = pick(['resourceType'], req.query);  // TODO add order filter
+    const projection = {};
+    if (req.query.searchTerms) {
+        filter.$text = { $search: req.query.searchTerms };
+        projection.score = { $meta: 'textScore' };
+    }
+
     const orderedBy = req.query.orderedBy ? req.query.orderedBy : 'createdAt'; // TODO UI and backend should use same default value
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
-            const filter = merge({
+            filter = merge({
                 _id: {
                     $in: resourceIds,
                 }
-            }, query);
+            }, filter);
             console.log('filter', filter);
             return filter;
         })
-        .then(filter => Resource.find(filter)
+        .then(filter_ => Resource.find(filter_, projection)
             .sort(orderedBy)
             .exec()
         )

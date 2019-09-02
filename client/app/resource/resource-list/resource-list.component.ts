@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ResourceService } from 'components/resource/resource.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { orderBy } from 'lodash/fp';
+import { orderBy, pick } from 'lodash/fp';
 import { Resource } from 'models/entities/resources/resource.model';
 import config from '../../../app/app.constants';
 
@@ -35,6 +35,7 @@ export class ResourceListComponent implements OnInit {
 
     onFilterChange(query) {
         console.log('Filter has changed', query);
+        query = pick(['resourceType', 'orderedBy', 'searchTerms'], query);
         this.resourceService.getResources(query)
             .subscribe(resources => {
                 this.resources = resources;

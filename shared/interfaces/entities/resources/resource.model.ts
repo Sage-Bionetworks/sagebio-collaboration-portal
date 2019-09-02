@@ -7,7 +7,7 @@ import { Entity } from '../entity.model';
  *     Resource:
  *       type: object
  *       properties:
-*          projectId:
+ *         projectId:
  *           type: string
  *         url:
  *           type: string
