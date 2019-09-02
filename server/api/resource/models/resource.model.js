@@ -65,7 +65,7 @@ ResourceSchema.pre('find', autoPopulatePre);
 ResourceSchema.pre('findOne', autoPopulatePre);
 ResourceSchema.post('save', autoPopulatePost);
 
-ResourceSchema.index({ title: 'text' });
+ResourceSchema.index({ title: 'text' }, { weights: { title: 1 }});
 
 registerEvents(ResourceSchema);
 export default mongoose.model('Resource', ResourceSchema);

@@ -44,10 +44,14 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     ngOnInit() {
         this.orderFilters = values({
+            RELEVANCE: {
+                value: 'relevance',
+                title: 'Relevance',
+                active: true,
+            },
             NEWEST: {
                 value: '-createdAt',
                 title: `Newest ${this.entityName}s`, // assumes plural simply ends with 's'
-                active: true,
             },
             OLDEST: {
                 value: 'createdAt',

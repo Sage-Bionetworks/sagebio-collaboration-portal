@@ -16,15 +16,32 @@ import { merge } from 'lodash';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
-    // sanitize user query
-    let filter = pick(['resourceType'], req.query);  // TODO add order filter
-    const projection = {};
-    if (req.query.searchTerms) {
-        filter.$text = { $search: req.query.searchTerms };
-        projection.score = { $meta: 'textScore' };
+    let filter = {};
+    let projection = {};
+    let sort = {};
+
+    if (req.query) {
+        // sanitize query
+        filter = pick(['resourceType'], req.query);
+        if (req.query.searchTerms) {
+            filter.$text = {
+                $search: req.query.searchTerms,
+                $caseSensitive: false,
+                $diacriticSensitive: true
+            };
+            projection.score = { $meta: 'textScore' };
+            if (req.query.orderedBy === 'relevance') {
+                sort = { score: { $meta: 'textScore' } };
+            }
+        }
+        if (req.query.orderedBy !== 'relevance') {
+            sort = req.query.orderedBy || 'createdAt'; // TODO UI and backend should use same default value
+        }
     }
 
-    const orderedBy = req.query.orderedBy ? req.query.orderedBy : 'createdAt'; // TODO UI and backend should use same default value
+    console.log('filter', filter);
+    console.log('projection', projection);
+    console.log('sort', sort);
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
@@ -37,7 +54,7 @@ export function index(req, res) {
             return filter;
         })
         .then(filter_ => Resource.find(filter_, projection)
-            .sort(orderedBy)
+            .sort(sort)
             .exec()
         )
         .then(respondWithResult(res))
