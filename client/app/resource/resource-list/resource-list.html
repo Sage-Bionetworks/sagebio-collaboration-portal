@@ -6,7 +6,7 @@
     <entity-list
         *ngIf="resources"
         entityName="resource"
-        [entities]="resources"
+        [entityService]="resourceService"
         [entityTypeFilters]="resourceTypeFilters"
         entityTypeFilterGroup="resourceType"
         previewType="list"

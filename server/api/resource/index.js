@@ -33,8 +33,6 @@ var router = express.Router();
 router.get('/', auth.isAuthenticated(), controller.index);
 
 
-
-
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.upsert);

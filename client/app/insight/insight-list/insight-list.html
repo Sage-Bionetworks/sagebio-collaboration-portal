@@ -7,7 +7,7 @@
         <entity-list
             *ngIf="insights"
             entityName="Insight"
-            [entities]="insights"
+            [entityService]="insightService"
             [entityTypeFilters]="insightTypeFilters"
             filterGroup="insightType"
             (onFilterChange)="onFilterChange($event)"

@@ -8,10 +8,11 @@ import { Insight } from 'models/entities/insights/insight.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { combineLatest, BehaviorSubject } from 'rxjs';
 import { flow, keyBy, mapValues, capitalize } from 'lodash/fp';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { values } from 'lodash/fp';
 import { assign } from 'lodash';
 import config from '../../../app/app.constants';
+import { EntityService } from '../entity.service';
 
 @Component({
     selector: 'entity-list',
@@ -26,7 +27,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     private previewTypeFilters: Filter[] = [];
     @Input() previewType = 'array';
 
-    _entities: E[] = [];
+    private entities: E[] = [];
+    @Input() entityService: EntityService<E>;
 
     @Output() filterChange: EventEmitter<any> = new EventEmitter<any>();
     @Output() entityClick: EventEmitter<E> = new EventEmitter<E>();
@@ -92,7 +94,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
         combineLatest(...selectedFilters)
             .pipe(map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters)))
             .subscribe(query => {
-                this._entities = [];
+                this.entities = [];
                 this.searchResultCount = 0;
                 this.page = 0;
                 this.query.next(query);
@@ -113,9 +115,24 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
             });
 
         this.query
-            .subscribe(query => {
-                this.filterChange.emit(query);
+            .pipe(
+                switchMap(query => this.entityService.query(query))
+            )
+            .subscribe(entities => {
+                console.log('OBJECTS FOUND', entities);
+                this.entities.push(...entities);
+
             }, err => console.error(err));
+
+
+
+            // .subscribe(query => {
+            //     // this.filterChange.emit(query);
+            //     this.entityService.query(query)
+            //         .subscribe()
+
+
+            // }, err => console.error(err));
 
         previewTypeFilter
             .pipe(
@@ -135,16 +152,16 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
         this._entityName = entityName;
     }
 
-    get entities(): E[] {
-        return this._entities;
-    }
+    // get entities(): E[] {
+    //     return this._entities;
+    // }
 
-    @Input()
-    set entities(entities: E[]) {
-        console.log('NEW ENTITIES', entities);
-        this._entities.push(...entities);
-        this.searchResultCount = this._entities.length;
-    }
+    // @Input()
+    // set entities(entities: E[]) {
+    //     console.log('NEW ENTITIES', entities);
+    //     this._entities.push(...entities);
+    //     this.searchResultCount = this._entities.length;
+    // }
 
     onEntityClick(entity: E): void {
         this.entityClick.emit(entity);

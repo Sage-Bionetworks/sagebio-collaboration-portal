@@ -18,7 +18,7 @@ import { merge } from 'lodash';
 export function index(req, res) {
     let filter = {};
     let projection = {};
-    let sort = {};
+    let sort = 'createdAt'; // TODO UI and backend should use same default value
 
     const pageSize = 2;
     let skip = req.query.page
@@ -45,7 +45,7 @@ export function index(req, res) {
         }
 
         if (req.query.orderedBy !== 'relevance') {
-            sort = req.query.orderedBy || 'createdAt'; // TODO UI and backend should use same default value
+            sort = req.query.orderedBy;
         }
     }
 
@@ -54,6 +54,8 @@ export function index(req, res) {
     console.log('sort', sort);
     console.log('req.query.page', req.query.page);
     console.log('req.query.limit', req.query.limit);
+    console.log('skip', skip);
+    console.log('limit', limit);
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
@@ -65,17 +67,24 @@ export function index(req, res) {
             console.log('filter', filter);
             return filter;
         })
-        .then(filter_ => Resource.find(filter_, projection)
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .exec()
-        )
+        .then(filter_ => Promise.all([
+            Resource.countDocuments(filter_),
+            Resource.find(filter_, projection)
+                .sort(sort)
+                .skip(skip)
+                .limit(limit)
+                .exec()
+        ]))
+        .then(([count, resources]) => {
+            // console.log(res);
+            console.log('COUNT', count);
+            console.log('RESOURCES', resources);
+            return resources;
+            // return [];
+        })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
-
-
 
 export function indexByEntity(req, res) {
     let filters = req.query;
