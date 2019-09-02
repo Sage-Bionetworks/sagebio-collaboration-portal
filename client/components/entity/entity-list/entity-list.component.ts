@@ -6,10 +6,11 @@ import { FiltersComponent } from 'components/filters/filters.component';
 
 import { Insight } from 'models/entities/insights/insight.model';
 import { Resource } from 'models/entities/resources/resource.model';
-import { combineLatest } from 'rxjs';
+import { combineLatest, BehaviorSubject } from 'rxjs';
 import { flow, keyBy, mapValues, capitalize } from 'lodash/fp';
 import { map } from 'rxjs/operators';
 import { values } from 'lodash/fp';
+import { assign } from 'lodash';
 import config from '../../../app/app.constants';
 
 @Component({
@@ -33,11 +34,15 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
     // https://stackoverflow.com/a/50818532
 
-    // private numDatasetsPerPage = 8;
+    private limit = 2;
+    private page = 0;
+    // private pageSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     // private searchData: any;
     // private searchPageIndex: number;
     private searchResultCount = 0;
     // private catalogNotReached = false;
+
+    private query: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
     static parameters = [];
     constructor() {}
@@ -76,12 +81,48 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     }
 
     ngAfterViewInit() {
-        let selectedFilters = this.filters.map(f => f.getSelectedFilter());
+        let previewTypeFilter = this.filters
+            .find(f => f.group === 'previewType')
+            .getSelectedFilter();
+
+        let selectedFilters = this.filters
+            .filter(f => f.group !== 'previewType')
+            .map(f => f.getSelectedFilter());
+
         combineLatest(...selectedFilters)
             .pipe(map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters)))
             .subscribe(query => {
-                this.previewType = query && query.previewType;
+                this._entities = [];
+                this.searchResultCount = 0;
+                this.page = 0;
+                this.query.next(query);
+
+                // this.query.next(assign(query, {
+                //         page: this.page,
+                //         limit: this.limit
+                //     }
+                // ));
+
+                // this._entities = [];
+                // query = assign(query, {
+                //     page: this.page,
+                //     limit: this.limit
+                // });
+                // console.log('query', query);
+                // this.filterChange.emit(query);
+            });
+
+        this.query
+            .subscribe(query => {
                 this.filterChange.emit(query);
+            }, err => console.error(err));
+
+        previewTypeFilter
+            .pipe(
+                map(filter => filter.value)
+            )
+            .subscribe((previewType: string) => {
+                this.previewType = previewType;
             });
     }
 
@@ -94,14 +135,15 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
         this._entityName = entityName;
     }
 
-    get entities() {
+    get entities(): E[] {
         return this._entities;
     }
 
     @Input()
-    set entities(entities) {
-        this._entities = entities;
-        this.searchResultCount = entities ? entities.length : 0;
+    set entities(entities: E[]) {
+        console.log('NEW ENTITIES', entities);
+        this._entities.push(...entities);
+        this.searchResultCount = this._entities.length;
     }
 
     onEntityClick(entity: E): void {
@@ -109,6 +151,13 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     }
 
     showMoreResults(): void {
-
+        let query = assign(
+            this.query.getValue(), {
+                page: ++this.page,
+                limit: this.limit
+            }
+        );
+        console.log('QUERY', query);
+        this.query.next(query);
     }
 }

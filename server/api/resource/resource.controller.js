@@ -52,6 +52,8 @@ export function index(req, res) {
     console.log('filter', filter);
     console.log('projection', projection);
     console.log('sort', sort);
+    console.log('req.query.page', req.query.page);
+    console.log('req.query.limit', req.query.limit);
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {

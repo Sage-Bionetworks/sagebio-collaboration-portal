@@ -35,9 +35,9 @@ export class ResourceListComponent implements OnInit {
 
     onFilterChange(query) {
         console.log('Filter has changed', query);
-        query = pick(['resourceType', 'orderedBy', 'searchTerms'], query);
-        query.page = 0;
-        query.limit = 2;
+        // query = pick(['resourceType', 'orderedBy', 'searchTerms'], query);
+        // query.page = 0;
+        // query.limit = 2;
 
         this.resourceService.getResources(query)
             .subscribe(resources => {
