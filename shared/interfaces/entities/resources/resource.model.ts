@@ -17,5 +17,5 @@ import { Entity } from '../entity.model';
 export interface Resource extends Entity {
     projectId: string;
     url: string;
-    resourceType?: string;
+    resourceType: string;
 }

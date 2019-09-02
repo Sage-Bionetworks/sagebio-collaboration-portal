@@ -1,9 +1,7 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourceService } from 'components/resource/resource.service';
-import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { orderBy, pick } from 'lodash/fp';
 import { Resource } from 'models/entities/resources/resource.model';
 import config from '../../../app/app.constants';
 
@@ -13,38 +11,19 @@ import config from '../../../app/app.constants';
     styles: [require('./resource-list.scss')],
 })
 export class ResourceListComponent implements OnInit {
-    private resources: Resource[] = [];
     private resourceTypeFilters = config.resourceTypeFilters;
 
-    // private searchPageIndex: number;
-    // private searchResultCount = 0;
-
-    static parameters = [Router, PageTitleService, ResourceService, NotificationService];
+    static parameters = [Router, PageTitleService, ResourceService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private resourceService: ResourceService,
-        private notificationService: NotificationService
+        private resourceService: ResourceService
     ) {
         this.resourceTypeFilters = config.resourceTypeFilters;
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'resources';
-    }
-
-    onFilterChange(query) {
-        console.log('Filter has changed', query);
-        // query = pick(['resourceType', 'orderedBy', 'searchTerms'], query);
-        // query.page = 0;
-        // query.limit = 2;
-
-        // this.resourceService.query(query)
-        //     .subscribe(resources => {
-        //         this.resources = resources;
-        //         console.log('resources received', resources);
-        //     },
-        //     err => console.error(err));
+        this.pageTitleService.title = 'Resources';
     }
 
     onEntityClick(resource: Resource) {

@@ -1,35 +1,4 @@
-.app-resource-item,
-.app-resource-item:hover {
-  text-decoration: none;
+.app-resource-list {
+    display: flex;
+    flex-flow: row nowrap;
 }
-
-.app-resource-list-container {
-  display: flex;
-  flex-flow: row nowrap;
-
-}
-
-// .app-resource-list-result-count {
-//   margin-bottom: 20px;
-// }
-
-// .app-resource-list-more-results-container {
-//   display: flex;
-//   justify-content: center;
-// }
-
-// .app-resource-list-more-results {
-//   margin-top: 25px;
-//   width: 400px;
-// }
-
-// .app-resource-list-metadata-row {
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   margin-bottom: 4px;
-// }
-
-// .app-resource-list-metadata-row > mat-icon {
-//   margin-right: 10px;
-// }

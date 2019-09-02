@@ -4,13 +4,11 @@
 
 <div class="app-resource-list-container">
     <entity-list
-        *ngIf="resources"
         entityName="resource"
         [entityService]="resourceService"
         [entityTypeFilters]="resourceTypeFilters"
         entityTypeFilterGroup="resourceType"
         previewType="list"
-        (filterChange)="onFilterChange($event)"
         (entityClick)="onEntityClick($event)"
     ></entity-list>
 </div>

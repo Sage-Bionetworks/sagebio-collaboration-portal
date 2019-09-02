@@ -11,7 +11,6 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { ActivityModule } from 'components/activity/activity.module';
 
 import { InsightListComponent } from './insight-list/insight-list.component';
-import { InsightAppPageComponent } from './insight-app-page/insight-app-page.component';
 
 import { InsightService } from 'components/insight/insight.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -20,17 +19,14 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { InsightModule as InsightComponentModule } from 'components/insight/insight.module';
 
-export const ROUTES: Routes = [{
-    path: 'insights',
-    component: InsightListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'insights/:insightId',
-    component: InsightAppPageComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'insights',
+        component: InsightListComponent,
+        canActivate: [AuthGuard],
+        data: {},
+    }
+];
 
 @NgModule({
     imports: [
@@ -44,19 +40,11 @@ export const ROUTES: Routes = [{
         ActivityModule,
         ProvenanceModule,
         EntityModule,
-        InsightComponentModule
+        InsightComponentModule,
     ],
-    declarations: [
-        InsightListComponent,
-        InsightAppPageComponent,
-    ],
-    providers: [
-        SocketService,
-        InsightService
-    ],
-    exports: [
-        InsightListComponent,
-    ],
-    entryComponents: []
+    declarations: [InsightListComponent],
+    providers: [SocketService, InsightService],
+    exports: [InsightListComponent],
+    entryComponents: [],
 })
-export class InsightModule { }
+export class InsightModule {}

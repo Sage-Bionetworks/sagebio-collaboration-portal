@@ -98,8 +98,10 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
                 switchMap(query => this.entityService.query(query))
             )
             .subscribe(res => {
-                this.searchResultsCount = res.count;
-                this.entities.push(...res.results);
+                if (res) {
+                    this.searchResultsCount = res.count ? res.count : 0;
+                    this.entities.push(...res.results);
+                }
             }, err => console.error(err));
 
         previewTypeFilter
