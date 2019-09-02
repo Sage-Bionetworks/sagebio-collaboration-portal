@@ -7,19 +7,19 @@ import * as auth from '../../auth/auth.service';
 
 var router = Router();
 
-router.get('/entity/', auth.isAuthenticated(), entityNotificationController.indexMine);
-router.get('/entity/:id', entityNotificationController.show);
-router.post('/entity/', entityNotificationController.create);
-// router.patch('/entity/:id', entityNotificationController.patch);
+router.get('/message-notification/', auth.isAuthenticated(), messageNotificationController.indexMine);
+router.get('/message-notification/:id', messageNotificationController.show);
+router.post('/message-notification/', messageNotificationController.create);
+// router.patch('/message-notification/:id', messageNotificationController.patch);
 
-router.get('/entity-access/', auth.isAuthenticated(), entityAccessNotificationController.indexMine);
-router.get('/entity-access/:id', entityAccessNotificationController.show);
-router.post('/entity-access/', entityAccessNotificationController.create);
-// router.patch('/entity-access/:id', entityAccessNotificationController.patch);
+router.get('/entity-notification/', auth.isAuthenticated(), entityNotificationController.indexMine);
+router.get('/entity-notification/:id', entityNotificationController.show);
+router.post('/entity-notification/', entityNotificationController.create);
+// router.patch('/entity-notification/:id', entityNotificationController.patch);
 
-router.get('/message/', auth.isAuthenticated(), messageNotificationController.indexMine);
-router.get('/message/:id', messageNotificationController.show);
-router.post('/message/', messageNotificationController.create);
-// router.patch('/message/:id', messageNotificationController.patch);
+router.get('/entity-access-notification/', auth.isAuthenticated(), entityAccessNotificationController.indexMine);
+router.get('/entity-access-notification/:id', entityAccessNotificationController.show);
+router.post('/entity-access-notification/', entityAccessNotificationController.create);
+// router.patch('/entity-access-notification/:id', entityAccessNotificationController.patch);
 
 module.exports = router;

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { NotificationBundle } from '../models/notification-bundle.model';
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 import { UserNotificationService } from '../user-notification.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { UserNotificationService } from '../user-notification.service';
     styles: [require('./user-notification-view.scss')]
 })
 export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() invite: NotificationBundle;
+    @Input() invite: UserNotificationBundle;
     @Input() notification;
 
     static parameters = [Router, UserPermissionDataService,
@@ -28,7 +28,7 @@ export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
     ngOnDestroy() { }
 
     accept(): void {
-        this.userPermissionDataService.acceptEntityPermission(this.invite.invite)
+        this.userPermissionDataService.acceptEntityPermission(this.invite.entityPermission)
             .subscribe(entityPermission => {
                 this.notificationService.info('The invite has been successfully accepted.');
             }, err => {
@@ -38,7 +38,7 @@ export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
     }
 
     acceptAndRedirect() {
-        this.userPermissionDataService.acceptEntityPermission(this.invite.invite)
+        this.userPermissionDataService.acceptEntityPermission(this.invite.entityPermission)
             .subscribe(entityPermission => {
                 this.userNotificationService.toggleNotifications();
                 this.notificationService.info('The invite has been successfully accepted.');
@@ -50,7 +50,7 @@ export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
     }
 
     decline(): void {
-        this.userPermissionDataService.declineEntityPermission(this.invite.invite)
+        this.userPermissionDataService.declineEntityPermission(this.invite.entityPermission)
             .subscribe(entityPermission => {
                 this.notificationService.info('The invite has been successfully declined.');
             }, err => {

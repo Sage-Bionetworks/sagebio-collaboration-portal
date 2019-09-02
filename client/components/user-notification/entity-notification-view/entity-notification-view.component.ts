@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../user-notification.service';
 // import { EntityNotification } from '../models/entity-notificiation.model';
-import { NotificationBundle } from '../models/notification-bundle.model';
+// import { NotificationBundle } from '../models/notification-bundle.model';
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 
 
 @Component({
@@ -13,7 +14,7 @@ import { NotificationBundle } from '../models/notification-bundle.model';
 })
 export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy {
     // @Input() entityInvite: EntityNotification;
-    @Input() entityInvite: NotificationBundle;
+    @Input() entityInvite: UserNotificationBundle;
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];
     constructor(private router: Router,

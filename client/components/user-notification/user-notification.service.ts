@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
 import { Observable } from 'rxjs';
-import { MessageNotification } from './models/message-notificiation.model';
-import { EntityNotification } from './models/entity-notificiation.model';
-import { EntityAccessNotification } from './models/entity-access-notificiation.model';
+
+import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
+import { MessageNotification } from 'models/user-notification/message-notificiation.model'
+import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
+import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model'
+
+import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { stringifyQuery } from 'components/util';
 
 const SIDENAV_CONTENT_ID = 'notifications';
@@ -31,7 +33,7 @@ export class UserNotificationService {
 
 
     queryMessageNotifications(query?: {}): Observable<MessageNotification[]> {
-        return this.httpClient.get<MessageNotification[]>(`/api/user-notifications/message${stringifyQuery(query)}`);
+        return this.httpClient.get<MessageNotification[]>(`/api/user-notifications/message-notification${stringifyQuery(query)}`);
     }
 
     createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
@@ -39,18 +41,18 @@ export class UserNotificationService {
     }
 
     queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
-        return this.httpClient.get<EntityNotification[]>(`/api/user-notifications/entity${stringifyQuery(query)}`);
+        return this.httpClient.get<EntityNotification[]>(`/api/user-notifications/entity-notification${stringifyQuery(query)}`);
     }
 
     createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
-        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity/${entityNotification.userId}`, entityNotification);
+        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.userId}`, entityNotification);
     }
 
     queryEntityAccessNotifications(query?: {}): Observable<EntityAccessNotification[]> {
-        return this.httpClient.get<EntityAccessNotification[]>(`/api/user-notifications/entity-access${stringifyQuery(query)}`);
+        return this.httpClient.get<EntityAccessNotification[]>(`/api/user-notifications/entity-access-notification${stringifyQuery(query)}`);
     }
 
     createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
-        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access/${entityAccessNotification.userId}`, entityAccessNotification);
+        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.userId}`, entityAccessNotification);
     }
 }

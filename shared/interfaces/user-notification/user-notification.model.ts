@@ -1,18 +1,17 @@
-import { UserProfile, } from 'models/auth/user-profile.model';
-import { EntityPermission } from 'models/auth/entity-permission.model'
+import { UserProfile } from '../auth/user-profile.model';
 
 /**`
  * @swagger
  * components:
  *   schemas:
- *     EntityAccessNotification:
+ *     MessageNotification:
  *       type: object
  *       properties:
  *         _id:
  *           type: string
  */
 
-export interface EntityAccessNotification {
+export interface UserNotification {
   _id?: string;
   notificationType: string;
   userId: UserProfile | string;
@@ -20,7 +19,4 @@ export interface EntityAccessNotification {
   archived: boolean;
   createdAt: string;
   createdBy: UserProfile | string;
-  entityId: string;
-  entityType: string;
-  entityPermissionId: EntityPermission | string;
 }

@@ -8,9 +8,10 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { UserNotificationService } from '../user-notification.service';
 
-import { NotificationBundle } from '../models/notification-bundle.model';
+// import { NotificationBundle } from '../models/notification-bundle.model';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import config from '../../../app/app.constants';
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 
 // ---------------------------------------------------------------
 // TODO: Do not refer to something in app/, instead move ProjectService to components
@@ -39,9 +40,9 @@ export class UserNotificationSidenavComponent implements OnDestroy {
 
     private avatarSize = 40;
 
-    private _messagesNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
-    private _entityNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
-    private _entityAccessNotifications: BehaviorSubject<NotificationBundle[]> = new BehaviorSubject<NotificationBundle[]>([]);
+    private _messagesNotifications: BehaviorSubject<UserNotificationBundle[]> = new BehaviorSubject<UserNotificationBundle[]>([]);
+    private _entityNotifications: BehaviorSubject<UserNotificationBundle[]> = new BehaviorSubject<UserNotificationBundle[]>([]);
+    private _entityAccessNotifications: BehaviorSubject<UserNotificationBundle[]> = new BehaviorSubject<UserNotificationBundle[]>([]);
 
     static parameters = [
         SecondarySidenavService,
@@ -91,7 +92,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                     finalResult
                 ))
             )
-            .subscribe((messagesNotifications: NotificationBundle[]) => {
+            .subscribe((messagesNotifications: UserNotificationBundle[]) => {
                 console.log('messagesNotifications: ', messagesNotifications);
                 this._messagesNotifications.next(messagesNotifications);
             }, err => console.error(err));
@@ -107,7 +108,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                     finalResult
                 ))
             )
-            .subscribe((entityNotifications: NotificationBundle[]) => {
+            .subscribe((entityNotifications: UserNotificationBundle[]) => {
                 console.log('entityNotifications: ', entityNotifications);
                 this._entityNotifications.next(entityNotifications);
             }, err => console.error(err));
@@ -123,7 +124,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                     finalResult
                 ))
             )
-            .subscribe((entityAccessNotifications: NotificationBundle[]) => {
+            .subscribe((entityAccessNotifications: UserNotificationBundle[]) => {
                 console.log('entityAccessNotifications: ', entityAccessNotifications);
                 this._entityAccessNotifications.next(entityAccessNotifications);
             }, err => console.error(err));
