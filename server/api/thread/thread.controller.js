@@ -1,18 +1,94 @@
-import { omit, uniq, pull } from 'lodash/fp';
+import { omit, uniq, pull, pick, union, flatten } from 'lodash/fp';
 import {
     respondWithResult,
     handleUserNotFound,
     handleEntityNotFound,
     handleError,
     patchUpdates,
-    removeEntity
+    removeEntity,
+    getEntityIdsWithEntityPermissionsByUser
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
 import Message from '../message/message.model';
-import { pluralize } from 'mongoose';
+import EntityPermission from '../entity-permission/entity-permission.model';
+import { accessTypes, inviteStatusTypes, entityTypes } from '../../config/environment';
+import Project from '../project/project.model';
+import DataCatalog from '../data-catalog/data-catalog.model';
+import Tool from '../tool/tool.model';
+import App from '../app/app.model';
 
 // TODO Protect thread.contributors field
+
+export function getPublicProjectIds() {
+    return Project
+        .find({ visibility: 'Public' }, '_id')
+        .exec()
+        .then(projects => projects.map(project => project._id.toString()));
+}
+
+// Returns the ids of the projects visible to the user.
+export function getProjectIdsByUser(userId) {
+    return Promise.all([
+        getPublicProjectIds(),
+        getEntityIdsWithEntityPermissionsByUser(
+            userId,
+            Object.values(accessTypes).map(access => access.value),
+            [inviteStatusTypes.ACCEPTED.value],
+            entityTypes.PROJECT.value
+        )
+    ])
+        .then(result => union(...result));
+}
+
+export function getPublicDataCatalogIds() {
+    return DataCatalog
+        .find({ visibility: 'Public' }, '_id')
+        .exec()
+        .then(catalogs => catalogs.map(catalog => catalog._id.toString()));
+}
+
+export function getPublicToolIds() {
+    return Tool
+        .find({ visibility: 'Public' }, '_id')
+        .exec()
+        .then(tools => tools.map(tool => tool._id.toString()));
+}
+
+export function getAppId() {
+    return App.findOne({}, '_id')
+        .exec()
+        .then(app => app._id.toString());
+}
+
+export function getEntityIdsByUser(userId) {
+    return Promise.all([
+        getPublicProjectIds(),
+        getPublicDataCatalogIds(),
+        getPublicToolIds(),
+        getAppId(),
+        getEntityIdsWithEntityPermissionsByUser(userId)
+    ])
+        .then(result => flatten(result));
+}
+
+// Returns the threads that the user has access to.
+export function indexByUser(req, res) {
+    console.log('HERE');
+    // return res.status(200).json({});
+    getEntityIdsByUser(req.user._id)
+        .then(entityIds => Thread.find({
+            entityId: {
+                $in: entityIds
+            }
+        }))
+        .then(t => {
+            console.log('THREADS', t);
+            return t;
+        })
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
 
 // Creates a new Thread in the DB
 export function create(req, res) {

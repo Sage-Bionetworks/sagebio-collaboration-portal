@@ -45,9 +45,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
                     Validators.minLength(this.projectSpecs.description.minlength),
                     Validators.maxLength(this.projectSpecs.description.maxlength)
                 ]],
-                visibility: [this.project.visibility, [
-                    Validators.required
-                ]],
+                // visibility: [this.project.visibility, [
+                //     Validators.required
+                // ]],
             });
         }
     }

@@ -12,18 +12,39 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 
 var router = express.Router();
 
-router.get('/', controller.index);
+/**
+ * @swagger
+ * /resources:
+ *   get:
+ *     tags:
+ *       - Resources
+ *     summary: Returns the Resources visible to the user.
+ *     description: Returns the Resources visible to the user.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: An array of Resources
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Resource'
+ */
+router.get('/', auth.isAuthenticated(), controller.index);
+
+
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.upsert);
-router.patch('/:id', controller.patch);
-// router.delete('/:id', controller.destroy);
 
-// get resource by project id
+router.patch('/:id', controller.patch);
+
 router.get('/entity/:entityId', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
 ]), controller.indexByEntity);
+
+// router.delete('/:id', controller.destroy);
 
 module.exports = router;

@@ -19,8 +19,8 @@ var router = express.Router();
  *   get:
  *     tags:
  *       - Projects
- *     summary: Returns all the Projects.
- *     description: Returns all the Projects.
+ *     summary: Returns the Projects visible to the user.
+ *     description: Returns the Projects visible to the user.
  *     produces:
  *       - application/json
  *     responses:
@@ -31,11 +31,7 @@ var router = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Project'
  */
-router.get('/', auth.hasPermissionForEntity([
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.index);
+router.get('/', auth.isAuthenticated(), controller.index);
 
 /**
  * @swagger
@@ -64,10 +60,12 @@ router.get('/', auth.hasPermissionForEntity([
  *               $ref: '#/components/schemas/Project'
  *       '400':
  *         description: Invalid ID supplied
+ *       '401':
+ *         description: Unauthorized
  *       '404':
  *         description: Project not found
  */
-router.get('/:id', auth.hasPermissionForEntity([
+router.get('/:entityId', auth.hasPermissionForEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
@@ -127,9 +125,39 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id', auth.hasPermissionForEntity([
+router.patch('/:entityId', auth.hasPermissionForEntity([
     ADMIN_ACCESS
 ]), controller.patch);
+
+/**
+ * @swagger
+ * /projects/{id}/visibility:
+ *   get:
+ *     tags:
+ *       - Projects
+ *     summary: Returns the visibility of the project.
+ *     description: Returns the visibility of the project.
+ *     produces:
+ *       - text/plain
+ *     responses:
+ *       '200':
+ *         description: The visibility of the Project
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               $ref: '#/components/schemas/EntityVisibility'
+ */
+router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
+
+// TODO Document
+router.patch('/:entityId/visibility/public', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePublic);
+
+// TODO Document
+router.patch('/:entityId/visibility/private', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePrivate);
 
 /**
  * @swagger
@@ -157,8 +185,8 @@ router.patch('/:id', auth.hasPermissionForEntity([
  *       '404':
  *         description: Project not found
  */
-router.delete('/:id', auth.hasPermissionForEntity([
-    ADMIN_ACCESS
-]), controller.destroy);
+// router.delete('/:id', auth.hasPermissionForEntity([
+//     ADMIN_ACCESS
+// ]), controller.destroy);
 
 module.exports = router;

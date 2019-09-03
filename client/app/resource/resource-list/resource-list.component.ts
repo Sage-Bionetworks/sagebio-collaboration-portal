@@ -1,8 +1,7 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ResourceService } from 'components/resource/resource.service';
-import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { orderBy } from 'lodash/fp';
 import { Resource } from 'models/entities/resources/resource.model';
 import config from '../../../app/app.constants';
 
@@ -12,20 +11,14 @@ import config from '../../../app/app.constants';
     styles: [require('./resource-list.scss')],
 })
 export class ResourceListComponent implements OnInit {
-    private resources: Resource[] = [];
     private resourceTypeFilters = config.resourceTypeFilters;
 
-    private createNewResource = false;
-
-    private searchPageIndex: number;
-    private searchResultCount = 0;
-
-    static parameters = [PageTitleService, ResourceService,
-        NotificationService];
-    constructor(private pageTitleService: PageTitleService,
-        private resourceService: ResourceService,
-        private notificationService: NotificationService) {
-
+    static parameters = [Router, PageTitleService, ResourceService];
+    constructor(
+        private router: Router,
+        private pageTitleService: PageTitleService,
+        private resourceService: ResourceService
+    ) {
         this.resourceTypeFilters = config.resourceTypeFilters;
     }
 
@@ -33,23 +26,9 @@ export class ResourceListComponent implements OnInit {
         this.pageTitleService.title = 'Resources';
     }
 
-    onFilterChange(query) {
-        this.resourceService.getAll(query)
-            .subscribe(resources => {
-                this.resources = orderBy('createdAt', 'asc', resources);
-            }, err => {
-                console.log(err);
-            });
-    }
-
-    onNewResource(resource: Resource): void {
-        this.createNewResource = false;
-        this.notificationService.info('The Resource has been successfully created');
-    }
-
-    clearResults(): void {
-        this.resources = [];
-        this.searchResultCount = 0;
-        this.searchPageIndex = undefined;
+    onEntityClick(resource: Resource) {
+        if (resource) {
+            this.router.navigate(['/projects', resource.projectId, 'resources', resource._id]);
+        }
     }
 }

@@ -24,7 +24,7 @@ var ProjectSchema = new mongoose.Schema({
     },
     visibility: {
         type: String,
-        required: false,
+        required: true,
         enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
         default: config.models.project.visibility.default
     },
@@ -42,6 +42,8 @@ var ProjectSchema = new mongoose.Schema({
         select: false
     }
 });
+
+ProjectSchema.index({ title: 'text' }, { weights: { title: 1 }});
 
 registerEvents(ProjectSchema);
 export default mongoose.model('Project', ProjectSchema);

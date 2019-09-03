@@ -1,21 +1,14 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, pipe, throwError } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, filter, take } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { User } from 'models/auth/user.model';
 import { TokenResponse } from 'models/auth/token-response.model';
+import { AuthInfo } from './auth-info.model';
 
-class AuthInfo {
-    constructor(public user: User) { }
-
-    isLoggedIn() {
-        return !!(this.user && this.user._id);
-    }
-}
-
-const loginWithTokenResponse = (authService: AuthService) => pipe(
+const _loginWithTokenResponse = (authService: AuthService) => pipe(
     mergeMap((res: TokenResponse) => {
         authService.getTokenService().set(res.token, res.expiresIn);
         return authService.getUserService().get();
@@ -33,52 +26,47 @@ const loginWithTokenResponse = (authService: AuthService) => pipe(
 @Injectable()
 export class AuthService {
     private uuid; // TODO: remove
+    static GUEST = new AuthInfo(undefined);
 
-    static UNKNOWN_USER = new AuthInfo(null);
-    private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
+    private _authInfo: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(undefined);
+    private initStarted = false;
+
     private loginUrl = '/login';
     private redirectUrl = '/';
 
     static parameters = [HttpClient, UserService, TokenService];
     constructor(private httpClient: HttpClient, private userService: UserService,
         private tokenService: TokenService) {
-        this.getAuthInfo();
+
         this.uuid = Math.floor(Math.random() * 100) + 1;
-        console.log('UUID', this.uuid);
+        console.log('AUTH SERVICE UUID', this.uuid);
     }
 
     /**
-     * Updates and returns the authentification information.
-     * @return {Observable<AuthInfo>}
+     * Contacts the token service to check if the user is logged in.
+     *
+     * Note: For some reason this function generates a near-infinite loop
+     * when called from the constructor of this service.
      */
-    getAuthInfo(): Observable<AuthInfo> {
+    initAuthInfo(): void {
+        this.initStarted = true;
         if (this.tokenService.get()) {
-            return this.userService.get()
+            this.userService.get()
                 .pipe(
-                    map(user => {
-                        this._authInfo.next(new AuthInfo(user));
-                        return this._authInfo.getValue();
-                    }),
-                    catchError(() => {
+                    map(user => new AuthInfo(user)),
+                    catchError(err => {
                         this.tokenService.deleteToken();
-                        this._authInfo.next(AuthService.UNKNOWN_USER);
-                        return this._authInfo.asObservable();
+                        return of(AuthService.GUEST);
                     })
-                );
+                )
+                .subscribe(authInfo =>
+                    this._authInfo.next(authInfo)
+                , err => console.error(err));
         } else {
             this.tokenService.deleteToken();
-            this._authInfo.next(AuthService.UNKNOWN_USER);
-            return this._authInfo.asObservable();
+            this._authInfo.next(AuthService.GUEST);
         }
     }
-
-    /**
-     * Sets the user specified as the current user.
-     */
-    // setUser(user): void {
-    //     console.log('FIRING NEXT AUTHUSER', )
-    //     this._authInfo.next(new AuthInfo(user));
-    // }
 
     /**
      * Authenticates user and save token.
@@ -86,13 +74,13 @@ export class AuthService {
      * @param {Object} credentials Login info
      * @return {Observable<User>}
      */
-    login({ email, password }): Observable<User> {
+    login({ email, password }: any): Observable<User> {
         return this.httpClient.post<TokenResponse>('/auth/local', {
             email,
             password
         })
             .pipe(
-                loginWithTokenResponse(this)
+                _loginWithTokenResponse(this)
             );
     }
 
@@ -102,22 +90,24 @@ export class AuthService {
     loginWithTokenResponse(tokenResponse: TokenResponse): Observable<User> {
         return of(tokenResponse)
             .pipe(
-                loginWithTokenResponse(this)
+                _loginWithTokenResponse(this)
             );
     }
 
     /**
      * Deletes access token and user info.
+     *
      * @return {Observable}
      */
     logout(): Observable<null> {
         this.tokenService.deleteToken();
-        this._authInfo.next(AuthService.UNKNOWN_USER);
+        this._authInfo.next(AuthService.GUEST);
         return of(null);
     }
 
     /**
      * Creates a new user.
+     *
      * @param {Object} user User info
      * @return {Observable<User>}
      */
@@ -141,6 +131,7 @@ export class AuthService {
 
     /**
      * Changes password.
+     *
      * @param {String} oldPassword
      * @param {String} newPassword
      * @return {Observable<User>}
@@ -154,21 +145,22 @@ export class AuthService {
 
     /**
      * Returns the authentification information.
+     *
      * @return {Observable<AuthInfo>}
      */
     authInfo(): Observable<AuthInfo> {
-        return this._authInfo.asObservable();
+        if (!this._authInfo.getValue() && !this.initStarted) {
+            this.initAuthInfo();
+        }
+        return this._authInfo
+            .pipe(
+                filter(authInfo => !!authInfo)
+            );
     }
 
     /**
-     * Returns the current authentification information value.
-     */
-    authInfoValue(): AuthInfo {
-        return this._authInfo.getValue();
-    }
-
-    /**
-     * Gets auth token.
+     * Gets authentication token.
+     *
      * @return {string} A token string used for authenticating
      */
     getToken(): string {

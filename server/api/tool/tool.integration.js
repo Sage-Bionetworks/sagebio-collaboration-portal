@@ -40,28 +40,28 @@ describe('Tool API:', function () {
         User.deleteMany()
     ]));
 
-    describe('GET /api/tools', function () {
-        var tools;
+    // describe('GET /api/tools', function () {
+    //     var tools;
 
-        beforeEach(function (done) {
-            request(app)
-                .get('/api/tools')
-                .set('authorization', `Bearer ${token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    tools = res.body;
-                    done();
-                });
-        });
+    //     beforeEach(function (done) {
+    //         request(app)
+    //             .get('/api/tools')
+    //             .set('authorization', `Bearer ${token}`)
+    //             .expect(200)
+    //             .expect('Content-Type', /json/)
+    //             .end((err, res) => {
+    //                 if (err) {
+    //                     return done(err);
+    //                 }
+    //                 tools = res.body;
+    //                 done();
+    //             });
+    //     });
 
-        it('should respond with JSON array', function () {
-            expect(tools).to.be.instanceOf(Array);
-        });
-    });
+    //     it('should respond with JSON array', function () {
+    //         expect(tools).to.be.instanceOf(Array);
+    //     });
+    // });
 
     describe('POST /api/tools', function () {
         beforeEach(function (done) {

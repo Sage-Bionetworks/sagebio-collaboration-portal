@@ -12,6 +12,9 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 const READ_ACCESS = accessTypes.READ.value;
 const WRITE_ACCESS = accessTypes.WRITE.value;
 
+// Returns the threads that the user has access to.
+router.get('/', auth.isAuthenticated(), controller.indexByUser);
+
 // Creates a new thread associated to the entity specified.
 router.post('/entity/:entityId', auth.hasPermissionForEntity(
     READ_ACCESS,

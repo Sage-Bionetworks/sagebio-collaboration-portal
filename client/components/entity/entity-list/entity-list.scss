@@ -1,41 +1,48 @@
+.app-entity-list {
+    display: flex;
+    flex-flow: row nowrap;
+}
 
-.entity-list-container {
-  display: flex;
-  flex-flow: row nowrap;
-
-  .entity-list-filters-container {
+.app-entity-list-filters {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 0;
     flex-shrink: 0;
-    // min-width: 300px;
     margin: 25px;
-  }
+}
 
-  .entity-list-content-container {
+.app-entity-list-content {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;
     margin: 20px 50px;
+}
 
-    .entity-list-search-filter {
-      width: 600px;
-    }
+.app-entity-list-content-search-filter {
+    width: 600px;
+}
 
-    .entity-list-results {
-      display: flex;
-      flex-flow: row wrap;
-    }
+.app-entity-list-content-results-count {
+    margin-bottom: 20px;
+}
 
-    .entity-list-actions {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-    }
+.app-entity-list-content-results-array {
+    display: flex;
+    flex-flow: row wrap;
+}
 
-    .entity-list-new-project {
-      margin-top: 25px;
-      width: 400px;
-    }
-  }
+.app-entity-list-content-results-list {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+}
+
+.app-entity-list-more-results {
+    display: flex;
+    justify-content: center;
+}
+
+.app-entity-list-more-results-btn {
+    margin-top: 25px;
+    width: 400px;
 }

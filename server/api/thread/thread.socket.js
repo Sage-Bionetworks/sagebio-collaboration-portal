@@ -2,8 +2,8 @@
  * Broadcast updates to client when the model changes
  */
 
-import { hasAccessToEntity } from '../../auth/auth';
 import ThreadEvents from './thread.events';
+import { hasAccessToEntity } from '../../auth/auth';
 import config from '../../config/environment';
 
 // Model events to emit

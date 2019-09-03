@@ -1,5 +1,0 @@
-<div class="app-primary-header">
-    <mat-icon class="app-nav-back-icon" routerLink="/resources">keyboard_arrow_left</mat-icon>
-    <h1 *ngIf="resource">{{ resource.title }}</h1>
-</div>
-<resource-page (resourceOutput)="setResource($event)"></resource-page>

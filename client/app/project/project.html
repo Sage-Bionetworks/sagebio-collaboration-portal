@@ -1,4 +1,4 @@
-<div *ngIf="project | async; let project" class="app-project">
+<div *ngIf="project$ | async; let project" class="app-project">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
         <h1>{{ project.title }}</h1>

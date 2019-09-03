@@ -11,7 +11,6 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { ActivityModule } from 'components/activity/activity.module';
 
 import { ResourceListComponent } from './resource-list/resource-list.component';
-import { ResourceAppPageComponent } from './resource-app-page/resource-app-page.component';
 
 import { ResourceService } from 'components/resource/resource.service';
 import { SocketService } from 'components/socket/socket.service';
@@ -20,17 +19,13 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { ResourceModule as ResourceComponentModule } from 'components/resource/resource.module';
 
-export const ROUTES: Routes = [{
-    path: 'resources',
-    component: ResourceListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'resources/:resourceId',
-    component: ResourceAppPageComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'resources',
+        component: ResourceListComponent,
+        canActivate: [AuthGuard],
+    },
+];
 
 @NgModule({
     imports: [
@@ -44,18 +39,10 @@ export const ROUTES: Routes = [{
         ActivityModule,
         ProvenanceModule,
         EntityModule,
-        ResourceComponentModule
+        ResourceComponentModule,
     ],
-    declarations: [
-        ResourceListComponent,
-        ResourceAppPageComponent
-    ],
-    providers: [
-        SocketService,
-        ResourceService
-    ],
-    exports: [
-        ResourceListComponent,
-    ],
+    declarations: [ResourceListComponent],
+    providers: [SocketService, ResourceService],
+    exports: [ResourceListComponent],
 })
-export class ResourceModule { }
+export class ResourceModule {}

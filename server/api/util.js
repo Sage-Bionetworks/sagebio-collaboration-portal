@@ -1,29 +1,29 @@
-import {
-    applyPatch
-} from 'fast-json-patch';
+import { applyPatch } from 'fast-json-patch';
 import { mapKeys, mapValues, snakeCase, isPlainObject, isArray } from 'lodash';
-import {
-    find
-} from 'lodash/fp';
+import { find, pickBy, identity } from 'lodash/fp';
+import { accessTypes, inviteStatusTypes } from '../config/environment';
+import EntityPermission from './entity-permission/entity-permission.model';
 
 // TODO Review purpose
 function deeply(map) {
     var deeplyArray = function (obj, fn) {
-      return obj.map(function(x) {
-        return isPlainObject(x) ? deeply(map)(x, fn) : x;
-      })
-    }
+        return obj.map(function (x) {
+            return isPlainObject(x) ? deeply(map)(x, fn) : x;
+        });
+    };
 
     return function (obj, fn) {
-      if (isArray(obj)) {
-        return deeplyArray(obj, fn);
-      }
+        if (isArray(obj)) {
+            return deeplyArray(obj, fn);
+        }
 
-      return map(mapValues(obj, function (v) {
-        return isPlainObject(v) ? deeply(map)(v, fn) : isArray(v) ?
-          deeplyArray(v, fn) : v;
-      }), fn);
-    }
+        return map(
+            mapValues(obj, function (v) {
+                return isPlainObject(v) ? deeply(map)(v, fn) : isArray(v) ? deeplyArray(v, fn) : v;
+            }),
+            fn
+        );
+    };
 }
 
 export function respondWithResult(res, statusCode) {
@@ -60,38 +60,39 @@ export function patchUpdates(patches) {
 // TODO Review purpose
 export function protectFromPatchReplace(res, patches, allowedProperties) {
     return function (entity) {
-        let invalid = patches.find(patch =>
-            patch.op === 'replace' && !allowedProperties.includes(patch.path.substring(1))
+        let invalid = patches.find(
+            patch => patch.op === 'replace' && !allowedProperties.includes(patch.path.substring(1))
         );
         if (invalid) {
-            res.status(400).send(`Only the following document properties ` +
-                `can be replaced: ${allowedProperties.join(' ')}`);
+            res.status(400).send(
+                'Only the following document properties ' + `can be replaced: ${allowedProperties.join(' ')}`
+            );
             return null;
         }
         return entity;
-    }
+    };
 }
 
 // TODO Review purpose
 export function protectFromPatchRemove(res, patches, allowedProperties) {
     return function (entity) {
-        let invalid = patches.find(patch =>
-            patch.op === 'remove' && !allowedProperties.includes(patch.path.substring(1))
+        let invalid = patches.find(
+            patch => patch.op === 'remove' && !allowedProperties.includes(patch.path.substring(1))
         );
         if (invalid) {
-            res.status(400).send(`Only the following document properties ` +
-                `can be removed: ${allowedProperties.join(' ')}`);
+            res.status(400).send(
+                'Only the following document properties ' + `can be removed: ${allowedProperties.join(' ')}`
+            );
             return null;
         }
         return entity;
-    }
+    };
 }
 
 export function removeEntity(res) {
     return function (entity) {
         if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
+            return entity.remove().then(() => res.status(204).end());
         }
     };
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, tap, catchError } from 'rxjs/operators';
 import { Project } from 'models/entities/project.model';
 import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
@@ -17,25 +17,35 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
     ]
 })
 export class ProjectComponent implements OnInit {
-    private project: Observable<Project>;
+    private project$: Observable<Project>;
 
     static parameters = [ActivatedRoute, ProjectService, ProjectDataService,
         ProjectSidenavService];
     constructor(private route: ActivatedRoute,
         private projectService: ProjectService,
         private projectDataService: ProjectDataService,
-        private projectSidenavService: ProjectSidenavService) { }
+        private projectSidenavService: ProjectSidenavService) {
+        }
 
     ngOnInit() {
-        const project$ = this.route.params.pipe(
-            switchMap(res => this.projectService.getProject(res.id))
+        console.log('GETTING PROJECT');
+        const getProject = this.route.params.pipe(
+            tap(res => console.log('RES', res)),
+            switchMap(res => this.projectService.getProject(res.id)
+                .pipe(
+                    catchError(err => {
+                        console.error(err);
+                        return of(<Project>undefined);
+                    })
+                )
+            )
         );
 
-        project$
+        getProject
             .subscribe(project => {
                 this.projectDataService.setProject(project);
             });
 
-        this.project = this.projectDataService.project();
+        this.project$ = this.projectDataService.project();
     }
 }

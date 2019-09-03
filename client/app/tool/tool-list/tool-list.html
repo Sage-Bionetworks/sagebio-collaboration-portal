@@ -1,21 +1,12 @@
-<div *ngIf="!createNewTool; else showNewToolForm">
-    <div class="app-primary-header">
-        <h1>Tools</h1>
-    </div>
-
-    <div class="app-tool-list-content">
-        <div class="app-tool-list-results">
-            <tool-view *ngFor="let tool of tools | async" [tool]="tool"></tool-view>
-        </div>
-    </div>
-
-    <ng-container *ngIf="(permissions | async).canCreateTool()">
-        <div class="app-tool-list-actions">
-            <a mat-raised-button color="primary" class="app-tool-list-new-tool" (click)="createNewTool=true" aria-label="Create a New Tool">Add a New Tool</a>
-        </div>
-    </ng-container>
+<div class="app-primary-header">
+    <h1>Tools</h1>
 </div>
 
-<ng-template #showNewToolForm>
-    <tool-new (newTool)="onNewTool($event)" (close)="createNewTool=false"></tool-new>
-</ng-template>
+<div class="app-tool-list">
+    <entity-list
+        entityName="tool"
+        [entityService]="toolService"
+        previewType="list"
+        (entityClick)="onEntityClick($event)"
+    ></entity-list>
+</div>

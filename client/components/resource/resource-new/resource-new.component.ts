@@ -66,8 +66,7 @@ export class ResourceNewComponent {
             .subscribe(values => {
                 if(values === 'State') {
                     this.newForm.addControl('tool', new FormControl('', Validators.required), ); // Add new form control
-                }
-                else {
+                } else {
                     this.newForm.removeControl('tool');
                 }
             });

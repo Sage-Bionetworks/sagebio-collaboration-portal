@@ -1,14 +1,35 @@
-<div class="entity-list-container">
-    <div class="entity-list-filters-container">
-        <h3>{{ entityName }} Type</h3>
-        <radio-button-filter [filters]="entityTypeFilters" [group]="filterGroup"></radio-button-filter>
+<div class="app-entity-list">
+    <div class="app-entity-list-filters">
+        <h3 *ngIf="entityTypeFilterGroup">{{ entityName }} Type</h3>
+        <radio-button-filter *ngIf="entityTypeFilterGroup" [filters]="entityTypeFilters" [group]="entityTypeFilterGroup"></radio-button-filter>
+        <h3>Order by</h3>
+        <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
+        <h3>Preview</h3>
+        <button-toggle-filter [filters]="previewTypeFilters" group="previewType"></button-toggle-filter>
     </div>
 
-    <div class="entity-list-content-container">
-        <div class="entity-list-results">
-            <ng-template ngFor let-entity let-i="index" let-first="first" [ngForOf]="entities">
-                <entity-view [entity]="entity"></entity-view>
-            </ng-template>
+    <div class="app-entity-list-content">
+        <search-filter class="app-entity-list-content-search-filter" group="searchTerms"></search-filter>
+        <span class="app-entity-list-content-results-count">{{ searchResultsCount }} results</span>
+        <div class="app-entity-list-content-results">
+            <mat-nav-list class="app-entity-list-content-results-array" *ngIf="previewType === 'array'">
+                <entity-list-card *ngFor="let entity of entities" [entity]="entity"></entity-list-card>
+                <!-- mat-list-item -->
+            </mat-nav-list>
+
+            <mat-nav-list class="app-entity-list-content-results-list" *ngIf="previewType === 'list'">
+                <entity-list-item
+                    *ngFor="let entity of entities"
+                    [entity]="entity"
+                    (entityClick)="onEntityClick($event)"
+                ></entity-list-item>
+            </mat-nav-list>
+
+            <div class="app-entity-list-more-results">
+                <a *ngIf="searchResultsCount - entities.length > 0" mat-raised-button class="app-entity-list-more-results-btn" color="primary" (click)="showMoreResults()">
+                    More Results
+                </a>
+            </div>
         </div>
     </div>
 </div>

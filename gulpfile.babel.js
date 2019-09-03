@@ -284,13 +284,9 @@ gulp.task('lint:scripts:server', cb => {
 gulp.task('lint:scripts',
     gulp.parallel(
         'lint:scripts:client',
-        'lint:scripts:server'
+        'lint:scripts:server',
     ));
 
-// gulp.task('lint:scripts:clientTest', () => {
-//     return gulp.src(paths.client.test)
-//         .pipe(lintClientScripts());
-// });
 //
 // gulp.task('lint:scripts:serverTest', () => {
 //     return gulp.src(paths.server.test)

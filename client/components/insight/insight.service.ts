@@ -6,14 +6,29 @@ import { Project } from 'models/entities/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { EntityService } from 'components/entity/entity.service';
+import { QueryListResponse } from 'models/query-list-response.model';
 import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
 
 @Injectable()
-export class InsightService {
+export class InsightService implements EntityService<Insight> {
+
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient, private secondarySidenavService: SecondarySidenavService) { }
 
-    query(project: Project, query?: {}): Observable<Insight[]> {
+    query(query?: {}): Observable<QueryListResponse<Insight>> {
+        return this.httpClient.get<QueryListResponse<Insight>>(`/api/insights${stringifyQuery(query)}`);
+    }
+
+    makePublic(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Insight): Observable<Insight> {
+        throw new Error('Method not implemented.');
+    }
+
+
+    queryByProject(project: Project, query?: {}): Observable<Insight[]> {
         return this.httpClient.get<Insight[]>(`/api/insights/entity/${project._id}${stringifyQuery(query)}`);
     }
 

@@ -12,7 +12,32 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 
 var router = express.Router();
 
-router.get('/', controller.index);
+/**
+ * @swagger
+ * /insights:
+ *   get:
+ *     tags:
+ *       - Insights
+ *     summary: Returns the Insights visible to the user.
+ *     description: Returns the Insights visible to the user.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       '200':
+ *         description: An array of Insights
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Insight'
+ */
+router.get('/', auth.isAuthenticated(), controller.index);
+
+
+
+
+
+
+
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.upsert);

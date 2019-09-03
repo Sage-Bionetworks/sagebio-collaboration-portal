@@ -75,10 +75,6 @@ export class ProjectDashboardComponent implements OnInit, OnDestroy {
     //         }, err => console.log(err));
     // }
 
-    deleteProject(): void {
-        this.notificationService.info('Not implemented');
-    }
-
     onEditProject(project: Project): void {
         this.showEditProjectTemplate = false;
         this.projectDataService.setProject(project);

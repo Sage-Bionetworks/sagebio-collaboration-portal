@@ -32,6 +32,7 @@ import { PageTitleService } from './page-title/page-title.service';
     ],
     declarations: [
         // OauthButtonsComponent,
+        // MeasurableDirective,
     ],
     exports: [
         AppQuillModule,

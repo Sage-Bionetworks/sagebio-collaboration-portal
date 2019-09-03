@@ -14,13 +14,28 @@ import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { EntityService } from 'components/entity/entity.service';
+import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
-export class ToolService {
+export class ToolService implements EntityService<Tool> {
 
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
+
+    query(query?: {}): Observable<QueryListResponse<Tool>> {
+        return this.httpClient.get<QueryListResponse<Tool>>(`/api/tools${stringifyQuery(query)}`);
+    }
+
+    makePublic(entity: Tool): Observable<Tool> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Tool): Observable<Tool> {
+        throw new Error('Method not implemented.');
+    }
+
+
 
     getTools(query?: {}): Observable<Tool[]> {
         return this.httpClient.get<Tool[]>(`/api/tools${stringifyQuery(query)}`)

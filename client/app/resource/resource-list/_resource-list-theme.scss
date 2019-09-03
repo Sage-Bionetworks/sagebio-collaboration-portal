@@ -1,11 +1,11 @@
 @mixin resource-list-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
 
-  .app-resource-list .app-resource-item {
-    color: mat-color($primary);
-  }
+    .app-resource-list {
+        color: mat-color($primary);
+    }
 }

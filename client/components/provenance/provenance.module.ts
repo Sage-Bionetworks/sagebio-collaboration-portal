@@ -9,6 +9,7 @@ import { ReferenceNodeComponent } from './provenance-graph/reference-node/refere
 import { AgentNodeComponent } from './provenance-graph/agent-node/agent-node.component';
 import { ProvenanceLinkComponent } from './provenance-graph/provenance-link/provenance-link.component';
 import { CaptureProvenanceActivityService } from './capture-provenance-activity.service';
+
 @NgModule({
     imports: [
         BrowserModule,
