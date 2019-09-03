@@ -10,7 +10,7 @@
                 </span>
             </p>
             <button mat-icon-button (click)="removeAttachment(i)">
-                <mat-icon class="mat-24">delete</mat-icon>
+                <mat-icon aria-label="Icon of cross">close</mat-icon>
             </button>
         </mat-list-item>
     </mat-list>
@@ -18,15 +18,19 @@
     <div *ngIf="showEntityAttachmentForm === true">
         <mat-form-field>
             <mat-label>Attachment Type</mat-label>
-            <select matNativeControl formControlName="attachmentType" (change)="updateNewAttachmentType($event.target.value)">
-                <option *ngFor="let attachment of entityAttachmentTypes" [value]="attachment.type">{{ attachment.type }}</option>
-            </select>
+            <mat-select formControlName="attachmentType" (selectionChange)="updateNewAttachmentType($event)" placeholder="Attachment Type">
+                <mat-optgroup *ngFor="let group of entityAttachmentTypes" [label]="group.name">
+                    <mat-option *ngFor="let option of group.options" [value]="option.type">
+                        {{ option.type }}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="newAttachment" >
             <mat-label>Attachment Name</mat-label>
             <input matInput formControlName="attachmentName">
         </mat-form-field>
-        <button (click)="update()">Add attachment</button>
+        <button mat-raised-button color="secondary" (click)="update()">Save</button>
     </div>
     <div class="app-insight-new-form-actions">
         <a *ngIf="showEntityAttachmentForm === false" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
