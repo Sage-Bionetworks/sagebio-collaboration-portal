@@ -125,7 +125,7 @@ export function getPrivateDataCatalogIds(userId) {
         userId,
         Object.values(accessTypes).map(access => access.value),
         [inviteStatusTypes.ACCEPTED.value],
-        entityTypes.PROJECT.value
+        entityTypes.DATA_CATALOG.value
     );
 }
 

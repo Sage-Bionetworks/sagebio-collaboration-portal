@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './tool.events';
+import config from '../../config/environment';
 
 var ToolSchema = new mongoose.Schema({
     slug: {
@@ -30,6 +31,12 @@ var ToolSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    visibility: {
+        type: String,
+        required: true,
+        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
+        default: config.models.tool.visibility.default
+    },
     // apiServerUrl: {
     //     type: String,
     //     required: true
@@ -55,6 +62,8 @@ var ToolSchema = new mongoose.Schema({
         select: false
     }
 });
+
+ToolSchema.index({ title: 'text' }, { weights: { title: 1 }});
 
 registerEvents(ToolSchema);
 export default mongoose.model('Tool', ToolSchema);

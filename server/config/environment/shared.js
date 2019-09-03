@@ -29,6 +29,9 @@ export const entityTypes = {
     },
     TOOL: {
         value: 'tool'
+    },
+    DATA_CATALOG: {
+        value: 'data-catalog'
     }
 };
 
