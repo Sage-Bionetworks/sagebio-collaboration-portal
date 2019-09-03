@@ -10,7 +10,7 @@ export function indexMine(req, res) {
     var userId = req.user._id.toString();
     return EntityAccessNotification.find({
         ...req.query,
-        userId
+        user: userId
     })
         .exec()
         .then(respondWithResult(res))

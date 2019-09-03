@@ -14,7 +14,7 @@ var NotificationSchema = new mongoose.Schema({
         enum: Object.values(config.notificationTypes).map(notification => notification.value),
         required: true,
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
@@ -46,14 +46,14 @@ var NotificationSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     // eslint-disable-next-line no-invalid-this
     this
-        .populate('userId', User.profile)
+        .populate('user', User.profile)
         .populate('createdBy', User.profile)
     next();
 };
 
 const autoPopulatePost = function (doc) {
     return doc
-        .populate('userId', User.profile)
+        .populate('user', User.profile)
         .populate('createdBy', User.profile)
         .execPopulate();
 };

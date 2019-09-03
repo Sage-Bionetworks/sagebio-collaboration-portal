@@ -29,6 +29,7 @@ export class MessageNotificationViewComponent implements AfterViewInit, OnDestro
 
     readMessage(): void {
         this.notificationService.info('Reading Message.');
+        // this.userNotificationService.upsert()
     }
 
     archive() {

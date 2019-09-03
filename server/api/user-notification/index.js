@@ -7,6 +7,7 @@ import * as auth from '../../auth/auth.service';
 
 var router = Router();
 
+
 router.get('/message-notification/', auth.isAuthenticated(), messageNotificationController.indexMine);
 router.get('/message-notification/:id', messageNotificationController.show);
 router.post('/message-notification/', messageNotificationController.create);

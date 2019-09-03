@@ -10,7 +10,7 @@ export function indexMine(req, res) {
     var userId = req.user._id.toString();
     return MessageNotification.find({
         ...req.query,
-        userId
+        user: userId
     })
         .exec()
         .then(respondWithResult(res))
