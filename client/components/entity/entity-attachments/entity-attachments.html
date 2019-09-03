@@ -2,7 +2,7 @@
     <p>Entity attachments for ID {{ entityId }}</p>
     <mat-form-field>
         <mat-label>Attachment Type</mat-label>
-        <select matNativeControl formControlName="attachmentType">
+        <select matNativeControl formControlName="attachmentType" (change)="updateNewAttachmentType($event.target.value)">
             <option *ngFor="let attachment of entityAttachmentTypes" [value]="attachment.type">{{ attachment.type }}</option>
         </select>
     </mat-form-field>
