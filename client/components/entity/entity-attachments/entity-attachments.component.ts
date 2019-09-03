@@ -14,10 +14,10 @@ export class EntityAttachmentsComponent {
     // WIP Refactor entityAttachmentTypes into shared config
     private entityAttachmentTypes = [
         { type: '-- Add an attachment --', collection: '' },
-        { type: 'Report', collection: 'insights' },
-        { type: 'Memo', collection: 'insights' },
         { type: 'Article', collection: 'resources' },
         { type: 'Dashboard', collection: 'resources' },
+        { type: 'Memo', collection: 'insights' },
+        { type: 'Report', collection: 'insights' },
         { type: 'State', collection: 'resources' },
         { type: 'WebApp', collection: 'resources' },
     ];
