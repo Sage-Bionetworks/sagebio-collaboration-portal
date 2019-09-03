@@ -14,4 +14,5 @@ import { UserNotification } from './user-notification.model';
 export interface EntityNotification extends UserNotification {
   entityId: string;
   entityType: string;
+  messageBody?: string;
 }

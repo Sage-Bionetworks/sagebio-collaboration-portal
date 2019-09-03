@@ -14,4 +14,5 @@ import { EntityPermission } from '../auth/entity-permission.model'
 
 export interface EntityAccessNotification extends EntityNotification {
   entityPermissionId: EntityPermission | string;
+  messageBody?: string;
 }

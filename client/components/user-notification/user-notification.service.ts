@@ -37,7 +37,7 @@ export class UserNotificationService {
     }
 
     createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
-        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.userId}`, messageNotification);
+        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.user}`, messageNotification);
     }
 
     queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
@@ -45,7 +45,7 @@ export class UserNotificationService {
     }
 
     createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
-        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.userId}`, entityNotification);
+        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.user}`, entityNotification);
     }
 
     queryEntityAccessNotifications(query?: {}): Observable<EntityAccessNotification[]> {
@@ -53,6 +53,6 @@ export class UserNotificationService {
     }
 
     createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
-        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.userId}`, entityAccessNotification);
+        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.user}`, entityAccessNotification);
     }
 }
