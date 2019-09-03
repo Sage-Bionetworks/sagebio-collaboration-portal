@@ -1,12 +1,19 @@
 <div [formGroup]="attachmentForm" class='app-entity-attachments'>
     <p>Entity attachments for ID {{ entityId }}</p>
     <!-- WIP Display attachment(s) -->
+    <mat-list-item *ngFor="let attachment of attachments">
+        {{ attachment | json }}
+    </mat-list-item>
     <div *ngIf="showEntityAttachmentForm === true">
         <mat-form-field>
             <mat-label>Attachment Type</mat-label>
             <select matNativeControl formControlName="attachmentType" (change)="updateNewAttachmentType($event.target.value)">
                 <option *ngFor="let attachment of entityAttachmentTypes" [value]="attachment.type">{{ attachment.type }}</option>
             </select>
+        </mat-form-field>
+        <mat-form-field *ngIf="newAttachment" >
+            <mat-label>Attachment Name</mat-label>
+            <input matInput formControlName="attachmentName">
         </mat-form-field>
         <button (click)="update()">Add attachment</button>
     </div>

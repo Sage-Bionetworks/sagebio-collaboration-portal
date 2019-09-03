@@ -11,10 +11,17 @@ export class EntityAttachmentsComponent {
     @Input() entityId: string;
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
-    private showEntityAttachmentForm = false;
     private entityAttachmentTypes;
+    // private attachments = [];
+    // WIP Remove hardcoded mock attachments
+    private attachments = [
+        { 'attachmentType': 'Article', 'attachmentName': 'Article #1' },
+        { 'attachmentType': 'Report', 'attachmentName': 'Report #1' },
+    ];
+
+    private showEntityAttachmentForm = false;
     private attachmentForm: FormGroup;
-    private attachments;
+    private newAttachment;
 
     static parameters = [FormBuilder];
     constructor (
@@ -23,16 +30,21 @@ export class EntityAttachmentsComponent {
         this.entityAttachmentTypes = entityAttachmentTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [],
+            attachmentName: [],
         });
     }
 
     updateNewAttachmentType(selectedItem): void {
-        const attachmentType = this.entityAttachmentTypes.find(obj => obj.type === selectedItem);
+        this.newAttachment = this.entityAttachmentTypes.find(obj => obj.type === selectedItem);
     }
 
     update(): void {
         // WIP Shape attachments object in the way you want them stored with the Insights object
-        this.attachments = this.attachmentForm.value;
+        this.attachments.push(this.attachmentForm.value);
         this.updateAttachments.emit(this.attachments);
+
+        // Clear form
+        this.attachmentForm.reset();
+        this.showEntityAttachmentForm = false;
     }
 }
