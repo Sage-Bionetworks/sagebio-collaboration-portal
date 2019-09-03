@@ -34,7 +34,6 @@ import { Entity } from './entity.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface DataCatalog extends Entity {
-    _id?: string;
     slug: string;
     picture: string;
     website: string;

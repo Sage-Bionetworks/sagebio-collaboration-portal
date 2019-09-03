@@ -31,7 +31,7 @@ var ResourceSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.project.visibility.default
+        default: config.models.resource.visibility.default
     },
     createdAt: {
         type: Date,

@@ -161,14 +161,32 @@ export const models = {
             default: entityVisibility.PRIVATE.value
         }
     },
-    message: {
+    dataCatalog: {
         title: {
-            minlength: 1,
-            maxlength: 256,
+            minlength: 3,
+            maxlength: 30
         },
-        body: {
-            minlength: 26, // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        description: {
+            minlength: 3,
+            maxlength: 1024
+        },
+        visibility: {
+            values: Object.values(entityVisibility).map(visibility => visibility.value),
+            default: entityVisibility.PRIVATE.value
+        }
+    },
+    tool: {
+        title: {
+            minlength: 3,
+            maxlength: 30
+        },
+        description: {
+            minlength: 3,
+            maxlength: 1024
+        },
+        visibility: {
+            values: Object.values(entityVisibility).map(visibility => visibility.value),
+            default: entityVisibility.PRIVATE.value
         }
     },
     insight: {
@@ -179,6 +197,10 @@ export const models = {
         description: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        visibility: {
+            values: Object.values(entityVisibility).map(visibility => visibility.value),
+            default: entityVisibility.PRIVATE.value
         },
         type: {
             values: ['report', 'memo'],
@@ -194,6 +216,10 @@ export const models = {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
+        visibility: {
+            values: Object.values(entityVisibility).map(visibility => visibility.value),
+            default: entityVisibility.PRIVATE.value
+        },
         type: {
             values: ['Dashboard', 'State', 'WebApp', 'Article'],
             default: 'Dashboard'
@@ -201,6 +227,16 @@ export const models = {
         url: {
             minlength: 10,
             maxlength: 2000
+        }
+    },
+    message: {
+        title: {
+            minlength: 1,
+            maxlength: 256,
+        },
+        body: {
+            minlength: 26, // 1 character when stringifying Quill content
+            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
         }
     },
     activity: {
@@ -220,17 +256,7 @@ export const models = {
             minlength: 10,
             maxlength: 2000
         }
-    },
-    tool: {
-        title: {
-            minlength: 3,
-            maxlength: 30
-        },
-        description: {
-            minlength: 3,
-            maxlength: 1024
-        }
-    },
+    }
 };
 
 export const datasetOrders = {
