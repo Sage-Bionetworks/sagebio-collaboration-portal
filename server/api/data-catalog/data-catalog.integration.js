@@ -40,28 +40,28 @@ describe('DataCatalog API:', function () {
         User.deleteMany()
     ]));
 
-    describe('GET /api/data-catalogs', function () {
-        var dataCatalogs;
+    // describe('GET /api/data-catalogs', function () {
+    //     var dataCatalogs;
 
-        beforeEach(function (done) {
-            request(app)
-                .get('/api/data-catalogs')
-                .set('authorization', `Bearer ${token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    dataCatalogs = res.body;
-                    done();
-                });
-        });
+    //     beforeEach(function (done) {
+    //         request(app)
+    //             .get('/api/data-catalogs')
+    //             .set('authorization', `Bearer ${token}`)
+    //             .expect(200)
+    //             .expect('Content-Type', /json/)
+    //             .end((err, res) => {
+    //                 if (err) {
+    //                     return done(err);
+    //                 }
+    //                 dataCatalogs = res.body;
+    //                 done();
+    //             });
+    //     });
 
-        it('should respond with JSON array', function () {
-            expect(dataCatalogs).to.be.instanceOf(Array);
-        });
-    });
+    //     it('should respond with JSON array', function () {
+    //         expect(dataCatalogs).to.be.instanceOf(Array);
+    //     });
+    // });
 
     describe('POST /api/data-catalogs', function () {
         beforeEach(function (done) {
