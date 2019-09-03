@@ -1,25 +1,12 @@
-<div *ngIf="!createNewProject; else showNewProjectForm">
-    <div class="app-primary-header">
-        <h1>Projects</h1>
-    </div>
-
-    <div class="app-project-list-content">
-        <div class="app-project-list-results">
-            <mat-nav-list class="project-container">
-                <mat-list-item class="app-project-list-item" *ngFor="let project of projects | async" [routerLink]="[project._id]">
-                    <h3 class="project-name">{{ project.title }}</h3>
-                    <span>{{ project.visibility }}</span>
-                </mat-list-item>
-<!--                <project-view *ngFor="let project of projects | async" [project]="project">-->
-<!--                </project-view>-->
-            </mat-nav-list>
-        </div>
-        <div class="app-project-list-actions">
-            <a mat-raised-button color="primary" class="app-project-list-new-project" (click)="createNewProject=true" aria-label="Create project">Create a New Project</a>
-        </div>
-    </div>
+<div class="app-primary-header">
+    <h1>Projects</h1>
 </div>
 
-<ng-template #showNewProjectForm>
-    <project-new (newProject)="onNewProject($event)" (close)="createNewProject=false"></project-new>
-</ng-template>
+<div class="app-project-list-container">
+    <entity-list
+        entityName="project"
+        [entityService]="projectService"
+        previewType="list"
+        (entityClick)="onEntityClick($event)"
+    ></entity-list>
+</div>

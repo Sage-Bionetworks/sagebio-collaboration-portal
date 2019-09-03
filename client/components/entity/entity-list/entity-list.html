@@ -1,7 +1,7 @@
 <div class="app-entity-list">
     <div class="app-entity-list-filters">
-        <h3>{{ entityName }} Type</h3>
-        <radio-button-filter [filters]="entityTypeFilters" [group]="entityTypeFilterGroup"></radio-button-filter>
+        <h3 *ngIf="entityTypeFilterGroup">{{ entityName }} Type</h3>
+        <radio-button-filter *ngIf="entityTypeFilterGroup" [filters]="entityTypeFilters" [group]="entityTypeFilterGroup"></radio-button-filter>
         <h3>Order by</h3>
         <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
         <h3>Preview</h3>
