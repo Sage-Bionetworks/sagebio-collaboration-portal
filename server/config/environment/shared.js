@@ -35,16 +35,6 @@ export const entityTypes = {
     }
 };
 
-export const entityAttachmentTypes = [
-    { type: '-- Add an attachment --', collection: '' },
-    { type: 'Article', collection: 'resources' },
-    { type: 'Dashboard', collection: 'resources' },
-    { type: 'Memo', collection: 'insights' },
-    { type: 'Report', collection: 'insights' },
-    { type: 'State', collection: 'resources' },
-    { type: 'WebApp', collection: 'resources' },
-];
-
 export const insightTypes = {
     REPORT: {
         value: 'report',
@@ -73,8 +63,27 @@ export const resourceTypes = {
         value: 'Article',
         name: 'Article'
     }
-}
-;
+};
+
+export const entityAttachmentTypes = [
+    {
+        name: 'Insights',
+        options: [
+            { type: insightTypes.MEMO.name },
+            { type: insightTypes.REPORT.name },
+        ],
+    },
+    {
+        name: 'Resources',
+        options: [
+            { type: resourceTypes.ARTICLE.name },
+            { type: resourceTypes.DASHBOARD.name },
+            { type: resourceTypes.STATE.name },
+            { type: resourceTypes.WEBAPP.name },
+        ],
+    },
+];
+
 export const activityTypes = {
     RESOURCEGENERATION: {
         value: 'Resource generation',
