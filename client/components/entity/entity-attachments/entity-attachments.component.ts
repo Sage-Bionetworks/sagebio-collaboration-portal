@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
 
@@ -12,14 +11,13 @@ export class EntityAttachmentsComponent {
     @Input() entityId: string;
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
+    private showEntityAttachmentForm = false;
     private entityAttachmentTypes;
     private attachmentForm: FormGroup;
     private attachments;
 
-    static parameters = [Router, ActivatedRoute, FormBuilder];
+    static parameters = [FormBuilder];
     constructor (
-        private router: Router,
-        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
     ) {
         this.entityAttachmentTypes = entityAttachmentTypes;
