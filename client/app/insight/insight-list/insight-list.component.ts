@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { InsightService } from 'components/insight/insight.service';
-import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { orderBy } from 'lodash/fp';
 import { Insight } from 'models/entities/insights/insight.model';
 import config from '../../../app/app.constants';
 
@@ -12,42 +11,24 @@ import config from '../../../app/app.constants';
     styles: [require('./insight-list.scss')],
 })
 export class InsightListComponent implements OnInit {
-    private insights: Insight[] = [];
     private insightTypeFilters = config.insightTypeFilters;
 
-    private createNewInsight = false;
-
-    private searchPageIndex: number;
-    private searchResultCount = 0;
-
-    static parameters = [PageTitleService, InsightService,
-        NotificationService];
-    constructor(private pageTitleService: PageTitleService,
-        private insightService: InsightService,
-        private notificationService: NotificationService) {
+    static parameters = [Router, PageTitleService, InsightService];
+    constructor(
+        private router: Router,
+        private pageTitleService: PageTitleService,
+        private insightService: InsightService
+    ) {
+        this.insightTypeFilters = config.insightTypeFilters;
     }
 
     ngOnInit() {
         this.pageTitleService.title = 'Insights';
     }
 
-    onFilterChange(query) {
-        this.insightService.getAll(query)
-            .subscribe(insights => {
-                this.insights = orderBy('createdAt', 'asc', insights);
-            }, err => {
-                console.log(err);
-            });
-    }
-
-    onNewInsight(insight: Insight): void {
-        this.createNewInsight = false;
-        this.notificationService.info('The Insight has been successfully created');
-    }
-
-    clearResults(): void {
-        this.insights = [];
-        this.searchResultCount = 0;
-        this.searchPageIndex = undefined;
+    onEntityClick(insight: Insight) {
+        if (insight) {
+            this.router.navigate(['/projects', insight.projectId, 'insights', insight._id]);
+        }
     }
 }

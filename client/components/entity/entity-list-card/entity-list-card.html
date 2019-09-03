@@ -1,3 +1,5 @@
+<!-- PLOP -->
+
 <mat-card *ngIf="entity" class="entity-container" [routerLink]="[entity._id]">
   <picture>
       <img src="assets/images/320px-insight_logo.png" aria-label="Report picture">
@@ -6,7 +8,7 @@
       <h3 class="entity-title">{{ entity.title }}</h3>
       <div class="entity-metadata-row-container-date">
           <mat-icon>access_time</mat-icon>
-          <span>{{entity.createdAt | date}}</span>
+          <span>{{ entity.createdAt | date }}</span>
       </div>
       <div class="entity-card-footer">
           <div class="entity-metadata-row-container">

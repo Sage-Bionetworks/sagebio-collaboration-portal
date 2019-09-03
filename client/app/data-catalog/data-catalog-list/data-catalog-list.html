@@ -2,8 +2,11 @@
     <h1>Data Catalogs</h1>
 </div>
 
-<div class="app-data-catalog-list-content">
-    <div class="app-data-catalog-list-results">
-        <data-catalog-view *ngFor="let catalog of catalogs | async" [catalog]="catalog"></data-catalog-view>
-    </div>
+<div class="app-data-catalogs-list">
+    <entity-list
+        entityName="catalog"
+        [entityService]="catalogService"
+        previewType="list"
+        (entityClick)="onEntityClick($event)"
+    ></entity-list>
 </div>

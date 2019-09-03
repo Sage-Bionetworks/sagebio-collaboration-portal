@@ -7,24 +7,24 @@
     <div class="data-catalog-content">
         <mat-card class="data-catalog-card">
             <picture>
-                <img [src]="catalog.picture" aria-label="Data catalog preview">
+                <img [src]="catalog.picture" aria-label="Data catalog preview" />
             </picture>
             <div class="data-catalog-metadata">
                 <h1>{{ catalog.title }}</h1>
                 <div class="data-catalog-metadata-row">
                     <mat-icon>home</mat-icon>
-                    <span>{{catalog.organization.name}}</span>
+                    <span>{{ catalog.organization.title }}</span>
                 </div>
                 <div *ngIf="catalogStats.datasetCount" class="data-catalog-metadata-row">
                     <mat-icon>storage</mat-icon>
-                    <span>{{catalogStats.datasetCount}} datasets</span>
+                    <span>{{ catalogStats.datasetCount }} datasets</span>
                 </div>
                 <div *ngIf="!catalogStats.live" class="data-catalog-metadata-row">
                     <mat-icon>cloud_off</mat-icon>
                     <span>This data catalog can not be reached.</span>
                 </div>
                 <div class="data-catalog-metadata-description">
-                    <span>{{catalog.description}}</span>
+                    <span>{{ catalog.description }}</span>
                 </div>
             </div>
             <div class="data-catalog-actions">

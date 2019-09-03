@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './data-catalog.events';
+import config from '../../config/environment';
 
 var DataCatalogSchema = new mongoose.Schema({
     slug: {
@@ -20,6 +21,12 @@ var DataCatalogSchema = new mongoose.Schema({
     picture: {
         type: String,
         default: 'https://via.placeholder.com/200x150'
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
+        default: config.models.dataCatalog.visibility.default
     },
     website: {
         type: String,
@@ -53,6 +60,8 @@ var DataCatalogSchema = new mongoose.Schema({
         select: false
     }
 });
+
+DataCatalogSchema.index({ title: 'text' }, { weights: { title: 1 }});
 
 registerEvents(DataCatalogSchema);
 export default mongoose.model('DataCatalog', DataCatalogSchema);

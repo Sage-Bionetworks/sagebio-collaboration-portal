@@ -1,27 +1,4 @@
-.app-tool-item,
-.app-tool-item:hover {
-  text-decoration: none;
-}
-
-.app-tool-list-content {
-  display: flex;
-  flex-flow: row nowrap;
-  margin: 20px;
-
-  .app-tool-list-results {
+.app-tool-list {
     display: flex;
-    flex-flow: row wrap;
-  }
-}
-
-.app-tool-list-actions {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-
-    .app-tool-list-new-tool {
-        margin-top: 25px;
-        width: 400px;
-    }
-
+    flex-flow: row nowrap;
 }

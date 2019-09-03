@@ -14,7 +14,8 @@ let states = [{
     data: `${phccpShinyToolExample.website}?_inputs_&bw_adjust=1&density=true&genename=%22ENSG00000000003%22&genename-selectized=%22%22&individual_obs=false&inputfile=%22%22&n_breaks=%2220%22&n_breaks-selectized=%22%22&rowstats_cell_clicked=%7B%7D&rowstats_rows_all=%5B1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%5D&rowstats_rows_current=%5B1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%5D&rowstats_rows_selected=null&rowstats_search=%22%22&rowstats_state=null&shinyjs-resettable-ok=%7B%7D&sidebarCollapsed=false&sidebarItemExpanded=null&sidebarmenu=%22dset_extra%22&state_description=%22plop%22&state_name=%22plop%22&state_project=%22Test%20Project%22&state_project-selectized=%22%22`,
     projectId: testProjectId,
     tool: phccpShinyToolExample._id,
-    createdBy: adminUserId
+    createdBy: adminUserId,
+    createdAt: new Date(2019, 4, 27, 12, 56).toISOString(),
 }, {
     _id: new mongoose.Types.ObjectId('5cb8de033f40db38a280a99f'),
     resrouceType: 'State',

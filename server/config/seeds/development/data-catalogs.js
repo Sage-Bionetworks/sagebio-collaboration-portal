@@ -43,7 +43,4 @@ let dataCatalogs = [
     },
 ];
 
-export {
-    dataCatalogs,
-    sageCkanCatalog
-};
+export { dataCatalogs, sageCkanCatalog };

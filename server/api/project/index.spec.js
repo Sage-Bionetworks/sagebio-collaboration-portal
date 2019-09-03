@@ -42,7 +42,7 @@ describe('Project API Router:', function () {
     // describe('GET /api/projects', function () {
     //     it('should route to project.controller.index', function () {
     //         expect(routerStub.get
-    //             .withArgs('/', 'hasRole.hasRole.admin', 'projectCtrl.index')
+    //             .withArgs('/', 'auth.hasRole.admin', 'projectCtrl.index')
     //         ).to.have.been.calledOnce;
     //     });
     // });

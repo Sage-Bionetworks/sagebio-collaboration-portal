@@ -1,61 +1,45 @@
+
+import { union } from 'lodash/fp';
+import { merge } from 'lodash';
 import {
-    applyPatch
-} from 'fast-json-patch';
+    respondWithResult,
+    patchUpdates,
+    removeEntity,
+    handleEntityNotFound,
+    handleError,
+} from '../util';
 import Tool from './tool.model';
-
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
-}
-
-function patchUpdates(patches) {
-    return function (entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return entity.save();
-    };
-}
-
-function removeEntity(res) {
-    return function (entity) {
-        if (entity) {
-            return entity.remove()
-                .then(() => res.status(204).end());
-        }
-    };
-}
-
-function handleEntityNotFound(res) {
-    return function (entity) {
-        if (!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function (err) {
-        res.status(statusCode).send(err);
-    };
-}
+import { isAdmin } from '../../auth/auth';
+import { buildEntityIndexQuery } from '../entity-util';
+import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
+import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
 
 // Gets a list of Tools
 export function index(req, res) {
-    return Tool.find(req.query)
-        .populate('organization')
-        .exec()
+    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query);
+
+    getToolIdsByUser(req.user._id)
+        .then(toolIds => {
+            filter = merge({
+                _id: {
+                    $in: toolIds,
+                }
+            }, filter);
+            return filter;
+        })
+        .then(filter_ => Promise.all([
+            Tool.countDocuments(filter_),
+            Tool.find(filter_, projection)
+                .populate('organization')
+                .sort(sort)
+                .skip(skip)
+                .limit(limit)
+                .exec()
+        ]))
+        .then(([count, tools]) => ({
+            count,
+            results: tools
+        }))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -119,4 +103,57 @@ export function destroy(req, res) {
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
+}
+
+// HELPER FUNCTIONS
+
+/**
+ * Returns the ids of the public tools.
+ * @return {string[]}
+ */
+export function getPublicToolIds() {
+    return Tool.find({ visibility: entityVisibility.PUBLIC.value }, '_id')
+        .exec()
+        .then(tools => tools.map(tool => tool._id));
+}
+
+/**
+ * Returns the ids of the private tools visible to a user.
+ * @param {string} userId
+ */
+export function getPrivateToolIds(userId) {
+    return getEntityIdsWithEntityPermissionByUser(
+        userId,
+        Object.values(accessTypes).map(access => access.value),
+        [inviteStatusTypes.ACCEPTED.value],
+        entityTypes.TOOL.value
+    );
+}
+
+/**
+ * Returns the ids of all the tools.
+ * @return {string[]}
+ */
+export function getAllToolIds() {
+    return Tool.find({}, '_id')
+        .exec()
+        .then(tools => tools.map(tool => tool._id));
+}
+
+/**
+ * Returns the ids of the tools visible to the user.
+ * @param {string} userId
+ * @return {string[]}
+ */
+export function getToolIdsByUser(userId) {
+    return isAdmin(userId)
+        .then(is =>
+            (is
+                ? getAllToolIds()
+                : Promise.all([
+                    getPublicToolIds(),
+                    getPrivateToolIds(userId)
+                ]).then(result => union(...result))
+            )
+        );
 }
