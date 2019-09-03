@@ -40,7 +40,11 @@ export class EntityAttachmentsComponent {
     }
 
     updateNewAttachmentType(selectedItem): void {
-        this.newAttachment = this.entityAttachmentTypes.find(obj => obj.type === selectedItem);
+        // WIP Define this.newAttachment
+        this.newAttachment = {
+            collection: selectedItem.source.selected.group.label.toLowerCase() || '',
+            attachmentType: selectedItem.value,
+        };
     }
 
     update(): void {
@@ -50,6 +54,7 @@ export class EntityAttachmentsComponent {
 
         // Clear form
         this.attachmentForm.reset();
+        this.newAttachment = null;
         this.showEntityAttachmentForm = false;
     }
 }
