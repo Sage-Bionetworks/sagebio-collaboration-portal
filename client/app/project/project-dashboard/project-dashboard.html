@@ -21,7 +21,6 @@
 
             <div class="project-actions">
                 <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a>
-                <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="warn" (click)="deleteProject()">Delete</a>
             </div>
         </mat-card>
     </div>

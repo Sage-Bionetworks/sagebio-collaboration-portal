@@ -8,12 +8,12 @@
                 </mat-error>
             </mat-form-field>
             <app-quill-editor class="app-project-edit-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="editForm.controls['description']"></app-quill-editor>
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-label>Visibility</mat-label>
                 <select matNativeControl formControlName="visibility" required>
                     <option *ngFor="let value of projectSpecs.visibility.values" [value]="value">{{ value }}</option>
                 </select>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-error *ngIf="errors.newProject">
                 {{errors.newProject}}
             </mat-error>

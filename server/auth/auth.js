@@ -281,7 +281,7 @@ export function hasUserPermission(userId, permission) {
                         .exec()
                         .then(userPermission => !!userPermission);
                 }
-                return false;
+                return isAuthorized;
             })
             .then(isAuthorized => resolve(isAuthorized))
             .catch(err => {

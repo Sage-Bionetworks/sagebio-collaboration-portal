@@ -3,6 +3,8 @@
  */
 
 import ProjectEvents from './project.events';
+import { hasAccessToEntity } from '../../auth/auth';
+import config from '../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -18,9 +20,25 @@ export function register(spark) {
 }
 
 
-function createListener(namespace, event, spark) {
+function createListener(modelName, event, spark) {
     return function (doc) {
-
+        hasAccessToEntity(
+            spark.userId,
+            [config.accessTypes.READ.value, config.accessTypes.WRITE.value, config.accessTypes.ADMIN.value],
+            doc._id,
+            [
+                // TODO Rename inviteStatusTypes (do not use invite)
+                config.inviteStatusTypes.ACCEPTED.value,
+            ]
+        )
+            .then(hasAccess => {
+                if (hasAccess) {
+                    spark.emit(`${modelName}:${doc._id}:${event}`, doc);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
 
         // if (isAuthorized(doc, spark.userId)) {
             // spark.emit(`${namespace}:${event}`, doc);

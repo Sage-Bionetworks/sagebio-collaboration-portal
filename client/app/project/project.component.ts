@@ -24,7 +24,8 @@ export class ProjectComponent implements OnInit {
     constructor(private route: ActivatedRoute,
         private projectService: ProjectService,
         private projectDataService: ProjectDataService,
-        private projectSidenavService: ProjectSidenavService) { }
+        private projectSidenavService: ProjectSidenavService) {
+        }
 
     ngOnInit() {
         console.log('GETTING PROJECT');
@@ -42,7 +43,6 @@ export class ProjectComponent implements OnInit {
 
         getProject
             .subscribe(project => {
-                console.log('project found', project);
                 this.projectDataService.setProject(project);
             });
 

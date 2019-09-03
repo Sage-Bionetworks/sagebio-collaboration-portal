@@ -9,7 +9,7 @@ services:
     image: phccp
     # OR comment the above `build` and `image` sections and uncomment
     # the following line to use the official docker image:
-    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:1.0.0-alpha.5
+    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:1.0.0-alpha.6
     container_name: phccp
     ports:
         - ${PORT}:${PORT}

@@ -131,7 +131,7 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
 
 /**
  * @swagger
- * /projects:
+ * /projects/{id}/visibility:
  *   get:
  *     tags:
  *       - Projects
@@ -141,13 +141,23 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
  *       - text/plain
  *     responses:
  *       '200':
- *         description: The visibility of the project
+ *         description: The visibility of the Project
  *         content:
  *           text/plain:
  *             schema:
  *               $ref: '#/components/schemas/EntityVisibility'
  */
 router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
+
+// TODO Document
+router.patch('/:entityId/visibility/public', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePublic);
+
+// TODO Document
+router.patch('/:entityId/visibility/private', auth.hasPermissionForEntity([
+    ADMIN_ACCESS
+]), controller.makePrivate);
 
 /**
  * @swagger

@@ -12,10 +12,11 @@ import { Project } from 'models/entities/project.model';
 import { Patch } from 'models/patch.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
-import { EntityVisibility } from 'models/entities/entity.model';
+import { EntityVisibility, Entity } from 'models/entities/entity.model';
+import { EntityService } from 'components/entity/entity.service';
 
 @Injectable()
-export class ProjectService {
+export class ProjectService implements EntityService<Project> {
 
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
@@ -38,5 +39,13 @@ export class ProjectService {
 
     update(projectId: string, patches: Patch[]): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
+    }
+
+    makePublic(entity: Project): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
+    }
+
+    makePrivate(entity: Project): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 }
