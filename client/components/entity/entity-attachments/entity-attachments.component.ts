@@ -35,6 +35,10 @@ export class EntityAttachmentsComponent {
         });
     }
 
+    updateNewAttachmentType(selectedItem): void {
+        console.log(`updateNewAttachmentType selectedItem: ${JSON.stringify(selectedItem, null, 2)}`);
+    }
+
     update(): void {
         // WIP Shape attachments object in the way you want them stored with the Insights object
         this.attachments = this.attachmentForm.value;
