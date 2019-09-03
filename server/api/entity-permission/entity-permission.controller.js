@@ -28,8 +28,9 @@ export function index(req, res) {
 export function indexMine(req, res) {
     var userId = req.user._id;
     return EntityPermission.find({
-            user: userId
-        })
+        ...req.query,
+        user: userId
+    })
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -38,8 +39,8 @@ export function indexMine(req, res) {
 // Returns the permissions associated to an entity
 export function indexByEntity(req, res) {
     return EntityPermission.find({
-            entityId: req.params.entityId
-        })
+        entityId: req.params.entityId
+    })
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -104,9 +105,9 @@ function handleOneAdminRemainingBeforePatch(res, patches) {
             if (patch) {
                 // figure out if its the last admin
                 return EntityPermission.countDocuments({
-                        entityId: permission.entityId,
-                        access: accessTypes.ADMIN.value
-                    })
+                    entityId: permission.entityId,
+                    access: accessTypes.ADMIN.value
+                })
                     .exec((err, count) => {
                         if (count <= 1) {
                             res.status(403).send('Can not remove the last admin of an entity.');
@@ -124,9 +125,9 @@ function handleOneAdminRemainingBeforeRemoval(res) {
     return function (permission) {
         if (permission && permission.access === accessTypes.ADMIN.value) {
             return EntityPermission.countDocuments({
-                    entityId: permission.entityId,
-                    access: accessTypes.ADMIN.value
-                })
+                entityId: permission.entityId,
+                access: accessTypes.ADMIN.value
+            })
                 .exec((err, count) => {
                     if (count <= 1) {
                         res.status(403).send('Can not remove the last admin of an entity.');

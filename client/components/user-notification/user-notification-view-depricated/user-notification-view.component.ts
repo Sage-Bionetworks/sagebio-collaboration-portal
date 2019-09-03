@@ -1,10 +1,10 @@
 // CARLOS - clean up this view
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { EntityPermission } from './node_modules/models/auth/entity-permission.model';
-import { UserPermissionDataService } from './node_modules/components/auth/user-permission-data.service';
-import { NotificationService } from './node_modules/components/notification/notification.service';
-import { UserNotificationBundle } from './node_modules/models/user-notification/user-notification-bundle.model'
+import { EntityPermission } from 'models/auth/entity-permission.model';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { NotificationService } from 'components/notification/notification.service';
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 import { UserNotificationService } from '../user-notification.service';
 
 @Component({

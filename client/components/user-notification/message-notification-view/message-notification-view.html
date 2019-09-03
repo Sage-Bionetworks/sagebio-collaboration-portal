@@ -4,10 +4,10 @@
         message.createdBy {{message | json }}
         <!-- <user-card class="app-user-card" [user]="message.createdBy"></user-card> -->
         <mat-card-title>Message</mat-card-title>
-        <mat-card-subtitle>{{ message.notification.createdBy.name }} has sent you a message</mat-card-subtitle>
+        <mat-card-subtitle>{{ message.createdBy.name }} has sent you a message</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="app-message-notification-view-card-content">
-        <p>{{message.notification.messageBody}}</p>
+        <p>{{message.messageBody}}</p>
     </mat-card-content>
 
     <mat-card-actions>
