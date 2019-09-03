@@ -9,18 +9,36 @@ import {
     handleError,
 } from '../util';
 import { union } from 'lodash/fp';
+import { merge } from 'lodash';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
+import { buildEntityIndexQuery } from '../entity-util';
 
 // Gets a list of Projects
 export function index(req, res) {
+    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query);
+
     getProjectIdsByUser(req.user._id)
-        .then(projectIds => Project.find({
-            _id: {
-                $in: projectIds,
-            }})
-            .exec()
-        )
+        .then(projectIds => {
+            filter = merge({
+                _id: {
+                    $in: projectIds,
+                }
+            }, filter);
+            return filter;
+        })
+        .then(filter_ => Promise.all([
+            Project.countDocuments(filter_),
+            Project.find(filter_, projection)
+                .sort(sort)
+                .skip(skip)
+                .limit(limit)
+                .exec()
+        ]))
+        .then(([count, resources]) => ({
+            count,
+            results: resources
+        }))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
