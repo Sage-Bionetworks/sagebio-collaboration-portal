@@ -1,10 +1,11 @@
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
-import { UserNotificationService } from '../user-notification.service';
+import { UserNotificationService } from '../../user-notification.service';
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
+
 // import { EntityNotification } from '../models/entity-notificiation.model';
 // import { NotificationBundle } from '../models/notification-bundle.model';
-import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 
 
 @Component({
@@ -13,8 +14,7 @@ import { UserNotificationBundle } from 'models/user-notification/user-notificati
     styles: [require('./entity-notification-view.scss')]
 })
 export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy {
-    // @Input() entityInvite: EntityNotification;
-    @Input() entityInvite: UserNotificationBundle;
+    @Input() entityNotification: UserNotificationBundle;
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];
     constructor(private router: Router,
@@ -26,11 +26,11 @@ export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy
     ngOnDestroy() { }
 
     AcceptInvite(): void {
-        this.notificationService.info('entityInvite Accepted.');
+        this.notificationService.info('entityNotification Accepted.');
     }
 
     archive() {
-        this.notificationService.info('The entityInvite has been successfully archived.');
+        this.notificationService.info('The entityNotification has been successfully archived.');
     }
 
 

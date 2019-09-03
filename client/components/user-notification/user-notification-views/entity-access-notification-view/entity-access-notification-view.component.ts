@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
-import { UserNotificationService } from '../user-notification.service';
+import { UserNotificationService } from '../../user-notification.service';
 // import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
 // import { NotificationBundle } from '../models/notification-bundle.model';
 import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
@@ -12,7 +12,7 @@ import { UserNotificationBundle } from 'models/user-notification/user-notificati
     styles: [require('./entity-access-notification-view.scss')]
 })
 export class EntityAccessNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() entityAccessInvite: UserNotificationBundle;
+    @Input() entityAccessNotification: UserNotificationBundle;
 
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];
@@ -25,11 +25,16 @@ export class EntityAccessNotificationViewComponent implements AfterViewInit, OnD
     ngOnDestroy() { }
 
     acceptAccessInvite(): void {
-        this.notificationService.info('entityAccessInvite Accepted.');
+        this.notificationService.info('entityAccessNotification Accepted.');
     }
 
     archive() {
-        this.notificationService.info('The entityAccessInvite has been successfully archived.');
+        this.notificationService.info('The entityAccessNotification has been successfully archived.');
+    }
+
+    acceptAndRedirect(): void {
+        this.notificationService.info('The entityAccessNotification has been acepted and now redirecting');
+
     }
 
 

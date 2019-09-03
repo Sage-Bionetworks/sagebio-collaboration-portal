@@ -1,15 +1,17 @@
 <mat-card class="app-entity-access-notification-view-card">
     <mat-card-header>
         <!-- <img mat-card-avatar [src]="fa fa-img" aria-label="Message picture"> -->
-        <!-- <mat-card-title>Invite to have access permission to {{entityAccessInvite.entityType}}</mat-card-title> -->
-        <!-- <mat-card-subtitle>{{ entityAccessInvite.createdBy.name }} has sent you an invite</mat-card-subtitle> -->
+        <mat-card-title>{{entityAccessNotification.associatedEntity.title}}</mat-card-title>
+        <mat-card-subtitle>{{ entityAccessNotification.notification.createdBy.name }} has invited you to collaborate
+        </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content class="app-entity-access-notification-view-card-content">
-        <p>{{entityAccessInvite | json}}</p>
+        <p>{{entityAccessNotification.associatedEntity.description}}</p>
     </mat-card-content>
 
     <mat-card-actions>
+        <a mat-button (click)="acceptAndRedirect()">Accept and Go</a>
         <a mat-button (click)="acceptAccessInvite()">Accept</a>
         <a mat-button (click)="archive()">Archive</a>
     </mat-card-actions>

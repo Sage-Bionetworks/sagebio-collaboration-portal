@@ -1,4 +1,7 @@
-// CARLOS - clean up this view
+// CARLOS - Deprecated view.
+// this notification card used to load entity permission invites, and
+// trigger actions over entityPermission records.
+// use these function to enhance entity-access-notification component
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityPermission } from 'models/auth/entity-permission.model';

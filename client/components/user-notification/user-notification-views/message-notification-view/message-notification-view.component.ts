@@ -1,12 +1,12 @@
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
-import { UserNotificationService } from '../user-notification.service';
+import { UserNotificationService } from '../../user-notification.service';
+import { MessageNotification } from 'models/user-notification/message-notificiation.model'
+
 // import { MessageNotification } from '../models/message-notificiation.model';
 // import { NotificationBundle } from '../models/notification-bundle.model';
-
-import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
-import { MessageNotification } from 'models/user-notification/message-notificiation.model'
+// import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 
 @Component({
     selector: 'message-notification-view',
@@ -14,8 +14,7 @@ import { MessageNotification } from 'models/user-notification/message-notificiat
     styles: [require('./message-notification-view.scss')]
 })
 export class MessageNotificationViewComponent implements AfterViewInit, OnDestroy {
-    // @Input() message: MessageNotification;
-    @Input() message: UserNotificationBundle;
+    @Input() messageNotification: MessageNotification;
 
 
     static parameters = [Router,

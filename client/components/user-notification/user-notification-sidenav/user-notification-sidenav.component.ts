@@ -12,9 +12,7 @@ import { EntityPermissionService } from 'components/auth/entity-permission.servi
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import config from '../../../app/app.constants';
 
-
-
-import { UserNotificationBundle } from '../user-notification-view-depricated/node_modules/models/user-notification/user-notification-bundle.model'
+import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 import { UserNotification } from 'models/user-notification/user-notification.model'
 
 import { MessageNotification } from 'models/user-notification/message-notificiation.model'
@@ -84,25 +82,8 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             this.entityPermissionService.queryMine({ _id: notification.entityPermissionId }) : of(null)
     }
 
-    // buildMessageNotificationBundle(notification: MessageNotification) {
-    //     return of(notification)
-    //         .pipe(
-    //             switchMap(n => forkJoin({
-    //                 notification: of(notification),
-    //                 associatedEntity: of(null)
-    //             }))
-    //         )
-    // }
-
     getMessagesNotifications() {
         this.userNotificationService.queryMessageNotifications()
-            // .pipe(
-            //     forkJoinWithProgress,
-            //     switchMap(([finalResult, progress]) => merge(
-            //         progress.pipe(ignoreElements()),
-            //         finalResult
-            //     ))
-            // )
             .subscribe((messagesNotifications: MessageNotification[]) => {
                 console.log('messagesNotifications: ', messagesNotifications);
                 this._messagesNotifications.next(messagesNotifications);
