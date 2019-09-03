@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
 
 @Component({
     selector: 'entity-attachments',
@@ -11,16 +12,7 @@ export class EntityAttachmentsComponent {
     @Input() entityId: string;
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
-    // WIP Refactor entityAttachmentTypes into shared config
-    private entityAttachmentTypes = [
-        { type: '-- Add an attachment --', collection: '' },
-        { type: 'Article', collection: 'resources' },
-        { type: 'Dashboard', collection: 'resources' },
-        { type: 'Memo', collection: 'insights' },
-        { type: 'Report', collection: 'insights' },
-        { type: 'State', collection: 'resources' },
-        { type: 'WebApp', collection: 'resources' },
-    ];
+    private entityAttachmentTypes;
     private attachmentForm: FormGroup;
     private attachments;
 
@@ -30,13 +22,14 @@ export class EntityAttachmentsComponent {
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
     ) {
+        this.entityAttachmentTypes = entityAttachmentTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [],
         });
     }
 
     updateNewAttachmentType(selectedItem): void {
-        console.log(`updateNewAttachmentType selectedItem: ${JSON.stringify(selectedItem, null, 2)}`);
+        const attachmentType = this.entityAttachmentTypes.find(obj => obj.type === selectedItem);
     }
 
     update(): void {
