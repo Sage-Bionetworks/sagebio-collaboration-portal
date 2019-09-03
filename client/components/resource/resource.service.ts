@@ -1,3 +1,4 @@
+import { QueryListResponse } from './../../../shared/interfaces/query-list-response.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -13,21 +14,37 @@ import { Project } from 'models/entities/project.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
+import { EntityService } from 'components/entity/entity.service';
 
 @Injectable()
-export class ResourceService {
+export class ResourceService implements EntityService<Resource> {
 
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient,
         private secondarySidenavService: SecondarySidenavService) { }
 
-    query(project: Project, query?: {}): Observable<Resource[]> {
+    query(query?: {}): Observable<QueryListResponse<Resource>> {
+        return this.httpClient.get<QueryListResponse<Resource>>(`/api/resources${stringifyQuery(query)}`);
+    }
+
+    makePublic(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: Resource): Observable<Resource> {
+        throw new Error('Method not implemented.');
+    }
+
+
+
+
+    queryByProject(project: Project, query?: {}): Observable<Resource[]> {
         return this.httpClient.get<Resource[]>(`/api/resources/entity/${project._id}${stringifyQuery(query)}`);
     }
 
-    getAll(query?: {}): Observable<Resource[]> {
-        return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
-    }
+
+    // getResources(query?: {}): Observable<Resource[]> {
+    //     return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
+    // }
 
     getResource(resourceId: string): Observable<Resource> {
         return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);

@@ -36,7 +36,7 @@ export class ProjectResourcesComponent implements OnInit {
 
     onFilterChange(query) {
         if (this.project) {
-            this.resourceService.query(this.project, query)
+            this.resourceService.queryByProject(this.project, query)
                 .subscribe(resources => {
                     this.resources = orderBy(resources, 'createdAt', 'asc');
                 }, err => {

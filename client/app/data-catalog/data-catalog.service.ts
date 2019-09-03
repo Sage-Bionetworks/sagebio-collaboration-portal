@@ -11,12 +11,28 @@ import { HttpClient } from '@angular/common/http';
 import { DataCatalog } from 'models/entities/data-catalog.model';
 import { stringifyQuery } from 'components/util';
 import { head, orderBy } from 'lodash/fp';
+import { EntityService } from 'components/entity/entity.service';
+import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
-export class DataCatalogService {
+export class DataCatalogService implements EntityService<DataCatalog> {
 
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
+
+    query(query?: {}): Observable<QueryListResponse<DataCatalog>> {
+        return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs${stringifyQuery(query)}`);
+    }
+
+    makePublic(entity: DataCatalog): Observable<DataCatalog> {
+        throw new Error('Method not implemented.');
+    }
+    makePrivate(entity: DataCatalog): Observable<DataCatalog> {
+        throw new Error('Method not implemented.');
+    }
+
+
+
 
     getDataCatalogBySlug(slug: string): Observable<DataCatalog> {
         return this.getDataCatalogs({ slug: slug })

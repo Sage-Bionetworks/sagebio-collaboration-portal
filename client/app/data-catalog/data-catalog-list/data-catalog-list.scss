@@ -1,15 +1,4 @@
-.app-data-catalog-item,
-.app-data-catalog-item:hover {
-  text-decoration: none;
-}
-
-.app-data-catalog-list-content {
-  display: flex;
-  flex-flow: row nowrap;
-  margin: 20px;
-
-  .app-data-catalog-list-results {
+.app-data-catalog-list {
     display: flex;
-    flex-flow: row wrap;
-  }
+    flex-flow: row nowrap;
 }

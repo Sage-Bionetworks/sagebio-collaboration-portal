@@ -13,9 +13,16 @@ import { Patch } from 'models/patch.model';
 import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
+import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export abstract class EntityService<E extends Entity> {
+
+    /**
+     * Returns the entity visible to the user.
+     * @param query
+     */
+    abstract query(query?: {}): Observable<QueryListResponse<E>>;
 
     /**
      * Makes an entity public.

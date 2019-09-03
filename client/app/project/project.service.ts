@@ -14,6 +14,7 @@ import { stringifyQuery } from 'components/util';
 import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
+import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
@@ -21,9 +22,23 @@ export class ProjectService implements EntityService<Project> {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getProjects(/*query?: {}*/): Observable<Project[]> {
-        return this.httpClient.get<Project[]>(`/api/projects`);  // ${stringifyQuery(query)}
+    query(query?: {}): Observable<QueryListResponse<Project>> {
+        return this.httpClient.get<QueryListResponse<Project>>(`/api/projects${stringifyQuery(query)}`);
     }
+
+    makePublic(entity: Project): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
+    }
+
+    makePrivate(entity: Project): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
+    }
+
+
+
+    // getProjects(/*query?: {}*/): Observable<Project[]> {
+    //     return this.httpClient.get<Project[]>(`/api/projects`);  // ${stringifyQuery(query)}
+    // }
 
     getProject(projectId: string): Observable<Project> {
         return this.httpClient.get<Project>(`/api/projects/${projectId}`);
@@ -39,13 +54,5 @@ export class ProjectService implements EntityService<Project> {
 
     update(projectId: string, patches: Patch[]): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
-    }
-
-    makePublic(entity: Project): Observable<Project> {
-        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
-    }
-
-    makePrivate(entity: Project): Observable<Project> {
-        return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 }

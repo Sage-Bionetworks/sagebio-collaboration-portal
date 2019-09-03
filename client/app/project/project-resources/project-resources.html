@@ -1,13 +1,13 @@
 <div *ngIf="!showNewResourceForm; else resourceForm">
   <div class="project-resources-container">
-    <entity-list
+    <!-- <entity-list
       *ngIf="resources"
       entityName="Resource"
       [entities]="resources"
       [entityTypeFilters]="resourceTypeFilters"
       filterGroup="resourceType"
       (onFilterChange)="onFilterChange($event)"
-    ></entity-list>
+    ></entity-list> -->
     <div class="project-resources-actions">
         <a mat-raised-button color="primary" class="app-resource-list-new-project" (click)="showNewResourceForm=true" aria-label="Create resource">Add a New Resource</a>
     </div>

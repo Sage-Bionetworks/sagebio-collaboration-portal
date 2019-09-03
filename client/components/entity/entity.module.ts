@@ -13,8 +13,8 @@ import { EntityAccessListComponent } from './entity-access-list/entity-access-li
 import { EntityDangerZoneOptionsComponent } from './entity-danger-zone-options/entity-danger-zone-options.component';
 import { EntityDiscussionComponent } from './entity-discussion/entity-discussion.component';
 import { EntityListComponent } from './entity-list/entity-list.component';
-import { EntityViewComponent } from './entity-view/entity-view.component';
-// import { EntityService } from './entity.service';
+import { EntityListCardComponent } from './entity-list-card/entity-list-card.component';
+import { EntityListItemComponent } from './entity-list-item/entity-list-item.component';
 
 @NgModule({
     imports: [
@@ -36,13 +36,16 @@ import { EntityViewComponent } from './entity-view/entity-view.component';
         EntityDangerZoneOptionsComponent,
         EntityDiscussionComponent,
         EntityListComponent,
-        EntityViewComponent,
+        EntityListCardComponent,
+        EntityListItemComponent,
     ],
     exports: [
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
         EntityDiscussionComponent,
-        EntityListComponent
+        EntityListComponent,
+        // EntityListItemComponent
+        // EntityViewComponent
     ]
 })
 export class EntityModule { }

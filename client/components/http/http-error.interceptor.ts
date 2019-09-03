@@ -41,8 +41,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         console.log('HttpErrorInterceptor', err);
                         if (err.status === 401) { // 401: Unauthorized (but used for authentification error)
                             console.log('INTERCEPTOR 401');
+                            return throwError({ code: 401, message: 'Unauthorized' });
                             // redirect to login if not already logged in
                             // const isLoggedIn = this.authService.authInfoValue().isLoggedIn();
+                            // return this.authService.authInfo()
+                            //     .subscribe(authInfo => {
+                            //         if (authInfo && authInfo.isLoggedIn()) {
+                            //             console.log('401 SO REDIRECT TO LOGIN');
+                            //             this.router.navigate([this.authService.getLoginUrl()]);
+                            //         }
+                            //     });
                             // if (!isLoggedIn) {
                             //     console.log('401 SO REDIRECT TO LOGIN');
                             //     // this.router.navigate(['login/']);

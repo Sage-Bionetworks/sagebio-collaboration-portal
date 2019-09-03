@@ -37,14 +37,14 @@ deploy:
     script: bash .travis/docker-deploy.sh
     on:
       tags: true
-  - provider: codedeploy
-    bucket: "phc-codedeploy-essentials-codedeploys3bucket-jumhvxvmnql0"
-    key: deploy.zip
-    bundle_type: zip
-    access_key_id: "${CODEDEPLOY_ACCESS_KEY_ID}"
-    secret_access_key: "${CODEDEPLOY_SECRET_ACCESS_KEY}"
-    application: "phc-codedeploy-CodeDeployApplication-1JIG4ADRRDKT4"
-    deployment_group: "phc-codedeploy-DeploymentGroup-3DWDGW9ASVEZ"
-    region: "us-east-1"
-    on:
-      branch: develop
+#   - provider: codedeploy
+#     bucket: "phc-codedeploy-essentials-codedeploys3bucket-jumhvxvmnql0"
+#     key: deploy.zip
+#     bundle_type: zip
+#     access_key_id: "${CODEDEPLOY_ACCESS_KEY_ID}"
+#     secret_access_key: "${CODEDEPLOY_SECRET_ACCESS_KEY}"
+#     application: "phc-codedeploy-CodeDeployApplication-1JIG4ADRRDKT4"
+#     deployment_group: "phc-codedeploy-DeploymentGroup-3DWDGW9ASVEZ"
+#     region: "us-east-1"
+#     on:
+#       branch: develop

@@ -36,7 +36,7 @@ export class ProjectInsightsComponent implements OnInit {
 
     onFilterChange(query) {
         if (this.project) {
-            this.insightService.query(this.project, query)
+            this.insightService.queryByProject(this.project, query)
                 .subscribe(insights => {
                     this.insights = orderBy(insights, 'createdAt', 'asc');
                 }, err => {

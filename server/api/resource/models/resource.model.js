@@ -3,6 +3,7 @@ import {
     registerEvents
 } from '../resource.events';
 import User from '../../user/user.model';
+import config from '../../../config/environment';
 
 const options = {
     discriminatorKey: 'resourceType',
@@ -25,6 +26,12 @@ var ResourceSchema = new mongoose.Schema({
     projectId: {
         type: String,
         required: true
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
+        default: config.models.resource.visibility.default
     },
     createdAt: {
         type: Date,
@@ -57,6 +64,8 @@ const autoPopulatePost = function (doc) {
 ResourceSchema.pre('find', autoPopulatePre);
 ResourceSchema.pre('findOne', autoPopulatePre);
 ResourceSchema.post('save', autoPopulatePost);
+
+ResourceSchema.index({ title: 'text' }, { weights: { title: 1 }});
 
 registerEvents(ResourceSchema);
 export default mongoose.model('Resource', ResourceSchema);

@@ -43,5 +43,7 @@ var ProjectSchema = new mongoose.Schema({
     }
 });
 
+ProjectSchema.index({ title: 'text' }, { weights: { title: 1 }});
+
 registerEvents(ProjectSchema);
 export default mongoose.model('Project', ProjectSchema);
