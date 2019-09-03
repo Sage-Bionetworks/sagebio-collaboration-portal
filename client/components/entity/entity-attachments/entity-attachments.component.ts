@@ -16,6 +16,7 @@ export class EntityAttachmentsComponent {
     // WIP Remove hardcoded mock attachments
     private attachments = [
         { 'attachmentType': 'Article', 'attachmentName': 'Article #1' },
+        { 'attachmentType': 'Memo', 'attachmentName': 'Memo #1' },
         { 'attachmentType': 'Report', 'attachmentName': 'Report #1' },
     ];
 
@@ -32,6 +33,10 @@ export class EntityAttachmentsComponent {
             attachmentType: [],
             attachmentName: [],
         });
+    }
+
+    removeAttachment(indexOfAttachment): void {
+        this.attachments.splice(indexOfAttachment, 1);
     }
 
     updateNewAttachmentType(selectedItem): void {
