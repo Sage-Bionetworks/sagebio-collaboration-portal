@@ -17,11 +17,11 @@
                             {{ errors.updateDescription }}
                         </mat-error>
                     </form>
-
                     <div class="insight-card-info">
                         <span><b>Created by:</b> {{ insight.createdBy.name }}</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="insight.data !== undefined"><b>Type:</b> Memo</span>
+                        <!-- WIP Display attachment(s) if applicable -->
                     </div>
                 </div>
             </div>
