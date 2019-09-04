@@ -38,7 +38,6 @@ services:
         APP_INIT_ADMIN_EMAIL: ${APP_INIT_ADMIN_EMAIL}
         APP_INIT_ADMIN_PASSWORD: ${APP_INIT_ADMIN_PASSWORD}
         APP_INIT_DB_SEED_NAME: ${APP_INIT_DB_SEED_NAME}
-        CONTACT_US_URL: ${CONTACT_US_URL}
         # Enabling local authentication
         AUTH_LOCAL: ${AUTH_LOCAL}
         # Enabling Google OAuth 2.0
@@ -81,7 +80,7 @@ services:
         MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes:
         - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
-        - /home/tschaffter/mongodb:/data/db
+        # - /home/tschaffter/mongodb:/data/db
 
   phccp-neo4j:
     image: docker.synapse.org/syn18489221/phccp-neo4j
