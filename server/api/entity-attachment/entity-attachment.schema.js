@@ -5,6 +5,10 @@ var EntityAttachmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    source: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
     },
