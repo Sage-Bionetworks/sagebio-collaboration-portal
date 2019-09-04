@@ -83,7 +83,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getMessagesNotifications() {
-        this.userNotificationService.queryMessageNotifications({ notificationType: 'MessageNotification'})
+        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.MESSAGE_NOTIFICATION.value })
             .subscribe((messagesNotifications: MessageNotification[]) => {
                 console.log('messagesNotifications: ', messagesNotifications);
                 this._messagesNotifications.next(messagesNotifications);
@@ -91,9 +91,9 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityNotifications() {
-        this.userNotificationService.queryEntityNotifications()
+        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.ENTITY_NOTIFICATION.value })
             .pipe(
-                map(entityNotifications => entityNotifications.map(notification => this.buildEntityNotificationBundle(notification))),
+                map(entityNotifications => entityNotifications.map((notification: EntityNotification) => this.buildEntityNotificationBundle(notification))),
                 switchMap(bundles => forkJoinWithProgress(bundles)),
                 switchMap(([finalResult, progress]) => merge(
                     progress.pipe(ignoreElements()),
@@ -117,9 +117,11 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityAccessNotifications() {
-        this.userNotificationService.queryEntityAccessNotifications()
+        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value })
             .pipe(
-                map(entityAceessNotifications => entityAceessNotifications.map(notification => this.buildEntityAccessNotificationBundle(notification))),
+                map(entityAceessNotifications => entityAceessNotifications.map(
+                    (notification: EntityAccessNotification) => this.buildEntityAccessNotificationBundle(notification)
+                )),
                 switchMap(bundles => forkJoinWithProgress(bundles)),
                 switchMap(([finalResult, progress]) => merge(
                     progress.pipe(ignoreElements()),

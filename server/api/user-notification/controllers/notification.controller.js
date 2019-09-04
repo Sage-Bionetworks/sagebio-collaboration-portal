@@ -1,11 +1,11 @@
 import Notification from '../models/notification.model';
-import MessageNotification from '../models/message-notification.model';
+// import MessageNotification from '../models/message-notification.model';
 // import EntityAccessNotification from '../models/entity-access-notification.model';
 // import EntityNotification from '../models/entity-notification.model';
 
 import {
     respondWithResult,
-    handleEntityNotFound,
+    // handleEntityNotFound,
     handleError
 } from '../../util';
 // import config from '../../../config/environment';
@@ -37,14 +37,14 @@ export function indexMine(req, res) {
 }
 
 // Gets a single MessageNotification from the DB
-export function show(req, res) {
-    return MessageNotification
-        .findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
+// export function show(req, res) {
+//     return MessageNotification
+//         .findById(req.params.id)
+//         .exec()
+//         .then(handleEntityNotFound(res))
+//         .then(respondWithResult(res))
+//         .catch(handleError(res));
+// }
 
 // Creates a new MessageNotification
 // export function create(req, res) {

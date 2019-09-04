@@ -36,28 +36,12 @@ export class UserNotificationService {
     //     return this.httpClient.patch<UserNotification>();
     // }
 
-    queryMessageNotifications(query?: {}): Observable<MessageNotification[]> {
-        return this.httpClient.get<MessageNotification[]>(`/api/user-notifications/message-notification${stringifyQuery(query)}`);
+    queryNotifications(query?: {}): Observable<UserNotification[]> {
+        return this.httpClient.get<UserNotification[]>(`/api/user-notifications${stringifyQuery(query)}`);
     }
 
-    // createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
+    // createNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
     //     return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.user}`, messageNotification);
     // }
 
-
-    queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
-        return this.httpClient.get<EntityNotification[]>(`/api/user-notifications/entity-notification${stringifyQuery(query)}`);
-    }
-
-    // createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
-    //     return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.user}`, entityNotification);
-    // }
-
-    queryEntityAccessNotifications(query?: {}): Observable<EntityAccessNotification[]> {
-        return this.httpClient.get<EntityAccessNotification[]>(`/api/user-notifications/entity-access-notification${stringifyQuery(query)}`);
-    }
-
-    // createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
-    //     return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.user}`, entityAccessNotification);
-    // }
 }
