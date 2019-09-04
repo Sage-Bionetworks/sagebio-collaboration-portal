@@ -4,7 +4,6 @@ import {
 } from 'lodash';
 import { flow, groupBy, orderBy, map, keyBy, pick, mapValues, uniqBy, pickBy, get } from 'lodash/fp';
 import config from '../../config/environment';
-import { consoleTestResultHandler } from 'tslint/lib/test';
 // import { message } from 'gulp-typescript/release/utils';
 
 var default_ = require('./default');
