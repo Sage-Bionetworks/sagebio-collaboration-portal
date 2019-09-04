@@ -8,6 +8,7 @@ import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
+import { EntityAttachment } from 'models/entities/entity.model';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class InsightNewComponent {
         newInsight: undefined
     };
     private project: Project;
-    private attachments;
+    private attachments: EntityAttachment[];
 
     @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
@@ -65,8 +66,8 @@ export class InsightNewComponent {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
         newInsight.projectId = this.project._id;
-        // WIP Update model so that a proper attachments array is received
-        // newInsight.attachments = this.attachments;
+        newInsight.attachments = this.attachments;
+
         this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);
@@ -83,6 +84,7 @@ export class InsightNewComponent {
     }
 
     updateAttachments(attachments): void {
+        // WIP updateAttachments needs to store new entity attachments
         this.attachments = attachments;
     }
 }
