@@ -24,6 +24,10 @@ export class DataCatalogService implements EntityService<DataCatalog> {
         return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<DataCatalog> {
+        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${id}`);
+    }
+
     makePublic(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
     }

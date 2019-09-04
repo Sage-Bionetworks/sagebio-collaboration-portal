@@ -27,6 +27,10 @@ export class ResourceService implements EntityService<Resource> {
         return this.httpClient.get<QueryListResponse<Resource>>(`/api/resources${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<Resource> {
+        return this.httpClient.get<Resource>(`/api/resources/${id}`);
+    }
+
     makePublic(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
     }

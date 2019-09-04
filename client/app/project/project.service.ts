@@ -26,6 +26,10 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.get<QueryListResponse<Project>>(`/api/projects${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<Project> {
+        return this.httpClient.get<Project>(`/api/projects/${id}`);
+    }
+
     makePublic(entity: Project): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
     }

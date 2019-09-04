@@ -11,7 +11,6 @@ import { AuthGuard } from 'components/auth/auth-guard.service';
 
 import { DataCatalogDiscussionComponent } from './data-catalog-discussion/data-catalog-discussion.component';
 import { DataCatalogListComponent } from './data-catalog-list/data-catalog-list.component';
-import { DataCatalogViewComponent } from './data-catalog-view/data-catalog-view.component';
 import { DataCatalogComponent } from './data-catalog-page/data-catalog.component';
 import { DataCatalogService } from './data-catalog.service';
 
@@ -45,7 +44,6 @@ export const ROUTES: Routes = [
     declarations: [
         DataCatalogDiscussionComponent,
         DataCatalogListComponent,
-        DataCatalogViewComponent,
         DataCatalogComponent,
     ],
     providers: [SocketService, DataCatalogService],

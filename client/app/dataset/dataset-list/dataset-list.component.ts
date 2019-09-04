@@ -51,7 +51,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.catalogService.query({ limit: 5 })
+        this.catalogService.query() // { limit: 5 }
             .pipe(
                 map(res => {
                     this.catalogs = orderBy('title', 'asc', res.results);

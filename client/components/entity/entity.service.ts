@@ -25,6 +25,12 @@ export abstract class EntityService<E extends Entity> {
     abstract query(query?: {}): Observable<QueryListResponse<E>>;
 
     /**
+     * Returns the entity with the id specified.
+     * @param id
+     */
+    abstract get(id: string): Observable<E>;
+
+    /**
      * Makes an entity public.
      * @param entity
      */

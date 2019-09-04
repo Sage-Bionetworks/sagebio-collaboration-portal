@@ -67,6 +67,8 @@ export function isOwner(userId, createdByUserId) {
  * Resolves as true if the user has access to the specified entity.
  *
  * ASSUMPTION: MongoDB Object ID are unique at the database level (in reality at the collection level).
+ * TODO: This implementation is not efficient as it is making way to many calls to the DB
+ * because the type of the entity checked is not known.
  *
  * @param {string} userId
  * @param {string} allowedAccesses

@@ -27,12 +27,18 @@ export class InsightService implements EntityService<Insight> {
         return this.httpClient.get<QueryListResponse<Insight>>(`/api/insights${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<Insight> {
+        return this.httpClient.get<Insight>(`/api/insights/${id}`);
+    }
+
     makePublic(entity: Insight): Observable<Insight> {
         throw new Error('Method not implemented.');
     }
     makePrivate(entity: Insight): Observable<Insight> {
         throw new Error('Method not implemented.');
     }
+
+
 
 
     queryByProject(project: Project, query?: {}): Observable<Insight[]> {

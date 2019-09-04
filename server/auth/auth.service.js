@@ -126,7 +126,7 @@ export function hasPermission(permission) {
  * Allows request to continue if the user has authenticated and has appropriate authorization for the entity
  * @param {*} allowedAccesses
  */
-export function hasPermissionForEntity(allowedAccesses) {
+export function canAccessEntity(allowedAccesses) {
     return compose()
         .use(isAuthenticated())
         .use(isAuthorizedForEntity(allowedAccesses));

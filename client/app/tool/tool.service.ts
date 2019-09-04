@@ -28,6 +28,10 @@ export class ToolService implements EntityService<Tool> {
         return this.httpClient.get<QueryListResponse<Tool>>(`/api/tools${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<Tool> {
+        return this.httpClient.get<Tool>(`/api/tools/${id}`);
+    }
+
     makePublic(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
     }

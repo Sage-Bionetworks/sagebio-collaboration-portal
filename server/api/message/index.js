@@ -59,7 +59,7 @@ const WRITE_ACCESS = accessTypes.WRITE.value;
 // // TODO Portal admin users can delete messages
 
 // // GET /messages/threads/entity/:entityId - All threads for an entity
-// router.get('/threads/entity/:entityId', auth.hasPermissionForEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexThreadsForEntity);
+// router.get('/threads/entity/:entityId', auth.canAccessEntity([READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]), controller.indexThreadsForEntity);
 
 // // VERIFY how posting to our shared endpoint handles creating threads for entities
 // // NOTE Current behavior simply posts to our existing endpoint for creating a public thread and adds an entityId and entityType behind the scenes...should we create a new route?

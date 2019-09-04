@@ -65,7 +65,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Project not found
  */
-router.get('/:entityId', auth.hasPermissionForEntity([
+router.get('/:entityId', auth.canAccessEntity([
     READ_ACCESS,
     WRITE_ACCESS,
     ADMIN_ACCESS
@@ -125,7 +125,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:entityId', auth.hasPermissionForEntity([
+router.patch('/:entityId', auth.canAccessEntity([
     ADMIN_ACCESS
 ]), controller.patch);
 
@@ -150,12 +150,12 @@ router.patch('/:entityId', auth.hasPermissionForEntity([
 router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
 
 // TODO Document
-router.patch('/:entityId/visibility/public', auth.hasPermissionForEntity([
+router.patch('/:entityId/visibility/public', auth.canAccessEntity([
     ADMIN_ACCESS
 ]), controller.makePublic);
 
 // TODO Document
-router.patch('/:entityId/visibility/private', auth.hasPermissionForEntity([
+router.patch('/:entityId/visibility/private', auth.canAccessEntity([
     ADMIN_ACCESS
 ]), controller.makePrivate);
 
@@ -185,7 +185,7 @@ router.patch('/:entityId/visibility/private', auth.hasPermissionForEntity([
  *       '404':
  *         description: Project not found
  */
-// router.delete('/:id', auth.hasPermissionForEntity([
+// router.delete('/:id', auth.canAccessEntity([
 //     ADMIN_ACCESS
 // ]), controller.destroy);
 
