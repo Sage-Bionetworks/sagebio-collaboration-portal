@@ -8,7 +8,7 @@
                     {{ attachment.type }}
                 </span>
             </p>
-            <button mat-icon-button (click)="removeAttachment(i)">
+            <button *ngIf="!isReadOnly" mat-icon-button (click)="removeAttachment(i)">
                 <mat-icon aria-label="Icon of cross">close</mat-icon>
             </button>
         </mat-list-item>
@@ -33,6 +33,6 @@
     </div>
 
     <div class="app-insight-new-form-actions">
-        <a *ngIf="!showEntityAttachmentForm" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
+        <a *ngIf="!showEntityAttachmentForm && !isReadOnly" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
     </div>
 </div>

@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
-import { EntityAttachment } from 'models/entities/entity.model';
-import { thresholdFreedmanDiaconis } from 'd3';
+import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.model';
 
 @Component({
     selector: 'entity-attachments',
@@ -12,10 +11,12 @@ import { thresholdFreedmanDiaconis } from 'd3';
 export class EntityAttachmentsComponent {
     @Input() entityId: string;
     @Input() attachments: EntityAttachment[];
+    @Input() mode: EntityAttachmentMode;
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
     private entityAttachmentTypes;
     private showEntityAttachmentForm = false;
+    private isReadOnly = true;
     private attachmentForm: FormGroup;
     private newAttachment: EntityAttachment;
 
@@ -29,6 +30,8 @@ export class EntityAttachmentsComponent {
             attachmentName: [],
         });
         this.attachments = this.attachments || [];
+        this.mode = this.mode || EntityAttachmentMode.DISPLAY;
+        this.isReadOnly = this.mode === EntityAttachmentMode.DISPLAY;
     }
 
     removeAttachment(indexOfAttachment): void {

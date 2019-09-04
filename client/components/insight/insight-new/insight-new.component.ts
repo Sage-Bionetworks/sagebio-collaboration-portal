@@ -5,8 +5,9 @@ import { Insight } from 'models/entities/insights/insight.model';
 import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
 import { InsightService } from '../insight.service';
+import { ProjectDataService } from '../../../app/project/project-data.service';
 import config from '../../../app/app.constants';
-import { EntityAttachment } from 'models/entities/entity.model';
+import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.model';
 
 
 @Component({
@@ -25,12 +26,14 @@ export class InsightNewComponent {
         newInsight: undefined,
     };
     private attachments: EntityAttachment[];
+    private mode: EntityAttachmentMode;
 
-    static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
+    static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService, ProjectDataService];
     constructor(
         private formBuilder: FormBuilder,
         private captureProvActivity: CaptureProvenanceActivityService,
-        private insightService: InsightService
+        private insightService: InsightService,
+        private projectDataService: ProjectDataService,
     ) {
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
@@ -52,6 +55,13 @@ export class InsightNewComponent {
             ],
             insightType: [this.insightSpecs.type.default.value, [Validators.required]],
         });
+
+        this.projectDataService.project()
+            .subscribe(project => {
+                this.project = project;
+            });
+
+        this.mode = EntityAttachmentMode.EDIT;
     }
 
     createNewInsight(project: Project): void {
