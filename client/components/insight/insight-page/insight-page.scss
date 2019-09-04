@@ -25,6 +25,10 @@
       width: 50%;
       min-height: 500px;
 
+      h3 {
+          text-transform: capitalize;
+      }
+
       .insight-card-prov-graph-panel {
         display: flex;
         flex-flow: column nowrap;
