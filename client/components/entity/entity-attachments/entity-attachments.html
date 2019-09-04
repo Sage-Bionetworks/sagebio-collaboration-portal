@@ -33,6 +33,6 @@
         <button mat-raised-button color="secondary" (click)="update()">Save</button>
     </div>
     <div class="app-insight-new-form-actions">
-        <a *ngIf="showEntityAttachmentForm === false" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
+        <a *ngIf="!showEntityAttachmentForm" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
     </div>
 </div>
