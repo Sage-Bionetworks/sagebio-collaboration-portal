@@ -40,9 +40,6 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
-
-
-
 export function indexByEntity(req, res) {
     let filters = req.query;
     filters.projectId = req.params.entityId;
