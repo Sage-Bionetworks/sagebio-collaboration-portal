@@ -38,7 +38,7 @@ export class EntityAttachmentsComponent {
     updateNewAttachmentType(selectedItem): void {
         this.newAttachment = {
             source: selectedItem.source.selected.group.label.toLowerCase() || '',
-            type: selectedItem.value,
+            model: selectedItem.value,
         };
     }
 

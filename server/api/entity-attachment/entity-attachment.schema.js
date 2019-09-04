@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 var EntityAttachmentSchema = new mongoose.Schema({
-    type: {
+    model: {
         type: String,
         required: true
     },
@@ -9,6 +9,7 @@ var EntityAttachmentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    // WIP Remove name and use the entityId when lookup is implemented
     name: {
         type: String,
     },
