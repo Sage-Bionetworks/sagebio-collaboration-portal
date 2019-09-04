@@ -11,7 +11,7 @@ export interface Entity {
 
 export interface EntityAttachment {
     _id?: string;
-    type: string;
+    model: string;
     source?: string;
     name?: string;
 }
