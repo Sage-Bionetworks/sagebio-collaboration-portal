@@ -10,6 +10,13 @@ export interface Entity {
     createdBy: UserProfile;
 }
 
+export interface EntityAttachment {
+    _id?: string;
+    type: string;
+    collection?: string;
+    name?: string;
+}
+
 /**
  * @swagger
  * components:
