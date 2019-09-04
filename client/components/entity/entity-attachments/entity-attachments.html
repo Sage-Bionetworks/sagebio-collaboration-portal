@@ -14,7 +14,7 @@
         </mat-list-item>
     </mat-list>
 
-    <div *ngIf="showEntityAttachmentForm === true">
+    <div *ngIf="showEntityAttachmentForm">
         <mat-form-field>
             <mat-label>Attachment Type</mat-label>
             <mat-select formControlName="attachmentType" (selectionChange)="updateNewAttachmentType($event)" placeholder="Attachment Type">
