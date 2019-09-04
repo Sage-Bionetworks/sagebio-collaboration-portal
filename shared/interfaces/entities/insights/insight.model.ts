@@ -1,4 +1,4 @@
-import { Entity } from '../entity.model';
+import { Entity, EntityAttachment } from '../entity.model';
 
 /**
  * @swagger
@@ -11,8 +11,13 @@ import { Entity } from '../entity.model';
  *           type: string
  *         insightType:
  *           type: string
+ *         attachments:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/EntityAttachment'
  */
 export interface Insight extends Entity {
     projectId: string;
     insightType: string;
+    attachments?: EntityAttachment[];
 }
