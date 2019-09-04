@@ -69,7 +69,6 @@ export class InsightPageComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe((data) => {
-                console.log('INSIGHT', data);
                 this.errors.updateDescription = undefined;
             });
     }
