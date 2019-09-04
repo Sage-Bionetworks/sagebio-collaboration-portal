@@ -23,6 +23,7 @@
                     }}</option>
                 </select>
             </mat-form-field>
+
             <entity-attachments *ngIf="project" [entityId]="project._id" (updateAttachments)="updateAttachments($event)"></entity-attachments>
 
             <mat-error *ngIf="errors.newInsight">
