@@ -11,11 +11,11 @@ import { MessageNotification } from 'models/user-notification/message-notificiat
 @Component({
     selector: 'message-notification-view',
     template: require('./message-notification-view.html'),
-    styles: [require('./message-notification-view.scss')]
+    styles: [require('../user-notification-view.scss')]
 })
 export class MessageNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() messageNotification: MessageNotification;
-
+    avatarSize = 25
 
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];
@@ -32,7 +32,7 @@ export class MessageNotificationViewComponent implements AfterViewInit, OnDestro
         // this.userNotificationService.upsert()
     }
 
-    archive() {
+    discard() {
         this.notificationService.info('The message has been successfully archived.');
     }
 

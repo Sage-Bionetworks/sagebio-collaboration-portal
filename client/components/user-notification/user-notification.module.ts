@@ -9,8 +9,7 @@ import { MessageNotificationViewComponent } from './user-notification-views/mess
 import { EntityNotificationViewComponent } from './user-notification-views/entity-notification-view/entity-notification-view.component';
 import { EntityAccessNotificationViewComponent } from './user-notification-views/entity-access-notification-view/entity-access-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
-// import { UserCardComponent } from '../../app/account/profile/user-card/user-card.component'
-// import { MessageNotificationModule } from './user-notification-views/message-notification-view/message-notification.module'
+import { PipesModule } from 'components/pipes/pipes.module'
 
 @NgModule({
     imports: [
@@ -18,6 +17,7 @@ import { UserNotificationService } from './user-notification.service';
         MaterialModule,
         SidenavModule,
         UserAvatarModule,
+        PipesModule,
     ],
     providers: [
         UserNotificationService
@@ -28,7 +28,6 @@ import { UserNotificationService } from './user-notification.service';
         MessageNotificationViewComponent,
         EntityNotificationViewComponent,
         EntityAccessNotificationViewComponent,
-        // UserCardComponent
     ],
     exports: [
         UserNotificationButtonComponent,

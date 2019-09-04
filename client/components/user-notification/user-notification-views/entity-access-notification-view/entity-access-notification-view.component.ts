@@ -9,7 +9,7 @@ import { UserNotificationBundle } from 'models/user-notification/user-notificati
 @Component({
     selector: 'entity-access-notification-view',
     template: require('./entity-access-notification-view.html'),
-    styles: [require('./entity-access-notification-view.scss')]
+    styles: [require('../user-notification-view.scss')]
 })
 export class EntityAccessNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() entityAccessNotification: UserNotificationBundle;
@@ -28,7 +28,7 @@ export class EntityAccessNotificationViewComponent implements AfterViewInit, OnD
         this.notificationService.info('entityAccessNotification Accepted.');
     }
 
-    archive() {
+    discard() {
         this.notificationService.info('The entityAccessNotification has been successfully archived.');
     }
 

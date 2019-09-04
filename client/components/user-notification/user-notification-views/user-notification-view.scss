@@ -1,0 +1,24 @@
+:host ::ng-deep {
+  .mat-card-header-text {
+    margin: 0
+  }
+}
+
+[mat-card-avatar] {
+  margin-right: 10px;
+}
+
+mat-card-title {
+  font-size: 14px !important;
+  font-weight: normal;
+}
+
+mat-card-subtitle {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+mat-card-content {
+  margin: 12px 0 0 0;
+}

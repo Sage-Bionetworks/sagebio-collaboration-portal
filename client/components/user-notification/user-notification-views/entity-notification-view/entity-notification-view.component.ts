@@ -11,7 +11,7 @@ import { UserNotificationBundle } from 'models/user-notification/user-notificati
 @Component({
     selector: 'entity-notification-view',
     template: require('./entity-notification-view.html'),
-    styles: [require('./entity-notification-view.scss')]
+    styles: [require('../user-notification-view.scss')]
 })
 export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() entityNotification: UserNotificationBundle;
@@ -29,7 +29,7 @@ export class EntityNotificationViewComponent implements AfterViewInit, OnDestroy
         this.notificationService.info('entityNotification Accepted.');
     }
 
-    archive() {
+    discard() {
         this.notificationService.info('The entityNotification has been successfully archived.');
     }
 

@@ -83,7 +83,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getMessagesNotifications() {
-        this.userNotificationService.queryMessageNotifications()
+        this.userNotificationService.queryMessageNotifications({ notificationType: 'MessageNotification'})
             .subscribe((messagesNotifications: MessageNotification[]) => {
                 console.log('messagesNotifications: ', messagesNotifications);
                 this._messagesNotifications.next(messagesNotifications);

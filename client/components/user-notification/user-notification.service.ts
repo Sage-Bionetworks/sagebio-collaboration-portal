@@ -6,6 +6,7 @@ import { UserNotificationSidenavComponent } from './user-notification-sidenav/us
 import { MessageNotification } from 'models/user-notification/message-notificiation.model'
 import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
 import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model'
+import { UserNotification } from 'models/user-notification/user-notification.model';
 
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { stringifyQuery } from 'components/util';
@@ -31,28 +32,32 @@ export class UserNotificationService {
         this.secondarySidenavService.toggle();
     }
 
+    // archiveNotification(notification: UserNotification) {
+    //     return this.httpClient.patch<UserNotification>();
+    // }
 
     queryMessageNotifications(query?: {}): Observable<MessageNotification[]> {
         return this.httpClient.get<MessageNotification[]>(`/api/user-notifications/message-notification${stringifyQuery(query)}`);
     }
 
-    createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
-        return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.user}`, messageNotification);
-    }
+    // createMessageNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
+    //     return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.user}`, messageNotification);
+    // }
+
 
     queryEntityNotifications(query?: {}): Observable<EntityNotification[]> {
         return this.httpClient.get<EntityNotification[]>(`/api/user-notifications/entity-notification${stringifyQuery(query)}`);
     }
 
-    createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
-        return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.user}`, entityNotification);
-    }
+    // createEntityNotification(entityNotification: EntityNotification): Observable<EntityNotification> {
+    //     return this.httpClient.post<EntityNotification>(`/api/user-notifications/entity-notification/${entityNotification.user}`, entityNotification);
+    // }
 
     queryEntityAccessNotifications(query?: {}): Observable<EntityAccessNotification[]> {
         return this.httpClient.get<EntityAccessNotification[]>(`/api/user-notifications/entity-access-notification${stringifyQuery(query)}`);
     }
 
-    createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
-        return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.user}`, entityAccessNotification);
-    }
+    // createEntityAccessNotification(entityAccessNotification: EntityAccessNotification): Observable<EntityAccessNotification> {
+    //     return this.httpClient.post<EntityAccessNotification>(`/api/user-notifications/entity-access-notificatioon/${entityAccessNotification.user}`, entityAccessNotification);
+    // }
 }
