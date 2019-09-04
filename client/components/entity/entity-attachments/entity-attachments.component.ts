@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
+import { EntityAttachment } from 'models/entities/entity.model';
+import { thresholdFreedmanDiaconis } from 'd3';
 
 @Component({
     selector: 'entity-attachments',
@@ -12,17 +14,11 @@ export class EntityAttachmentsComponent {
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
     private entityAttachmentTypes;
-    // private attachments = [];
-    // WIP Remove hardcoded mock attachments
-    private attachments = [
-        { 'attachmentType': 'Article', 'attachmentName': 'Article #1' },
-        { 'attachmentType': 'Memo', 'attachmentName': 'Memo #1' },
-        { 'attachmentType': 'Report', 'attachmentName': 'Report #1' },
-    ];
-
+    // WIP Temporary - We need to populate attachments associated with the current entity
+    private attachments = [];
     private showEntityAttachmentForm = false;
     private attachmentForm: FormGroup;
-    private newAttachment;
+    private newAttachment: EntityAttachment;
 
     static parameters = [FormBuilder];
     constructor (
@@ -40,16 +36,19 @@ export class EntityAttachmentsComponent {
     }
 
     updateNewAttachmentType(selectedItem): void {
-        // WIP Define this.newAttachment
         this.newAttachment = {
             collection: selectedItem.source.selected.group.label.toLowerCase() || '',
-            attachmentType: selectedItem.value,
+            type: selectedItem.value,
         };
     }
 
     update(): void {
-        // WIP Shape attachments object in the way you want them stored with the Insights object
-        this.attachments.push(this.attachmentForm.value);
+        const entityAttachment: EntityAttachment = {
+            ...this.newAttachment,
+            name: this.attachmentForm.value.attachmentName,
+        };
+
+        this.attachments.push(entityAttachment);
         this.updateAttachments.emit(this.attachments);
 
         // Clear form

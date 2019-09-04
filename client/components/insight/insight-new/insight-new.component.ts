@@ -6,6 +6,8 @@ import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
 import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
+import { EntityAttachment } from 'models/entities/entity.model';
+
 
 @Component({
     selector: 'insight-new',
@@ -22,7 +24,7 @@ export class InsightNewComponent {
     private errors = {
         newInsight: undefined,
     };
-    private attachments;
+    private attachments: EntityAttachment[];
 
     static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
     constructor(
@@ -55,9 +57,9 @@ export class InsightNewComponent {
     createNewInsight(project: Project): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        newInsight.projectId = project._id;
-        // WIP Update model so that a proper attachments array is received
-        // newInsight.attachments = this.attachments;
+        newInsight.projectId = this.project._id;
+        newInsight.attachments = this.attachments;
+
         this.insightService.create(newInsight)
             .subscribe(insight => {
                 this.newInsight.emit(insight);
@@ -77,6 +79,7 @@ export class InsightNewComponent {
     }
 
     updateAttachments(attachments): void {
+        // WIP updateAttachments needs to store new entity attachments
         this.attachments = attachments;
     }
 }
