@@ -21,7 +21,7 @@
                         <span><b>Created by:</b> {{ insight.createdBy.name }}</span>
                         <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
                         <span *ngIf="insight.data !== undefined"><b>Type:</b> Memo</span>
-                        <!-- WIP Display attachment(s) if applicable -->
+                        <entity-attachments *ngIf="insight.attachments" [attachments]="insight.attachments"></entity-attachments>
                     </div>
                 </div>
             </div>

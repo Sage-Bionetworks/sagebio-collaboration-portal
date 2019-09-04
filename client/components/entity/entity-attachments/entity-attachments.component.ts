@@ -11,11 +11,10 @@ import { thresholdFreedmanDiaconis } from 'd3';
 })
 export class EntityAttachmentsComponent {
     @Input() entityId: string;
+    @Input() attachments: EntityAttachment[];
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
     private entityAttachmentTypes;
-    // WIP Temporary - We need to populate attachments associated with the current entity
-    private attachments = [];
     private showEntityAttachmentForm = false;
     private attachmentForm: FormGroup;
     private newAttachment: EntityAttachment;
@@ -29,6 +28,7 @@ export class EntityAttachmentsComponent {
             attachmentType: [],
             attachmentName: [],
         });
+        this.attachments = this.attachments || [];
     }
 
     removeAttachment(indexOfAttachment): void {
