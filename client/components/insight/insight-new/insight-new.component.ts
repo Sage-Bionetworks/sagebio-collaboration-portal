@@ -79,7 +79,6 @@ export class InsightNewComponent {
     }
 
     updateAttachments(attachments): void {
-        // WIP updateAttachments needs to store new entity attachments
         this.attachments = attachments;
     }
 }
