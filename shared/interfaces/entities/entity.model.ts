@@ -17,6 +17,11 @@ export interface EntityAttachment {
     name?: string;
 }
 
+export enum EntityAttachmentMode {
+    EDIT = 'Edit',
+    DISPLAY = 'Display',
+}
+
 /**
  * @swagger
  * components:
