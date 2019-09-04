@@ -40,6 +40,15 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
+export function indexByEntity(req, res) {
+    let filters = req.query;
+    filters.projectId = req.params.entityId;
+    return Insight.find(filters)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Gets a single Insight from the DB
 export function show(req, res) {
     return Insight.findById(req.params.id)
