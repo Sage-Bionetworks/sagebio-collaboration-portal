@@ -8,7 +8,7 @@ import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
-import { EntityAttachment } from 'models/entities/entity.model';
+import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.model';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class InsightNewComponent {
     };
     private project: Project;
     private attachments: EntityAttachment[];
+    private mode: EntityAttachmentMode;
 
     @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
@@ -60,6 +61,8 @@ export class InsightNewComponent {
             .subscribe(project => {
                 this.project = project;
             });
+
+        this.mode = EntityAttachmentMode.EDIT;
     }
 
     createNewInsight(): void {
