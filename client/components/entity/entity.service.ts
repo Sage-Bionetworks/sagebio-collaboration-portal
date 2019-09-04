@@ -31,6 +31,12 @@ export abstract class EntityService<E extends Entity> {
     abstract get(id: string): Observable<E>;
 
     /**
+     * Returns the entity with the slug specified.
+     * @param slug
+     */
+    abstract getBySlug(slug: string): Observable<E>;
+
+    /**
      * Makes an entity public.
      * @param entity
      */

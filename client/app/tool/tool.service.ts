@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
@@ -19,10 +13,8 @@ import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export class ToolService implements EntityService<Tool> {
-
     static parameters = [HttpClient, SecondarySidenavService];
-    constructor(private httpClient: HttpClient,
-        private secondarySidenavService: SecondarySidenavService) { }
+    constructor(private httpClient: HttpClient, private secondarySidenavService: SecondarySidenavService) {}
 
     query(query?: {}): Observable<QueryListResponse<Tool>> {
         return this.httpClient.get<QueryListResponse<Tool>>(`/api/tools${stringifyQuery(query)}`);
@@ -32,6 +24,10 @@ export class ToolService implements EntityService<Tool> {
         return this.httpClient.get<Tool>(`/api/tools/${id}`);
     }
 
+    getBySlug(slug: string): Observable<Tool> {
+        return this.httpClient.get<Tool>(`/api/tools/${slug}`);
+    }
+
     makePublic(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
     }
@@ -39,13 +35,12 @@ export class ToolService implements EntityService<Tool> {
         throw new Error('Method not implemented.');
     }
 
-
+    // FUNCTIONS TO REVIEW
 
     getTools(query?: {}): Observable<Tool[]> {
-        return this.httpClient.get<Tool[]>(`/api/tools${stringifyQuery(query)}`)
-            .pipe(
-                map(tools => orderBy('title', 'asc', tools))
-            );
+        return this.httpClient
+            .get<Tool[]>(`/api/tools${stringifyQuery(query)}`)
+            .pipe(map(tools => orderBy('title', 'asc', tools)));
     }
 
     getTool(toolId: string): Observable<Tool> {
@@ -53,10 +48,7 @@ export class ToolService implements EntityService<Tool> {
     }
 
     getToolBySlug(slug: string): Observable<Tool> {
-        return this.getTools({ slug: slug })
-            .pipe(
-                map(tools => head(tools))
-            );
+        return this.getTools({ slug: slug }).pipe(map(tools => head(tools)));
     }
 
     updateTool(patches: Object[], toolId: String): Observable<Tool> {
@@ -89,18 +81,15 @@ export class ToolService implements EntityService<Tool> {
     }
 
     remove(tool: Tool): Observable<Tool> {
-        return this.httpClient.delete(`/api/tools/${tool._id}`)
-            .pipe(
-                map(() => tool)
-            );
+        return this.httpClient.delete(`/api/tools/${tool._id}`).pipe(map(() => tool));
     }
 
     showActivity(tool: Tool): void {
         let sidenavContentId = `activity:${tool._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ActivitySidenavComponent>this.secondarySidenavService
-                .loadContentComponent(ActivitySidenavComponent))
-                .setRoot(tool);
+            (<ActivitySidenavComponent>(
+                this.secondarySidenavService.loadContentComponent(ActivitySidenavComponent)
+            )).setRoot(tool);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

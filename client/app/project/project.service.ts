@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Project } from 'models/entities/project.model';
 import { Patch } from 'models/patch.model';
@@ -18,9 +12,8 @@ import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
-
     static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) {}
 
     query(query?: {}): Observable<QueryListResponse<Project>> {
         return this.httpClient.get<QueryListResponse<Project>>(`/api/projects${stringifyQuery(query)}`);
@@ -28,6 +21,10 @@ export class ProjectService implements EntityService<Project> {
 
     get(id: string): Observable<Project> {
         return this.httpClient.get<Project>(`/api/projects/${id}`);
+    }
+
+    getBySlug(slug: string): Observable<Project> {
+        throw new Error('Method not implemented.');
     }
 
     makePublic(entity: Project): Observable<Project> {
@@ -38,7 +35,7 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 
-
+    // FUNCTIONS TO REVIEW
 
     // getProjects(/*query?: {}*/): Observable<Project[]> {
     //     return this.httpClient.get<Project[]>(`/api/projects`);  // ${stringifyQuery(query)}
