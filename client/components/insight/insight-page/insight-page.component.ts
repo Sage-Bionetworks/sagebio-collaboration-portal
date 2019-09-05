@@ -107,6 +107,21 @@ export class InsightPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {}
 
+    updateAttachments(attachments): void {
+        try {
+            this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
+                insight => {
+                    this.notificationService.info('The attachments have been successfully saved');
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     updateDescription(): void {
         let description = JSON.stringify(this.form.get('description').value);
         // console.log('description', description);
