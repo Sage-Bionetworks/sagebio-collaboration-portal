@@ -31,7 +31,10 @@
     <ng-template *ngIf="_entityAccessNotifications | async; let entityAccessNotifications" ngFor
         let-entityAccessNotification let-i="index" let-first="first" [ngForOf]="entityAccessNotifications">
         <entity-access-notification-view *ngIf="entityAccessNotification" class="app-user-notification-view"
-            [entityAccessNotification]="entityAccessNotification">
+            [notification]="entityAccessNotification.notification"
+            [entity]="entityAccessNotification.associatedEntity"
+            [permission]="entityAccessNotification.entityPermission"
+        >
         </entity-access-notification-view>
     </ng-template>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NotificationService } from 'components/notification/notification.service';
@@ -19,12 +19,16 @@ export class UserNotificationCardComponent {
     @Input() notification: MessageNotification | EntityNotification | EntityAccessNotification;
     @Input() entity: Entity;
 
-    static parameters = [Router, NotificationService, UserNotificationService];
-    constructor(
-        private router: Router,
-        private notificationService: NotificationService,
-        private userNotificationService: UserNotificationService
-    ) { }
+    router: Router
+    notificationService: NotificationService
+    userNotificationService: UserNotificationService
+
+    static parameters = [Injector];
+    constructor(public injector: Injector) {
+        this.router = this.injector.get(Router)
+        this.notificationService = this.injector.get(NotificationService)
+        this.userNotificationService = this.injector.get(UserNotificationService)
+    }
 
     goToEntity() {
       if (

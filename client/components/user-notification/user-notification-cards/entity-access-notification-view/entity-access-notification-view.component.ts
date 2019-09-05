@@ -1,29 +1,34 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
-import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model';
-
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { EntityPermission } from 'models/auth/entity-permission.model';
+import { UserNotificationCardComponent } from '../user-notification-card.component';
+import { UserNotificationService } from 'components/user-notification/user-notification.service';
 @Component({
     selector: 'entity-access-notification-view',
     template: require('./entity-access-notification-view.html'),
     styles: [require('../user-notification-card.scss')]
 })
-export class EntityAccessNotificationViewComponent {
-    @Input() entityAccessNotification: UserNotificationBundle<EntityAccessNotification>;
+export class EntityAccessNotificationViewComponent extends UserNotificationCardComponent{
+    @Input() notification: EntityAccessNotification;
+    @Input() permission: EntityPermission
 
-    static parameters = [Router, NotificationService];
-    constructor(private router: Router, private notificationService: NotificationService) { }
+    static parameters = [Injector];
+    constructor(public injector: Injector) {
+        super(injector)
+    }
 
     accept() {
-        // this.userPermissionDataService.acceptEntityPermission(this.invite.entityPermission)
+        // this.userPermissionDataService.acceptEntityPermission(this.permission)
         //     .subscribe(entityPermission => {
         //         this.notificationService.info('The invite has been successfully accepted.');
         //     }, err => {
         //         console.log(err);
         //         this.notificationService.error('Unable to accept the invite', err);
         //     });
-        this.notificationService.info('entityAccessNotification Accepted.');
+        // this.notificationService.info('entityAccessNotification Accepted.');
     }
 
     acceptAndGo() {

@@ -10,5 +10,4 @@ import { UserNotificationCardComponent } from '../user-notification-card.compone
 })
 export class EntityNotificationViewComponent extends UserNotificationCardComponent{
     @Input() notification: EntityNotification;
-    @Input() entity: Entity;
 }
