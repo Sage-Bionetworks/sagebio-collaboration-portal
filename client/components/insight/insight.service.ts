@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
+import { EntityAttachment } from 'models/entities/entity.model';
 import { Project } from 'models/entities/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -49,6 +50,14 @@ export class InsightService implements EntityService<Insight> {
 
     create(insight: Insight): Observable<Insight> {
         return this.httpClient.post<Insight>('/api/insights', insight);
+    }
+
+    updateInsightAttachments(insight: Insight, attachments: EntityAttachment[]): Observable<Insight> {
+        return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
+            [
+                { op: 'replace', path: '/attachments', value: attachments }
+            ]
+        );
     }
 
     updateInsightDescription(insight: Insight, description: string): Observable<Insight> {
