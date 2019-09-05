@@ -1,5 +1,4 @@
 import { Component, AfterViewInit, OnDestroy, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../../user-notification.service';
 import { MessageNotification } from 'models/user-notification/message-notificiation.model'
@@ -15,26 +14,20 @@ import { MessageNotification } from 'models/user-notification/message-notificiat
 })
 export class MessageNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() messageNotification: MessageNotification;
-    avatarSize = 25
 
-    static parameters = [Router,
-        NotificationService, UserNotificationService, UserNotificationService];
-    constructor(private router: Router,
+    static parameters = [NotificationService, UserNotificationService];
+    constructor(
         private notificationService: NotificationService,
-        private userNotificationService: UserNotificationService) { }
+        private userNotificationService: UserNotificationService
+    ) { }
 
     ngAfterViewInit() { }
 
     ngOnDestroy() { }
 
-    readMessage(): void {
-        this.notificationService.info('Reading Message.');
-        // this.userNotificationService.upsert()
-    }
-
     discard() {
-        this.notificationService.info('The message has been successfully archived.');
+        this.userNotificationService.archiveNotification(this.messageNotification).subscribe(() => {
+            this.notificationService.info('Notification discarded.');
+        })
     }
-
-
 }

@@ -4,17 +4,19 @@ import { UserProfile } from '../auth/user-profile.model';
  * @swagger
  * components:
  *   schemas:
- *     MessageNotification:
+ *     UserNotification:
  *       type: object
  *       properties:
  *         _id:
+ *           type: string
+ *         notificationType:
  *           type: string
  */
 
 export interface UserNotification {
   _id?: string;
   notificationType: string;
-  user: UserProfile | string;
+  user: UserProfile;
   archived: boolean;
   createdAt: string;
   createdBy: UserProfile | string;

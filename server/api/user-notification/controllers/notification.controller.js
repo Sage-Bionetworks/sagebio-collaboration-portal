@@ -5,7 +5,7 @@ import Notification from '../models/notification.model';
 
 import {
     respondWithResult,
-    // handleEntityNotFound,
+    handleEntityNotFound,
     handleError
 } from '../../util';
 // import config from '../../../config/environment';
@@ -23,15 +23,26 @@ import {
 //     }
 // }
 
-// Returns the message notifications of the user
+// Returns the notifications of the user based given by req.query.notificationType
 export function indexMine(req, res) {
     var userId = req.user._id.toString();
-    // const NotificationModel = getModelForNotificationType(req.query.type);
     return Notification.find({
         ...req.query,
         user: userId
     })
         .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function archive(req, res) {
+    return Notification.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(notification => {
+            notification.archived = true;
+            return notification.save();
+        })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

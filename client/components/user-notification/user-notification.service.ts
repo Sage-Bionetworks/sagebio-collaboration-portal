@@ -22,9 +22,6 @@ export class UserNotificationService {
 
     toggleNotifications(): void {
         if (this.secondarySidenavService.getContentId() !== SIDENAV_CONTENT_ID) {
-            // (<UserNotificationSidenavComponent>this.secondarySidenavService
-            //     .loadContentComponent(UserNotificationSidenavComponent))
-            //     .setMessage(message);
             this.secondarySidenavService
                 .loadContentComponent(UserNotificationSidenavComponent);
             this.secondarySidenavService.setContentId(SIDENAV_CONTENT_ID);
@@ -32,12 +29,12 @@ export class UserNotificationService {
         this.secondarySidenavService.toggle();
     }
 
-    // archiveNotification(notification: UserNotification) {
-    //     return this.httpClient.patch<UserNotification>();
-    // }
-
     queryNotifications(query?: {}): Observable<UserNotification[]> {
         return this.httpClient.get<UserNotification[]>(`/api/user-notifications${stringifyQuery(query)}`);
+    }
+
+    archiveNotification(notification: UserNotification): Observable<UserNotification> {
+        return this.httpClient.patch<UserNotification>(`/api/user-notifications/${notification._id}/archive`, []);
     }
 
     // createNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {

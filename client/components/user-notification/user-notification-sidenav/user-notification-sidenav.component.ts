@@ -83,7 +83,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getMessagesNotifications() {
-        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.MESSAGE_NOTIFICATION.value })
+        this.userNotificationService.queryNotifications({
+            notificationType: config.notificationTypes.MESSAGE_NOTIFICATION.value,
+            archived: false
+        })
             .subscribe((messagesNotifications: MessageNotification[]) => {
                 console.log('messagesNotifications: ', messagesNotifications);
                 this._messagesNotifications.next(messagesNotifications);
@@ -91,7 +94,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityNotifications() {
-        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.ENTITY_NOTIFICATION.value })
+        this.userNotificationService.queryNotifications({
+            notificationType: config.notificationTypes.ENTITY_NOTIFICATION.value,
+            archived: false
+        })
             .pipe(
                 map(entityNotifications => entityNotifications.map((notification: EntityNotification) => this.buildEntityNotificationBundle(notification))),
                 switchMap(bundles => forkJoinWithProgress(bundles)),
@@ -117,7 +123,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityAccessNotifications() {
-        this.userNotificationService.queryNotifications({ notificationType: config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value })
+        this.userNotificationService.queryNotifications({
+            notificationType: config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
+            archived: false
+        })
             .pipe(
                 map(entityAceessNotifications => entityAceessNotifications.map(
                     (notification: EntityAccessNotification) => this.buildEntityAccessNotificationBundle(notification)
