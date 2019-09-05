@@ -1,5 +1,6 @@
 import { Component, Input, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+import { noop } from 'lodash'
 
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../user-notification.service';
@@ -48,11 +49,18 @@ export class UserNotificationCardComponent {
             default:
                 break;
         }
+
+        this.userNotificationService.toggleNotifications();
+        this.archive().subscribe(noop)
       }
     }
 
+    archive() {
+        return this.userNotificationService.archiveNotification(this.notification)
+    }
+
     discard() {
-        this.userNotificationService.archiveNotification(this.notification).subscribe(() => {
+        this.archive().subscribe(() => {
             this.notificationService.info('Notification discarded.');
         })
     }
