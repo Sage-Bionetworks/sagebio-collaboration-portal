@@ -5,11 +5,11 @@ import { EntityPermission } from 'models/auth/entity-permission.model';
 import { UserNotificationCardComponent } from '../user-notification-card.component';
 import { combineLatest } from 'rxjs';
 @Component({
-    selector: 'entity-access-notification-view',
-    template: require('./entity-access-notification-view.html'),
+    selector: 'entity-access-notification-card',
+    template: require('./entity-access-notification-card.html'),
     styles: [require('../user-notification-card.scss')]
 })
-export class EntityAccessNotificationViewComponent extends UserNotificationCardComponent{
+export class EntityAccessNotificationCardComponent extends UserNotificationCardComponent{
     @Input() notification: EntityAccessNotification;
     @Input() permission: EntityPermission
     userPermissionDataService: UserPermissionDataService
