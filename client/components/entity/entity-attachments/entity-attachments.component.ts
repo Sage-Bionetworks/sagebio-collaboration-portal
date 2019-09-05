@@ -39,6 +39,7 @@ export class EntityAttachmentsComponent implements OnInit {
 
     removeAttachment(indexOfAttachment): void {
         this.attachments.splice(indexOfAttachment, 1);
+        this.updateAttachments.emit(this.attachments);
     }
 
     updateNewAttachmentType(selectedItem): void {
