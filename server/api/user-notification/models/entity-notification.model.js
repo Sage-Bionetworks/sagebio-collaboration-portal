@@ -3,6 +3,10 @@ import Notification from './notification.model';
 import config from '../../../config/environment';
 
 var EntityNotificationSchema = new mongoose.Schema({
+    messageBody: {
+        type: String,
+        required: false,
+    },
     entityId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

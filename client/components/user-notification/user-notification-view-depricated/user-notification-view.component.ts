@@ -9,6 +9,7 @@ import { UserPermissionDataService } from 'components/auth/user-permission-data.
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
 import { UserNotificationService } from '../user-notification.service';
+import { UserNotification } from 'models/user-notification/user-notification.model';
 
 @Component({
     selector: 'user-notification-view',
@@ -16,7 +17,7 @@ import { UserNotificationService } from '../user-notification.service';
     styles: [require('./user-notification-view.scss')]
 })
 export class UserNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() invite: UserNotificationBundle;
+    @Input() invite: UserNotificationBundle<UserNotification>;
     @Input() notification;
 
     static parameters = [Router, UserPermissionDataService,

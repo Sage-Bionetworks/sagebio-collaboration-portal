@@ -5,6 +5,7 @@ import { UserNotificationService } from '../../user-notification.service';
 // import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
 // import { NotificationBundle } from '../models/notification-bundle.model';
 import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
+import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model';
 
 @Component({
     selector: 'entity-access-notification-view',
@@ -12,7 +13,7 @@ import { UserNotificationBundle } from 'models/user-notification/user-notificati
     styles: [require('../user-notification-view.scss')]
 })
 export class EntityAccessNotificationViewComponent implements AfterViewInit, OnDestroy {
-    @Input() entityAccessNotification: UserNotificationBundle;
+    @Input() entityAccessNotification: UserNotificationBundle<EntityAccessNotification>;
 
     static parameters = [Router,
         NotificationService, UserNotificationService, UserNotificationService];

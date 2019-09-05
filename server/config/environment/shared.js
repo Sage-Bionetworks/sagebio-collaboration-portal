@@ -30,6 +30,9 @@ export const entityTypes = {
     INSIGHT: {
         value: 'insight'
     },
+    RESOURCE: {
+        value: 'resource'
+    },
     TOOL: {
         value: 'tool'
     },

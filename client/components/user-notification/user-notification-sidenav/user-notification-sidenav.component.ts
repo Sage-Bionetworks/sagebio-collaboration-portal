@@ -46,8 +46,8 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     private avatarSize = 40;
 
     private _messagesNotifications: BehaviorSubject<MessageNotification[]> = new BehaviorSubject<MessageNotification[]>([]);
-    private _entityNotifications: BehaviorSubject<UserNotificationBundle[]> = new BehaviorSubject<UserNotificationBundle[]>([]);
-    private _entityAccessNotifications: BehaviorSubject<UserNotificationBundle[]> = new BehaviorSubject<UserNotificationBundle[]>([]);
+    private _entityNotifications: BehaviorSubject<UserNotificationBundle<EntityNotification>[]> = new BehaviorSubject<UserNotificationBundle<EntityNotification>[]>([]);
+    private _entityAccessNotifications: BehaviorSubject<UserNotificationBundle<EntityAccessNotification>[]> = new BehaviorSubject<UserNotificationBundle<EntityAccessNotification>[]>([]);
 
     static parameters = [
         SecondarySidenavService,
@@ -72,6 +72,9 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                 return this.projectService.getProject(notification.entityId)
             case config.entityTypes.INSIGHT.value:
                 return this.insightService.getInsight(notification.entityId)
+            case config.entityTypes.RESOURCE.value:
+            case config.entityTypes.TOOL.value:
+            case config.entityTypes.DATA_CATALOG.value:
             default:
                 return of(null)
         }
@@ -106,7 +109,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                     finalResult
                 ))
             )
-            .subscribe((entityNotifications: UserNotificationBundle[]) => {
+            .subscribe((entityNotifications: UserNotificationBundle<EntityNotification>[]) => {
                 console.log('entityNotifications: ', entityNotifications);
                 this._entityNotifications.next(entityNotifications);
             }, err => console.error(err));
@@ -137,7 +140,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                     finalResult
                 ))
             )
-            .subscribe((entityAccessNotifications: UserNotificationBundle[]) => {
+            .subscribe((entityAccessNotifications: UserNotificationBundle<EntityAccessNotification>[]) => {
                 console.log('entityAccessNotifications: ', entityAccessNotifications);
                 this._entityAccessNotifications.next(entityAccessNotifications);
             }, err => console.error(err));
