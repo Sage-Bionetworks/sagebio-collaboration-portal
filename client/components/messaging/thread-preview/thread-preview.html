@@ -1,7 +1,7 @@
 <!-- thread-preview is displayed within a mat-list-item -->
 <div class="app-thread" *ngIf="thread">
     <!-- <user-avatar class="app-thread-header-avatar" [user]="thread.createdBy" [size]="authorAvatarSize"></user-avatar> -->
-    <div class="app-thread-header-metadata">
+    <div class="app-thread-header-metadata-title">
         <div class="app-thread-header-metadata-line">
             <span class="app-thread-header-title">{{ thread.title }}</span>
             <span class="app-thread-header-time" matTooltip="{{ (thread.updatedAt || thread.createdAt) | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ (thread.updatedAt || thread.createdAt) | date: 'shortTime' }}</span>

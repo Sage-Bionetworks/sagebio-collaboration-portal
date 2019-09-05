@@ -15,9 +15,9 @@
     .app-thread-header-metadata {
         display: flex;
         flex-flow: row nowrap;
-        flex-grow: 1;
-        align-items: flex-start;
         padding-right: 8px;
+        justify-content: flex-end;
+        width: 155px;
     }
 
     .app-thread-header-metadata-line {
@@ -32,6 +32,11 @@
         font-size: 18px;
         font-weight: 500;
         padding-right: 6px;
+        justify-content: flex-start;
+    }
+    .app-thread-header-metadata-title {
+        justify-content: flex-start;
+        flex-grow: 2;
     }
 
     .app-thread-header-subtitle {
@@ -54,7 +59,6 @@
 
     .app-thread-header-open-thread {
         display: flex;
-        flex-grow: 1;
         justify-content: flex-end;
     }
 
