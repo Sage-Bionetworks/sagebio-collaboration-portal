@@ -7,7 +7,10 @@ import {
     hasRole as _hasRole,
     hasAccessToEntity as _hasAccessToEntity,
     hasUserPermission as _hasUserPermission,
-    hasAccessToEntityRelatedObject as _hasAccessToEntityRelatedObject
+    hasAccessToEntityRelatedObject as _hasAccessToEntityRelatedObject,
+    canReadEntity as canReadEntity_,
+    canWriteEntity as canWriteEntity_,
+    canAdminEntity as canAdminEntity_
 } from './auth';
 const url = require('url');
 
@@ -76,6 +79,66 @@ export function isAuthorized(permission) {
 }
 
 /**
+ * Resolves as true if the user has read access to the entity based on the
+ * details provided in req.entity.
+ * @param {*} allowedAccesses
+ */
+export function canReadEntity() {
+    return compose().use((req, res, next) =>
+        canReadEntity_(req.user._id, req.entity._id, req.entity.entityType, req.entity.visibility)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(() => {
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
+}
+
+export function canWriteEntity() {
+    return compose().use((req, res, next) =>
+        canWriteEntity_(req.user._id, req.entity._id, req.entity.entityType)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(() => {
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
+}
+
+export function canAdminEntity() {
+    return compose().use((req, res, next) =>
+        canAdminEntity_(req.user._id, req.entity._id, req.entity.entityType)
+            .then(accessGranted => {
+                if (accessGranted) return next();
+                return null;
+            })
+            .catch(() => {
+                res.status(403).send('Forbidden');
+                return null;
+            })
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
  * Middleware to authorize a request if the user has an admin role or the requested permission for the specified entity.
  *
  * Users that have not been assigned or accepted the requested permission for the entity will be blocked.
@@ -95,6 +158,8 @@ export function isAuthorizedForEntity(allowedAccesses) {
             })
     );
 }
+
+
 
 export function isAuthorizedForEntityRelatedObject(Model) {
     return compose().use((req, res, next) =>
@@ -125,12 +190,19 @@ export function hasPermission(permission) {
  * Allows request to continue if the user has authenticated and has appropriate authorization for the entity
  * @param {*} allowedAccesses
  */
-export function canAccessEntity(attachEntityForAuthorization, allowedAccesses) {
+export function canAccessEntity(attachesEntityAuthorizationDetails_, allowedAccesses) {
     return compose()
-        .use(isAuthenticated())
-        .use(attachEntityForAuthorization())
-        .use(isAuthorizedForEntity(allowedAccesses));
+        .use(isAuthenticated());
+        // .use(attachesEntityAuthorizationDetails_())
+        // .use(isAuthorizedForEntity(allowedAccesses));
 }
+
+// export function canReadEntity(attachesEntityAuthorizationDetails_, allowedAccesses) {
+//     return compose()
+//         .use(isAuthenticated())
+//         .use(attachesEntityAuthorizationDetails_)
+//         .use(hasReadAccessToEntity(allowedAccesses));
+// }
 
 // export function canAccessResource(allowedAccesses) {
 //     return compose()
@@ -191,5 +263,40 @@ export function setTokenCookie(req, res) {
                 expiresIn: config.expiresIn.session,
             },
         })
+    );
+}
+
+
+/**
+ * Attaches the information required for authorization to the request object.
+ *
+ * This method must be used when verifying the authorization against the entity
+ * specified by req.params.id (e.g. Project). If the authorization must be performed
+ * against another object (e.g. the project a Resource is assigned to), then another
+ * method must be implemented to attach the details of the other object to req.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+export function attachesEntityAuthorizationDetails(Model, entityType) {
+    return (
+        compose()
+            .use((req, res, next) => {
+                Model.findById(req.params.id, '_id visibility')
+                    .exec()
+                    .then(entity => {
+                        if (!entity) {
+                            return res.status(401).end(); // or 403/404 but leak existance info
+                        }
+                        req.entity = {
+                            _id: entity._id,
+                            entityType,
+                            visibility: entity.visibility
+                        };
+                        next();
+                        return null;
+                    })
+                    .catch(err => next(err));
+            })
     );
 }

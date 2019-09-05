@@ -1,8 +1,10 @@
 var express = require('express');
 var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
+var projectAuth = require('./project-auth.service');
 import { accessTypes, userRoles, entityTypes } from '../../config/environment';
 import Project from './project.model';
+import { attachesEntityAuthorizationDetails } from '../../auth/auth.service';
 
 const ADMIN_ROLE = userRoles.ADMIN.value;
 const READ_ACCESS = accessTypes.READ.value;
@@ -63,11 +65,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Project not found
  */
-router.get(
-    '/:id',
-    auth.canAccessEntity(controller.attachEntityForAuthorization, [READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]),
-    controller.show
-);
+router.get('/:id', projectAuth.canReadProject(), controller.show);
 
 /**
  * @swagger
@@ -123,11 +121,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch(
-    '/:entityId',
-    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
-    controller.patch
-);
+router.patch('/:id', projectAuth.canAdminProject(), controller.patch);
 
 /**
  * @swagger
@@ -174,11 +168,7 @@ router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility)
  *       '404':
  *         description: Project not found
  */
-router.patch(
-    '/:entityId/visibility/public',
-    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
-    controller.makePublic
-);
+router.patch('/:id/visibility/public', projectAuth.canAdminProject(), controller.makePublic);
 
 /**
  * @swagger
@@ -205,11 +195,7 @@ router.patch(
  *       '404':
  *         description: Project not found
  */
-router.patch(
-    '/:entityId/visibility/private',
-    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
-    controller.makePrivate
-);
+router.patch('/:id/visibility/private', projectAuth.canAdminProject(), controller.makePrivate);
 
 /**
  * @swagger
@@ -237,10 +223,6 @@ router.patch(
  *       '404':
  *         description: Project not found
  */
-router.delete(
-    '/:id',
-    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
-    controller.destroy
-);
+router.delete('/:id', projectAuth.canAdminProject(), controller.destroy);
 
 module.exports = router;

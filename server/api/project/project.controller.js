@@ -13,7 +13,6 @@ import { merge } from 'lodash';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
 import { buildEntityIndexQuery } from '../entity-util';
-import compose from 'composable-middleware';
 
 // Gets a list of Projects
 export function index(req, res) {
@@ -73,7 +72,7 @@ export function create(req, res) {
 export function patch(req, res) {
     const patches = req.body.filter(patch => !['_id', 'visibility', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -99,7 +98,7 @@ export function makePublic(req, res) {
         value: entityVisibility.PUBLIC.value
     }];
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -115,7 +114,7 @@ export function makePrivate(req, res) {
         value: entityVisibility.PRIVATE.value
     }];
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -133,35 +132,6 @@ export function destroy(req, res) {
 }
 
 // HELPER FUNCTIONS
-
-/**
- * Attach the information required for authorization to the request object.
- * @param {*} req
- * @param {*} res
- * @param {*} next
- */
-export function attachEntityForAuthorization() {
-    return (
-        compose()
-            .use((req, res, next) => {
-                Project.findById(req.params.id, '_id visibility')
-                    .exec()
-                    .then(project => {
-                        if (!project) {
-                            return res.status(401).end(); // or 404 but leak existance info
-                        }
-                        req.entity = {
-                            entityId: project._id,
-                            entityType: entityTypes.PROJECT.value,
-                            visibility: project.visibility
-                        };
-                        next();
-                        return null;
-                    })
-                    .catch(err => next(err));
-            })
-    );
-}
 
 function createAdminPermissionForEntity(user, entityType) {
     return function (entity) {
