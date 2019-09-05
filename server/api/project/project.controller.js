@@ -4,7 +4,7 @@ import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '.
 import {
     respondWithResult,
     patchUpdates,
-    // removeEntity,
+    removeEntity,
     handleEntityNotFound,
     handleError,
 } from '../util';
@@ -124,15 +124,44 @@ export function makePrivate(req, res) {
 }
 
 // Deletes a Project from the DB
-// export function destroy(req, res) {
-//     return Project.findById(req.params.id)
-//         .exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
-//         .catch(handleError(res));
-// }
+export function destroy(req, res) {
+    return Project.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
 
 // HELPER FUNCTIONS
+
+/**
+ * Attach the information required for authorization to the request object.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+export function attachEntityForAuthorization() {
+    return (
+        compose()
+            .use((req, res, next) => {
+                Project.findById(req.params.id, '_id visibility')
+                    .exec()
+                    .then(project => {
+                        if (!project) {
+                            return res.status(401).end(); // or 404 but leak existance info
+                        }
+                        req.entity = {
+                            entityId: project._id,
+                            entityType: entityTypes.PROJECT.value,
+                            visibility: project.visibility
+                        };
+                        next();
+                        return null;
+                    })
+                    .catch(err => next(err));
+            })
+    );
+}
 
 function createAdminPermissionForEntity(user, entityType) {
     return function (entity) {
@@ -201,34 +230,4 @@ export function getProjectIdsByUser(userId) {
                 ]).then(result => union(...result))
             )
         );
-}
-
-/**
- * Attach the information required for authorization to the request object.
- * @param {*} req
- * @param {*} res
- * @param {*} next
- */
-
-export function attachEntityForAuthorization() {
-    return (
-        compose()
-            .use((req, res, next) => {
-                Project.findById(req.params.id, '_id visibility')
-                    .exec()
-                    .then(project => {
-                        if (!project) {
-                            return res.status(401).end(); // or 404 but leak existance info
-                        }
-                        req.entity = {
-                            entityId: project._id,
-                            entityType: entityTypes.PROJECT.value,
-                            visibility: project.visibility
-                        };
-                        next();
-                        return null;
-                    })
-                    .catch(err => next(err));
-            })
-    );
 }

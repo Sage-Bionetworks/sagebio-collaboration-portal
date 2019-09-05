@@ -149,14 +149,62 @@ router.patch(
  */
 router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
 
-// TODO Document
+/**
+ * @swagger
+ * /projects/{id}/visibility/public:
+ *   patch:
+ *     tags:
+ *       - Projects
+ *     summary: Makes the project public.
+ *     description: Makes the project public.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: An empty array
+ *     responses:
+ *       '201':
+ *         description: The Project updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Project'
+ *       '400':
+ *         description: Invalid Project supplied
+ *       '404':
+ *         description: Project not found
+ */
 router.patch(
     '/:entityId/visibility/public',
     auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
     controller.makePublic
 );
 
-// TODO Document
+/**
+ * @swagger
+ * /projects/{id}/visibility/private:
+ *   patch:
+ *     tags:
+ *       - Projects
+ *     summary: Makes the project private.
+ *     description: Makes the project private.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: An empty array
+ *     responses:
+ *       '201':
+ *         description: The Project updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Project'
+ *       '400':
+ *         description: Invalid Project supplied
+ *       '404':
+ *         description: Project not found
+ */
 router.patch(
     '/:entityId/visibility/private',
     auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
@@ -189,8 +237,10 @@ router.patch(
  *       '404':
  *         description: Project not found
  */
-// router.delete('/:id', auth.canAccessEntity([
-//     ADMIN_ACCESS
-// ]), controller.destroy);
+router.delete(
+    '/:id',
+    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
+    controller.destroy
+);
 
 module.exports = router;
