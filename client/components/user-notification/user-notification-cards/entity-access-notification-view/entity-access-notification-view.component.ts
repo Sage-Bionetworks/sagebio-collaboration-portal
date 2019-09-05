@@ -10,7 +10,7 @@ import { EntityAccessNotification } from 'models/user-notification/entity-access
 @Component({
     selector: 'entity-access-notification-view',
     template: require('./entity-access-notification-view.html'),
-    styles: [require('../user-notification-view.scss')]
+    styles: [require('../user-notification-card.scss')]
 })
 export class EntityAccessNotificationViewComponent implements AfterViewInit, OnDestroy {
     @Input() entityAccessNotification: UserNotificationBundle<EntityAccessNotification>;

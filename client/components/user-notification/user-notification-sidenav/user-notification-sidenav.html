@@ -15,14 +15,16 @@
     <ng-template *ngIf="_messagesNotifications | async; let _messagesNotifications" ngFor let-messageNotification
         let-i="index" let-first="first" [ngForOf]="_messagesNotifications">
         <message-notification-view *ngIf="messageNotification" class="app-user-notification-view"
-            [messageNotification]="messageNotification">
+            [notification]="messageNotification">
         </message-notification-view>
     </ng-template>
 
     <ng-template *ngIf="_entityNotifications | async; let entityNotifications" ngFor let-entityNotification
         let-i="index" let-first="first" [ngForOf]="entityNotifications">
         <entity-notification-view *ngIf="entityNotification" class="app-user-notification-view"
-            [entityNotification]="entityNotification">
+            [notification]="entityNotification.notification"
+            [entity]="entityNotification.associatedEntity"
+        >
         </entity-notification-view>
     </ng-template>
 

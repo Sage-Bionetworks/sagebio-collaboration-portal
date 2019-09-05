@@ -5,9 +5,9 @@ import { SidenavModule } from 'components/sidenav/sidenav.module';
 import { UserAvatarModule } from 'components/user-avatar/user-avatar.module';
 import { UserNotificationButtonComponent } from './user-notification-button/user-notification-button.component';
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
-import { MessageNotificationViewComponent } from './user-notification-views/message-notification-view/message-notification-view.component';
-import { EntityNotificationViewComponent } from './user-notification-views/entity-notification-view/entity-notification-view.component';
-import { EntityAccessNotificationViewComponent } from './user-notification-views/entity-access-notification-view/entity-access-notification-view.component';
+import { MessageNotificationViewComponent } from './user-notification-cards/message-notification-view/message-notification-view.component';
+import { EntityNotificationViewComponent } from './user-notification-cards/entity-notification-view/entity-notification-view.component';
+import { EntityAccessNotificationViewComponent } from './user-notification-cards/entity-access-notification-view/entity-access-notification-view.component';
 import { UserNotificationService } from './user-notification.service';
 import { PipesModule } from 'components/pipes/pipes.module'
 
