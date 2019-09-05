@@ -102,7 +102,11 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             archived: false
         })
             .pipe(
-                map(entityNotifications => entityNotifications.map((notification: EntityNotification) => this.buildEntityNotificationBundle(notification))),
+                map(entityNotifications => {
+                    entityNotifications.map(
+                        (notification: EntityNotification) => this.buildEntityNotificationBundle(notification)
+                    )
+                }),
                 switchMap(bundles => forkJoinWithProgress(bundles)),
                 switchMap(([finalResult, progress]) => merge(
                     progress.pipe(ignoreElements()),
