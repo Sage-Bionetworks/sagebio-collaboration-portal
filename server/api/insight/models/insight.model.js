@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { registerEvents } from '../insight.events';
 import User from '../../user/user.model';
 import { models as modelSpecs } from '../../../config/environment';
-import EntityAttachment from '../../entity-attachment/entity-attachment.schema';
+import EntityAttachment from '../../attachments/entity-attachment.schema';
 
 const options = {
     discriminatorKey: 'insightType',
