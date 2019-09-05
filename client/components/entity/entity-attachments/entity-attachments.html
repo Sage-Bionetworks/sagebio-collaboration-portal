@@ -1,5 +1,5 @@
 <div [formGroup]="attachmentForm" class='app-entity-attachments'>
-    <b>Attachments:</b>
+    <b *ngIf="attachments.length > 0">Attachments:</b>
     <mat-list>
         <mat-list-item *ngFor="let attachment of attachments; index as i">
             <h3 mat-line>{{ attachment.name }}</h3>
