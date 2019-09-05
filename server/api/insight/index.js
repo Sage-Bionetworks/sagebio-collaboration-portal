@@ -45,10 +45,12 @@ router.patch('/:id', controller.patch);
 // router.delete('/:id', controller.destroy);
 
 // get insight by project id
-router.get('/entity/:entityId', auth.canAccessEntity([
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.indexByEntity);
+router.get('/entity/:entityId',
+// auth.canAccessEntity([
+//     READ_ACCESS,
+//     WRITE_ACCESS,
+//     ADMIN_ACCESS
+// ]),
+controller.indexByEntity);
 
 module.exports = router;

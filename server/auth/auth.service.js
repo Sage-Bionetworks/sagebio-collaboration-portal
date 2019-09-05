@@ -46,8 +46,7 @@ export function isAuthenticated() {
                         next();
                         return null;
                     })
-                    // .catch(err => next(err));
-                    .catch(next); // handled by the built-in error handler if not catched later
+                    .catch(err => next(err));
             })
     );
 }
@@ -84,7 +83,7 @@ export function isAuthorized(permission) {
  */
 export function isAuthorizedForEntity(allowedAccesses) {
     return compose().use((req, res, next) =>
-        _hasAccessToEntity(req.user._id, allowedAccesses, req.params.entityId)
+        _hasAccessToEntity(req.user._id, allowedAccesses, /*req.params.entityId*/ req.entity._id)
             .then(accessGranted => {
                 if (accessGranted) return next();
                 return null;
@@ -126,11 +125,18 @@ export function hasPermission(permission) {
  * Allows request to continue if the user has authenticated and has appropriate authorization for the entity
  * @param {*} allowedAccesses
  */
-export function canAccessEntity(allowedAccesses) {
+export function canAccessEntity(attachEntityForAuthorization, allowedAccesses) {
     return compose()
         .use(isAuthenticated())
+        .use(attachEntityForAuthorization())
         .use(isAuthorizedForEntity(allowedAccesses));
 }
+
+// export function canAccessResource(allowedAccesses) {
+//     return compose()
+//         .use(isAuthenticated())
+//         .use()
+// }
 
 export function hasPermissionForEntityRelatedObject(Model) {
     return compose()

@@ -5,6 +5,7 @@ import {
     accessTypes,
     userRoles
 } from '../../config/environment';
+import Resource from './models/resource.model';
 
 const READ_ACCESS = accessTypes.ADMIN.value;
 const WRITE_ACCESS = accessTypes.ADMIN.value;
@@ -33,17 +34,30 @@ var router = express.Router();
 router.get('/', auth.isAuthenticated(), controller.index);
 
 
-router.get('/:id', controller.show);
+router.get('/:id',
+// auth.canAccessEntity(Resource, [
+//     READ_ACCESS,
+//     WRITE_ACCESS,
+//     ADMIN_ACCESS
+// ]),
+controller.show);
+
+
+
+
+
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.upsert);
 
 router.patch('/:id', controller.patch);
 
-router.get('/entity/:entityId', auth.canAccessEntity([
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.indexByEntity);
+router.get('/entity/:entityId',
+// auth.canAccessEntity([
+//     READ_ACCESS,
+//     WRITE_ACCESS,
+//     ADMIN_ACCESS
+// ]),
+controller.indexByEntity);
 
 // router.delete('/:id', controller.destroy);
 

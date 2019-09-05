@@ -14,13 +14,13 @@ var router = express.Router();
 router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
 router.get('/mine', auth.isAuthenticated(), controller.indexMine);
 
-router.get('/entity/:entityId', auth.canAccessEntity([ADMIN_ACCESS]),
+router.get('/entity/:entityId', //auth.canAccessEntity([ADMIN_ACCESS]),
     controller.indexByEntity);
-router.post('/entity/:entityId', auth.canAccessEntity([ADMIN_ACCESS]),
+router.post('/entity/:entityId', //auth.canAccessEntity([ADMIN_ACCESS]),
     controller.create);
-router.patch('/entity/:entityId/:id', auth.canAccessEntity([ADMIN_ACCESS]),
+router.patch('/entity/:entityId/:id', //auth.canAccessEntity([ADMIN_ACCESS]),
     controller.patch);
-router.delete('/entity/:entityId/:id', auth.canAccessEntity([ADMIN_ACCESS]),
+router.delete('/entity/:entityId/:id', //auth.canAccessEntity([ADMIN_ACCESS]),
     controller.destroy);
 
 module.exports = router;

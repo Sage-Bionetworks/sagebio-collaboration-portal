@@ -87,78 +87,96 @@ export function hasAccessToEntity(
         }
 
         return isAdmin(userId)
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? App
-                        .findById(entityId)
+            .then(isAuthorized => {
+                if (!isAuthorized) {
+                    const filter = {
+                        entityId,
+                        user: userId,
+                        access: {
+                            $in: allowedAccesses,
+                        },
+                        status: {
+                            $in: allowedAccessStatus,
+                        }
+                    };
+                    return EntityPermission.find(filter, '_id')
                         .exec()
-                        .then(app => !!app) // app is public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Tool
-                        .findById(entityId)
-                        .exec()
-                        .then(tool => !!tool) // tool are currently public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? DataCatalog
-                        .findById(entityId)
-                        .exec()
-                        .then(catalog => !!catalog) // data catalog are currently public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Project
-                        .findById(entityId)
-                        .exec()
-                        .then(project => !!project && project.visibility === 'Public') // project is public // TODO use enum
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Project
-                        .findById(entityId)
-                        .then(project => project && project._id)
-                        .then(entityIdToCheck => {
-                            if (!entityIdToCheck) {
-                                return Insight.findById(entityId)
-                                    .exec()
-                                    .then(insight => insight && insight.projectId);
-                            }
-                            return entityIdToCheck;
-                        })
-                        .then(entityIdToCheck => {
-                            if (!entityIdToCheck) {
-                                return Resource.findById(entityId)
-                                    .exec()
-                                    .then(resource => resource && resource.projectId);
-                            }
-                            return entityIdToCheck;
-                        })
-                        .then(entityIdToCheck => {
-                            if (entityIdToCheck) {
-                                const filter = {
-                                    entityId: entityIdToCheck,
-                                    user: userId,
-                                    access: {
-                                        $in: allowedAccesses,
-                                    },
-                                    status: {
-                                        $in: allowedAccessStatus,
-                                    },
-                                };
-                                return EntityPermission.find(filter)
-                                    .exec();
-                            }
-                            return false;
-                        })
-                    : isAuthorized)
-            )
+                        .then(permission => !!permission);
+                }
+                return isAuthorized;
+            })
+            // .then(isAuthorized =>
+            //     (!isAuthorized
+            //         ? App
+            //             .findById(entityId)
+            //             .exec()
+            //             .then(app => !!app) // app is public
+            //         : isAuthorized)
+            // )
+            // .then(isAuthorized =>
+            //     (!isAuthorized
+            //         ? Tool
+            //             .findById(entityId)
+            //             .exec()
+            //             .then(tool => !!tool) // tool are currently public
+            //         : isAuthorized)
+            // )
+            // .then(isAuthorized =>
+            //     (!isAuthorized
+            //         ? DataCatalog
+            //             .findById(entityId)
+            //             .exec()
+            //             .then(catalog => !!catalog) // data catalog are currently public
+            //         : isAuthorized)
+            // )
+            // .then(isAuthorized =>
+            //     (!isAuthorized
+            //         ? Project
+            //             .findById(entityId)
+            //             .exec()
+            //             .then(project => !!project && project.visibility === 'Public') // project is public // TODO use enum
+            //         : isAuthorized)
+            // )
+            // .then(isAuthorized =>
+            //     (!isAuthorized
+            //         ? Project
+            //             .findById(entityId)
+            //             .then(project => project && project._id)
+            //             .then(entityIdToCheck => {
+            //                 if (!entityIdToCheck) {
+            //                     return Insight.findById(entityId)
+            //                         .exec()
+            //                         .then(insight => insight && insight.projectId);
+            //                 }
+            //                 return entityIdToCheck;
+            //             })
+            //             .then(entityIdToCheck => {
+            //                 if (!entityIdToCheck) {
+            //                     return Resource.findById(entityId)
+            //                         .exec()
+            //                         .then(resource => resource && resource.projectId);
+            //                 }
+            //                 return entityIdToCheck;
+            //             })
+            //             .then(entityIdToCheck => {
+            //                 if (entityIdToCheck) {
+            //                     const filter = {
+            //                         entityId: entityIdToCheck,
+            //                         user: userId,
+            //                         access: {
+            //                             $in: allowedAccesses,
+            //                         },
+            //                         status: {
+            //                             $in: allowedAccessStatus,
+            //                         },
+            //                     };
+            //                     return EntityPermission.find(filter)
+            //                         .exec();
+            //                 }
+            //                 return false;
+            //             })
+            //         : isAuthorized)
+            // )
             .then(isAuthorized => resolve(isAuthorized))
             .catch(err => {
                 throw new Error(err);

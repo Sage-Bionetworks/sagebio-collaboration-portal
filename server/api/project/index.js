@@ -1,10 +1,8 @@
 var express = require('express');
 var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
-import {
-    accessTypes,
-    userRoles
-} from '../../config/environment';
+import { accessTypes, userRoles, entityTypes } from '../../config/environment';
+import Project from './project.model';
 
 const ADMIN_ROLE = userRoles.ADMIN.value;
 const READ_ACCESS = accessTypes.READ.value;
@@ -65,11 +63,11 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Project not found
  */
-router.get('/:entityId', auth.canAccessEntity([
-    READ_ACCESS,
-    WRITE_ACCESS,
-    ADMIN_ACCESS
-]), controller.show);
+router.get(
+    '/:id',
+    auth.canAccessEntity(controller.attachEntityForAuthorization, [READ_ACCESS, WRITE_ACCESS, ADMIN_ACCESS]),
+    controller.show
+);
 
 /**
  * @swagger
@@ -125,9 +123,11 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:entityId', auth.canAccessEntity([
-    ADMIN_ACCESS
-]), controller.patch);
+router.patch(
+    '/:entityId',
+    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
+    controller.patch
+);
 
 /**
  * @swagger
@@ -150,14 +150,18 @@ router.patch('/:entityId', auth.canAccessEntity([
 router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility);
 
 // TODO Document
-router.patch('/:entityId/visibility/public', auth.canAccessEntity([
-    ADMIN_ACCESS
-]), controller.makePublic);
+router.patch(
+    '/:entityId/visibility/public',
+    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
+    controller.makePublic
+);
 
 // TODO Document
-router.patch('/:entityId/visibility/private', auth.canAccessEntity([
-    ADMIN_ACCESS
-]), controller.makePrivate);
+router.patch(
+    '/:entityId/visibility/private',
+    auth.canAccessEntity(controller.attachEntityForAuthorization, [ADMIN_ACCESS]),
+    controller.makePrivate
+);
 
 /**
  * @swagger
