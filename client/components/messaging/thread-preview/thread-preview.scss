@@ -28,12 +28,19 @@
         padding-right: 5px;
     }
 
+    .app-thread-header-metadata-contributor {
+        display: flex;
+        flex-flow: row-reverse nowrap;
+        width: 155px;
+    }
+
     .app-thread-header-title {
         font-size: 18px;
         font-weight: 500;
         padding-right: 6px;
         justify-content: flex-start;
     }
+
     .app-thread-header-metadata-title {
         justify-content: flex-start;
         flex-grow: 2;
