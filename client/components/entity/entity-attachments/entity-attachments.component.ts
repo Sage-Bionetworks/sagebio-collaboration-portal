@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
 import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.model';
@@ -8,7 +8,7 @@ import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.m
     template: require('./entity-attachments.html'),
     styles: [require('./entity-attachments.scss')],
 })
-export class EntityAttachmentsComponent {
+export class EntityAttachmentsComponent implements OnInit {
     @Input() entityId: string;
     @Input() attachments: EntityAttachment[];
     @Input() mode: EntityAttachmentMode;
@@ -29,6 +29,9 @@ export class EntityAttachmentsComponent {
             attachmentType: [],
             attachmentName: [],
         });
+    }
+
+    ngOnInit() {
         this.attachments = this.attachments || [];
         this.mode = this.mode || EntityAttachmentMode.DISPLAY;
         this.isReadOnly = this.mode === EntityAttachmentMode.DISPLAY;
