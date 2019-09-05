@@ -34,7 +34,9 @@ router.get('/entity/:entityId',
 controller.indexByEntity);
 
 // Patches the thread specified.
-router.patch('/entity/:entityId/:id', auth.hasPermissionForEntityRelatedObject(Thread), controller.patch);
+router.patch('/entity/:entityId/:id',
+// auth.hasPermissionForEntityRelatedObject(Thread),
+controller.patch);
 
 // Deletes the thread specified.
 router.delete('/entity/:entityId/:id',
@@ -71,8 +73,9 @@ router.post('/entity/:entityId/:id/messages',
 controller.createMessage);
 
 // Patches the message specified.
-router.patch('/entity/:entityId/:id/messages/:messageId', auth.hasPermissionForEntityRelatedObject(Thread),
-    controller.patchMessage);
+router.patch('/entity/:entityId/:id/messages/:messageId',
+// auth.hasPermissionForEntityRelatedObject(Thread),
+controller.patchMessage);
 
 // Deletes the message specified.
 router.delete('/entity/:entityId/:id/messages/:messageId',

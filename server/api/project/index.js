@@ -1,15 +1,7 @@
 var express = require('express');
 var controller = require('./project.controller');
 var auth = require('../../auth/auth.service');
-var projectAuth = require('./project-auth.service');
-import { accessTypes, userRoles, entityTypes } from '../../config/environment';
-import Project from './project.model';
-import { attachesEntityAuthorizationDetails } from '../../auth/auth.service';
-
-const ADMIN_ROLE = userRoles.ADMIN.value;
-const READ_ACCESS = accessTypes.READ.value;
-const WRITE_ACCESS = accessTypes.WRITE.value;
-const ADMIN_ACCESS = accessTypes.ADMIN.value;
+var projectAuth = require('./project.auth');
 
 var router = express.Router();
 

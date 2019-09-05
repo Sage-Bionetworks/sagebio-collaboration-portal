@@ -1,18 +1,14 @@
 import User from '../api/user/user.model';
 import UserPermission from '../api/user-permission/user-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
-import Insight from '../api/insight/models/insight.model';
-import Resource from '../api/resource/models/resource.model';
-import Tool from '../api/tool/tool.model';
-import DataCatalog from '../api/data-catalog/data-catalog.model';
-import Project from '../api/project/project.model';
-import App from '../api/app/app.model';
 import config from '../config/environment';
 import AuthError from './auth-error';
 
+// This file implements authentication and authorization functions that can be used
+// to protect API endpoints and websocket communications.
+
 /**
- * Resolves as true if the user has the requested role.
- *
+ * Resolves as true if the user has the role specified.
  * @param {string} userId
  * @param {string} role
  * @return {Promise<boolean>}
@@ -37,8 +33,7 @@ export function hasRole(userId, role) {
 }
 
 /**
- * Resolves as true if the user is an admin.
- *
+ * Resolves as true if the user has the portal role Admin.
  * @param {string} userId
  * @return {Promise<boolean>}
  */
@@ -47,9 +42,7 @@ export function isAdmin(userId) {
 }
 
 /**
- * Resolves as true if the user has a portal admin role OR if the user has created the object.
- * TODO: Pass entityId and check fif the user is an admin of the entity?
- *
+ * Resolves as true if the user has the portal role Admin OR if the user has created the object.
  * @param {*} userId
  * @param {*} createdByUserId
  */
@@ -63,266 +56,9 @@ export function isOwner(userId, createdByUserId) {
     });
 }
 
-export function canReadEntity(
-    userId,
-    entityId,
-    entityType,
-    entityVisibility,
-    allowedAccesses = Object.values(config.accessTypes).map(access => access.value),
-    allowedAccessStatus = [config.inviteStatusTypes.ACCEPTED.value]
-) {
-    return new Promise(resolve => {
-        if (entityVisibility) {
-            return resolve(true);
-        }
-
-        return isAdmin(userId)
-            .then(isAuthorized => {
-                if (!isAuthorized) {
-                    const filter = {
-                        entityId,
-                        entityType,
-                        user: userId,
-                        access: {
-                            $in: allowedAccesses,
-                        },
-                        status: {
-                            $in: allowedAccessStatus,
-                        }
-                    };
-                    return EntityPermission.find(filter, '_id')
-                        .exec()
-                        .then(permission => !!permission);
-                }
-                return isAuthorized;
-            })
-            .then(isAuthorized => resolve(isAuthorized))
-            .catch(err => {
-                throw new Error(err);
-            });
-    });
-}
-
-export function canWriteEntity(
-    userId,
-    entityId,
-    entityType,
-    allowedAccesses = [
-        config.accessTypes.WRITE.value,
-        config.accessTypes.ADMIN.value
-    ],
-    allowedAccessStatus = [config.inviteStatusTypes.ACCEPTED.value]
-) {
-    return new Promise(resolve => {
-        return isAdmin(userId)
-            .then(isAuthorized => {
-                if (!isAuthorized) {
-                    const filter = {
-                        entityId,
-                        entityType,
-                        user: userId,
-                        access: {
-                            $in: allowedAccesses,
-                        },
-                        status: {
-                            $in: allowedAccessStatus,
-                        }
-                    };
-                    return EntityPermission.find(filter, '_id')
-                        .exec()
-                        .then(permission => !!permission);
-                }
-                return isAuthorized;
-            })
-            .then(isAuthorized => resolve(isAuthorized))
-            .catch(err => {
-                throw new Error(err);
-            });
-    });
-}
-
-export function canAdminEntity(
-    userId,
-    entityId,
-    entityType,
-    allowedAccesses = [
-        config.accessTypes.ADMIN.value
-    ],
-    allowedAccessStatus = [config.inviteStatusTypes.ACCEPTED.value]
-) {
-    return new Promise(resolve => {
-        return isAdmin(userId)
-            .then(isAuthorized => {
-                if (!isAuthorized) {
-                    const filter = {
-                        entityId,
-                        entityType,
-                        user: userId,
-                        access: {
-                            $in: allowedAccesses,
-                        },
-                        status: {
-                            $in: allowedAccessStatus,
-                        }
-                    };
-                    return EntityPermission.find(filter, '_id')
-                        .exec()
-                        .then(permission => !!permission);
-                }
-                return isAuthorized;
-            })
-            .then(isAuthorized => resolve(isAuthorized))
-            .catch(err => {
-                throw new Error(err);
-            });
-    });
-}
-
-/**
- * Resolves as true if the user has access to the specified entity.
- *
- * ASSUMPTION: MongoDB Object ID are unique at the database level (in reality at the collection level).
- * TODO: This implementation is not efficient as it is making way to many calls to the DB
- * because the type of the entity checked is not known.
- *
- * @param {string} userId
- * @param {string} allowedAccesses
- * @param {string} entityId
- * @return {Promise<boolean>}
- */
-export function hasAccessToEntity(
-    userId,
-    allowedAccesses,
-    entityId,
-    allowedAccessStatus = [config.inviteStatusTypes.ACCEPTED.value]
-) {
-    return new Promise(resolve => {
-        if (!allowedAccesses) {
-            return resolve(false);
-        }
-
-        return isAdmin(userId)
-            .then(isAuthorized => {
-                if (!isAuthorized) {
-                    const filter = {
-                        entityId,
-                        user: userId,
-                        access: {
-                            $in: allowedAccesses,
-                        },
-                        status: {
-                            $in: allowedAccessStatus,
-                        }
-                    };
-                    return EntityPermission.find(filter, '_id')
-                        .exec()
-                        .then(permission => !!permission);
-                }
-                return isAuthorized;
-            })
-            .then(isAuthorized => resolve(isAuthorized))
-            .catch(err => {
-                throw new Error(err);
-            });
-    });
-}
-
-export function hasAccessToEntityRelatedObject(userId, entityId, objectId, Model) {
-    return new Promise(resolve =>
-        isAdmin(userId)
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? App
-                        .findById(entityId)
-                        .exec()
-                        .then(app => !!app) // app is public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Tool
-                        .findById(entityId)
-                        .exec()
-                        .then(tool => !!tool) // tool are currently public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? DataCatalog
-                        .findById(entityId)
-                        .exec()
-                        .then(catalog => !!catalog) // data catalog are currently public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Project
-                        .findById(entityId)
-                        .exec()
-                        .then(project => !!project && project.visibility === 'Public') // project is public
-                    : isAuthorized)
-            )
-            .then(isAuthorized =>
-                (!isAuthorized
-                    ? Project
-                        .findById(entityId)
-                        .then(project => project && project._id)
-                        .then(entityIdToCheck => {
-                            if (!entityIdToCheck) {
-                                return Insight.findById(entityId)
-                                    .exec()
-                                    .then(insight => insight && insight.projectId);
-                            }
-                            return entityIdToCheck;
-                        })
-                        .then(entityIdToCheck => {
-                            if (!entityIdToCheck) {
-                                return Resource.findById(entityId)
-                                    .exec()
-                                    .then(resource => resource && resource.projectId);
-                            }
-                            return entityIdToCheck;
-                        })
-                        .then(entityIdToCheck => {
-                            if (entityIdToCheck) {
-                                const filter = {
-                                    entityId: entityIdToCheck,
-                                    user: userId,
-                                    status: config.inviteStatusTypes.ACCEPTED.value,
-                                };
-                                return EntityPermission.find(filter)
-                                    .exec()
-                                    .then(entityPermission => {
-                                        if (entityPermission) {
-                                            if (entityPermission.access === config.accessTypes.ADMIN.value) {
-                                                return true;
-                                            } else if ([config.accessTypes.READ.value, config.accessTypes.WRITE.value].includes(entityPermission.access)) {
-                                                return Model.findById(objectId)
-                                                    .exec()
-                                                    .then(object =>
-                                                        (object
-                                                            ? object.createdBy === userId
-                                                            : false)
-                                                    );
-                                            }
-                                        }
-                                        return false;
-                                    });
-                            }
-                            return false;
-                        })
-                    : isAuthorized)
-            )
-            .then(isAuthorized => resolve(isAuthorized))
-            .catch(err => {
-                throw new Error(err);
-            })
-    );
-}
-
 /**
  * Resolves as true if the user has the permission specified.
- *
+ * TODO: Rename `user-permission` into `action-permission`
  * @param {string} userId
  * @param {string} permission
  * @return {Promise<boolean>}
@@ -343,6 +79,79 @@ export function hasUserPermission(userId, permission) {
                     return UserPermission.find(filter)
                         .exec()
                         .then(userPermission => !!userPermission);
+                }
+                return isAuthorized;
+            })
+            .then(isAuthorized => resolve(isAuthorized))
+            .catch(err => {
+                throw new Error(err);
+            });
+    });
+}
+
+/**
+ * Resolves as true if the entity is public or if the user has one of the entity-permission specified.
+ * @param {*} userId
+ * @param {*} entityId
+ * @param {*} entityType
+ * @param {*} entityVisibility
+ * @param {*} allowedAccesses
+ * @param {*} allowedAccessStatus
+ */
+export function canReadEntity(
+    userId,
+    entityId,
+    entityType,
+    entityVisibility,
+    allowedAccesses,
+    allowedAccessStatus
+) {
+    return new Promise(resolve => {
+        if (entityVisibility) {
+            return resolve(true);
+        }
+
+        return hasEntityPermission(userId, entityId, entityType, allowedAccesses, allowedAccessStatus);
+    });
+}
+
+/**
+ * Resolves as true if the user has one of the entity-permission specified.
+ * @param {*} userId
+ * @param {*} entityId
+ * @param {*} entityType
+ * @param {*} allowedAccesses
+ * @param {*} allowedAccessStatus
+ */
+export function hasEntityPermission(
+    userId,
+    entityId,
+    entityType,
+    allowedAccesses,
+    allowedAccessStatus
+) {
+    return new Promise(resolve => {
+        if (!allowedAccesses) {
+            return resolve(false);
+        }
+
+        return isAdmin(userId)
+            .then(isAuthorized => {
+                if (!isAuthorized) {
+                    const filter = {
+                        entityId,
+                        entityType,
+                        user: userId,
+                        access: {
+                            $in: allowedAccesses,
+                        },
+                        status: {
+                            $in: allowedAccessStatus,
+                        },
+                    };
+                    return EntityPermission.find(filter, '_id')
+                        .exec()
+                        .then(permission => !!permission);
                 }
                 return isAuthorized;
             })

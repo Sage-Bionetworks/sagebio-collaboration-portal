@@ -81,7 +81,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Data Catalog
  */
-router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
+router.post('/', /* auth.hasPermission('createDataCatalog'), */ controller.create);
 
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
  *       '404':
  *         description: Data Catalog not found
  */
-router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
+router.put('/:id', /* auth.hasPermission('editDataCatalog'), */ controller.upsert);
 
 /**
  * @swagger
@@ -139,7 +139,7 @@ router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
  *       '404':
  *         description: Data Catalog not found
  */
-router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
+router.patch('/:id', /* auth.hasPermission('editDataCatalog'), */ controller.patch);
 
 /**
  * @swagger
@@ -167,6 +167,6 @@ router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
  *       '404':
  *         description: Data Catalog not found
  */
-router.delete('/:id', auth.hasPermission('deleteDataCatalog'), controller.destroy);
+router.delete('/:id', /* auth.hasPermission('deleteDataCatalog'), */ controller.destroy);
 
 module.exports = router;

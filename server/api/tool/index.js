@@ -81,7 +81,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Tool
  */
-router.post('/', auth.hasPermission('createTool'), controller.create);
+router.post('/', /* auth.hasPermission('createTool'), */ controller.create);
 
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.post('/', auth.hasPermission('createTool'), controller.create);
  *       '404':
  *         description: Tool not found
  */
-router.put('/:id', auth.hasPermission('editTool'), controller.upsert);
+router.put('/:id', /* auth.hasPermission('editTool'), */ controller.upsert);
 
 /**
  * @swagger
@@ -139,7 +139,7 @@ router.put('/:id', auth.hasPermission('editTool'), controller.upsert);
  *       '404':
  *         description: Tool not found
  */
-router.patch('/:id', auth.hasPermission('editTool'), controller.patch);
+router.patch('/:id', /* auth.hasPermission('editTool'), */ controller.patch);
 
 /**
  * @swagger
@@ -167,6 +167,6 @@ router.patch('/:id', auth.hasPermission('editTool'), controller.patch);
  *       '404':
  *         description: Tool not found
  */
-router.delete('/:id', auth.hasPermission('deleteTool'), controller.destroy);
+router.delete('/:id', /* auth.hasPermission('deleteTool'), */ controller.destroy);
 
 module.exports = router;
