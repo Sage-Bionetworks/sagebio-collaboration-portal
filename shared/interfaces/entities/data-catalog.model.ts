@@ -11,8 +11,6 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
- *         slug:
- *           type: string
  *         name:
  *           type: string
  *         description:
@@ -34,7 +32,6 @@ import { Entity } from './entity.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface DataCatalog extends Entity {
-    slug: string;
     picture: string;
     website: string;
     organization: Organization;
