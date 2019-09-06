@@ -4,7 +4,7 @@ import {
 } from '../insight.events';
 import User from '../../user/user.model';
 import config from '../../../config/environment';
-import EntityAttachment from '../../attachments/entity-attachment.schema';
+import EntityAttachments from '../../attachments/entity-attachments.schema';
 
 const options = {
     discriminatorKey: 'insightType',
@@ -39,7 +39,10 @@ var InsightSchema = new mongoose.Schema({
         ref: 'User',
         required: false
     },
-    attachments: [EntityAttachment],
+    attachments: {
+        type: Object,
+        ref: 'EntityAttachments',
+    },
 }, options);
 
 /**
