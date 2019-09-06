@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import * as NotificationController from './controllers/notification.controller';
+import * as UserNotificationController from './user-notification.controller';
 
 import * as auth from '../../auth/auth.service';
 
 var router = Router();
 
-router.get('/', auth.isAuthenticated(), NotificationController.indexMine);
-router.patch('/:id/archive', NotificationController.archive);
-// router.get('/message-notification/:id', messageNotificationController.show);
-// router.post('/message-notification/', messageNotificationController.create);
+router.get('/', auth.isAuthenticated(), UserNotificationController.indexMine);
+router.patch('/:id/archive', auth.isAuthenticated(), UserNotificationController.archive);
+router.post('/', auth.isAuthenticated(), UserNotificationController.create);
 
 module.exports = router;

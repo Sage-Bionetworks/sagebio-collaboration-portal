@@ -3,9 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
-import { MessageNotification } from 'models/user-notification/message-notificiation.model'
-import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
-import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model'
 import { UserNotification } from 'models/user-notification/user-notification.model';
 
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -37,8 +34,8 @@ export class UserNotificationService {
         return this.httpClient.patch<UserNotification>(`/api/user-notifications/${notification._id}/archive`, []);
     }
 
-    // createNotifications(messageNotification: MessageNotification): Observable<MessageNotification> {
-    //     return this.httpClient.post<MessageNotification>(`/api/user-notifications/message-notification/${messageNotification.user}`, messageNotification);
-    // }
+    createNotification<N extends UserNotification>(notification: N): Observable<N> {
+        return this.httpClient.post<N>('/api/user-notifications/', notification);
+    }
 
 }
