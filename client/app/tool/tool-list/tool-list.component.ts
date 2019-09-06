@@ -19,7 +19,7 @@ export class ToolListComponent implements OnInit {
 
     onEntityClick(tool: Tool) {
         if (tool) {
-            this.router.navigate(['/tools', tool.slug]);
+            this.router.navigate(['/tools', tool._id]);
         }
     }
 }

@@ -1,6 +1,4 @@
-import compose from 'composable-middleware';
 import * as auth from '../../auth/auth.service';
-import * as authBase from '../../auth/auth';
 import { entityTypes, accessTypes, actionPermissionTypes } from '../../config/environment';
 import DataCatalog from './data-catalog.model';
 

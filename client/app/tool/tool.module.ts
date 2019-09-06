@@ -27,20 +27,15 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'tools/:slug',
+        path: 'tools/:id',
         component: ToolComponent,
         canActivate: [AuthGuard],
     },
     {
-        path: 'tools/:slug/discussion',
+        path: 'tools/:id/discussion',
         component: ToolThreadListComponent,
         canActivate: [AuthGuard]
-    },
-    // {
-    //     path: 'tools/:slug/discussion/:threadId',
-    //     component: ToolDiscussionComponent,
-    //     canActivate: [AuthGuard]
-    // },
+    }
 ];
 
 @NgModule({

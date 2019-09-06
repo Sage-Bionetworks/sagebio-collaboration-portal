@@ -25,11 +25,6 @@ export const actionPermissionTypes = {
         value: 'CreateTool'
     }
 };
-// [
-//     'createTool',
-//     'editTool',
-//     'deleteTool'
-// ];
 
 export const entityTypes = {
     APP: {
@@ -38,11 +33,11 @@ export const entityTypes = {
     PROJECT: {
         value: 'project'
     },
-    TOOL: {
-        value: 'tool'
-    },
     DATA_CATALOG: {
         value: 'data-catalog'
+    },
+    TOOL: {
+        value: 'tool'
     }
 };
 
