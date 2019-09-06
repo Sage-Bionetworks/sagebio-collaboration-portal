@@ -28,7 +28,7 @@ export class ProjectListComponent implements OnInit {
             .subscribe(
                 permissions => (this.canCreateProjects = permissions.canCreateProjects()),
                 err => console.error(err)
-            );
+            ); // unsubscribe in destructor
     }
 
     onEntityClick(project: Project) {

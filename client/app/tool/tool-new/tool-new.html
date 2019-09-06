@@ -1,6 +1,6 @@
 <div class="app-primary-header">
-    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
-    <h1>Add a New Tool</h1>
+    <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
+    <h1>Create a New Tool</h1>
 </div>
 
 <mat-card class="app-tool-new-card">
@@ -58,8 +58,8 @@
                 {{ errors.newTool }}
             </mat-error>
             <div class="app-tool-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewTool()">Add New Tool</a>
-                <a mat-button (click)="close.emit(null)">Cancel</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewTool()">Add New Tool</a>
+                <a mat-button routerLink="/tools">Cancel</a>
             </div>
         </form>
     </mat-card-content>

@@ -28,7 +28,7 @@ export class ToolListComponent implements OnInit {
             .subscribe(
                 permissions => (this.canCreateTools = permissions.canCreateTools()),
                 err => console.error(err)
-            );
+            ); // unsubscribe in destructor
     }
 
     onEntityClick(tool: Tool) {

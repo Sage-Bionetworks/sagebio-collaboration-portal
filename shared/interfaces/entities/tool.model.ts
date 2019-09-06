@@ -11,8 +11,6 @@ import { Organization } from '../organization.model';
  *       properties:
  *         _id:
  *           type: string
- *         slug:
- *           type: string
  *         name:
  *           type: string
  *         description:
@@ -34,7 +32,7 @@ import { Organization } from '../organization.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface Tool extends Entity {
-    slug: string;
+    // slug: string;
     picture: string;
     website: string;
     organization: Organization;

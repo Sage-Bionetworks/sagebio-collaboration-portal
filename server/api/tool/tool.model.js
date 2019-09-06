@@ -5,11 +5,11 @@ import {
 import config from '../../config/environment';
 
 var ToolSchema = new mongoose.Schema({
-    slug: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    // slug: {
+    //     type: String,
+    //     required: true,
+    //     unique: true
+    // },
     title: {
         type: String,
         required: true
