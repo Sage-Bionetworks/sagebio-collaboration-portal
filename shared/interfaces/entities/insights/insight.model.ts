@@ -1,4 +1,4 @@
-import { Entity, EntityAttachment } from '../entity.model';
+import { Entity } from '../entity.model';
 
 /**
  * @swagger
@@ -19,5 +19,11 @@ import { Entity, EntityAttachment } from '../entity.model';
 export interface Insight extends Entity {
     projectId: string;
     insightType: string;
-    attachments?: EntityAttachment[];
+}
+
+// WIP Front-end InsightAttachment interface
+export interface InsightAttachment {
+    entityId?: string;
+    entityType?: string;
+    name?: string;
 }

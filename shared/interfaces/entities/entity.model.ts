@@ -1,4 +1,6 @@
 import { UserProfile } from '../auth/user-profile.model';
+import { InsightAttachment } from './insights/insight.model';
+import { ResourceAttachment } from './resources/resource.model';
 
 export interface Entity {
     _id?: string;
@@ -7,13 +9,18 @@ export interface Entity {
     visibility: EntityVisibility;
     createdAt: string;
     createdBy: UserProfile;
+    attachments?: EntityAttachments;
 }
 
-export interface EntityAttachment {
-    _id?: string;
-    model: string;
-    source?: string;
-    name?: string;
+// WIP Front-end EntityAttachments interface
+export interface EntityAttachments {
+    insights?: InsightAttachment[];
+    resources?: ResourceAttachment[];
+}
+
+export enum EntityAttachmentKeys {
+    INSIGHT = 'Insight',
+    RESOURCE = 'Resource',
 }
 
 export enum EntityAttachmentMode {
