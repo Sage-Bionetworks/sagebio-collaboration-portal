@@ -9,7 +9,6 @@ import app from '../primus/primus-app';
 const registerFunctions = [
     // Insert sockets below
     require('../api/provenance/provenance.socket').register,
-    require('../api/invite/invite.socket').register,
     require('../api/entity-permission/entity-permission.socket').register,
     require('../api/starred-message/starred-message.socket').register,
     require('../api/message/message.socket').register,
