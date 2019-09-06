@@ -4,7 +4,9 @@ var ResourceAttachmentSchema = new mongoose.Schema({
     entityId: {
         type: String,
     },
-    // WIP Remove name and use the entityId when lookup is implemented
+    entityType: {
+        type: String,
+    },
     name: {
         type: String,
     },

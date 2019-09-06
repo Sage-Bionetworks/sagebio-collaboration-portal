@@ -21,7 +21,6 @@ export interface Insight extends Entity {
     insightType: string;
 }
 
-// WIP Front-end InsightAttachment interface
 export interface InsightAttachment {
     entityId?: string;
     entityType?: string;
