@@ -67,7 +67,7 @@ export class InsightService implements EntityService<Insight> {
     updateInsightAttachments(insight: Insight, attachments: EntityAttachments[]): Observable<Insight> {
         return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
             [
-                // { op: 'replace', path: '/attachments', value: attachments }
+                { op: 'replace', path: '/attachments', value: attachments }
             ]
         );
     }
