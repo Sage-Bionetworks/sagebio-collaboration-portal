@@ -1,10 +1,13 @@
-import { values } from 'lodash/fp';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { entityAttachmentTypes } from '../../../../server/config/environment/shared';
+
 import { EntityAttachments, EntityAttachmentMode, EntityAttachmentKeys } from 'models/entities/entity.model';
 import { InsightAttachment } from 'models/entities/insights/insight.model';
 import { ResourceAttachment } from 'models/entities/resources/resource.model';
+
+import { InsightService } from 'components/insight/insight.service';
+import { ResourceService } from 'components/resource/resource.service';
 
 @Component({
     selector: 'entity-attachments',
@@ -28,9 +31,11 @@ export class EntityAttachmentsComponent implements OnInit {
     private resources: ResourceAttachment[];
     private newResourceAttachment: ResourceAttachment | null;
 
-    static parameters = [FormBuilder];
+    static parameters = [FormBuilder, InsightService, ResourceService];
     constructor (
         private formBuilder: FormBuilder,
+        private insightService: InsightService,
+        private resourceService: ResourceService,
     ) {
         this.entityAttachmentTypes = entityAttachmentTypes;
         this.attachmentForm = this.formBuilder.group({
@@ -70,7 +75,7 @@ export class EntityAttachmentsComponent implements OnInit {
         }
     }
 
-    updateNewAttachmentType(selectedItem): void {
+    updateNewAttachmentType(selectedItem) {
         const type = selectedItem.source.selected.group.label;
         const model = selectedItem.value;
 
@@ -79,12 +84,38 @@ export class EntityAttachmentsComponent implements OnInit {
                 this.newInsightAttachment = {
                     entityType: model,
                 };
+
+                const insightQuery = { insightType: model.toLowerCase(), // Current implementation -> "report", "memo", etc
+                    projectId: this.entityId };
+
+                this.insightService.query(insightQuery)
+                    .subscribe(insights => {
+                        console.log(`
+                            Found ${insights.count} matching ${model} insight(s) for projectId ${this.entityId}
+                        `);
+                    }, err => {
+                        console.log(err);
+                    });
                 break;
+
             case EntityAttachmentKeys.RESOURCE:
                 this.newResourceAttachment = {
                     entityType: model,
                 };
+
+                const resourceQuery = { resourceType: model, // Current implementation -> "Article", "Dashboard", etc
+                    projectId: this.entityId };
+
+                this.resourceService.query(resourceQuery)
+                    .subscribe(resources => {
+                        console.log(`
+                            Found ${resources.count} matching ${model} resource(s) for projectId ${this.entityId}
+                        `);
+                    }, err => {
+                        console.log(err);
+                    });
                 break;
+
             default:
                 console.log(`Received unexpected attachment type ${type}`);
                 this.newInsightAttachment = null;
@@ -94,6 +125,7 @@ export class EntityAttachmentsComponent implements OnInit {
     }
 
     update(): void {
+        // WIP Obtain the entityId for the selected attachment when implemented
         const attachmentName = this.attachmentForm.value.attachmentName;
 
         if (this.newInsightAttachment) {
