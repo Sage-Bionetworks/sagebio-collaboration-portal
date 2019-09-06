@@ -161,3 +161,32 @@ export function hasEntityPermission(
             });
     });
 }
+
+/**
+ * Resolves as true if the user has one of the entity-permission specified
+ * AND is the entity owner id.
+ * @param {R} userId
+ * @param {*} entityId
+ * @param {*} entityType
+ * @param {*} entityOwnerId
+ * @param {*} allowedAccesses
+ * @param {*} allowedAccessStatus
+ */
+export function isEntityOwner(
+    userId,
+    entityId,
+    entityType,
+    entityOwnerId,
+    allowedAccesses,
+    allowedAccessStatus
+) {
+    return hasEntityPermission(
+        userId,
+        entityId,
+        entityType,
+        entityOwnerId,
+        allowedAccesses,
+        allowedAccessStatus
+    )
+        .then(isAuthorized => isAuthorized && userId.toString() === entityOwnerId.toString());
+}

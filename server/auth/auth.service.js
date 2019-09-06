@@ -3,7 +3,12 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
-import { hasRole as hasRole_, hasUserPermission as hasUserPermission_, canReadEntity as canReadEntity_ } from './auth';
+import {
+    hasRole as hasRole_,
+    hasUserPermission as hasUserPermission_,
+    canReadEntity as canReadEntity_,
+    hasEntityPermission as hasEntityPermission_
+} from './auth';
 const url = require('url');
 
 var validateJwt = expressJwt({
@@ -130,7 +135,7 @@ export function hasEntityPermission(
         .use(isAuthenticated())
         .use(attachEntityAuthorizationDetails_)
         .use((req, res, next) =>
-            canReadEntity_(req.user._id, req.entity._id, req.entity.entityType, allowedAccesses, allowedAccessStatus)
+            hasEntityPermission_(req.user._id, req.entity._id, req.entity.entityType, allowedAccesses, allowedAccessStatus)
                 .then(accessGranted => {
                     if (accessGranted) return next();
                     return null;

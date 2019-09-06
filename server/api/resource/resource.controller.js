@@ -1,19 +1,16 @@
-import Resource from './models/resource.model';
-import EntityPermission from '../entity-permission/entity-permission.model';
-import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
+import { union } from 'lodash/fp';
+import { merge } from 'lodash';
+import { isAdmin } from '../../auth/auth';
 import {
     respondWithResult,
     patchUpdates,
-    // removeEntity,
+    removeEntity,
     handleEntityNotFound,
     handleError,
 } from '../util';
-import { union, pick, pickBy, identity } from 'lodash/fp';
-import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
-import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
-import { merge } from 'lodash';
 import { buildEntityIndexQuery } from '../entity-util';
+import Resource from './models/resource.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -52,28 +49,6 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-
-
-
-
-
-
-
-
-
-export function indexByEntity(req, res) {
-    let filters = req.query;
-    filters.projectId = req.params.entityId;
-    return Resource.find(filters)
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-
-
-
-
 // Creates a new Resource in the DB
 export function create(req, res) {
     return Resource.create({
@@ -96,13 +71,14 @@ export function patch(req, res) {
         .catch(handleError(res));
 }
 
-// // Deletes a Resource from the DB
-// export function destroy(req, res) {
-//     return Resource.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
-//         .catch(handleError(res));
-// }
+// Deletes a Resource from the DB
+export function destroy(req, res) {
+    return Resource.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
 
 // HELPER FUNCTIONS
 

@@ -86,22 +86,61 @@ router.get('/:id', resourceAuth.canReadResource(), controller.show);
  */
 router.post('/', resourceAuth.canCreateResource(), controller.create);
 
-
-
-
+/**
+ * @swagger
+ * /resources:
+ *   patch:
+ *     tags:
+ *       - Resources
+ *     summary: Updates a Resource.
+ *     description: Updates a Resource.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Resource to update
+ *         schema:
+ *           $ref: '#/components/schemas/Resource'
+ *     responses:
+ *       '201':
+ *         description: The Resource updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resource'
+ *       '400':
+ *         description: Invalid Resource supplied
+ *       '404':
+ *         description: Resource not found
+ */
 router.patch('/:id', resourceAuth.canEditResource(), controller.patch);
 
-
-
-
-// router.get('/entity/:entityId',
-// // auth.canAccessEntity([
-// //     READ_ACCESS,
-// //     WRITE_ACCESS,
-// //     ADMIN_ACCESS
-// // ]),
-// controller.indexByEntity);
-
-// router.delete('/:id', controller.destroy);
+/**
+ * @swagger
+ * /resources/{id}:
+ *   delete:
+ *     tags:
+ *       - Resources
+ *     summary: Deletes a Resource by ID.
+ *     description: Deletes a Resource by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the Resource that needs to be deleted
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '204':
+ *         description: Resource successfully removed
+ *       '400':
+ *         description: Invalid Resource supplied
+ *       '404':
+ *         description: Resource not found
+ */
+router.delete('/:id', resourceAuth.canDeleteResource(), controller.destroy);
 
 module.exports = router;
