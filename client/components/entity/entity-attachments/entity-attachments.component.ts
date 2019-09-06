@@ -21,7 +21,6 @@ export class EntityAttachmentsComponent implements OnInit {
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
     private entityAttachmentTypes;
-    private showEntityAttachmentForm = false;
     private isReadOnly = true;
     private attachmentForm: FormGroup;
     private options;
@@ -156,6 +155,5 @@ export class EntityAttachmentsComponent implements OnInit {
         this.attachmentForm.reset();
         this.newInsightAttachment = null;
         this.newResourceAttachment = null;
-        this.showEntityAttachmentForm = false;
     }
 }
