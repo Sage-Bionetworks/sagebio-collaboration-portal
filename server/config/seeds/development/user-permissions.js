@@ -1,29 +1,12 @@
-import mongoose from 'mongoose';
-import {
-    adminUserId,
-    testUserId
-} from './users';
+import { adminUserId, testUserId } from './users';
+import { actionPermissionTypes } from '../../environment';
 
-// TODO: import permission values from unique definition
+let userPermissions = [
+    {
+        user: testUserId,
+        permission: actionPermissionTypes.CREATE_PROJECT.value,
+        createdBy: adminUserId,
+    },
+];
 
-let userPermissions = [{
-    user: adminUserId,
-    permission: 'createTool',
-    createdBy: adminUserId
-}, {
-    user: adminUserId,
-    permission: 'editTool',
-    createdBy: adminUserId
-}, {
-    user: adminUserId,
-    permission: 'deleteTool',
-    createdBy: adminUserId
-}, {
-    user: testUserId,
-    permission: 'editTool',
-    createdBy: adminUserId
-}];
-
-export {
-    userPermissions
-};
+export { userPermissions };

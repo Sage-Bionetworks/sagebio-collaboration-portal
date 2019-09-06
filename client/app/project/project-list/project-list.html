@@ -1,7 +1,7 @@
 <div class="app-primary-header app-project-list-header">
     <h1 class="app-primary-header-title">Projects</h1>
     <div class="app-project-list-actions">
-        <a mat-raised-button color="warn" class="app-project-list-new-project" routerLink="new" aria-label="Create project">Create a New Project</a>
+        <a *ngIf="canCreateProject" mat-raised-button color="warn" class="app-project-list-new-project" routerLink="new" aria-label="Create project">Create a New Project</a>
     </div>
 </div>
 

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 //     registerEvents
 // } from './permission.events';
 import {
-  permissionTypes
+  actionPermissionTypes
 } from '../../config/environment';
 
 var UserPermissionSchema = new mongoose.Schema({
@@ -14,7 +14,7 @@ var UserPermissionSchema = new mongoose.Schema({
     },
     permission: {
         type: String,
-        enum: permissionTypes,
+        enum: Object.values(actionPermissionTypes).map(action => action.value),
         required: true
     },
     createdAt: {
