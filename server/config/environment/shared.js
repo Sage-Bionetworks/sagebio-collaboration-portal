@@ -109,14 +109,14 @@ export const resourceTypes = {
 
 export const entityAttachmentTypes = [
     {
-        name: 'Insights',
+        name: 'Insight',
         options: [
             { type: insightTypes.MEMO.name },
             { type: insightTypes.REPORT.name },
         ],
     },
     {
-        name: 'Resources',
+        name: 'Resource',
         options: [
             { type: resourceTypes.ARTICLE.name },
             { type: resourceTypes.DASHBOARD.name },
