@@ -52,11 +52,6 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-
-
-
-
-
 // Creates a new Project in the DB
 export function create(req, res) {
     Reflect.deleteProperty(req.body, 'createdAt');
@@ -70,13 +65,23 @@ export function create(req, res) {
 
 // Updates an existing Project in the DB
 export function patch(req, res) {
-    const patches = req.body.filter(patch => !['_id', 'visibility', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+    const patches = req.body.filter(patch => !['_id', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+    // TODO sanitize visibility
 
     return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
         .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Deletes a Project from the DB
+export function destroy(req, res) {
+    return Project.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
         .catch(handleError(res));
 }
 
@@ -119,15 +124,6 @@ export function makePrivate(req, res) {
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
         .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Deletes a Project from the DB
-export function destroy(req, res) {
-    return Project.findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
         .catch(handleError(res));
 }
 

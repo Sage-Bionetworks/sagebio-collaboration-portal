@@ -36,7 +36,7 @@ var projectIndex = proxyquire('./index.js', {
     './project.controller': projectCtrlStub,
 });
 
-describe.only('Project API Router:', function () {
+describe('Project API Router:', function () {
     it('should return an express router instance', function () {
         expect(projectIndex).to.equal(routerStub);
     });
