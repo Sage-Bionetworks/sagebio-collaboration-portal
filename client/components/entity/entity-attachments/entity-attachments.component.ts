@@ -24,6 +24,7 @@ export class EntityAttachmentsComponent implements OnInit {
     private showEntityAttachmentForm = false;
     private isReadOnly = true;
     private attachmentForm: FormGroup;
+    private options;
 
     // Attachments
     private insights: InsightAttachment[];
@@ -40,7 +41,7 @@ export class EntityAttachmentsComponent implements OnInit {
         this.entityAttachmentTypes = entityAttachmentTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [],
-            attachmentName: [],
+            attachmentId: [],
         });
     }
 
@@ -93,6 +94,7 @@ export class EntityAttachmentsComponent implements OnInit {
                         console.log(`
                             Found ${insights.count} matching ${model} insight(s) for projectId ${this.entityId}
                         `);
+                        this.options = insights.results;
                     }, err => {
                         console.log(err);
                     });
@@ -111,6 +113,7 @@ export class EntityAttachmentsComponent implements OnInit {
                         console.log(`
                             Found ${resources.count} matching ${model} resource(s) for projectId ${this.entityId}
                         `);
+                        this.options = resources.results;
                     }, err => {
                         console.log(err);
                     });
@@ -124,17 +127,21 @@ export class EntityAttachmentsComponent implements OnInit {
         }
     }
 
-    update(): void {
-        // WIP Obtain the entityId for the selected attachment when implemented
-        const attachmentName = this.attachmentForm.value.attachmentName;
+    update(event): void {
+        const attachmentName = event.source.triggerValue || '';
+        const attachmentId = this.attachmentForm.value.attachmentId;
 
         if (this.newInsightAttachment) {
             this.newInsightAttachment.name = attachmentName;
+            this.newInsightAttachment.entityId = attachmentId;
+
             this.insights.push(this.newInsightAttachment);
         }
 
         if (this.newResourceAttachment) {
             this.newResourceAttachment.name = attachmentName;
+            this.newResourceAttachment.entityId = attachmentId;
+
             this.resources.push(this.newResourceAttachment);
         }
 
