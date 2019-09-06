@@ -27,6 +27,10 @@ export class ResourceService implements EntityService<Resource> {
         throw new Error('Method not implemented.');
     }
 
+    create(resource: Resource): Observable<Resource> {
+        return this.httpClient.post<Resource>('/api/resources', resource);
+    }
+
     makePublic(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
     }
@@ -46,10 +50,6 @@ export class ResourceService implements EntityService<Resource> {
 
     getResource(resourceId: string): Observable<Resource> {
         return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
-    }
-
-    create(resource: Resource): Observable<Resource> {
-        return this.httpClient.post<Resource>('/api/resources', resource);
     }
 
     updateResourceDescription(resource: Resource, description: string): Observable<Resource> {

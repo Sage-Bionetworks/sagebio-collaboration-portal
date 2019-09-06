@@ -25,7 +25,11 @@ export class ToolService implements EntityService<Tool> {
     }
 
     getBySlug(slug: string): Observable<Tool> {
-        return this.httpClient.get<Tool>(`/api/tools/${slug}`);
+        throw new Error('Method not implemented.');
+    }
+
+    create(tool: Tool): Observable<Tool> {
+        return this.httpClient.post<Tool>('/api/tools', tool);
     }
 
     makePublic(entity: Tool): Observable<Tool> {
@@ -74,10 +78,6 @@ export class ToolService implements EntityService<Tool> {
 
     getToolHealth(tool: Tool): Observable<ToolHealth> {
         return this.httpClient.get<ToolHealth>(`${tool.apiHealthCheckUrl}/health`);
-    }
-
-    create(tool: Tool): Observable<Tool> {
-        return this.httpClient.post<Tool>('/api/tools', tool);
     }
 
     remove(tool: Tool): Observable<Tool> {

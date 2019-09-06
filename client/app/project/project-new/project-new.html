@@ -30,7 +30,7 @@
             </mat-error>
             <div class="app-project-new-form-actions">
                 <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewProject()">Create New Project</a>
-                <a mat-button (click)="close.emit(null)">Cancel</a>
+                <a mat-button routerLink="/projects">Cancel</a>
             </div>
         </form>
     </mat-card-content>

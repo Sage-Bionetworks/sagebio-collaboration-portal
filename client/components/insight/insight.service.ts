@@ -27,6 +27,10 @@ export class InsightService implements EntityService<Insight> {
         throw new Error('Method not implemented.');
     }
 
+    create(insight: Insight): Observable<Insight> {
+        return this.httpClient.post<Insight>('/api/insights', insight);
+    }
+
     makePublic(entity: Insight): Observable<Insight> {
         throw new Error('Method not implemented.');
     }
@@ -46,10 +50,6 @@ export class InsightService implements EntityService<Insight> {
 
     getInsight(insightId: string): Observable<Insight> {
         return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
-    }
-
-    create(insight: Insight): Observable<Insight> {
-        return this.httpClient.post<Insight>('/api/insights', insight);
     }
 
     updateInsightDescription(insight: Insight, description: string): Observable<Insight> {

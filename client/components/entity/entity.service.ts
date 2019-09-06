@@ -37,6 +37,12 @@ export abstract class EntityService<E extends Entity> {
     abstract getBySlug(slug: string): Observable<E>;
 
     /**
+     * Creates a new entity.
+     * @param id
+     */
+    abstract create(entity: E): Observable<E>;
+
+    /**
      * Makes an entity public.
      * @param entity
      */

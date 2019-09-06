@@ -22,7 +22,11 @@ export class DataCatalogService implements EntityService<DataCatalog> {
     }
 
     getBySlug(slug: string): Observable<DataCatalog> {
-        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/slug/${slug}`);
+        throw new Error('Method not implemented.');
+    }
+
+    create(catalog: DataCatalog): Observable<DataCatalog> {
+        return this.httpClient.post<DataCatalog>('/api/data-catalogs', catalog);
     }
 
     makePublic(entity: DataCatalog): Observable<DataCatalog> {

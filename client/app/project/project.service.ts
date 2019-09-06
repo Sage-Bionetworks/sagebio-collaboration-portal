@@ -27,6 +27,10 @@ export class ProjectService implements EntityService<Project> {
         throw new Error('Method not implemented.');
     }
 
+    create(project: Project): Observable<Project> {
+        return this.httpClient.post<Project>('/api/projects', project);
+    }
+
     makePublic(entity: Project): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
     }
@@ -47,10 +51,6 @@ export class ProjectService implements EntityService<Project> {
 
     getVisibility(projectId: string): Observable<EntityVisibility> {
         return this.httpClient.get<EntityVisibility>(`/api/projects/${projectId}/visibility`);
-    }
-
-    create(project: Project): Observable<Project> {
-        return this.httpClient.post<Project>('/api/projects', project);
     }
 
     update(projectId: string, patches: Patch[]): Observable<Project> {

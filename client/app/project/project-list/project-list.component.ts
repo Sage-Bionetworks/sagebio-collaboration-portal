@@ -12,8 +12,6 @@ import config from '../../../app/app.constants';
     styles: [require('./project-list.scss')],
 })
 export class ProjectListComponent implements OnInit {
-    private createNewProject = false;
-
     static parameters = [Router, PageTitleService, NotificationService, ProjectService];
     constructor(
         private router: Router,
@@ -33,7 +31,6 @@ export class ProjectListComponent implements OnInit {
     }
 
     onNewProject(project: Project): void {
-        this.createNewProject = false;
         this.notificationService.info('The Project has been successfully created');
     }
 }

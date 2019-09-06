@@ -41,27 +41,34 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 
-export const ROUTES: Routes = [{
-    path: 'projects',
-    component: ProjectListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'projects/:id',
-    component: ProjectComponent,
-    canActivate: [AuthGuard, ProjectGuard],
-    children: [
-        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-        { path: 'dashboard', component: ProjectDashboardComponent },
-        { path: 'insights', component: ProjectInsightsComponent },
-        { path: 'insights/:insightId', component: InsightPageComponent },
-        { path: 'resources', component: ProjectResourcesComponent },
-        { path: 'resources/:resourceId', component: ResourcePageComponent },
-        { path: 'activities', component: ProjectActivitiesComponent },
-        { path: 'discussion', component: ProjectDiscussionComponent },
-        { path: 'settings', component: ProjectSettingsComponent }
-    ]
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'projects',
+        component: ProjectListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'projects/new',
+        component: ProjectNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'projects/:id',
+        component: ProjectComponent,
+        canActivate: [AuthGuard, ProjectGuard],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: ProjectDashboardComponent },
+            { path: 'insights', component: ProjectInsightsComponent },
+            { path: 'insights/:insightId', component: InsightPageComponent },
+            { path: 'resources', component: ProjectResourcesComponent },
+            { path: 'resources/:resourceId', component: ResourcePageComponent },
+            { path: 'activities', component: ProjectActivitiesComponent },
+            { path: 'discussion', component: ProjectDiscussionComponent },
+            { path: 'settings', component: ProjectSettingsComponent },
+        ],
+    },
+];
 
 @NgModule({
     imports: [
@@ -80,7 +87,7 @@ export const ROUTES: Routes = [{
         ActivityModule,
         ProvenanceModule,
         FiltersModule,
-        DirectivesModule
+        DirectivesModule,
     ],
     providers: [
         SocketService,
@@ -89,7 +96,7 @@ export const ROUTES: Routes = [{
         ProjectSidenavService,
         ProjectGuard,
         InsightService,
-        ResourceService
+        ResourceService,
     ],
     declarations: [
         ProjectComponent,
@@ -103,9 +110,8 @@ export const ROUTES: Routes = [{
         ProjectResourcesComponent,
         ProjectActivitiesComponent,
         ProjectSettingsComponent,
-        ProjectSidenavComponent
+        ProjectSidenavComponent,
     ],
-    exports: [
-    ],
+    exports: [],
 })
-export class ProjectModule { }
+export class ProjectModule {}
