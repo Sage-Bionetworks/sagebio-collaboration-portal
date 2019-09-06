@@ -12,7 +12,6 @@ export interface Entity {
     attachments?: EntityAttachments;
 }
 
-// WIP Front-end EntityAttachments interface
 export interface EntityAttachments {
     insights?: InsightAttachment[];
     resources?: ResourceAttachment[];

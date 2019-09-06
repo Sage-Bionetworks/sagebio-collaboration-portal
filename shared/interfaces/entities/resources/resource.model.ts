@@ -20,7 +20,6 @@ export interface Resource extends Entity {
     resourceType: string;
 }
 
-// WIP Front-end ResourceAttachment interface
 export interface ResourceAttachment {
     entityId?: string;
     entityType?: string;
