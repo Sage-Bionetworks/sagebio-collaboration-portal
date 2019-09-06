@@ -7,7 +7,7 @@ import { ActivityClass } from 'models/provenance/activity.model';
 import { InsightService } from '../insight.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import config from '../../../app/app.constants';
-import { EntityAttachment, EntityAttachmentMode } from 'models/entities/entity.model';
+import { EntityAttachments, EntityAttachmentMode } from 'models/entities/entity.model';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class InsightNewComponent {
     private errors = {
         newInsight: undefined,
     };
-    private attachments: EntityAttachment[];
+    private attachments: EntityAttachments;
     private mode: EntityAttachmentMode;
 
     static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService, ProjectDataService];
