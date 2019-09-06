@@ -5,7 +5,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { UserPermissionService } from 'components/auth/user-permission.service';
 import { UserPermission } from 'models/auth/user-permission.model';
 import { User } from 'models/auth/user.model';
-import { permissionTypes, userRoles } from '../../../../server/config/environment/shared';  // MUST NOT REFER TO SERVER
+import { actionPermissionTypes, userRoles } from '../../../../server/config/environment/shared';  // MUST NOT REFER TO SERVER
 import { switchMap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
 import { omit } from 'lodash';
@@ -19,7 +19,7 @@ const USER_ROLES = Object.values(userRoles).map(role => role.value);
 })
 
 export class AdminUserComponent implements OnInit, OnDestroy {
-    private permissionOptions: String[] = permissionTypes;
+    private permissionOptions: String[] = Object.values(actionPermissionTypes).map(action => action.value);
     private userRoles: String[] = USER_ROLES;
     private targetUser: User;
     private loggedUser: User;

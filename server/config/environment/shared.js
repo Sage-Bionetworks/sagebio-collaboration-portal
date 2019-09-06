@@ -14,11 +14,22 @@ export const userRoles = {
     }
 };
 
-export const permissionTypes = [
-    'createTool',
-    'editTool',
-    'deleteTool'
-];
+export const actionPermissionTypes = {
+    CREATE_PROJECT: {
+        value: 'CreateProject'
+    },
+    CREATE_DATA_CATALOG: {
+        value: 'CreateDataCatalog'
+    },
+    CREATE_TOOL: {
+        value: 'CreateTool'
+    }
+};
+// [
+//     'createTool',
+//     'editTool',
+//     'deleteTool'
+// ];
 
 export const entityTypes = {
     APP: {
@@ -290,7 +301,7 @@ export default {
     port,
     contactUsUrl,
     userRoles,
-    permissionTypes,
+    actionPermissionTypes,
     gitVersion,
     gitCommitHash,
     gitBranch,

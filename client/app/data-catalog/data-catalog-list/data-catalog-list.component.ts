@@ -23,7 +23,7 @@ export class DataCatalogListComponent implements OnInit {
 
     onEntityClick(catalog: DataCatalog) {
         if (catalog) {
-            this.router.navigate(['/data-catalogs', catalog.slug]);
+            this.router.navigate(['/data-catalogs', catalog._id]);
         }
     }
 }

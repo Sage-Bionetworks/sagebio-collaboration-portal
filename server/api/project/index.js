@@ -84,7 +84,7 @@ router.get('/:id', projectAuth.canReadProject(), controller.show);
  *       '400':
  *         description: Invalid Project
  */
-router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/', projectAuth.canCreateProject(), controller.create);
 
 /**
  * @swagger
@@ -113,7 +113,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id', projectAuth.canAdminProject(), controller.patch);
+router.patch('/:id', projectAuth.canEditProject(), controller.patch);
 
 /**
  * @swagger
@@ -160,7 +160,7 @@ router.get('/:id/visibility', auth.isAuthenticated(), controller.showVisibility)
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id/visibility/public', projectAuth.canAdminProject(), controller.makePublic);
+router.patch('/:id/visibility/public', projectAuth.canEditProject(), controller.makePublic);
 
 /**
  * @swagger
@@ -187,7 +187,7 @@ router.patch('/:id/visibility/public', projectAuth.canAdminProject(), controller
  *       '404':
  *         description: Project not found
  */
-router.patch('/:id/visibility/private', projectAuth.canAdminProject(), controller.makePrivate);
+router.patch('/:id/visibility/private', projectAuth.canEditProject(), controller.makePrivate);
 
 /**
  * @swagger
@@ -215,6 +215,6 @@ router.patch('/:id/visibility/private', projectAuth.canAdminProject(), controlle
  *       '404':
  *         description: Project not found
  */
-router.delete('/:id', projectAuth.canAdminProject(), controller.destroy);
+router.delete('/:id', projectAuth.canDeleteProject(), controller.destroy);
 
 module.exports = router;

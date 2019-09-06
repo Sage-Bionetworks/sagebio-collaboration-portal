@@ -63,24 +63,6 @@ export function create(req, res) {
         .catch(handleError(res));
 }
 
-// Upserts the given DataCatalog in the DB at the specified ID
-export function upsert(req, res) {
-    Reflect.deleteProperty(req.body, '_id');
-    Reflect.deleteProperty(req.body, 'createdAt');
-    Reflect.deleteProperty(req.body, 'createdBy');
-
-    return DataCatalog.findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
 // Updates an existing DataCatalog in the DB
 export function patch(req, res) {
     const patches = req.body.filter(patch => ![

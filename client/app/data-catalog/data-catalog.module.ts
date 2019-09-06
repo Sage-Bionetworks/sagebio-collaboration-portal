@@ -21,12 +21,12 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'data-catalogs/:slug',
+        path: 'data-catalogs/:id',
         component: DataCatalogComponent,
         canActivate: [AuthGuard],
     },
     {
-        path: 'data-catalogs/:slug/discussion',
+        path: 'data-catalogs/:id/discussion',
         component: DataCatalogDiscussionComponent,
         canActivate: [AuthGuard],
     },
