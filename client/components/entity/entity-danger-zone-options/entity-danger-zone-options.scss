@@ -1,14 +1,26 @@
 .app-danger-zone-option {
     display: flex;
     flex-flow: row nowrap;
+    padding-bottom: 5px;
 }
 
 .app-danger-zone-option-metadata {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;
+    padding-bottom: 5px;
 }
 
 .app-danger-zone-option-metadata-title {
     font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.app-center-button-text {
+    padding-top: 5px;
+}
+
+.app-danger-zone-icon {
+    width: 25px;
+    height: 25px;
 }
