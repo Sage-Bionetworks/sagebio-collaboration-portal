@@ -14,8 +14,6 @@ import { ResourceAttachment } from 'models/entities/resources/resource.model';
 export class EntityAttachmentsComponent implements OnInit {
     @Input() entityId: string;
     @Input() attachments: EntityAttachments;
-    private insights: InsightAttachment[];
-    private resources: ResourceAttachment[];
     @Input() mode: EntityAttachmentMode;
     @Output() updateAttachments: EventEmitter<any> = new EventEmitter<any>();
 
@@ -23,7 +21,11 @@ export class EntityAttachmentsComponent implements OnInit {
     private showEntityAttachmentForm = false;
     private isReadOnly = true;
     private attachmentForm: FormGroup;
+
+    // Attachments
+    private insights: InsightAttachment[];
     private newInsightAttachment: InsightAttachment | null;
+    private resources: ResourceAttachment[];
     private newResourceAttachment: ResourceAttachment | null;
 
     static parameters = [FormBuilder];
@@ -47,12 +49,6 @@ export class EntityAttachmentsComponent implements OnInit {
         this.insights = (this.attachments && this.attachments.insights) ? this.attachments.insights : [];
         this.resources = (this.attachments && this.attachments.resources) ? this.attachments.resources : [];
     }
-
-    // // WIP Remove attachment needs to remove from this.attachments.whatever
-    // removeAttachment(indexOfAttachment): void {
-    //     // this.attachments.splice(indexOfAttachment, 1);
-    //     this.updateAttachments.emit(this.attachments);
-    // }
 
     removeInsightAttachment(indexOfAttachment): void {
         try {
