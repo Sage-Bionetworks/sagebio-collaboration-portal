@@ -13,3 +13,21 @@
   min-width: 200px;
   min-height: 1px;
 }
+
+.app-add-collaborator-button {
+    // padding-top: 10px;
+    height: 80%
+}
+
+.app-add-collaborator-header {
+    padding-top: 15px;
+    padding-left: 16px;
+}
+
+.app-entity-access-list-search-user-form {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    // padding-top: 25px;
+    padding-left: 16px;
+}

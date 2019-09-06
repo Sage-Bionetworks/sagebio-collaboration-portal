@@ -30,6 +30,7 @@
             </mat-list-item>
         </mat-list>
 
+        <h3 class="app-add-collaborator-header">Add a Collaborator</h3>
         <form class="app-entity-access-list-search-user-form" [formGroup]="inviteForm" novalidate>
             <mat-form-field class="app-project-new-form-field">
                 <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto">
@@ -43,7 +44,7 @@
                     Please enter a valid username.
                 </mat-error>
             </mat-form-field>
-            <a mat-raised-button color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a>
+            <a mat-raised-button class="app-add-collaborator-button" color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a>
             <mat-error *ngIf="errors.inviteForm">
                 {{ errors.inviteForm }}
             </mat-error>
