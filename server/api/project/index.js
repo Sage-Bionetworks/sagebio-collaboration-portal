@@ -117,6 +117,34 @@ router.patch('/:id', projectAuth.canEditProject(), controller.patch);
 
 /**
  * @swagger
+ * /projects/{id}:
+ *   delete:
+ *     tags:
+ *       - Projects
+ *     summary: Deletes a Project by ID.
+ *     description: Deletes a Project by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the Project that needs to be deleted
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '204':
+ *         description: Project successfully removed
+ *       '400':
+ *         description: Invalid Project supplied
+ *       '404':
+ *         description: Project not found
+ */
+router.delete('/:id', projectAuth.canDeleteProject(), controller.destroy);
+
+/**
+ * @swagger
  * /projects/{id}/visibility:
  *   get:
  *     tags:
@@ -188,33 +216,5 @@ router.patch('/:id/visibility/public', projectAuth.canEditProject(), controller.
  *         description: Project not found
  */
 router.patch('/:id/visibility/private', projectAuth.canEditProject(), controller.makePrivate);
-
-/**
- * @swagger
- * /projects/{id}:
- *   delete:
- *     tags:
- *       - Projects
- *     summary: Deletes a Project by ID.
- *     description: Deletes a Project by ID.
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         in: path
- *         description: ID of the Project that needs to be deleted
- *         required: true
- *         schema:
- *           type: string
- *           format: uuid
- *     responses:
- *       '204':
- *         description: Project successfully removed
- *       '400':
- *         description: Invalid Project supplied
- *       '404':
- *         description: Project not found
- */
-router.delete('/:id', projectAuth.canDeleteProject(), controller.destroy);
 
 module.exports = router;
