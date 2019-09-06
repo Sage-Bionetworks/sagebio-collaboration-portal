@@ -34,7 +34,7 @@ var dataCatalogIndex = proxyquire('./index.js', {
     './data-catalog.auth': dataCatalogAuthStub
 });
 
-describe.only('DataCatalog API Router:', function () {
+describe('DataCatalog API Router:', function () {
     it('should return an express router instance', function () {
         expect(dataCatalogIndex).to.equal(routerStub);
     });

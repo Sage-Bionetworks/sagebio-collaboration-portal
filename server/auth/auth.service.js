@@ -166,7 +166,7 @@ export function attachEntityAuthorizationDetails(Model, entityType) {
             .exec()
             .then(entity => {
                 if (!entity) {
-                    return res.status(403).end();
+                    return res.status(404).end();
                 }
                 req.entity = {
                     _id: entity._id,
@@ -176,7 +176,10 @@ export function attachEntityAuthorizationDetails(Model, entityType) {
                 next();
                 return null;
             })
-            .catch(err => next(err));
+            .catch(() => {
+                res.status(403).end();
+                return null;
+            });
     });
 }
 

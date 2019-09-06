@@ -80,7 +80,8 @@ export function patch(req, res) {
 
 // Deletes a DataCatalog from the DB
 export function destroy(req, res) {
-    return DataCatalog.findById(req.params.id).exec()
+    return DataCatalog.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
