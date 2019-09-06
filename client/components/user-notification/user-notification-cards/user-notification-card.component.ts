@@ -1,6 +1,5 @@
 import { Component, Input, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { noop } from 'lodash'
 
 import { NotificationService } from 'components/notification/notification.service';
 import { UserNotificationService } from '../user-notification.service';
@@ -45,29 +44,31 @@ export class UserNotificationCardComponent {
             case config.entityTypes.INSIGHT.value: {
                 const insight = this.entity as Insight
                 this.router.navigate(['/projects', insight.projectId, 'insights', insight._id]);
+                break;
             }
             case config.entityTypes.PROJECT.value: {
                 const project = this.entity as Project
                 this.router.navigate(['/projects', project._id]);
+                break;
             }
             case config.entityTypes.RESOURCE.value: {
                 const resource = this.entity as Resource
                 this.router.navigate(['/projects', resource.projectId, 'resources', resource._id]);
+                break;
             }
             case config.entityTypes.TOOL.value: {
                 const tool = this.entity as Tool
                 this.router.navigate(['/tools', tool.slug]);
+                break;
             }
             case config.entityTypes.DATA_CATALOG.value: {
                 const catalog = this.entity as DataCatalog
                 this.router.navigate(['/data-catalogs', catalog.slug]);
+                break;
             }
             default:
                 break;
         }
-
-        this.userNotificationService.toggleNotifications();
-        this.archive().subscribe(noop)
       }
     }
 

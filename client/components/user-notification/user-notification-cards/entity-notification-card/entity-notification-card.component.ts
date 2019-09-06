@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { noop } from 'lodash'
+
 import { EntityNotification } from 'models/user-notification/entity-notificiation.model';
-import { Entity } from 'models/entities/entity.model';
 import { UserNotificationCardComponent } from '../user-notification-card.component';
 
 @Component({
@@ -10,4 +11,9 @@ import { UserNotificationCardComponent } from '../user-notification-card.compone
 })
 export class EntityNotificationCardComponent extends UserNotificationCardComponent{
     @Input() notification: EntityNotification;
+
+    acceptAndGo() {
+        this.goToEntity()
+        this.archive().subscribe(noop)
+    }
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { of, forkJoin, merge } from 'rxjs';
-import { switchMap, map, ignoreElements } from 'rxjs/operators';
+import { switchMap, map, ignoreElements, filter } from 'rxjs/operators';
 
 import { InsightService } from 'components/insight/insight.service';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -26,6 +26,7 @@ import { ProjectService } from '../../../app/project/project.service';
 import { ResourceService } from 'components/resource/resource.service';
 import { ToolService } from '../../../app/tool/tool.service';
 import { DataCatalogService } from '../../../app/data-catalog/data-catalog.service';
+import { Router, NavigationStart } from '@angular/router';
 // ---------------------------------------------------------------
 
 // import { Project } from 'models/entities/project.model';
@@ -61,6 +62,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         ResourceService,
         ToolService,
         DataCatalogService,
+        Router,
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
@@ -71,8 +73,12 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         private resourceServive: ResourceService,
         private toolService: ToolService,
         private dataCatalogService: DataCatalogService,
+        private router: Router,
     ) {
         this.avatarSize = config.avatar.size.mini;
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationStart)
+        ).subscribe(_ => this.close());
     }
 
     getAssociatedEntity(notification: EntityNotification) {
