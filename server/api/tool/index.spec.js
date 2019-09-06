@@ -29,9 +29,9 @@ var toolIndex = proxyquire('./index.js', {
             return routerStub;
         }
     },
-    './tool.controller': toolCtrlStub,
     '../../auth/auth.service': authServiceStub,
     './tool.auth': toolAuthStub,
+    './tool.controller': toolCtrlStub,
 });
 
 describe('Tool API Router:', function () {

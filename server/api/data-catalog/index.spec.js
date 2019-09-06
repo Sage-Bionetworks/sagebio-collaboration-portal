@@ -29,9 +29,9 @@ var dataCatalogIndex = proxyquire('./index.js', {
             return routerStub;
         },
     },
-    './data-catalog.controller': dataCatalogCtrlStub,
     '../../auth/auth.service': authServiceStub,
-    './data-catalog.auth': dataCatalogAuthStub
+    './data-catalog.auth': dataCatalogAuthStub,
+    './data-catalog.controller': dataCatalogCtrlStub
 });
 
 describe('DataCatalog API Router:', function () {
