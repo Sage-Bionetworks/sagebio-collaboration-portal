@@ -1,14 +1,25 @@
 <div [formGroup]="attachmentForm" class='app-entity-attachments'>
-    <b *ngIf="attachments.length > 0">Attachments:</b>
+    <b>Attachments:</b>
     <mat-list>
-        <mat-list-item *ngFor="let attachment of attachments; index as i">
+        <mat-list-item *ngFor="let attachment of insights; index as i">
             <h3 mat-line>{{ attachment.name }}</h3>
             <p mat-line>
                 <span>
                     {{ attachment.type }}
                 </span>
             </p>
-            <button *ngIf="!isReadOnly" mat-icon-button (click)="removeAttachment(i)">
+            <button *ngIf="!isReadOnly" mat-icon-button (click)="removeInsightAttachment(i)">
+                <mat-icon aria-label="Icon of cross">close</mat-icon>
+            </button>
+        </mat-list-item>
+        <mat-list-item *ngFor="let attachment of resources; index as j">
+            <h3 mat-line>{{ attachment.name }}</h3>
+            <p mat-line>
+                <span>
+                    {{ attachment.type }}
+                </span>
+            </p>
+            <button *ngIf="!isReadOnly" mat-icon-button (click)="removeResourceAttachment(j)">
                 <mat-icon aria-label="Icon of cross">close</mat-icon>
             </button>
         </mat-list-item>
@@ -25,7 +36,7 @@
                 </mat-optgroup>
             </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="newAttachment" >
+        <mat-form-field *ngIf="newInsightAttachment || newResourceAttachment" >
             <mat-label>Attachment Name</mat-label>
             <input matInput formControlName="attachmentName">
         </mat-form-field>
