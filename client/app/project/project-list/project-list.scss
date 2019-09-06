@@ -4,7 +4,6 @@
 }
 
 .app-project-list-header {
-    // flex-flow: row nowrap;
     flex-grow: 1;
     justify-content: space-between;
 }
@@ -13,6 +12,6 @@
     flex-grow: 1;
 }
 
-.app-project-list-actions {
+.app-project-list-new-project-btn {
     margin-right: 20px;
 }

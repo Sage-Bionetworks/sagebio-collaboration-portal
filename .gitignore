@@ -6,6 +6,7 @@ public
 .idea
 client/bower_components
 client/app.html
+client/components/socket/primus.js
 dist
 /server/config/local.env.js
 npm-debug.log

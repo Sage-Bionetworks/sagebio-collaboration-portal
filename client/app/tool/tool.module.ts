@@ -27,6 +27,11 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'tools/new',
+        component: ToolNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'tools/:id',
         component: ToolComponent,
         canActivate: [AuthGuard],

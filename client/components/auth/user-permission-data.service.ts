@@ -30,12 +30,12 @@ export class UserPermissions {
         return !!find({ 'value': permission }, this.permissions);
     }
 
-    public canCreateProject(): boolean {
+    public canCreateProjects(): boolean {
         return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_PROJECT.value }, this.permissions);
     }
 
-    public canCreateTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'createTool' }, this.permissions);
+    public canCreateTools(): boolean {
+        return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_TOOL.value }, this.permissions);
     }
 
     public canEditTool(): boolean {
