@@ -25,9 +25,9 @@
         </mat-list-item>
     </mat-list>
 
-    <div *ngIf="showEntityAttachmentForm" class="app-entity-attachments-form">
+    <div class="app-entity-attachments-form">
         <mat-form-field class="app-entity-attachments-form-attachment-type">
-            <mat-select formControlName="attachmentType" (selectionChange)="updateNewAttachmentType($event)" placeholder="Attachment Type">
+            <mat-select formControlName="attachmentType" (selectionChange)="updateNewAttachmentType($event)" placeholder="Type of attachment...">
                 <mat-optgroup *ngFor="let group of entityAttachmentTypes" [label]="group.name">
                     <mat-option *ngFor="let option of group.options" [value]="option.type">
                         {{ option.type }}
@@ -36,15 +36,11 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="newInsightAttachment || newResourceAttachment" class="app-entity-attachments-form-attachment-title">
-            <mat-select formControlName="attachmentId" (selectionChange)="update($event)" placeholder="Select an Attachment">
+            <mat-select formControlName="attachmentId" (selectionChange)="update($event)" placeholder="Please select one...">
                 <mat-option *ngFor="let option of options" [value]="option._id">
                     {{ option.title }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-    </div>
-
-    <div class="app-entity-attachments-actions">
-        <a *ngIf="!showEntityAttachmentForm && !isReadOnly" mat-raised-button color="secondary" (click)="showEntityAttachmentForm = true">Add an attachment</a>
     </div>
 </div>
