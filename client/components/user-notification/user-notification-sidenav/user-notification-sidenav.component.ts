@@ -23,6 +23,9 @@ import { EntityAccessNotification } from 'models/user-notification/entity-access
 // ---------------------------------------------------------------
 // TODO: Do not refer to something in app/, instead move ProjectService to components
 import { ProjectService } from '../../../app/project/project.service';
+import { ResourceService } from 'components/resource/resource.service';
+import { ToolService } from '../../../app/tool/tool.service';
+import { DataCatalogService } from '../../../app/data-catalog/data-catalog.service';
 // ---------------------------------------------------------------
 
 // import { Project } from 'models/entities/project.model';
@@ -54,14 +57,20 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         UserNotificationService,
         EntityPermissionService,
         ProjectService,
-        InsightService
+        InsightService,
+        ResourceService,
+        ToolService,
+        DataCatalogService,
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
         private userNotificationService: UserNotificationService,
         private entityPermissionService: EntityPermissionService,
         private projectService: ProjectService,
-        private insightService: InsightService
+        private insightService: InsightService,
+        private resourceServive: ResourceService,
+        private toolService: ToolService,
+        private dataCatalogService: DataCatalogService,
     ) {
         this.avatarSize = config.avatar.size.mini;
     }
@@ -73,8 +82,11 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             case config.entityTypes.INSIGHT.value:
                 return this.insightService.getInsight(notification.entityId)
             case config.entityTypes.RESOURCE.value:
+                return this.resourceServive.getResource(notification.entityId)
             case config.entityTypes.TOOL.value:
+                return this.toolService.getTool(notification.entityId)
             case config.entityTypes.DATA_CATALOG.value:
+                return this.dataCatalogService.getDataCatalog(notification.entityId)
             default:
                 return of(null)
         }
