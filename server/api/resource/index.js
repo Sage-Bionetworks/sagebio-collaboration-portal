@@ -1,15 +1,7 @@
 var express = require('express');
 var controller = require('./resource.controller');
 import * as auth from '../../auth/auth.service';
-import {
-    accessTypes,
-    userRoles
-} from '../../config/environment';
-import Resource from './models/resource.model';
-
-const READ_ACCESS = accessTypes.ADMIN.value;
-const WRITE_ACCESS = accessTypes.ADMIN.value;
-const ADMIN_ACCESS = accessTypes.ADMIN.value;
+import * as resourceAuth from './resource.auth';
 
 var router = express.Router();
 
@@ -33,31 +25,82 @@ var router = express.Router();
  */
 router.get('/', auth.isAuthenticated(), controller.index);
 
+/**
+ * @swagger
+ * /resources/{id}:
+ *   get:
+ *     tags:
+ *       - Resources
+ *     summary: Gets a Resource by ID.
+ *     description: Gets a Resource by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: Resource ID
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '200':
+ *         description: A Resource
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resource'
+ *       '400':
+ *         description: Invalid ID supplied
+ *       '401':
+ *         description: Unauthorized
+ *       '404':
+ *         description: Resource not found
+ */
+router.get('/:id', resourceAuth.canReadResource(), controller.show);
 
-router.get('/:id',
-// auth.canAccessEntity(Resource, [
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ]),
-controller.show);
+/**
+ * @swagger
+ * /resources:
+ *   post:
+ *     tags:
+ *       - Resources
+ *     summary: Creates a Resource.
+ *     description: Creates a Resource.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The Resource to create
+ *         schema:
+ *           $ref: '#/components/schemas/Resource'
+ *     responses:
+ *       '201':
+ *         description: The Resource created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resource'
+ *       '400':
+ *         description: Invalid Resource
+ */
+router.post('/', resourceAuth.canCreateResource(), controller.create);
 
 
 
 
+router.patch('/:id', resourceAuth.canEditResource(), controller.patch);
 
-router.post('/', auth.isAuthenticated(), controller.create);
-router.put('/:id', controller.upsert);
 
-router.patch('/:id', controller.patch);
 
-router.get('/entity/:entityId',
-// auth.canAccessEntity([
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ]),
-controller.indexByEntity);
+
+// router.get('/entity/:entityId',
+// // auth.canAccessEntity([
+// //     READ_ACCESS,
+// //     WRITE_ACCESS,
+// //     ADMIN_ACCESS
+// // ]),
+// controller.indexByEntity);
 
 // router.delete('/:id', controller.destroy);
 

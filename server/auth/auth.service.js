@@ -161,7 +161,7 @@ export function attachEntityAuthorizationDetails(Model, entityType) {
             .exec()
             .then(entity => {
                 if (!entity) {
-                    return res.status(401).end(); // or 403/404 but leak existance info
+                    return res.status(403).end();
                 }
                 req.entity = {
                     _id: entity._id,

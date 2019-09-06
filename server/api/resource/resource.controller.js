@@ -44,6 +44,18 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
+// Gets a single Resource from the DB
+export function show(req, res) {
+    return Resource.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+
+
+
+
 
 
 
@@ -60,13 +72,7 @@ export function indexByEntity(req, res) {
 
 
 
-// Gets a single Resource from the DB
-export function show(req, res) {
-    return Resource.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
+
 
 // Creates a new Resource in the DB
 export function create(req, res) {
@@ -75,24 +81,6 @@ export function create(req, res) {
         createdBy: req.user._id
     })
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Upserts the given Resource in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Resource
-        .findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
