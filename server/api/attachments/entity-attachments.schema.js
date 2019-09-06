@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import InsightAttachmentSchema from './insight-attachment.schema';
 import ResourceAttachmentSchema from './resource-attachment.schema';
 
-var EntityAttachmentSchema = new mongoose.Schema({
+var EntityAttachmentsSchema = new mongoose.Schema({
     // TODO Change to subEntityType (join both Insights and Resources types e.g. Report, State, Dashboard)
     model: {
         type: String,
@@ -21,4 +21,4 @@ var EntityAttachmentSchema = new mongoose.Schema({
     resources: [ResourceAttachmentSchema],
 });
 
-export default EntityAttachmentSchema;
+export default EntityAttachmentsSchema;
