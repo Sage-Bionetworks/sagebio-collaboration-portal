@@ -5,7 +5,7 @@
             <h3 mat-line>{{ attachment.name }}</h3>
             <p mat-line>
                 <span>
-                    {{ attachment.type }}
+                    {{ attachment.entityType }}
                 </span>
             </p>
             <button *ngIf="!isReadOnly" mat-icon-button (click)="removeInsightAttachment(i)">
@@ -16,7 +16,7 @@
             <h3 mat-line>{{ attachment.name }}</h3>
             <p mat-line>
                 <span>
-                    {{ attachment.type }}
+                    {{ attachment.entityType }}
                 </span>
             </p>
             <button *ngIf="!isReadOnly" mat-icon-button (click)="removeResourceAttachment(j)">
@@ -37,8 +37,12 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="newInsightAttachment || newResourceAttachment" >
-            <mat-label>Attachment Name</mat-label>
-            <input matInput formControlName="attachmentName">
+            <mat-label>Select an Attachment</mat-label>
+            <mat-select formControlName="attachmentId" (selectionChange)="update($event)" placeholder="">
+                <mat-option *ngFor="let option of options" [value]="option._id">
+                    {{ option.title }}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
         <button mat-raised-button color="secondary" (click)="update()">Save</button>
     </div>
