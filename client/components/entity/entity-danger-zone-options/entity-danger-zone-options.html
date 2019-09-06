@@ -1,7 +1,6 @@
-<mat-card *ngIf="entity">
+<mat-card *ngIf="entity" class="app-danger-zone-card">
     <mat-card-header>
-            <div mat-card-avatar class="app-danger-zone-icon"><i class="material-icons md-24">warning</i></div>
-        <mat-card-title>Danger Zone</mat-card-title>
+        <mat-card-title class="app-danger-zone-title">Danger Zone</mat-card-title>
     </mat-card-header>
 
     <div *ngIf="entity.visibility === 'Private'" class="app-danger-zone-option">
