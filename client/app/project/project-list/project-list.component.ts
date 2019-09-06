@@ -11,7 +11,7 @@ import { ProjectService } from '../project.service';
     styles: [require('./project-list.scss')],
 })
 export class ProjectListComponent implements OnInit {
-    private canCreateProjects = false; // used in html
+    private canCreateProject = false; // used in html
 
     static parameters = [Router, PageTitleService, UserPermissionDataService, ProjectService];
     constructor(
@@ -26,7 +26,7 @@ export class ProjectListComponent implements OnInit {
         this.permissionDataService
             .permissions()
             .subscribe(
-                permissions => (this.canCreateProjects = permissions.canCreateProjects()),
+                permissions => (this.canCreateProject = permissions.canCreateProject()),
                 err => console.error(err)
             ); // unsubscribe in destructor
     }
@@ -34,6 +34,12 @@ export class ProjectListComponent implements OnInit {
     onEntityClick(project: Project) {
         if (project) {
             this.router.navigate(['/projects', project._id]);
+        }
+    }
+
+    onCreateNewProject(): void {
+        if (this.canCreateProject) {
+            this.router.navigate(['/', 'projects', 'new']);
         }
     }
 }

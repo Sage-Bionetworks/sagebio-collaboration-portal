@@ -11,7 +11,7 @@ import { ToolService } from '../tool.service';
     styles: [require('./tool-list.scss')],
 })
 export class ToolListComponent implements OnInit {
-    private canCreateTools = false; // used in html
+    private canCreateTool = false; // used in html
 
     static parameters = [Router, PageTitleService, UserPermissionDataService, ToolService];
     constructor(
@@ -26,7 +26,7 @@ export class ToolListComponent implements OnInit {
         this.permissionDataService
             .permissions()
             .subscribe(
-                permissions => (this.canCreateTools = permissions.canCreateTools()),
+                permissions => (this.canCreateTool = permissions.canCreateTool()),
                 err => console.error(err)
             ); // unsubscribe in destructor
     }
@@ -34,6 +34,12 @@ export class ToolListComponent implements OnInit {
     onEntityClick(tool: Tool) {
         if (tool) {
             this.router.navigate(['/tools', tool._id]);
+        }
+    }
+
+    onCreateNewTool(): void {
+        if (this.canCreateTool) {
+            this.router.navigate(['/', 'tools', 'new']);
         }
     }
 }

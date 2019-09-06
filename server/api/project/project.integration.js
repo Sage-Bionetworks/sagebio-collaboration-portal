@@ -10,7 +10,7 @@ import { entityVisibility } from '../../config/environment';
 
 var newProject;
 
-describe.only('Project API:', function () {
+describe('Project API:', function () {
     var token;
 
     before(() =>
