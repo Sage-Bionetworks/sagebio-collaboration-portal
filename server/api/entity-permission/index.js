@@ -12,6 +12,7 @@ const ADMIN_ACCESS = accessTypes.ADMIN.value;
 var router = express.Router();
 
 router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 router.get('/mine', auth.isAuthenticated(), controller.indexMine);
 
 router.get('/entity/:entityId', auth.hasPermissionForEntity([ADMIN_ACCESS]),

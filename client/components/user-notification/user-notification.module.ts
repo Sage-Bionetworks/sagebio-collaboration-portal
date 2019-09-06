@@ -6,7 +6,7 @@ import { UserAvatarModule } from 'components/user-avatar/user-avatar.module';
 import { UserNotificationButtonComponent } from './user-notification-button/user-notification-button.component';
 import { UserNotificationSidenavComponent } from './user-notification-sidenav/user-notification-sidenav.component';
 import { MessageNotificationViewComponent } from './user-notification-cards/message-notification-view/message-notification-view.component';
-import { EntityNotificationViewComponent } from './user-notification-cards/entity-notification-view/entity-notification-view.component';
+import { EntityNotificationCardComponent } from './user-notification-cards/entity-notification-card/entity-notification-card.component';
 import { EntityAccessNotificationCardComponent } from './user-notification-cards/entity-access-notification-card/entity-access-notification-card.component';
 import { UserNotificationService } from './user-notification.service';
 import { PipesModule } from 'components/pipes/pipes.module'
@@ -26,7 +26,7 @@ import { PipesModule } from 'components/pipes/pipes.module'
         UserNotificationButtonComponent,
         UserNotificationSidenavComponent,
         MessageNotificationViewComponent,
-        EntityNotificationViewComponent,
+        EntityNotificationCardComponent,
         EntityAccessNotificationCardComponent,
     ],
     exports: [

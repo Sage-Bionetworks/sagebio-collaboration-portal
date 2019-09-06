@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { of, from, forkJoin, merge } from 'rxjs';
+import { of, forkJoin, merge } from 'rxjs';
 import { switchMap, map, ignoreElements } from 'rxjs/operators';
 
 import { InsightService } from 'components/insight/insight.service';
@@ -81,8 +81,9 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityPermission(notification: EntityAccessNotification) {
-        return notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value ?
-            this.entityPermissionService.queryMine({ _id: notification.entityPermissionId }) : of(null)
+        return notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
+            ? this.entityPermissionService.getPermission(notification.entityPermissionId as string)
+            : of(null)
     }
 
     getMessagesNotifications() {
@@ -103,7 +104,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         })
             .pipe(
                 map(entityNotifications => {
-                    entityNotifications.map(
+                    return entityNotifications.map(
                         (notification: EntityNotification) => this.buildEntityNotificationBundle(notification)
                     )
                 }),
@@ -135,8 +136,8 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             archived: false
         })
             .pipe(
-                map(entityAceessNotifications => entityAceessNotifications.map(
-                    (notification: EntityAccessNotification) => this.buildEntityAccessNotificationBundle(notification)
+                map(entityAccessNotifications =>
+                    entityAccessNotifications.map((notification: EntityAccessNotification) => this.buildEntityAccessNotificationBundle(notification)
                 )),
                 switchMap(bundles => forkJoinWithProgress(bundles)),
                 switchMap(([finalResult, progress]) => merge(

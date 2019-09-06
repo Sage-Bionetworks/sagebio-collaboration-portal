@@ -11,6 +11,10 @@ export class EntityPermissionService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
+    getPermission(id: string): Observable<EntityPermission> {
+        return this.httpClient.get<EntityPermission>(`/api/entity-permissions/${id}`);
+    }
+
     queryMine(query?: {}): Observable<EntityPermission[]> {
         return this.httpClient.get<EntityPermission[]>(`/api/entity-permissions/mine${stringifyQuery(query)}`);
     }

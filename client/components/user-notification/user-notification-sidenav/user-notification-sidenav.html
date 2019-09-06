@@ -21,11 +21,11 @@
 
     <ng-template *ngIf="_entityNotifications | async; let entityNotifications" ngFor let-entityNotification
         let-i="index" let-first="first" [ngForOf]="entityNotifications">
-        <entity-notification-view *ngIf="entityNotification" class="app-user-notification-view"
+        <entity-notification-card *ngIf="entityNotification" class="app-user-notification-view"
             [notification]="entityNotification.notification"
             [entity]="entityNotification.associatedEntity"
         >
-        </entity-notification-view>
+        </entity-notification-card>
     </ng-template>
 
     <ng-template *ngIf="_entityAccessNotifications | async; let entityAccessNotifications" ngFor

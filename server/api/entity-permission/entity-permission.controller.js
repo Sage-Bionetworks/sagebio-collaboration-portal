@@ -1,8 +1,5 @@
-import {
-    find
-} from 'lodash/fp';
+import { find, pickBy, identity } from 'lodash/fp';
 import EntityPermission from './entity-permission.model';
-import User from '../user/user.model';
 import {
     respondWithResult,
     patchUpdates,
@@ -16,7 +13,6 @@ import {
     accessTypes,
     inviteStatusTypes
 } from '../../config/environment';
-import { pickBy, identity } from 'lodash/fp';
 
 // Gets a list of EntityPermissions
 export function index(req, res) {
@@ -33,6 +29,14 @@ export function indexMine(req, res) {
         ...req.query,
         user: userId
     })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Returns the permission by Id
+export function show(req, res) {
+    return EntityPermission.findById(req.params.id)
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));

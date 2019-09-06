@@ -4,10 +4,10 @@ import { Entity } from 'models/entities/entity.model';
 import { UserNotificationCardComponent } from '../user-notification-card.component';
 
 @Component({
-    selector: 'entity-notification-view',
-    template: require('./entity-notification-view.html'),
+    selector: 'entity-notification-card',
+    template: require('./entity-notification-card.html'),
     styles: [require('../user-notification-card.scss')]
 })
-export class EntityNotificationViewComponent extends UserNotificationCardComponent{
+export class EntityNotificationCardComponent extends UserNotificationCardComponent{
     @Input() notification: EntityNotification;
 }

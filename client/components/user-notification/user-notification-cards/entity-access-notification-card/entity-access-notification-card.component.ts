@@ -30,20 +30,19 @@ export class EntityAccessNotificationCardComponent extends UserNotificationCardC
             console.log(err);
             this.notificationService.error('Unable to accept the invite');
         });
-
-        this.notificationService.info('entityAccessNotification Accepted.');
     }
 
     acceptAndGo() {
-        this.userPermissionDataService.acceptEntityPermission(this.permission)
-            .subscribe(entityPermission => {
+        combineLatest(
+            this.userPermissionDataService.acceptEntityPermission(this.permission),
+            this.archive()
+        ).subscribe(([entityPermission]) => {
                 this.notificationService.info('The invite has been successfully accepted.');
                 this.goToEntity()
             }, err => {
                 console.log(err);
                 this.notificationService.error('Unable to accept the invite');
             });
-        this.notificationService.info('The entityAccessNotification has been acepted and now redirecting');
     }
 
     decline() {
