@@ -7,6 +7,19 @@
         flex-flow: column nowrap;
     }
 
+    .app-entity-attachments-form {
+        display: flex;
+        flex-direction: row;
+
+        .app-entity-attachments-form-attachment-type {
+            padding-right: 4px;
+        }
+
+        .app-entity-attachments-form-attachment-title {
+            flex-grow: 2;
+        }
+    }
+
     .app-entity-attachments-actions {
         padding-top: 8px;
     }
