@@ -10,7 +10,7 @@ export function buildEntityIndexQuery(query) {
     let sort = 'createdAt'; // TODO UI and backend should use same default value
 
     const maxPageSize = 50;
-    const pageSize = 2;
+    const pageSize = 20;
     let skip = query.page
         ? query.page * pageSize
         : 0;
