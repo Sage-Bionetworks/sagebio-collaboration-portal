@@ -19,5 +19,12 @@
             "url": "https://localhost/home",
             "webRoot": "${workspaceFolder}"
         },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "[CHROME] PHCCP Insights",
+            "url": "https://localhost/projects/5cb7acea2d718654d81bb97e/insights",
+            "webRoot": "${workspaceFolder}"
+        },
     ]
 }
