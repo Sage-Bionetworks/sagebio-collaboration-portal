@@ -34,16 +34,12 @@ export class UserPermissions {
         return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_PROJECT.value }, this.permissions);
     }
 
+        public canCreateDataCatalog(): boolean {
+        return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_DATA_CATALOG.value }, this.permissions);
+    }
+
     public canCreateTool(): boolean {
         return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_TOOL.value }, this.permissions);
-    }
-
-    public canEditTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'editTool' }, this.permissions);
-    }
-
-    public canDeleteTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
     }
 
     private getEntityUserAccess(entityId: string, entityType: string): string {

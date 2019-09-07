@@ -38,8 +38,8 @@ export class ToolComponent implements OnInit, OnDestroy {
 
         this.userPermissionsSub = this.userPermissionDataService.permissions()
             .subscribe(permissions => {
-                this.canEditTool = permissions.canEditTool();
-                this.canDeleteTool = permissions.canDeleteTool();
+                // this.canEditTool = permissions.canEditTool();
+                // this.canDeleteTool = permissions.canDeleteTool();
             });
     }
 
