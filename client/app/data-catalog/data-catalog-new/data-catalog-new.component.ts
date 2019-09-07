@@ -39,21 +39,26 @@ export class DataCatalogNewComponent implements OnInit {
                 Validators.minLength(this.dataCatalogSpecs.description.minlength),
                 Validators.maxLength(this.dataCatalogSpecs.description.maxlength)
             ]],
-            // apiServerUrl: ['', [
-            //     Validators.required,
-            //     UrlValidators.https(),
-            //     UrlValidators.noTrailingSlash()
-            // ]],
-            // apiHealthCheckUrl: ['', [
-            //     Validators.required,
-            //     UrlValidators.https(),
-            //     UrlValidators.noTrailingSlash()
-            // ]],
-            // website: ['', [
-            //     Validators.required,
-            //     UrlValidators.https(),
-            //     UrlValidators.noTrailingSlash()
-            // ]]
+            picture: ['', [
+                Validators.required,
+                UrlValidators.noTrailingSlash()
+            ]],
+            visibility: [this.dataCatalogSpecs.visibility.default, [
+                Validators.required
+            ]],
+            website: ['', [
+                Validators.required,
+                UrlValidators.noTrailingSlash()
+            ]],
+            organization: ['', [
+                Validators.required
+            ]],
+            apiType: [this.dataCatalogSpecs.apiType.default.value, [
+                Validators.required
+            ]],
+            apiServerUrl: ['', [
+                Validators.required
+            ]]
         });
     }
 

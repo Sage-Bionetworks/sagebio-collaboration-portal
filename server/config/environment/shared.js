@@ -123,6 +123,13 @@ export const inviteStatusTypes = {
     }
 };
 
+export const dataCatalogApiTypes = {
+    CKAN: {
+        value: 'Ckan',
+        name: 'CKAN'
+    }
+};
+
 export const gitVersion = process.env.GIT_VERSION;
 export const gitCommitHash = process.env.GIT_COMMIT_HASH;
 export const gitBranch = process.env.GIT_BRANCH;
@@ -182,6 +189,10 @@ export const models = {
         visibility: {
             values: Object.values(entityVisibility).map(visibility => visibility.value),
             default: entityVisibility.PRIVATE.value
+        },
+        apiType: {
+            options: Object.values(dataCatalogApiTypes),
+            default: dataCatalogApiTypes.CKAN
         }
     },
     tool: {
