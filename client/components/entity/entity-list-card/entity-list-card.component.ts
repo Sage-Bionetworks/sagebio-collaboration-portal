@@ -20,6 +20,7 @@ export class EntityListCardComponent<E extends Entity> {
 
     @Input()
     set entity(entity: E) {
+        console.log('ENTITY', entity);
         this._entity = entity;
     }
 
