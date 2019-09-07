@@ -1,18 +1,16 @@
-<mat-card *ngIf="entity" class="entity-container" (click)="onEntityClick()">
-    <picture>
-        <img src="assets/images/320px-insight_logo.png" aria-label="Report picture" />
+<mat-card *ngIf="entity" class="app-entity-list-card" (click)="onEntityClick()">
+    <picture class="app-entity-list-card-picture">
+        <img [src]="entity.picture" aria-label="Entity picture" />
     </picture>
-    <div class="entity-metadata-container">
-        <h3 class="entity-title">{{ entity.title }}</h3>
-        <div class="entity-metadata-row-container-date">
+    <div class="app-entity-list-card-metadata">
+        <h3 class="app-entity-list-card-metadata-title">{{ entity.title }}</h3>
+        <div class="app-entity-list-card-metadata-author">
+            <mat-icon>person_outline</mat-icon>
+            <span>{{ entity.createdBy.name }}</span>
+        </div>
+        <div class="app-entity-list-card-metadata-item">
             <mat-icon>access_time</mat-icon>
             <span>{{ entity.createdAt | date }}</span>
-        </div>
-        <div class="entity-card-footer">
-            <div class="entity-metadata-row-container">
-                <mat-icon>person_outline</mat-icon>
-                <span>{{ entity.createdBy.name }}</span>
-            </div>
         </div>
     </div>
 </mat-card>

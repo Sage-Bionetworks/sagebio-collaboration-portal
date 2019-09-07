@@ -206,6 +206,9 @@ export const models = {
             minlength: 3,
             maxlength: 1024
         },
+        picture: {
+            default: 'https://via.placeholder.com/200/007fff/007fff'
+        },
         visibility: {
             options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
             default: entityVisibility.PUBLIC // entityVisibility.PRIVATE
