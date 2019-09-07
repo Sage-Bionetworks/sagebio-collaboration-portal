@@ -321,5 +321,6 @@ export default {
     insightTypes,
     resourceTypes,
     inviteStatusTypes,
-    entityVisibility
+    entityVisibility,
+    dataCatalogApiTypes
 };
