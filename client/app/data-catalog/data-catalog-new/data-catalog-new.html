@@ -30,7 +30,7 @@
             <mat-form-field>
                 <mat-label>Visibility</mat-label>
                 <select matNativeControl formControlName="visibility" required>
-                    <option *ngFor="let value of dataCatalogSpecs.visibility.values" [value]="value">{{ value }}</option>
+                    <option *ngFor="let option of dataCatalogSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
                 </select>
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-new-form-field">
@@ -61,7 +61,7 @@
                 {{ errors.newDataCatalog }}
             </mat-error>
             <div class="app-data-catalog-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewDataCatalog()">Add New Data Catalog</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewDataCatalog()">Create New Data Catalog</a>
                 <a mat-button routerLink="/data-catalogs">Cancel</a>
             </div>
         </form>

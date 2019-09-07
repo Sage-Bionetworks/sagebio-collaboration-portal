@@ -155,10 +155,12 @@ export const defaultTools = [
 
 export const entityVisibility = {
     PUBLIC: {
-        value: 'Public'
+        value: 'Public',
+        name: 'Public'
     },
     PRIVATE: {
-        value: 'Private'
+        value: 'Private',
+        name: 'Private'
     }
 };
 
@@ -187,8 +189,8 @@ export const models = {
             maxlength: 1024
         },
         visibility: {
-            values: Object.values(entityVisibility).map(visibility => visibility.value),
-            default: entityVisibility.PRIVATE.value
+            options: Object.values(entityVisibility),
+            default: entityVisibility.PRIVATE
         },
         apiType: {
             options: Object.values(dataCatalogApiTypes),

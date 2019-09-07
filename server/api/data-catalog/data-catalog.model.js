@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { registerEvents } from './data-catalog.events';
-import config from '../../config/environment';
+import { models } from '../../config/environment';
 
 var DataCatalogSchema = new mongoose.Schema({
     title: {
@@ -18,8 +18,8 @@ var DataCatalogSchema = new mongoose.Schema({
     visibility: {
         type: String,
         required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.dataCatalog.visibility.default,
+        enum: models.dataCatalog.visibility.options.map(visibility => visibility.value),
+        default: models.dataCatalog.visibility.default.value,
     },
     website: {
         type: String,
@@ -32,7 +32,7 @@ var DataCatalogSchema = new mongoose.Schema({
     },
     apiType: {
         type: String,
-        enum: ['CKAN'],
+        enum: models.dataCatalog.apiType.options.map(apiType => apiType.value),
         required: true,
     },
     apiServerUrl: {

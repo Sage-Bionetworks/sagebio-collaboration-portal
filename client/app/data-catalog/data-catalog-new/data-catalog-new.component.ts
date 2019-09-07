@@ -43,21 +43,22 @@ export class DataCatalogNewComponent implements OnInit {
                 Validators.required,
                 UrlValidators.noTrailingSlash()
             ]],
-            visibility: [this.dataCatalogSpecs.visibility.default, [
+            visibility: [this.dataCatalogSpecs.visibility.default.value, [
                 Validators.required
             ]],
             website: ['', [
                 Validators.required,
                 UrlValidators.noTrailingSlash()
             ]],
-            organization: ['', [
-                Validators.required
-            ]],
+            // organization: ['', [
+            //     Validators.required
+            // ]],
             apiType: [this.dataCatalogSpecs.apiType.default.value, [
                 Validators.required
             ]],
             apiServerUrl: ['', [
-                Validators.required
+                Validators.required,
+                UrlValidators.noTrailingSlash()
             ]]
         });
     }
@@ -68,6 +69,7 @@ export class DataCatalogNewComponent implements OnInit {
 
     createNewDataCatalog(): void {
         let newDataCatalog = this.newForm.value;
+        console.log('new catalog', newDataCatalog);
         newDataCatalog.organization = {
             _id: geneId,
         };
