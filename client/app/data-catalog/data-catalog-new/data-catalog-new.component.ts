@@ -41,7 +41,7 @@ export class DataCatalogNewComponent implements OnInit {
             ]],
             picture: ['', [
                 Validators.required,
-                UrlValidators.http(),
+                UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
             ]],
             visibility: [this.dataCatalogSpecs.visibility.default.value, [

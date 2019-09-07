@@ -41,7 +41,7 @@ export class ToolNewComponent implements OnInit {
             ]],
             picture: ['', [
                 Validators.required,
-                UrlValidators.http(),
+                UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
             ]],
             visibility: [this.toolSpecs.visibility.default.value, [
