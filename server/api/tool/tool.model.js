@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './tool.events';
-import config from '../../config/environment';
+import { models as modelSpecs } from '../../config/environment';
 
 var ToolSchema = new mongoose.Schema({
     // slug: {
@@ -34,8 +34,8 @@ var ToolSchema = new mongoose.Schema({
     visibility: {
         type: String,
         required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.tool.visibility.default
+        enum: modelSpecs.tool.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.tool.visibility.default.value,
     },
     // apiServerUrl: {
     //     type: String,

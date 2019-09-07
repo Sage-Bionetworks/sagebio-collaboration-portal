@@ -207,8 +207,8 @@ export const models = {
             maxlength: 1024
         },
         visibility: {
-            values: Object.values(entityVisibility).map(visibility => visibility.value),
-            default: entityVisibility.PRIVATE.value
+            options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
+            default: entityVisibility.PUBLIC // entityVisibility.PRIVATE
         }
     },
     insight: {

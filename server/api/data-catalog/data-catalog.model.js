@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { registerEvents } from './data-catalog.events';
-import { models } from '../../config/environment';
+import { models as modelSpecs } from '../../config/environment';
 
 var DataCatalogSchema = new mongoose.Schema({
     title: {
@@ -18,8 +18,8 @@ var DataCatalogSchema = new mongoose.Schema({
     visibility: {
         type: String,
         required: true,
-        enum: models.dataCatalog.visibility.options.map(visibility => visibility.value),
-        default: models.dataCatalog.visibility.default.value,
+        enum: modelSpecs.dataCatalog.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.dataCatalog.visibility.default.value,
     },
     website: {
         type: String,
@@ -32,7 +32,7 @@ var DataCatalogSchema = new mongoose.Schema({
     },
     apiType: {
         type: String,
-        enum: models.dataCatalog.apiType.options.map(apiType => apiType.value),
+        enum: modelSpecs.dataCatalog.apiType.options.map(apiType => apiType.value),
         required: true,
     },
     apiServerUrl: {

@@ -1,6 +1,6 @@
 <div class="app-primary-header">
     <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
-    <h1>New Data Catalog</h1>
+    <h1>Create a New Data Catalog</h1>
 </div>
 
 <mat-card class="app-data-catalog-new-card">
@@ -20,11 +20,11 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-new-form-field">
                 <input matInput placeholder="Picture" formControlName="picture" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.picture.errors?.noTrailingSlash">
-                    The URL must not have a trailing slash.
-                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.picture.errors?.http">
                     The URL must start with http:// or https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.picture.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.picture.invalid">
                     Please enter a valid URL.
@@ -38,11 +38,11 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-new-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.noTrailingSlash">
-                    The URL must not have a trailing slash.
-                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.http">
                     The URL must start with http:// or https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.invalid">
                     Please enter a valid URL for the website.
@@ -56,11 +56,11 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-new-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
-                </mat-error>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.http">
-                    The URL must start with http:// or https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
                     Please enter a valid URL for the API.

@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToolService } from '../tool.service';
-import { Tool } from 'models/entities/tool.model';
 import { geneId } from '../../../../server/config/seeds/default/organizations';  // TODO: get from API
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app.constants';
@@ -28,7 +27,7 @@ export class ToolNewComponent implements OnInit {
         private toolService: ToolService) {
 
         this.toolSpecs = config.models.tool;
-        console.log('toolSpecs', this.toolSpecs);
+
         this.newForm = this.formBuilder.group({
             title: ['', [
                 Validators.required,
@@ -39,6 +38,14 @@ export class ToolNewComponent implements OnInit {
                 Validators.required,
                 Validators.minLength(this.toolSpecs.description.minlength),
                 Validators.maxLength(this.toolSpecs.description.maxlength)
+            ]],
+            picture: ['', [
+                Validators.required,
+                UrlValidators.http(),
+                UrlValidators.noTrailingSlash()
+            ]],
+            visibility: [this.toolSpecs.visibility.default.value, [
+                Validators.required
             ]],
             apiServerUrl: ['', [
                 Validators.required,
@@ -52,7 +59,7 @@ export class ToolNewComponent implements OnInit {
             ]],
             website: ['', [
                 Validators.required,
-                UrlValidators.https(),
+                UrlValidators.http(),
                 UrlValidators.noTrailingSlash()
             ]]
         });
