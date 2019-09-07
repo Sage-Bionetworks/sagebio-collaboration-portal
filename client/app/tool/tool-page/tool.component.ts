@@ -24,7 +24,7 @@ export class ToolComponent implements OnInit, OnDestroy {
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
 
-    private canEditTool = false;
+    private canEditTool = true;
     private canDeleteTool = false;
     private userPermissionsSub: Subscription;
 

@@ -47,11 +47,11 @@ export class ToolNewComponent implements OnInit {
             visibility: [this.toolSpecs.visibility.default.value, [
                 Validators.required
             ]],
-            apiServerUrl: ['', [
-                Validators.required,
-                UrlValidators.https(),
-                UrlValidators.noTrailingSlash()
-            ]],
+            // apiServerUrl: ['', [
+            //     Validators.required,
+            //     UrlValidators.https(),
+            //     UrlValidators.noTrailingSlash()
+            // ]],
             apiHealthCheckUrl: ['', [
                 Validators.required,
                 UrlValidators.https(),

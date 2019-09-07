@@ -111,7 +111,7 @@ router.post('/', toolAuth.canCreateTool(), controller.create);
  *       '404':
  *         description: Tool not found
  */
-router.patch('/:id', toolAuth.canEditTool(), controller.patch);
+router.patch('/:id', toolAuth.canEditTool(), controller.patch); // TODO Sanitize patches
 
 /**
  * @swagger

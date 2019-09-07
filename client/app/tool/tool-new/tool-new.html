@@ -36,7 +36,7 @@
                     <option *ngFor="let option of toolSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
                 </select>
             </mat-form-field>
-            <mat-form-field class="app-form-field app-tool-new-form-field">
+            <!-- <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
                     The URL must start with https://.
@@ -47,7 +47,7 @@
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
                     Please enter a valid URL for the API.
                 </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.errors?.https">

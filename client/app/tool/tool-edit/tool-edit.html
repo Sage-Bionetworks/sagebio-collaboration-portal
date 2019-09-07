@@ -18,22 +18,28 @@
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-            <!-- <mat-form-field class="app-form-field app-tool-edit-form-field">
-                <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+            <mat-form-field class="app-form-field app-tool-edit-form-field">
+                <input matInput placeholder="Picture" formControlName="picture" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.errors?.https">
+                    The URL must start with https://.
                 </mat-error>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.noTrailingSlash">
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
                 </mat-error>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.invalid">
-                    Please enter a valid URL for the API.
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.invalid">
+                    Please enter a valid URL.
                 </mat-error>
-            </mat-form-field> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Visibility</mat-label>
+                <select matNativeControl formControlName="visibility" required>
+                    <option *ngFor="let option of toolSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
+                </select>
+            </mat-form-field>
             <mat-form-field class="app-form-field app-tool-edit-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+                    The URL must start with https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
@@ -44,8 +50,8 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-edit-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+                <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.http">
+                    The URL must start with http:// or https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.

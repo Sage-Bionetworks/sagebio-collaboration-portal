@@ -8,9 +8,6 @@
         <mat-card class="tool-card">
             <div class="tool-card-top">
                 <div class="tool-card-left-container">
-                    <div class="tool-card-prov-graph-actions">
-                        <show-activity-button [root]="tool" (click)="showActivity()"></show-activity-button>
-                    </div>
                     <h3>{{ tool.title }}</h3>
                     <picture>
                         <img [src]="tool.picture" aria-label="Tool picture">
@@ -38,6 +35,7 @@
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
                 <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
+                <show-activity-button [root]="tool" (click)="showActivity()"></show-activity-button>
                 <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate=true">Edit</a>
                 <a *ngIf="canDeleteTool" mat-raised-button color="warn" (click)="displayConfirmationDialog()">Delete</a>
             </div>

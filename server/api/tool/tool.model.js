@@ -20,7 +20,7 @@ var ToolSchema = new mongoose.Schema({
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x200'
+        default: 'https://via.placeholder.com/150/007fff/007fff'
     },
     organization: {
         type: mongoose.Schema.Types.ObjectId,

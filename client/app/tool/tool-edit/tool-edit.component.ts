@@ -1,63 +1,73 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { ToolService } from '../tool.service';
-import { Tool } from 'models/entities/tool.model';
-import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../app.constants';
-import slugify from 'slugify';
-import { UrlValidators } from 'components/validation/url-validators';
 import { map } from 'lodash';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { UrlValidators } from 'components/validation/url-validators';
+import { Tool } from 'models/entities/tool.model';
+import { ToolService } from '../tool.service';
+import config from '../../app.constants';
 
 @Component({
     selector: 'tool-edit',
     template: require('./tool-edit.html'),
     styles: [require('./tool-edit.scss')],
 })
-export class ToolEditComponent implements OnInit, OnDestroy {
-    private editForm: FormGroup;
-    private errors = {
-        editTool: undefined
-    };
+export class ToolEditComponent implements OnInit {
     @Input() tool: Tool;
     @Output() editTool: EventEmitter<Tool> = new EventEmitter<Tool>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, ToolService];
-    constructor(private router: Router,
-        private route: ActivatedRoute,
-        private formBuilder: FormBuilder,
+    private toolSpecs: any;
+    private editForm: FormGroup;
+    private errors = {
+        editTool: undefined
+    };
+
+    static parameters = [FormBuilder, PageTitleService, ToolService];
+    constructor(private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private toolService: ToolService) {
-            this.pageTitleService.title = 'Edit Tool';
+            this.toolSpecs = config.models.tool;
             this.editForm = this.formBuilder.group({
                 title: ['', [
                     Validators.required,
-                    Validators.minLength(config.models.tool.name.minlength),
-                    Validators.maxLength(config.models.tool.name.maxlength)
+                    Validators.minLength(this.toolSpecs.title.minlength),
+                    Validators.maxLength(this.toolSpecs.title.maxlength)
                 ]],
                 description: ['', [
                     Validators.required,
-                    Validators.minLength(config.models.tool.description.minlength),
-                    Validators.maxLength(config.models.tool.description.maxlength)
+                    Validators.minLength(this.toolSpecs.description.minlength),
+                    Validators.maxLength(this.toolSpecs.description.maxlength)
+                ]],
+                picture: ['', [
+                    Validators.required,
+                    UrlValidators.https(),
+                    UrlValidators.noTrailingSlash()
+                ]],
+                visibility: [this.toolSpecs.visibility.default.value, [
+                    Validators.required
                 ]],
                 apiHealthCheckUrl: ['', [
                     Validators.required,
+                    UrlValidators.https(),
                     UrlValidators.noTrailingSlash()
                 ]],
                 website: ['', [
                     Validators.required,
+                    UrlValidators.http(),
                     UrlValidators.noTrailingSlash()
                 ]]
             });
     }
 
     ngOnInit() {
+        this.pageTitleService.title = 'Edit Tool';
         if (this.tool) {
             this.editForm.setValue({
                 title: this.tool.title,
                 description: this.tool.description,
+                picture: this.tool.picture,
+                visibility: this.tool.visibility,
                 apiHealthCheckUrl: this.tool.apiHealthCheckUrl,
                 website: this.tool.website
             });
@@ -65,11 +75,8 @@ export class ToolEditComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy() { }
-
     onEditTool(): void {
         let editedTool = this.editForm.value;
-        editedTool.slug = slugify(this.editForm.value.title).toLowerCase();
         const patches = map(editedTool, (value, key) => ({
             op: 'replace',
             path: `/${key}`,
