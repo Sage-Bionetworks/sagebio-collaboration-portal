@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataCatalogService } from '../data-catalog.service';
@@ -11,6 +11,7 @@ import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rx
 import {
     CkanDatasetSearchResponse
 } from 'models/ckan/ckan-dataset-search-response.model';
+import { DataCatalogEditComponent } from '../data-catalog-edit/data-catalog-edit.component';
 
 interface CatalogStats {
     live: boolean;
@@ -25,6 +26,11 @@ interface CatalogStats {
 export class DataCatalogComponent implements OnInit, OnDestroy {
     private catalog: DataCatalog;
     private catalogStats: CatalogStats;
+
+    @ViewChild(DataCatalogEditComponent, { static: false }) editTool: DataCatalogEditComponent;
+    private showEditDataCatalogTemplate = false;
+
+    private canEditDataCatalog = true;
 
     static parameters = [Router, ActivatedRoute, PageTitleService,
         DataCatalogService, DatasetService, NotificationService];
@@ -62,4 +68,10 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() { }
+
+    // onEditDataCatalog(dataCatalog: DataCatalog): void {
+    //     this.showEditToolTemplate = false;
+    //     this.tool = { ...this.tool, ... omit(tool, 'organization')};
+    //     this.notificationService.info('The Tool has been successfully updated');
+    // }
 }

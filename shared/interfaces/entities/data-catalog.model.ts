@@ -37,6 +37,7 @@ export interface DataCatalog extends Entity {
     organization: Organization;
     apiType: DataCatalogApiType;
     apiServerUrl: string;
+    apiHealthCheckUrl: string;
 }
 
 /**

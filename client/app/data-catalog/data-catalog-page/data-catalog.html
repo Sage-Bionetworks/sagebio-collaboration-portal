@@ -1,4 +1,4 @@
-<div *ngIf="catalog">
+<div *ngIf="dataCatalog && !showEditDataCatalogTemplate; else showEditDataCatalogForm">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
         <h1>{{ catalog.title }}</h1>
@@ -30,6 +30,7 @@
             <div class="data-catalog-actions">
                 <a mat-raised-button color="primary" [href]="catalog.website" target="_blank">Open Data Catalog</a>
                 <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
+                <a *ngIf="canEditDataCatalog" mat-raised-button color="secondary" (click)="showEditDataCatalogTemplate=true">Edit</a>
             </div>
         </mat-card>
     </div>

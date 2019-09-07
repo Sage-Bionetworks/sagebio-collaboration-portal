@@ -10,6 +10,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 
 import { DataCatalogDiscussionComponent } from './data-catalog-discussion/data-catalog-discussion.component';
+import { DataCatalogEditComponent } from './data-catalog-edit/data-catalog-edit.component';
 import { DataCatalogListComponent } from './data-catalog-list/data-catalog-list.component';
 import { DataCatalogNewComponent } from './data-catalog-new/data-catalog-new.component';
 import { DataCatalogComponent } from './data-catalog-page/data-catalog.component';
@@ -49,6 +50,7 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         DataCatalogDiscussionComponent,
+        DataCatalogEditComponent,
         DataCatalogListComponent,
         DataCatalogNewComponent,
         DataCatalogComponent,

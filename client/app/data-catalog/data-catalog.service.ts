@@ -7,6 +7,7 @@ import { stringifyQuery } from 'components/util';
 import { head, orderBy } from 'lodash/fp';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { Patch } from 'models/patch.model';
 
 @Injectable()
 export class DataCatalogService implements EntityService<DataCatalog> {
@@ -27,6 +28,10 @@ export class DataCatalogService implements EntityService<DataCatalog> {
 
     create(catalog: DataCatalog): Observable<DataCatalog> {
         return this.httpClient.post<DataCatalog>('/api/data-catalogs', catalog);
+    }
+
+    update(id: string, patches: Patch[]): Observable<DataCatalog> {
+        return this.httpClient.patch<DataCatalog>(`/api/data-catalogs/${id}`, patches);
     }
 
     makePublic(entity: DataCatalog): Observable<DataCatalog> {

@@ -39,6 +39,10 @@ var DataCatalogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    apiHealthCheckUrl: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now,

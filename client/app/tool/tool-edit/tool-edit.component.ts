@@ -83,7 +83,7 @@ export class ToolEditComponent implements OnInit {
             value: value
         }));
 
-        this.toolService.updateTool(patches, this.tool._id)
+        this.toolService.update(this.tool._id, patches)
             .subscribe(tool => {
                 this.editTool.emit(tool);
                 this.close.emit(null);

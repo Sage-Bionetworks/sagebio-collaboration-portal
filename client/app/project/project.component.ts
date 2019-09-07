@@ -31,7 +31,7 @@ export class ProjectComponent implements OnInit {
         console.log('GETTING PROJECT');
         const getProject = this.route.params.pipe(
             tap(res => console.log('RES', res)),
-            switchMap(res => this.projectService.getProject(res.id)
+            switchMap(res => this.projectService.get(res.id)
                 .pipe(
                     catchError(err => {
                         console.error(err);

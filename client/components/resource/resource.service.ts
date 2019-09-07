@@ -9,6 +9,7 @@ import { Resource } from 'models/entities/resources/resource.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
+import { Patch } from 'models/patch.model';
 
 @Injectable()
 export class ResourceService implements EntityService<Resource> {
@@ -29,6 +30,10 @@ export class ResourceService implements EntityService<Resource> {
 
     create(resource: Resource): Observable<Resource> {
         return this.httpClient.post<Resource>('/api/resources', resource);
+    }
+
+    update(id: string, patches: Patch[]): Observable<Resource> {
+        return this.httpClient.patch<Resource>(`/api/resources/${id}`, patches);
     }
 
     makePublic(entity: Resource): Observable<Resource> {

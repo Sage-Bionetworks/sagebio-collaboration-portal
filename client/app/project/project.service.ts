@@ -31,6 +31,10 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.post<Project>('/api/projects', project);
     }
 
+    update(id: string, patches: Patch[]): Observable<Project> {
+        return this.httpClient.patch<Project>(`/api/projects/${id}`, patches);
+    }
+
     makePublic(entity: Project): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
     }
@@ -39,21 +43,9 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 
-    // FUNCTIONS TO REVIEW
-
-    // getProjects(/*query?: {}*/): Observable<Project[]> {
-    //     return this.httpClient.get<Project[]>(`/api/projects`);  // ${stringifyQuery(query)}
-    // }
-
-    getProject(projectId: string): Observable<Project> {
-        return this.httpClient.get<Project>(`/api/projects/${projectId}`);
-    }
+    // TOD REVIEW
 
     getVisibility(projectId: string): Observable<EntityVisibility> {
         return this.httpClient.get<EntityVisibility>(`/api/projects/${projectId}/visibility`);
-    }
-
-    update(projectId: string, patches: Patch[]): Observable<Project> {
-        return this.httpClient.patch<Project>(`/api/projects/${projectId}`, patches);
     }
 }

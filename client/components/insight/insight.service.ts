@@ -9,6 +9,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { Patch } from 'models/patch.model';
 
 @Injectable()
 export class InsightService implements EntityService<Insight> {
@@ -29,6 +30,10 @@ export class InsightService implements EntityService<Insight> {
 
     create(insight: Insight): Observable<Insight> {
         return this.httpClient.post<Insight>('/api/insights', insight);
+    }
+
+    update(id: string, patches: Patch[]): Observable<Insight> {
+        return this.httpClient.patch<Insight>(`/api/insights/${id}`, patches);
     }
 
     makePublic(entity: Insight): Observable<Insight> {

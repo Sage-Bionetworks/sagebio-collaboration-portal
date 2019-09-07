@@ -10,6 +10,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { Patch } from 'models/patch.model';
 
 @Injectable()
 export class ToolService implements EntityService<Tool> {
@@ -30,6 +31,10 @@ export class ToolService implements EntityService<Tool> {
 
     create(tool: Tool): Observable<Tool> {
         return this.httpClient.post<Tool>('/api/tools', tool);
+    }
+
+    update(id: string, patches: Patch[]): Observable<Tool> {
+        return this.httpClient.patch<Tool>(`/api/tools/${id}`, patches);
     }
 
     makePublic(entity: Tool): Observable<Tool> {
