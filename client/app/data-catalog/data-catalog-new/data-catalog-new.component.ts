@@ -41,6 +41,7 @@ export class DataCatalogNewComponent implements OnInit {
             ]],
             picture: ['', [
                 Validators.required,
+                UrlValidators.http(),
                 UrlValidators.noTrailingSlash()
             ]],
             visibility: [this.dataCatalogSpecs.visibility.default.value, [
@@ -48,6 +49,7 @@ export class DataCatalogNewComponent implements OnInit {
             ]],
             website: ['', [
                 Validators.required,
+                UrlValidators.http(),
                 UrlValidators.noTrailingSlash()
             ]],
             // organization: ['', [
@@ -58,6 +60,7 @@ export class DataCatalogNewComponent implements OnInit {
             ]],
             apiServerUrl: ['', [
                 Validators.required,
+                UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
             ]]
         });

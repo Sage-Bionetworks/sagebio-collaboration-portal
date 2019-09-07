@@ -17,19 +17,19 @@ const sageCkanCatalog = {
 };
 
 let dataCatalogs = [
+    sageCkanCatalog,
     {
         _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd91'),
         slug: 'roche-data-portal',
-        title: 'Roche Data Portal', // (Beta)
+        title: 'Roche Data Portal',
         description: 'A discoverability portal for the GREX framework',
         apiType: dataCatalogApiTypes.CKAN.value,
         picture: 'assets/images/320px-Roche_Logo.svg.png',
-        apiServerUrl: 'https://demo-data.roche.com/api/3', // 'http://data.roche.com/api/3',
-        website: 'https://demo-data.roche.com/', // 'http://data.roche.com',
+        apiServerUrl: 'https://demo-data.roche.com/api/3',
+        website: 'https://demo-data.roche.com/',
         organization: geneId,
         createdBy: adminUserId,
     },
-    sageCkanCatalog,
     {
         _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874f356'),
         slug: 'phc-ix',
