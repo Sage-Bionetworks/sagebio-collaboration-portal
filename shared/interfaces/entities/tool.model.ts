@@ -32,12 +32,8 @@ import { Organization } from '../organization.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface Tool extends Entity {
-    // slug: string;
-    picture: string;
     website: string;
     organization: Organization;
-    // apiServerUrl: string;
     apiHealthCheckUrl: string;
-    resourceFormats: string[];
-    // supportedDataTypes: string[];
+    // resourceFormats: string[];
 }

@@ -32,7 +32,6 @@ import { Entity } from './entity.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface DataCatalog extends Entity {
-    picture: string;
     website: string;
     organization: Organization;
     apiType: DataCatalogApiType;

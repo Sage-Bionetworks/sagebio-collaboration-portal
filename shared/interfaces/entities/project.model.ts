@@ -23,6 +23,4 @@ import { Entity } from './entity.model';
  *         createdBy:
  *           $ref: '#/components/schemas/User'
  */
-export interface Project extends Entity {
-    picture: string;
-}
+export interface Project extends Entity {}

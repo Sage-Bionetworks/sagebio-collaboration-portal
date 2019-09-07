@@ -68,7 +68,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
             resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
             return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.title));
         } else {
-            return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
+            // return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
         }
     }
 
