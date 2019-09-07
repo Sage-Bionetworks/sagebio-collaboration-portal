@@ -189,8 +189,8 @@ export const models = {
             maxlength: 1024
         },
         visibility: {
-            options: Object.values(entityVisibility),
-            default: entityVisibility.PRIVATE
+            options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
+            default: entityVisibility.PUBLIC // entityVisibility.PRIVATE
         },
         apiType: {
             options: Object.values(dataCatalogApiTypes),
