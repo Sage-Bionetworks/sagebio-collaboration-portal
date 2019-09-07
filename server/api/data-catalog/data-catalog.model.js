@@ -13,7 +13,7 @@ var DataCatalogSchema = new mongoose.Schema({
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x150',
+        default: 'https://via.placeholder.com/200/8a2be2/8a2be2'
     },
     visibility: {
         type: String,

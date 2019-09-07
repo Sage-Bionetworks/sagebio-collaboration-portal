@@ -1,19 +1,19 @@
 <div *ngIf="dataCatalog && !showEditDataCatalogTemplate; else showEditDataCatalogForm">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
-        <h1>{{ catalog.title }}</h1>
+        <h1>{{ dataCatalog.title }}</h1>
     </div>
 
     <div class="data-catalog-content">
         <mat-card class="data-catalog-card">
             <picture>
-                <img [src]="catalog.picture" aria-label="Data catalog preview" />
+                <img [src]="dataCatalog.picture" aria-label="Data catalog preview" />
             </picture>
             <div class="data-catalog-metadata">
-                <h1>{{ catalog.title }}</h1>
+                <h1>{{ dataCatalog.title }}</h1>
                 <div class="data-catalog-metadata-row">
                     <mat-icon>home</mat-icon>
-                    <span>{{ catalog.organization.title }}</span>
+                    <span>{{ dataCatalog.organization.title }}</span>
                 </div>
                 <div *ngIf="catalogStats.datasetCount" class="data-catalog-metadata-row">
                     <mat-icon>storage</mat-icon>
@@ -24,14 +24,18 @@
                     <span>This data catalog can not be reached.</span>
                 </div>
                 <div class="data-catalog-metadata-description">
-                    <span>{{ catalog.description }}</span>
+                    <span>{{ dataCatalog.description }}</span>
                 </div>
             </div>
             <div class="data-catalog-actions">
-                <a mat-raised-button color="primary" [href]="catalog.website" target="_blank">Open Data Catalog</a>
+                <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
                 <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
                 <a *ngIf="canEditDataCatalog" mat-raised-button color="secondary" (click)="showEditDataCatalogTemplate=true">Edit</a>
             </div>
         </mat-card>
     </div>
 </div>
+
+<ng-template #showEditDataCatalogForm>
+    <data-catalog-edit *ngIf="dataCatalog" [dataCatalog]="dataCatalog" (editDataCatalog)="onEditDataCatalog($event)" (close)="showEditDataCatalogTemplate=false"></data-catalog-edit>
+</ng-template>

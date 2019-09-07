@@ -1,24 +1,24 @@
 <div class="app-primary-header">
     <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
-    <h1>Edit Tool</h1>
+    <h1>Edit Data Catalog</h1>
 </div>
 
-<mat-card class="app-tool-edit-card" *ngIf="tool">
+<mat-card class="app-data-catalog-edit-card" *ngIf="dataCatalog">
     <mat-card-content>
-        <form class="app-tool-edit-card-form" [formGroup]="editForm" novalidate>
-            <mat-form-field class="app-tool-edit-form-field">
+        <form class="app-data-catalog-edit-card-form" [formGroup]="editForm" novalidate>
+            <mat-form-field class="app-data-catalog-edit-form-field">
                 <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
                 <mat-error *ngIf="editForm.controls.title.invalid">
                     Please enter a valid name.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-tool-edit-form-field">
+            <mat-form-field class="app-data-catalog-edit-form-field">
                 <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
                 <mat-error *ngIf="editForm.controls.description.invalid">
                     Please enter a valid description.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-form-field app-tool-edit-form-field">
+            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
                 <input matInput placeholder="Picture" formControlName="picture" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.picture.errors?.https">
                     The URL must start with https://.
@@ -33,10 +33,10 @@
             <mat-form-field>
                 <mat-label>Visibility</mat-label>
                 <select matNativeControl formControlName="visibility" required>
-                    <option *ngFor="let option of toolSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
+                    <option *ngFor="let option of dataCatalogSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
                 </select>
             </mat-form-field>
-            <mat-form-field class="app-form-field app-tool-edit-form-field">
+            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
                     The URL must start with https://.
@@ -48,7 +48,7 @@
                     Please enter a valid URL for the API health check.
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="app-form-field app-tool-edit-form-field">
+            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.http">
                     The URL must start with http:// or https://.
@@ -63,8 +63,8 @@
             <mat-error *ngIf="errors.editTool">
                 {{ errors.editTool }}
             </mat-error>
-            <div class="app-tool-edit-form-actions">
-                <a mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="!editForm.invalid && onEditTool()">Update Tool</a>
+            <div class="app-data-catalog-edit-form-actions">
+                <a mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="!editForm.invalid && onEditDataCatalog()">Update Data Catalog</a>
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>
