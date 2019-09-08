@@ -31,7 +31,7 @@ var dataCatalogIndex = proxyquire('./index.js', {
     },
     '../../auth/auth.service': authServiceStub,
     './data-catalog.auth': dataCatalogAuthStub,
-    './data-catalog.controller': dataCatalogCtrlStub
+    './data-catalog.controller': dataCatalogCtrlStub,
 });
 
 describe('DataCatalog API Router:', function () {
@@ -48,35 +48,29 @@ describe('DataCatalog API Router:', function () {
 
     describe('GET /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.show', function () {
-            expect(routerStub.get.withArgs('/:id', 'dataCatalogAuth.canReadDataCatalog', 'dataCatalogCtrl.show')).to.have.been
-                .calledOnce;
+            expect(routerStub.get.withArgs('/:id', 'dataCatalogAuth.canReadDataCatalog', 'dataCatalogCtrl.show')).to
+                .have.been.calledOnce;
         });
     });
 
     describe('POST /api/data-catalogs', function () {
         it('should route to dataCatalog.controller.create', function () {
-            expect(
-                routerStub.post.withArgs('/', 'dataCatalogAuth.canCreateDataCatalog', 'dataCatalogCtrl.create')
-            ).to.have.been.calledOnce;
+            expect(routerStub.post.withArgs('/', 'dataCatalogAuth.canCreateDataCatalog', 'dataCatalogCtrl.create')).to
+                .have.been.calledOnce;
         });
     });
 
     describe('PATCH /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.patch', function () {
-            expect(
-                routerStub.patch.withArgs('/:id', 'dataCatalogAuth.canEditDataCatalog', 'dataCatalogCtrl.patch')
-            ).to.have.been.calledOnce;
+            expect(routerStub.patch.withArgs('/:id', 'dataCatalogAuth.canEditDataCatalog', 'dataCatalogCtrl.patch')).to
+                .have.been.calledOnce;
         });
     });
 
     describe('DELETE /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.destroy', function () {
             expect(
-                routerStub.delete.withArgs(
-                    '/:id',
-                    'dataCatalogAuth.canDeleteDataCatalog',
-                    'dataCatalogCtrl.destroy'
-                )
+                routerStub.delete.withArgs('/:id', 'dataCatalogAuth.canDeleteDataCatalog', 'dataCatalogCtrl.destroy')
             ).to.have.been.calledOnce;
         });
     });
