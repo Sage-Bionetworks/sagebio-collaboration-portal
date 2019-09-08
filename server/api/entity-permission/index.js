@@ -1,26 +1,18 @@
-var express = require('express');
-var controller = require('./entity-permission.controller');
+import { Router } from 'express';
 import * as auth from '../../auth/auth.service';
-import {
-    accessTypes,
-    userRoles
-} from '../../config/environment';
+import * as entityPermissionAuth from './entity-permission.auth';
+import * as controller from './entity-permission.controller';
 
-const ADMIN_ROLE = userRoles.ADMIN.value;
-const ADMIN_ACCESS = accessTypes.ADMIN.value;
+var router = Router();
 
-var router = express.Router();
+router.get('/', auth.isAuthenticated(), controller.index);
 
-router.get('/', auth.hasRole(ADMIN_ROLE), controller.index);
-router.get('/mine', auth.isAuthenticated(), controller.indexMine);
+router.get('/entity/:entityId', entityPermissionAuth.canReadEntityPermission(), controller.indexByEntity);
 
-router.get('/entity/:entityId', //auth.canAccessEntity([ADMIN_ACCESS]),
-    controller.indexByEntity);
-router.post('/entity/:entityId', //auth.canAccessEntity([ADMIN_ACCESS]),
-    controller.create);
-router.patch('/entity/:entityId/:id', //auth.canAccessEntity([ADMIN_ACCESS]),
-    controller.patch);
-router.delete('/entity/:entityId/:id', //auth.canAccessEntity([ADMIN_ACCESS]),
-    controller.destroy);
+router.post('/', entityPermissionAuth.canCreateEntityPermission(), controller.create);
+
+router.patch('/:id', entityPermissionAuth.canEditEntityPermission(), controller.patch);
+
+router.delete('/:id', entityPermissionAuth.canDeleteEntityPermission(), controller.destroy);
 
 module.exports = router;

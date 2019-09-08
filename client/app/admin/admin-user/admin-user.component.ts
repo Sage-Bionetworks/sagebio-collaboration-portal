@@ -39,7 +39,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         ).subscribe(targetUser => {
             this.targetUser = targetUser;
             this.role = targetUser.role;
-            this.actionPermissionService.indexByUser(this.targetUser._id)
+            this.actionPermissionService.queryByUser(this.targetUser._id)
                 .subscribe((permissionRecords: ActionPermission[]) => {
                     permissionRecords.map((permission: any) => {
                         this.permissionsIDTracker = { ...this.permissionsIDTracker, [permission.permission]: permission._id };

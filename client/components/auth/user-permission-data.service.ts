@@ -121,11 +121,11 @@ export class UserPermissionDataService {
                             map(user => user.role),
                             catchError(err => of(<UserRole>null))
                         ),
-                    permissions: this.actionPermissionService.index()
+                    permissions: this.actionPermissionService.query()
                         .pipe(
                             catchError(err => of(<ActionPermission[]>[]))
                         ),
-                    entityPermissions: this.entityPermissionService.queryMine()
+                    entityPermissions: this.entityPermissionService.query()
                         .pipe(
                             catchError(err => of(<EntityPermission[]>[]))
                         )
