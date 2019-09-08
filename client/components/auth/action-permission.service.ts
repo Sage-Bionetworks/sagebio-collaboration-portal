@@ -9,6 +9,9 @@ export class ActionPermissionService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
+
+
+
     getMyPermissions(): Observable<ActionPermission[]> {
         return this.httpClient.get<ActionPermission[]>('/api/action-permissions/mine');
     }

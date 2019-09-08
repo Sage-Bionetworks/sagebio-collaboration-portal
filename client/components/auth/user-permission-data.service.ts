@@ -5,7 +5,7 @@ import { ActionPermission } from 'models/auth/action-permission.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { AuthService } from 'components/auth/auth.service';
 import { UserService } from 'components/auth/user.service';
-import { ActionPermissionService } from './user-permission.service';
+import { ActionPermissionService } from './action-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
 import { find, identity } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';

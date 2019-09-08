@@ -9,5 +9,5 @@
  *           type: string
  */
 export interface ActionPermission {
-    value: string
+    value: string;
 }

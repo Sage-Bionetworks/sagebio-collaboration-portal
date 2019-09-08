@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'components/auth/user.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { ActionPermissionService } from 'components/auth/user-permission.service';
+import { ActionPermissionService } from 'components/auth/action-permission.service';
 import { ActionPermission } from 'models/auth/action-permission.model';
 import { User } from 'models/auth/user.model';
 import { actionPermissionTypes, userRoles } from '../../../../server/config/environment/shared';  // MUST NOT REFER TO SERVER
