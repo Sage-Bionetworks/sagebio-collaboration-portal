@@ -23,6 +23,11 @@ export class EntityPermissionService {
         return this.httpClient.get<EntityPermission[]>(`/api/entity-permissions/entity/${entity._id}`);
     }
 
+    // Required in onder to query an entity permission by the `projectId` property directly when an project object is not available
+    queryByEntityId(entityId: string): Observable<EntityPermission[]> {
+        return this.httpClient.get<EntityPermission[]>(`/api/entity-permissions/entity/${entityId}`);
+    }
+
     create(entityPermission: EntityPermission): Observable<EntityPermission> {
         return this.httpClient.post<EntityPermission>(`/api/entity-permissions/entity/${entityPermission.entityId}`, entityPermission);
     }
