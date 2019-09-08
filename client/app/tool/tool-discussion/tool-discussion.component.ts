@@ -35,7 +35,9 @@ export class ToolDiscussionComponent implements OnInit {
         this.toolDataService.tool().subscribe(
             tool => {
                 this.tool = tool;
-                this.pageTitleService.title = `${tool.title} - Discussion`;
+                if (tool) {
+                    this.pageTitleService.title = `${tool.title} - Discussion`;
+                }
             },
             err => console.error(err)
         );
