@@ -8,12 +8,18 @@
                 </mat-error>
             </mat-form-field>
             <app-quill-editor class="app-project-edit-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="editForm.controls['description']"></app-quill-editor>
-            <!-- <mat-form-field>
-                <mat-label>Visibility</mat-label>
-                <select matNativeControl formControlName="visibility" required>
-                    <option *ngFor="let value of projectSpecs.visibility.values" [value]="value">{{ value }}</option>
-                </select>
-            </mat-form-field> -->
+            <mat-form-field class="app-form-field app-project-edit-form-field">
+                <input matInput placeholder="Picture" formControlName="picture" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.picture.invalid">
+                    Please enter a valid URL.
+                </mat-error>
+            </mat-form-field>
             <mat-error *ngIf="errors.newProject">
                 {{errors.newProject}}
             </mat-error>
