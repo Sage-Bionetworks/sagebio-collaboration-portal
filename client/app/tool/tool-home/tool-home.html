@@ -1,11 +1,11 @@
-<div *ngIf="tool && !showEditToolTemplate; else showEditToolForm">
-    <div class="tool-content">
+<div *ngIf="tool$ | async; let tool">
+    <div *ngIf="!showEditToolTemplate; else showEditToolForm" class="tool-content">
         <mat-card class="tool-card">
             <div class="tool-card-top">
                 <div class="tool-card-left-container">
                     <h3>{{ tool.title }}</h3>
                     <picture>
-                        <img [src]="tool.picture" aria-label="Tool picture">
+                        <img [src]="tool.picture" aria-label="Tool picture" />
                     </picture>
 
                     <div class="tool-metadata">
@@ -30,14 +30,19 @@
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
                 <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
-                <show-activity-button [root]="tool" (click)="showActivity()"></show-activity-button>
-                <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate=true">Edit</a>
-                <a *ngIf="canDeleteTool" mat-raised-button color="warn" (click)="displayConfirmationDialog()">Delete</a>
+                <show-activity-button [root]="tool" [routerLink]="'../activities'"></show-activity-button>
+                <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true"
+                    >Edit</a
+                >
             </div>
         </mat-card>
     </div>
-</div>
 
-<ng-template #showEditToolForm>
-        <tool-edit *ngIf="tool" [tool]="tool" (editTool)="onEditTool($event)" (close)="showEditToolTemplate=false"></tool-edit>
-</ng-template>
+    <ng-template #showEditToolForm>
+        <tool-edit
+            [tool]="tool"
+            (editTool)="onEditTool($event)"
+            (close)="showEditToolTemplate = false"
+        ></tool-edit>
+    </ng-template>
+</div>

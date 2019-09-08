@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Subscription, of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { Subscription, of, Observable } from 'rxjs';
+import { switchMap, catchError, take } from 'rxjs/operators';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
 import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
@@ -20,7 +20,7 @@ import { ToolDataService } from '../tool-data.service';
     styles: [require('./tool-home.scss')],
 })
 export class ToolHomeComponent implements OnInit, OnDestroy {
-    private tool: Tool;
+    private tool$: Observable<Tool>;
     @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
@@ -49,6 +49,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private dialog: MatDialog
     ) {
+        this.tool$ = this.toolDataService.tool();
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
             // this.canEditTool = permissions.canEditTool();
             // this.canDeleteTool = permissions.canDeleteTool();
@@ -56,9 +57,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const getTool = this.toolDataService.tool();
+        // const getTool = this.toolDataService.tool();
 
-        const getToolHealth = getTool.pipe(
+        const getToolHealth = this.tool$.pipe(
             switchMap(tool =>
                 this.toolService.getToolHealth(tool).pipe(
                     catchError(err => {
@@ -68,10 +69,11 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             )
         );
 
-        getTool.subscribe(
+        this.tool$.subscribe(
             tool => {
-                this.tool = tool;
-                this.pageTitleService.title = tool.title;
+                if (tool) {
+                    this.pageTitleService.title = tool.title;
+                }
             },
             err => console.log(err)
         );
@@ -85,45 +87,15 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         this.userPermissionsSub.unsubscribe();
     }
 
-    deleteTool(): void {
-        this.toolService.remove(this.tool).subscribe(
-            deletedTool => {
-                this.router.navigateByUrl('tools');
-                this.notificationService.info(`${deletedTool.title} has been successfully deleted'`);
-            },
-            err => {
-                console.log(err);
-                this.notificationService.error(`Unable to delete the tool ${this.tool.title}'`);
-            }
-        );
-    }
-
-    displayConfirmationDialog(): void {
-        this.dialog
-            .open(ConfirmationDialog, {
-                data: {
-                    message: `Are you sure you want to delete this tool? This action cannot be reversed!`,
-                    confirmButton: {
-                        text: 'Delete',
-                        color: 'warn',
-                    },
-                    cancelButton: {
-                        text: 'Cancel',
-                        color: 'background',
-                    },
-                },
-            })
-            .afterClosed()
-            .subscribe((confirmed: boolean) => confirmed && this.deleteTool());
-    }
-
     onEditTool(tool: Tool): void {
         this.showEditToolTemplate = false;
-        this.tool = { ...this.tool, ...omit(tool, 'organization') };
-        this.notificationService.info('The Tool has been successfully updated');
-    }
-
-    showActivity(): void {
-        this.toolService.showActivity(this.tool);
+        this.tool$.pipe(take(1)).subscribe(
+            tool_ => {
+                tool = { ...tool_, ...omit(tool, 'organization') };
+                this.toolDataService.setTool(tool);
+                this.notificationService.info('The Tool has been successfully updated');
+            },
+            err => console.error(err)
+        );
     }
 }
