@@ -92,9 +92,8 @@ function handleOneAdminRemainingBeforePatch(res, patches) {
                 return EntityPermission.countDocuments({
                     entityId: permission.entityId,
                     access: accessTypes.ADMIN.value,
-                }).exec((err, count) => {
+                }).exec((_, count) => {
                     if (count <= 1) {
-                        console.error(err);
                         res.status(403).send('Can not remove the last admin of an entity.');
                         return null;
                     }
@@ -112,9 +111,8 @@ function handleOneAdminRemainingBeforeRemoval(res) {
             return EntityPermission.countDocuments({
                 entityId: permission.entityId,
                 access: accessTypes.ADMIN.value,
-            }).exec((err, count) => {
+            }).exec((_, count) => {
                 if (count <= 1) {
-                    console.error(err);
                     res.status(403).send('Can not remove the last admin of an entity.');
                     return null;
                 }

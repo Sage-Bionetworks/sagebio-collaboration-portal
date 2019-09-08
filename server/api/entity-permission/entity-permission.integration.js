@@ -1,44 +1,31 @@
-/* globals describe, expect, it, beforeEach, afterEach */
+/* globals describe, expect, it, before, beforeEach, after, afterEach */
 
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
 import Organization from '../organization/organization.model';
 import EntityPermission from './entity-permission.model';
-import {
-    adminUser,
-    anotherUser,
-    authOrganization,
-    anotherOrganization,
-    authenticateUser
-} from '../integration-util';
+import { adminUser, anotherUser, authOrganization, anotherOrganization, authenticateUser } from '../integration-util';
+import { entityTypes, accessTypes, inviteStatusTypes } from '../../config/environment';
 
 var newEntityPermission;
 
-describe('EntityPermission API:', function () {
+describe.only('EntityPermission API:', function () {
     var token;
 
-    before(() => {
-        return EntityPermission.deleteMany()
+    before(() =>
+        EntityPermission.deleteMany()
             .then(() => Organization.deleteMany())
             .then(() => User.deleteMany())
-            .then(() => User.create([
-                adminUser,
-                anotherUser
-            ]))
-            .then(() => Organization.create([
-                authOrganization,
-                anotherOrganization
-            ]))
+            .then(() => User.create([adminUser, anotherUser]))
+            .then(() => Organization.create([authOrganization, anotherOrganization]))
             .then(authenticateUser(app, adminUser))
-            .then(res => token = res);
-    });
+            .then(res => {
+                token = res;
+            })
+    );
 
-    after(() => Promise.all([
-        EntityPermission.deleteMany(),
-        Organization.deleteMany(),
-        User.deleteMany()
-    ]));
+    after(() => Promise.all([EntityPermission.deleteMany(), Organization.deleteMany(), User.deleteMany()]));
 
     describe('GET /api/entity-permissions', function () {
         var entityPermissions;
@@ -63,123 +50,117 @@ describe('EntityPermission API:', function () {
         });
     });
 
-    // describe('POST /api/entity-permissions', function () {
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .post('/api/entity-permissions')
-    //             .send({
-    //                 name: 'New EntityPermission',
-    //                 info: 'This is the brand new entityPermission!!!'
-    //             })
-    //             .expect(201)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 newEntityPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     it('should respond with the newly created entityPermission', function () {
-    //         expect(newEntityPermission.name).to.equal('New EntityPermission');
-    //         expect(newEntityPermission.info).to.equal('This is the brand new entityPermission!!!');
-    //     });
-    // });
+    describe('GET /api/entity-permissions/entity/:entity', function () {
+        var entityPermissions;
 
-    // describe('GET /api/entity-permissions/:id', function () {
-    //     var entityPermission;
-    //
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .get(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 entityPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     afterEach(function () {
-    //         entityPermission = {};
-    //     });
-    //
-    //     it('should respond with the requested entityPermission', function () {
-    //         expect(entityPermission.name).to.equal('New EntityPermission');
-    //         expect(entityPermission.info).to.equal('This is the brand new entityPermission!!!');
-    //     });
-    // });
+        beforeEach(function (done) {
+            request(app)
+                .get('/api/entity-permissions/entity/4e657720656e746974794969')
+                .set('authorization', `Bearer ${token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    entityPermissions = res.body;
+                    done();
+                });
+        });
 
-    // describe('PUT /api/entity-permissions/:id', function () {
-    //     var updatedEntityPermission;
-    //
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .put(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .send({
-    //                 name: 'Updated EntityPermission',
-    //                 info: 'This is the updated entityPermission!!!'
-    //             })
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end(function (err, res) {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 updatedEntityPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     afterEach(function () {
-    //         updatedEntityPermission = {};
-    //     });
-    //
-    //     it('should respond with the updated entityPermission', function () {
-    //         expect(updatedEntityPermission.name).to.equal('Updated EntityPermission');
-    //         expect(updatedEntityPermission.info).to.equal('This is the updated entityPermission!!!');
-    //     });
-    //
-    //     it('should respond with the updated entityPermission on a subsequent GET', function (done) {
-    //         request(app)
-    //             .get(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 let entityPermission = res.body;
-    //
-    //                 expect(entityPermission.name).to.equal('Updated EntityPermission');
-    //                 expect(entityPermission.info).to.equal('This is the updated entityPermission!!!');
-    //
-    //                 done();
-    //             });
-    //     });
-    // });
+        it('should respond with JSON array', function () {
+            expect(entityPermissions).to.be.instanceOf(Array);
+        });
+    });
+
+    describe('POST /api/entity-permissions', function () {
+        beforeEach(function (done) {
+            request(app)
+                .post('/api/entity-permissions')
+                .set('authorization', `Bearer ${token}`)
+                .send({
+                    entityId: '4e657720656e746974794965',
+                    entityType: entityTypes.PROJECT.value,
+                    user: anotherUser._id.toString(),
+                    access: accessTypes.ADMIN.value,
+                    status: inviteStatusTypes.ACCEPTED.value,
+                })
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    newEntityPermission = res.body;
+                    done();
+                });
+        });
+
+        it('should respond with the newly created entityPermission', function () {
+            expect(newEntityPermission.entityId).to.equal('4e657720656e746974794965');
+            expect(newEntityPermission.entityType).to.equal(entityTypes.PROJECT.value);
+            expect(newEntityPermission.user._id).to.equal(anotherUser._id.toString());
+            expect(newEntityPermission.access).to.equal(accessTypes.ADMIN.value);
+            expect(newEntityPermission.status).to.equal(inviteStatusTypes.ACCEPTED.value);
+            expect(newEntityPermission.createdBy._id).to.equal(adminUser._id.toString());
+        });
+    });
+
+    describe('PATCH /api/entity-permissions/:id', function () {
+        it('should respond with 403 on attempt to downgrade the access of the last Admin of an entity', function (done) {
+            request(app)
+                .patch(`/api/entity-permissions/${newEntityPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .send([
+                    {
+                        op: 'replace',
+                        path: '/access',
+                        value: accessTypes.WRITE.value,
+                    },
+                ])
+                .expect(403)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+    });
+
+    describe('DELETE /api/entity-permissions/:id', function () {
+        it('should respond with 403 on attempt to remove the last Admin of an entity', function (done) {
+            request(app)
+                .delete(`/api/entity-permissions/${newEntityPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(403)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+    });
 
     // describe('PATCH /api/entity-permissions/:id', function () {
     //     var patchedEntityPermission;
-    //
+
     //     beforeEach(function (done) {
     //         request(app)
     //             .patch(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .send([{
+    //             .set('authorization', `Bearer ${token}`)
+    //             .send([
+    //                 {
     //                     op: 'replace',
-    //                     path: '/name',
-    //                     value: 'Patched EntityPermission'
+    //                     path: '/access',
+    //                     value: accessTypes.WRITE.value,
     //                 },
     //                 {
     //                     op: 'replace',
-    //                     path: '/info',
-    //                     value: 'This is the patched entityPermission!!!'
-    //                 }
+    //                     path: '/status',
+    //                     value: inviteStatusTypes.ACCEPTED.value,
+    //                 },
     //             ])
     //             .expect(200)
     //             .expect('Content-Type', /json/)
@@ -191,14 +172,18 @@ describe('EntityPermission API:', function () {
     //                 done();
     //             });
     //     });
-    //
+
     //     afterEach(function () {
     //         patchedEntityPermission = {};
     //     });
-    //
+
     //     it('should respond with the patched entityPermission', function () {
-    //         expect(patchedEntityPermission.name).to.equal('Patched EntityPermission');
-    //         expect(patchedEntityPermission.info).to.equal('This is the patched entityPermission!!!');
+    //         expect(patchedEntityPermission.entityId).to.equal(newEntityPermission._id);
+    //         expect(patchedEntityPermission.entityType).to.equal(entityTypes.PROJECT.value);
+    //         expect(patchedEntityPermission.user._id).to.equal(anotherUser._id.toString());
+    //         expect(patchedEntityPermission.access).to.equal(accessTypes.WRITE.value);
+    //         expect(patchedEntityPermission.status).to.equal(inviteStatusTypes.ACCEPTED.value);
+    //         expect(patchedEntityPermission.createdBy._id).to.equal(adminUser._id.toString());
     //     });
     // });
 
@@ -206,6 +191,7 @@ describe('EntityPermission API:', function () {
     //     it('should respond with 204 on successful removal', function (done) {
     //         request(app)
     //             .delete(`/api/entity-permissions/${newEntityPermission._id}`)
+    //             .set('authorization', `Bearer ${token}`)
     //             .expect(204)
     //             .end(err => {
     //                 if (err) {
@@ -214,10 +200,11 @@ describe('EntityPermission API:', function () {
     //                 done();
     //             });
     //     });
-    //
+
     //     it('should respond with 404 when entityPermission does not exist', function (done) {
     //         request(app)
     //             .delete(`/api/entity-permissions/${newEntityPermission._id}`)
+    //             .set('authorization', `Bearer ${token}`)
     //             .expect(404)
     //             .end(err => {
     //                 if (err) {

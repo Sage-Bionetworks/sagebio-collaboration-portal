@@ -28,7 +28,7 @@ export const actionPermissionTypes = {
 
 export const entityTypes = {
     APP: {
-        value: 'app'
+        value: 'app' // TODO Capitalize
     },
     PROJECT: {
         value: 'project'
@@ -43,7 +43,7 @@ export const entityTypes = {
 
 export const insightTypes = {
     REPORT: {
-        value: 'report',
+        value: 'report', // TODO Capitalize
         name: 'Report'
     },
     MEMO: {
