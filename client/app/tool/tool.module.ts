@@ -41,7 +41,7 @@ export const ROUTES: Routes = [
         component: ToolComponent,
         canActivate: [AuthGuard],
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ToolHomeComponent },
             { path: 'activities', component: ToolActivitiesComponent },
             { path: 'discussion', component: ToolDiscussionComponent },

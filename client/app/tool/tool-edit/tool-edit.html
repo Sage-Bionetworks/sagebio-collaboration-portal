@@ -1,8 +1,3 @@
-<div class="app-primary-header">
-    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
-    <h1>Edit Tool</h1>
-</div>
-
 <mat-card class="app-tool-edit-card" *ngIf="tool">
     <mat-card-content>
         <form class="app-tool-edit-card-form" [formGroup]="editForm" novalidate>

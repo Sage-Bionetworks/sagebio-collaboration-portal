@@ -1,9 +1,4 @@
 <div *ngIf="tool && !showEditToolTemplate; else showEditToolForm">
-    <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
-        <h1>{{ tool.title }}</h1>
-    </div>
-
     <div class="tool-content">
         <mat-card class="tool-card">
             <div class="tool-card-top">
@@ -34,7 +29,7 @@
             </div>
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
-                <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
+                <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
                 <show-activity-button [root]="tool" (click)="showActivity()"></show-activity-button>
                 <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate=true">Edit</a>
                 <a *ngIf="canDeleteTool" mat-raised-button color="warn" (click)="displayConfirmationDialog()">Delete</a>

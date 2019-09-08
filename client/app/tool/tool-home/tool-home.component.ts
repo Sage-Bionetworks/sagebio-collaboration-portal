@@ -12,6 +12,7 @@ import { ToolHealth } from 'models/entities/tool-health.model';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
+import { ToolDataService } from '../tool-data.service';
 
 @Component({
     selector: 'tool-home',
@@ -28,47 +29,56 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     private canDeleteTool = false;
     private userPermissionsSub: Subscription;
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService,
-        UserPermissionDataService, NotificationService, MatDialog];
-    constructor(private router: Router, private route: ActivatedRoute,
-        private pageTitleService: PageTitleService, private toolService: ToolService,
+    static parameters = [
+        Router,
+        ActivatedRoute,
+        PageTitleService,
+        ToolService,
+        ToolDataService,
+        UserPermissionDataService,
+        NotificationService,
+        MatDialog,
+    ];
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private pageTitleService: PageTitleService,
+        private toolService: ToolService,
+        private toolDataService: ToolDataService,
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
-        private dialog: MatDialog) {
-
-        this.userPermissionsSub = this.userPermissionDataService.permissions()
-            .subscribe(permissions => {
-                // this.canEditTool = permissions.canEditTool();
-                // this.canDeleteTool = permissions.canDeleteTool();
-            });
+        private dialog: MatDialog
+    ) {
+        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
+            // this.canEditTool = permissions.canEditTool();
+            // this.canDeleteTool = permissions.canDeleteTool();
+        });
     }
 
     ngOnInit() {
-        const getTool = this.route.params.pipe(
-            switchMap(res => this.toolService.get(res.id))
+        const getTool = this.toolDataService.tool();
+
+        const getToolHealth = getTool.pipe(
+            switchMap(tool =>
+                this.toolService.getToolHealth(tool).pipe(
+                    catchError(err => {
+                        return of(<ToolHealth>undefined);
+                    })
+                )
+            )
         );
 
-        const getToolHealth = getTool.
-            pipe(
-                switchMap(tool => this.toolService.getToolHealth(tool)
-                    .pipe(
-                        catchError(err => {
-                            return of(<ToolHealth>undefined);
-                        })
-                    ))
-            );
-
-        getTool
-            .subscribe(tool => {
+        getTool.subscribe(
+            tool => {
                 this.tool = tool;
                 this.pageTitleService.title = tool.title;
-            }, err => console.log(err));
+            },
+            err => console.log(err)
+        );
 
-
-        getToolHealth
-            .subscribe(toolHealth => {
-                this.toolHealth = toolHealth;
-            });
+        getToolHealth.subscribe(toolHealth => {
+            this.toolHealth = toolHealth;
+        });
     }
 
     ngOnDestroy() {
@@ -76,37 +86,40 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     }
 
     deleteTool(): void {
-        this.toolService.remove(this.tool)
-            .subscribe(deletedTool => {
+        this.toolService.remove(this.tool).subscribe(
+            deletedTool => {
                 this.router.navigateByUrl('tools');
                 this.notificationService.info(`${deletedTool.title} has been successfully deleted'`);
-            }, err => {
+            },
+            err => {
                 console.log(err);
                 this.notificationService.error(`Unable to delete the tool ${this.tool.title}'`);
-            });
+            }
+        );
     }
 
     displayConfirmationDialog(): void {
-        this.dialog.open(ConfirmationDialog, {
-            data: {
-                message: `Are you sure you want to delete this tool? This action cannot be reversed!`,
-                confirmButton: {
-                    text: 'Delete',
-                    color: 'warn',
+        this.dialog
+            .open(ConfirmationDialog, {
+                data: {
+                    message: `Are you sure you want to delete this tool? This action cannot be reversed!`,
+                    confirmButton: {
+                        text: 'Delete',
+                        color: 'warn',
+                    },
+                    cancelButton: {
+                        text: 'Cancel',
+                        color: 'background',
+                    },
                 },
-                cancelButton: {
-                    text: 'Cancel',
-                    color: 'background',
-                }
-            }
-        })
+            })
             .afterClosed()
             .subscribe((confirmed: boolean) => confirmed && this.deleteTool());
     }
 
     onEditTool(tool: Tool): void {
         this.showEditToolTemplate = false;
-        this.tool = { ...this.tool, ... omit(tool, 'organization')};
+        this.tool = { ...this.tool, ...omit(tool, 'organization') };
         this.notificationService.info('The Tool has been successfully updated');
     }
 
