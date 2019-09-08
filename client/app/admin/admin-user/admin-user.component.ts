@@ -39,7 +39,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
         ).subscribe(targetUser => {
             this.targetUser = targetUser;
             this.role = targetUser.role;
-            this.actionPermissionService.getPermissions({ user: this.targetUser._id })
+            this.actionPermissionService.indexByUser(this.targetUser._id)
                 .subscribe((permissionRecords: ActionPermission[]) => {
                     permissionRecords.map((permission: any) => {
                         this.permissionsIDTracker = { ...this.permissionsIDTracker, [permission.permission]: permission._id };
@@ -58,21 +58,21 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     }
 
     onChangePermissionCheckbox(permissionOption: any) {
-        if (this.isAddingPermission[permissionOption]) {
-            const body = { user: this.targetUser._id, permission: permissionOption, createdBy: this.loggedUser._id };
-            this.actionPermissionService.addPermissions(body)
-                .subscribe((addedRecord: any) => {
-                    this.updatePermissionsIDTracker(true, permissionOption, addedRecord);
-                    this.notificationService.info('Permission Successfully Updated');
-                });
-        } else {
-            const entityID = this.permissionsIDTracker[permissionOption];
-            this.actionPermissionService.deletePermissions(entityID)
-                .subscribe(() => {
-                    this.updatePermissionsIDTracker(false, permissionOption, null);
-                    this.notificationService.info('Permission Successfully Removed');
-                });
-        }
+        // if (this.isAddingPermission[permissionOption]) {
+        //     const body = { user: this.targetUser._id, permission: permissionOption, createdBy: this.loggedUser._id };
+        //     this.actionPermissionService.addPermissions(body)
+        //         .subscribe((addedRecord: any) => {
+        //             this.updatePermissionsIDTracker(true, permissionOption, addedRecord);
+        //             this.notificationService.info('Permission Successfully Updated');
+        //         });
+        // } else {
+        //     const entityID = this.permissionsIDTracker[permissionOption];
+        //     this.actionPermissionService.deletePermissions(entityID)
+        //         .subscribe(() => {
+        //             this.updatePermissionsIDTracker(false, permissionOption, null);
+        //             this.notificationService.info('Permission Successfully Removed');
+        //         });
+        // }
     }
 
     updatePermissionsIDTracker(isAddingPermission: boolean, permissionOption: any, addedRecord: any) {

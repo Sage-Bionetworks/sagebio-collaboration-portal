@@ -5,9 +5,15 @@
  *     ActionPermission:
  *       type: object
  *       properties:
- *         value:
+ *         _id:
+ *           type: string
+ *         user:
+ *           type: string
+ *         action:
  *           type: string
  */
 export interface ActionPermission {
-    value: string;
+    _id?: string;
+    user: string;
+    action: string;
 }

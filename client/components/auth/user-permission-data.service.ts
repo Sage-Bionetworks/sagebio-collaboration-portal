@@ -15,7 +15,7 @@ import config from '../../app/app.constants';
 import { EntityVisibility } from 'models/entities/entity.model';
 
 export class UserPermissions {
-    constructor(private role: UserRole, private permissions: ActionPermission[],
+    constructor(private role: UserRole, private actionPermissions: ActionPermission[],
         private entityPermissions: EntityPermission[]) { }
 
     public isAdmin(): boolean {
@@ -26,20 +26,20 @@ export class UserPermissions {
         return this.role === role;
     }
 
-    public hasPermission(permission: string): boolean {
-        return !!find({ 'value': permission }, this.permissions);
+    public hasActionPermission(actionPermission: string): boolean {
+        return !!find({ 'action': actionPermission }, this.actionPermissions);
     }
 
     public canCreateProject(): boolean {
-        return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_PROJECT.value }, this.permissions);
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_PROJECT.value }, this.actionPermissions);
     }
 
         public canCreateDataCatalog(): boolean {
-        return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_DATA_CATALOG.value }, this.permissions);
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_DATA_CATALOG.value }, this.actionPermissions);
     }
 
     public canCreateTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': config.actionPermissionTypes.CREATE_TOOL.value }, this.permissions);
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_TOOL.value }, this.actionPermissions);
     }
 
     private getEntityUserAccess(entityId: string, entityType: string): string {
@@ -121,7 +121,7 @@ export class UserPermissionDataService {
                             map(user => user.role),
                             catchError(err => of(<UserRole>null))
                         ),
-                    permissions: this.actionPermissionService.getMyPermissions()
+                    permissions: this.actionPermissionService.index()
                         .pipe(
                             catchError(err => of(<ActionPermission[]>[]))
                         ),

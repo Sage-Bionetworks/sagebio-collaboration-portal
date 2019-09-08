@@ -27,6 +27,7 @@ var ActionPermissionSchema = new mongoose.Schema({
     },
 });
 
-// registerEvents(ActionPermissionSchema);
 ActionPermissionSchema.index({ user: 1, action: 1 }, { unique: true });
+
+// registerEvents(ActionPermissionSchema);
 export default mongoose.model('ActionPermission', ActionPermissionSchema);

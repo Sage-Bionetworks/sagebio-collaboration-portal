@@ -9,22 +9,29 @@ export class ActionPermissionService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-
-
-
-    getMyPermissions(): Observable<ActionPermission[]> {
-        return this.httpClient.get<ActionPermission[]>('/api/action-permissions/mine');
+    /**
+     * Returns the action-permissions of the current user.
+     * @param query
+     */
+    index(): Observable<ActionPermission[]> {
+        return this.httpClient.get<ActionPermission[]>(`/api/action-permissions`);
     }
 
-    getPermissions(query?: {}): Observable<ActionPermission[]> {
-        return this.httpClient.get<ActionPermission[]>(`/api/action-permissions${stringifyQuery(query)}`);
+    /**
+     * Returns the action-permissions of the user specified.
+     * @param userId
+     */
+    indexByUser(userId: string): Observable<ActionPermission[]> {
+        return this.httpClient.get<ActionPermission[]>(`/api/action-permissions/users/${userId}`);
     }
 
-    addPermissions(body?: {}): Observable<ActionPermission[]> {
-        return this.httpClient.post<ActionPermission[]>(`/api/action-permissions`, body);
-    }
 
-    deletePermissions(entityID: String): Observable<ActionPermission[]> {
-        return this.httpClient.delete<ActionPermission[]>(`/api/action-permissions/${entityID}`);
-    }
+
+    // addPermissions(body?: {}): Observable<ActionPermission[]> {
+    //     return this.httpClient.post<ActionPermission[]>(`/api/action-permissions`, body);
+    // }
+
+    // deletePermissions(entityID: String): Observable<ActionPermission[]> {
+    //     return this.httpClient.delete<ActionPermission[]>(`/api/action-permissions/${entityID}`);
+    // }
 }
