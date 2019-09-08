@@ -12,6 +12,7 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool.component';
+import { ToolActivitiesComponent } from './tool-activities/tool-activities.component';
 import { ToolHomeComponent } from './tool-home/tool-home.component';
 import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
@@ -46,7 +47,7 @@ export const ROUTES: Routes = [
             // { path: 'insights/:insightId', component: InsightPageComponent },
             // { path: 'resources', component: ProjectResourcesComponent },
             // { path: 'resources/:resourceId', component: ResourcePageComponent },
-            // { path: 'activities', component: ProjectActivitiesComponent },
+            { path: 'activities', component: ToolActivitiesComponent },
             // { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'settings', component: ToolSettingsComponent },
         ],
@@ -76,6 +77,7 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         ToolComponent,
+        ToolActivitiesComponent,
         ToolHomeComponent,
         ToolThreadListComponent,
         ToolEditComponent,
