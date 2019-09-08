@@ -39,7 +39,7 @@ export class DataCatalogNewComponent implements OnInit {
                 Validators.minLength(this.dataCatalogSpecs.description.minlength),
                 Validators.maxLength(this.dataCatalogSpecs.description.maxlength)
             ]],
-            picture: ['', [
+            picture: [this.dataCatalogSpecs.picture.default, [
                 Validators.required,
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()

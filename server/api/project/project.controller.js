@@ -12,7 +12,7 @@ import { union } from 'lodash/fp';
 import { merge } from 'lodash';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
-import { buildEntityIndexQuery } from '../entity-util';
+import { buildEntityIndexQuery, createAdminPermissionForEntity } from '../entity-util';
 
 // Gets a list of Projects
 export function index(req, res) {
@@ -128,24 +128,6 @@ export function makePrivate(req, res) {
 }
 
 // HELPER FUNCTIONS
-
-function createAdminPermissionForEntity(user, entityType) {
-    return function (entity) {
-        if (entity) {
-            return EntityPermission.create({
-                entityId: entity._id.toString(),
-                entityType,
-                user: user._id.toString(),
-                access: accessTypes.ADMIN.value,
-                status: inviteStatusTypes.ACCEPTED.value,
-                createdBy: user._id.toString(),
-            })
-                .then(() => entity)
-                .catch(err => console.log(err));
-        }
-        return null;
-    };
-}
 
 /**
  * Returns the ids of the public projects.

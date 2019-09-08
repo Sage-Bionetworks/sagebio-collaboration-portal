@@ -1,4 +1,6 @@
 import { pick } from 'lodash/fp';
+import EntityPermission from '../api/entity-permission/entity-permission.model';
+import { accessTypes, inviteStatusTypes } from '../config/environment';
 
 /**
  * Builds Mongoose filter, projection, sort, skip and limit for indexing entities.
@@ -11,12 +13,8 @@ export function buildEntityIndexQuery(query) {
 
     const maxPageSize = 50;
     const pageSize = 20;
-    let skip = query.page
-        ? query.page * pageSize
-        : 0;
-    let limit = query.limit
-        ? Math.max(Math.min(1, query.limit), maxPageSize)
-        : pageSize;
+    let skip = query.page ? query.page * pageSize : 0;
+    let limit = query.limit ? Math.max(Math.min(1, query.limit), maxPageSize) : pageSize;
 
     if (query) {
         filter = pick(['resourceType', 'insightType'], query);
@@ -25,7 +23,7 @@ export function buildEntityIndexQuery(query) {
             filter.$text = {
                 $search: query.searchTerms,
                 $caseSensitive: false,
-                $diacriticSensitive: true
+                $diacriticSensitive: true,
             };
             projection.score = { $meta: 'textScore' };
             if (query.orderedBy === 'relevance') {
@@ -43,6 +41,29 @@ export function buildEntityIndexQuery(query) {
         projection,
         sort,
         skip,
-        limit
+        limit,
+    };
+}
+
+/**
+ * Creates an entity-permission with Admin access for the user and entity specified.
+ * @param {*} user
+ * @param {*} entityType
+ */
+export function createAdminPermissionForEntity(user, entityType) {
+    return function (entity) {
+        if (entity) {
+            return EntityPermission.create({
+                entityId: entity._id.toString(),
+                entityType,
+                user: user._id.toString(),
+                access: accessTypes.ADMIN.value,
+                status: inviteStatusTypes.ACCEPTED.value,
+                createdBy: user._id.toString(),
+            })
+                .then(() => entity)
+                .catch(err => console.log(err));
+        }
+        return null;
     };
 }

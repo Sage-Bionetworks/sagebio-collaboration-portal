@@ -27,7 +27,6 @@ export class ToolNewComponent implements OnInit {
         private toolService: ToolService) {
 
         this.toolSpecs = config.models.tool;
-
         this.newForm = this.formBuilder.group({
             title: ['', [
                 Validators.required,
@@ -39,7 +38,7 @@ export class ToolNewComponent implements OnInit {
                 Validators.minLength(this.toolSpecs.description.minlength),
                 Validators.maxLength(this.toolSpecs.description.maxlength)
             ]],
-            picture: ['', [
+            picture: [this.toolSpecs.picture.default, [
                 Validators.required,
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()

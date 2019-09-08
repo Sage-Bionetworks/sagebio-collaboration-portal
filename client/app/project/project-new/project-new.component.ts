@@ -41,7 +41,7 @@ export class ProjectNewComponent implements OnInit {
                 Validators.minLength(this.projectSpecs.description.minlength),
                 Validators.maxLength(this.projectSpecs.description.maxlength)
             ]],
-            picture: ['', [
+            picture: [this.projectSpecs.picture.default, [
                 Validators.required,
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
