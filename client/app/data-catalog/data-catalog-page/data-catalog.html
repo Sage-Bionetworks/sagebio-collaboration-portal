@@ -30,7 +30,8 @@
             <div class="data-catalog-actions">
                 <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
                 <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
-                <a *ngIf="canEditDataCatalog" mat-raised-button color="secondary" (click)="showEditDataCatalogTemplate=true">Edit</a>
+                <a mat-raised-button *ngIf="canEditDataCatalog" (click)="showEditDataCatalogTemplate=true">Edit</a>
+                <a mat-raised-button color="warn" *ngIf="canDeleteDataCatalog" (click)="onDeleteDataCatalog()">Delete</a>
             </div>
         </mat-card>
     </div>

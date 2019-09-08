@@ -31,6 +31,7 @@ export class DataCatalogComponent implements OnInit {
     private showEditDataCatalogTemplate = false;
 
     private canEditDataCatalog = true;
+    private canDeleteDataCatalog = true;
 
     static parameters = [Router, ActivatedRoute, PageTitleService,
         DataCatalogService, DatasetService, NotificationService];
@@ -71,5 +72,9 @@ export class DataCatalogComponent implements OnInit {
         this.showEditDataCatalogTemplate = false;
         this.dataCatalog = { ...this.dataCatalog, ... omit('organization', dataCatalog)};
         this.notificationService.info('The Data Catalog has been successfully updated');
+    }
+
+    onDeleteDataCatalog(): void {
+        console.log('DELETE');
     }
 }
