@@ -7,35 +7,37 @@ import { ToolService } from '../tool.service';
 import { Tool } from 'models/entities/tool.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../../app/app.constants';
+import { ToolDataService } from '../tool-data.service';
 
 @Component({
-    selector: 'tool-thread-list',
-    template: require('./tool-thread-list.html'),
-    styles: [require('./tool-thread-list.scss')],
+    selector: 'tool-discussion',
+    template: require('./tool-discussion.html'),
+    styles: [require('./tool-discussion.scss')],
 })
-export class ToolThreadListComponent implements OnInit {
+export class ToolDiscussionComponent implements OnInit {
     private tool: Tool;
     private entityType: string;
 
-    static parameters = [Router, ActivatedRoute, ToolService, PageTitleService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, ToolService, ToolDataService];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
+        private pageTitleService: PageTitleService,
         private toolService: ToolService,
-        private pageTitleService: PageTitleService
+        private toolDataService: ToolDataService
     ) {
         this.entityType = config.entityTypes.TOOL.value;
     }
 
     ngOnInit() {
-        const getTool = this.route.params.pipe(switchMap(res => this.toolService.get(res.id)));
+        // const getTool = this.route.params.pipe(switchMap(res => this.toolService.get(res.id)));
 
-        getTool.subscribe(
+        this.toolDataService.tool().subscribe(
             tool => {
                 this.tool = tool;
                 this.pageTitleService.title = `${tool.title} - Discussion`;
             },
-            err => console.log(err)
+            err => console.error(err)
         );
     }
 }

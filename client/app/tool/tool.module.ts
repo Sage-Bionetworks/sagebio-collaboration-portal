@@ -13,8 +13,8 @@ import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool.component';
 import { ToolActivitiesComponent } from './tool-activities/tool-activities.component';
+import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
 import { ToolHomeComponent } from './tool-home/tool-home.component';
-import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolNewComponent } from './tool-new/tool-new.component';
@@ -43,25 +43,11 @@ export const ROUTES: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'home', component: ToolHomeComponent },
-            // { path: 'insights', component: ProjectInsightsComponent },
-            // { path: 'insights/:insightId', component: InsightPageComponent },
-            // { path: 'resources', component: ProjectResourcesComponent },
-            // { path: 'resources/:resourceId', component: ResourcePageComponent },
             { path: 'activities', component: ToolActivitiesComponent },
-            // { path: 'discussion', component: ProjectDiscussionComponent },
+            { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'settings', component: ToolSettingsComponent },
         ],
     },
-    // {
-    //     path: 'tools/:id',
-    //     component: ToolComponent,
-    //     canActivate: [AuthGuard],
-    // },
-    // {
-    //     path: 'tools/:id/discussion',
-    //     component: ToolThreadListComponent,
-    //     canActivate: [AuthGuard]
-    // }
 ];
 
 @NgModule({
@@ -73,13 +59,13 @@ export const ROUTES: Routes = [
         RouterModule.forChild(ROUTES),
         ActivityModule,
         ProvenanceModule,
-        EntityModule
+        EntityModule,
     ],
     declarations: [
         ToolComponent,
         ToolActivitiesComponent,
+        ToolDiscussionComponent,
         ToolHomeComponent,
-        ToolThreadListComponent,
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,
@@ -87,12 +73,7 @@ export const ROUTES: Routes = [
         ToolSidenavComponent,
         ToolViewComponent,
     ],
-    providers: [
-        SocketService,
-        ToolService,
-        ToolDataService,
-        ToolSidenavService
-    ],
+    providers: [SocketService, ToolService, ToolDataService, ToolSidenavService],
     exports: [],
 })
 export class ToolModule {}

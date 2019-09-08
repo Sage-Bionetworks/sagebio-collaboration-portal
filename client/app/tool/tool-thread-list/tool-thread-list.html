@@ -1,8 +1,0 @@
-<div *ngIf="tool">
-    <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
-        <a class="app-primary-header-link" [routerLink]="['/tools',tool.slug]"><h1>{{ tool.title }}</h1></a>
-    </div>
-
-    <entity-discussion [entity]="tool" [entityType]="entityType"></entity-discussion>
-</div>

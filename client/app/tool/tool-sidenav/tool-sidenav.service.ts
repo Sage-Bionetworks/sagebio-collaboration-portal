@@ -18,7 +18,7 @@ export class ToolSidenavService implements OnDestroy {
     private _items: BehaviorSubject<ToolSidenavItem[]> = new BehaviorSubject<ToolSidenavItem[]>([
         {
             title: itemTitles.HOME,
-            icon: 'home',
+            icon: 'dashboard',
             routerLink: ['home'],
             routerLinkActiveOptions: {},
             visible: true,
