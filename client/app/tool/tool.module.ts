@@ -17,6 +17,7 @@ import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.com
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolNewComponent } from './tool-new/tool-new.component';
+import { ToolSettingsComponent } from './tool-settings/tool-settings.component';
 import { ToolSidenavComponent } from './tool-sidenav/tool-sidenav.component';
 import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolService } from './tool.service';
@@ -47,7 +48,7 @@ export const ROUTES: Routes = [
             // { path: 'resources/:resourceId', component: ResourcePageComponent },
             // { path: 'activities', component: ProjectActivitiesComponent },
             // { path: 'discussion', component: ProjectDiscussionComponent },
-            // { path: 'settings', component: ProjectSettingsComponent },
+            { path: 'settings', component: ToolSettingsComponent },
         ],
     },
     // {
@@ -80,6 +81,7 @@ export const ROUTES: Routes = [
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,
+        ToolSettingsComponent,
         ToolSidenavComponent,
         ToolViewComponent,
     ],
