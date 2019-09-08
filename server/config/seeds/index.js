@@ -31,6 +31,38 @@ const messagesStub = [{
 }
 ];
 
+// Creating entity-permissions with Admin access for the authors of projects
+if (seeds.projects) {
+    let permissions = seeds.projects.map(project => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: project._id,
+        entityType: config.entityTypes.PROJECT.value,
+        user: project.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [
+        ...seeds.entityPermissions,
+        ...permissions
+    ];
+}
+
+// Creating entity-permissions with Admin access for the authors of tools
+if (seeds.tools) {
+    let permissions = seeds.tools.map(tool => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: tool._id,
+        entityType: config.entityTypes.TOOL.value,
+        user: tool.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [
+        ...seeds.entityPermissions,
+        ...permissions
+    ];
+}
+
 // Populating thread.contributors from messages
 if (seeds.threads && seeds.messages) {
     const contributorsByThread = flow([
@@ -47,22 +79,6 @@ if (seeds.threads && seeds.messages) {
         ...thread,
         contributors: get(thread._id, contributorsByThread)
     }));
-}
-
-// Creating entity-permissions with Admin access for the author of each tool
-if (seeds.tools) {
-    let permissions = seeds.tools.map(tool => ({
-        status: config.inviteStatusTypes.ACCEPTED.value,
-        entityId: tool._id,
-        entityType: config.entityTypes.TOOL.value,
-        user: tool.createdBy,
-        access: config.accessTypes.ADMIN.value,
-        createdBy: adminUserId,
-    }));
-    seeds.entityPermissions = [
-        ...seeds.entityPermissions,
-        ...permissions
-    ];
 }
 
 module.exports = seeds;

@@ -5,7 +5,7 @@ import {
 import {
     adminUserId
 } from './users';
-import { testProjectId, anotherProjectId } from './projects';
+import { adminProjectId, testProjectId } from './projects';
 import {
     phccpShinyToolExample
 } from './tools';
@@ -24,7 +24,7 @@ let threads = [
     {
         _id: thread1Id,
         title: `Project thread #1`,
-        entityId: testProjectId,
+        entityId: adminProjectId,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 11, 33).toISOString(),
         updatedAt: new Date(2019, 4, 27, 11, 33).toISOString(),
@@ -32,7 +32,7 @@ let threads = [
     {
         _id: thread2Id,
         title: `Public thread #1`,
-        entityId: anotherProjectId,
+        entityId: testProjectId,
         createdBy: adminUserId,
         createdAt: new Date(2019, 6, 31, 11, 33).toISOString(),
         updatedAt: new Date(2019, 6, 31, 11, 33).toISOString(),
@@ -40,7 +40,7 @@ let threads = [
     {
         _id: thread3Id,
         title: `Project thread #2`,
-        entityId: testProjectId,
+        entityId: adminProjectId,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
