@@ -3,226 +3,128 @@
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
-// import { permissionTypes } from './action-permission.model';
+import Organization from '../organization/organization.model';
+import ActionPermission from './action-permission.model';
+import { adminUser, anotherUser, authOrganization, anotherOrganization, authenticateUser } from '../integration-util';
+import { actionPermissionTypes } from '../../config/environment';
 
 var newActionPermission;
 
-describe('UserPermission API:', function () {
-    var user;
-    var anotherUser;
+describe('ActionPermission API:', function () {
+    var token;
 
-    // Clear users before testing
     before(() =>
-        User.deleteMany().then(() => {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test',
-            });
-
-            anotherUser = new User({
-                name: 'Another User',
-                email: 'another@example.com',
-                password: 'password',
-                username: 'another',
-            });
-
-            return Promise.all([user.save(), anotherUser.save()]);
-        })
+        ActionPermission.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => User.deleteMany())
+            .then(() => User.create([adminUser, anotherUser]))
+            .then(() => Organization.create([authOrganization, anotherOrganization]))
+            .then(authenticateUser(app, adminUser))
+            .then(res => {
+                token = res;
+            })
     );
 
-    // Clear users after testing
-    after(() => User.deleteMany());
+    after(() => Promise.all([ActionPermission.deleteMany(), Organization.deleteMany(), User.deleteMany()]));
 
     describe('GET /api/action-permissions', function () {
-        var actionPermissions;
+        var response;
 
         beforeEach(function (done) {
             request(app)
                 .get('/api/action-permissions')
+                .set('authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
                     if (err) {
                         return done(err);
                     }
-                    actionPermissions = res.body;
+                    response = res.body;
                     done();
                 });
         });
 
         it('should respond with JSON array', function () {
-            expect(actionPermissions).to.be.instanceOf(Array);
+            expect(response).to.be.instanceOf(Array);
         });
     });
 
-    // describe('POST /api/action-permissions', function () {
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .post('/api/action-permissions')
-    //             .send({
-    //                 user: user,
-    //                 permission: permissionTypes[0]
-    //             })
-    //             .expect(201)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 newUserPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     it('should respond with the newly created userPermission', function () {
-    //         expect(newUserPermission.user).to.equal(user._id.toString());
-    //         expect(newUserPermission.permission).to.equal(permissionTypes[0]);
-    //         expect(newUserPermission.createdBy).to.equal(user._id.toString());
-    //     });
-    // });
+    describe('GET /api/action-permissions/users/:userId', function () {
+        var response;
 
-    // describe('GET /api/action-permissions/:id', function () {
-    //     var userPermission;
-    //
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .get(`/api/action-permissions/${newUserPermission._id}`)
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 userPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     afterEach(function () {
-    //         userPermission = {};
-    //     });
-    //
-    //     it('should respond with the requested userPermission', function () {
-    //         expect(userPermission.user).to.equal(user._id.toString());
-    //         expect(userPermission.permission).to.equal(permissionTypes[0]);
-    //         expect(userPermission.createdBy).to.equal(user._id.toString());
-    //     });
-    // });
+        beforeEach(function (done) {
+            request(app)
+                .get(`/api/action-permissions/users/${anotherUser._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    response = res.body;
+                    done();
+                });
+        });
 
-    // describe('PUT /api/action-permissions/:id', function () {
-    //     var updatedUserPermission;
-    //
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .put(`/api/action-permissions/${newUserPermission._id}`)
-    //             .send({
-    //                 user: anotherUser,
-    //                 permission: permissionTypes[1],
-    //                 createdBy: anotherUser
-    //             })
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end(function (err, res) {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 updatedUserPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     afterEach(function () {
-    //         updatedUserPermission = {};
-    //     });
-    //
-    //     it('should respond with the updated userPermission', function () {
-    //         expect(updatedUserPermission.user).to.equal(anotherUser._id.toString());
-    //         expect(updatedUserPermission.permission).to.equal(permissionTypes[1]);
-    //         expect(updatedUserPermission.creaetdBy).to.equal(anotherUser._id.toString());
-    //     });
-    //
-    //     it('should respond with the updated userPermission on a subsequent GET', function (done) {
-    //         request(app)
-    //             .get(`/api/action-permissions/${newUserPermission._id}`)
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end((err, res) => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 let userPermission = res.body;
-    //
-    //                 expect(userPermission.name).to.equal('Updated UserPermission');
-    //                 expect(userPermission.info).to.equal('This is the updated userPermission!!!');
-    //
-    //                 done();
-    //             });
-    //     });
-    // });
+        it('should respond with JSON array', function () {
+            expect(response).to.be.instanceOf(Array);
+        });
+    });
 
-    // describe('PATCH /api/action-permissions/:id', function () {
-    //     var patchedUserPermission;
-    //
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .patch(`/api/action-permissions/${newUserPermission._id}`)
-    //             .send([{
-    //                     op: 'replace',
-    //                     path: '/name',
-    //                     value: 'Patched UserPermission'
-    //                 },
-    //                 {
-    //                     op: 'replace',
-    //                     path: '/info',
-    //                     value: 'This is the patched userPermission!!!'
-    //                 }
-    //             ])
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end(function (err, res) {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 patchedUserPermission = res.body;
-    //                 done();
-    //             });
-    //     });
-    //
-    //     afterEach(function () {
-    //         patchedUserPermission = {};
-    //     });
-    //
-    //     it('should respond with the patched userPermission', function () {
-    //         expect(patchedUserPermission.name).to.equal('Patched UserPermission');
-    //         expect(patchedUserPermission.info).to.equal('This is the patched userPermission!!!');
-    //     });
-    // });
+    describe('POST /api/action-permissions', function () {
+        beforeEach(function (done) {
+            request(app)
+                .post('/api/action-permissions')
+                .set('authorization', `Bearer ${token}`)
+                .send({
+                    user: anotherUser._id,
+                    action: actionPermissionTypes.CREATE_PROJECT.value,
+                })
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    newActionPermission = res.body;
+                    done();
+                });
+        });
 
-    // describe('DELETE /api/action-permissions/:id', function () {
-    //     it('should respond with 204 on successful removal', function (done) {
-    //         request(app)
-    //             .delete(`/api/action-permissions/${newUserPermission._id}`)
-    //             .expect(204)
-    //             .end(err => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 done();
-    //             });
-    //     });
-    //
-    //     it('should respond with 404 when userPermission does not exist', function (done) {
-    //         request(app)
-    //             .delete(`/api/action-permissions/${newUserPermission._id}`)
-    //             .expect(404)
-    //             .end(err => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 done();
-    //             });
-    //     });
-    // });
+        it('should respond with the newly created actionPermission', function () {
+            expect(newActionPermission.user).to.equal(anotherUser._id.toString());
+            expect(newActionPermission.action).to.equal(actionPermissionTypes.CREATE_PROJECT.value);
+            expect(newActionPermission.createdBy).to.equal(adminUser._id.toString());
+        });
+    });
+
+    describe('DELETE /api/action-permissions/:id', function () {
+        it('should respond with 204 on successful removal', function (done) {
+            request(app)
+                .delete(`/api/action-permissions/${newActionPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(204)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+
+        it('should respond with 404 when actionPermission does not exist', function (done) {
+            request(app)
+                .delete(`/api/action-permissions/${newActionPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(404)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+    });
 });

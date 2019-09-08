@@ -32,7 +32,7 @@ var actionPermissionIndex = proxyquire('./index.js', {
     './action-permission.controller': actionPermissionCtrlStub,
 });
 
-describe.only('ActionPermission API Router:', function () {
+describe('ActionPermission API Router:', function () {
     it('should return an express router instance', function () {
         expect(actionPermissionIndex).to.equal(routerStub);
     });
