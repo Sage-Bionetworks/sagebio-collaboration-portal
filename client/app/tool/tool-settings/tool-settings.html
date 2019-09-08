@@ -1,5 +1,6 @@
-<entity-access-list class="app-tool-card" [entity]="tool | async" [user]="user"></entity-access-list>
+<entity-access-list [disabled]="true" class="app-tool-card" [entity]="tool | async" [user]="user"></entity-access-list>
 <entity-danger-zone-options
+    [disabled]="true"
     class="app-tool-card"
     [entity]="tool | async"
     entityName="tool"

@@ -3,14 +3,12 @@
         <mat-card-title>Sharing settings</mat-card-title>
     </mat-card-header>
 
-    <!-- let a of [aVariable | async] -->
-
     <mat-card-content>
         <mat-list class="app-entity-access-list-list" dense>
             <mat-list-item *ngFor="let perm of permissions">
                 <user-avatar matListAvatar [user]="perm.user" [size]="listAvatarSize"></user-avatar>
-                <h4 matLine *ngIf="perm.user.name">{{ perm.user.name }}</h4>
-                <p matLine>{{ perm.user.username }}</p>
+                <h4 matLine *ngIf="perm.user.name" [class.app-text-grayout]="disabled">{{ perm.user.name }}</h4>
+                <p matLine [class.app-text-grayout]="disabled">{{ perm.user.username }}</p>
 
                 <mat-chip-list  class="app-entity-access-list-status">
                   <mat-chip *ngIf="isPending(perm)" color="warn" selected>Pending</mat-chip>
@@ -18,22 +16,22 @@
                 </mat-chip-list>
 
                 <mat-select class="app-entity-access-list-access" [disabled]="freezePermission(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
-                    <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value">
+                    <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value" [disabled]="disabled">
                         {{ accessType.name }}
                     </mat-option>
                 </mat-select>
                 <div class="app-entity-access-list-remove">
-                    <a *ngIf="!freezePermission(perm)" mat-icon-button (click)="removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
+                    <a *ngIf="!freezePermission(perm)" mat-icon-button [disabled]="disabled" (click)="!disabled && removeCollaborator($event, perm)" matTooltip="Remove {{perm.user.username}} as a collaborator" matTooltipPosition="before">
                         <mat-icon>clear</mat-icon>
                     </a>
                 </div>
             </mat-list-item>
         </mat-list>
 
-        <h3 class="app-add-collaborator-header">Add a Collaborator</h3>
+        <h3 class="app-add-collaborator-header" [class.app-text-grayout]="disabled">Add a Collaborator</h3>
         <form class="app-entity-access-list-search-user-form" [formGroup]="inviteForm" novalidate>
             <mat-form-field class="app-add-collaborator-field">
-                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto">
+                <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" [matAutocomplete]="auto" [readonly]="disabled">
                 <mat-autocomplete #auto="matAutocomplete" flex>
                     <mat-option *ngFor="let user of userResults" [value]="user.username" (click)="selectUser(user)">
                         <!-- <user-avatar [user]="user" [size]="optionAvatarSize"></user-avatar> -->
