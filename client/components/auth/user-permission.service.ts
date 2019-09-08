@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserPermission } from 'models/auth/user-permission.model';
+import { ActionPermission } from 'models/auth/action-permission.model';
 import { stringifyQuery } from 'components/util';
 
 @Injectable()
-export class UserPermissionService {
+export class ActionPermissionService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
-    getMyPermissions(): Observable<UserPermission[]> {
-        return this.httpClient.get<UserPermission[]>('/api/user-permissions/mine');
+    getMyPermissions(): Observable<ActionPermission[]> {
+        return this.httpClient.get<ActionPermission[]>('/api/action-permissions/mine');
     }
 
-    getPermissions(query?: {}): Observable<UserPermission[]> {
-        return this.httpClient.get<UserPermission[]>(`/api/user-permissions${stringifyQuery(query)}`);
+    getPermissions(query?: {}): Observable<ActionPermission[]> {
+        return this.httpClient.get<ActionPermission[]>(`/api/action-permissions${stringifyQuery(query)}`);
     }
 
-    addPermissions(body?: {}): Observable<UserPermission[]> {
-        return this.httpClient.post<UserPermission[]>(`/api/user-permissions`, body);
+    addPermissions(body?: {}): Observable<ActionPermission[]> {
+        return this.httpClient.post<ActionPermission[]>(`/api/action-permissions`, body);
     }
 
-    deletePermissions(entityID: String): Observable<UserPermission[]> {
-        return this.httpClient.delete<UserPermission[]>(`/api/user-permissions/${entityID}`);
+    deletePermissions(entityID: String): Observable<ActionPermission[]> {
+        return this.httpClient.delete<ActionPermission[]>(`/api/action-permissions/${entityID}`);
     }
 }

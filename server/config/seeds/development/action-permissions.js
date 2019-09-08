@@ -1,12 +1,12 @@
 import { adminUserId, testUserId } from './users';
 import { actionPermissionTypes } from '../../environment';
 
-let userPermissions = [
+let actionPermissions = [
     {
         user: testUserId,
-        permission: actionPermissionTypes.CREATE_PROJECT.value,
+        action: actionPermissionTypes.CREATE_PROJECT.value,
         createdBy: adminUserId,
     },
 ];
 
-export { userPermissions };
+export { actionPermissions };

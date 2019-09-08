@@ -21,7 +21,7 @@ const registerFunctions = [
     require('../api/resource/resource.socket').register,
     require('../api/dataset/dataset.socket').register,
     require('../api/user/user.socket').register,
-    require('../api/user-permission/user-permission.socket').register
+    require('../api/action-permission/action-permission.socket').register
 ];
 
 // When the user disconnects.. perform this

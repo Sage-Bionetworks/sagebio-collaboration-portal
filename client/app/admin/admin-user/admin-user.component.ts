@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'components/auth/user.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { UserPermissionService } from 'components/auth/user-permission.service';
-import { UserPermission } from 'models/auth/user-permission.model';
+import { ActionPermissionService } from 'components/auth/user-permission.service';
+import { ActionPermission } from 'models/auth/action-permission.model';
 import { User } from 'models/auth/user.model';
 import { actionPermissionTypes, userRoles } from '../../../../server/config/environment/shared';  // MUST NOT REFER TO SERVER
 import { switchMap } from 'rxjs/operators';
@@ -27,20 +27,20 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     private permissionsIDTracker: Object = {};
     private isAddingPermission: Object = {};
 
-    static parameters = [Router, ActivatedRoute, PageTitleService, UserService, UserPermissionService, NotificationService];
+    static parameters = [Router, ActivatedRoute, PageTitleService, UserService, ActionPermissionService, NotificationService];
     constructor(private router: Router,
         private route: ActivatedRoute,
         private pageTitleService: PageTitleService,
         private userService: UserService,
-        private userPermissionService: UserPermissionService,
+        private actionPermissionService: ActionPermissionService,
         private notificationService: NotificationService) {
         this.route.params.pipe(
             switchMap(res => this.userService.get(res.id)),
         ).subscribe(targetUser => {
             this.targetUser = targetUser;
             this.role = targetUser.role;
-            this.userPermissionService.getPermissions({ user: this.targetUser._id })
-                .subscribe((permissionRecords: UserPermission[]) => {
+            this.actionPermissionService.getPermissions({ user: this.targetUser._id })
+                .subscribe((permissionRecords: ActionPermission[]) => {
                     permissionRecords.map((permission: any) => {
                         this.permissionsIDTracker = { ...this.permissionsIDTracker, [permission.permission]: permission._id };
                         this.isAddingPermission = { ...this.isAddingPermission, [permission.permission]: true };
@@ -60,14 +60,14 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     onChangePermissionCheckbox(permissionOption: any) {
         if (this.isAddingPermission[permissionOption]) {
             const body = { user: this.targetUser._id, permission: permissionOption, createdBy: this.loggedUser._id };
-            this.userPermissionService.addPermissions(body)
+            this.actionPermissionService.addPermissions(body)
                 .subscribe((addedRecord: any) => {
                     this.updatePermissionsIDTracker(true, permissionOption, addedRecord);
                     this.notificationService.info('Permission Successfully Updated');
                 });
         } else {
             const entityID = this.permissionsIDTracker[permissionOption];
-            this.userPermissionService.deletePermissions(entityID)
+            this.actionPermissionService.deletePermissions(entityID)
                 .subscribe(() => {
                     this.updatePermissionsIDTracker(false, permissionOption, null);
                     this.notificationService.info('Permission Successfully Removed');

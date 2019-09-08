@@ -1,5 +1,5 @@
 import User from '../api/user/user.model';
-import UserPermission from '../api/user-permission/user-permission.model';
+import UserPermission from '../api/action-permission/action-permission.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
 import config from '../config/environment';
 import AuthError from './auth-error';

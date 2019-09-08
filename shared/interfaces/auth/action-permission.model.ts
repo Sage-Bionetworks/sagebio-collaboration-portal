@@ -2,12 +2,12 @@
  * @swagger
  * components:
  *   schemas:
- *     UserPermission:
+ *     ActionPermission:
  *       type: object
  *       properties:
  *         value:
  *           type: string
  */
-export interface UserPermission {
+export interface ActionPermission {
     value: string
 }

@@ -1,11 +1,11 @@
-/* globals describe, expect, it, beforeEach, afterEach */
+/* globals describe, expect, it, before, beforeEach, after, afterEach */
 
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
-import { permissionTypes } from './user-permission.model';
+// import { permissionTypes } from './action-permission.model';
 
-var newUserPermission;
+var newActionPermission;
 
 describe('UserPermission API:', function () {
     var user;
@@ -13,58 +13,54 @@ describe('UserPermission API:', function () {
 
     // Clear users before testing
     before(() =>
-        User.deleteMany()
-        .then(() => {
+        User.deleteMany().then(() => {
             user = new User({
                 name: 'Fake User',
                 email: 'test@example.com',
                 password: 'password',
-                username: 'test'
+                username: 'test',
             });
 
             anotherUser = new User({
                 name: 'Another User',
                 email: 'another@example.com',
                 password: 'password',
-                username: 'another'
+                username: 'another',
             });
 
-            return Promise.all([
-                user.save(),
-                anotherUser.save()
-            ]);
+            return Promise.all([user.save(), anotherUser.save()]);
         })
     );
 
     // Clear users after testing
     after(() => User.deleteMany());
 
-    describe('GET /api/user-permissions', function () {
-        var userPermissions;
+    describe('GET /api/action-permissions', function () {
+        var actionPermissions;
 
         beforeEach(function (done) {
             request(app)
-                .get('/api/user-permissions')
+                .get('/api/action-permissions')
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
                     if (err) {
                         return done(err);
                     }
-                    userPermissions = res.body;
+                    actionPermissions = res.body;
                     done();
                 });
         });
 
         it('should respond with JSON array', function () {
-            expect(userPermissions).to.be.instanceOf(Array);
+            expect(actionPermissions).to.be.instanceOf(Array);
         });
     });
 
-    // describe('POST /api/user-permissions', function () {
+    // describe('POST /api/action-permissions', function () {
     //     beforeEach(function (done) {
     //         request(app)
-    //             .post('/api/user-permissions')
+    //             .post('/api/action-permissions')
     //             .send({
     //                 user: user,
     //                 permission: permissionTypes[0]
@@ -87,12 +83,12 @@ describe('UserPermission API:', function () {
     //     });
     // });
 
-    // describe('GET /api/user-permissions/:id', function () {
+    // describe('GET /api/action-permissions/:id', function () {
     //     var userPermission;
     //
     //     beforeEach(function (done) {
     //         request(app)
-    //             .get(`/api/user-permissions/${newUserPermission._id}`)
+    //             .get(`/api/action-permissions/${newUserPermission._id}`)
     //             .expect(200)
     //             .expect('Content-Type', /json/)
     //             .end((err, res) => {
@@ -115,12 +111,12 @@ describe('UserPermission API:', function () {
     //     });
     // });
 
-    // describe('PUT /api/user-permissions/:id', function () {
+    // describe('PUT /api/action-permissions/:id', function () {
     //     var updatedUserPermission;
     //
     //     beforeEach(function (done) {
     //         request(app)
-    //             .put(`/api/user-permissions/${newUserPermission._id}`)
+    //             .put(`/api/action-permissions/${newUserPermission._id}`)
     //             .send({
     //                 user: anotherUser,
     //                 permission: permissionTypes[1],
@@ -149,7 +145,7 @@ describe('UserPermission API:', function () {
     //
     //     it('should respond with the updated userPermission on a subsequent GET', function (done) {
     //         request(app)
-    //             .get(`/api/user-permissions/${newUserPermission._id}`)
+    //             .get(`/api/action-permissions/${newUserPermission._id}`)
     //             .expect(200)
     //             .expect('Content-Type', /json/)
     //             .end((err, res) => {
@@ -166,12 +162,12 @@ describe('UserPermission API:', function () {
     //     });
     // });
 
-    // describe('PATCH /api/user-permissions/:id', function () {
+    // describe('PATCH /api/action-permissions/:id', function () {
     //     var patchedUserPermission;
     //
     //     beforeEach(function (done) {
     //         request(app)
-    //             .patch(`/api/user-permissions/${newUserPermission._id}`)
+    //             .patch(`/api/action-permissions/${newUserPermission._id}`)
     //             .send([{
     //                     op: 'replace',
     //                     path: '/name',
@@ -204,10 +200,10 @@ describe('UserPermission API:', function () {
     //     });
     // });
 
-    // describe('DELETE /api/user-permissions/:id', function () {
+    // describe('DELETE /api/action-permissions/:id', function () {
     //     it('should respond with 204 on successful removal', function (done) {
     //         request(app)
-    //             .delete(`/api/user-permissions/${newUserPermission._id}`)
+    //             .delete(`/api/action-permissions/${newUserPermission._id}`)
     //             .expect(204)
     //             .end(err => {
     //                 if (err) {
@@ -219,7 +215,7 @@ describe('UserPermission API:', function () {
     //
     //     it('should respond with 404 when userPermission does not exist', function (done) {
     //         request(app)
-    //             .delete(`/api/user-permissions/${newUserPermission._id}`)
+    //             .delete(`/api/action-permissions/${newUserPermission._id}`)
     //             .expect(404)
     //             .end(err => {
     //                 if (err) {

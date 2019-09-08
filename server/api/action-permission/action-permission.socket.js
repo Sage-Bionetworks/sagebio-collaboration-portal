@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import UserPermissionEvents from './user-permission.events';
+import ActionPermissionEvents from './action-permission.events';
 import {
     isAdmin
 } from '../../auth/auth';
@@ -13,9 +13,9 @@ var events = ['save', 'remove'];
 export function register(spark) {
     // Bind model events to socket events
     for (let event of events) {
-        var listener = createListener(`userPermission:${event}`, spark);
+        var listener = createListener(`actionPermission:${event}`, spark);
 
-        UserPermissionEvents.on(event, listener);
+        ActionPermissionEvents.on(event, listener);
         spark.on('disconnect', removeListener(event, listener));
     }
 }
@@ -35,7 +35,7 @@ function createListener(event, spark) {
 
 function removeListener(event, listener) {
     return function () {
-        UserPermissionEvents.removeListener(event, listener);
+        ActionPermissionEvents.removeListener(event, listener);
     };
 }
 
