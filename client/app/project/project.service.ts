@@ -35,6 +35,10 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${id}`, patches);
     }
 
+    remove(project: Project): Observable<Project> {
+        return this.httpClient.delete(`/api/projects/${project._id}`).pipe(map(() => project));
+    }
+
     makePublic(entity: Project): Observable<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/public`, []);
     }

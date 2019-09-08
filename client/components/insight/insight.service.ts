@@ -36,6 +36,10 @@ export class InsightService implements EntityService<Insight> {
         return this.httpClient.patch<Insight>(`/api/insights/${id}`, patches);
     }
 
+    remove(insight: Insight): Observable<Insight> {
+        return this.httpClient.delete(`/api/insights/${insight._id}`).pipe(map(() => insight));
+    }
+
     makePublic(entity: Insight): Observable<Insight> {
         throw new Error('Method not implemented.');
     }

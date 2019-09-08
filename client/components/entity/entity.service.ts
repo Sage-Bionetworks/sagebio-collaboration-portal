@@ -31,11 +31,17 @@ export abstract class EntityService<E extends Entity> {
     abstract create(entity: E): Observable<E>;
 
     /**
-     *
-     * @param id Updates the entity with the id specified.
+     * Updates the entity with the id specified.
+     * @param id
      * @param patches
      */
     abstract update(id: string, patches: Patch[]): Observable<E>;
+
+    /**
+     * Removes the entity with the id specified.
+     * @param entity
+     */
+    abstract remove(entity: E): Observable<E>;
 
     /**
      * Makes an entity public.

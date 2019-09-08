@@ -41,12 +41,12 @@ export class DatasetComponent implements OnInit, OnDestroy {
         combineLatest(
             this.route.params,
             dataCatalog,
-            this.toolService.getTools()
+            this.toolService.query()
         )
             .pipe(
                 switchMap(([res, catalog, tools]) => {
                     this.catalog = catalog;
-                    this.tools = orderBy('name', 'asc', tools);
+                    this.tools = orderBy('name', 'asc', tools.results);
                     return this.datasetService.getDataset(catalog, res.datasetId);
                 })
             )

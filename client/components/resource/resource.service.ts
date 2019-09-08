@@ -36,6 +36,10 @@ export class ResourceService implements EntityService<Resource> {
         return this.httpClient.patch<Resource>(`/api/resources/${id}`, patches);
     }
 
+    remove(resource: Resource): Observable<Resource> {
+        return this.httpClient.delete(`/api/resources/${resource._id}`).pipe(map(() => resource));
+    }
+
     makePublic(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
     }

@@ -28,7 +28,7 @@ export class ToolThreadListComponent implements OnInit {
     }
 
     ngOnInit() {
-        const getTool = this.route.params.pipe(switchMap(res => this.toolService.getToolBySlug(res.slug)));
+        const getTool = this.route.params.pipe(switchMap(res => this.toolService.get(res.id)));
 
         getTool.subscribe(
             tool => {
