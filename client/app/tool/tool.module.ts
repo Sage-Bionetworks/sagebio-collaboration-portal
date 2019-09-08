@@ -6,13 +6,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { SocketService } from 'components/socket/socket.service';
-import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 
 import { ToolComponent } from './tool.component';
-import { ToolActivitiesComponent } from './tool-activities/tool-activities.component';
+import { ToolActivityComponent } from './tool-activity/tool-activity.component';
 import { ToolDiscussionComponent } from './tool-discussion/tool-discussion.component';
 import { ToolHomeComponent } from './tool-home/tool-home.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
@@ -43,7 +42,7 @@ export const ROUTES: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ToolHomeComponent },
-            { path: 'activities', component: ToolActivitiesComponent },
+            { path: 'activity', component: ToolActivityComponent },
             { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'settings', component: ToolSettingsComponent },
         ],
@@ -63,7 +62,7 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         ToolComponent,
-        ToolActivitiesComponent,
+        ToolActivityComponent,
         ToolDiscussionComponent,
         ToolHomeComponent,
         ToolEditComponent,

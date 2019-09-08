@@ -33,7 +33,7 @@ export class ToolSidenavService implements OnDestroy {
         {
             title: itemTitles.ACTIVITY,
             icon: 'bubble_chart',
-            routerLink: ['activities'],
+            routerLink: ['activity'],
             routerLinkActiveOptions: {},
             visible: true,
         },

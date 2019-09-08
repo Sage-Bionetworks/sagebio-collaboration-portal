@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, tap, catchError } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { Tool } from 'models/entities/tool.model';
 import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
@@ -30,7 +30,6 @@ export class ToolComponent implements OnInit {
 
     ngOnInit() {
         const getTool = this.route.params.pipe(
-            tap(res => console.log('RES', res)),
             switchMap(res =>
                 this.toolService.get(res.id).pipe(
                     catchError(err => {

@@ -30,7 +30,7 @@
             <div class="tool-actions">
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
                 <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
-                <show-activity-button [root]="tool" [routerLink]="'../activities'"></show-activity-button>
+                <show-activity-button [root]="tool" [routerLink]="'../activity'"></show-activity-button>
                 <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true"
                     >Edit</a
                 >

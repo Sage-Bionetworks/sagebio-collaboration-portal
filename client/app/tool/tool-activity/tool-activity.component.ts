@@ -11,11 +11,11 @@ import config from '../../app.constants';
 import { ToolDataService } from '../tool-data.service';
 
 @Component({
-    selector: 'tool-activities',
-    template: require('./tool-activities.html'),
-    styles: [require('./tool-activities.scss')],
+    selector: 'tool-activity',
+    template: require('./tool-activity.html'),
+    styles: [require('./tool-activity.scss')],
 })
-export class ToolActivitiesComponent implements OnInit {
+export class ToolActivityComponent implements OnInit {
     @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private tool: Tool;
