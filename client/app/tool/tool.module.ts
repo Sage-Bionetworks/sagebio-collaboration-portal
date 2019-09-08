@@ -11,14 +11,17 @@ import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
 
-import { ToolComponent } from './tool-page/tool.component';
+import { ToolComponent } from './tool.component';
+import { ToolHomeComponent } from './tool-home/tool-home.component';
 import { ToolThreadListComponent } from './tool-thread-list/tool-thread-list.component';
 import { ToolEditComponent } from './tool-edit/tool-edit.component';
 import { ToolListComponent } from './tool-list/tool-list.component';
 import { ToolNewComponent } from './tool-new/tool-new.component';
+import { ToolSidenavComponent } from './tool-sidenav/tool-sidenav.component';
 import { ToolViewComponent } from './tool-view/tool-view.component';
-
 import { ToolService } from './tool.service';
+import { ToolDataService } from './tool-data.service';
+import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
 
 export const ROUTES: Routes = [
     {
@@ -35,12 +38,28 @@ export const ROUTES: Routes = [
         path: 'tools/:id',
         component: ToolComponent,
         canActivate: [AuthGuard],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'home', component: ToolHomeComponent },
+            // { path: 'insights', component: ProjectInsightsComponent },
+            // { path: 'insights/:insightId', component: InsightPageComponent },
+            // { path: 'resources', component: ProjectResourcesComponent },
+            // { path: 'resources/:resourceId', component: ResourcePageComponent },
+            // { path: 'activities', component: ProjectActivitiesComponent },
+            // { path: 'discussion', component: ProjectDiscussionComponent },
+            // { path: 'settings', component: ProjectSettingsComponent },
+        ],
     },
-    {
-        path: 'tools/:id/discussion',
-        component: ToolThreadListComponent,
-        canActivate: [AuthGuard]
-    }
+    // {
+    //     path: 'tools/:id',
+    //     component: ToolComponent,
+    //     canActivate: [AuthGuard],
+    // },
+    // {
+    //     path: 'tools/:id/discussion',
+    //     component: ToolThreadListComponent,
+    //     canActivate: [AuthGuard]
+    // }
 ];
 
 @NgModule({
@@ -56,13 +75,20 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         ToolComponent,
+        ToolHomeComponent,
         ToolThreadListComponent,
         ToolEditComponent,
         ToolListComponent,
         ToolNewComponent,
+        ToolSidenavComponent,
         ToolViewComponent,
     ],
-    providers: [SocketService, ToolService],
+    providers: [
+        SocketService,
+        ToolService,
+        ToolDataService,
+        ToolSidenavService
+    ],
     exports: [],
 })
 export class ToolModule {}

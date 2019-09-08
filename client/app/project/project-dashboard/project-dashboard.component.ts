@@ -14,7 +14,7 @@ import { NotificationService } from 'components/notification/notification.servic
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
 import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.service';
-import { UserProjectPermission } from '../models/user-project-permission.model';
+import { UserEntityPermission } from 'components/auth/user-entity-permission.model';
 
 @Component({
     selector: 'project-dashboard',
@@ -23,7 +23,7 @@ import { UserProjectPermission } from '../models/user-project-permission.model';
 })
 export class ProjectDashboardComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
-    private userProjectPermission: UserProjectPermission = DEFAULT_USER_PERMISSION;
+    private userProjectPermission: UserEntityPermission = DEFAULT_USER_PERMISSION;
     private showEditProjectTemplate = false;
 
     private form: FormGroup;

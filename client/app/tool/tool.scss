@@ -5,20 +5,20 @@
 //     height: 100%;
 //   }
 
-.app-project {
+.app-tool {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     height: 100%;
 }
 
-.app-project-sidenav-container {
+.app-tool-sidenav-container {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;
 }
 
-.app-project-sidenav-content {
+.app-tool-sidenav-content {
     display: flex;
     flex-flow: column nowrap;
     flex-grow: 1;

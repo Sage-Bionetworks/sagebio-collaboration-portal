@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, forkJoin, of, merge, Observable, Subscription, Subject, combineLatest } from 'rxjs';
 import { switchMap, filter, tap, mapTo, last, pairwise, takeUntil, map, catchError, distinctUntilChanged } from 'rxjs/operators';
-import { Project } from 'models/entities/project.model';
+import { Tool } from 'models/entities/tool.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { EntityPermissionService } from 'components/auth/entity-permission.service';
@@ -15,14 +15,14 @@ export const DEFAULT_USER_PERMISSION: UserEntityPermission = {
     canAdmin: false
 };
 
-interface ProjectAclResult {
-    project: Project;
+interface ToolAclResult {
+    tool: Tool;
     acl: EntityPermission[];
 }
 
 @Injectable()
-export class ProjectDataService implements OnDestroy {
-    private _project: BehaviorSubject<Project> = new BehaviorSubject<Project>(null);
+export class ToolDataService implements OnDestroy {
+    private _tool: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
 
     private _userPermission: BehaviorSubject<UserEntityPermission> = new BehaviorSubject<UserEntityPermission>(DEFAULT_USER_PERMISSION);
     private _acl: BehaviorSubject<EntityPermission[]> = new BehaviorSubject<EntityPermission[]>([]);
@@ -46,25 +46,10 @@ export class ProjectDataService implements OnDestroy {
                 this._userPermission.next(DEFAULT_USER_PERMISSION);
                 this._userPermission.complete();
             });
-
-        // this.getACL()
-        //     .pipe(
-        //         takeUntil(this.unsubscribe)
-        //     )
-        //     .subscribe((res: ProjectAclResult) => {
-        //         console.log('ACL are now', res);
-        //         this._acl.next(res.acl);
-        //         if (res.project) {
-        //             this.socketService.syncArraySubject(`project:${res.project._id}:entityPermission`, this._acl);
-        //         }
-        //     }, err => console.log(err), () => {
-        //         this._acl.next([]);
-        //         this._acl.complete();
-        //     });
     }
 
     ngOnDestroy() {
-        this._project.next(null);
+        this._tool.next(null);
         this.unsubscribe.next();
         this.unsubscribe.complete();
         if (this.socketEventName) {
@@ -72,21 +57,21 @@ export class ProjectDataService implements OnDestroy {
         }
     }
 
-    public setProject(project: Project): void {
-        console.log('PROJECT IS SET TO', project);
-        this._project.next(project);
-        this.socketEventName = `project:${project._id}`;
-        this.socketService.syncItemSubject(this.socketEventName, this._project);
+    public setTool(tool: Tool): void {
+        console.log('PROJECT IS SET TO', tool);
+        this._tool.next(tool);
+        this.socketEventName = `tool:${tool._id}`;
+        this.socketService.syncItemSubject(this.socketEventName, this._tool);
     }
 
     /**
-     * Returns the ACL for this project (if the user is authorized to).
-     * @return {Observable<ProjectAclResult>}
+     * Returns the ACL for this tool (if the user is authorized to).
+     * @return {Observable<ToolAclResult>}
      */
-    // private getACL(): Observable<ProjectAclResult> {
+    // private getACL(): Observable<ToolAclResult> {
     //
-    //     const getProjectAndUserPermission = combineLatest(
-    //         this._project
+    //     const getToolAndUserPermission = combineLatest(
+    //         this._tool
     //             .pipe(
     //                 pairwise()
     //             ),
@@ -94,34 +79,34 @@ export class ProjectDataService implements OnDestroy {
     //     )
     //         .pipe(
     //             map(data => ({
-    //                 prevProject: data[0][0],
-    //                 project: data[0][1],
+    //                 prevTool: data[0][0],
+    //                 tool: data[0][1],
     //                 canAdmin: data[1].canAdmin
     //             }))
     //         );
     //
-    //     const queryACL = getProjectAndUserPermission
+    //     const queryACL = getToolAndUserPermission
     //         .pipe(
-    //             filter(res => !!res.project && res.canAdmin),
+    //             filter(res => !!res.tool && res.canAdmin),
     //             switchMap(res => forkJoin({
-    //                 project: of(res.project),
-    //                 acl: this.entityPermissionService.queryByEntity(res.project)
+    //                 tool: of(res.tool),
+    //                 acl: this.entityPermissionService.queryByEntity(res.tool)
     //             }))
     //         );
     //
-    //     const emptyACL = getProjectAndUserPermission
+    //     const emptyACL = getToolAndUserPermission
     //         .pipe(
-    //             filter(res => !res.project || !res.canAdmin),
+    //             filter(res => !res.tool || !res.canAdmin),
     //             distinctUntilChanged((prev, curr) => {
-    //                 return (!prev.project || !prev.canAdmin) !== (!curr.project || !curr.canAdmin);
+    //                 return (!prev.tool || !prev.canAdmin) !== (!curr.tool || !curr.canAdmin);
     //             }),
     //             tap(res => {
-    //                 if (res.prevProject) {
-    //                     this.socketService.unsyncUpdates(`project:${res.prevProject}:entityPermission`);
+    //                 if (res.prevTool) {
+    //                     this.socketService.unsyncUpdates(`tool:${res.prevTool}:entityPermission`);
     //                 }
     //             }),
     //             mapTo({
-    //                 project: <Project>null,
+    //                 tool: <Tool>null,
     //                 acl: <EntityPermission[]>[]
     //             })
     //         );
@@ -135,27 +120,27 @@ export class ProjectDataService implements OnDestroy {
     // }
 
     /**
-     * Returns the permission of the current user for this project.
+     * Returns the permission of the current user for this tool.
      * @return {Observable<UserEntityPermission>}
      */
     private getUserEntityPermission(): Observable<UserEntityPermission> {
-        const queryUserEntityPermission = this._project
+        const queryUserEntityPermission = this._tool
             .pipe(
-                filter(project => !!project),
-                switchMap(project => this.userPermissionDataService.permissions()
+                filter(tool => !!tool),
+                switchMap(tool => this.userPermissionDataService.permissions()
                     .pipe(
                         map(permissions => ({
                             canRead: permissions.canReadEntity(
-                                project._id,
-                                config.entityTypes.PROJECT.value
+                                tool._id,
+                                config.entityTypes.TOOL.value
                             ),
                             canWrite: permissions.canWriteEntity(
-                                project._id,
-                                config.entityTypes.PROJECT.value
+                                tool._id,
+                                config.entityTypes.TOOL.value
                             ),
                             canAdmin: permissions.canAdminEntity(
-                                project._id,
-                                config.entityTypes.PROJECT.value
+                                tool._id,
+                                config.entityTypes.TOOL.value
                             )
                         })),
                         catchError(err => of(<UserEntityPermission>DEFAULT_USER_PERMISSION))
@@ -163,9 +148,9 @@ export class ProjectDataService implements OnDestroy {
                 )
             );
 
-        const emptyUserEntityPermission = this._project
+        const emptyUserEntityPermission = this._tool
             .pipe(
-                filter(project => !project),
+                filter(tool => !tool),
                 mapTo(DEFAULT_USER_PERMISSION)
             );
 
@@ -177,12 +162,12 @@ export class ProjectDataService implements OnDestroy {
         return getUserEntityPermission;
     }
 
-    project(): Observable<Project> {
-        return this._project.asObservable();
+    tool(): Observable<Tool> {
+        return this._tool.asObservable();
     }
 
     /**
-     * Returns whether the user can admin the project.
+     * Returns whether the user can admin the tool.
      * @return {Observable<UserEntityPermission>}
      */
     userPermission(): Observable<UserEntityPermission> {
@@ -190,7 +175,7 @@ export class ProjectDataService implements OnDestroy {
     }
 
     /**
-     * Returns the ACL associated to this project.
+     * Returns the ACL associated to this tool.
      * @return {Observable<boolean>}
      */
     // acl(): Observable<EntityPermission[]> {

@@ -14,11 +14,11 @@ import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 
 @Component({
-    selector: 'tool',
-    template: require('./tool.html'),
-    styles: [require('./tool.scss')],
+    selector: 'tool-home',
+    template: require('./tool-home.html'),
+    styles: [require('./tool-home.scss')],
 })
-export class ToolComponent implements OnInit, OnDestroy {
+export class ToolHomeComponent implements OnInit, OnDestroy {
     private tool: Tool;
     @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
     private showEditToolTemplate = false;

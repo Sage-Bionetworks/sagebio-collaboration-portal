@@ -12,6 +12,14 @@ import { AppQuillModule } from 'components/quill/app-quill.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { DirectivesModule } from 'components/directives/directives.module';
+import { InsightService } from 'components/insight/insight.service';
+import { InsightModule } from 'components/insight/insight.module';
+import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
+import { ResourceService } from 'components/resource/resource.service';
+import { ResourcePageComponent } from 'components/resource/resource-page/resource-page.component';
+import { ResourceModule } from 'components/resource/resource.module';
+import { ActivityModule } from 'components/activity/activity.module';
+import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
@@ -29,15 +37,6 @@ import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
 import { ProjectGuard } from './project-guard.service';
-
-import { InsightService } from 'components/insight/insight.service';
-import { InsightModule } from 'components/insight/insight.module';
-import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
-import { ResourceService } from 'components/resource/resource.service';
-import { ResourcePageComponent } from 'components/resource/resource-page/resource-page.component';
-import { ResourceModule } from 'components/resource/resource.module';
-import { ActivityModule } from 'components/activity/activity.module';
-import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 

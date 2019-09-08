@@ -17,7 +17,7 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
     ]
 })
 export class ProjectComponent implements OnInit {
-    private project$: Observable<Project>;
+    private project$: Observable<Project>; // used in html
 
     static parameters = [ActivatedRoute, ProjectService, ProjectDataService,
         ProjectSidenavService];

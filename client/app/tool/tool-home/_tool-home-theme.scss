@@ -1,13 +1,7 @@
-@import './tool-list/tool-list-theme';
-@import './tool-page/tool-page-theme';
-
-@mixin tool-theme($theme) {
+@mixin tool-home-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
-
-    @include tool-list-theme($theme);
-    @include tool-page-theme($theme);
 }

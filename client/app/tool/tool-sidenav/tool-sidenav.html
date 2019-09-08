@@ -1,0 +1,8 @@
+<mat-nav-list>
+    <ng-container *ngFor="let item of toolSidenavService.items() | async">
+        <a mat-list-item *ngIf="item.visible" routerLinkActive="active" [routerLink]="item.routerLink">
+            <mat-icon mat-list-icon [matBadge]="item?.notifications">{{ item.icon }}</mat-icon>
+            <h3 matLine>{{ item.title }}</h3>
+        </a>
+    </ng-container>
+</mat-nav-list>
