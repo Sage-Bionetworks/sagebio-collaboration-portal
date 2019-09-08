@@ -4,6 +4,7 @@ import {
 } from 'lodash';
 import { flow, groupBy, orderBy, map, keyBy, pick, mapValues, uniqBy, pickBy, get } from 'lodash/fp';
 import config from '../../config/environment';
+import { adminUserId } from './default/constants';
 // import { message } from 'gulp-typescript/release/utils';
 
 var default_ = require('./default');
@@ -46,6 +47,22 @@ if (seeds.threads && seeds.messages) {
         ...thread,
         contributors: get(thread._id, contributorsByThread)
     }));
+}
+
+// Creating entity-permissions with Admin access for the author of each tool
+if (seeds.tools) {
+    let permissions = seeds.tools.map(tool => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: tool._id,
+        entityType: config.entityTypes.TOOL.value,
+        user: tool.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [
+        ...seeds.entityPermissions,
+        ...permissions
+    ];
 }
 
 module.exports = seeds;
