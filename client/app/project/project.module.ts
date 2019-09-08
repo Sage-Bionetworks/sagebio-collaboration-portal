@@ -24,9 +24,9 @@ import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { ProjectComponent } from './project.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectHomeComponent } from './project-home/project-home.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
-import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
@@ -56,8 +56,8 @@ export const ROUTES: Routes = [
         component: ProjectComponent,
         canActivate: [AuthGuard, ProjectGuard],
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: ProjectDashboardComponent },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: ProjectHomeComponent },
             { path: 'insights', component: ProjectInsightsComponent },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
@@ -101,9 +101,9 @@ export const ROUTES: Routes = [
         ProjectComponent,
         ProjectNewComponent,
         ProjectEditComponent,
+        ProjectHomeComponent,
         ProjectListComponent,
         ProjectViewComponent,
-        ProjectDashboardComponent,
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,

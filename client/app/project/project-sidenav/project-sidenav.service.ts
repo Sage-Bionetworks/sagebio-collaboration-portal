@@ -5,7 +5,7 @@ import { ProjectSidenavItem } from './models/project-sidenav-item.model';
 import { ProjectDataService } from '../project-data.service';
 
 const enum itemTitles {
-    DASHBOARD = 'Home',
+    HOME = 'Home',
     INSIGHTS = 'Insights',
     RESOURCES = 'Resources',
     DISCUSSION = 'Discussion',
@@ -18,9 +18,9 @@ export class ProjectSidenavService implements OnDestroy {
     private _opened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     private _mode: BehaviorSubject<string> = new BehaviorSubject<string>('side');
     private _items: BehaviorSubject<ProjectSidenavItem[]> = new BehaviorSubject<ProjectSidenavItem[]>([{
-        title: itemTitles.DASHBOARD,
+        title: itemTitles.HOME,
         icon: 'dashboard',
-        routerLink: ['dashboard'],
+        routerLink: ['home'],
         routerLinkActiveOptions: {},
         visible: true
     }, {

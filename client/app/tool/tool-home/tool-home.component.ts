@@ -59,15 +59,15 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // const getTool = this.toolDataService.tool();
 
-        const getToolHealth = this.tool$.pipe(
-            switchMap(tool =>
-                this.toolService.getToolHealth(tool).pipe(
-                    catchError(err => {
-                        return of(<ToolHealth>undefined);
-                    })
-                )
-            )
-        );
+        // const getToolHealth = this.tool$.pipe(  // TODO To review
+        //     switchMap(tool =>
+        //         this.toolService.getToolHealth(tool).pipe(
+        //             catchError(err => {
+        //                 return of(<ToolHealth>undefined);
+        //             })
+        //         )
+        //     )
+        // );
 
         this.tool$.subscribe(
             tool => {
@@ -78,9 +78,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             err => console.log(err)
         );
 
-        getToolHealth.subscribe(toolHealth => {
-            this.toolHealth = toolHealth;
-        });
+        // getToolHealth.subscribe(toolHealth => {
+        //     this.toolHealth = toolHealth;
+        // });
     }
 
     ngOnDestroy() {

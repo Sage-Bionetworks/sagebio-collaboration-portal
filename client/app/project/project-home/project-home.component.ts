@@ -17,11 +17,11 @@ import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.ser
 import { UserEntityPermission } from 'components/auth/user-entity-permission.model';
 
 @Component({
-    selector: 'project-dashboard',
-    template: require('./project-dashboard.html'),
-    styles: [require('./project-dashboard.scss')]
+    selector: 'project-home',
+    template: require('./project-home.html'),
+    styles: [require('./project-home.scss')]
 })
-export class ProjectDashboardComponent implements OnInit, OnDestroy {
+export class ProjectHomeComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
     private userProjectPermission: UserEntityPermission = DEFAULT_USER_PERMISSION;
     private showEditProjectTemplate = false;
