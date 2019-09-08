@@ -26,7 +26,7 @@ export class DataCatalogDiscussionComponent implements OnInit {
     }
 
     ngOnInit() {
-        const getCatalog = this.route.params.pipe(switchMap(res => this.dataCatalogService.getDataCatalogBySlug(res.slug)));
+        const getCatalog = this.route.params.pipe(switchMap(res => this.dataCatalogService.get(res.id)));
 
         getCatalog.subscribe(
             catalog => {

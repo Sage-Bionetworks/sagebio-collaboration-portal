@@ -36,7 +36,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const dataCatalog = this.route.params.pipe(
-            switchMap(res => this.catalogService.getDataCatalog(res.catalogId))
+            switchMap(res => this.catalogService.get(res.catalogId))
         );
         combineLatest(
             this.route.params,
