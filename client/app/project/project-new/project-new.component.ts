@@ -8,6 +8,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 // import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
 // import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
+import { UrlValidators } from 'components/validation/url-validators';
 
 @Component({
     selector: 'project-new',
@@ -40,7 +41,12 @@ export class ProjectNewComponent implements OnInit {
                 Validators.minLength(this.projectSpecs.description.minlength),
                 Validators.maxLength(this.projectSpecs.description.maxlength)
             ]],
-            visibility: [this.projectSpecs.visibility.default, [
+            picture: ['', [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]],
+            visibility: [this.projectSpecs.visibility.default.value, [
                 Validators.required
             ]],
         });

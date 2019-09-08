@@ -1,6 +1,14 @@
 <div class="app-primary-header app-project-list-header">
     <h1 class="app-primary-header-title">Projects</h1>
-    <a [disabled]="!canCreateProject" mat-raised-button color="warn" class="app-project-list-new-project-btn" (click)="onCreateNewProject()" aria-label="Create project">Create a New Project</a>
+    <a
+        [disabled]="!canCreateProject"
+        mat-raised-button
+        color="warn"
+        class="app-project-list-new-project-btn"
+        (click)="onCreateNewProject()"
+        aria-label="Create project"
+        >New Project</a
+    >
 </div>
 
 <div class="app-project-list">

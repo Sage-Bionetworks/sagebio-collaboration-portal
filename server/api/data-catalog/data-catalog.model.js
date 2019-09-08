@@ -14,7 +14,7 @@ var DataCatalogSchema = new mongoose.Schema({
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200/8a2be2/8a2be2'
+        default: modelSpecs.dataCatalog.picture.default
     },
     visibility: {
         type: String,

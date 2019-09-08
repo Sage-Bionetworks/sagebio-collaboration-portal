@@ -174,9 +174,12 @@ export const models = {
             minlength: 0,
             maxlength: 1000 * 1024 * 1024
         },
+        picture: {
+            default: 'https://via.placeholder.com/200/50c878/50c878'
+        },
         visibility: {
-            values: Object.values(entityVisibility).map(visibility => visibility.value),
-            default: entityVisibility.PRIVATE.value
+            options: Object.values(entityVisibility),
+            default: entityVisibility.PRIVATE
         }
     },
     dataCatalog: {
@@ -187,6 +190,9 @@ export const models = {
         description: {
             minlength: 3,
             maxlength: 1024
+        },
+        picture: {
+            default: 'https://via.placeholder.com/200/8a2be2/8a2be2'
         },
         visibility: {
             options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
