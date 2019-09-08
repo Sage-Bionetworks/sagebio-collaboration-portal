@@ -11,11 +11,11 @@ import config from '../../app.constants';
 import { ProjectDataService } from '../project-data.service';
 
 @Component({
-    selector: 'project-activities',
-    template: require('./project-activities.html'),
-    styles: [require('./project-activities.scss')],
+    selector: 'project-activity',
+    template: require('./project-activity.html'),
+    styles: [require('./project-activity.scss')],
 })
-export class ProjectActivitiesComponent implements OnInit {
+export class ProjectActivityComponent implements OnInit {
     @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private project: Project;

@@ -22,6 +22,7 @@ import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
 import { ProjectComponent } from './project.component';
+import { ProjectActivityComponent } from './project-activity/project-activity.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectHomeComponent } from './project-home/project-home.component';
@@ -30,7 +31,6 @@ import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
-import { ProjectActivitiesComponent } from './project-activities/project-activities.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
@@ -62,7 +62,7 @@ export const ROUTES: Routes = [
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
-            { path: 'activities', component: ProjectActivitiesComponent },
+            { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'settings', component: ProjectSettingsComponent },
         ],
@@ -99,6 +99,7 @@ export const ROUTES: Routes = [
     ],
     declarations: [
         ProjectComponent,
+        ProjectActivityComponent,
         ProjectNewComponent,
         ProjectEditComponent,
         ProjectHomeComponent,
@@ -107,7 +108,6 @@ export const ROUTES: Routes = [
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
-        ProjectActivitiesComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,
     ],
