@@ -56,6 +56,6 @@ export enum ResourceType {
 
 export interface ResourceAttachment {
     entityId?: string;
-    entityType?: string;
+    entitySubType?: string;
     name?: string;
 }

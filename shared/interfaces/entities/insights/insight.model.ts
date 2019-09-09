@@ -38,7 +38,7 @@ export interface Insight extends Entity {
 
 export interface InsightAttachment {
     entityId?: string;
-    entityType?: string;
+    entitySubType?: string;
     name?: string;
 }
 
