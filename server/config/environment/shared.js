@@ -7,127 +7,126 @@ export const contactUsUrl = process.env.CONTACT_US_URL || 'https://webforms.roch
 
 export const userRoles = {
     USER: {
-        value: 'user'
+        value: 'User',
     },
     ADMIN: {
-        value: 'admin'
-    }
+        value: 'Admin',
+    },
 };
 
 export const actionPermissionTypes = {
     CREATE_PROJECT: {
-        value: 'CreateProject'
+        value: 'CreateProject',
     },
     CREATE_DATA_CATALOG: {
-        value: 'CreateDataCatalog'
+        value: 'CreateDataCatalog',
     },
     CREATE_TOOL: {
-        value: 'CreateTool'
-    }
+        value: 'CreateTool',
+    },
 };
 
 export const entityTypes = {
     APP: {
-        value: 'app' // TODO Capitalize
+        value: 'App',
     },
     PROJECT: {
-        value: 'project'
+        value: 'Project',
     },
     DATA_CATALOG: {
-        value: 'data-catalog'
+        value: 'DataCatalog',
     },
     TOOL: {
-        value: 'tool'
-    }
+        value: 'Tool',
+    },
 };
 
 export const insightTypes = {
     REPORT: {
-        value: 'report', // TODO Capitalize
-        name: 'Report'
+        value: 'Report',
+        name: 'Report',
     },
     MEMO: {
-        value: 'memo',
-        name: 'Memo'
-    }
+        value: 'Memo',
+        name: 'Memo',
+    },
 };
 
 export const resourceTypes = {
+    ARTICLE: {
+        value: 'Article',
+        name: 'Article',
+    },
     DASHBOARD: {
         value: 'Dashboard',
-        name: 'Dashboard'
+        name: 'Dashboard',
     },
     STATE: {
         value: 'State',
-        name: 'State'
+        name: 'State',
     },
     WEBAPP: {
         value: 'WebApp',
-        name: 'WebApp'
+        name: 'WebApp',
     },
-    ARTICLE: {
-        value: 'Article',
-        name: 'Article'
-    }
-}
-;
+};
 export const activityTypes = {
     RESOURCEGENERATION: {
         value: 'Resource generation',
-        name: 'Resouce generation'
+        name: 'Resouce generation',
     },
     MEMOIZATION: {
         value: 'Memoization',
-        name: 'Memoization'
+        name: 'Memoization',
     },
     MENTION: {
         value: 'Mention',
-        name: 'Mention'
+        name: 'Mention',
     },
     TOOLSESSION: {
         value: 'Tool session',
-        name: 'Tool session'
-    }
+        name: 'Tool session',
+    },
 };
 
 export const accessTypes = {
     READ: {
-        value: 'read',
+        value: 'Read',
         name: 'Read',
-        description: 'Can read and download.'
+        description: 'Can read and download.',
     },
     WRITE: {
-        value: 'write',
+        value: 'Write',
         name: 'Write',
-        description: 'Can read, download, and write.'
+        description: 'Can read, download, and write.',
     },
     ADMIN: {
-        value: 'admin',
+        value: 'Admin',
         name: 'Admin',
-        description: 'Can read, download, write, and admin.'
-    }
+        description: 'Can read, download, write, and admin.',
+    },
 };
 
 export const inviteStatusTypes = {
     PENDING: {
-        value: 'pending',
-        name: 'Pending'
+        value: 'Pending',
+        name: 'Pending',
     },
     ACCEPTED: {
-        value: 'accepted',
-        name: 'Accepted'
+        value: 'Accepted',
+        name: 'Accepted',
     },
     DECLINED: {
-        value: 'declined',
-        name: 'Declined'
-    }
+        value: 'Declined',
+        name: 'Declined',
+    },
 };
 
 export const dataCatalogApiTypes = {
     CKAN: {
         value: 'Ckan',
-        name: 'CKAN'
-    }
+        name: 'CKAN',
+    },
 };
 
 export const gitVersion = process.env.GIT_VERSION;
@@ -140,142 +139,151 @@ export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 export const defaultTools = [
     {
         value: '5cb6a048e7bdc7740874fd93',
-        name: 'Facile Explorer'
-    }, {
+        name: 'Facile Explorer',
+    },
+    {
         value: '5cb6a048e7bdc7740874fd95',
-        name: 'IRIS Enterprise Explorer'
-    }, {
+        name: 'IRIS Enterprise Explorer',
+    },
+    {
         value: '5cb6a048e7bdc7740874fd98',
-        name: 'PHC Advanced Analytics'
-    }, {
+        name: 'PHC Advanced Analytics',
+    },
+    {
         value: '5cb7acb3167e4f14b29dfb1b',
-        name: 'PHCCP Shiny Tool Example'
-    }
+        name: 'PHCCP Shiny Tool Example',
+    },
 ];
 
 export const entityVisibility = {
     PUBLIC: {
         value: 'Public',
-        name: 'Public'
+        name: 'Public',
     },
     PRIVATE: {
         value: 'Private',
-        name: 'Private'
-    }
+        name: 'Private',
+    },
 };
 
 export const models = {
     app: {
         title: {
             minlength: 3,
-            maxlength: 64
+            maxlength: 128,
         },
         description: {
             minlength: 0,
-            maxlength: 1000 * 1024 * 1024
+            maxlength: 1000 * 1024 * 1024,
         },
         picture: {
-            default: 'https://via.placeholder.com/200/495a63/495a63'
+            default: 'https://via.placeholder.com/200/495a63/495a63',
         },
         visibility: {
             options: [entityVisibility.PUBLIC],
-            default: entityVisibility.PUBLIC
-        }
+            default: entityVisibility.PUBLIC,
+        },
     },
     project: {
         title: {
             minlength: 3,
-            maxlength: 64
+            maxlength: 128,
         },
         description: {
             minlength: 0,
-            maxlength: 1000 * 1024 * 1024
+            maxlength: 1000 * 1024 * 1024,
         },
         picture: {
-            default: 'https://via.placeholder.com/200/50c878/50c878'
+            default: 'https://via.placeholder.com/200/50c878/50c878',
         },
         visibility: {
             options: Object.values(entityVisibility),
-            default: entityVisibility.PRIVATE
-        }
+            default: entityVisibility.PRIVATE,
+        },
     },
     dataCatalog: {
         title: {
             minlength: 3,
-            maxlength: 30
+            maxlength: 128,
         },
         description: {
             minlength: 3,
-            maxlength: 1024
+            maxlength: 1024,
         },
         picture: {
-            default: 'https://via.placeholder.com/200/8a2be2/8a2be2'
+            default: 'https://via.placeholder.com/200/8a2be2/8a2be2',
         },
         visibility: {
             options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
-            default: entityVisibility.PUBLIC // entityVisibility.PRIVATE
+            default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
         apiType: {
             options: Object.values(dataCatalogApiTypes),
-            default: dataCatalogApiTypes.CKAN
-        }
+            default: dataCatalogApiTypes.CKAN,
+        },
     },
     tool: {
         title: {
             minlength: 3,
-            maxlength: 30
+            maxlength: 128,
         },
         description: {
             minlength: 3,
-            maxlength: 1024
+            maxlength: 1024,
         },
         picture: {
-            default: 'https://via.placeholder.com/200/007fff/007fff'
+            default: 'https://via.placeholder.com/200/007fff/007fff',
         },
         visibility: {
             options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
-            default: entityVisibility.PUBLIC // entityVisibility.PRIVATE
-        }
-    },
-    insight: {
-        title: {
-            minlength: 3,
-            maxlength: 30
+            default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
-        description: {
-            minlength: 26, // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
-        },
-        visibility: {
-            values: Object.values(entityVisibility).map(visibility => visibility.value),
-            default: entityVisibility.PRIVATE.value
-        },
-        type: {
-            values: ['report', 'memo'],
-            default: 'report'
-        }
     },
     resource: {
         title: {
             minlength: 3,
-            maxlength: 30
+            maxlength: 128,
         },
         description: {
             minlength: 26, // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+            maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        picture: {
+            default: 'https://via.placeholder.com/200/d73b3e/d73b3e',
         },
         visibility: {
-            values: Object.values(entityVisibility).map(visibility => visibility.value),
-            default: entityVisibility.PRIVATE.value
+            options: Object.values(entityVisibility),
+            default: entityVisibility.PRIVATE,
         },
         type: {
-            values: ['Dashboard', 'State', 'WebApp', 'Article'],
-            default: 'Dashboard'
+            options: Object.values(resourceTypes),
+            default: resourceTypes.ARTICLE,
         },
         url: {
             minlength: 10,
-            maxlength: 2000
-        }
+            maxlength: 2000,
+        },
+    },
+    insight: {
+        title: {
+            minlength: 3,
+            maxlength: 128,
+        },
+        description: {
+            minlength: 26, // 1 character when stringifying Quill content
+            maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
+        picture: {
+            default: 'https://via.placeholder.com/200/ffbf00/ffbf00',
+        },
+        visibility: {
+            options: Object.values(entityVisibility),
+            default: entityVisibility.PRIVATE,
+        },
+        type: {
+            options: Object.values(insightTypes),
+            default: insightTypes.MEMO,
+        },
     },
     message: {
         title: {
@@ -284,27 +292,40 @@ export const models = {
         },
         body: {
             minlength: 26, // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
-        }
+            maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
+        },
     },
     activity: {
         title: {
             minlength: 3,
-            maxlength: 30
+            maxlength: 30,
         },
         description: {
             minlength: 26, // 1 character when stringifying Quill content
-            maxlength: 1024 * 1024 // allows for 500 KB (Unicode: 1 character = 2 bytes)
+            maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         type: {
             values: ['Report generation', 'Memoization', 'Mention', 'Tool session'],
-            default: 'Report generation'
+            default: 'Report generation',
         },
         url: {
             minlength: 10,
-            maxlength: 2000
-        }
-    }
+            maxlength: 2000,
+        },
+    },
+    user: {
+        // title: {
+        //     minlength: 3,
+        //     maxlength: 128,
+        // },
+        picture: {
+            default: '',
+        },
+        role: {
+            options: Object.values(userRoles),
+            default: userRoles.USER,
+        },
+    },
 };
 
 export const datasetOrders = {
@@ -316,18 +337,18 @@ export const datasetOrders = {
     RELEVANCE: {
         value: 'relevance asc',
         title: 'Relevance',
-        active: true
+        active: true,
     },
     NEWEST: {
         value: 'metadata_created desc',
         title: 'Newest Datasets',
-        active: false
+        active: false,
     },
     OLDEST: {
         value: 'metadata_created asc',
         title: 'Oldest Datasets',
-        active: false
-    }
+        active: false,
+    },
 };
 
 export default {
@@ -348,5 +369,5 @@ export default {
     resourceTypes,
     inviteStatusTypes,
     entityVisibility,
-    dataCatalogApiTypes
+    dataCatalogApiTypes,
 };

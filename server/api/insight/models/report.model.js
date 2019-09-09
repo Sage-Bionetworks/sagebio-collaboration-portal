@@ -8,4 +8,4 @@ var ReportSchema = new mongoose.Schema({
     }]
 });
 
-export default Insight.discriminator('report', ReportSchema);
+export default Insight.discriminator('Report', ReportSchema);

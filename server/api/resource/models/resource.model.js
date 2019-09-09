@@ -3,7 +3,7 @@ import {
     registerEvents
 } from '../resource.events';
 import User from '../../user/user.model';
-import config from '../../../config/environment';
+import { models as modelSpecs } from '../../../config/environment';
 
 const options = {
     discriminatorKey: 'resourceType',
@@ -13,25 +13,36 @@ const options = {
 var ResourceSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: modelSpecs.resource.title.minlength,
+        maxlength: modelSpecs.resource.title.maxlength
     },
     description: {
         type: String,
-        required: false
+        required: true,
+        minlength: modelSpecs.resource.description.minlength,
+        maxlength: modelSpecs.resource.description.maxlength
     },
-    url: {
+    picture: {
         type: String,
-        required: false
-    },
-    projectId: {
-        type: String,
-        required: true
+        default: modelSpecs.resource.picture.default
     },
     visibility: {
         type: String,
         required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.resource.visibility.default
+        enum: modelSpecs.resource.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.resource.visibility.default.value,
+    },
+    url: {
+        type: String,
+        required: false,
+        minlength: modelSpecs.resource.url.minlength,
+        maxlength: modelSpecs.resource.url.maxlength
+    },
+    projectId: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,

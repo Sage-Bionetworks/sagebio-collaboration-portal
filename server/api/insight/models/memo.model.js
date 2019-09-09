@@ -8,4 +8,4 @@ var MemoSchema = new mongoose.Schema({
     }]
 });
 
-export default Insight.discriminator('memo', MemoSchema);
+export default Insight.discriminator('Memo', MemoSchema);

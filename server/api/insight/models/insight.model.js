@@ -3,7 +3,7 @@ import {
     registerEvents
 } from '../insight.events';
 import User from '../../user/user.model';
-import config from '../../../config/environment';
+import { models as modelSpecs } from '../../../config/environment';
 
 const options = {
     discriminatorKey: 'insightType',
@@ -19,15 +19,19 @@ var InsightSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    projectId: {
+    picture: {
         type: String,
-        required: true
+        default: modelSpecs.insight.picture.default
     },
     visibility: {
         type: String,
         required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.insight.visibility.default
+        enum: modelSpecs.insight.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.insight.visibility.default.value,
+    },
+    projectId: {
+        type: String,
+        required: true
     },
     createdAt: {
         type: Date,
@@ -36,7 +40,7 @@ var InsightSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: true
     }
 }, options);
 

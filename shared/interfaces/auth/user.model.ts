@@ -17,6 +17,14 @@
  *           type: string
  *         role:
  *           $ref: '#/components/schemas/UserRole'
+ *         info:
+ *           type: string
+ *         industry:
+ *           type: string
+ *         location:
+ *           type: string
+ *         position:
+ *           type: string
  *         orcid:
  *           type: string
  *         createdAt:
@@ -24,12 +32,6 @@
  *           format: date-time
  *         createdBy:
  *           $ref: '#/components/schemas/User'
- *         info:
- *           type: string
- *         industry:
- *           type: string
- *         location:
- *           type: string
  */
 export interface User {
     _id?: string;
@@ -54,10 +56,10 @@ export interface User {
  *     UserRole:
  *       type: string
  *       enum:
- *         - user
- *         - admin
+ *         - User
+ *         - Admin
  */
 export enum UserRole {
-    USER = 'user',
-    ADMIN = 'admin'
+    USER = 'User',
+    ADMIN = 'Admin'
 }

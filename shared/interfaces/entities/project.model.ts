@@ -9,7 +9,7 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
