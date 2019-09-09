@@ -26,6 +26,9 @@ export const actionPermissionTypes = {
     },
     CREATE_ORGANIZATION: {
         value: 'CreateOrganization'
+    },
+    CREATE_USER: {
+        value: 'CreateUser'
     }
 };
 
