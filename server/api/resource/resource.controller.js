@@ -1,13 +1,7 @@
 import { union } from 'lodash/fp';
 import { merge } from 'lodash';
 import { isAdmin } from '../../auth/auth';
-import {
-    respondWithResult,
-    patchUpdates,
-    removeEntity,
-    handleEntityNotFound,
-    handleError,
-} from '../util';
+import { respondWithResult, patchUpdates, removeEntity, handleEntityNotFound, handleError } from '../util';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
 import Resource from './models/resource.model';
@@ -18,24 +12,29 @@ export function index(req, res) {
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
-            filter = merge({
-                _id: {
-                    $in: resourceIds,
-                }
-            }, filter);
+            filter = merge(
+                {
+                    _id: {
+                        $in: resourceIds,
+                    },
+                },
+                filter
+            );
             return filter;
         })
-        .then(filter_ => Promise.all([
-            Resource.countDocuments(filter_),
-            Resource.find(filter_, projection)
-                .sort(sort)
-                .skip(skip)
-                .limit(limit)
-                .exec()
-        ]))
+        .then(filter_ =>
+            Promise.all([
+                Resource.countDocuments(filter_),
+                Resource.find(filter_, projection)
+                    .sort(sort)
+                    .skip(skip)
+                    .limit(limit)
+                    .exec(),
+            ])
+        )
         .then(([count, resources]) => ({
             count,
-            results: resources
+            results: resources,
         }))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -43,7 +42,8 @@ export function index(req, res) {
 
 // Gets a single Resource from the DB
 export function show(req, res) {
-    return Resource.findById(req.params.id).exec()
+    return Resource.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -53,7 +53,7 @@ export function show(req, res) {
 export function create(req, res) {
     return Resource.create({
         ...req.body,
-        createdBy: req.user._id
+        createdBy: req.user._id,
     })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
@@ -64,7 +64,8 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Resource.findById(req.params.id).exec()
+    return Resource.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
@@ -93,11 +94,15 @@ function getPublicResourceIds() {
     //     .then(resources => resources.map(resource => resource._id));
     // Meanwhile when Resources inherit permission from Project
     return getPublicProjectIds()
-        .then(projectIds => Resource.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Resource.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(resources => resources.map(resource => resource._id));
 }
@@ -108,11 +113,15 @@ function getPublicResourceIds() {
  */
 function getPrivateResourceIds(userId) {
     return getPrivateProjectIds(userId)
-        .then(projectIds => Resource.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Resource.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(resources => resources.map(resource => resource._id));
 }
@@ -133,14 +142,9 @@ function getAllResourceIds() {
  * @return {string[]}
  */
 function getResourceIdsByUser(userId) {
-    return isAdmin(userId)
-        .then(is =>
-            (is
-                ? getAllResourceIds()
-                : Promise.all([
-                    getPublicResourceIds(),
-                    getPrivateResourceIds(userId)
-                ]).then(result => union(...result))
-            )
-        );
+    return isAdmin(userId).then(is =>
+        (is
+            ? getAllResourceIds()
+            : Promise.all([getPublicResourceIds(), getPrivateResourceIds(userId)]).then(result => union(...result)))
+    );
 }
