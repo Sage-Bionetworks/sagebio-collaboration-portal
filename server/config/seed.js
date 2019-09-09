@@ -10,7 +10,7 @@ import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
 import Thread from '../api/thread/thread.model';
 import Memo from '../api/insight/models/memo.model';
-import Message from '../api/message/message.model';
+import Message from '../api/thread/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
 import Report from '../api/insight/models/report.model';

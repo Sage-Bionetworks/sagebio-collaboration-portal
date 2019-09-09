@@ -4,10 +4,10 @@
 
 import {
     hasAccessToEntity,
-} from '../../auth/auth';
+} from '../../../auth/auth';
 import MessageEvents from './message.events';
-import Thread from '../thread/thread.model';
-import config from '../../config/environment';
+import Thread from '../thread.model';
+import config from '../../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];

@@ -16,7 +16,6 @@ export default app => {
     // Insert routes below
     app.use('/api/apps', require('./api/app'));
     app.use('/api/entity-permissions', require('./api/entity-permission'));
-    app.use('/api/messages', require('./api/message'));
     app.use('/api/threads', require('./api/thread'));
     app.use('/api/projects', require('./api/project'));
     app.use('/api/organizations', require('./api/organization'));

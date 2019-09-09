@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './message.events';
-import User from '../user/user.model';
+import User from '../../user/user.model';
 
 var MessageSchema = new mongoose.Schema({
     body: {
