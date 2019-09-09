@@ -1,4 +1,3 @@
-import { User } from '../auth/user.model';
 import { Organization } from '../organization.model';
 import { Entity } from './entity.model';
 
@@ -11,12 +10,14 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
  *         picture:
  *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         website:
  *           type: string
  *         organization:
@@ -24,6 +25,8 @@ import { Entity } from './entity.model';
  *         apiType:
  *           $ref: '#/components/schemas/DataCatalogApiType'
  *         apiServerUrl:
+ *           type: string
+ *         apiHealthCheckUrl:
  *           type: string
  *         createdAt:
  *           type: string
@@ -51,7 +54,7 @@ export interface DataCatalog extends Entity {
  *         - SYNPASE
  */
 export enum DataCatalogApiType {
-    CKAN = 'CKAN',
-    GEN3 = 'GEN3',
-    SYNAPSE = 'SYNAPSE'
+    CKAN = 'Ckan',
+    GEN3 = 'Gen3',
+    SYNAPSE = 'Synapse',
 }
