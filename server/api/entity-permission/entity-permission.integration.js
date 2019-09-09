@@ -9,8 +9,9 @@ import { adminUser, anotherUser, authOrganization, anotherOrganization, authenti
 import { entityTypes, accessTypes, inviteStatusTypes } from '../../config/environment';
 
 var newEntityPermission;
+var newEntityPermission2;
 
-describe.only('EntityPermission API:', function () {
+describe('EntityPermission API:', function () {
     var token;
 
     before(() =>
@@ -129,7 +130,7 @@ describe.only('EntityPermission API:', function () {
     });
 
     describe('DELETE /api/entity-permissions/:id', function () {
-        it('should respond with 403 on attempt to remove the last Admin of an entity', function (done) {
+        it('should respond with 403 on attempt to remove the last admin of an entity', function (done) {
             request(app)
                 .delete(`/api/entity-permissions/${newEntityPermission._id}`)
                 .set('authorization', `Bearer ${token}`)
@@ -143,75 +144,103 @@ describe.only('EntityPermission API:', function () {
         });
     });
 
-    // describe('PATCH /api/entity-permissions/:id', function () {
-    //     var patchedEntityPermission;
+    describe('POST /api/entity-permissions (add a second admin to the same entity)', function () {
+        beforeEach(function (done) {
+            request(app)
+                .post('/api/entity-permissions')
+                .set('authorization', `Bearer ${token}`)
+                .send({
+                    entityId: '4e657720656e746974794965',
+                    entityType: entityTypes.PROJECT.value,
+                    user: adminUser._id.toString(),
+                    access: accessTypes.ADMIN.value,
+                    status: inviteStatusTypes.ACCEPTED.value,
+                })
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    newEntityPermission2 = res.body;
+                    done();
+                });
+        });
 
-    //     beforeEach(function (done) {
-    //         request(app)
-    //             .patch(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .set('authorization', `Bearer ${token}`)
-    //             .send([
-    //                 {
-    //                     op: 'replace',
-    //                     path: '/access',
-    //                     value: accessTypes.WRITE.value,
-    //                 },
-    //                 {
-    //                     op: 'replace',
-    //                     path: '/status',
-    //                     value: inviteStatusTypes.ACCEPTED.value,
-    //                 },
-    //             ])
-    //             .expect(200)
-    //             .expect('Content-Type', /json/)
-    //             .end(function (err, res) {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 patchedEntityPermission = res.body;
-    //                 done();
-    //             });
-    //     });
+        it('should respond with the newly created entityPermission', function () {
+            expect(newEntityPermission2.entityId).to.equal('4e657720656e746974794965');
+            expect(newEntityPermission2.entityType).to.equal(entityTypes.PROJECT.value);
+            expect(newEntityPermission2.user._id).to.equal(adminUser._id.toString());
+            expect(newEntityPermission2.access).to.equal(accessTypes.ADMIN.value);
+            expect(newEntityPermission2.status).to.equal(inviteStatusTypes.ACCEPTED.value);
+            expect(newEntityPermission2.createdBy._id).to.equal(adminUser._id.toString());
+        });
+    });
 
-    //     afterEach(function () {
-    //         patchedEntityPermission = {};
-    //     });
+    describe('PATCH /api/entity-permissions/:id (downgrade of the first admin)', function () {
+        var patchedEntityPermission;
 
-    //     it('should respond with the patched entityPermission', function () {
-    //         expect(patchedEntityPermission.entityId).to.equal(newEntityPermission._id);
-    //         expect(patchedEntityPermission.entityType).to.equal(entityTypes.PROJECT.value);
-    //         expect(patchedEntityPermission.user._id).to.equal(anotherUser._id.toString());
-    //         expect(patchedEntityPermission.access).to.equal(accessTypes.WRITE.value);
-    //         expect(patchedEntityPermission.status).to.equal(inviteStatusTypes.ACCEPTED.value);
-    //         expect(patchedEntityPermission.createdBy._id).to.equal(adminUser._id.toString());
-    //     });
-    // });
+        beforeEach(function (done) {
+            request(app)
+                .patch(`/api/entity-permissions/${newEntityPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .send([
+                    {
+                        op: 'replace',
+                        path: '/access',
+                        value: accessTypes.WRITE.value,
+                    },
+                ])
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err, res) {
+                    if (err) {
+                        return done(err);
+                    }
+                    patchedEntityPermission = res.body;
+                    done();
+                });
+        });
 
-    // describe('DELETE /api/entity-permissions/:id', function () {
-    //     it('should respond with 204 on successful removal', function (done) {
-    //         request(app)
-    //             .delete(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .set('authorization', `Bearer ${token}`)
-    //             .expect(204)
-    //             .end(err => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 done();
-    //             });
-    //     });
+        afterEach(function () {
+            patchedEntityPermission = {};
+        });
 
-    //     it('should respond with 404 when entityPermission does not exist', function (done) {
-    //         request(app)
-    //             .delete(`/api/entity-permissions/${newEntityPermission._id}`)
-    //             .set('authorization', `Bearer ${token}`)
-    //             .expect(404)
-    //             .end(err => {
-    //                 if (err) {
-    //                     return done(err);
-    //                 }
-    //                 done();
-    //             });
-    //     });
-    // });
+        it('should respond with the patched entityPermission', function () {
+            expect(patchedEntityPermission.entityId).to.equal('4e657720656e746974794965');
+            expect(patchedEntityPermission.entityType).to.equal(entityTypes.PROJECT.value);
+            expect(patchedEntityPermission.user._id).to.equal(anotherUser._id.toString());
+            expect(patchedEntityPermission.access).to.equal(accessTypes.WRITE.value);
+            expect(patchedEntityPermission.status).to.equal(inviteStatusTypes.ACCEPTED.value);
+            expect(patchedEntityPermission.createdBy._id).to.equal(adminUser._id.toString());
+        });
+    });
+
+    describe('DELETE /api/entity-permissions/:id (removal of the first admin)', function () {
+        it('should respond with 204 on successful removal', function (done) {
+            request(app)
+                .delete(`/api/entity-permissions/${newEntityPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(204)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+
+        it('should respond with 404 when entityPermission does not exist', function (done) {
+            request(app)
+                .delete(`/api/entity-permissions/${newEntityPermission._id}`)
+                .set('authorization', `Bearer ${token}`)
+                .expect(404)
+                .end(err => {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+    });
 });

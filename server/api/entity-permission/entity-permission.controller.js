@@ -80,25 +80,27 @@ function handleOneAdminRemainingBeforePatch(res, patches) {
     return function (permission) {
         if (permission && permission.access === accessTypes.ADMIN.value && patches) {
             // find if a patch could remove or downgrade the admin access
-            let patch = find(
-                patch =>
-                    patch.path === '/access'
-                    && (patch.op === 'remove' || patch.op === 'replace' && patch.value !== accessTypes.ADMIN.value),
-                patches
+            let adminDowngradePatch = patches.find(
+                patch_ =>
+                    patch_.path === '/access'
+                    && (patch_.op === 'remove' || patch_.op === 'replace')
+                    && patch_.value !== accessTypes.ADMIN.value
             );
 
-            if (patch) {
+            if (adminDowngradePatch) {
                 // figure out if its the last admin
                 return EntityPermission.countDocuments({
                     entityId: permission.entityId,
                     access: accessTypes.ADMIN.value,
-                }).exec((_, count) => {
-                    if (count <= 1) {
-                        res.status(403).send('Can not remove the last admin of an entity.');
-                        return null;
-                    }
-                    return permission;
-                });
+                })
+                    .exec()
+                    .then(count => {
+                        if (count <= 1) {
+                            res.status(403).send('Can not remove the last admin of an entity.');
+                            return null;
+                        }
+                        return permission;
+                    });
             }
         }
         return permission;
