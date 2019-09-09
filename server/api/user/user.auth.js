@@ -18,7 +18,7 @@ export function canEditUser() {
 /**
  *
  */
-export function canChangeUserRole() {
+export function canChangeRole() {
     return auth.hasRole(userRoles.ADMIN.value);
 }
 

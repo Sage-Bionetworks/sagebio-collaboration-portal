@@ -210,7 +210,7 @@ router.put('/:id/password', userAuth.canEditUser(), controller.changePassword);
  *       '404':
  *         description: User not found
  */
-router.put('/:id/role', userAuth.canChangeUserRole(), controller.changeRole);
+router.put('/:id/role', userAuth.canChangeRole(), controller.changeRole);
 
 /**
  * @swagger
