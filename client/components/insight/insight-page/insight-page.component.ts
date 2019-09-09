@@ -12,6 +12,7 @@ import { NotificationService } from 'components/notification/notification.servic
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
+import { ShareService } from 'components/share/share.service';
 
 @Component({
     selector: 'insight-page',
@@ -26,14 +27,15 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         updateDescription: undefined
     };
 
-    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService];
+    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService, ShareService];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private shareService: ShareService) {
 
         this.form = formBuilder.group({
             description: ['', [
@@ -106,6 +108,6 @@ export class InsightPageComponent implements OnInit, OnDestroy {
     }
 
     shareInsight(): void {
-        this.insightService.shareInsight(this.insight, config.entityTypes.INSIGHT.value);
+        this.shareService.shareEntity(this.insight, config.entityTypes.INSIGHT.value);
     }
 }

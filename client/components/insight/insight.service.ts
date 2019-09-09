@@ -75,15 +75,4 @@ export class InsightService implements EntityService<Insight> {
         }
         this.secondarySidenavService.open();
     }
-
-    shareInsight(entity: Entity, entityType: string): void {
-        let sidenavContentId = `${entityType}:${entity._id}`;
-
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ShareSidenavComponent>this.secondarySidenavService.loadContentComponent(ShareSidenavComponent))
-                .setEntity(entity, entityType);
-            this.secondarySidenavService.setContentId(sidenavContentId);
-        }
-        this.secondarySidenavService.open();
-    }
 }
