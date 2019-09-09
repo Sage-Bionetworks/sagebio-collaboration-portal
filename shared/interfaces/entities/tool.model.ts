@@ -10,16 +10,20 @@ import { Organization } from '../organization.model';
  *       properties:
  *         _id:
  *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
  *         picture:
  *           type: string
- *         website:
- *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         organization:
  *           $ref: '#/components/schemas/Organization'
+ *         website:
+ *           type: string
+ *         apiHealthCheckUrl:
+ *           type: string
  *         resourceFormats:
  *           type: array
  *           items:
@@ -34,5 +38,5 @@ export interface Tool extends Entity {
     website: string;
     organization: Organization;
     apiHealthCheckUrl: string;
-    // resourceFormats: string[];
+    resourceFormats: string[];
 }

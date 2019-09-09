@@ -42,12 +42,14 @@ export interface Resource extends Entity {
  *     ResourceType:
  *       type: string
  *       enum:
- *         - Public
- *         - Private
+ *         - Article
+ *         - Dashboard
+ *         - State
+ *         - WebApp
  */
 export enum ResourceType {
     ARTICLE = 'Article',
     DASHBOARD = 'Dashboard',
     STATE = 'State',
-    WEBAPP = 'Webapp',
+    WEBAPP = 'WebApp',
 }

@@ -6,22 +6,28 @@ import {
 import { models as modelSpecs } from '../../config/environment';
 
 var ToolSchema = new mongoose.Schema({
-    // slug: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: modelSpecs.tool.title.minlength,
+        maxlength: modelSpecs.tool.title.maxlength
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        minlength: modelSpecs.tool.description.minlength,
+        maxlength: modelSpecs.tool.description.maxlength
     },
     picture: {
         type: String,
         default: modelSpecs.tool.picture.default
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: modelSpecs.tool.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.tool.visibility.default.value,
     },
     organization: {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,12 +37,6 @@ var ToolSchema = new mongoose.Schema({
     website: {
         type: String,
         required: true
-    },
-    visibility: {
-        type: String,
-        required: true,
-        enum: modelSpecs.tool.visibility.options.map(visibility => visibility.value),
-        default: modelSpecs.tool.visibility.default.value,
     },
     // apiServerUrl: {
     //     type: String,
