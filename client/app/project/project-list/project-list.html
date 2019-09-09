@@ -1,21 +1,21 @@
-<div *ngIf="!createNewProject; else showNewProjectForm">
-    <div class="app-primary-header app-project-list-header">
-        <h1 class="app-primary-header-title">Projects</h1>
-        <div class="app-project-list-actions">
-            <a mat-raised-button color="warn" class="app-project-list-new-project" (click)="createNewProject=true" aria-label="Create project">Create a New Project</a>
-        </div>
-    </div>
-
-    <div class="app-project-list">
-        <entity-list
-            entityName="project"
-            [entityService]="projectService"
-            previewType="list"
-            (entityClick)="onEntityClick($event)"
-        ></entity-list>
-    </div>
+<div class="app-primary-header app-project-list-header">
+    <h1 class="app-primary-header-title">Projects</h1>
+    <a
+        [disabled]="!canCreateProject"
+        mat-raised-button
+        color="warn"
+        class="app-project-list-new-project-btn"
+        (click)="onCreateNewProject()"
+        aria-label="Create project"
+        >New Project</a
+    >
 </div>
 
-<ng-template #showNewProjectForm>
-    <project-new (newProject)="onNewProject($event)" (close)="createNewProject=false"></project-new>
-</ng-template>
+<div class="app-project-list">
+    <entity-list
+        entityName="project"
+        [entityService]="projectService"
+        previewType="list"
+        (entityClick)="onEntityClick($event)"
+    ></entity-list>
+</div>

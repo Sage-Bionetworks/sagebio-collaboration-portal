@@ -11,13 +11,13 @@ import config from '../../../app/app.constants';
     styles: [require('./resource-list.scss')],
 })
 export class ResourceListComponent implements OnInit {
-    private resourceTypeFilters = config.resourceTypeFilters;
+    private resourceTypeFilters = config.resourceTypeFilters; // used in html
 
     static parameters = [Router, PageTitleService, ResourceService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private resourceService: ResourceService
+        private resourceService: ResourceService // used in html
     ) {
         this.resourceTypeFilters = config.resourceTypeFilters;
     }

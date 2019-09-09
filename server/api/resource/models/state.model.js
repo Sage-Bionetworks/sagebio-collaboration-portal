@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Resource from './resource.model';
+import { resourceTypes } from '../../../config/environment';
 
 var StateSchema = new mongoose.Schema({
     data: {
@@ -7,8 +8,8 @@ var StateSchema = new mongoose.Schema({
     },
     tool: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tool'
-    }
+        ref: 'Tool',
+    },
 });
 
-export default Resource.discriminator('State', StateSchema);
+export default Resource.discriminator(resourceTypes.STATE.value, StateSchema);

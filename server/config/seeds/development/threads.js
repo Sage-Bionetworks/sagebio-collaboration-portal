@@ -5,13 +5,14 @@ import {
 import {
     adminUserId
 } from './users';
-import { testProjectId, anotherProjectId } from './projects';
+import { adminProjectId, testProjectId } from './projects';
 import {
     phccpShinyToolExample
 } from './tools';
 import {
     sageCkanCatalog
 } from './data-catalogs';
+import { entityTypes } from '../../environment';
 
 const thread1Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3f9');
 const thread2Id = new mongoose.Types.ObjectId('5cf1eb9720a6a06be995c3fa');
@@ -24,7 +25,8 @@ let threads = [
     {
         _id: thread1Id,
         title: `Project thread #1`,
-        entityId: testProjectId,
+        entityId: adminProjectId,
+        entityType: entityTypes.PROJECT.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 11, 33).toISOString(),
         updatedAt: new Date(2019, 4, 27, 11, 33).toISOString(),
@@ -32,7 +34,8 @@ let threads = [
     {
         _id: thread2Id,
         title: `Public thread #1`,
-        entityId: anotherProjectId,
+        entityId: testProjectId,
+        entityType: entityTypes.PROJECT.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 6, 31, 11, 33).toISOString(),
         updatedAt: new Date(2019, 6, 31, 11, 33).toISOString(),
@@ -40,7 +43,8 @@ let threads = [
     {
         _id: thread3Id,
         title: `Project thread #2`,
-        entityId: testProjectId,
+        entityId: adminProjectId,
+        entityType: entityTypes.PROJECT.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
@@ -49,6 +53,7 @@ let threads = [
         _id: thread4Id,
         title: `This tool is awesome!`,
         entityId: phccpShinyToolExample._id,
+        entityType: entityTypes.TOOL.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
@@ -57,6 +62,7 @@ let threads = [
         _id: thread5Id,
         title: `This catalog is awesome!`,
         entityId: sageCkanCatalog._id,
+        entityType: entityTypes.DATA_CATALOG.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),
@@ -65,6 +71,7 @@ let threads = [
         _id: thread6Id,
         title: `This portal is awesome!`,
         entityId: appId,
+        entityType: entityTypes.APP.value,
         createdBy: adminUserId,
         createdAt: new Date(2019, 4, 27, 12, 23).toISOString(),
         updatedAt: new Date(2019, 4, 27, 12, 23).toISOString(),

@@ -33,7 +33,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             .pipe(
                 switchMap(inv => forkJoin({
                     invite: of(inv),
-                    project: this.projectService.getProject(inv.entityId)
+                    project: this.projectService.get(inv.entityId)
                 }))
             );
 

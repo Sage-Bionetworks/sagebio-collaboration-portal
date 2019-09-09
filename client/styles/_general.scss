@@ -108,6 +108,11 @@ div.navbar-search-results {
   text-align: center;
 }
 
+.app-text-grayout {
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */
+}
+
 //
 // FORMS
 //

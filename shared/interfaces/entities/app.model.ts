@@ -9,6 +9,12 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
+ *         description:
+ *           type: string
+ *         picture:
+ *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         createdAt:
  *           type: string
  *           format: date-time

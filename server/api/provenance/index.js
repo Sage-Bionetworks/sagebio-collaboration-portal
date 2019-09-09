@@ -1,8 +1,8 @@
-var express = require('express');
-var controller = require('./provenance.controller');
-var auth = require('../../auth/auth.service');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+import * as controller from './provenance.controller';
 
-var router = express.Router();
+var router = Router();
 
 router.post('/', controller.createProvenanceActivity);  // auth.hasRole('admin')
 router.post('/batch', controller.createActivitiesBatch);  // auth.hasRole('admin')

@@ -12,24 +12,6 @@ import { AppQuillModule } from 'components/quill/app-quill.module';
 import { EntityModule } from 'components/entity/entity.module';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { DirectivesModule } from 'components/directives/directives.module';
-
-import { ProjectComponent } from './project.component';
-import { ProjectNewComponent } from './project-new/project-new.component';
-import { ProjectEditComponent } from './project-edit/project-edit.component';
-import { ProjectListComponent } from './project-list/project-list.component';
-import { ProjectViewComponent } from './project-view/project-view.component';
-import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
-import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
-import { ProjectInsightsComponent } from './project-insights/project-insights.component';
-import { ProjectResourcesComponent } from './project-resources/project-resources.component';
-import { ProjectActivitiesComponent } from './project-activities/project-activities.component';
-import { ProjectSettingsComponent } from './project-settings/project-settings.component';
-import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
-import { ProjectService } from './project.service';
-import { ProjectDataService } from './project-data.service';
-import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
-import { ProjectGuard } from './project-guard.service';
-
 import { InsightService } from 'components/insight/insight.service';
 import { InsightModule } from 'components/insight/insight.module';
 import { InsightPageComponent } from 'components/insight/insight-page/insight-page.component';
@@ -39,29 +21,53 @@ import { ResourceModule } from 'components/resource/resource.module';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
+import { ProjectComponent } from './project.component';
+import { ProjectActivityComponent } from './project-activity/project-activity.component';
+import { ProjectNewComponent } from './project-new/project-new.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectHomeComponent } from './project-home/project-home.component';
+import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectViewComponent } from './project-view/project-view.component';
+import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
+import { ProjectInsightsComponent } from './project-insights/project-insights.component';
+import { ProjectResourcesComponent } from './project-resources/project-resources.component';
+import { ProjectSettingsComponent } from './project-settings/project-settings.component';
+import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
+import { ProjectService } from './project.service';
+import { ProjectDataService } from './project-data.service';
+import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
+import { ProjectGuard } from './project-guard.service';
+
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 
-export const ROUTES: Routes = [{
-    path: 'projects',
-    component: ProjectListComponent,
-    canActivate: [AuthGuard],
-    data: {}
-}, {
-    path: 'projects/:id',
-    component: ProjectComponent,
-    canActivate: [AuthGuard, ProjectGuard],
-    children: [
-        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-        { path: 'dashboard', component: ProjectDashboardComponent },
-        { path: 'insights', component: ProjectInsightsComponent },
-        { path: 'insights/:insightId', component: InsightPageComponent },
-        { path: 'resources', component: ProjectResourcesComponent },
-        { path: 'resources/:resourceId', component: ResourcePageComponent },
-        { path: 'activities', component: ProjectActivitiesComponent },
-        { path: 'discussion', component: ProjectDiscussionComponent },
-        { path: 'settings', component: ProjectSettingsComponent }
-    ]
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'projects',
+        component: ProjectListComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'projects/new',
+        component: ProjectNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'projects/:id',
+        component: ProjectComponent,
+        canActivate: [AuthGuard, ProjectGuard],
+        children: [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: ProjectHomeComponent },
+            { path: 'insights', component: ProjectInsightsComponent },
+            { path: 'insights/:insightId', component: InsightPageComponent },
+            { path: 'resources', component: ProjectResourcesComponent },
+            { path: 'resources/:resourceId', component: ResourcePageComponent },
+            { path: 'activity', component: ProjectActivityComponent },
+            { path: 'discussion', component: ProjectDiscussionComponent },
+            { path: 'settings', component: ProjectSettingsComponent },
+        ],
+    },
+];
 
 @NgModule({
     imports: [
@@ -80,7 +86,7 @@ export const ROUTES: Routes = [{
         ActivityModule,
         ProvenanceModule,
         FiltersModule,
-        DirectivesModule
+        DirectivesModule,
     ],
     providers: [
         SocketService,
@@ -89,23 +95,22 @@ export const ROUTES: Routes = [{
         ProjectSidenavService,
         ProjectGuard,
         InsightService,
-        ResourceService
+        ResourceService,
     ],
     declarations: [
         ProjectComponent,
+        ProjectActivityComponent,
         ProjectNewComponent,
         ProjectEditComponent,
+        ProjectHomeComponent,
         ProjectListComponent,
         ProjectViewComponent,
-        ProjectDashboardComponent,
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
-        ProjectActivitiesComponent,
         ProjectSettingsComponent,
-        ProjectSidenavComponent
+        ProjectSidenavComponent,
     ],
-    exports: [
-    ],
+    exports: [],
 })
-export class ProjectModule { }
+export class ProjectModule {}

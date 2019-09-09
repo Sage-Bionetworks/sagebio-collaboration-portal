@@ -17,7 +17,7 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
     ]
 })
 export class ProjectComponent implements OnInit {
-    private project$: Observable<Project>;
+    private project$: Observable<Project>; // used in html
 
     static parameters = [ActivatedRoute, ProjectService, ProjectDataService,
         ProjectSidenavService];
@@ -31,7 +31,7 @@ export class ProjectComponent implements OnInit {
         console.log('GETTING PROJECT');
         const getProject = this.route.params.pipe(
             tap(res => console.log('RES', res)),
-            switchMap(res => this.projectService.getProject(res.id)
+            switchMap(res => this.projectService.get(res.id)
                 .pipe(
                     catchError(err => {
                         console.error(err);

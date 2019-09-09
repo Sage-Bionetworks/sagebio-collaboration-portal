@@ -1,19 +1,10 @@
-import Resource from './models/resource.model';
-import EntityPermission from '../entity-permission/entity-permission.model';
-import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
-import {
-    respondWithResult,
-    patchUpdates,
-    // removeEntity,
-    handleEntityNotFound,
-    handleError,
-} from '../util';
-import { union, pick, pickBy, identity } from 'lodash/fp';
-import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
-import { isAdmin } from '../../auth/auth';
-import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
+import { union } from 'lodash/fp';
 import { merge } from 'lodash';
+import { isAdmin } from '../../auth/auth';
+import { respondWithResult, patchUpdates, removeEntity, handleEntityNotFound, handleError } from '../util';
+import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
+import Resource from './models/resource.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -21,48 +12,38 @@ export function index(req, res) {
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {
-            filter = merge({
-                _id: {
-                    $in: resourceIds,
-                }
-            }, filter);
+            filter = merge(
+                {
+                    _id: {
+                        $in: resourceIds,
+                    },
+                },
+                filter
+            );
             return filter;
         })
-        .then(filter_ => Promise.all([
-            Resource.countDocuments(filter_),
-            Resource.find(filter_, projection)
-                .sort(sort)
-                .skip(skip)
-                .limit(limit)
-                .exec()
-        ]))
+        .then(filter_ =>
+            Promise.all([
+                Resource.countDocuments(filter_),
+                Resource.find(filter_, projection)
+                    .sort(sort)
+                    .skip(skip)
+                    .limit(limit)
+                    .exec(),
+            ])
+        )
         .then(([count, resources]) => ({
             count,
-            results: resources
+            results: resources,
         }))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-
-
-
-
-
-export function indexByEntity(req, res) {
-    let filters = req.query;
-    filters.projectId = req.params.entityId;
-    return Resource.find(filters)
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-
-
 // Gets a single Resource from the DB
 export function show(req, res) {
-    return Resource.findById(req.params.id).exec()
+    return Resource.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -72,27 +53,9 @@ export function show(req, res) {
 export function create(req, res) {
     return Resource.create({
         ...req.body,
-        createdBy: req.user._id
+        createdBy: req.user._id,
     })
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Upserts the given Resource in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Resource
-        .findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
@@ -101,20 +64,22 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Resource.findById(req.params.id).exec()
+    return Resource.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// // Deletes a Resource from the DB
-// export function destroy(req, res) {
-//     return Resource.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
-//         .catch(handleError(res));
-// }
+// Deletes a Resource from the DB
+export function destroy(req, res) {
+    return Resource.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
 
 // HELPER FUNCTIONS
 
@@ -129,11 +94,15 @@ function getPublicResourceIds() {
     //     .then(resources => resources.map(resource => resource._id));
     // Meanwhile when Resources inherit permission from Project
     return getPublicProjectIds()
-        .then(projectIds => Resource.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Resource.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(resources => resources.map(resource => resource._id));
 }
@@ -144,11 +113,15 @@ function getPublicResourceIds() {
  */
 function getPrivateResourceIds(userId) {
     return getPrivateProjectIds(userId)
-        .then(projectIds => Resource.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Resource.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(resources => resources.map(resource => resource._id));
 }
@@ -169,14 +142,9 @@ function getAllResourceIds() {
  * @return {string[]}
  */
 function getResourceIdsByUser(userId) {
-    return isAdmin(userId)
-        .then(is =>
-            (is
-                ? getAllResourceIds()
-                : Promise.all([
-                    getPublicResourceIds(),
-                    getPrivateResourceIds(userId)
-                ]).then(result => union(...result))
-            )
-        );
+    return isAdmin(userId).then(is =>
+        (is
+            ? getAllResourceIds()
+            : Promise.all([getPublicResourceIds(), getPrivateResourceIds(userId)]).then(result => union(...result)))
+    );
 }

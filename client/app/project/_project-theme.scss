@@ -1,13 +1,13 @@
-@import './project-dashboard/project-dashboard-theme';
+@import './project-home/project-home-theme';
 @import './project-list/project-list-theme';
 
 @mixin project-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
 
-  @include project-dashboard-theme($theme);
-  @include project-list-theme($theme);
+    @include project-home-theme($theme);
+    @include project-list-theme($theme);
 }

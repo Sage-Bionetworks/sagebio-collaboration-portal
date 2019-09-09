@@ -1,6 +1,5 @@
 import { Entity } from './entity.model';
-import { User } from '../auth/user.model';
-import { Organization } from '../organization.model';
+import { Organization } from './organization.model';
 
 /**
  * @swagger
@@ -11,18 +10,20 @@ import { Organization } from '../organization.model';
  *       properties:
  *         _id:
  *           type: string
- *         slug:
- *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
  *         picture:
  *           type: string
- *         website:
- *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         organization:
  *           $ref: '#/components/schemas/Organization'
+ *         website:
+ *           type: string
+ *         apiHealthCheckUrl:
+ *           type: string
  *         resourceFormats:
  *           type: array
  *           items:
@@ -34,12 +35,8 @@ import { Organization } from '../organization.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface Tool extends Entity {
-    slug: string;
-    picture: string;
     website: string;
     organization: Organization;
-    // apiServerUrl: string;
     apiHealthCheckUrl: string;
     resourceFormats: string[];
-    // supportedDataTypes: string[];
 }

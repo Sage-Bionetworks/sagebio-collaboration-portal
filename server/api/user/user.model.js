@@ -2,36 +2,22 @@
 /* eslint no-sync:0 */
 import crypto from 'crypto';
 mongoose.Promise = require('bluebird');
-import mongoose, {
-    Schema
-} from 'mongoose';
-import {
-    registerEvents
-} from './user.events';
-import {
-    userRoles
-} from '../../config/environment';
+import mongoose, { Schema } from 'mongoose';
+import { registerEvents } from './user.events';
+import { models as modelSpecs } from '../../config/environment';
 
-const USER_ROLES = Object.values(userRoles).map(role => role.value);
-const DEFAULT_USER_ROLE = userRoles.USER.value;
-
-const authTypes = [
-    'google-oauth20',
-    'google-saml',
-    'azuread-openidconnect',
-    'phccp'
-];
+const authTypes = ['google-oauth20', 'google-saml', 'azuread-openidconnect', 'phccp'];
 
 var UserSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     username: {
         type: String,
         lowercase: true,
         required: true,
-        unique: true
+        unique: true,
     },
     email: {
         type: String,
@@ -42,10 +28,17 @@ var UserSchema = new Schema({
             } else {
                 return false;
             }
-        }
+        },
     },
     picture: {
-        type: String
+        type: String,
+        default: modelSpecs.user.picture.default,
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: modelSpecs.user.role.options.map(role => role.value),
+        default: modelSpecs.user.role.default.value,
     },
     info: {
         type: String,
@@ -59,11 +52,6 @@ var UserSchema = new Schema({
         type: String,
         default: '<Location>',
     },
-    role: {
-        type: String,
-        enum: USER_ROLES,
-        default: DEFAULT_USER_ROLE
-    },
     password: {
         type: String,
         required() {
@@ -72,7 +60,7 @@ var UserSchema = new Schema({
             } else {
                 return false;
             }
-        }
+        },
     },
     provider: String,
     salt: String,
@@ -82,25 +70,25 @@ var UserSchema = new Schema({
     phccp: {},
     position: {
         type: String,
-        default: '<Current Position>'
+        default: '<Current Position>',
     },
     orcid: {
         type: String,
-        default: '<orcid url>'
+        default: '<orcid url>',
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: false,
     },
     __v: {
         type: Number,
-        select: false
-    }
+        select: false,
+    },
 });
 
 /**
@@ -108,114 +96,103 @@ var UserSchema = new Schema({
  */
 
 // Public profile information
-UserSchema
-    .virtual('profile')
-    .get(function () {
-        return {
-            _id: this._id,
-            name: this.name,
-            username: this.username,
-            picture: this.picture,
-            role: this.role,
-        };
-    });
+UserSchema.virtual('profile').get(function () {
+    return {
+        _id: this._id,
+        name: this.name,
+        username: this.username,
+        picture: this.picture,
+        role: this.role,
+    };
+});
 
 // Non-sensitive info we'll be putting in the token
-UserSchema
-    .virtual('token')
-    .get(function () {
-        return {
-            _id: this._id,
-            role: this.role
-        };
-    });
+UserSchema.virtual('token').get(function () {
+    return {
+        _id: this._id,
+        role: this.role,
+    };
+});
 
 /**
  * Validations
  */
 
 // Validate empty email
-UserSchema
-    .path('email')
-    .validate(function (email) {
-        if (authTypes.indexOf(this.provider) !== -1) {
-            return true;
-        }
-        return email.length;
-    }, 'Email cannot be blank');
+UserSchema.path('email').validate(function (email) {
+    if (authTypes.indexOf(this.provider) !== -1) {
+        return true;
+    }
+    return email.length;
+}, 'Email cannot be blank');
 
 // Validate empty password
-UserSchema
-    .path('password')
-    .validate(function (password) {
-        if (authTypes.indexOf(this.provider) !== -1) {
-            return true;
-        }
-        return password.length;
-    }, 'Password cannot be blank');
+UserSchema.path('password').validate(function (password) {
+    if (authTypes.indexOf(this.provider) !== -1) {
+        return true;
+    }
+    return password.length;
+}, 'Password cannot be blank');
 
 // Validate email is not taken
-UserSchema
-    .path('email')
-    .validate(function (value) {
-        if (authTypes.indexOf(this.provider) !== -1) {
-            return true;
-        }
+UserSchema.path('email').validate(function (value) {
+    if (authTypes.indexOf(this.provider) !== -1) {
+        return true;
+    }
 
-        return this.constructor
-            .findOne({
-                email: value
-            }).exec()
-            .then(user => {
-                if (user) {
-                    if (this.id === user.id) {
-                        return true;
-                    }
-                    return false;
+    return this.constructor
+        .findOne({
+            email: value,
+        })
+        .exec()
+        .then(user => {
+            if (user) {
+                if (this.id === user.id) {
+                    return true;
                 }
-                return true;
-            })
-            .catch(err => {
-                throw err;
-            });
-    }, 'The specified email address is already in use.');
+                return false;
+            }
+            return true;
+        })
+        .catch(err => {
+            throw err;
+        });
+}, 'The specified email address is already in use.');
 
-var validatePresenceOf = value =>
-    value && value.length;
+var validatePresenceOf = value => value && value.length;
 
 /**
  * Pre-save hook
  */
-UserSchema
-    .pre('save', function (next) {
-        // Handle new/update passwords
-        if (!this.isModified('password')) {
+UserSchema.pre('save', function (next) {
+    // Handle new/update passwords
+    if (!this.isModified('password')) {
+        return next();
+    }
+
+    if (!validatePresenceOf(this.password)) {
+        if (authTypes.indexOf(this.provider) === -1) {
+            return next(new Error('Invalid password'));
+        } else {
             return next();
         }
+    }
 
-        if (!validatePresenceOf(this.password)) {
-            if (authTypes.indexOf(this.provider) === -1) {
-                return next(new Error('Invalid password'));
-            } else {
-                return next();
-            }
+    // Make salt with a callback
+    this.makeSalt((saltErr, salt) => {
+        if (saltErr) {
+            return next(saltErr);
         }
-
-        // Make salt with a callback
-        this.makeSalt((saltErr, salt) => {
-            if (saltErr) {
-                return next(saltErr);
+        this.salt = salt;
+        this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
+            if (encryptErr) {
+                return next(encryptErr);
             }
-            this.salt = salt;
-            this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
-                if (encryptErr) {
-                    return next(encryptErr);
-                }
-                this.password = hashedPassword;
-                return next();
-            });
+            this.password = hashedPassword;
+            return next();
         });
     });
+});
 
 /**
  * Methods
@@ -304,8 +281,7 @@ UserSchema.methods = {
         var salt = Buffer.from(this.salt, 'base64');
 
         if (!callback) {
-            return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha256')
-                .toString('base64');
+            return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha256').toString('base64');
         }
 
         return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha256', (err, key) => {
@@ -315,7 +291,7 @@ UserSchema.methods = {
                 return callback(null, key.toString('base64'));
             }
         });
-    }
+    },
 };
 
 registerEvents(UserSchema);

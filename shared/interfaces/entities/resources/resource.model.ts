@@ -7,15 +7,49 @@ import { Entity } from '../entity.model';
  *     Resource:
  *       type: object
  *       properties:
- *         projectId:
+ *         _id:
  *           type: string
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         picture:
+ *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         url:
  *           type: string
- *         resourceType:
+ *         projectId:
  *           type: string
+ *         resourceType:
+ *           $ref: '#/components/schemas/ResourceType'
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         createdBy:
+ *           $ref: '#/components/schemas/User'
  */
 export interface Resource extends Entity {
-    projectId: string;
     url: string;
-    resourceType: string;
+    projectId: string;
+    resourceType: ResourceType;
+}
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ResourceType:
+ *       type: string
+ *       enum:
+ *         - Article
+ *         - Dashboard
+ *         - State
+ *         - WebApp
+ */
+export enum ResourceType {
+    ARTICLE = 'Article',
+    DASHBOARD = 'Dashboard',
+    STATE = 'State',
+    WEBAPP = 'WebApp',
 }

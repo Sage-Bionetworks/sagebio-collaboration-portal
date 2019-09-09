@@ -25,6 +25,7 @@ export class EntityDangerZoneOptionsComponent {
     @Input() entity: Entity;
     @Input() entityName: string;
     @Input() entityService: EntityService<Entity>;
+    @Input() disabled = false;
 
     static parameters = [NotificationService];
     constructor(private notificationService: NotificationService) {

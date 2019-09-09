@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { NotificationService } from 'components/notification/notification.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { Project } from 'models/entities/project.model';
 import { ProjectService } from '../project.service';
-import config from '../../../app/app.constants';
 
 @Component({
     selector: 'project-list',
@@ -12,18 +11,24 @@ import config from '../../../app/app.constants';
     styles: [require('./project-list.scss')],
 })
 export class ProjectListComponent implements OnInit {
-    private createNewProject = false;
+    private canCreateProject = false; // used in html
 
-    static parameters = [Router, PageTitleService, NotificationService, ProjectService];
+    static parameters = [Router, PageTitleService, UserPermissionDataService, ProjectService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private notificationService: NotificationService,
-        private projectService: ProjectService
+        private permissionDataService: UserPermissionDataService,
+        private projectService: ProjectService // used in html
     ) {}
 
     ngOnInit() {
         this.pageTitleService.title = 'Projects';
+        this.permissionDataService
+            .permissions()
+            .subscribe(
+                permissions => (this.canCreateProject = permissions.canCreateProject()),
+                err => console.error(err)
+            ); // unsubscribe in destructor
     }
 
     onEntityClick(project: Project) {
@@ -32,8 +37,9 @@ export class ProjectListComponent implements OnInit {
         }
     }
 
-    onNewProject(project: Project): void {
-        this.createNewProject = false;
-        this.notificationService.info('The Project has been successfully created');
+    onCreateNewProject(): void {
+        if (this.canCreateProject) {
+            this.router.navigate(['/', 'projects', 'new']);
+        }
     }
 }

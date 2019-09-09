@@ -1,8 +1,9 @@
-var express = require('express');
-var controller = require('./data-catalog.controller');
-var auth = require('../../auth/auth.service');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+import * as dataCatalogAuth from './data-catalog.auth';
+import * as controller from './data-catalog.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger
@@ -54,7 +55,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Data Catalog not found
  */
-router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/:id', dataCatalogAuth.canReadDataCatalog(), controller.show);
 
 /**
  * @swagger
@@ -81,36 +82,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Data Catalog
  */
-router.post('/', auth.hasPermission('createDataCatalog'), controller.create);
-
-/**
- * @swagger
- * /data-catalogs:
- *   put:
- *     tags:
- *       - Data catalogs
- *     summary: Upserts a Data Catalog in the DB at the specified ID.
- *     description: Upserts a Data Catalog in the DB at the specified ID.
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: The Data Catalog to upsert
- *         schema:
- *           $ref: '#/components/schemas/DataCatalog'
- *     responses:
- *       '201':
- *         description: The Data Catalog upserted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/DataCatalog'
- *       '400':
- *         description: Invalid Data Catalog supplied
- *       '404':
- *         description: Data Catalog not found
- */
-router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
+router.post('/', dataCatalogAuth.canCreateDataCatalog(), controller.create);
 
 /**
  * @swagger
@@ -139,7 +111,7 @@ router.put('/:id', auth.hasPermission('editDataCatalog'), controller.upsert);
  *       '404':
  *         description: Data Catalog not found
  */
-router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
+router.patch('/:id', dataCatalogAuth.canEditDataCatalog(), controller.patch);
 
 /**
  * @swagger
@@ -167,6 +139,6 @@ router.patch('/:id', auth.hasPermission('editDataCatalog'), controller.patch);
  *       '404':
  *         description: Data Catalog not found
  */
-router.delete('/:id', auth.hasPermission('deleteDataCatalog'), controller.destroy);
+router.delete('/:id', dataCatalogAuth.canDeleteDataCatalog(), controller.destroy);
 
 module.exports = router;

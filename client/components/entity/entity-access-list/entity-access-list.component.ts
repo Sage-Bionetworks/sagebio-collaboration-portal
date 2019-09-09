@@ -22,6 +22,7 @@ import config from '../../../app/app.constants';
 export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() entity: Entity;
     @Input() user: UserProfile;
+    @Input() disabled = false;
     private permissions: EntityPermission[] = [];
 
     private inviteForm: FormGroup;

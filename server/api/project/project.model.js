@@ -2,31 +2,31 @@ import mongoose from 'mongoose';
 import {
     registerEvents
 } from './project.events';
-import config from '../../config/environment';
+import { models as modelSpecs } from '../../config/environment';
 
 var ProjectSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
         unique: true,
-        minlength: config.models.project.title.minlength,
-        maxlength: config.models.project.title.maxlength
+        minlength: modelSpecs.project.title.minlength,
+        maxlength: modelSpecs.project.title.maxlength
     },
     description: {
         type: String,
         required: true,
-        minlength: config.models.project.description.minlength,
-        maxlength: config.models.project.description.maxlength
+        minlength: modelSpecs.project.description.minlength,
+        maxlength: modelSpecs.project.description.maxlength
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x200'
+        default: modelSpecs.project.picture.default
     },
     visibility: {
         type: String,
         required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.project.visibility.default
+        enum: modelSpecs.project.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.project.visibility.default.value,
     },
     createdAt: {
         type: Date,

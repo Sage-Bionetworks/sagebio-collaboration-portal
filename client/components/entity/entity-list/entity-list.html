@@ -1,7 +1,11 @@
 <div class="app-entity-list">
     <div class="app-entity-list-filters">
         <h3 *ngIf="entityTypeFilterGroup">{{ entityName }} Type</h3>
-        <radio-button-filter *ngIf="entityTypeFilterGroup" [filters]="entityTypeFilters" [group]="entityTypeFilterGroup"></radio-button-filter>
+        <radio-button-filter
+            *ngIf="entityTypeFilterGroup"
+            [filters]="entityTypeFilters"
+            [group]="entityTypeFilterGroup"
+        ></radio-button-filter>
         <h3>Order by</h3>
         <select-filter [filters]="orderFilters" group="orderedBy"></select-filter>
         <h3>Preview</h3>
@@ -13,8 +17,11 @@
         <span class="app-entity-list-content-results-count">{{ searchResultsCount }} results</span>
         <div class="app-entity-list-content-results">
             <mat-nav-list class="app-entity-list-content-results-array" *ngIf="previewType === 'array'">
-                <entity-list-card *ngFor="let entity of entities" [entity]="entity"></entity-list-card>
-                <!-- mat-list-item -->
+                <entity-list-card
+                    *ngFor="let entity of entities"
+                    [entity]="entity"
+                    (entityClick)="onEntityClick($event)"
+                ></entity-list-card>
             </mat-nav-list>
 
             <mat-nav-list class="app-entity-list-content-results-list" *ngIf="previewType === 'list'">
@@ -26,7 +33,13 @@
             </mat-nav-list>
 
             <div class="app-entity-list-more-results">
-                <a *ngIf="searchResultsCount - entities.length > 0" mat-raised-button class="app-entity-list-more-results-btn" color="primary" (click)="showMoreResults()">
+                <a
+                    *ngIf="searchResultsCount - entities.length > 0"
+                    mat-raised-button
+                    class="app-entity-list-more-results-btn"
+                    color="primary"
+                    (click)="showMoreResults()"
+                >
                     More Results
                 </a>
             </div>

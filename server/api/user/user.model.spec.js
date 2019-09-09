@@ -7,7 +7,7 @@ var genUser = function () {
         name: 'Fake User',
         email: 'test@example.com',
         password: 'password',
-        username: 'test'
+        username: 'test',
     });
     return user;
 };
@@ -27,16 +27,16 @@ describe('User Model', function () {
     });
 
     it('should begin with no users', function () {
-        return expect(User.find({}).exec()).to
-            .eventually.have.length(0);
+        return expect(User.find({}).exec()).to.eventually.have.length(0);
     });
 
     it('should fail when saving a duplicate user', function () {
-        return expect(user.save()
-            .then(function () {
+        return expect(
+            user.save().then(function () {
                 var userDup = genUser();
                 return userDup.save();
-            })).to.be.rejected;
+            })
+        ).to.be.rejected;
     });
 
     describe('#email', function () {
@@ -98,10 +98,11 @@ describe('User Model', function () {
 
             it('should remain the same hash unless the password is updated', function () {
                 user.name = 'Test User';
-                return expect(user.save()
-                    .then(function (u) {
+                return expect(
+                    user.save().then(function (u) {
                         return u.authenticate('password');
-                    })).to.eventually.be.true;
+                    })
+                ).to.eventually.be.true;
             });
         });
 

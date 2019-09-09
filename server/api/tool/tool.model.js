@@ -1,26 +1,33 @@
 import mongoose from 'mongoose';
+import User from '../user/user.model';
 import {
     registerEvents
 } from './tool.events';
-import config from '../../config/environment';
+import { models as modelSpecs } from '../../config/environment';
 
 var ToolSchema = new mongoose.Schema({
-    slug: {
-        type: String,
-        required: true,
-        unique: true
-    },
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: modelSpecs.tool.title.minlength,
+        maxlength: modelSpecs.tool.title.maxlength
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        minlength: modelSpecs.tool.description.minlength,
+        maxlength: modelSpecs.tool.description.maxlength
     },
     picture: {
         type: String,
-        default: 'https://via.placeholder.com/200x200'
+        default: modelSpecs.tool.picture.default
+    },
+    visibility: {
+        type: String,
+        required: true,
+        enum: modelSpecs.tool.visibility.options.map(visibility => visibility.value),
+        default: modelSpecs.tool.visibility.default.value,
     },
     organization: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,12 +37,6 @@ var ToolSchema = new mongoose.Schema({
     website: {
         type: String,
         required: true
-    },
-    visibility: {
-        type: String,
-        required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.tool.visibility.default
     },
     // apiServerUrl: {
     //     type: String,
@@ -62,6 +63,29 @@ var ToolSchema = new mongoose.Schema({
         select: false
     }
 });
+
+/**
+ * Middlewares
+ */
+
+const autoPopulatePre = function (next) {
+    // eslint-disable-next-line no-invalid-this
+    this
+        .populate('createdBy', User.profileProperties)
+        .populate('organization');
+    next();
+};
+
+const autoPopulatePost = function (doc) {
+    return doc
+        .populate('createdBy', User.profileProperties)
+        .populate('organization')
+        .execPopulate();
+};
+
+ToolSchema.pre('find', autoPopulatePre);
+ToolSchema.pre('findOne', autoPopulatePre);
+ToolSchema.post('save', autoPopulatePost);
 
 ToolSchema.index({ title: 'text' }, { weights: { title: 1 }});
 

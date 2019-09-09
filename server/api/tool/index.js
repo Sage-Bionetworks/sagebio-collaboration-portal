@@ -1,8 +1,9 @@
-var express = require('express');
-var controller = require('./tool.controller');
-var auth = require('../../auth/auth.service');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+import * as toolAuth from './tool.auth';
+import * as controller from './tool.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger
@@ -54,7 +55,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Tool not found
  */
-router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/:id', toolAuth.canReadTool(), controller.show);
 
 /**
  * @swagger
@@ -81,36 +82,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Tool
  */
-router.post('/', auth.hasPermission('createTool'), controller.create);
-
-/**
- * @swagger
- * /tools:
- *   put:
- *     tags:
- *       - Tools
- *     summary: Upserts a Tool in the DB at the specified ID.
- *     description: Upserts a Tool in the DB at the specified ID.
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: The Tool to upsert
- *         schema:
- *           $ref: '#/components/schemas/Tool'
- *     responses:
- *       '201':
- *         description: The Tool upserted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Tool'
- *       '400':
- *         description: Invalid Tool supplied
- *       '404':
- *         description: Tool not found
- */
-router.put('/:id', auth.hasPermission('editTool'), controller.upsert);
+router.post('/', toolAuth.canCreateTool(), controller.create);
 
 /**
  * @swagger
@@ -139,7 +111,7 @@ router.put('/:id', auth.hasPermission('editTool'), controller.upsert);
  *       '404':
  *         description: Tool not found
  */
-router.patch('/:id', auth.hasPermission('editTool'), controller.patch);
+router.patch('/:id', toolAuth.canEditTool(), controller.patch); // TODO Sanitize patches
 
 /**
  * @swagger
@@ -167,6 +139,6 @@ router.patch('/:id', auth.hasPermission('editTool'), controller.patch);
  *       '404':
  *         description: Tool not found
  */
-router.delete('/:id', auth.hasPermission('deleteTool'), controller.destroy);
+router.delete('/:id', toolAuth.canDeleteTool(), controller.destroy);
 
 module.exports = router;

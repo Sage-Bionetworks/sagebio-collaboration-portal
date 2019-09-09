@@ -20,4 +20,14 @@ export class UrlValidators {
             return control.value.startsWith('https://') ? null : { https: true };
         };
     }
+
+    /**
+     * Returns an error if the url does not specify the http:// or https:// protocol.
+     */
+    static http(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            return control.value.startsWith('http://')
+                || control.value.startsWith('https://') ? null : { http: true };
+        };
+    }
 }

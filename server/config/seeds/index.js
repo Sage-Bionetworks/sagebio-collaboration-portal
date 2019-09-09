@@ -4,6 +4,7 @@ import {
 } from 'lodash';
 import { flow, groupBy, orderBy, map, keyBy, pick, mapValues, uniqBy, pickBy, get } from 'lodash/fp';
 import config from '../../config/environment';
+import { adminUserId } from './default/constants';
 // import { message } from 'gulp-typescript/release/utils';
 
 var default_ = require('./default');
@@ -29,6 +30,38 @@ const messagesStub = [{
     createdAt: 1
 }
 ];
+
+// Creating entity-permissions with Admin access for the authors of projects
+if (seeds.projects) {
+    let permissions = seeds.projects.map(project => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: project._id,
+        entityType: config.entityTypes.PROJECT.value,
+        user: project.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [
+        ...seeds.entityPermissions,
+        ...permissions
+    ];
+}
+
+// Creating entity-permissions with Admin access for the authors of tools
+if (seeds.tools) {
+    let permissions = seeds.tools.map(tool => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: tool._id,
+        entityType: config.entityTypes.TOOL.value,
+        user: tool.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [
+        ...seeds.entityPermissions,
+        ...permissions
+    ];
+}
 
 // Populating thread.contributors from messages
 if (seeds.threads && seeds.messages) {

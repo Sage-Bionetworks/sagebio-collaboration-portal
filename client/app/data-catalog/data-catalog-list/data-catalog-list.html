@@ -1,5 +1,6 @@
-<div class="app-primary-header">
-    <h1>Data Catalogs</h1>
+<div class="app-primary-header app-data-catalog-list-header">
+    <h1 class="app-primary-header-title">Data Catalogs</h1>
+    <a [disabled]="!canCreateDataCatalog" mat-raised-button color="warn" class="app-data-catalog-list-new-data-catalog-btn" (click)="onCreateNewDataCatalog()" aria-label="Create a new tool">New Data Catalog</a>
 </div>
 
 <div class="app-data-catalogs-list">

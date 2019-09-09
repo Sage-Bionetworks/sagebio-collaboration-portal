@@ -1,6 +1,7 @@
 /* globals sinon, describe, expect, it */
 
 import { authServiceStub } from '../../auth/auth.service.mock';
+import { toolAuthStub } from './tool.auth.mock';
 
 var proxyquire = require('proxyquire').noPreserveCache();
 
@@ -28,8 +29,9 @@ var toolIndex = proxyquire('./index.js', {
             return routerStub;
         }
     },
+    '../../auth/auth.service': authServiceStub,
+    './tool.auth': toolAuthStub,
     './tool.controller': toolCtrlStub,
-    '../../auth/auth.service': authServiceStub
 });
 
 describe('Tool API Router:', function () {
@@ -48,7 +50,7 @@ describe('Tool API Router:', function () {
     describe('GET /api/tools/:id', function () {
         it('should route to tool.controller.show', function () {
             expect(routerStub.get
-                .withArgs('/:id', 'authService.isAuthenticated', 'toolCtrl.show')
+                .withArgs('/:id', 'toolAuth.canReadTool', 'toolCtrl.show')
             ).to.have.been.calledOnce;
         });
     });
@@ -56,15 +58,7 @@ describe('Tool API Router:', function () {
     describe('POST /api/tools', function () {
         it('should route to tool.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', 'authService.hasPermission.createTool', 'toolCtrl.create')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    describe('PUT /api/tools/:id', function () {
-        it('should route to tool.controller.upsert', function () {
-            expect(routerStub.put
-                .withArgs('/:id', 'authService.hasPermission.editTool', 'toolCtrl.upsert')
+                .withArgs('/', 'toolAuth.canCreateTool', 'toolCtrl.create')
             ).to.have.been.calledOnce;
         });
     });
@@ -72,7 +66,7 @@ describe('Tool API Router:', function () {
     describe('PATCH /api/tools/:id', function () {
         it('should route to tool.controller.patch', function () {
             expect(routerStub.patch
-                .withArgs('/:id', 'authService.hasPermission.editTool', 'toolCtrl.patch')
+                .withArgs('/:id', 'toolAuth.canEditTool', 'toolCtrl.patch')
             ).to.have.been.calledOnce;
         });
     });
@@ -80,7 +74,7 @@ describe('Tool API Router:', function () {
     describe('DELETE /api/tools/:id', function () {
         it('should route to tool.controller.destroy', function () {
             expect(routerStub.delete
-                .withArgs('/:id', 'authService.hasPermission.deleteTool', 'toolCtrl.destroy')
+                .withArgs('/:id', 'toolAuth.canDeleteTool', 'toolCtrl.destroy')
             ).to.have.been.calledOnce;
         });
     });

@@ -1,75 +1,54 @@
-:host {
-  display: flex;
+.app-entity-list-card {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 200px;
+    margin: 25px;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
-.entity-container {
-  display: flex;
-  flex-flow: column nowrap;
-  width: 200px;
-  margin: 25px;
+.app-entity-list-card-picture {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    // max-width: 125px;
+    min-height: 150px;
+    max-height: 150px;
+
+    img {
+        display: block;
+        max-width: 150px;
+        width: auto;
+        height: auto;
+        align-self: center;
+    }
 }
 
-.entity-container:hover {
-  cursor: pointer;
+.app-entity-list-card-metadata {
+    display: flex;
+    flex-flow: column nowrap;
 }
 
-.entity-container > picture {
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  max-width: 200px;
-  min-height: 125px;
-  max-height: 125px;
+.app-entity-list-card-metadata-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    word-break: break-word;
 
-  img {
-    display: block;
-    max-width: 200px;
-    // min-height: 125px;
-    width: auto;
-    height: auto;
-    align-self: center;
-  }
+    mat-icon {
+        margin-right: 10px;
+    }
 }
 
-.entity-card-footer {
-  display: flex;
-  flex-direction: row nowrap;
-  justify-content: space-between;
+.app-entity-list-card-metadata-title {
+    font-size: 1em;
 }
 
-.entity-name {
-  font-size: 15px;
-  line-height: 20px;
-  overflow: hidden;
-  box-sizing: content-box;
-  height: 60px;
-  // max-height: 60px;
-  font-weight: 600;
-  opacity: 0.95;
-  padding-top: 5px;
-  padding-bottom: 2px;
-  white-space: normal;
-  position: relative;
-}
-
-.entity-metadata-container {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.entity-metadata-row-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  word-break: break-word;
-}
-
-.entity-metadata-row-container > mat-icon {
-  margin-right: 10px;
-}
-
-.entity-metadata-row-container-date {
-  @extend .entity-metadata-row-container;
-  margin-bottom: 10px;
+.app-entity-list-card-metadata-author {
+    @extend .app-entity-list-card-metadata-item;
+    margin-bottom: 10px;
 }

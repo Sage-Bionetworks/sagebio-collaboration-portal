@@ -1,0 +1,20 @@
+<div *ngIf="tool$ | async; let tool" class="app-tool">
+    <div class="app-primary-header">
+        <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
+        <h1>{{ tool.title }}</h1>
+    </div>
+
+    <mat-sidenav-container class="app-tool-sidenav-container">
+        <mat-sidenav
+            #toolSidenav
+            [opened]="toolSidenavService.opened() | async"
+            [mode]="toolSidenavService.mode() | async"
+            fullscreen
+        >
+            <tool-sidenav></tool-sidenav>
+        </mat-sidenav>
+        <mat-sidenav-content class="app-tool-sidenav-content">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

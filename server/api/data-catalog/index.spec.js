@@ -1,6 +1,7 @@
 /* globals sinon, describe, expect, it */
 
 import { authServiceStub } from '../../auth/auth.service.mock';
+import { dataCatalogAuthStub } from './data-catalog.auth.mock';
 
 var proxyquire = require('proxyquire').noPreserveCache();
 
@@ -28,8 +29,9 @@ var dataCatalogIndex = proxyquire('./index.js', {
             return routerStub;
         },
     },
-    './data-catalog.controller': dataCatalogCtrlStub,
     '../../auth/auth.service': authServiceStub,
+    './data-catalog.auth': dataCatalogAuthStub,
+    './data-catalog.controller': dataCatalogCtrlStub,
 });
 
 describe('DataCatalog API Router:', function () {
@@ -46,43 +48,29 @@ describe('DataCatalog API Router:', function () {
 
     describe('GET /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.show', function () {
-            expect(routerStub.get.withArgs('/:id', 'authService.isAuthenticated', 'dataCatalogCtrl.show')).to.have.been
-                .calledOnce;
+            expect(routerStub.get.withArgs('/:id', 'dataCatalogAuth.canReadDataCatalog', 'dataCatalogCtrl.show')).to
+                .have.been.calledOnce;
         });
     });
 
     describe('POST /api/data-catalogs', function () {
         it('should route to dataCatalog.controller.create', function () {
-            expect(
-                routerStub.post.withArgs('/', 'authService.hasPermission.createDataCatalog', 'dataCatalogCtrl.create')
-            ).to.have.been.calledOnce;
+            expect(routerStub.post.withArgs('/', 'dataCatalogAuth.canCreateDataCatalog', 'dataCatalogCtrl.create')).to
+                .have.been.calledOnce;
         });
     });
 
-    // describe('PUT /api/data-catalogs/:id', function () {
-    //     it('should route to dataCatalog.controller.upsert', function () {
-    //         expect(
-    //             routerStub.put.withArgs('/:id', 'authService.hasPermission.editDataCatalog', 'dataCatalogCtrl.upsert')
-    //         ).to.have.been.calledOnce;
-    //     });
-    // });
-
     describe('PATCH /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.patch', function () {
-            expect(
-                routerStub.patch.withArgs('/:id', 'authService.hasPermission.editDataCatalog', 'dataCatalogCtrl.patch')
-            ).to.have.been.calledOnce;
+            expect(routerStub.patch.withArgs('/:id', 'dataCatalogAuth.canEditDataCatalog', 'dataCatalogCtrl.patch')).to
+                .have.been.calledOnce;
         });
     });
 
     describe('DELETE /api/data-catalogs/:id', function () {
         it('should route to dataCatalog.controller.destroy', function () {
             expect(
-                routerStub.delete.withArgs(
-                    '/:id',
-                    'authService.hasPermission.deleteDataCatalog',
-                    'dataCatalogCtrl.destroy'
-                )
+                routerStub.delete.withArgs('/:id', 'dataCatalogAuth.canDeleteDataCatalog', 'dataCatalogCtrl.destroy')
             ).to.have.been.calledOnce;
         });
     });

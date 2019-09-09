@@ -3,8 +3,8 @@
  */
 
 import ProjectEvents from './project.events';
-import { hasAccessToEntity } from '../../auth/auth';
-import config from '../../config/environment';
+import { canReadEntity } from '../../auth/auth';
+import { entityTypes, accessTypes } from '../../config/environment';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -19,33 +19,21 @@ export function register(spark) {
     }
 }
 
-
 function createListener(modelName, event, spark) {
     return function (doc) {
-        hasAccessToEntity(
+        canReadEntity(
             spark.userId,
-            [config.accessTypes.READ.value, config.accessTypes.WRITE.value, config.accessTypes.ADMIN.value],
             doc._id,
-            [
-                // TODO Rename inviteStatusTypes (do not use invite)
-                config.inviteStatusTypes.ACCEPTED.value,
-            ]
+            entityTypes.PROJECT.value,
+            doc.visibility,
+            Object.values(accessTypes).map(access => access.value)
         )
             .then(hasAccess => {
                 if (hasAccess) {
                     spark.emit(`${modelName}:${doc._id}:${event}`, doc);
                 }
             })
-            .catch(err => {
-                console.error(err);
-            });
-
-        // if (isAuthorized(doc, spark.userId)) {
-            // spark.emit(`${namespace}:${event}`, doc);
-            // captured by project data service
-            // TODO: protect must be able to admin project
-            // spark.emit(`${namespace}:${doc._id}:${event}`, doc);
-        // }
+            .catch(err => console.error(err));
     };
 }
 
@@ -54,7 +42,3 @@ function removeListener(event, listener) {
         ProjectEvents.removeListener(event, listener);
     };
 }
-
-// function isAuthorized(doc, userId) {
-//     return userId && doc.user._id == userId; // seems to work even if doc.user is not populated...
-// }

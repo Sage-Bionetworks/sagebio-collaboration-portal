@@ -10,7 +10,7 @@ import {
 } from '../util';
 import Tool from './tool.model';
 import { isAdmin } from '../../auth/auth';
-import { buildEntityIndexQuery } from '../entity-util';
+import { buildEntityIndexQuery, createAdminPermissionForEntity } from '../entity-util';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
 
@@ -47,7 +47,6 @@ export function index(req, res) {
 // Gets a single Tool from the DB
 export function show(req, res) {
     return Tool.findById(req.params.id)
-        .populate('organization')
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -60,6 +59,7 @@ export function create(req, res) {
     req.body.createdBy = req.user._id.toString();
 
     return Tool.create(req.body)
+        .then(createAdminPermissionForEntity(req.user, entityTypes.TOOL.value))
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
