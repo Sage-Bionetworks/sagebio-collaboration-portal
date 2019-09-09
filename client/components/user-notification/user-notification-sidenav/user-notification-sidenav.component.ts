@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { of, forkJoin, merge } from 'rxjs';
 import { switchMap, map, ignoreElements, filter } from 'rxjs/operators';
+import  _fp from "lodash/fp";
 
 import { InsightService } from 'components/insight/insight.service';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -13,7 +14,6 @@ import { forkJoinWithProgress } from 'components/rxjs/util';
 import config from '../../../app/app.constants';
 
 import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
-import { UserNotification } from 'models/user-notification/user-notification.model'
 
 import { MessageNotification } from 'models/user-notification/message-notificiation.model'
 import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
@@ -27,16 +27,8 @@ import { ResourceService } from 'components/resource/resource.service';
 import { ToolService } from '../../../app/tool/tool.service';
 import { DataCatalogService } from '../../../app/data-catalog/data-catalog.service';
 import { Router, NavigationStart } from '@angular/router';
+import { UserNotification } from 'models/user-notification/user-notification.model';
 // ---------------------------------------------------------------
-
-// import { Project } from 'models/entities/project.model';
-// import { Service } from 'models/auth/entity-permission.model';
-// import { pickBy, identity } from 'lodash/fp';
-// import { SocketService } from 'components/socket/socket.service';
-// import { MessageNotification } from '../models/message-notificiation.model';
-// import { EntityNotification } from '../models/entity-notificiation.model';
-// import { EntityAccessNotification } from '../models/entity-access-notificiation.model';
-// import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 
 
 @Component({
@@ -48,10 +40,8 @@ import { Router, NavigationStart } from '@angular/router';
 export class UserNotificationSidenavComponent implements OnDestroy {
     // private socketEventName: string;
     private avatarSize = 40;
-
-    private _messagesNotifications: BehaviorSubject<MessageNotification[]> = new BehaviorSubject<MessageNotification[]>([]);
-    private _entityNotifications: BehaviorSubject<UserNotificationBundle<EntityNotification>[]> = new BehaviorSubject<UserNotificationBundle<EntityNotification>[]>([]);
-    private _entityAccessNotifications: BehaviorSubject<UserNotificationBundle<EntityAccessNotification>[]> = new BehaviorSubject<UserNotificationBundle<EntityAccessNotification>[]>([]);
+    private notificationTypes = config.notificationTypes
+    private _notificationBundles = new BehaviorSubject<UserNotificationBundle<UserNotification>[]>([]);
 
     static parameters = [
         SecondarySidenavService,
@@ -98,6 +88,18 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         }
     }
 
+    getSortedNotifications() {
+        return combineLatest(this._notificationBundles)
+            .pipe(
+                map((notificationBundles) =>
+                    _fp.flow(
+                        _fp.flatten,
+                        _fp.orderBy((bundle: UserNotificationBundle<UserNotification>) => new Date(bundle.notification.createdAt), ['desc'])
+                    )(notificationBundles)
+                )
+            )
+    }
+
     getEntityPermission(notification: EntityAccessNotification) {
         return notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
             ? this.entityPermissionService.getPermission(notification.entityPermissionId as string)
@@ -110,8 +112,9 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             archived: false
         })
             .subscribe((messagesNotifications: MessageNotification[]) => {
-                console.log('messagesNotifications: ', messagesNotifications);
-                this._messagesNotifications.next(messagesNotifications);
+                const notificationBundles: UserNotificationBundle<MessageNotification>[] =
+                    messagesNotifications.map(notification => ({ notification }))
+                this._notificationBundles.next(notificationBundles);
             }, err => console.error(err));
     }
 
@@ -133,8 +136,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                 ))
             )
             .subscribe((entityNotifications: UserNotificationBundle<EntityNotification>[]) => {
-                console.log('entityNotifications: ', entityNotifications);
-                this._entityNotifications.next(entityNotifications);
+                this._notificationBundles.next(entityNotifications);
             }, err => console.error(err));
     }
 
@@ -164,8 +166,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                 ))
             )
             .subscribe((entityAccessNotifications: UserNotificationBundle<EntityAccessNotification>[]) => {
-                console.log('entityAccessNotifications: ', entityAccessNotifications);
-                this._entityAccessNotifications.next(entityAccessNotifications);
+                this._notificationBundles.next(entityAccessNotifications);
             }, err => console.error(err));
     }
 
