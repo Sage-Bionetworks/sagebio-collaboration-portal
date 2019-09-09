@@ -8,7 +8,7 @@ import { MaterialModule } from 'components/material/material.module';
 import { AuthGuard } from 'components/auth/auth-guard.service';
 import { FiltersModule } from 'components/filters/filters.module';
 import { ActivityModule } from 'components/activity/activity.module';
-import { ShareModule } from 'components/share/shareModule';
+import { ShareModule } from 'components/share/share.module';
 import { InsightListComponent } from './insight-list/insight-list.component';
 import { InsightService } from 'components/insight/insight.service';
 import { SocketService } from 'components/socket/socket.service';
