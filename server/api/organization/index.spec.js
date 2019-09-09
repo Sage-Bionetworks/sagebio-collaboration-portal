@@ -6,7 +6,6 @@ var organizationCtrlStub = {
     index: 'organizationCtrl.index',
     show: 'organizationCtrl.show',
     create: 'organizationCtrl.create',
-    upsert: 'organizationCtrl.upsert',
     patch: 'organizationCtrl.patch',
     destroy: 'organizationCtrl.destroy'
 };
@@ -67,14 +66,6 @@ describe('Organization API Router:', function () {
         it('should route to organization.controller.create', function () {
             expect(routerStub.post
                 .withArgs('/', 'authService.hasRole.admin', 'organizationCtrl.create')
-            ).to.have.been.calledOnce;
-        });
-    });
-
-    describe('PUT /api/organizations/:id', function () {
-        it('should route to organization.controller.upsert', function () {
-            expect(routerStub.put
-                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.upsert')
             ).to.have.been.calledOnce;
         });
     });

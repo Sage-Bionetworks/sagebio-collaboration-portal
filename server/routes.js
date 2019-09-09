@@ -26,7 +26,6 @@ export default app => {
     app.use('/api/datasets', require('./api/dataset'));
     app.use('/api/users', require('./api/user'));
     app.use('/api/action-permissions', require('./api/action-permission'));
-    app.use('/api/states', require('./api/state'));
     app.use('/api/health', require('./api/health'));
     app.use('/api/provenance', require('./api/provenance'));
     app.use('/auth', require('./auth').default);

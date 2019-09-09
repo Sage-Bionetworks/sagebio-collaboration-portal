@@ -1,8 +1,8 @@
-var express = require('express');
-var controller = require('./organization.controller');
-var auth = require('../../auth/auth.service');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+import * as controller from './organization.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger
@@ -82,35 +82,6 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *         description: Invalid Organization
  */
 router.post('/', auth.hasRole('admin'), controller.create);
-
-/**
- * @swagger
- * /organizations:
- *   put:
- *     tags:
- *       - Organizations
- *     summary: Upserts an Organization in the DB at the specified ID.
- *     description: Upserts an Organization in the DB at the specified ID.
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         description: The Organization to upsert
- *         schema:
- *           $ref: '#/components/schemas/Organization'
- *     responses:
- *       '201':
- *         description: The Organization upserted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Organization'
- *       '400':
- *         description: Invalid Organization supplied
- *       '404':
- *         description: Organization not found
- */
-router.put('/:id', auth.hasRole('admin'), controller.upsert);
 
 /**
  * @swagger

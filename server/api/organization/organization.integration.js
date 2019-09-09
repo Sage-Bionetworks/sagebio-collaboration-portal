@@ -125,69 +125,6 @@ describe('Organization API:', function () {
         });
     });
 
-    describe('PUT /api/organizations/:id', function () {
-        var updatedOrganization;
-
-        beforeEach(function (done) {
-            request(app)
-                .put(`/api/organizations/${newOrganization._id}`)
-                .set('authorization', `Bearer ${token}`)
-                .send({
-                    name: 'Updated name',
-                    website: 'Updated website',
-                    domains: [
-                        'updated.org'
-                    ],
-                    active: true
-                })
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end(function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    updatedOrganization = res.body;
-                    done();
-                });
-        });
-
-        afterEach(function () {
-            updatedOrganization = {};
-        });
-
-        it('should respond with the updated organization', function () {
-            expect(updatedOrganization.name).to.equal('Updated name');
-            expect(updatedOrganization.website).to.equal('Updated website');
-            expect(updatedOrganization.domains).to.deep.equal([
-                'updated.org'
-            ]);
-            expect(updatedOrganization.createdBy).to.equal(adminUser._id.toString());
-        });
-
-        it('should respond with the updated organization on a subsequent GET', function (done) {
-            request(app)
-                .get(`/api/organizations/${newOrganization._id}`)
-                .set('authorization', `Bearer ${token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    let organization = res.body;
-
-                    expect(organization.name).to.equal('Updated name');
-                    expect(organization.website).to.equal('Updated website');
-                    expect(organization.domains).to.deep.equal([
-                        'updated.org'
-                    ]);
-                    expect(organization.createdBy).to.equal(adminUser._id.toString());
-
-                    done();
-                });
-        });
-    });
-
     describe('PATCH /api/organizations/:id', function () {
         var patchedOrganization;
 
