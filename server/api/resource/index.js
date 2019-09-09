@@ -1,9 +1,9 @@
-var express = require('express');
-var controller = require('./resource.controller');
+import { Router } from 'express';
 import * as auth from '../../auth/auth.service';
 import * as resourceAuth from './resource.auth';
+import * as controller from './resource.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger
@@ -88,7 +88,7 @@ router.post('/', resourceAuth.canCreateResource(), controller.create);
 
 /**
  * @swagger
- * /resources:
+ * /resources/{id}:
  *   patch:
  *     tags:
  *       - Resources
