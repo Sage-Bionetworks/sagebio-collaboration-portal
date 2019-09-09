@@ -1,65 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { DataCatalog } from 'models/entities/data-catalog.model';
-import { stringifyQuery } from 'components/util';
-import { head, orderBy } from 'lodash/fp';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EntityService } from 'components/entity/entity.service';
+import { stringifyQuery } from 'components/util';
+import { DataCatalog } from 'models/entities/data-catalog.model';
+import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
 
 @Injectable()
 export class DataCatalogService implements EntityService<DataCatalog> {
-
     static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) {}
 
     query(query?: {}): Observable<QueryListResponse<DataCatalog>> {
         return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs${stringifyQuery(query)}`);
     }
 
+    get(id: string): Observable<DataCatalog> {
+        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${id}`);
+    }
+
+    getBySlug(slug: string): Observable<DataCatalog> {
+        throw new Error('Method not implemented.');
+    }
+
+    create(catalog: DataCatalog): Observable<DataCatalog> {
+        return this.httpClient.post<DataCatalog>('/api/data-catalogs', catalog);
+    }
+
+    update(id: string, patches: Patch[]): Observable<DataCatalog> {
+        return this.httpClient.patch<DataCatalog>(`/api/data-catalogs/${id}`, patches);
+    }
+
+    remove(dataCatalog: DataCatalog): Observable<DataCatalog> {
+        return this.httpClient.delete(`/api/data-catalogs/${dataCatalog._id}`).pipe(map(() => dataCatalog));
+    }
+
     makePublic(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
     }
+
     makePrivate(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
-    }
-
-
-
-
-    getDataCatalogBySlug(slug: string): Observable<DataCatalog> {
-        return this.getDataCatalogs({ slug: slug })
-            .pipe(
-                map(catalogs => head(catalogs))
-            );
-    }
-
-    getDataCatalogs(query?: {}): Observable<DataCatalog[]> {
-        return this.httpClient.get<DataCatalog[]>(`/api/data-catalogs${stringifyQuery(query)}`)
-        .pipe(
-            map(catalogs => orderBy('title', 'asc', catalogs))
-        );
-    }
-
-    getDataCatalog(dataCatalogId: string): Observable<DataCatalog> {
-        return this.httpClient.get<DataCatalog>(`/api/data-catalogs/${dataCatalogId}`);
-    }
-
-
-
-    searchDataCatalogsByName(terms: Observable<string>): Observable<DataCatalog[] | null> {
-        return terms
-            .pipe(
-                debounceTime(400),
-                distinctUntilChanged(),
-                switchMap(term => term ? this.getDataCatalogs({ searchTerms: term }) : of(null))
-            );
     }
 }

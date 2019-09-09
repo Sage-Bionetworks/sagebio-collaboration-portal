@@ -1,0 +1,25 @@
+// :host {
+//     display: flex;
+//     flex-direction: column;
+//     flex-grow: 1;
+//     height: 100%;
+//   }
+
+.app-tool {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.app-tool-sidenav-container {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+}
+
+.app-tool-sidenav-content {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+}

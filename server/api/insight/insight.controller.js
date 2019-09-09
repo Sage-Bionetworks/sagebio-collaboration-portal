@@ -1,9 +1,4 @@
-import {
-    respondWithResult,
-    patchUpdates,
-    handleEntityNotFound,
-    handleError
-} from '../util';
+import { respondWithResult, patchUpdates, handleEntityNotFound, removeEntity, handleError } from '../util';
 import Insight from './models/insight.model';
 import { union } from 'lodash/fp';
 import { merge } from 'lodash';
@@ -17,45 +12,37 @@ export function index(req, res) {
 
     getInsightIdsByUser(req.user._id)
         .then(insightIds => {
-            filter = merge({
-                _id: {
-                    $in: insightIds,
-                }
-            }, filter);
+            filter = merge(
+                {
+                    _id: {
+                        $in: insightIds,
+                    },
+                },
+                filter
+            );
             return filter;
         })
-        .then(filter_ => Promise.all([
-            Insight.countDocuments(filter_),
-            Insight.find(filter_, projection)
-                .sort(sort)
-                .skip(skip)
-                .limit(limit)
-                .exec()
-        ]))
+        .then(filter_ =>
+            Promise.all([
+                Insight.countDocuments(filter_),
+                Insight.find(filter_, projection)
+                    .sort(sort)
+                    .skip(skip)
+                    .limit(limit)
+                    .exec(),
+            ])
+        )
         .then(([count, insights]) => ({
             count,
-            results: insights
+            results: insights,
         }))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-
-
-
-export function indexByEntity(req, res) {
-    let filters = req.query;
-    filters.projectId = req.params.entityId;
-    return Insight.find(filters)
-        .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Gets a single Insight from the DB
 export function show(req, res) {
-    return Insight
-        .findById(req.params.id)
+    return Insight.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -66,27 +53,9 @@ export function show(req, res) {
 export function create(req, res) {
     return Insight.create({
         ...req.body,
-        createdBy: req.user._id
+        createdBy: req.user._id,
     })
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Upserts the given Insight in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-    return Insight
-        .findOneAndUpdate({
-            _id: req.params.id
-        }, req.body, {
-            new: true,
-            upsert: true,
-            setDefaultsOnInsert: true,
-            runValidators: true
-        }).exec()
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
@@ -95,21 +64,30 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    return Insight.findById(req.params.id).exec()
+    return Insight.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// // Deletes a Insight from the DB
-// export function destroy(req, res) {
-//     return Insight.findById(req.params.id).exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
+// export function indexByEntity(req, res) {
+//     let filters = req.query;
+//     filters.projectId = req.params.entityId;
+//     return Insight.find(filters)
+//         .exec()
+//         .then(respondWithResult(res))
 //         .catch(handleError(res));
 // }
 
+// Deletes a Insight from the DB
+export function destroy(req, res) {
+    return Insight.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
 
 // HELPER FUNCTIONS
 
@@ -119,11 +97,15 @@ export function patch(req, res) {
  */
 function getPublicInsightIds() {
     return getPublicProjectIds()
-        .then(projectIds => Insight.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Insight.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(insights => insights.map(insight => insight._id));
 }
@@ -134,11 +116,15 @@ function getPublicInsightIds() {
  */
 function getPrivateInsightIds(userId) {
     return getPrivateProjectIds(userId)
-        .then(projectIds => Insight.find({
-            projectId: {
-                $in: projectIds
-            }}, '_id')
-            .exec()
+        .then(projectIds =>
+            Insight.find(
+                {
+                    projectId: {
+                        $in: projectIds,
+                    },
+                },
+                '_id'
+            ).exec()
         )
         .then(insights => insights.map(insight => insight._id));
 }
@@ -159,14 +145,9 @@ function getAllInsightIds() {
  * @return {string[]}
  */
 function getInsightIdsByUser(userId) {
-    return isAdmin(userId)
-        .then(is =>
-            (is
-                ? getAllInsightIds()
-                : Promise.all([
-                    getPublicInsightIds(),
-                    getPrivateInsightIds(userId)
-                ]).then(result => union(...result))
-            )
-        );
+    return isAdmin(userId).then(is =>
+        (is
+            ? getAllInsightIds()
+            : Promise.all([getPublicInsightIds(), getPrivateInsightIds(userId)]).then(result => union(...result)))
+    );
 }

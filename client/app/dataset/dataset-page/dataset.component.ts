@@ -36,17 +36,17 @@ export class DatasetComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const dataCatalog = this.route.params.pipe(
-            switchMap(res => this.catalogService.getDataCatalog(res.catalogId))
+            switchMap(res => this.catalogService.get(res.catalogId))
         );
         combineLatest(
             this.route.params,
             dataCatalog,
-            this.toolService.getTools()
+            this.toolService.query()
         )
             .pipe(
                 switchMap(([res, catalog, tools]) => {
                     this.catalog = catalog;
-                    this.tools = orderBy('name', 'asc', tools);
+                    this.tools = orderBy('name', 'asc', tools.results);
                     return this.datasetService.getDataset(catalog, res.datasetId);
                 })
             )
@@ -68,7 +68,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
             resource.id === '15135bef-fc90-4656-bf05-f3b7a50f0d74') {  // PNG image
             return this.tools.filter(tool => ['IRIS Enterprise Explorer'].includes(tool.title));
         } else {
-            return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
+            // return this.tools.filter(tool => tool.resourceFormats.includes(resource.format));
         }
     }
 

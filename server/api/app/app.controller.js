@@ -1,12 +1,8 @@
-
-import {
-    respondWithResult,
-    handleEntityNotFound,
-    handleError
-} from '../util';
+import { respondWithResult, handleEntityNotFound, handleError } from '../util';
 import App from './app.model';
 import { appId } from '../../config/seeds/default/constants';
 
+// Returns the App object.
 export function show(req, res) {
     return App.findById(appId)
         .exec()

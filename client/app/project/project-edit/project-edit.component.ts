@@ -30,25 +30,33 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private projectService: ProjectService) {
         this.projectSpecs = config.models.project;
+        this.editForm = this.formBuilder.group({
+            title: ['', [
+                Validators.required,
+                Validators.minLength(this.projectSpecs.title.minlength),
+                Validators.maxLength(this.projectSpecs.title.maxlength)
+            ]],
+            description: ['', [
+                Validators.required,
+                Validators.minLength(this.projectSpecs.description.minlength),
+                Validators.maxLength(this.projectSpecs.description.maxlength)
+            ]],
+            picture: ['', [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]]
+        });
     }
 
     ngOnInit() {
         if (this.project) {
-            this.editForm = this.formBuilder.group({
-                title: [this.project.title, [
-                    Validators.required,
-                    Validators.minLength(this.projectSpecs.title.minlength),
-                    Validators.maxLength(this.projectSpecs.title.maxlength)
-                ]],
-                description: [JSON.parse(this.project.description), [
-                    Validators.required,
-                    Validators.minLength(this.projectSpecs.description.minlength),
-                    Validators.maxLength(this.projectSpecs.description.maxlength)
-                ]],
-                // visibility: [this.project.visibility, [
-                //     Validators.required
-                // ]],
+            this.editForm.setValue({
+                title: this.project.title,
+                description: JSON.parse(this.project.description),
+                picture: this.project.picture
             });
+            this.editForm.markAllAsTouched();
         }
     }
 

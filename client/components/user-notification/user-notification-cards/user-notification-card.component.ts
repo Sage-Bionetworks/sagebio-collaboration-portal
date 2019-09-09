@@ -58,12 +58,12 @@ export class UserNotificationCardComponent {
             }
             case config.entityTypes.TOOL.value: {
                 const tool = this.entity as Tool
-                this.router.navigate(['/tools', tool.slug]);
+                this.router.navigate(['/tools', tool._id]);
                 break;
             }
             case config.entityTypes.DATA_CATALOG.value: {
                 const catalog = this.entity as DataCatalog
-                this.router.navigate(['/data-catalogs', catalog.slug]);
+                this.router.navigate(['/data-catalogs', catalog._id]);
                 break;
             }
             default:

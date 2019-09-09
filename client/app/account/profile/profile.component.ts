@@ -9,7 +9,7 @@ import { Subject, forkJoin, Subscription, Observable } from 'rxjs';
 import { tap, switchMap, map, last } from 'rxjs/operators';
 import { HttpEventType } from '@angular/common/http';
 import { User } from 'models/auth/user.model';
-import { UserPermission } from 'models/auth/user-permission.model';
+import { ActionPermission } from 'models/auth/action-permission.model';
 import { NotificationService } from 'components/notification/notification.service';
 
 @Component({

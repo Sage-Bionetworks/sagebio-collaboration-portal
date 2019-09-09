@@ -4,6 +4,7 @@ export interface Entity {
     _id?: string;
     title: string;
     description: string;
+    picture: string;
     visibility: EntityVisibility;
     createdAt: string;
     createdBy: UserProfile;

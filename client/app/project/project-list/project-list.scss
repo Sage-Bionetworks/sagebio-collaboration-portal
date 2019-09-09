@@ -2,3 +2,16 @@
     display: flex;
     flex-flow: row nowrap;
 }
+
+.app-project-list-header {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.app-primary-header-title {
+    flex-grow: 1;
+}
+
+.app-project-list-new-project-btn {
+    margin-right: 20px;
+}

@@ -8,10 +8,12 @@ import { pick } from 'lodash/fp';
 import { adminUser, authOrganization } from '../integration-util';
 
 describe('User API:', function () {
-    before(() => User.deleteMany()
-        .then(() => Organization.deleteMany())
-        .then(() => new User(adminUser).save())
-        .then(() => new Organization(authOrganization).save()));
+    before(() =>
+        User.deleteMany()
+            .then(() => Organization.deleteMany())
+            .then(() => new User(adminUser).save())
+            .then(() => new Organization(authOrganization).save())
+    );
 
     after(() => Promise.all([Organization.deleteMany(), User.deleteMany()]));
 

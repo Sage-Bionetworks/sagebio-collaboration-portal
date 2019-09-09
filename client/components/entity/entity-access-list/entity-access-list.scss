@@ -1,15 +1,41 @@
+.app-entity-access-list-title {
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
 .app-entity-access-list-access {
-  max-width: 150px;
+    max-width: 150px;
 }
 
 .app-entity-access-list-remove {
-  display: flex;
-  flex-flow: row-reverse nowrap;
-  min-width: 100px;
-  min-height: 1px;
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    min-width: 100px;
+    min-height: 1px;
 }
 
 .app-entity-access-list-status {
-  min-width: 200px;
-  min-height: 1px;
+    min-width: 200px;
+    min-height: 1px;
+}
+
+.app-add-collaborator-button {
+    height: 80%;
+}
+
+.app-add-collaborator-header {
+    padding-top: 15px;
+    padding-left: 16px;
+}
+
+.app-entity-access-list-search-user-form {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding-left: 16px;
+}
+
+.app-add-collaborator-field {
+    margin-bottom: 10px;
+    width: 85%;
 }

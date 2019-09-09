@@ -84,15 +84,15 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     getAssociatedEntity(notification: EntityNotification) {
         switch (notification.entityType) {
             case config.entityTypes.PROJECT.value:
-                return this.projectService.getProject(notification.entityId)
+                return this.projectService.get(notification.entityId)
             case config.entityTypes.INSIGHT.value:
                 return this.insightService.getInsight(notification.entityId)
             case config.entityTypes.RESOURCE.value:
                 return this.resourceServive.getResource(notification.entityId)
             case config.entityTypes.TOOL.value:
-                return this.toolService.getTool(notification.entityId)
+                return this.toolService.get(notification.entityId)
             case config.entityTypes.DATA_CATALOG.value:
-                return this.dataCatalogService.getDataCatalog(notification.entityId)
+                return this.dataCatalogService.get(notification.entityId)
             default:
                 return of(null)
         }

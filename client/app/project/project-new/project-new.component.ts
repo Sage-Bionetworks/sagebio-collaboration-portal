@@ -1,28 +1,26 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../project.service';
-import { Project } from 'models/entities/project.model';
+// import { Project } from 'models/entities/project.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
-import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
+// import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
+// import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
+// import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
 import config from '../../app.constants';
+import { UrlValidators } from 'components/validation/url-validators';
 
 @Component({
     selector: 'project-new',
     template: require('./project-new.html'),
     styles: [require('./project-new.scss')],
 })
-export class ProjectNewComponent implements OnInit, OnDestroy {
+export class ProjectNewComponent implements OnInit {
     private projectSpecs: any;
     private newForm: FormGroup;
     private errors = {
         newProject: undefined
     };
-
-    @Output() newProject: EventEmitter<Project> = new EventEmitter<Project>();
-    @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService];
@@ -43,27 +41,29 @@ export class ProjectNewComponent implements OnInit, OnDestroy {
                 Validators.minLength(this.projectSpecs.description.minlength),
                 Validators.maxLength(this.projectSpecs.description.maxlength)
             ]],
-            visibility: [this.projectSpecs.visibility.default, [
+            picture: [this.projectSpecs.picture.default, [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]],
+            visibility: [this.projectSpecs.visibility.default.value, [
                 Validators.required
             ]],
         });
     }
 
     ngOnInit() {
-        // this.pageTitleService.title = 'New Project';
-
+        this.pageTitleService.title = 'New Project';
     }
-
-    ngOnDestroy() { }
 
     createNewProject(): void {
         let newProject = this.newForm.value;
         newProject.description = JSON.stringify(newProject.description);
         this.projectService.create(newProject)
             .subscribe(project => {
-                this.newProject.emit(project);
+                this.router.navigate(['/projects', project._id]);
             }, err => {
-                console.log(err);
+                console.error(err);
                 this.errors.newProject = err.message;
             });
     }

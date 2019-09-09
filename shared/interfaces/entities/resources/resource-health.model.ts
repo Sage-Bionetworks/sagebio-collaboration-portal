@@ -1,2 +1,1 @@
-export interface ResourceHealth {
-}
+export interface ResourceHealth {}

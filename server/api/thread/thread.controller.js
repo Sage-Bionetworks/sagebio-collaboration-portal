@@ -10,8 +10,7 @@ import {
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
-import Message from '../message/message.model';
-import EntityPermission from '../entity-permission/entity-permission.model';
+import Message from './message/message.model';
 import { accessTypes, inviteStatusTypes, entityTypes } from '../../config/environment';
 import Project from '../project/project.model';
 import DataCatalog from '../data-catalog/data-catalog.model';

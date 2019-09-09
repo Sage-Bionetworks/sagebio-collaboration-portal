@@ -4,7 +4,7 @@ import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '.
 import {
     respondWithResult,
     patchUpdates,
-    // removeEntity,
+    removeEntity,
     handleEntityNotFound,
     handleError,
 } from '../util';
@@ -12,7 +12,7 @@ import { union } from 'lodash/fp';
 import { merge } from 'lodash';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
 import { isAdmin } from '../../auth/auth';
-import { buildEntityIndexQuery } from '../entity-util';
+import { buildEntityIndexQuery, createAdminPermissionForEntity } from '../entity-util';
 
 // Gets a list of Projects
 export function index(req, res) {
@@ -45,7 +45,7 @@ export function index(req, res) {
 
 // Gets a single Project from the DB
 export function show(req, res) {
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
@@ -65,13 +65,23 @@ export function create(req, res) {
 
 // Updates an existing Project in the DB
 export function patch(req, res) {
-    const patches = req.body.filter(patch => !['_id', 'visibility', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+    const patches = req.body.filter(patch => !['_id', 'createdAt', 'createdBy'].map(x => `/${x}`).includes(patch.path));
+    // TODO sanitize visibility
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
         .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Deletes a Project from the DB
+export function destroy(req, res) {
+    return Project.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
         .catch(handleError(res));
 }
 
@@ -93,7 +103,7 @@ export function makePublic(req, res) {
         value: entityVisibility.PUBLIC.value
     }];
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -109,7 +119,7 @@ export function makePrivate(req, res) {
         value: entityVisibility.PRIVATE.value
     }];
 
-    return Project.findById(req.params.entityId)
+    return Project.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(patches))
@@ -117,34 +127,7 @@ export function makePrivate(req, res) {
         .catch(handleError(res));
 }
 
-// Deletes a Project from the DB
-// export function destroy(req, res) {
-//     return Project.findById(req.params.id)
-//         .exec()
-//         .then(handleEntityNotFound(res))
-//         .then(removeEntity(res))
-//         .catch(handleError(res));
-// }
-
 // HELPER FUNCTIONS
-
-function createAdminPermissionForEntity(user, entityType) {
-    return function (entity) {
-        if (entity) {
-            return EntityPermission.create({
-                entityId: entity._id.toString(),
-                entityType,
-                user: user._id.toString(),
-                access: accessTypes.ADMIN.value,
-                status: inviteStatusTypes.ACCEPTED.value,
-                createdBy: user._id.toString(),
-            })
-                .then(() => entity)
-                .catch(err => console.log(err));
-        }
-        return null;
-    };
-}
 
 /**
  * Returns the ids of the public projects.

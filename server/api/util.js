@@ -64,9 +64,7 @@ export function protectFromPatchReplace(res, patches, allowedProperties) {
             patch => patch.op === 'replace' && !allowedProperties.includes(patch.path.substring(1))
         );
         if (invalid) {
-            res.status(400).send(
-                'Only the following document properties ' + `can be replaced: ${allowedProperties.join(' ')}`
-            );
+            res.status(400).send(`Only the following properties can be replaced using patch: ${allowedProperties.join(' ')}`);
             return null;
         }
         return entity;
@@ -80,9 +78,7 @@ export function protectFromPatchRemove(res, patches, allowedProperties) {
             patch => patch.op === 'remove' && !allowedProperties.includes(patch.path.substring(1))
         );
         if (invalid) {
-            res.status(400).send(
-                'Only the following document properties ' + `can be removed: ${allowedProperties.join(' ')}`
-            );
+            res.status(400).send(`Only the following properties can be removed using patch: ${allowedProperties.join(' ')}`);
             return null;
         }
         return entity;
@@ -120,7 +116,7 @@ export function handleUserNotFound(res) {
 export function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
-        console.log(err);
+        console.error(err);
         res.status(statusCode).send(err.message || err);
     };
 }

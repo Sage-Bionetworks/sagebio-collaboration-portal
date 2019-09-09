@@ -3,8 +3,8 @@ import {
     adminUserId
 } from '../default/users';
 import {
-    testProjectId,
-    anotherProjectId
+    adminProjectId,
+    testProjectId
 } from './projects.js';
 
 let dashboards = [{
@@ -13,7 +13,7 @@ let dashboards = [{
     title: 'Flatiron Dashboard',
     description: `{\"ops\":[{\"insert\":\"Explore first touch descriptive information of Flatiron DataMarts and extract quick numbers out of a specific data release.\\n\\n\"}]}`,
     url: 'http://go.roche.com/flatironapp',
-    projectId: testProjectId,
+    projectId: adminProjectId,
     createdBy: adminUserId
 }];
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, of, merge, forkJoin } from 'rxjs';
 import { switchMap, map, filter, mapTo, catchError, tap } from 'rxjs/operators';
-import { UserPermission } from 'models/auth/user-permission.model';
+import { ActionPermission } from 'models/auth/action-permission.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { AuthService } from 'components/auth/auth.service';
 import { UserService } from 'components/auth/user.service';
-import { UserPermissionService } from './user-permission.service';
+import { ActionPermissionService } from './action-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
 import { find, identity } from 'lodash/fp';
 import { UserRole } from 'models/auth/user.model';
@@ -15,7 +15,7 @@ import config from '../../app/app.constants';
 import { EntityVisibility } from 'models/entities/entity.model';
 
 export class UserPermissions {
-    constructor(private role: UserRole, private permissions: UserPermission[],
+    constructor(private role: UserRole, private actionPermissions: ActionPermission[],
         private entityPermissions: EntityPermission[]) { }
 
     public isAdmin(): boolean {
@@ -26,20 +26,20 @@ export class UserPermissions {
         return this.role === role;
     }
 
-    public hasPermission(permission: string): boolean {
-        return !!find({ 'value': permission }, this.permissions);
+    public hasActionPermission(actionPermission: string): boolean {
+        return !!find({ 'action': actionPermission }, this.actionPermissions);
+    }
+
+    public canCreateProject(): boolean {
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_PROJECT.value }, this.actionPermissions);
+    }
+
+        public canCreateDataCatalog(): boolean {
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_DATA_CATALOG.value }, this.actionPermissions);
     }
 
     public canCreateTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'createTool' }, this.permissions);
-    }
-
-    public canEditTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'editTool' }, this.permissions);
-    }
-
-    public canDeleteTool(): boolean {
-        return this.isAdmin() || !!find({ 'value': 'deleteTool' }, this.permissions);
+        return this.isAdmin() || !!find({ 'action': config.actionPermissionTypes.CREATE_TOOL.value }, this.actionPermissions);
     }
 
     private getEntityUserAccess(entityId: string, entityType: string): string {
@@ -99,11 +99,11 @@ export class UserPermissionDataService {
     private _permissions: BehaviorSubject<UserPermissions> =
         new BehaviorSubject<UserPermissions>(UserPermissionDataService.UNKNOWN_PERMISSIONS);
 
-    static parameters = [AuthService, UserService, UserPermissionService,
+    static parameters = [AuthService, UserService, ActionPermissionService,
         EntityPermissionService, SocketService];
     constructor(private authService: AuthService,
         private userService: UserService,
-        private userPermissionService: UserPermissionService,
+        private actionPermissionService: ActionPermissionService,
         private entityPermissionService: EntityPermissionService,
         private socketService: SocketService) {
 
@@ -121,11 +121,11 @@ export class UserPermissionDataService {
                             map(user => user.role),
                             catchError(err => of(<UserRole>null))
                         ),
-                    permissions: this.userPermissionService.getMyPermissions()
+                    permissions: this.actionPermissionService.query()
                         .pipe(
-                            catchError(err => of(<UserPermission[]>[]))
+                            catchError(err => of(<ActionPermission[]>[]))
                         ),
-                    entityPermissions: this.entityPermissionService.queryMine()
+                    entityPermissions: this.entityPermissionService.query()
                         .pipe(
                             catchError(err => of(<EntityPermission[]>[]))
                         )
@@ -137,7 +137,7 @@ export class UserPermissionDataService {
                 filter(is => !is),
                 mapTo({
                     role: <UserRole>null,
-                    permissions: <UserPermission[]>[],
+                    permissions: <ActionPermission[]>[],
                     entityPermissions: <EntityPermission[]>[]
                 })
             );

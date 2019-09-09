@@ -15,6 +15,10 @@ import { UserProfile } from '../auth/user-profile.model';
  *           type: string
  *         entityType:
  *           type: string
+ *         contributors:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/UserProfile'
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -29,8 +33,9 @@ import { UserProfile } from '../auth/user-profile.model';
 export interface Thread {
     _id: string;
     title: string;
-    entityId?: string;
-    entityType?: string;
+    entityId: string;
+    entityType: string;
+    contributors: UserProfile[];
     createdAt: string;
     createdBy: UserProfile;
     updatedAt: string;

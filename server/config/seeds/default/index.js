@@ -6,5 +6,5 @@ import { users } from './users';
 module.exports = {
     apps,
     organizations,
-    users
+    users,
 };

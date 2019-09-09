@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Entity } from 'models/entities/entity.model';
 
 @Component({
@@ -10,8 +9,10 @@ import { Entity } from 'models/entities/entity.model';
 export class EntityListCardComponent<E extends Entity> {
     private _entity: E;
 
-    static parameters = [Router];
-    constructor(private router: Router) { }
+    @Output() entityClick: EventEmitter<E> = new EventEmitter<E>();
+
+    static parameters = [];
+    constructor() {}
 
     get entity(): E {
         return this._entity;
@@ -20,5 +21,9 @@ export class EntityListCardComponent<E extends Entity> {
     @Input()
     set entity(entity: E) {
         this._entity = entity;
+    }
+
+    onEntityClick(): void {
+        this.entityClick.emit(this.entity);
     }
 }

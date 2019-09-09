@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { Entity } from 'models/entities/entity.model';
 
 @Component({
@@ -12,8 +11,8 @@ export class EntityListItemComponent<E extends Entity> {
 
     @Output() entityClick: EventEmitter<E> = new EventEmitter<E>();
 
-    static parameters = [Router];
-    constructor(private router: Router) { }
+    static parameters = [];
+    constructor() { }
 
     get entity(): E {
         return this._entity;
@@ -25,7 +24,6 @@ export class EntityListItemComponent<E extends Entity> {
     }
 
     onEntityClick(): void {
-        console.log('EMITTING', this.entity);
         this.entityClick.emit(this.entity);
     }
 }

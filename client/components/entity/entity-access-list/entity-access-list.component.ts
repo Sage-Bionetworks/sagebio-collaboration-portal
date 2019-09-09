@@ -26,6 +26,7 @@ import { NotificationService } from 'components/notification/notification.servic
 export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() entity: Entity;
     @Input() user: UserProfile;
+    @Input() disabled = false;
     private permissions: EntityPermission[] = [];
 
     private inviteForm: FormGroup;

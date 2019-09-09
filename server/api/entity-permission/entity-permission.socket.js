@@ -2,10 +2,8 @@
  * Broadcast updates to client when the model changes
  */
 
-import {
-    hasAccessToEntity,
-} from '../../auth/auth';
-import config from '../../config/environment';
+import * as authBase from '../../auth/auth';
+import { entityTypes, accessTypes, inviteStatusTypes } from '../../config/environment';
 import EntityPermissionEvents from './entity-permission.events';
 
 // Model events to emit
@@ -23,23 +21,24 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
-        hasAccessToEntity(spark.userId, [
-                config.accessTypes.READ.value,
-                config.accessTypes.WRITE.value,
-                config.accessTypes.ADMIN.value
-            ], doc.entityId, [
-                config.inviteStatusTypes.ACCEPTED.value,
-                config.inviteStatusTypes.PENDING.value  // invite to send to user
-            ])
+        authBase.canReadEntity(
+            spark.userId,
+            doc.entityId,
+            entityTypes.PROJECT.value,
+            doc.visibility,
+            Object.values(accessTypes).map(access => access.value),
+            [
+                inviteStatusTypes.ACCEPTED.value,
+                inviteStatusTypes.PENDING.value
+            ]
+        )
             .then(hasAccess => {
                 if (hasAccess) {
                     spark.emit(`${namespace}:${event}`, doc);
                     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
                 }
             })
-            .catch(err => {
-                console.log(`ERROR creating listener: ${err}`);
-            });
+            .catch(err => console.error(`Unable to create listener: ${err}`));
     };
 }
 

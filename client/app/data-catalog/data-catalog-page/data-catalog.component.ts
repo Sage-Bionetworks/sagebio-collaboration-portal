@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataCatalogService } from '../data-catalog.service';
 import { DatasetService } from '../../dataset/dataset.service';
 import { DataCatalog } from 'models/entities/data-catalog.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { Observable, forkJoin, combineLatest, of, empty, never } from 'rxjs';
-import { filter, map, switchMap, tap, concatMap, mergeMap, catchError } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import {
     CkanDatasetSearchResponse
 } from 'models/ckan/ckan-dataset-search-response.model';
+import { DataCatalogEditComponent } from '../data-catalog-edit/data-catalog-edit.component';
+import { omit } from 'lodash/fp';
 
 interface CatalogStats {
     live: boolean;
@@ -22,21 +23,27 @@ interface CatalogStats {
     template: require('./data-catalog.html'),
     styles: [require('./data-catalog.scss')],
 })
-export class DataCatalogComponent implements OnInit, OnDestroy {
-    private catalog: DataCatalog;
+export class DataCatalogComponent implements OnInit {
+    private dataCatalog: DataCatalog;
     private catalogStats: CatalogStats;
+
+    @ViewChild(DataCatalogEditComponent, { static: false }) editTool: DataCatalogEditComponent;
+    private showEditDataCatalogTemplate = false;
+
+    private canEditDataCatalog = true;
+    private canDeleteDataCatalog = true;
 
     static parameters = [Router, ActivatedRoute, PageTitleService,
         DataCatalogService, DatasetService, NotificationService];
     constructor(private router: Router, private route: ActivatedRoute,
         private pageTitleService: PageTitleService,
-        private catalogService: DataCatalogService,
+        private dataCatalogService: DataCatalogService,
         private datasetService: DatasetService,
         private notificationService: NotificationService) { }
 
     ngOnInit() {
         const dataCatalog = this.route.params.pipe(
-            switchMap(res => this.catalogService.getDataCatalogBySlug(res.slug))
+            switchMap(res => this.dataCatalogService.get(res.id))
         );
         const catalogStats = dataCatalog.pipe(
             switchMap(catalog => this.datasetService.searchDatasetsByCatalog(catalog)
@@ -56,10 +63,18 @@ export class DataCatalogComponent implements OnInit, OnDestroy {
         combineLatest(dataCatalog, catalogStats)
             .subscribe(([catalog, stats]) => {
                 this.catalogStats = stats;
-                this.catalog = catalog;
+                this.dataCatalog = catalog;
                 this.pageTitleService.title = catalog.title;
             });
     }
 
-    ngOnDestroy() { }
+    onEditDataCatalog(dataCatalog: DataCatalog): void {
+        this.showEditDataCatalogTemplate = false;
+        this.dataCatalog = { ...this.dataCatalog, ... omit('organization', dataCatalog)};
+        this.notificationService.info('The Data Catalog has been successfully updated');
+    }
+
+    onDeleteDataCatalog(): void {
+        console.log('DELETE');
+    }
 }

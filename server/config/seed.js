@@ -13,7 +13,7 @@ import EntityAccessNotification from '../api/user-notification/models/entity-acc
 import EntityNotification from '../api/user-notification/models/entity-notification.model';
 import Thread from '../api/thread/thread.model';
 import Memo from '../api/insight/models/memo.model';
-import Message from '../api/message/message.model';
+import Message from '../api/thread/message/message.model';
 import Organization from '../api/organization/organization.model';
 import Project from '../api/project/project.model';
 import Report from '../api/insight/models/report.model';
@@ -21,7 +21,7 @@ import StarredMessage from '../api/starred-message/starred-message.model';
 import State from '../api/resource/models/state.model';
 import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
-import UserPermission from '../api/user-permission/user-permission.model';
+import ActionPermission from '../api/action-permission/action-permission.model';
 import WebApp from '../api/resource/models/webapp.model';
 import {
     createActivities
@@ -189,10 +189,10 @@ export function seedDatabaseIfNeeded() {
     promises.push(promise);
 
 
-    promise = UserPermission.find({}).deleteMany()
-        .then(() => seeds.userPermissions ? UserPermission
-            .create(seeds.userPermissions)
-            .then(() => console.log('finished populating user permissions')) : null
+    promise = ActionPermission.find({}).deleteMany()
+        .then(() => seeds.actionPermissions ? ActionPermission
+            .create(seeds.actionPermissions)
+            .then(() => console.log('finished populating action permissions')) : null
         )
         .catch(err => console.log('error populating user permissions', err));
     promises.push(promise);

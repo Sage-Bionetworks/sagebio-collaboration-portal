@@ -1,6 +1,6 @@
 <div class="app-primary-header">
-    <mat-icon class="app-nav-back-icon" (click)="close.emit(null)">keyboard_arrow_left</mat-icon>
-    <h1>Add a New Tool</h1>
+    <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
+    <h1>Create a New Tool</h1>
 </div>
 
 <mat-card class="app-tool-new-card">
@@ -19,9 +19,27 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-new-form-field">
+                <input matInput placeholder="Picture" formControlName="picture" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.picture.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.picture.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.picture.invalid">
+                    Please enter a valid URL.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Visibility</mat-label>
+                <select matNativeControl formControlName="visibility" required>
+                    <option *ngFor="let option of toolSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
+                </select>
+            </mat-form-field>
+            <!-- <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+                    The URL must start with https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
@@ -29,11 +47,11 @@
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiServerUrl.invalid">
                     Please enter a valid URL for the API.
                 </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+                    The URL must start with https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
@@ -44,8 +62,8 @@
             </mat-form-field>
             <mat-form-field class="app-form-field app-tool-new-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.https">
-                    The URL must begin with the https:// protocol identifier.
+                <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.http">
+                    The URL must start with http:// or https://.
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="newForm.controls.website.errors?.noTrailingSlash">
                     The URL must not have a trailing slash.
@@ -58,8 +76,8 @@
                 {{ errors.newTool }}
             </mat-error>
             <div class="app-tool-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewTool()">Add New Tool</a>
-                <a mat-button (click)="close.emit(null)">Cancel</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewTool()">Create New Tool</a>
+                <a mat-button routerLink="/tools">Cancel</a>
             </div>
         </form>
     </mat-card-content>

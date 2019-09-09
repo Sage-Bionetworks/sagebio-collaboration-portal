@@ -9,7 +9,7 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
@@ -23,6 +23,4 @@ import { Entity } from './entity.model';
  *         createdBy:
  *           $ref: '#/components/schemas/User'
  */
-export interface Project extends Entity {
-    picture: string;
-}
+export interface Project extends Entity {}

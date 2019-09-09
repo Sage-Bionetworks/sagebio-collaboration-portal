@@ -1,22 +1,19 @@
-import {
-    adminUserId
-} from './constants';
+import { adminUserId } from './constants';
 import config from '../../environment';
 
-let users = [{
-    _id: adminUserId,
-    provider: 'local',
-    role: config.userRoles.ADMIN.value,
-    name: 'Admin',
-    username: 'admin',
-    email: config.init.admin.email,
-    password: config.init.admin.password,
-    position: 'Research Scientist',
-    orcid: 'https://orcid.org/0000-0002-8242-9462',
-    createdBy: adminUserId
-}];
+let users = [
+    {
+        _id: adminUserId,
+        provider: 'local',
+        role: config.userRoles.ADMIN.value,
+        name: 'Admin',
+        username: 'admin',
+        email: config.init.admin.email,
+        password: config.init.admin.password,
+        position: 'Research Scientist',
+        orcid: 'https://orcid.org/0000-0002-8242-9462',
+        createdBy: adminUserId,
+    },
+];
 
-export {
-    users,
-    adminUserId
-};
+export { users, adminUserId };

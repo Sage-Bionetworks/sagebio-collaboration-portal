@@ -5,7 +5,12 @@
     </div>
 
     <mat-sidenav-container class="app-project-sidenav-container">
-        <mat-sidenav #projectSidenav [opened]="projectSidenavService.opened() | async" [mode]="projectSidenavService.mode() | async" fullscreen>
+        <mat-sidenav
+            #projectSidenav
+            [opened]="projectSidenavService.opened() | async"
+            [mode]="projectSidenavService.mode() | async"
+            fullscreen
+        >
             <project-sidenav></project-sidenav>
         </mat-sidenav>
         <mat-sidenav-content class="app-project-sidenav-content">

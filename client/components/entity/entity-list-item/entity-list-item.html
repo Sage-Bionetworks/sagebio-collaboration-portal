@@ -1,5 +1,5 @@
 <mat-list-item *ngIf="entity" (click)="onEntityClick()">
-    <img matListAvatar src="assets/images/320px-insight_logo.png" aria-label="Entity picture">
+    <img matListAvatar [src]="entity.picture" aria-label="Entity picture">
     <h3 matLine>{{ entity.title }}</h3>
     <h3 matLine>{{ entity.createdBy.name }}</h3>
 </mat-list-item>

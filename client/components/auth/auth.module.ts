@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { AuthGuard } from './auth-guard.service';
-import { UserPermissionService } from './user-permission.service';
+import { ActionPermissionService } from './action-permission.service';
 import { EntityPermissionService } from './entity-permission.service';
 import { UserPermissionDataService } from './user-permission-data.service';
 
@@ -14,7 +14,7 @@ import { UserPermissionDataService } from './user-permission-data.service';
         TokenService,
         AuthGuard,
         UserPermissionDataService,
-        UserPermissionService,
+        ActionPermissionService,
         EntityPermissionService
     ]
 })

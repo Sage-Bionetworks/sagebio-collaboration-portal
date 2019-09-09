@@ -1,5 +1,4 @@
-import { User } from '../auth/user.model';
-import { Organization } from '../organization.model';
+import { Organization } from './organization.model';
 import { Entity } from './entity.model';
 
 /**
@@ -11,14 +10,14 @@ import { Entity } from './entity.model';
  *       properties:
  *         _id:
  *           type: string
- *         slug:
- *           type: string
- *         name:
+ *         title:
  *           type: string
  *         description:
  *           type: string
  *         picture:
  *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         website:
  *           type: string
  *         organization:
@@ -27,6 +26,8 @@ import { Entity } from './entity.model';
  *           $ref: '#/components/schemas/DataCatalogApiType'
  *         apiServerUrl:
  *           type: string
+ *         apiHealthCheckUrl:
+ *           type: string
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -34,12 +35,11 @@ import { Entity } from './entity.model';
  *           $ref: '#/components/schemas/User'
  */
 export interface DataCatalog extends Entity {
-    slug: string;
-    picture: string;
     website: string;
     organization: Organization;
     apiType: DataCatalogApiType;
     apiServerUrl: string;
+    apiHealthCheckUrl: string;
 }
 
 /**
@@ -49,12 +49,12 @@ export interface DataCatalog extends Entity {
  *     DataCatalogApiType:
  *       type: string
  *       enum:
- *         - CKAN
- *         - GEN3
- *         - SYNPASE
+ *         - Ckan
+ *         - Gen3
+ *         - Synapse
  */
 export enum DataCatalogApiType {
-    CKAN = 'CKAN',
-    GEN3 = 'GEN3',
-    SYNAPSE = 'SYNAPSE'
+    CKAN = 'Ckan',
+    GEN3 = 'Gen3',
+    SYNAPSE = 'Synapse',
 }

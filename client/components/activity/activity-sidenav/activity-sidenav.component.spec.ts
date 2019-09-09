@@ -26,6 +26,7 @@ describe('ActivitySidenavComponent', () => {
     _id: '1',
     title: '',
     description: '',
+    picture: '',
     visibility: EntityVisibility.PUBLIC,
     createdAt: '',
     createdBy: undefined,

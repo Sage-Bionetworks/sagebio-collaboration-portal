@@ -5,10 +5,12 @@ import { App } from 'models/entities/app.model';
 
 @Injectable()
 export class AppService {
-
     static parameters = [HttpClient];
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) {}
 
+    /**
+     * Returns the App object.
+     */
     getApp(): Observable<App> {
         return this.httpClient.get<App>('/api/apps');
     }
