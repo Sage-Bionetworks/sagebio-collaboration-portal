@@ -17,7 +17,7 @@ export function canReadTool() {
  * Resolves as true if the user has the action permission CREATE_TOOL.
  */
 export function canCreateTool() {
-    return auth.hasUserPermission(actionPermissionTypes.CREATE_DATA_CATALOG.value);
+    return auth.hasUserPermission(actionPermissionTypes.CREATE_TOOL.value);
 }
 
 /**

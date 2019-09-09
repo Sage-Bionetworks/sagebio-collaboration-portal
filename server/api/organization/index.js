@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as auth from '../../auth/auth.service';
+import * as organizationAuth from './organization.auth';
 import * as controller from './organization.controller';
 
 var router = Router();
@@ -81,7 +82,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Organization
  */
-router.post('/', auth.hasRole('Admin'), controller.create);
+router.post('/', organizationAuth.canCreateOrganization(), controller.create);
 
 /**
  * @swagger
@@ -110,7 +111,7 @@ router.post('/', auth.hasRole('Admin'), controller.create);
  *       '404':
  *         description: Organization not found
  */
-router.patch('/:id', auth.hasRole('Admin'), controller.patch);
+router.patch('/:id', organizationAuth.canEditOrganization(), controller.patch);
 
 /**
  * @swagger
@@ -138,6 +139,6 @@ router.patch('/:id', auth.hasRole('Admin'), controller.patch);
  *       '404':
  *         description: Organization not found
  */
-router.delete('/:id', auth.hasRole('Admin'), controller.destroy);
+router.delete('/:id', organizationAuth.canDeleteOrganization(), controller.destroy);
 
 module.exports = router;

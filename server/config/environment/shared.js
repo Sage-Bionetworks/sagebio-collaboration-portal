@@ -24,6 +24,9 @@ export const actionPermissionTypes = {
     CREATE_TOOL: {
         value: 'CreateTool',
     },
+    CREATE_ORGANIZATION: {
+        value: 'CreateOrganization'
+    }
 };
 
 export const entityTypes = {
