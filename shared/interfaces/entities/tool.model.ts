@@ -1,5 +1,5 @@
 import { Entity } from './entity.model';
-import { Organization } from '../organization.model';
+import { Organization } from './organization.model';
 
 /**
  * @swagger

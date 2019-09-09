@@ -39,6 +39,9 @@ export const entityTypes = {
     TOOL: {
         value: 'Tool',
     },
+    ORGANIZATION: {
+        value: 'Organization'
+    }
 };
 
 export const insightTypes = {
@@ -324,6 +327,23 @@ export const models = {
         role: {
             options: Object.values(userRoles),
             default: userRoles.USER,
+        },
+    },
+    organization: {
+        title: {
+            minlength: 3,
+            maxlength: 128,
+        },
+        description: {
+            minlength: 3,
+            maxlength: 256,
+        },
+        picture: {
+            default: 'https://via.placeholder.com/200/b2ffff/b2ffff',
+        },
+        visibility: {
+            options: [entityVisibility.PUBLIC], // Object.values(entityVisibility)
+            default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
     },
 };

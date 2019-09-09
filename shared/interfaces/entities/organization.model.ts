@@ -1,4 +1,5 @@
-import { User } from './auth/user.model';
+import { UserProfile } from '../auth/user-profile.model';
+import { Entity } from './entity.model';
 
 /**
  * @swagger
@@ -9,31 +10,33 @@ import { User } from './auth/user.model';
  *       properties:
  *         _id:
  *           type: string
- *         name:
+ *         title:
  *           type: string
+ *         description:
+ *           type: string
+ *         picture:
+ *           type: string
+ *         visibility:
+ *           $ref: '#/components/schemas/EntityVisibility'
  *         website:
  *           type: string
  *         domains:
  *           type: array
  *           items:
  *             type: string
- *         picture:
- *           type: string
  *         active:
  *           type: boolean
  *         createdAt:
  *           type: string
  *           format: date-time
  *         createdBy:
- *           $ref: '#/components/schemas/User'
+ *           $ref: '#/components/schemas/UserProfile'
  */
-export interface Organization {
+export interface Organization extends Entity {
     _id?: string;
-    name: string;
     website: string;
     domains: string[];
-    picture: string;
     active: boolean;
     createdAt: string;
-    createdBy: User;
+    createdBy: UserProfile;
 }

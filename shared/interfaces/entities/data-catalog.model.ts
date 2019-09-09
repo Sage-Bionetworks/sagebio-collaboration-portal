@@ -1,4 +1,4 @@
-import { Organization } from '../organization.model';
+import { Organization } from './organization.model';
 import { Entity } from './entity.model';
 
 /**
