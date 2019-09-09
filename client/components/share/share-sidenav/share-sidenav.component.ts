@@ -70,12 +70,14 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
                 this.authService.authInfo()
             )
                 .subscribe(([permissions, authInfo]) => {
-                    this.users = _fp.flow(
-                        _fp.filter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
-                        _fp.map('user'),
-                        _fp.uniqBy('_id'),
-                        _fp.filter<UserProfile>(user => user._id !== authInfo.user._id)
-                    )(permissions)
+                    if (authInfo.user) {
+                        this.users = _fp.flow(
+                            _fp.filter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
+                            _fp.map('user'),
+                            _fp.uniqBy('_id'),
+                            _fp.filter<UserProfile>(user => user._id !== authInfo.user._id)
+                        )(permissions)
+                    }
                 })
         }
     }
