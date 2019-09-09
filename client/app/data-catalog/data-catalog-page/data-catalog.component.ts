@@ -12,6 +12,8 @@ import {
 } from 'models/ckan/ckan-dataset-search-response.model';
 import { DataCatalogEditComponent } from '../data-catalog-edit/data-catalog-edit.component';
 import { omit } from 'lodash/fp';
+import config from "../../app.constants";
+import { ShareService } from 'components/share/share.service';
 
 interface CatalogStats {
     live: boolean;
@@ -34,12 +36,13 @@ export class DataCatalogComponent implements OnInit {
     private canDeleteDataCatalog = true;
 
     static parameters = [Router, ActivatedRoute, PageTitleService,
-        DataCatalogService, DatasetService, NotificationService];
+        DataCatalogService, DatasetService, NotificationService, ShareService];
     constructor(private router: Router, private route: ActivatedRoute,
         private pageTitleService: PageTitleService,
         private dataCatalogService: DataCatalogService,
         private datasetService: DatasetService,
-        private notificationService: NotificationService) { }
+        private notificationService: NotificationService,
+        private shareService: ShareService) { }
 
     ngOnInit() {
         const dataCatalog = this.route.params.pipe(
@@ -76,5 +79,9 @@ export class DataCatalogComponent implements OnInit {
 
     onDeleteDataCatalog(): void {
         console.log('DELETE');
+    }
+
+    share(): void {
+        this.shareService.shareEntity(this.dataCatalog, config.entityTypes.DATA_CATALOG.value);
     }
 }
