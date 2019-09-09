@@ -165,6 +165,23 @@ export const entityVisibility = {
 };
 
 export const models = {
+    app: {
+        title: {
+            minlength: 3,
+            maxlength: 64
+        },
+        description: {
+            minlength: 0,
+            maxlength: 1000 * 1024 * 1024
+        },
+        picture: {
+            default: 'https://via.placeholder.com/200/495a63/495a63'
+        },
+        visibility: {
+            options: [entityVisibility.PUBLIC],
+            default: entityVisibility.PUBLIC
+        }
+    }
     project: {
         title: {
             minlength: 3,
