@@ -13,6 +13,7 @@ import { NotificationService } from 'components/notification/notification.servic
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
+import { ShareService } from 'components/share/share.service';
 
 @Component({
     selector: 'resource-page',
@@ -30,12 +31,13 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
     };
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        ResourceService, NotificationService];
+        ResourceService, NotificationService, ShareService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private shareService: ShareService) {
 
         this.toolOpts = config.defaultTools;
 
@@ -120,5 +122,9 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
 
     showActivity(): void {
         this.resourceService.showActivity(this.resource);
+    }
+
+    share(): void {
+        this.shareService.shareEntity(this.resource, config.entityTypes.RESOURCE.value);
     }
 }

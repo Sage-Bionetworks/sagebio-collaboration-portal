@@ -5,7 +5,7 @@
                 <div class="insight-card-left-container">
                     <div class="insight-card-prov-graph-actions">
                         <show-activity-button [root]="insight" (click)="showActivity()"></show-activity-button>
-                        <share-button [entity]="insight" (click)="shareInsight()"></share-button>
+                        <share-button [entity]="insight" (click)="share()"></share-button>
                     </div>
                     <h3>{{ insight.insightType }} Content</h3>
                     <form [formGroup]="form" novalidate>

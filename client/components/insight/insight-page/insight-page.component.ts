@@ -107,7 +107,7 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         this.insightService.showActivity(this.insight);
     }
 
-    shareInsight(): void {
+    share(): void {
         this.shareService.shareEntity(this.insight, config.entityTypes.INSIGHT.value);
     }
 }

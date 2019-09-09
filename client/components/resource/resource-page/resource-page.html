@@ -5,6 +5,8 @@
                 <div class="resource-card-left-container">
                     <div class="resource-card-prov-graph-actions">
                         <show-activity-button [root]="resource" (click)="showActivity()"></show-activity-button>
+                        <!-- <share-button [entity]="resource" (click)="share()"></share-button> -->
+
                     </div>
                     <h3>{{ resource.resourceType }} Description</h3>
                     <form [formGroup]="form" novalidate>
