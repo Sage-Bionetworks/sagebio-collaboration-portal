@@ -22,6 +22,6 @@ export interface Resource extends Entity {
 
 export interface ResourceAttachment {
     entityId?: string;
-    entityType?: string;
+    entitySubType?: string;
     name?: string;
 }

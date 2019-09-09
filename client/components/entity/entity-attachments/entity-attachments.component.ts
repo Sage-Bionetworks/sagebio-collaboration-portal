@@ -82,7 +82,7 @@ export class EntityAttachmentsComponent implements OnInit {
         switch (type) {
             case EntityAttachmentKeys.INSIGHT:
                 this.newInsightAttachment = {
-                    entityType: model,
+                    entitySubType: model,
                 };
 
                 const insightQuery = { insightType: model.toLowerCase(), // Current implementation -> "report", "memo", etc
@@ -101,7 +101,7 @@ export class EntityAttachmentsComponent implements OnInit {
 
             case EntityAttachmentKeys.RESOURCE:
                 this.newResourceAttachment = {
-                    entityType: model,
+                    entitySubType: model,
                 };
 
                 const resourceQuery = { resourceType: model, // Current implementation -> "Article", "Dashboard", etc
