@@ -50,7 +50,7 @@ describe('User API Router:', function() {
     describe('DELETE /api/users/:id', function() {
         it('should verify admin role and route to user.controller.destroy', function() {
             expect(routerStub.delete
-                .withArgs('/:id', 'authService.hasRole.admin', 'userCtrl.destroy')
+                .withArgs('/:id', 'authService.hasRole.Admin', 'userCtrl.destroy')
                 ).to.have.been.calledOnce;
         });
     });

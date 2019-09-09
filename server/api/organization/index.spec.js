@@ -65,7 +65,7 @@ describe('Organization API Router:', function () {
     describe('POST /api/organizations', function () {
         it('should route to organization.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', 'authService.hasRole.admin', 'organizationCtrl.create')
+                .withArgs('/', 'authService.hasRole.Admin', 'organizationCtrl.create')
             ).to.have.been.calledOnce;
         });
     });
@@ -73,7 +73,7 @@ describe('Organization API Router:', function () {
     describe('PATCH /api/organizations/:id', function () {
         it('should route to organization.controller.patch', function () {
             expect(routerStub.patch
-                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.patch')
+                .withArgs('/:id', 'authService.hasRole.Admin', 'organizationCtrl.patch')
             ).to.have.been.calledOnce;
         });
     });
@@ -81,7 +81,7 @@ describe('Organization API Router:', function () {
     describe('DELETE /api/organizations/:id', function () {
         it('should route to organization.controller.destroy', function () {
             expect(routerStub.delete
-                .withArgs('/:id', 'authService.hasRole.admin', 'organizationCtrl.destroy')
+                .withArgs('/:id', 'authService.hasRole.Admin', 'organizationCtrl.destroy')
             ).to.have.been.calledOnce;
         });
     });

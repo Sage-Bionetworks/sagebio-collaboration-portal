@@ -55,7 +55,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: User not found
  */
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.delete('/:id', auth.hasRole('Admin'), controller.destroy);
 
 /**
  * @swagger
@@ -180,7 +180,7 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
  *       '404':
  *         description: User not found
  */
-router.put('/:id/role', auth.hasRole('admin'), controller.changeRole);
+router.put('/:id/role', auth.hasRole('Admin'), controller.changeRole);
 
 /**
  * @swagger

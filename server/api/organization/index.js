@@ -81,7 +81,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *       '400':
  *         description: Invalid Organization
  */
-router.post('/', auth.hasRole('admin'), controller.create);
+router.post('/', auth.hasRole('Admin'), controller.create);
 
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.post('/', auth.hasRole('admin'), controller.create);
  *       '404':
  *         description: Organization not found
  */
-router.patch('/:id', auth.hasRole('admin'), controller.patch);
+router.patch('/:id', auth.hasRole('Admin'), controller.patch);
 
 /**
  * @swagger
@@ -138,6 +138,6 @@ router.patch('/:id', auth.hasRole('admin'), controller.patch);
  *       '404':
  *         description: Organization not found
  */
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.delete('/:id', auth.hasRole('Admin'), controller.destroy);
 
 module.exports = router;

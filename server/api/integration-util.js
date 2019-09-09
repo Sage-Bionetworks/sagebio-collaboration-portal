@@ -6,6 +6,7 @@ import {
 import User from './user/user.model';
 import Organization from './organization/organization.model';
 // import config from '../config/environment';
+import { userRoles } from '../config/environment';
 
 const adminUserId = new mongoose.Types.ObjectId('5cb7acea2d718614d81bb97f');
 const anotherUserId = new mongoose.Types.ObjectId('5cb7a5ea2d718614d81bb4d2');
@@ -19,7 +20,7 @@ const adminUser = {
     username: 'admin',
     email: 'admin@sagebase.org',
     password: 'admin',
-    role: 'admin'
+    role: userRoles.ADMIN.value
 };
 
 const anotherUser = {
@@ -28,7 +29,7 @@ const anotherUser = {
     username: 'anotheruser',
     email: 'anotheruser@sagebase.org',
     password: 'anotheruser',
-    role: 'user'
+    role: userRoles.USER.value
 };
 
 const authOrganization = {

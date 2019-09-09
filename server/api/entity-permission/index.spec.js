@@ -98,7 +98,7 @@ describe('EntityPermission API Router:', function () {
         // describe('WHEN they have been assigned an admin role for the portal', () => {
         //     describe('GET /api/entity-permissions/', function () {
         //         it('should route to entityPermission.controller.index', function () {
-        //             expect(routerStub.get.withArgs('/', 'authService.hasRole.admin', 'entityPermissionCtrl.index')).to
+        //             expect(routerStub.get.withArgs('/', 'authService.hasRole.Admin', 'entityPermissionCtrl.index')).to
         //                 .have.been.calledOnce;
         //         });
         //     });
