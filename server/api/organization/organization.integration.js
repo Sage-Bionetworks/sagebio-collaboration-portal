@@ -1,40 +1,26 @@
-/* globals describe, expect, it, beforeEach, afterEach */
+/* globals describe, expect, it, before, beforeEach, after, afterEach */
 
 var app = require('../..');
 import request from 'supertest';
 import User from '../user/user.model';
 import Organization from './organization.model';
-import {
-    adminUser,
-    anotherUser,
-    authOrganization,
-    anotherOrganization,
-    authenticateUser
-} from '../integration-util';
+import { adminUser, anotherUser, authOrganization, authenticateUser } from '../integration-util';
 
 var newOrganization;
 
 describe('Organization API:', function () {
     var token;
 
-    before(() => {
-        return User.deleteMany()
-            .then(() => Organization.deleteMany())
-            .then(() => User.create([
-                adminUser,
-                anotherUser
-            ]))
-            .then(() => Organization.create([
-                authOrganization
-            ]))
-            .then(authenticateUser(app, adminUser))
-            .then(res => token = res);
-    });
+    before(() => User.deleteMany()
+        .then(() => Organization.deleteMany())
+        .then(() => User.create([adminUser, anotherUser]))
+        .then(() => Organization.create([authOrganization]))
+        .then(authenticateUser(app, adminUser))
+        .then(res => {
+            token = res;
+        }));
 
-    after(() => Promise.all([
-        Organization.deleteMany(),
-        User.deleteMany()
-    ]));
+    after(() => Promise.all([Organization.deleteMany(), User.deleteMany()]));
 
     describe('GET /api/organizations', function () {
         var organizations;
@@ -65,12 +51,11 @@ describe('Organization API:', function () {
                 .post('/api/organizations')
                 .set('authorization', `Bearer ${token}`)
                 .send({
-                    name: 'New name',
+                    title: 'New title',
+                    description: 'New description',
                     website: 'New website',
-                    domains: [
-                        'new.org'
-                    ],
-                    active: true
+                    domains: ['new.org'],
+                    active: true,
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -84,11 +69,10 @@ describe('Organization API:', function () {
         });
 
         it('should respond with the newly created organization', function () {
-            expect(newOrganization.name).to.equal('New name');
+            expect(newOrganization.title).to.equal('New title');
+            expect(newOrganization.description).to.equal('New description');
             expect(newOrganization.website).to.equal('New website');
-            expect(newOrganization.domains).to.deep.equal([
-                'new.org'
-            ]);
+            expect(newOrganization.domains).to.deep.equal(['new.org']);
             expect(newOrganization.createdBy).to.equal(adminUser._id.toString());
         });
     });
@@ -116,11 +100,10 @@ describe('Organization API:', function () {
         });
 
         it('should respond with the requested organization', function () {
-            expect(organization.name).to.equal('New name');
+            expect(organization.title).to.equal('New title');
+            expect(organization.description).to.equal('New description');
             expect(organization.website).to.equal('New website');
-            expect(organization.domains).to.deep.equal([
-                'new.org'
-            ]);
+            expect(organization.domains).to.deep.equal(['new.org']);
             expect(organization.createdBy).to.equal(adminUser._id.toString());
         });
     });
@@ -132,23 +115,27 @@ describe('Organization API:', function () {
             request(app)
                 .patch(`/api/organizations/${newOrganization._id}`)
                 .set('authorization', `Bearer ${token}`)
-                .send([{
+                .send([
+                    {
                         op: 'replace',
-                        path: '/name',
-                        value: 'Patched name'
+                        path: '/title',
+                        value: 'Patched title',
+                    },
+                    {
+                        op: 'replace',
+                        path: '/description',
+                        value: 'Patched description',
                     },
                     {
                         op: 'replace',
                         path: '/website',
-                        value: 'Patched website'
+                        value: 'Patched website',
                     },
                     {
                         op: 'replace',
                         path: '/domains',
-                        value: [
-                            'patched.org'
-                        ]
-                    }
+                        value: ['patched.org'],
+                    },
                 ])
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -166,11 +153,10 @@ describe('Organization API:', function () {
         });
 
         it('should respond with the patched organization', function () {
-            expect(patchedOrganization.name).to.equal('Patched name');
+            expect(patchedOrganization.title).to.equal('Patched title');
+            expect(patchedOrganization.description).to.equal('Patched description');
             expect(patchedOrganization.website).to.equal('Patched website');
-            expect(patchedOrganization.domains).to.deep.equal([
-                'patched.org'
-            ]);
+            expect(patchedOrganization.domains).to.deep.equal(['patched.org']);
             expect(patchedOrganization.createdBy).to.equal(adminUser._id.toString());
         });
     });
