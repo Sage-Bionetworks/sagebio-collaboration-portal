@@ -1,9 +1,9 @@
-var express = require('express');
-var auth = require('../../auth/auth.service');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
 import * as dataCatalogAuth from './data-catalog.auth';
-var controller = require('./data-catalog.controller');
+import * as controller from './data-catalog.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger

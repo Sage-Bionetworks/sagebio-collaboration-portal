@@ -1,9 +1,9 @@
-var express = require('express');
-var auth = require('../../auth/auth.service');
-var toolAuth = require('./tool.auth');
-var controller = require('./tool.controller');
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+import * as toolAuth from './tool.auth';
+import * as controller from './tool.controller';
 
-var router = express.Router();
+var router = Router();
 
 /**
  * @swagger

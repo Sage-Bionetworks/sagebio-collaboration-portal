@@ -71,13 +71,15 @@ var ToolSchema = new mongoose.Schema({
 const autoPopulatePre = function (next) {
     // eslint-disable-next-line no-invalid-this
     this
-        .populate('createdBy', User.profileProperties);
+        .populate('createdBy', User.profileProperties)
+        .populate('organization');
     next();
 };
 
 const autoPopulatePost = function (doc) {
     return doc
         .populate('createdBy', User.profileProperties)
+        .populate('organization')
         .execPopulate();
 };
 

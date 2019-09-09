@@ -10,7 +10,7 @@ import { dataCatalogApiTypes } from '../../config/environment';
 
 var newDataCatalog;
 
-describe.only('DataCatalog API:', function () {
+describe('DataCatalog API:', function () {
     var token;
 
     before(() => DataCatalog.deleteMany()

@@ -75,10 +75,10 @@ describe('Tool API:', function () {
         it('should respond with the newly created tool', function () {
             expect(newTool.title).to.equal('New title');
             expect(newTool.description).to.equal('New description');
-            expect(newTool.organization).to.equal(authOrganization._id.toString());
+            expect(newTool.organization._id).to.equal(authOrganization._id.toString());
             expect(newTool.website).to.equal('New website');
             expect(newTool.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
-            expect(newTool.createdBy).to.equal(adminUser._id.toString());
+            expect(newTool.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
@@ -110,7 +110,7 @@ describe('Tool API:', function () {
             expect(tool.organization._id).to.equal(authOrganization._id.toString());
             expect(tool.website).to.equal('New website');
             expect(tool.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
-            expect(tool.createdBy).to.equal(adminUser._id.toString());
+            expect(tool.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
@@ -166,10 +166,10 @@ describe('Tool API:', function () {
         it('should respond with the patched tool', function () {
             expect(patchedTool.title).to.equal('Patched title');
             expect(patchedTool.description).to.equal('Patched description');
-            expect(patchedTool.organization).to.equal(anotherOrganization._id.toString());
+            expect(patchedTool.organization._id).to.equal(anotherOrganization._id.toString());
             expect(patchedTool.website).to.equal('Patched website');
             expect(patchedTool.apiHealthCheckUrl).to.equal('Patched apiHealthCheckUrl');
-            expect(patchedTool.createdBy).to.equal(adminUser._id.toString());
+            expect(patchedTool.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
