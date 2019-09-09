@@ -6,10 +6,11 @@ import User from '../user/user.model';
 import Organization from '../organization/organization.model';
 import DataCatalog from './data-catalog.model';
 import { adminUser, anotherUser, authOrganization, anotherOrganization, authenticateUser } from '../integration-util';
+import { dataCatalogApiTypes } from '../../config/environment';
 
 var newDataCatalog;
 
-describe('DataCatalog API:', function () {
+describe.only('DataCatalog API:', function () {
     var token;
 
     before(() => DataCatalog.deleteMany()
@@ -59,8 +60,9 @@ describe('DataCatalog API:', function () {
                     description: 'New description',
                     website: 'New website',
                     organization: authOrganization._id.toString(),
-                    apiType: 'CKAN',
+                    apiType: dataCatalogApiTypes.CKAN.value,
                     apiServerUrl: 'New apiServerUrl',
+                    apiHealthCheckUrl: 'New apiHealthCheckUrl'
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -78,9 +80,10 @@ describe('DataCatalog API:', function () {
             expect(newDataCatalog.description).to.equal('New description');
             expect(newDataCatalog.organization).to.equal(authOrganization._id.toString());
             expect(newDataCatalog.website).to.equal('New website');
-            expect(newDataCatalog.apiType).to.equal('CKAN');
+            expect(newDataCatalog.apiType).to.equal(dataCatalogApiTypes.CKAN.value);
             expect(newDataCatalog.apiServerUrl).to.equal('New apiServerUrl');
-            expect(newDataCatalog.createdBy).to.equal(adminUser._id.toString());
+            expect(newDataCatalog.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
+            expect(newDataCatalog.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
@@ -111,9 +114,10 @@ describe('DataCatalog API:', function () {
             expect(dataCatalog.description).to.equal('New description');
             expect(dataCatalog.organization._id).to.equal(authOrganization._id.toString());
             expect(dataCatalog.website).to.equal('New website');
-            expect(dataCatalog.apiType).to.equal('CKAN');
+            expect(dataCatalog.apiType).to.equal(dataCatalogApiTypes.CKAN.value);
             expect(dataCatalog.apiServerUrl).to.equal('New apiServerUrl');
-            expect(dataCatalog.createdBy).to.equal(adminUser._id.toString());
+            expect(dataCatalog.apiHealthCheckUrl).to.equal('New apiHealthCheckUrl');
+            expect(dataCatalog.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
@@ -148,12 +152,17 @@ describe('DataCatalog API:', function () {
                     {
                         op: 'replace',
                         path: '/apiType',
-                        value: 'CKAN',
+                        value: dataCatalogApiTypes.CKAN.value,
                     },
                     {
                         op: 'replace',
                         path: '/apiServerUrl',
                         value: 'Patched apiServerUrl',
+                    },
+                    {
+                        op: 'replace',
+                        path: '/apiHealthCheckUrl',
+                        value: 'Patched apiHealthCheckUrl',
                     },
                 ])
                 .expect(200)
@@ -176,9 +185,10 @@ describe('DataCatalog API:', function () {
             expect(patchedDataCatalog.description).to.equal('Patched description');
             expect(patchedDataCatalog.organization).to.equal(anotherOrganization._id.toString());
             expect(patchedDataCatalog.website).to.equal('Patched website');
-            expect(patchedDataCatalog.apiType).to.equal('CKAN');
+            expect(patchedDataCatalog.apiType).to.equal(dataCatalogApiTypes.CKAN.value);
             expect(patchedDataCatalog.apiServerUrl).to.equal('Patched apiServerUrl');
-            expect(patchedDataCatalog.createdBy).to.equal(adminUser._id.toString());
+            expect(patchedDataCatalog.apiHealthCheckUrl).to.equal('Patched apiHealthCheckUrl');
+            expect(patchedDataCatalog.createdBy._id).to.equal(adminUser._id.toString());
         });
     });
 
