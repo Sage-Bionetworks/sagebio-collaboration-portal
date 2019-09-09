@@ -181,7 +181,7 @@ export const models = {
             options: [entityVisibility.PUBLIC],
             default: entityVisibility.PUBLIC
         }
-    }
+    },
     project: {
         title: {
             minlength: 3,

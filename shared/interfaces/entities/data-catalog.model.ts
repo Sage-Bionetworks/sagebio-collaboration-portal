@@ -49,9 +49,9 @@ export interface DataCatalog extends Entity {
  *     DataCatalogApiType:
  *       type: string
  *       enum:
- *         - CKAN
- *         - GEN3
- *         - SYNPASE
+ *         - Ckan
+ *         - Gen3
+ *         - Synapse
  */
 export enum DataCatalogApiType {
     CKAN = 'Ckan',
