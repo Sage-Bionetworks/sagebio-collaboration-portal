@@ -1,5 +1,4 @@
 import { Entity } from './entity.model';
-import { User } from '../auth/user.model';
 import { Organization } from '../organization.model';
 
 /**
