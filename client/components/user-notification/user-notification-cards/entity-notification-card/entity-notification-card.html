@@ -9,7 +9,9 @@
 
     <mat-card-content class="app-entity-notification-view-card-content">
         <p><strong>"{{entity.title}}"</strong></p>
-        <p *ngIf="notification.messageBody">{{ notification.messageBody }}</p>
+        <p *ngIf="notification.messageBody">
+            <quill-view [content]="notification.messageBody" format="json"></quill-view>
+        </p>
     </mat-card-content>
 
     <mat-card-actions>

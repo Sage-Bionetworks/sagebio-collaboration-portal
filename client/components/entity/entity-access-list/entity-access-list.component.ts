@@ -16,6 +16,7 @@ import { SocketService } from 'components/socket/socket.service';
 import config from '../../../app/app.constants';
 import { UserNotificationService } from 'components/user-notification/user-notification.service';
 import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'entity-access-list',
@@ -37,12 +38,20 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
     private optionAvatarSize;
     private accessTypes: any[];
 
-    static parameters = [FormBuilder, EntityPermissionService, UserService, SocketService, UserNotificationService];
+    static parameters = [
+        FormBuilder,
+        EntityPermissionService,
+        UserService,
+        SocketService,
+        UserNotificationService,
+        NotificationService,
+    ];
     constructor(private formBuilder: FormBuilder,
         private entityPermissionService: EntityPermissionService,
         private userService: UserService,
         private socketService: SocketService,
-        private userNotificationService: UserNotificationService) {
+        private userNotificationService: UserNotificationService,
+        private notificationService: NotificationService) {
 
         this.listAvatarSize = config.avatar.size.small;
         this.optionAvatarSize = config.avatar.size.nano;
@@ -123,6 +132,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                 )
                 .subscribe(() => {
                     this.inviteForm.get('username').setValue('');
+                    this.notificationService.info("Notification sent.")
                 }, err => {
                     console.log(err);
                     this.errors.inviteForm = err.message;

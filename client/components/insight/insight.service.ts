@@ -9,6 +9,7 @@ import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/a
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
+import { Entity } from 'models/entities/entity.model';
 
 @Injectable()
 export class InsightService implements EntityService<Insight> {
@@ -75,12 +76,12 @@ export class InsightService implements EntityService<Insight> {
         this.secondarySidenavService.open();
     }
 
-    shareInsight(insight: Insight): void {
-        let sidenavContentId = `insight:${insight._id}`;
+    shareInsight(entity: Entity, entityType: string): void {
+        let sidenavContentId = `${entityType}:${entity._id}`;
 
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
             (<ShareSidenavComponent>this.secondarySidenavService.loadContentComponent(ShareSidenavComponent))
-                .setEntity(insight);
+                .setEntity(entity, entityType);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();

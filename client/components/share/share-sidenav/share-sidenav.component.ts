@@ -10,11 +10,13 @@ import { SocketService } from 'components/socket/socket.service';
 import { Entity } from 'models/entities/entity.model';
 import { UserProfile } from 'models/auth/user-profile.model';
 import config from '../../../app/app.constants';
-import { Resource } from 'models/entities/resources/resource.model';
-import { Insight } from 'models/entities/insights/insight.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { AuthService } from 'components/auth/auth.service';
 import { combineLatest } from 'rxjs';
+import { EntityNotification } from 'models/user-notification/entity-notificiation.model';
+import { UserNotificationService } from 'components/user-notification/user-notification.service';
+import { DeltaOperation } from 'quill';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'share-sidenav',
@@ -22,7 +24,8 @@ import { combineLatest } from 'rxjs';
     styles: [require('./share-sidenav.scss')],
 })
 export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
-    private entity: Entity | Insight | Resource;
+    private entity: Entity;
+    private entityType: string;
     private newForm: FormGroup;
 
     private users: (String | UserProfile)[];
@@ -31,7 +34,10 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         SocketService,
         Router,
         FormBuilder,
-        EntityPermissionService,AuthService
+        EntityPermissionService,
+        AuthService,
+        UserNotificationService,
+        NotificationService
     ];
 
     constructor(
@@ -40,7 +46,9 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private entityPermissionService: EntityPermissionService,
-        private authService: AuthService
+        private authService: AuthService,
+        private userNotificationService: UserNotificationService,
+        private notificationService: NotificationService,
     ) {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
         this.newForm = formBuilder.group({
@@ -74,19 +82,37 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
 
     ngOnDestroy() {
         if (this.entity) {
-            this.socketService.unsyncUpdates(`insight:${this.entity._id}:entity`);
+            this.socketService.unsyncUpdates(`${this.entityType}:${this.entity._id}:entity`);
         }
     }
 
-    setEntity(entity: Entity): void {
+    setEntity(entity: Entity, entityType: string): void {
         if (entity) {
             this.entity = entity;
+            this.entityType = entityType
         }
     }
 
     share(): void {
-        let ShareDetails = this.newForm.value;
-        console.log('ShareDetails: ', ShareDetails);
+        let ShareDetails: { comments: DeltaOperation, shareWithUsers: UserProfile[] } = this.newForm.value;
+
+        ShareDetails.shareWithUsers.forEach(user => {
+            const notification: EntityNotification = {
+                notificationType: config.notificationTypes.ENTITY_NOTIFICATION.value,
+                entityId: this.entity._id,
+                entityType: this.entityType,
+                user: user._id,
+                messageBody: JSON.stringify(ShareDetails.comments),
+            }
+
+            this.userNotificationService.createNotification<EntityNotification>(notification)
+                .subscribe(() => {
+                    this.notificationService.info("Notification sent.")
+                    this.close()
+                }, err => {
+                    console.error(err);
+                })
+        });
     }
 
     close(): void {

@@ -10,6 +10,8 @@ import { EntityNotificationCardComponent } from './user-notification-cards/entit
 import { EntityAccessNotificationCardComponent } from './user-notification-cards/entity-access-notification-card/entity-access-notification-card.component';
 import { UserNotificationService } from './user-notification.service';
 import { PipesModule } from 'components/pipes/pipes.module'
+import { UserNotificationSidenavService } from './user-notification-sidenav/user-notification-sidenav.service';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
     imports: [
@@ -18,9 +20,11 @@ import { PipesModule } from 'components/pipes/pipes.module'
         SidenavModule,
         UserAvatarModule,
         PipesModule,
+        QuillModule.forRoot(),
     ],
     providers: [
-        UserNotificationService
+        UserNotificationService,
+        UserNotificationSidenavService,
     ],
     declarations: [
         UserNotificationButtonComponent,

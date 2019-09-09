@@ -106,6 +106,6 @@ export class InsightPageComponent implements OnInit, OnDestroy {
     }
 
     shareInsight(): void {
-        this.insightService.shareInsight(this.insight);
+        this.insightService.shareInsight(this.insight, config.entityTypes.INSIGHT.value);
     }
 }
