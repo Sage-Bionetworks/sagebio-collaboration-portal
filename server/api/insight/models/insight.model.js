@@ -13,7 +13,6 @@ var InsightSchema = new mongoose.Schema(
         title: {
             type: String,
             required: true,
-            unique: true,
             minlength: modelSpecs.insight.title.minlength,
             maxlength: modelSpecs.insight.title.maxlength
         },

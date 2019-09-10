@@ -7,10 +7,14 @@ var DataCatalogSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        minlength: modelSpecs.dataCatalog.title.minlength,
+        maxlength: modelSpecs.dataCatalog.title.maxlength
     },
     description: {
         type: String,
         required: true,
+        minlength: modelSpecs.dataCatalog.description.minlength,
+        maxlength: modelSpecs.dataCatalog.description.maxlength
     },
     picture: {
         type: String,

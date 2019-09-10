@@ -14,6 +14,7 @@ import { NotificationService } from 'components/notification/notification.servic
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
 import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.service';
+import { ProjectHeaderService } from '../project-header/project-header.service';
 import { UserEntityPermission } from 'components/auth/user-entity-permission.model';
 
 @Component({
@@ -30,14 +31,16 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService, NotificationService, UserPermissionDataService,
-        ProjectDataService];
+        ProjectDataService, ProjectHeaderService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private projectService: ProjectService,
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService,
-        private projectDataService: ProjectDataService) {
+        private projectDataService: ProjectDataService,
+        private projectHeaderService: ProjectHeaderService
+        ) {
         this.form = formBuilder.group({
             description: ['', [
                 // Validators.required,
@@ -45,11 +48,11 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
                 ObjectValidators.jsonStringifyMaxLength(config.models.project.description.maxlength)
             ]]
         });
-
-        this.project = this.projectDataService.project();
     }
 
     ngOnInit() {
+        this.project = this.projectDataService.project();
+
         this.project  // TODO: clean unsubscribe?
             .subscribe(project => {
                 if (project) {
@@ -63,7 +66,8 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
             }, err => console.error(err));
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+    }
 
     // updateDescription(projectId): void {
     //     let description = JSON.stringify(this.form.get('description').value);
