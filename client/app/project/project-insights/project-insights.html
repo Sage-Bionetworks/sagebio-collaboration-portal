@@ -1,19 +1,22 @@
-<div *ngIf="!showNewInsightForm; else insightForm">
-  <div class="project-insights-container">
-    <!-- <entity-list
-      *ngIf="insights"
-      entityName="Insight"
-      [entities]="insights"
-      [entityTypeFilters]="insightTypeFilters"
-      filterGroup="insightType"
-      (onFilterChange)="onFilterChange($event)"
-    ></entity-list> -->
+<div *ngIf="project" class="app-project-insights">
     <div class="project-insights-actions">
-        <a mat-raised-button color="primary" class="app-insight-list-new-project" (click)="showNewInsightForm=true" aria-label="Create insight">Create a New Insight</a>
+        <a
+            mat-raised-button
+            color="warn"
+            class="app-insight-list-new-project"
+            (click)="onNewInsightClick()"
+            aria-label="Create insight"
+            >New Insight</a
+        >
     </div>
-  </div>
-</div>
 
-<ng-template #insightForm>
-    <insight-new (newInsight)="onNewInsight($event)" (close)="showNewInsightForm=false"></insight-new>
-</ng-template>
+    <entity-list
+        entityName="insight"
+        [entityService]="insightService"
+        [entityTypeFilters]="insightTypeFilters"
+        entityTypeFilterGroup="insightType"
+        [querySource]="{ projectId: project._id }"
+        previewType="list"
+        (entityClick)="onEntityClick($event)"
+    ></entity-list>
+</div>

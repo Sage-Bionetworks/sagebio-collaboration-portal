@@ -8,8 +8,8 @@ import { Insight } from 'models/entities/insights/insight.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { combineLatest, BehaviorSubject } from 'rxjs';
 import { flow, keyBy, mapValues, capitalize } from 'lodash/fp';
-import { map, switchMap } from 'rxjs/operators';
-import { values } from 'lodash/fp';
+import { map, switchMap, merge, tap } from 'rxjs/operators';
+import { values, merge as mergeFp } from 'lodash/fp';
 import { assign } from 'lodash';
 import config from '../../../app/app.constants';
 import { EntityService } from '../entity.service';
@@ -26,6 +26,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input() entityTypeFilterGroup: string;
     private orderFilters: Filter[] = [];
     private previewTypeFilters: Filter[] = [];
+    private _querySource: any = {};
     @Input() previewType = 'array';
 
     private entities: E[] = [];
@@ -95,6 +96,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
 
         this.query
             .pipe(
+                map(query => mergeFp(query, this.querySource)),
                 switchMap(query => this.entityService.query(query))
             )
             .subscribe(res => {
@@ -120,6 +122,16 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     @Input()
     set entityName(entityName: string) {
         this._entityName = entityName;
+    }
+
+    get querySource(): any {
+        return this._querySource;
+    }
+
+    @Input()
+    set querySource(querySource: any) {
+        this._querySource = querySource;
+        this.query.next(this.query.getValue());
     }
 
     onEntityClick(entity: E): void {
