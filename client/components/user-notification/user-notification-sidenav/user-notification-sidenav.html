@@ -7,7 +7,7 @@
 </div>
 
 <span *ngIf="notificationBundles$ | async; let notificationBundles">
-    <span *ngIf="notificationBundles.length === 0">Your Notification list is empty.</span>
+    <span *ngIf="notificationBundles.length === 0" class="empty-message">Your notification list is empty.</span>
 
     <div class="app-user-notification-sidenav-cards">
         <ng-template ngFor let-notificationBundle

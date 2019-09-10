@@ -1,4 +1,4 @@
-<mat-card class="app-message-notification-view-card">
+<mat-card *ngIf="!archived" class="app-message-notification-view-card">
     <mat-card-header>
         <user-avatar mat-card-avatar [user]="notification.createdBy"></user-avatar>
         <mat-card-title><strong>{{notification.createdBy.name}}</strong> - {{ notification.createdAt | dateAndTime }}</mat-card-title>

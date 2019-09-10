@@ -77,7 +77,10 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             "notifications",
             this.notifications$,
             (items: UserNotification[]) => {
-                return _fp.orderBy('createdAt', 'desc', items);
+                return _fp.flow(
+                    _fp.filter<UserNotification>(n => !n.archived),
+                    _fp.orderBy('createdAt', 'desc')
+                )(items);
             }
         );
     }

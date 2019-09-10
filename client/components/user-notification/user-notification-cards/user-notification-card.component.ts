@@ -23,6 +23,7 @@ export class UserNotificationCardComponent {
     @Input() notification: MessageNotification | EntityNotification | EntityAccessNotification;
     @Input() entity: Entity;
 
+    archived: boolean = false
     router: Router
     notificationService: NotificationService
     userNotificationService: UserNotificationService
@@ -78,6 +79,7 @@ export class UserNotificationCardComponent {
 
     discard() {
         this.archive().subscribe(() => {
+            this.archived = true
             this.notificationService.info('Notification discarded.');
         })
     }
