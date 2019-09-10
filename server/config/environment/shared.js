@@ -291,7 +291,7 @@ export const models = {
         },
         type: {
             options: Object.values(insightTypes),
-            default: insightTypes.MEMO,
+            default: insightTypes.REPORT,
         },
     },
     message: {

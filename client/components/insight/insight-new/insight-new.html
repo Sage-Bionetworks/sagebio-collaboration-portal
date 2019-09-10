@@ -22,7 +22,7 @@
             <mat-form-field>
                 <mat-label>Type</mat-label>
                 <select matNativeControl formControlName="insightType" required>
-                    <option *ngFor="let value of insightSpecs.type.values" [value]="value">{{ value }}</option>
+                    <option *ngFor="let option of insightSpecs.type.options" [value]="option.value">{{ option.name }}</option>
                 </select>
             </mat-form-field>
 

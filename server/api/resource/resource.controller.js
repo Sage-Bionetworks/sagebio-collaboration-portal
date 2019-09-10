@@ -8,7 +8,7 @@ import Resource from './models/resource.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
-    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query);
+    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query, ['resourceType', 'projectId']);
 
     getResourceIdsByUser(req.user._id)
         .then(resourceIds => {

@@ -36,25 +36,11 @@ export class ProjectInsightsComponent implements OnInit {
         this.projectDataService.project()
             .subscribe(project => {
                 if (project) {
+                    this.project = project;
                     this.pageTitleService.title = `${project.title} - Insights`;
                 }
-                // this.project = project;
-                // const selectedFilter = config.insightTypeFilters.find(filter => filter.active);
-                // const defaultQuery = { insightType: selectedFilter.value };
-                // this.onFilterChange(defaultQuery);
             }, err => console.error(err));
     }
-
-    // onFilterChange(query) {
-    //     if (this.project) {
-    //         this.insightService.queryByProject(this.project, query)
-    //             .subscribe(insights => {
-    //                 this.insights = orderBy(insights, 'createdAt', 'asc');
-    //             }, err => {
-    //                 console.log(err);
-    //             });
-    //     }
-    // }
 
     onEntityClick(insight: Insight) {
         if (insight) {

@@ -16,7 +16,7 @@ import { Project } from 'models/entities/project.model';
     styles: [require('./insight-new.scss')],
 })
 export class InsightNewComponent {
-    private insightSpecs: {};
+    private insightSpecs: any;
     private newForm: FormGroup;
     private errors = {
         newInsight: undefined
@@ -39,18 +39,18 @@ export class InsightNewComponent {
 
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
-            insightType: [config.models.insight.type.default, [
-                Validators.required
-            ]],
             title: ['', [
                 Validators.required,
-                Validators.minLength(config.models.insight.title.minlength),
-                Validators.maxLength(config.models.insight.title.maxlength)
+                Validators.minLength(this.insightSpecs.title.minlength),
+                Validators.maxLength(this.insightSpecs.title.maxlength)
             ]],
             description: ['', [
                 Validators.required,
-                Validators.minLength(config.models.insight.description.minlength),
-                Validators.maxLength(config.models.insight.description.maxlength)
+                Validators.minLength(this.insightSpecs.description.minlength),
+                Validators.maxLength(this.insightSpecs.description.maxlength)
+            ]],
+            insightType: [this.insightSpecs.type.default.value, [
+                Validators.required
             ]],
         });
 

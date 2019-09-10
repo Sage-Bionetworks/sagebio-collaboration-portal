@@ -6,7 +6,7 @@ import { accessTypes, inviteStatusTypes } from '../config/environment';
  * Builds Mongoose filter, projection, sort, skip and limit for indexing entities.
  * @param {*} query
  */
-export function buildEntityIndexQuery(query) {
+export function buildEntityIndexQuery(query, filterProperties = []) {
     let filter = {};
     let projection = {};
     let sort = 'createdAt'; // TODO UI and backend should use same default value
@@ -17,7 +17,7 @@ export function buildEntityIndexQuery(query) {
     let limit = query.limit ? Math.max(Math.min(1, query.limit), maxPageSize) : pageSize;
 
     if (query) {
-        filter = pick(['resourceType', 'insightType'], query);
+        filter = pick(filterProperties, query);
 
         if (query.searchTerms) {
             filter.$text = {
