@@ -1,10 +1,10 @@
-<div *ngIf="!showNewInsightForm; else insightForm" class="app-project-insights">
+<div *ngIf="project" class="app-project-insights">
     <div class="project-insights-actions">
         <a
             mat-raised-button
             color="warn"
             class="app-insight-list-new-project"
-            (click)="showNewInsightForm=true"
+            (click)="onNewInsightClick()"
             aria-label="Create insight"
             >New Insight</a
         >
@@ -20,7 +20,3 @@
         (entityClick)="onEntityClick($event)"
     ></entity-list>
 </div>
-
-<ng-template #insightForm>
-    <insight-new (newInsight)="onNewInsight($event)" (close)="showNewInsightForm=false"></insight-new>
-</ng-template>
