@@ -64,6 +64,7 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
+    console.log('HERE');
     return Insight.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))

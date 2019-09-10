@@ -3,34 +3,45 @@
     <h1>Create a New Insight</h1>
 </div> -->
 
-<mat-card class="app-insight-new-card">
+<mat-card *ngIf="project$ | async; let project" class="app-insight-new-card">
     <mat-card-content>
         <form class="app-insight-new-card-form" [formGroup]="newForm" novalidate>
             <mat-form-field class="app-insight-new-form-field">
-                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
+                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required />
                 <mat-error *ngIf="newForm.controls.title.invalid">
-                    Please enter a valid name ({{ insightSpecs.title.minlength }}-{{ insightSpecs.title.maxlength }} characters).
+                    Please enter a valid name ({{ insightSpecs.title.minlength }}-{{
+                        insightSpecs.title.maxlength
+                    }}
+                    characters).
                 </mat-error>
             </mat-form-field>
-            <app-quill-editor class="app-insight-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
-            <!-- <mat-form-field class="app-insight-new-form-field">
-                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.description.invalid">
-                    Please enter a valid description ({{ insightSpecs.description.minlength }}-{{ insightSpecs.description.maxlength }} characters).
-                </mat-error>
-            </mat-form-field> -->
+            <app-quill-editor
+                class="app-insight-new-description-editor"
+                [isReadOnly]="false"
+                [showActions]="false"
+                placeholder="Insert description..."
+                [body]="newForm.controls['description']"
+            ></app-quill-editor>
             <mat-form-field>
                 <mat-label>Type</mat-label>
                 <select matNativeControl formControlName="insightType" required>
-                    <option *ngFor="let option of insightSpecs.type.options" [value]="option.value">{{ option.name }}</option>
+                    <option *ngFor="let option of insightSpecs.type.options" [value]="option.value">{{
+                        option.name
+                    }}</option>
                 </select>
             </mat-form-field>
 
             <mat-error *ngIf="errors.newInsight">
-                {{errors.newInsight}}
+                {{ errors.newInsight }}
             </mat-error>
             <div class="app-insight-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewInsight()">Create New Insight</a>
+                <a
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="newForm.invalid"
+                    (click)="!newForm.invalid && createNewInsight(project)"
+                    >Create New Insight</a
+                >
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>
