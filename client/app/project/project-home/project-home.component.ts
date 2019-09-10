@@ -15,6 +15,7 @@ import { UserPermissionDataService, UserPermissions } from 'components/auth/user
 import { EntityAccessListComponent } from 'components/entity/entity-access-list/entity-access-list.component';
 import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.service';
 import { UserEntityPermission } from 'components/auth/user-entity-permission.model';
+import { ShareService } from 'components/share/share.service';
 
 @Component({
     selector: 'project-home',
@@ -30,14 +31,15 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService, NotificationService, UserPermissionDataService,
-        ProjectDataService];
+        ProjectDataService, ShareService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private projectService: ProjectService,
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService,
-        private projectDataService: ProjectDataService) {
+        private projectDataService: ProjectDataService,
+        private shareService: ShareService) {
         this.form = formBuilder.group({
             description: ['', [
                 // Validators.required,
@@ -81,5 +83,9 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
         // console.log('onEditProject not yet implemented');
         // this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Project has been successfully updated');
+    }
+
+    share(project: Project): void {
+        this.shareService.shareEntity(project, config.entityTypes.PROJECT.value);
     }
 }

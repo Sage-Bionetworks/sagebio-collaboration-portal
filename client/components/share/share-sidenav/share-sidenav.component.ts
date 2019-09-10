@@ -69,23 +69,35 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        const projectId: string = _fp.get('projectId')(this.entity)
-        const shouldGetProjectPermissions = projectId || this.entityType == config.entityTypes.PROJECT.value
-        if (this.entity && shouldGetProjectPermissions) {
-            combineLatest(this.projectService.get(projectId), this.authService.authInfo())
+        if (this.entityType === config.entityTypes.PROJECT.value) {
+            this.authService.authInfo()
             .pipe(
-                flatMap(([project, authInfo]) => {
-                    if (project.visibility === config.entityVisibility.PRIVATE.value) {
-                        return this.getUsersWithEntityPermissions(projectId, authInfo.user)
+                flatMap((authInfo) => {
+                    if (this.entity.visibility === config.entityVisibility.PRIVATE.value) {
+                        return this.getUsersWithEntityPermissions(this.entity._id, authInfo.user)
                     }
 
                     return this.getAllUsers(authInfo.user)
                 })
             ).subscribe(users => this.users = users)
-        } else if(!projectId) {
-            this.authService.authInfo().pipe(
-                flatMap((authInfo) => this.getAllUsers(authInfo.user)),
-            ).subscribe(users => this.users = users)
+        } else {
+            const projectId: string = _fp.get('projectId')(this.entity)
+            if (projectId) {
+                combineLatest(this.projectService.get(projectId), this.authService.authInfo())
+                .pipe(
+                    flatMap(([project, authInfo]) => {
+                        if (project.visibility === config.entityVisibility.PRIVATE.value) {
+                            return this.getUsersWithEntityPermissions(projectId, authInfo.user)
+                        }
+
+                        return this.getAllUsers(authInfo.user)
+                    })
+                ).subscribe(users => this.users = users)
+            } else {
+                this.authService.authInfo().pipe(
+                    flatMap((authInfo) => this.getAllUsers(authInfo.user)),
+                ).subscribe(users => this.users = users)
+            }
         }
     }
 

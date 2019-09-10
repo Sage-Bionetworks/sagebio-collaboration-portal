@@ -39,6 +39,7 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
 import { ProjectGuard } from './project-guard.service';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
+import { ShareModule } from 'components/share/share.module';
 
 export const ROUTES: Routes = [
     {
@@ -87,6 +88,7 @@ export const ROUTES: Routes = [
         ProvenanceModule,
         FiltersModule,
         DirectivesModule,
+        ShareModule,
     ],
     providers: [
         SocketService,
