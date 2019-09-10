@@ -8,6 +8,7 @@ import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
+import { ActivityClass } from 'models/provenance/activity.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -79,7 +80,7 @@ export class InsightNewComponent {
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
-                    generatedClass: 'Insight', // TODO Use enum
+                    generatedClass: ActivityClass.INSIGHT,
                     generatedSubClass: insight.insightType,
                 });
             },

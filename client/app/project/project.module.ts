@@ -59,6 +59,7 @@ export const ROUTES: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ProjectHomeComponent },
             { path: 'insights', component: ProjectInsightsComponent },
+            // { path: 'insights/new', component: ProjectInsightsComponent },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
