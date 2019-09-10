@@ -1,15 +1,13 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { InsightService } from 'components/insight/insight.service';
-import { Insight } from 'models/entities/insights/insight.model';
-import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../../app/app.constants';
 import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
-import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
-import { Observable } from 'rxjs';
+import { ProjectDataService } from '../../../app/project/project-data.service';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'project-insight-new',
@@ -17,32 +15,25 @@ import { Observable } from 'rxjs';
     styles: [require('./project-insight-new.scss')],
 })
 export class ProjectInsightNewComponent {
-    private project$: Observable<Project>;
+    private project$: Observable<Project>; // used in html
     private insightSpecs: any;
     private newForm: FormGroup;
     private errors = {
         newInsight: undefined,
     };
 
-    @Output() newInsight: EventEmitter<Insight> = new EventEmitter<Insight>();
-    @Output() close: EventEmitter<any> = new EventEmitter<any>();
-
     static parameters = [
         Router,
-        ActivatedRoute,
         FormBuilder,
-        PageTitleService,
-        InsightService,
         CaptureProvenanceActivityService,
+        InsightService,
         ProjectDataService,
     ];
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
-        private pageTitleService: PageTitleService,
-        private insightService: InsightService,
         private captureProvActivity: CaptureProvenanceActivityService,
+        private insightService: InsightService,
         private projectDataService: ProjectDataService
     ) {
         this.insightSpecs = config.models.insight;
@@ -76,18 +67,24 @@ export class ProjectInsightNewComponent {
 
         this.insightService.create(newInsight).subscribe(
             insight => {
-                this.newInsight.emit(insight);
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
                     generatedClass: ActivityClass.INSIGHT,
                     generatedSubClass: insight.insightType,
                 });
+                this.router.navigate(['/projects', project._id, 'insights', insight._id]);
             },
             err => {
                 console.error(err);
                 this.errors.newInsight = err.message;
             }
         );
+    }
+
+    cancel(project: Project): void {
+        if (project) {
+            this.router.navigate(['/projects', project._id, 'insights']);
+        }
     }
 }
