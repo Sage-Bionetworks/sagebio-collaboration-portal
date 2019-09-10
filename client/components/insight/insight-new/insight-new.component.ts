@@ -72,7 +72,6 @@ export class InsightNewComponent {
 
         this.insightService.create(newInsight)
             .subscribe(insight => {
-                this.newInsight.emit(insight);
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
