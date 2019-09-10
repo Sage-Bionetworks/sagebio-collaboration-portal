@@ -31,6 +31,7 @@
                 <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
                 <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
                 <show-activity-button [root]="tool" [routerLink]="'../activity'"></show-activity-button>
+                <share-button [entity]="tool" (click)="share(tool)"></share-button>
                 <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true"
                     >Edit</a
                 >

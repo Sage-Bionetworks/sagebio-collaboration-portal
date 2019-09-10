@@ -13,6 +13,8 @@ import { UserPermissionDataService, UserPermissions } from 'components/auth/user
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
+import { ShareService } from 'components/share/share.service';
+import config from "../../app.constants";
 
 @Component({
     selector: 'tool-home',
@@ -38,6 +40,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         UserPermissionDataService,
         NotificationService,
         MatDialog,
+        ShareService
     ];
     constructor(
         private router: Router,
@@ -47,7 +50,8 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private toolDataService: ToolDataService,
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private shareService: ShareService,
     ) {
         this.tool$ = this.toolDataService.tool();
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
@@ -97,5 +101,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             },
             err => console.error(err)
         );
+    }
+
+    share(tool: Tool): void {
+        this.shareService.shareEntity(tool, config.entityTypes.TOOL.value);
     }
 }

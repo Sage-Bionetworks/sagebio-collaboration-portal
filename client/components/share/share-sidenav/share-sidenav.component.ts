@@ -71,7 +71,6 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         const projectId: string = _fp.get('projectId')(this.entity)
         const shouldGetProjectPermissions = projectId || this.entityType == config.entityTypes.PROJECT.value
-
         if (this.entity && shouldGetProjectPermissions) {
             combineLatest(this.projectService.get(projectId), this.authService.authInfo())
             .pipe(
