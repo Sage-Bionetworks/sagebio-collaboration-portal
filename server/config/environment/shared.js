@@ -258,7 +258,7 @@ export const models = {
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         picture: {
-            default: 'https://via.placeholder.com/200/d73b3e/d73b3e',
+            default: 'https://via.placeholder.com/200/ffbcd9/ffbcd9',
         },
         visibility: {
             options: Object.values(entityVisibility),
@@ -354,6 +354,8 @@ export const models = {
     },
 };
 
+// FILTERS USED IN BOTH SERVER AND CLIENT SIDE
+
 export const datasetOrders = {
     // ALPHA: {  // Sorting by title doesn't seem to work
     //     value: 'title asc',
@@ -368,14 +370,24 @@ export const datasetOrders = {
     NEWEST: {
         value: 'metadata_created desc',
         title: 'Newest Datasets',
-        active: false,
     },
     OLDEST: {
         value: 'metadata_created asc',
         title: 'Oldest Datasets',
-        active: false,
     },
 };
+
+export const insightTypeFilters = [
+    {
+        value: insightTypes.REPORT.value,
+        title: insightTypes.REPORT.name,
+        active: true,
+    },
+    {
+        value: insightTypes.MEMO.value,
+        title: insightTypes.MEMO.name,
+    },
+];
 
 export default {
     env,
@@ -388,7 +400,6 @@ export default {
     gitBranch,
     defaultTools,
     models,
-    datasetOrders,
     accessTypes,
     entityTypes,
     insightTypes,
@@ -396,4 +407,7 @@ export default {
     inviteStatusTypes,
     entityVisibility,
     dataCatalogApiTypes,
+
+    datasetOrders,
+    insightTypeFilters
 };
