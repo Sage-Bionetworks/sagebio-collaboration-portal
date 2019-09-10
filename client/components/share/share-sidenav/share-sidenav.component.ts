@@ -1,7 +1,7 @@
 import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { filter } from 'rxjs/operators';
+import { filter, map, flatMap } from 'rxjs/operators';
 import _fp from 'lodash/fp';
 
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -12,11 +12,13 @@ import { UserProfile } from 'models/auth/user-profile.model';
 import config from '../../../app/app.constants';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 import { AuthService } from 'components/auth/auth.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { EntityNotification } from 'models/user-notification/entity-notificiation.model';
 import { UserNotificationService } from 'components/user-notification/user-notification.service';
 import { DeltaOperation } from 'quill';
 import { NotificationService } from 'components/notification/notification.service';
+import { ProjectService } from '../../../app/project/project.service';
+import { UserService } from 'components/auth/user.service';
 
 @Component({
     selector: 'share-sidenav',
@@ -28,7 +30,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
     private entityType: string;
     private newForm: FormGroup;
 
-    private users: (String | UserProfile)[];
+    private users: (String | UserProfile)[] = [];
     static parameters = [
         SecondarySidenavService,
         SocketService,
@@ -37,7 +39,9 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         EntityPermissionService,
         AuthService,
         UserNotificationService,
-        NotificationService
+        NotificationService,
+        ProjectService,
+        UserService
     ];
 
     constructor(
@@ -49,6 +53,8 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         private authService: AuthService,
         private userNotificationService: UserNotificationService,
         private notificationService: NotificationService,
+        private projectService: ProjectService,
+        private userService: UserService,
     ) {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
         this.newForm = formBuilder.group({
@@ -64,21 +70,23 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
 
     ngAfterViewInit() {
         const projectId: string = _fp.get('projectId')(this.entity)
-        if (this.entity && projectId) {
-            combineLatest(
-                this.entityPermissionService.queryByEntityId(projectId),
-                this.authService.authInfo()
-            )
-                .subscribe(([permissions, authInfo]) => {
-                    if (authInfo.user) {
-                        this.users = _fp.flow(
-                            _fp.filter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
-                            _fp.map('user'),
-                            _fp.uniqBy('_id'),
-                            _fp.filter<UserProfile>(user => user._id !== authInfo.user._id)
-                        )(permissions)
+        const shouldGetProjectPermissions = projectId || this.entityType == config.entityTypes.PROJECT.value
+
+        if (this.entity && shouldGetProjectPermissions) {
+            combineLatest(this.projectService.get(projectId), this.authService.authInfo())
+            .pipe(
+                flatMap(([project, authInfo]) => {
+                    if (project.visibility === config.entityVisibility.PRIVATE.value) {
+                        return this.getUsersWithEntityPermissions(projectId, authInfo.user)
                     }
+
+                    return this.getAllUsers(authInfo.user)
                 })
+            ).subscribe(users => this.users = users)
+        } else if(!projectId) {
+            this.authService.authInfo().pipe(
+                flatMap((authInfo) => this.getAllUsers(authInfo.user)),
+            ).subscribe(users => this.users = users)
         }
     }
 
@@ -86,6 +94,31 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         if (this.entity) {
             this.socketService.unsyncUpdates(`${this.entityType}:${this.entity._id}:entity`);
         }
+    }
+
+    getUsersWithEntityPermissions(entityId: string, currentUser: UserProfile) {
+        return this.entityPermissionService.queryByEntityId(entityId)
+            .pipe(
+                map(permissions => {
+                    return _fp.flow(
+                        _fp.filter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
+                        _fp.map('user'),
+                        _fp.uniqBy('_id'),
+                        (users: UserProfile[]) => this.withoutCurrentUser(users, currentUser)
+                    )(permissions)
+                })
+            )
+    }
+
+    getAllUsers(currentUser: UserProfile): Observable<UserProfile[]> {
+        return this.userService.query()
+            .pipe(
+                map((users) => this.withoutCurrentUser(users, currentUser)),
+            )
+    }
+
+    withoutCurrentUser(users: UserProfile[], currentUser: UserProfile) {
+        return users.filter(user => user._id !== currentUser._id)
     }
 
     setEntity(entity: Entity, entityType: string): void {
