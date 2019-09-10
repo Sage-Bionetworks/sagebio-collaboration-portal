@@ -1,7 +1,12 @@
-.project-insights-container {
-  .project-insights-actions {
+// .project-insights-container {
+//     .project-insights-actions {
+//         display: flex;
+//         flex-flow: row wrap;
+//         justify-content: center;
+//     }
+// }
+
+.app-project-insights {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-  }
+    flex-flow: row nowrap;
 }
