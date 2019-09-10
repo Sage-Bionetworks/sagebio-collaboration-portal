@@ -5,10 +5,14 @@ var AppSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        minlength: modelSpecs.app.title.minlength,
+        maxlength: modelSpecs.app.title.maxlength
     },
     description: {
         type: String,
         required: true,
+        minlength: modelSpecs.app.description.minlength,
+        maxlength: modelSpecs.app.description.maxlength
     },
     picture: {
         type: String,

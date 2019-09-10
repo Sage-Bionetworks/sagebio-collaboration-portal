@@ -1,28 +1,19 @@
 .app-insight-new-card {
-  display: flex;
-  flex-flow: column nowrap;
-  margin: 40px;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 40px;
+}
 
-  .app-insight-new-card-form {
+.app-insight-new-card-form {
     display: flex;
     flex-flow: column nowrap;
     margin: 20px;
-
-    select {
-      text-transform: capitalize;
-    }
-  }
-
-  .app-insight-new-form-field {
-    margin-bottom: 10px;
-  }
-
-  .app-insight-new-form-actions {
-    margin-top: 20px;
-  }
 }
 
+.app-insight-new-form-field {
+    margin-bottom: 10px;
+}
 
-.app-insight-new-description-editor {
-  margin-bottom: 20px;
+.app-insight-new-form-actions {
+    margin-top: 20px;
 }

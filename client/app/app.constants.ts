@@ -6,61 +6,65 @@ var config = {
         size: {
             nano: 26,
             mini: 30,
-            small: 40
-        }
+            small: 40,
+        },
     },
 
     tooltip: {
-        showDelay: 0
+        showDelay: 0,
     },
 
-    insightTypeFilters: [{
-        value: 'report',
-        title: 'Report',
-        active: true
-    }, {
-        value: 'memo',
-        title: 'Memo'
-    }],
+    activityTypeFilters: [
+        {
+            value: 'Report generation',
+            title: 'Report generation',
+            active: true,
+        },
+        {
+            value: 'Memoization',
+            title: 'Memoization',
+        },
+        {
+            value: 'Mention',
+            title: 'Mention',
+        },
+        {
+            value: 'Tool session',
+            title: 'Tool session',
+        },
+    ],
 
-    activityTypeFilters: [{
-        value: 'Report generation',
-        title: 'Report generation',
-        active: true
-    }, {
-        value: 'Memoization',
-        title: 'Memoization',
-    }, {
-        value: 'Mention',
-        title: 'Mention',
-    }, {
-        value: 'Tool session',
-        title: 'Tool session'
-    }],
+    activityDirectionFilters: [
+        {
+            value: 'down',
+            title: 'Down',
+            active: true,
+        },
+        {
+            value: 'up',
+            title: 'Up',
+        },
+    ],
 
-    activityDirectionFilters: [{
-        value: 'down',
-        title: 'Down',
-        active: true
-    }, {
-        value: 'up',
-        title: 'Up'
-    }],
-
-    resourceTypeFilters: [{
-        value: 'Dashboard',
-        title: 'Dashboard',
-        active: true
-    }, {
-        value: 'State',
-        title: 'State'
-    }, {
-        value: 'WebApp',
-        title: 'WebApp'
-    }, {
-        value: 'Article',
-        title: 'Article'
-    }]
+    resourceTypeFilters: [
+        {
+            value: 'Dashboard',
+            title: 'Dashboard',
+            active: true,
+        },
+        {
+            value: 'State',
+            title: 'State',
+        },
+        {
+            value: 'WebApp',
+            title: 'WebApp',
+        },
+        {
+            value: 'Article',
+            title: 'Article',
+        },
+    ],
 };
 
 export default merge(config, shared);

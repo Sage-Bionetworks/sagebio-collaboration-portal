@@ -14,7 +14,6 @@ var ResourceSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true,
         minlength: modelSpecs.resource.title.minlength,
         maxlength: modelSpecs.resource.title.maxlength
     },

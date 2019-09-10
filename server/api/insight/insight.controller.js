@@ -8,7 +8,7 @@ import { buildEntityIndexQuery } from '../entity-util';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
-    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query);
+    let { filter, projection, sort, skip, limit } = buildEntityIndexQuery(req.query, ['insightType', 'projectId']);
 
     getInsightIdsByUser(req.user._id)
         .then(insightIds => {
@@ -64,6 +64,7 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
+    console.log('HERE');
     return Insight.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))

@@ -11,13 +11,13 @@ import config from '../../../app/app.constants';
     styles: [require('./insight-list.scss')],
 })
 export class InsightListComponent implements OnInit {
-    private insightTypeFilters = config.insightTypeFilters;
+    private insightTypeFilters = config.insightTypeFilters; // used in html
 
     static parameters = [Router, PageTitleService, InsightService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private insightService: InsightService
+        private insightService: InsightService // used in html
     ) {
         this.insightTypeFilters = config.insightTypeFilters;
     }

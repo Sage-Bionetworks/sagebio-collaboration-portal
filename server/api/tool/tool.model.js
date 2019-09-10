@@ -9,7 +9,6 @@ var ToolSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true,
         minlength: modelSpecs.tool.title.minlength,
         maxlength: modelSpecs.tool.title.maxlength
     },

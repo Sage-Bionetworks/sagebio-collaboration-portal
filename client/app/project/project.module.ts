@@ -25,7 +25,9 @@ import { ProjectComponent } from './project.component';
 import { ProjectActivityComponent } from './project-activity/project-activity.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectHeaderComponent } from './project-header/project-header.component';
 import { ProjectHomeComponent } from './project-home/project-home.component';
+import { ProjectInsightNewComponent } from './project-insight-new/project-insight-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
@@ -35,6 +37,7 @@ import { ProjectSettingsComponent } from './project-settings/project-settings.co
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
+import { ProjectHeaderService } from './project-header/project-header.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
 import { ProjectGuard } from './project-guard.service';
 
@@ -60,6 +63,7 @@ export const ROUTES: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ProjectHomeComponent },
             { path: 'insights', component: ProjectInsightsComponent },
+            { path: 'insights/new', component: ProjectInsightNewComponent },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
@@ -94,6 +98,7 @@ export const ROUTES: Routes = [
         SocketService,
         ProjectService,
         ProjectDataService,
+        ProjectHeaderService,
         ProjectSidenavService,
         ProjectGuard,
         InsightService,
@@ -104,7 +109,9 @@ export const ROUTES: Routes = [
         ProjectActivityComponent,
         ProjectNewComponent,
         ProjectEditComponent,
+        ProjectHeaderComponent,
         ProjectHomeComponent,
+        ProjectInsightNewComponent,
         ProjectListComponent,
         ProjectViewComponent,
         ProjectDiscussionComponent,

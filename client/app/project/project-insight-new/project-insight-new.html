@@ -1,0 +1,6 @@
+<insight-new
+    *ngIf="project$ | async; let project"
+    [project]="project"
+    (newInsight)="onNewInsight($event)"
+    (cancel)="onCancel(project)"
+></insight-new>

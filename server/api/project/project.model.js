@@ -8,7 +8,6 @@ var ProjectSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true,
         minlength: modelSpecs.project.title.minlength,
         maxlength: modelSpecs.project.title.maxlength
     },
