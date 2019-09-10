@@ -10,7 +10,7 @@ var events = ['save', 'remove'];
 export function register(spark) {
     // Bind model events to socket events
     for (let event of events) {
-        var listener = createListener(`notification:${event}`, spark);
+        var listener = createListener(`notifications:${event}`, spark);
 
         NotificationEvents.on(event, listener);
         spark.on('disconnect', removeListener(event, listener));

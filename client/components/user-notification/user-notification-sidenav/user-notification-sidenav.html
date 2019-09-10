@@ -6,34 +6,33 @@
     </a>
 </div>
 
-<span *ngIf="_messagesNotifications && _messagesNotifications.length === 0
-&& _entityNotifications && _entityNotifications.length === 0
-&& _entityAccessNotifications && _entityAccessNotifications.length === 0
-">Your Notification list is empty.</span>
+<span *ngIf="notificationBundles$ | async; let notificationBundles">
+    <span *ngIf="notificationBundles.length === 0">Your Notification list is empty.</span>
 
-<div class="app-user-notification-sidenav-cards">
-    <ng-template *ngIf="getSortedNotifications() | async; let notificationBundles" ngFor let-notificationBundle
-        let-i="index" let-first="first" [ngForOf]="notificationBundles">
-        <message-notification-view
-            class="app-user-notification-view"
-            *ngIf="notificationBundle.notification.notificationType === notificationTypes.MESSAGE_NOTIFICATION.value"
-            [notification]="notificationBundle.notification"
-        >
-        </message-notification-view>
-        <entity-notification-card
-            class="app-user-notification-view"
-            *ngIf="notificationBundle.notification.notificationType === notificationTypes.ENTITY_NOTIFICATION.value"
-            [notification]="notificationBundle.notification"
-            [entity]="notificationBundle.associatedEntity"
-        >
-        </entity-notification-card>
-        <entity-access-notification-card
-            class="app-user-notification-view"
-            *ngIf="notificationBundle.notification.notificationType === notificationTypes.ENTITY_ACCESS_NOTIFICATION.value"
-            [notification]="notificationBundle.notification"
-            [entity]="notificationBundle.associatedEntity"
-            [permission]="notificationBundle.entityPermission"
-        >
-        </entity-access-notification-card>
-    </ng-template>
-</div>
+    <div class="app-user-notification-sidenav-cards">
+        <ng-template ngFor let-notificationBundle
+            let-i="index" let-first="first" [ngForOf]="notificationBundles">
+            <message-notification-view
+                class="app-user-notification-view"
+                *ngIf="notificationBundle.notification.notificationType === notificationTypes.MESSAGE_NOTIFICATION.value"
+                [notification]="notificationBundle.notification"
+            >
+            </message-notification-view>
+            <entity-notification-card
+                class="app-user-notification-view"
+                *ngIf="notificationBundle.notification.notificationType === notificationTypes.ENTITY_NOTIFICATION.value"
+                [notification]="notificationBundle.notification"
+                [entity]="notificationBundle.associatedEntity"
+            >
+            </entity-notification-card>
+            <entity-access-notification-card
+                class="app-user-notification-view"
+                *ngIf="notificationBundle.notification.notificationType === notificationTypes.ENTITY_ACCESS_NOTIFICATION.value"
+                [notification]="notificationBundle.notification"
+                [entity]="notificationBundle.associatedEntity"
+                [permission]="notificationBundle.entityPermission"
+            >
+            </entity-access-notification-card>
+        </ng-template>
+    </div>
+</span>

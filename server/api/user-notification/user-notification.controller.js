@@ -30,6 +30,7 @@ export function indexMine(req, res) {
         ...req.query,
         user: userId
     })
+        .sort({createdAt: 'desc'})
         .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
