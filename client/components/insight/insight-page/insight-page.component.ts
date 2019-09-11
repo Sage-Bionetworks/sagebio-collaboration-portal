@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -19,7 +19,7 @@ import { ObjectValidators } from 'components/validation/object-validators';
     styles: [require('./insight-page.scss')],
     encapsulation: ViewEncapsulation.None,
 })
-export class InsightPageComponent implements OnInit, OnDestroy {
+export class InsightPageComponent implements OnInit {
     @Output() insightOutput: EventEmitter<Insight> = new EventEmitter<Insight>();
 
     private insight: Insight;
@@ -40,14 +40,7 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService
     ) {
         this.form = formBuilder.group({
-            description: [
-                '',
-                [
-                    // Validators.required,
-                    // ObjectValidators.jsonStringifyMinLength(config.models.insight.description.minlength),
-                    ObjectValidators.jsonStringifyMaxLength(config.models.insight.description.maxlength),
-                ],
-            ],
+            description: ['', []],
         });
 
         this.route.params
@@ -80,34 +73,6 @@ export class InsightPageComponent implements OnInit, OnDestroy {
                 this.errors.updateDescription = undefined;
             });
     }
-
-    ngOnDestroy() {}
-
-    // updateDescription(): void {
-    //     let description = JSON.stringify(this.form.get('description').value);
-    //     // console.log('description', description);
-    //     // console.log('DESCRIPTION', description);
-    //     try {
-    //         this.insightService.updateInsightDescription(this.insight, description).subscribe(
-    //             insight => {
-    //                 this.notificationService.info('The description has been successfully saved');
-    //             },
-    //             err => {
-    //                 console.log(err);
-    //                 // this.errors.updateDescription = err.message;
-    //             }
-    //         );
-    //     } catch (e) {}
-    //     // try {
-    //     //     this.insightService.updateStateDescription(this.insight, description)
-    //     //         .subscribe(insight => {
-    //     //             this.notificationService.info('The description has been successfully saved');
-    //     //         }, err => {
-    //     //             console.log(err);
-    //     //             // this.errors.updateDescription = err.message;
-    //     //         });
-    //     // } catch (e) { }
-    // }
 
     onInsightEdit(insight: Insight): void {
         if (insight) {
