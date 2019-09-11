@@ -27,7 +27,9 @@
                     <!-- (cbOnSuccess)="notificationService.info('The URL to this ' + insight.insightType + ' has been copied.')" -->
                     <button
                         ngxClipboard
-                        [cbContent]="'The URL to this ' + insight.insightType + ' has been copied.'"
+                        [cbContent]="getLink()"
+                        (cbOnSuccess)="notificationService.info('Link copied')"
+                        (cbOnError)="notificationService.info('Unable to copy the link.')"
                         mat-menu-item
                         aria-label="Copy link"
                     >
