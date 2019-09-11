@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     constructor(private secondarySidenavService: SecondarySidenavService) { }
 
     ngOnInit() {
-        this.secondarySidenav.mode = 'side';
+        this.secondarySidenav.mode = 'over';
         this.secondarySidenav.autoFocus = false;
         this.secondarySidenavService.sidenav = this.secondarySidenav;
         this.secondarySidenavService.sidenavContent = this.secondarySidenavContent;
