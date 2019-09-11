@@ -6,6 +6,8 @@ import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
 import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
+import { EntityAttachments, EntityAttachmentMode } from 'models/entities/entity.model';
+
 
 @Component({
     selector: 'insight-new',
@@ -22,12 +24,14 @@ export class InsightNewComponent {
     private errors = {
         newInsight: undefined,
     };
+    private attachments: EntityAttachments;
+    private mode: EntityAttachmentMode;
 
     static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
     constructor(
         private formBuilder: FormBuilder,
         private captureProvActivity: CaptureProvenanceActivityService,
-        private insightService: InsightService
+        private insightService: InsightService,
     ) {
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
@@ -49,15 +53,18 @@ export class InsightNewComponent {
             ],
             insightType: [this.insightSpecs.type.default.value, [Validators.required]],
         });
+
+        this.mode = EntityAttachmentMode.EDIT;
     }
 
     createNewInsight(project: Project): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
-        newInsight.projectId = project._id;
+        newInsight.projectId = this.project._id;
+        newInsight.attachments = this.attachments;
 
-        this.insightService.create(newInsight).subscribe(
-            insight => {
+        this.insightService.create(newInsight)
+            .subscribe(insight => {
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
@@ -71,5 +78,9 @@ export class InsightNewComponent {
                 this.errors.newInsight = err.message;
             }
         );
+    }
+
+    updateAttachments(attachments): void {
+        this.attachments = attachments;
     }
 }

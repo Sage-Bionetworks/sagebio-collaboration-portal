@@ -53,3 +53,9 @@ export enum ResourceType {
     STATE = 'State',
     WEBAPP = 'WebApp',
 }
+
+export interface ResourceAttachment {
+    entityId?: string;
+    entitySubType?: string;
+    name?: string;
+}

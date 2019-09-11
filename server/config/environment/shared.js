@@ -97,6 +97,26 @@ export const resourceTypes = {
         name: 'WebApp',
     },
 };
+
+export const entityAttachmentTypes = [
+    {
+        name: 'Insight',
+        options: [
+            { type: insightTypes.MEMO.name },
+            { type: insightTypes.REPORT.name },
+        ],
+    },
+    {
+        name: 'Resource',
+        options: [
+            { type: resourceTypes.ARTICLE.name },
+            { type: resourceTypes.DASHBOARD.name },
+            { type: resourceTypes.STATE.name },
+            { type: resourceTypes.WEBAPP.name },
+        ],
+    },
+];
+
 export const activityTypes = {
     RESOURCEGENERATION: {
         value: 'Resource generation',
