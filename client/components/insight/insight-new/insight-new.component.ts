@@ -70,7 +70,7 @@ export class InsightNewComponent {
                     generatedTargetId: insight._id,
                     generatedClass: ActivityClass.INSIGHT,
                     generatedSubClass: insight.insightType,
-                }); // TODO must return an observable
+                });
                 this.newInsight.emit(insight);
             },
             err => {
