@@ -343,7 +343,7 @@ export const models = {
         },
         visibility: {
             options: Object.values(entityVisibility),
-            default: entityVisibility.PRIVATE.value,
+            default: entityVisibility.PRIVATE,
         },
         type: {
             options: Object.values(insightTypes),
