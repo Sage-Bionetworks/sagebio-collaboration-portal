@@ -71,6 +71,13 @@
                 [showActions]="false"
                 [body]="form.controls['description']"
             ></app-quill-editor>
+
+            <entity-attachments
+                *ngIf="insight.attachments"
+                [mode]="mode"
+                [attachments]="insight.attachments"
+                (updateAttachments)="updateAttachments($event)"
+            ></entity-attachments>
         </mat-card-content>
     </mat-card>
 

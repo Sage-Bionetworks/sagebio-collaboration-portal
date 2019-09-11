@@ -1,0 +1,19 @@
+<mat-card *ngIf="!archived" class="app-entity-access-notification-view-card">
+    <mat-card-header>
+        <user-avatar mat-card-avatar [user]="notification.createdBy"></user-avatar>
+        <mat-card-title><strong>{{notification.createdBy.name}}</strong> - {{ notification.createdAt | dateAndTime }}</mat-card-title>
+        <mat-card-subtitle>
+            Invited you to collaborate in the following {{notification.entityType}}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="app-entity-access-notification-view-card-content">
+        <p><strong>"{{entity.title}}"</strong></p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <a mat-button (click)="acceptAndGo()">Accept and Go</a>
+        <a mat-button (click)="accept()">Accept</a>
+        <a mat-button (click)="decline()">Decline</a>
+    </mat-card-actions>
+</mat-card>

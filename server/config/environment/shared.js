@@ -42,12 +42,30 @@ export const entityTypes = {
     DATA_CATALOG: {
         value: 'DataCatalog',
     },
+    INSIGHT: {
+        value: 'Insight'
+    },
+    RESOURCE: {
+        value: 'Resource'
+    },
     TOOL: {
         value: 'Tool',
     },
     ORGANIZATION: {
         value: 'Organization'
     }
+};
+
+export const notificationTypes = {
+    ENTITY_ACCESS_NOTIFICATION: {
+        value: 'EntityAccessNotification'
+    },
+    ENTITY_NOTIFICATION: {
+        value: 'EntityNotification'
+    },
+    MESSAGE_NOTIFICATION: {
+        value: 'MessageNotification'
+    },
 };
 
 export const insightTypes = {
@@ -79,6 +97,26 @@ export const resourceTypes = {
         name: 'WebApp',
     },
 };
+
+export const entityAttachmentTypes = [
+    {
+        name: 'Insight',
+        options: [
+            { type: insightTypes.MEMO.name },
+            { type: insightTypes.REPORT.name },
+        ],
+    },
+    {
+        name: 'Resource',
+        options: [
+            { type: resourceTypes.ARTICLE.name },
+            { type: resourceTypes.DASHBOARD.name },
+            { type: resourceTypes.STATE.name },
+            { type: resourceTypes.WEBAPP.name },
+        ],
+    },
+];
+
 export const activityTypes = {
     RESOURCEGENERATION: {
         value: 'Resource generation',
@@ -248,6 +286,15 @@ export const models = {
             default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
     },
+    share: {
+        invitedUsers: {
+            minlength: 1
+        },
+        comment: {
+            minlength: 1,
+            maxlength: 1024
+        },
+    },
     resource: {
         title: {
             minlength: 3,
@@ -402,6 +449,7 @@ export default {
     models,
     accessTypes,
     entityTypes,
+    notificationTypes,
     insightTypes,
     resourceTypes,
     inviteStatusTypes,

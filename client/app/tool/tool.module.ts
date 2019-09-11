@@ -23,6 +23,7 @@ import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
+import { ShareModule } from 'components/share/share.module';
 
 export const ROUTES: Routes = [
     {
@@ -59,6 +60,7 @@ export const ROUTES: Routes = [
         ActivityModule,
         ProvenanceModule,
         EntityModule,
+        ShareModule,
     ],
     declarations: [
         ToolComponent,

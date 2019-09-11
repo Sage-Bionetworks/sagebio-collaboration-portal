@@ -1,26 +1,22 @@
+import { EntityVisibility } from './attachments/entity-visibility.enum';
 import { UserProfile } from '../auth/user-profile.model';
+import { EntityAttachments } from './attachments/entity-attachments.interface';
 
 export interface Entity {
     _id?: string;
     title: string;
     description: string;
     picture: string;
-    visibility: EntityVisibility;
+    visibility?: EntityVisibility;
     createdAt: string;
     createdBy: UserProfile;
+    attachments?: EntityAttachments;
 }
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     EntityVisibility:
- *       type: string
- *       enum:
- *         - Public
- *         - Private
- */
-export enum EntityVisibility {
-    PUBLIC = 'Public',
-    PRIVATE = 'Private'
-}
+// Interfaces
+export { EntityAttachments } from './attachments/entity-attachments.interface';
+
+// Enums
+export { EntityAttachmentKeys } from './attachments/entity-attachment-keys.enum';
+export { EntityAttachmentMode } from './attachments/entity-attachment-mode.enum';
+export { EntityVisibility } from './attachments/entity-visibility.enum';

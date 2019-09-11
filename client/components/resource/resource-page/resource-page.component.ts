@@ -28,6 +28,7 @@ export class ResourcePageComponent implements OnInit, OnDestroy {
     private errors = {
         updateDescription: undefined
     };
+    private entityType = config.entityTypes.RESOURCE.value
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ResourceService, NotificationService];

@@ -4,11 +4,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { InsightService } from 'components/insight/insight.service';
 // import { StateService } from '../../state/state.service';
+import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 
+import { EntityAttachmentMode } from 'models/entities/entity.model';
 import { Insight } from 'models/entities/insights/insight.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
@@ -21,27 +24,52 @@ import { ObjectValidators } from 'components/validation/object-validators';
 })
 export class InsightPageComponent implements OnInit {
     @Output() insightOutput: EventEmitter<Insight> = new EventEmitter<Insight>();
+    private isAdmin = false;
+    private mode = EntityAttachmentMode.DISPLAY;
+    private userPermissionsSub: Subscription;
+    private permissions: Observable<UserPermissions>;
 
     private insight: Insight;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
     };
+    private entityType = config.entityTypes.INSIGHT.value;
 
-    private showInsightEditTemplate = false;
+    static parameters = [
+        Router,
+        ActivatedRoute,
+        FormBuilder,
+        PageTitleService,
+        InsightService,
+        NotificationService,
+        UserPermissionDataService,
+    ];
 
-    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private userPermissionDataService: UserPermissionDataService
     ) {
         this.form = formBuilder.group({
             description: ['', []],
         });
+
+        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
+            userPermissions => {
+                this.isAdmin = userPermissions.isAdmin();
+
+                // TODO: Apply permissions so that users other than Admin can edit
+                if (this.isAdmin) {
+                    this.mode = EntityAttachmentMode.EDIT;
+                }
+            },
+            err => console.log(err)
+        );
 
         this.route.params
             .pipe(switchMap(params => this.insightService.getInsight(params.insightId)))
@@ -69,9 +97,23 @@ export class InsightPageComponent implements OnInit {
                 distinctUntilChanged()
             )
             .subscribe(data => {
-                console.log('INSIGHT', data);
                 this.errors.updateDescription = undefined;
             });
+    }
+
+    updateAttachments(attachments): void {
+        try {
+            this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
+                insight => {
+                    this.notificationService.info('The attachments have been successfully saved');
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     onInsightEdit(insight: Insight): void {

@@ -26,6 +26,7 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
     private userProjectPermission: UserEntityPermission = DEFAULT_USER_PERMISSION;
     private showEditProjectTemplate = false;
+    private entityType = config.entityTypes.PROJECT.value
 
     private form: FormGroup;
 
