@@ -46,6 +46,11 @@ export class CaptureProvenanceActivityService {
             }]
         };
 
-        this.provenanceService.createProvenanceActivity(activity);
+        this.provenanceService.createProvenanceActivity(activity)
+            .subscribe(provenanceActivity => { /* Successfully created provenance activity */ },
+                (err => {
+                    console.error('Unable to create a provenance activity:', err);
+                })
+            );
     }
 }
