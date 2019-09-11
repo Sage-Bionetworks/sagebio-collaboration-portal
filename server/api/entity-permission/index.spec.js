@@ -108,20 +108,6 @@ describe('EntityPermission API Router:', function () {
             });
 
             describe('WITH an explicitly assigned', () => {
-                describe('"read" permission for a specific entity', () => {
-                    describe('GET /api/entity-permissions/entity/:entityId', function () {
-                        it('should route to entityPermission.controller.indexByEntity', function () {
-                            expect(
-                                routerStub.get.withArgs(
-                                    '/entity/:entityId',
-                                    entityPermissionAuthStub.canReadEntityPermission(),
-                                    'entityPermissionCtrl.indexByEntity'
-                                )
-                            ).to.have.been.calledOnce;
-                        });
-                    });
-                });
-
                 describe('"create" entity permission', () => {
                     describe('POST /api/entity-permissions/', function () {
                         it('should route to entityPermission.controller.create', function () {
@@ -136,7 +122,7 @@ describe('EntityPermission API Router:', function () {
                     });
                 });
 
-                describe('"edit" permission for a specific entity', () => {
+                describe('"edit" permission for a specific entity permission ID', () => {
                     describe('PATCH /api/entity-permissions/:id', function () {
                         it('should route to entityPermission.controller.patch', function () {
                             expect(
@@ -150,7 +136,7 @@ describe('EntityPermission API Router:', function () {
                     });
                 });
 
-                describe('"delete" permission for a specific entity', () => {
+                describe('"delete" permission for a specific entity permission ID', () => {
                     describe('DELETE /api/entity-permissions/:id', function () {
                         it('should route to entityPermission.controller.destroy', function () {
                             expect(
@@ -158,6 +144,20 @@ describe('EntityPermission API Router:', function () {
                                     '/:id',
                                     entityPermissionAuthStub.canDeleteEntityPermission(),
                                     'entityPermissionCtrl.destroy'
+                                )
+                            ).to.have.been.calledOnce;
+                        });
+                    });
+                });
+
+                describe('"read" permission for a specific entity ID', () => {
+                    describe('GET /api/entity-permissions/entity/:entityId', function () {
+                        it('should route to entityPermission.controller.indexByEntity', function () {
+                            expect(
+                                routerStub.get.withArgs(
+                                    '/entity/:entityId',
+                                    entityPermissionAuthStub.canReadEntityPermission(),
+                                    'entityPermissionCtrl.indexByEntity'
                                 )
                             ).to.have.been.calledOnce;
                         });
