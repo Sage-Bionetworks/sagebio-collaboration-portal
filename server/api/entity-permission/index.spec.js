@@ -16,7 +16,6 @@ var entityPermissionCtrlStub = {
 
 var routerStub = {
     get: sinon.spy(),
-    put: sinon.spy(),
     patch: sinon.spy(),
     post: sinon.spy(),
     delete: sinon.spy(),
