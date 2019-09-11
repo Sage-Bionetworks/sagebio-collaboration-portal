@@ -43,10 +43,10 @@ export const entityTypes = {
         value: 'DataCatalog',
     },
     INSIGHT: {
-        value: 'insight'
+        value: 'Insight'
     },
     RESOURCE: {
-        value: 'resource'
+        value: 'Resource'
     },
     TOOL: {
         value: 'Tool',
