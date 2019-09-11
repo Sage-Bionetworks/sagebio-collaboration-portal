@@ -9,6 +9,7 @@
 @import '~components/navbar/navbar-theme';
 @import '~components/quill/app-quill-theme';
 @import '~components/activity/activity-sidenav/activity-sidenav-theme';
+@import '~components/share/share-sidenav/share-sidenav-theme';
 
 // Styles for the app that are based on the current theme.
 @mixin app-theme($theme) {
@@ -69,4 +70,5 @@
     @include messaging-theme($theme);
     @include navbar-theme($theme);
     @include activity-sidenav-theme($theme);
+    @include share-sidenav-theme($theme);
 }
