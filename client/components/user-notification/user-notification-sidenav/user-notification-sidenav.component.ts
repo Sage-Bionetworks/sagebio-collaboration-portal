@@ -12,7 +12,7 @@ import { EntityPermissionService } from 'components/auth/entity-permission.servi
 
 import config from '../../../app/app.constants';
 
-import { UserNotificationBundle } from 'models/user-notification/user-notification-bundle.model'
+import { UserNotificationBundle } from '../user-notification-bundle.model'
 
 import { MessageNotification } from 'models/user-notification/message-notificiation.model'
 import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
