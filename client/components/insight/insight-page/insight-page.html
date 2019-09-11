@@ -23,7 +23,14 @@
                     >
                         <span>Share {{ insight.insightType }}</span>
                     </button>
-                    <button mat-menu-item aria-label="Copy link" (click)="copyLink(insight)">
+                    <!-- (click)="copyLink(insight)" -->
+                    <!-- (cbOnSuccess)="notificationService.info('The URL to this ' + insight.insightType + ' has been copied.')" -->
+                    <button
+                        ngxClipboard
+                        [cbContent]="'The URL to this ' + insight.insightType + ' has been copied.'"
+                        mat-menu-item
+                        aria-label="Copy link"
+                    >
                         <span>Copy Link</span>
                     </button>
                     <button mat-menu-item aria-label="Show Activity" (click)="showActivity(insight)">

@@ -118,18 +118,17 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         }
     }
 
-
     sendInsight(insight: Insight): void {
         if (insight) {
             this.notificationService.info('Not implemented');
         }
     }
 
-    copyLink(insight: Insight): void {
-        if (insight) {
-            this.notificationService.info('Not implemented');
-        }
-    }
+    // copyLink(): void {
+    //     if (insight) {
+    //         this.notificationService.info('Not implemented');
+    //     }
+    // }
 
     showActivity(): void {
         this.insightService.showActivity(this.insight);
