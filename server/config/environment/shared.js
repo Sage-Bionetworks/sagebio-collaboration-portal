@@ -67,15 +67,6 @@ export const notificationTypes = {
         value: 'MessageNotification'
     },
 };
-export const entityAttachmentTypes = [
-    { type: '-- Add an attachment --', collection: '' },
-    { type: 'Article', collection: 'resources' },
-    { type: 'Dashboard', collection: 'resources' },
-    { type: 'Memo', collection: 'insights' },
-    { type: 'Report', collection: 'insights' },
-    { type: 'State', collection: 'resources' },
-    { type: 'WebApp', collection: 'resources' },
-];
 
 export const insightTypes = {
     REPORT: {
