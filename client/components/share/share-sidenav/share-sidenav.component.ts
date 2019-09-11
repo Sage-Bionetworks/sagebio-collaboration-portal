@@ -2,7 +2,7 @@ import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { filter, map, flatMap } from 'rxjs/operators';
-import _fp from 'lodash/fp';
+import { flow, get, filter as fpFilter, map as fpMap, uniqBy } from 'lodash/fp';
 
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { EntityPermissionService } from 'components/auth/entity-permission.service'
@@ -81,7 +81,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
                 })
             ).subscribe(users => this.users = users)
         } else {
-            const projectId: string = _fp.get('projectId')(this.entity)
+            const projectId: string = get('projectId')(this.entity)
             if (projectId) {
                 combineLatest(this.projectService.get(projectId), this.authService.authInfo())
                 .pipe(
@@ -111,10 +111,10 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         return this.entityPermissionService.queryByEntityId(entityId)
             .pipe(
                 map(permissions => {
-                    return _fp.flow(
-                        _fp.filter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
-                        _fp.map('user'),
-                        _fp.uniqBy('_id'),
+                    return flow(
+                        fpFilter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
+                        fpMap('user'),
+                        uniqBy('_id'),
                         (users: UserProfile[]) => this.withoutCurrentUser(users, currentUser)
                     )(permissions)
                 })
