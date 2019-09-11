@@ -25,10 +25,12 @@ export class InsightPageComponent implements OnInit, OnDestroy {
     private errors = {
         updateDescription: undefined
     };
+    private entityType = config.entityTypes.INSIGHT.value
 
-    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
-        InsightService, NotificationService];
-    constructor(private router: Router, private route: ActivatedRoute,
+    static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService];
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private insightService: InsightService,

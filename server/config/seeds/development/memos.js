@@ -21,5 +21,6 @@ let memos = [{
 ];
 
 export {
-    memos
+    memos,
+    memo1Id
 };

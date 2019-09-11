@@ -42,12 +42,30 @@ export const entityTypes = {
     DATA_CATALOG: {
         value: 'DataCatalog',
     },
+    INSIGHT: {
+        value: 'Insight'
+    },
+    RESOURCE: {
+        value: 'Resource'
+    },
     TOOL: {
         value: 'Tool',
     },
     ORGANIZATION: {
         value: 'Organization'
     }
+};
+
+export const notificationTypes = {
+    ENTITY_ACCESS_NOTIFICATION: {
+        value: 'EntityAccessNotification'
+    },
+    ENTITY_NOTIFICATION: {
+        value: 'EntityNotification'
+    },
+    MESSAGE_NOTIFICATION: {
+        value: 'MessageNotification'
+    },
 };
 
 export const insightTypes = {
@@ -248,6 +266,15 @@ export const models = {
             default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
     },
+    share: {
+        invitedUsers: {
+            minlength: 1
+        },
+        comment: {
+            minlength: 1,
+            maxlength: 1024
+        },
+    },
     resource: {
         title: {
             minlength: 3,
@@ -402,6 +429,7 @@ export default {
     models,
     accessTypes,
     entityTypes,
+    notificationTypes,
     insightTypes,
     resourceTypes,
     inviteStatusTypes,

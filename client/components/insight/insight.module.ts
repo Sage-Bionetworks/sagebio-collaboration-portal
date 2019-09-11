@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShareModule } from 'components/share/share.module';
+import { ShareService } from 'components/share/share.service';
 
 import { ActivityModule } from 'components/activity/activity.module';
 import { InsightService } from 'components/insight/insight.service';
@@ -18,6 +20,7 @@ import { InsightPageComponent } from './insight-page/insight-page.component';
         ReactiveFormsModule,
         MaterialModule,
         AppQuillModule,
+        ShareModule,
         ActivityModule,
         RouterModule,
     ],
@@ -26,7 +29,8 @@ import { InsightPageComponent } from './insight-page/insight-page.component';
         InsightPageComponent,
     ],
     providers: [
-        InsightService
+        InsightService,
+        ShareService,
     ],
     exports: [
         InsightNewComponent,

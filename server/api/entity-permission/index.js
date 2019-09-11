@@ -25,6 +25,7 @@ var router = Router();
  */
 router.get('/', auth.isAuthenticated(), controller.index);
 
+router.get('/:id', auth.isAuthenticated(), controller.show);
 /**
  * @swagger
  * /entity-permissions/entity/{entityId}:

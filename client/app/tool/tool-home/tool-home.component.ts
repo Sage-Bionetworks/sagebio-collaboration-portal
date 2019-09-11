@@ -13,6 +13,7 @@ import { UserPermissionDataService, UserPermissions } from 'components/auth/user
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
+import config from "../../app.constants";
 
 @Component({
     selector: 'tool-home',
@@ -28,6 +29,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     private canEditTool = true;
     private canDeleteTool = false;
     private userPermissionsSub: Subscription;
+    private entityType = config.entityTypes.TOOL.value
 
     static parameters = [
         Router,
@@ -47,7 +49,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private toolDataService: ToolDataService,
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
     ) {
         this.tool$ = this.toolDataService.tool();
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {

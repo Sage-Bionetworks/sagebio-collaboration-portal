@@ -21,6 +21,7 @@
 
             <div class="project-actions">
                 <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a>
+                <share-button [entity]="project_" [entityType]="entityType"></share-button>
             </div>
         </mat-card>
     </div>

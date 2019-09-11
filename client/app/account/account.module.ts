@@ -43,7 +43,7 @@ const accountRoutes: Routes = [{
         MaterialModule,
         SSOButtonsModule,
         NotificationModule,
-        MessagingModule
+        MessagingModule,
     ],
     declarations: [
         LoginComponent,

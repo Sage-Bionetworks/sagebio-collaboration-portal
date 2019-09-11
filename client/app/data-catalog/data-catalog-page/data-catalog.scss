@@ -75,7 +75,16 @@
   margin-left: 30px;
 }
 
-.data-catalog-actions > button,
-a {
+.data-catalog-actions > button, a {
   margin-bottom: 10px;
+}
+
+:host ::ng-deep .app-share-button {
+  margin: 0;
+  margin-bottom: 10px;
+  width: 100%;
+
+  .mat-button-wrapper {
+    display: block;
+  }
 }

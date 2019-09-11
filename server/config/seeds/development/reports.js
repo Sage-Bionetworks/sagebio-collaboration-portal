@@ -41,5 +41,8 @@ let reports = [{
 ];
 
 export {
-    reports
+    reports,
+    report1Id,
+    report2Id,
+    report3Id
 };

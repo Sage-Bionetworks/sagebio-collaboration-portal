@@ -9,6 +9,8 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
+import { Entity } from 'models/entities/entity.model';
 import { Patch } from 'models/patch.model';
 
 @Injectable()
