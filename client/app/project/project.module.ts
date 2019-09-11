@@ -29,7 +29,6 @@ import { ProjectHeaderComponent } from './project-header/project-header.componen
 import { ProjectHomeComponent } from './project-home/project-home.component';
 import { ProjectInsightNewComponent } from './project-insight-new/project-insight-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
-import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
@@ -111,7 +110,6 @@ export const ROUTES: Routes = [
         ProjectHomeComponent,
         ProjectInsightNewComponent,
         ProjectListComponent,
-        ProjectViewComponent,
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,

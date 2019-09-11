@@ -46,8 +46,7 @@ export class InsightNewComponent {
                     Validators.minLength(this.insightSpecs.description.minlength),
                     Validators.maxLength(this.insightSpecs.description.maxlength),
                 ],
-            ],
-            insightType: [this.insightSpecs.type.default.value, [Validators.required]],
+            ]
         });
     }
 

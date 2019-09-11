@@ -28,6 +28,8 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         updateDescription: undefined,
     };
 
+    private showInsightEditTemplate = false;
+
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService, InsightService, NotificationService];
     constructor(
         private router: Router,
@@ -81,31 +83,41 @@ export class InsightPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {}
 
-    updateDescription(): void {
-        let description = JSON.stringify(this.form.get('description').value);
-        // console.log('description', description);
-        // console.log('DESCRIPTION', description);
-        try {
-            this.insightService.updateInsightDescription(this.insight, description).subscribe(
-                insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                },
-                err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                }
-            );
-        } catch (e) {}
-        // try {
-        //     this.insightService.updateStateDescription(this.insight, description)
-        //         .subscribe(insight => {
-        //             this.notificationService.info('The description has been successfully saved');
-        //         }, err => {
-        //             console.log(err);
-        //             // this.errors.updateDescription = err.message;
-        //         });
-        // } catch (e) { }
+    // updateDescription(): void {
+    //     let description = JSON.stringify(this.form.get('description').value);
+    //     // console.log('description', description);
+    //     // console.log('DESCRIPTION', description);
+    //     try {
+    //         this.insightService.updateInsightDescription(this.insight, description).subscribe(
+    //             insight => {
+    //                 this.notificationService.info('The description has been successfully saved');
+    //             },
+    //             err => {
+    //                 console.log(err);
+    //                 // this.errors.updateDescription = err.message;
+    //             }
+    //         );
+    //     } catch (e) {}
+    //     // try {
+    //     //     this.insightService.updateStateDescription(this.insight, description)
+    //     //         .subscribe(insight => {
+    //     //             this.notificationService.info('The description has been successfully saved');
+    //     //         }, err => {
+    //     //             console.log(err);
+    //     //             // this.errors.updateDescription = err.message;
+    //     //         });
+    //     // } catch (e) { }
+    // }
+
+    onInsightEdit(insight: Insight): void {
+        if (insight) {
+            this.insight = insight;
+            this.form.setValue({
+                description: JSON.parse(this.insight.description),
+            });
+        }
     }
+
 
     sendInsight(insight: Insight): void {
         if (insight) {
