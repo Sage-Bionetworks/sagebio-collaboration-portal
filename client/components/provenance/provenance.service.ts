@@ -9,7 +9,6 @@ export class ProvenanceService {
     constructor(private httpClient: HttpClient) { }
 
     createProvenanceActivity(body): Observable<any> {
-        // console.log(`createProvenanceActivity body: ${JSON.stringify(body, null, 2)}`);
         return this.httpClient.post<any>(`/api/provenance`, body);
     }
 

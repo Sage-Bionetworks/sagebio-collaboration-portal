@@ -13,7 +13,6 @@ import {
 
 // Creates a new activity
 export function createProvenanceActivity(req, res) {
-    console.log('Back-end API createProvenanceActivity');
     var options = {
         method: 'POST',
         uri: `${config.provenance.apiServerUrl}/activities`,
