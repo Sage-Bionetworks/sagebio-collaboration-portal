@@ -6,7 +6,15 @@
                 >{{ insight.insightType }} created by {{ insight.createdBy.name }} on
                 {{ insight.createdAt | dateAndTime }}</mat-card-subtitle
             >
-            <div>
+            <div class="app-insight-actions">
+                <a
+                    mat-icon-button
+                    matTooltip="Send {{ insight.insightType }}"
+                    [attr.aria-label]="'Send ' + insight.insightType"
+                    (click)="sendInsight(insight)"
+                >
+                    <mat-icon aria-label="Share icon">share</mat-icon>
+                </a>
                 <a
                     mat-icon-button
                     [matMenuTriggerFor]="moreActionsMenu"
@@ -16,15 +24,13 @@
                     <mat-icon aria-label="Icon of three horizontal dots">more_vert</mat-icon>
                 </a>
                 <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                    <button
+                    <!-- <button
                         mat-menu-item
                         [attr.aria-label]="'Send ' + insight.insightType"
                         (click)="sendInsight(insight)"
                     >
                         <span>Share {{ insight.insightType }}</span>
-                    </button>
-                    <!-- (click)="copyLink(insight)" -->
-                    <!-- (cbOnSuccess)="notificationService.info('The URL to this ' + insight.insightType + ' has been copied.')" -->
+                    </button> -->
                     <button
                         ngxClipboard
                         [cbContent]="getLink()"
@@ -50,6 +56,7 @@
                         mat-menu-item
                         [attr.aria-label]="'Delete ' + insight.insightType"
                         (click)="deleteInsight(insight)"
+                        disabled
                     >
                         <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
                     </button>

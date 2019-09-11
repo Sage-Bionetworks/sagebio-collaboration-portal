@@ -25,6 +25,11 @@
     margin: 0 16px;
 }
 
+.app-insight-actions {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .app-insight-action-btn {
     margin-right: 10px;
 }
