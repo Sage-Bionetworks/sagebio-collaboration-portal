@@ -4,4 +4,8 @@
     $warn: map-get($theme, warn);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
+
+    .app-insight-actions-delete-btn-label {
+        color: #ce375c;
+    }
 }

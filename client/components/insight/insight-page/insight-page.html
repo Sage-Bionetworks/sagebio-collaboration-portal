@@ -1,10 +1,41 @@
 <mat-card *ngIf="insight" class="app-insight">
-    <mat-card-header>
+    <mat-card-header class="app-insight-header">
         <mat-card-title class="app-insight-title">{{ insight.title }}</mat-card-title>
         <mat-card-subtitle
             >{{ insight.insightType }} created by {{ insight.createdBy.name }} on
             {{ insight.createdAt | dateAndTime }}</mat-card-subtitle
         >
+        <div>
+            <a
+                mat-icon-button
+                [matMenuTriggerFor]="moreActionsMenu"
+                matTooltip="More actions"
+                aria-label="More actions"
+            >
+                <mat-icon aria-label="Icon of three horizontal dots">more_vert</mat-icon>
+            </a>
+            <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                <!-- <button mat-menu-item [attr.aria-label]="'Discuss ' + insight.insightType" (click)="(true)">
+                    <span>Discuss {{ insight.insightType }}</span>
+                </button> -->
+                <button mat-menu-item [attr.aria-label]="'Share ' + insight.insightType" (click)="(true)">
+                    <span>Share {{ insight.insightType }}</span>
+                </button>
+                <button mat-menu-item aria-label="Copy link" (click)="(true)">
+                        <span>Copy Link</span>
+                    </button>
+                <button mat-menu-item aria-label="Show Activity" (click)="(true)">
+                    <span>Show Activity</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item [attr.aria-label]="'Edit ' + insight.insightType" (click)="(true)">
+                    <span>Edit {{ insight.insightType }}</span>
+                </button>
+                <button mat-menu-item [attr.aria-label]="'Delete ' + insight.insightType" (click)="(true)">
+                    <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
+                </button>
+            </mat-menu>
+        </div>
     </mat-card-header>
 
     <mat-card-content class="app-insight-content">
@@ -15,17 +46,26 @@
             [body]="form.controls['description']"
         ></app-quill-editor>
 
-        <div class="app-insight-actions">
-            <show-activity-button class="app-insight-action-btn" [root]="insight" (click)="showActivity()"></show-activity-button>
-            <a mat-raised-button class="app-insight-action-btn" color="primary" [routerLink]="['/projects', insight.projectId, 'discussion']">
+        <!-- <div class="app-insight-actions">
+            <show-activity-button
+                class="app-insight-action-btn"
+                [root]="insight"
+                (click)="showActivity()"
+            ></show-activity-button>
+            <a
+                mat-raised-button
+                class="app-insight-action-btn"
+                color="primary"
+                [routerLink]="['/projects', insight.projectId, 'discussion']"
+            >
                 Discuss
             </a>
-            <a mat-raised-button class="app-insight-action-btn" color="primary" (click)="true">
+            <a mat-raised-button class="app-insight-action-btn" color="primary" (click)="(true)">
                 Share
             </a>
-            <a mat-raised-button class="app-insight-action-btn" (click)="true">
-                    Edit
-                </a>
-        </div>
+            <a mat-raised-button class="app-insight-action-btn" (click)="(true)">
+                Edit
+            </a>
+        </div> -->
     </mat-card-content>
 </mat-card>

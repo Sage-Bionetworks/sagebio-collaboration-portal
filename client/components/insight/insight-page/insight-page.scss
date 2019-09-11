@@ -1,3 +1,19 @@
+// :host {
+//     display: flex;
+//     flex-direction: column;
+//     flex-grow: 1;
+// }
+
+.app-insight {
+    margin: 25px;
+}
+
+.app-insight-header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+}
+
 .app-insight-title {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -9,14 +25,14 @@
     margin: 0 16px;
 }
 
-.app-insight-actions {
-    display: flex;
-    flex-flow: row wrap;
-    padding-top: 20px;
-}
-
 .app-insight-action-btn {
     margin-right: 10px;
+}
+
+.mat-card-header-text {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
 }
 
 // .insight-content {
