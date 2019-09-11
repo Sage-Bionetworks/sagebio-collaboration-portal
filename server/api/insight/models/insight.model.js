@@ -1,46 +1,57 @@
 import mongoose from 'mongoose';
 import { registerEvents } from '../insight.events';
 import User from '../../user/user.model';
-import config from '../../../config/environment';
+import { models as modelSpecs } from '../../../config/environment';
 
 const options = {
     discriminatorKey: 'insightType',
     collection: 'insights',
 };
 
-var InsightSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+var InsightSchema = new mongoose.Schema(
+    {
+        title: {
+            type: String,
+            required: true,
+            minlength: modelSpecs.insight.title.minlength,
+            maxlength: modelSpecs.insight.title.maxlength
+        },
+        description: {
+            type: String,
+            required: true,
+            minlength: modelSpecs.insight.description.minlength,
+            maxlength: modelSpecs.insight.description.maxlength
+        },
+        picture: {
+            type: String,
+            default: modelSpecs.insight.picture.default,
+        },
+        visibility: {
+            type: String,
+            required: true,
+            enum: modelSpecs.insight.visibility.options.map(visibility => visibility.value),
+            default: modelSpecs.insight.visibility.default.value,
+        },
+        projectId: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        createdBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        attachments: {
+            type: Object,
+            ref: 'EntityAttachments',
+        },
     },
-    description: {
-        type: String,
-        required: false
-    },
-    projectId: {
-        type: String,
-        required: true
-    },
-    visibility: {
-        type: String,
-        required: true,
-        enum: Object.values(config.entityVisibility).map(visibility => visibility.value),
-        default: config.models.insight.visibility.default
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: false
-    },
-    attachments: {
-        type: Object,
-        ref: 'EntityAttachments',
-    },
-}, options);
+    options
+);
 
 /**
  * Middlewares
