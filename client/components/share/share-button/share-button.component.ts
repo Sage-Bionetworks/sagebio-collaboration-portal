@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
-import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Entity } from 'models/entities/entity.model';
+import { ShareService } from '../share.service';
 
 @Component({
     selector: 'share-button',
@@ -8,14 +8,14 @@ import { Entity } from 'models/entities/entity.model';
     styles: [require('./share-button.scss')],
     encapsulation: ViewEncapsulation.None,
 })
-export class ShareButtonComponent implements OnInit {
+export class ShareButtonComponent {
     @Input() private entity: Entity;
-    @Output() click: EventEmitter<any> = new EventEmitter<any>();
+    @Input() private entityType: string;
 
-    static parameters = [SecondarySidenavService];
-    constructor(private sidenavService: SecondarySidenavService) {}
+    static parameters = [ShareService];
+    constructor(private shareService: ShareService) {}
 
-    ngOnInit() {}
-
-    ngOnDestroy() {}
+    share() {
+        this.shareService.shareEntity(this.entity, this.entityType);
+    }
 }

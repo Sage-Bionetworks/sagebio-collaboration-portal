@@ -16,7 +16,6 @@ import { EntityAccessListComponent } from 'components/entity/entity-access-list/
 import { ProjectDataService, DEFAULT_USER_PERMISSION } from '../project-data.service';
 import { ProjectHeaderService } from '../project-header/project-header.service';
 import { UserEntityPermission } from 'components/auth/user-entity-permission.model';
-import { ShareService } from 'components/share/share.service';
 
 @Component({
     selector: 'project-home',
@@ -27,12 +26,13 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
     private userProjectPermission: UserEntityPermission = DEFAULT_USER_PERMISSION;
     private showEditProjectTemplate = false;
+    private entityType = config.entityTypes.PROJECT.value
 
     private form: FormGroup;
 
     static parameters = [Router, ActivatedRoute, FormBuilder, PageTitleService,
         ProjectService, NotificationService, UserPermissionDataService,
-        ProjectDataService, ProjectHeaderService, ShareService];
+        ProjectDataService, ProjectHeaderService];
     constructor(private router: Router, private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
@@ -40,8 +40,7 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService,
         private projectDataService: ProjectDataService,
-        private projectHeaderService: ProjectHeaderService,
-        private shareService: ShareService
+        private projectHeaderService: ProjectHeaderService
         ) {
         this.form = formBuilder.group({
             description: ['', [
@@ -87,9 +86,5 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
         // console.log('onEditProject not yet implemented');
         // this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Project has been successfully updated');
-    }
-
-    share(project: Project): void {
-        this.shareService.shareEntity(project, config.entityTypes.PROJECT.value);
     }
 }
