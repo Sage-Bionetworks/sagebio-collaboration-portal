@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -17,6 +17,7 @@ import { ObjectValidators } from 'components/validation/object-validators';
     selector: 'insight-page',
     template: require('./insight-page.html'),
     styles: [require('./insight-page.scss')],
+    encapsulation: ViewEncapsulation.None
 })
 export class InsightPageComponent implements OnInit, OnDestroy {
     @Output() insightOutput = new EventEmitter<Insight>();
