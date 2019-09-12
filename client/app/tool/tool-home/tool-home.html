@@ -3,6 +3,7 @@
         <mat-card class="tool-card">
             <div class="tool-card-top">
                 <div class="tool-card-left-container">
+                    <share-button [entity]="tool" [entityType]="entityType"></share-button>
                     <h3>{{ tool.title }}</h3>
                     <picture>
                         <img [src]="tool.picture" aria-label="Tool picture" />
@@ -26,15 +27,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="tool-actions">
-                <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
-                <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
-                <show-activity-button [root]="tool" [routerLink]="'../activity'"></show-activity-button>
-                <share-button [entity]="tool" [entityType]="entityType"></share-button>
-                <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true"
-                    >Edit</a
-                >
+                <div class="tool-actions">
+                        <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
+                        <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
+                        <show-activity-button class="activity-button" [root]="tool" [routerLink]="'../activity'"></show-activity-button>
+                        <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true">Edit</a>
+                    </div>
             </div>
         </mat-card>
     </div>
