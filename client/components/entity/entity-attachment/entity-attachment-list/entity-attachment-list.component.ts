@@ -104,6 +104,12 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     //     console.log('DESTROYING LIST OF ATTACHMENTS');
     // }
 
+    getEntityTypeAndSubType(attachment: AttachmentBundle): string {
+        const entityType = attachment.attachment.entityType;
+        const entitySubType = this.getEntityService(entityType).getEntitySubType(attachment.entity);
+        return entitySubType ? entitySubType : entityType; // `${entityType} > ${entitySubType}`
+    }
+
     /**
      * Returns the service associated to the Entity type specified.
      * @param entityType

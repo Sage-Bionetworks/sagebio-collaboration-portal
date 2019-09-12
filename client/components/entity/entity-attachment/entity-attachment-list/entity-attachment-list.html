@@ -13,7 +13,7 @@
         >
             <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
             <h3 class="app-entity-attachment-bundle-title" matLine>{{ attachment.entity.title }}</h3>
-            <h3 class="app-entity-attachment-bundle-entity-type"matLine>{{ attachment.attachment.entityType }}</h3>
+            <h3 class="app-entity-attachment-bundle-entity-type"matLine>{{ getEntityTypeAndSubType(attachment) }}</h3>
             <!-- <button mat-icon-button (click)="showInfo(link)">
                         <mat-icon>info</mat-icon>
                     </button> -->
