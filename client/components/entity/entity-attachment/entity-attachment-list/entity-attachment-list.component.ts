@@ -146,7 +146,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             .pipe(
                 tap(plop => console.log('PLOP', plop)),
                 switchMap(entityType =>
-                    this.getEntityService(entityType).searchByTitle(
+                    this.getEntityService(entityType).searchByTerms(
                         this.attachmentForm.controls.attachment.valueChanges
                     )
                 )

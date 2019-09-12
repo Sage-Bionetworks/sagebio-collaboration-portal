@@ -51,13 +51,13 @@ export class InsightService implements EntityService<Insight> {
         throw new Error('Method not implemented.');
     }
 
-    searchByTitle(terms: Observable<string>): Observable<Insight[] | null> {
+    searchByTerms(terms: Observable<string>): Observable<Insight[] | null> {
         return terms.pipe(
             debounceTime(400),
             distinctUntilChanged(),
             switchMap(term => {
                 if (term) {
-                    return this.httpClient.get<Insight[]>(`/api/tools?insights=${term}`);
+                    return this.httpClient.get<Insight[]>(`/api/insights?searchTerms=${term}`);
                 } else {
                     return of(null);
                 }
