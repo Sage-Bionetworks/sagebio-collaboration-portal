@@ -32,7 +32,7 @@ export function createOrUpdateUser(User, userDataFromProvider) {
                     } else {
                         user = new User(userDataFromProvider);
                         user = Object.assign(user, {
-                            role: 'user'
+                            role: config.userRoles.USER.value
                         });
                     }
                     return user;
@@ -45,7 +45,7 @@ export function createOrUpdateUser(User, userDataFromProvider) {
 export function giveInitAdminRole() {
     return function (user) {
         if (user && user.email === config.init.admin.email) {
-            user.role = 'admin';  // TODO: use unique reference
+            user.role = config.userRoles.ADMIN.value;
         }
         return user;
     };
