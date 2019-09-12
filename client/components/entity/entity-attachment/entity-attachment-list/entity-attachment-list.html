@@ -18,6 +18,7 @@
                         <mat-icon>info</mat-icon>
                     </button> -->
             <button
+                *ngIf="!isReadOnly"
                 mat-icon-button
                 (click)="removeAttachment($event, attachment)"
                 [matTooltip]="'Remove ' + getEntityTypeAndSubType(attachment)"

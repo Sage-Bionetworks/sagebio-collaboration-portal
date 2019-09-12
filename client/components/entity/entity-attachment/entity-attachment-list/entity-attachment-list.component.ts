@@ -17,12 +17,7 @@ import { InsightService } from 'components/insight/insight.service';
 import { mergeMap, switchMap, map, flatMap, tap, ignoreElements } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
-
-export enum EntityAttachmentListMode {
-    DISPLAY,
-    NEW,
-    EDIT,
-}
+import { remove, pull } from 'lodash';
 
 @Component({
     selector: 'entity-attachment-list',
@@ -34,6 +29,7 @@ export enum EntityAttachmentListMode {
 export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     @Input() entity: E;
     @Input() entityService: EntityService<E>;
+    @Input() isReadOnly = true;
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
     private attachmentsDownloadProgress = 0;
@@ -72,7 +68,6 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
                 )
             );
 
-        console.log('PLOP', this.entity);
         if (this.entity) {
             const getAttachments = this.attachmentService
                 .query({
@@ -124,7 +119,8 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
 
     removeAttachment(event, attachment: AttachmentBundle): void {
         event.stopPropagation();
-        console.log('plop');
+        let attachments = this.attachments.getValue();
+        this.attachments.next(pull(attachments, attachment));
     }
 
     /**
