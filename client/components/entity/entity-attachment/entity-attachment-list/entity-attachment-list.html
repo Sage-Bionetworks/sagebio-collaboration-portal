@@ -1,4 +1,5 @@
 <h3>Attachments</h3>
+<span *ngIf="(attachments | async).length < 1">There are 0 attachments.</span>
 <mat-progress-spinner
     *ngIf="attachmentsDownloadProgress < 100; else showAttachments"
     [value]="attachmentsDownloadProgress"
