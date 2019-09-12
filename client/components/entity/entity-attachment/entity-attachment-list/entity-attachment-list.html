@@ -5,7 +5,10 @@
 ></mat-progress-spinner>
 <ng-template #showAttachments>
     <mat-nav-list>
-        <mat-list-item *ngFor="let attachment of attachments | async">
+        <mat-list-item
+            *ngFor="let attachment of attachments | async"
+            (click)="navigateToEntity(attachment.entity, attachment.attachment.entityType)"
+        >
             <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
             <a matLine>{{ attachment.attachment.entityId }}</a>
             <h3 matLine>{{ attachment.attachment.entityType }}</h3>

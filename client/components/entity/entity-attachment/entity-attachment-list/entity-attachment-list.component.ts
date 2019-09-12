@@ -36,6 +36,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     private entityTypes: any;
 
     static parameters = [
+        Router,
         EntityAttachmentService,
         ProjectService,
         DataCatalogService,
@@ -44,6 +45,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
         InsightService,
     ];
     constructor(
+        private router: Router,
         private attachmentService: EntityAttachmentService,
         private projectService: ProjectService,
         private dataCatalogService: DataCatalogService,
@@ -116,5 +118,19 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
             return this.insightService;
         }
         return null;
+    }
+
+    /**
+     * Navigates to the page of the entity specified.
+     * @param entity
+     * @param entityType
+     */
+    navigateToEntity(entity: Entity, entityType: string) {
+        console.log('entityType', entityType);
+        if (entity && entityType) {
+            const entityService = this.getEntityService(entityType);
+            console.log('entityService', entityService);
+            this.router.navigate(entityService.getRouterLink(entity));
+        }
     }
 }
