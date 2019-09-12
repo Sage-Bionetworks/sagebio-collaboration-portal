@@ -5,6 +5,7 @@ import { articles } from './articles';
 import { dataCatalogs } from './data-catalogs';
 import { dashboards } from './dashboards';
 import { entityPermissions } from './entity-permissions';
+import { entityAttachments } from './entity-attachments';
 import { memos } from './memos';
 import { messages } from './messages';
 import { threads } from './threads';
@@ -27,6 +28,7 @@ module.exports = {
     dataCatalogs,
     dashboards,
     entityPermissions,
+    entityAttachments,
     threads,
     memos,
     messages,

@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
-import { EntityAttachments } from 'models/entities/entity.model';
+// import { EntityAttachments } from 'models/entities/entity.model';
 import { Project } from 'models/entities/project.model';
 import { Insight } from 'models/entities/insights/insight.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -64,13 +64,13 @@ export class InsightService implements EntityService<Insight> {
         return this.httpClient.get<Insight>(`/api/insights/${insightId}`);
     }
 
-    updateInsightAttachments(insight: Insight, attachments: EntityAttachments[]): Observable<Insight> {
-        return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
-            [
-                { op: 'replace', path: '/attachments', value: attachments }
-            ]
-        );
-    }
+    // updateInsightAttachments(insight: Insight, attachments: EntityAttachments[]): Observable<Insight> {
+    //     return this.httpClient.patch<Insight>(`/api/insights/${insight._id}`,  // HACK
+    //         [
+    //             { op: 'replace', path: '/attachments', value: attachments }
+    //         ]
+    //     );
+    // }
 
     updateInsightDescription(insight: Insight, description: string): Observable<Insight> {
         return this.httpClient.patch<Insight>(

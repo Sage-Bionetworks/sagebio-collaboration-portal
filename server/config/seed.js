@@ -8,6 +8,7 @@ import Article from '../api/resource/models/article.model';
 import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
+import EntityAttachment from '../api/entity-attachment/entity-attachment.model';
 import MessageNotification from '../api/user-notification/models/message-notification.model';
 import EntityAccessNotification from '../api/user-notification/models/entity-access-notification.model';
 import EntityNotification from '../api/user-notification/models/entity-notification.model';
@@ -23,9 +24,7 @@ import Tool from '../api/tool/tool.model';
 import User from '../api/user/user.model';
 import ActionPermission from '../api/action-permission/action-permission.model';
 import WebApp from '../api/resource/models/webapp.model';
-import {
-    createActivities
-} from '../api/provenance/provenance.controller';
+import { createActivities } from '../api/provenance/provenance.controller';
 import config from './environment';
 import seeds from './seeds';
 
@@ -41,166 +40,209 @@ export function seedDatabaseIfNeeded() {
     let promises = [];
     let promise;
 
-    promise = App.find({}).deleteMany()
-        .then(() => seeds.apps ? App
-            .create(seeds.apps)
-            .then(() => console.log('finished populating apps')) : null
-        )
+    promise = App.find({})
+        .deleteMany()
+        .then(() => (seeds.apps ? App.create(seeds.apps).then(() => console.log('finished populating apps')) : null))
         .catch(err => console.log('error populating apps', err));
     promises.push(promise);
 
-    promise = Article.find({}).deleteMany()
-        .then(() => seeds.articles ? Article
-            .create(seeds.articles)
-            .then(() => console.log('finished populating articles')) : null
+    promise = Article.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.articles
+                ? Article.create(seeds.articles).then(() => console.log('finished populating articles'))
+                : null)
         )
         .catch(err => console.log('error populating articles', err));
     promises.push(promise);
 
-
-    promise = Dashboard.find({}).deleteMany()
-        .then(() => seeds.dashboards ? Dashboard
-            .create(seeds.dashboards)
-            .then(() => console.log('finished populating dashboards')) : null
+    promise = Dashboard.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.dashboards
+                ? Dashboard.create(seeds.dashboards).then(() => console.log('finished populating dashboards'))
+                : null)
         )
         .catch(err => console.log('error populating dashboards', err));
     promises.push(promise);
 
-
-    promise = DataCatalog.find({}).deleteMany()
-        .then(() => seeds.dataCatalogs ? DataCatalog
-            .create(seeds.dataCatalogs)
-            .then(() => console.log('finished populating data catalogs')) : null
+    promise = DataCatalog.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.dataCatalogs
+                ? DataCatalog.create(seeds.dataCatalogs).then(() => console.log('finished populating data catalogs'))
+                : null)
         )
         .catch(err => console.log('error populating data catalogs', err));
     promises.push(promise);
 
-
-    promise = EntityPermission.find({}).deleteMany()
-        .then(() => seeds.entityPermissions ? EntityPermission
-            .create(seeds.entityPermissions)
-            .then(() => console.log('finished populating entity permissions')) : null
+    promise = EntityPermission.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.entityPermissions
+                ? EntityPermission.create(seeds.entityPermissions).then(() =>
+                    console.log('finished populating entity permissions')
+                )
+                : null)
         )
         .catch(err => console.log('error populating entity permissions', err));
     promises.push(promise);
 
-    promise = MessageNotification.find({}).deleteMany()
-        .then(() => seeds.messageNotifications ? MessageNotification
-            .create(seeds.messageNotifications)
-            .then(() => console.log('finished populating message notifications')) : null)
+    promise = EntityAttachment.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.entityAttachments
+                ? EntityAttachment.create(seeds.entityAttachments).then(() =>
+                    console.log('finished populating entity attachments')
+                )
+                : null)
+        )
+        .catch(err => console.log('error populating entity attachments', err));
+    promises.push(promise);
+
+    promise = MessageNotification.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.messageNotifications
+                ? MessageNotification.create(seeds.messageNotifications).then(() =>
+                    console.log('finished populating message notifications')
+                )
+                : null)
+        )
         .catch(err => console.log('error populating message notifications', err));
     promises.push(promise);
 
-    promise = EntityAccessNotification.find({}).deleteMany()
-        .then(() => seeds.entityAccessNotifications ? EntityAccessNotification
-            .create(seeds.entityAccessNotifications)
-            .then(() => console.log('finished populating entity access notifications')) : null
+    promise = EntityAccessNotification.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.entityAccessNotifications
+                ? EntityAccessNotification.create(seeds.entityAccessNotifications).then(() =>
+                    console.log('finished populating entity access notifications')
+                )
+                : null)
         )
         .catch(err => console.log('error populating entity access notifications', err));
     promises.push(promise);
 
-    promise = EntityNotification.find({}).deleteMany()
-        .then(() => seeds.entityNotifications ? EntityNotification
-            .create(seeds.entityNotifications)
-            .then(() => console.log('finished populating entity notifications')) : null
+    promise = EntityNotification.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.entityNotifications
+                ? EntityNotification.create(seeds.entityNotifications).then(() =>
+                    console.log('finished populating entity notifications')
+                )
+                : null)
         )
         .catch(err => console.log('error populating entity notifications', err));
     promises.push(promise);
 
-    promise = Thread.find({}).deleteMany()
-        .then(() => seeds.threads ? Thread
-            .create(seeds.threads)
-            .then(() => console.log('finished populating threads')) : null
+    promise = Thread.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.threads ? Thread.create(seeds.threads).then(() => console.log('finished populating threads')) : null)
         )
         .catch(err => console.log('error populating threads', err));
     promises.push(promise);
 
-    promise = Memo.find({}).deleteMany()
-        .then(() => seeds.memos ? Memo
-            .create(seeds.memos)
-            .then(() => console.log('finished populating memos')) : null
+    promise = Memo.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.memos ? Memo.create(seeds.memos).then(() => console.log('finished populating memos')) : null)
         )
         .catch(err => console.log('error populating memos', err));
     promises.push(promise);
 
-    promise = Message.find({}).deleteMany()
-        .then(() => seeds.messages ? Message
-            .create(seeds.messages)
-            .then(() => console.log('finished populating messages')) : null
+    promise = Message.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.messages
+                ? Message.create(seeds.messages).then(() => console.log('finished populating messages'))
+                : null)
         )
         .catch(err => console.log('error populating messages', err));
     promises.push(promise);
 
-    promise = Organization.find({}).deleteMany()
-        .then(() => seeds.organizations ? Organization
-            .create(seeds.organizations)
-            .then(() => console.log('finished populating organizations')) : null
+    promise = Organization.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.organizations
+                ? Organization.create(seeds.organizations).then(() => console.log('finished populating organizations'))
+                : null)
         )
 
         .catch(err => console.log('error populating organizations', err));
     promises.push(promise);
 
-    promise = Project.find({}).deleteMany()
-        .then(() => seeds.projects ? Project
-            .create(seeds.projects)
-            .then(() => console.log('finished populating projects')) : null
+    promise = Project.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.projects
+                ? Project.create(seeds.projects).then(() => console.log('finished populating projects'))
+                : null)
         )
         .catch(err => console.log('error populating projects', err));
     promises.push(promise);
 
-    promise = StarredMessage.find({}).deleteMany()
-        .then(() => seeds.starredMessages ? StarredMessage
-            .create(seeds.starredMessages)
-            .then(() => console.log('finished populating starred messages')) : null
+    promise = StarredMessage.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.starredMessages
+                ? StarredMessage.create(seeds.starredMessages).then(() =>
+                    console.log('finished populating starred messages')
+                )
+                : null)
         )
         .catch(err => console.log('error populating starred messages', err));
     promises.push(promise);
 
-    promise = State.find({}).deleteMany()
-        .then(() => seeds.states ? State
-            .create(seeds.states)
-            .then(() => console.log('finished populating states')) : null
+    promise = State.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.states ? State.create(seeds.states).then(() => console.log('finished populating states')) : null)
         )
         .catch(err => console.log('error populating states', err));
     promises.push(promise);
 
-    promise = Report.find({}).deleteMany()
-        .then(() => seeds.reports ? Report
-            .create(seeds.reports)
-            .then(() => console.log('finished populating reports')) : null
+    promise = Report.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.reports ? Report.create(seeds.reports).then(() => console.log('finished populating reports')) : null)
         )
         .catch(err => console.log('error populating reports', err));
     promises.push(promise);
 
-    promise = Tool.find({}).deleteMany()
-        .then(() => seeds.tools ? Tool
-            .create(seeds.tools)
-            .then(() => console.log('finished populating tools')) : null
+    promise = Tool.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.tools ? Tool.create(seeds.tools).then(() => console.log('finished populating tools')) : null)
         )
         .catch(err => console.log('error populating tools', err));
     promises.push(promise);
 
-    promise = User.find({}).deleteMany()
-        .then(() => seeds.users ? User
-            .create(seeds.users)
-            .then(() => console.log('finished populating users')) : null
+    promise = User.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.users ? User.create(seeds.users).then(() => console.log('finished populating users')) : null)
         )
         .catch(err => console.log('error populating users', err));
     promises.push(promise);
 
-
-    promise = ActionPermission.find({}).deleteMany()
-        .then(() => seeds.actionPermissions ? ActionPermission
-            .create(seeds.actionPermissions)
-            .then(() => console.log('finished populating action permissions')) : null
+    promise = ActionPermission.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.actionPermissions
+                ? ActionPermission.create(seeds.actionPermissions).then(() =>
+                    console.log('finished populating action permissions')
+                )
+                : null)
         )
         .catch(err => console.log('error populating user permissions', err));
     promises.push(promise);
 
-    promise = WebApp.find({}).deleteMany()
-        .then(() => seeds.webapps ? WebApp
-            .create(seeds.webapps)
-            .then(() => console.log('finished populating webapps')) : null
+    promise = WebApp.find({})
+        .deleteMany()
+        .then(() =>
+            (seeds.webapps ? WebApp.create(seeds.webapps).then(() => console.log('finished populating webapps')) : null)
         )
         .catch(err => console.log('error populating webapps', err));
     promises.push(promise);

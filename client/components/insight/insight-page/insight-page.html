@@ -53,14 +53,12 @@
 
         <mat-card-content class="app-insight-content">
             <app-quill-editor
-                class=""
                 [isReadOnly]="true"
                 [showActions]="false"
                 [body]="form.controls['description']"
             ></app-quill-editor>
 
             <entity-attachments
-                *ngIf="insight.attachments"
                 [mode]="mode"
                 [attachments]="insight.attachments"
                 (updateAttachments)="updateAttachments($event)"

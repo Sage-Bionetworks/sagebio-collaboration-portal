@@ -36,12 +36,6 @@ export interface Insight extends Entity {
     insightType: string;
 }
 
-export interface InsightAttachment {
-    entityId?: string;
-    entitySubType?: string;
-    name?: string;
-}
-
 /**
  * @swagger
  * components:
@@ -56,3 +50,11 @@ export enum InsightType {
     MEMO = 'Memo',
     REPORT = 'Report',
 }
+
+
+export interface InsightAttachment {
+    entityId?: string;
+    entitySubType?: string;
+    name?: string;
+}
+

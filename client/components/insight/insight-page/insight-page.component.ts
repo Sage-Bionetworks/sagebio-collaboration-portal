@@ -6,7 +6,7 @@ import { InsightService } from 'components/insight/insight.service';
 // import { StateService } from '../../state/state.service';
 import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 
-import { EntityAttachmentMode } from 'models/entities/entity.model';
+// import { EntityAttachmentMode } from 'models/entities/entity.model';
 import { Insight } from 'models/entities/insights/insight.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
@@ -23,18 +23,20 @@ import { ObjectValidators } from 'components/validation/object-validators';
     encapsulation: ViewEncapsulation.None,
 })
 export class InsightPageComponent implements OnInit {
-    @Output() insightOutput: EventEmitter<Insight> = new EventEmitter<Insight>();
-    private isAdmin = false;
-    private mode = EntityAttachmentMode.DISPLAY;
-    private userPermissionsSub: Subscription;
-    private permissions: Observable<UserPermissions>;
-
     private insight: Insight;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
     };
     private entityType: string;
+
+
+    private isAdmin = false;
+    // private mode = EntityAttachmentMode.DISPLAY;
+    private userPermissionsSub: Subscription;
+    private permissions: Observable<UserPermissions>;
+
+
 
     static parameters = [
         Router,
@@ -65,9 +67,9 @@ export class InsightPageComponent implements OnInit {
                 this.isAdmin = userPermissions.isAdmin();
 
                 // TODO: Apply permissions so that users other than Admin can edit
-                if (this.isAdmin) {
-                    this.mode = EntityAttachmentMode.EDIT;
-                }
+                // if (this.isAdmin) {
+                //     this.mode = EntityAttachmentMode.EDIT;
+                // }
             },
             err => console.log(err)
         );
@@ -87,7 +89,6 @@ export class InsightPageComponent implements OnInit {
                     }
                 }
                 this.insight = insight;
-                this.insightOutput.emit(insight);
             });
     }
 
@@ -102,19 +103,23 @@ export class InsightPageComponent implements OnInit {
             });
     }
 
-    updateAttachments(attachments): void {
-        try {
-            this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
-                insight => {
-                    this.notificationService.info('The attachments have been successfully saved');
-                },
-                err => {
-                    console.log(err);
-                }
-            );
-        } catch (e) {
-            console.log(e);
-        }
+    // updateAttachments(attachments): void {
+    //     try {
+    //         this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
+    //             insight => {
+    //                 this.notificationService.info('The attachments have been successfully saved');
+    //             },
+    //             err => {
+    //                 console.log(err);
+    //             }
+    //         );
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+
+    getLink(): string {
+        return window.location.href;
     }
 
     onInsightEdit(insight: Insight): void {
@@ -124,10 +129,6 @@ export class InsightPageComponent implements OnInit {
                 description: JSON.parse(this.insight.description),
             });
         }
-    }
-
-    getLink(): string {
-        return window.location.href;
     }
 
     deleteInsight(insight: Insight): void {
