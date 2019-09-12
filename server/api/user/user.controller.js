@@ -6,6 +6,7 @@ import {
     identity
 } from 'lodash/fp';
 import { applyPatch } from 'fast-json-patch';
+import { userRoles } from '../../config/environment';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -47,7 +48,7 @@ export function index(req, res) {
 export function create(req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
-    newUser.role = 'user';
+    newUser.role = userRoles.USER.value;
     newUser.createdBy = req.user._id.toString();
 
     return newUser.save()
