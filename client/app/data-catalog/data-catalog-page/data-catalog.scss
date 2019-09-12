@@ -63,28 +63,6 @@
   margin-top: 0px;
 }
 
-// .data-catalog-description {
-//   padding-top: 20px;
-// }
-
-.data-catalog-actions {
-  display: flex;
-  flex-flow: column nowrap;
-//   padding: 25px 10px;
-  margin-left: 30px;
-}
-
-.data-catalog-actions > button, a {
-  margin-bottom: 10px;
-}
-
-.data-catalog-share-button-space {
-    display: flex;
-    flex-flow: row-reverse nowrap;
-    padding-right: 55px;
-    padding-bottom: 10px;
-}
-
 :host ::ng-deep .app-share-button {
   margin: 0;
   margin-bottom: 10px;
@@ -100,6 +78,11 @@
     flex-flow: column nowrap;
     margin-left: 30px;
 }
+
+.app-data-catalog-button-actions > button, a {
+    margin-bottom: 10px;
+  }
+
 .app-data-catalog-icon-actions {
     display: flex;
     flex-flow: row nowrap;

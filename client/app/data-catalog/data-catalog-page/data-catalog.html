@@ -30,9 +30,6 @@
             </div>
 
             <div class="app-data-catalog-actions">
-                <!-- <div class="data-catalog-share-button-space">
-                    <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
-                </div> -->
                 <div class="app-data-catalog-icon-actions">
                         <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
                         <a
@@ -44,7 +41,7 @@
                             <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
                         </a>
                         <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                            <!-- <button
+                            <button
                                 ngxClipboard
                                 [cbContent]="getLink()"
                                 (cbOnSuccess)="notificationService.info('Link copied')"
@@ -53,8 +50,8 @@
                                 aria-label="Copy link"
                             >
                                 <span>Copy Link</span>
-                            </button> -->
-                            <!-- <mat-divider></mat-divider>
+                            </button>
+                            <mat-divider></mat-divider>
                             <button
                                 mat-menu-item
                                 [attr.aria-label]="'Edit'"
@@ -71,14 +68,12 @@
                                 disabled
                             >
                                 <span class="app-data-catalog-actions-delete-btn-label">Delete</span>
-                            </button> -->
+                            </button>
                         </mat-menu>
                 </div>
                 <div class="app-data-catalog-button-actions">
                     <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
                     <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
-                <!-- <a mat-raised-button *ngIf="canEditDataCatalog" (click)="showEditDataCatalogTemplate=true">Edit</a> -->
-                <!-- <a mat-raised-button color="warn" *ngIf="canDeleteDataCatalog" (click)="onDeleteDataCatalog()">Delete</a> -->
                 </div>
             </div>
         </mat-card>
