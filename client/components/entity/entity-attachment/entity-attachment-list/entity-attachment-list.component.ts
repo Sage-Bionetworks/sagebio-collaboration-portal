@@ -1,3 +1,4 @@
+import { EntityAttachmentService } from './../entity-attachment.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { InsightService } from 'components/insight/insight.service';
@@ -20,8 +21,19 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
 
     private attachments: BehaviorSubject<EntityAttachment[]> = new BehaviorSubject<EntityAttachment[]>([]);
 
-    static parameters = [];
-    constructor() {}
+    static parameters = [EntityAttachmentService];
+    constructor(private attachmentService: EntityAttachmentService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.entity) {
+            this.attachmentService
+                .query({
+                    parentEntityId: this.entity._id,
+                })
+                .subscribe(attachments => {
+                    console.log('attachment', attachments);
+                    this.attachments.next(attachments);
+                });
+        }
+    }
 }
