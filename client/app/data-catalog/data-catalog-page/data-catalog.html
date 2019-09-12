@@ -5,6 +5,7 @@
     </div>
 
     <div class="data-catalog-content">
+
         <mat-card class="data-catalog-card">
             <picture>
                 <img [src]="dataCatalog.picture" aria-label="Data catalog preview" />
@@ -19,20 +20,66 @@
                     <mat-icon>storage</mat-icon>
                     <span>{{ catalogStats.datasetCount }} datasets</span>
                 </div>
-                <div *ngIf="!catalogStats.live" class="data-catalog-metadata-row">
+                <!-- <div *ngIf="!catalogStats.live" class="data-catalog-metadata-row">
                     <mat-icon>cloud_off</mat-icon>
                     <span>This data catalog can not be reached.</span>
-                </div>
+                </div> -->
                 <div class="data-catalog-metadata-description">
                     <span>{{ dataCatalog.description }}</span>
                 </div>
             </div>
-            <div class="data-catalog-actions">
-                <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
-                <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
-                <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
-                <a mat-raised-button *ngIf="canEditDataCatalog" (click)="showEditDataCatalogTemplate=true">Edit</a>
-                <a mat-raised-button color="warn" *ngIf="canDeleteDataCatalog" (click)="onDeleteDataCatalog()">Delete</a>
+
+            <div class="app-data-catalog-actions">
+                <!-- <div class="data-catalog-share-button-space">
+                    <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
+                </div> -->
+                <div class="app-data-catalog-icon-actions">
+                        <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
+                        <a
+                            mat-icon-button
+                            [matMenuTriggerFor]="moreActionsMenu"
+                            matTooltip="More actions"
+                            aria-label="More actions"
+                        >
+                            <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                        </a>
+                        <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                            <!-- <button
+                                ngxClipboard
+                                [cbContent]="getLink()"
+                                (cbOnSuccess)="notificationService.info('Link copied')"
+                                (cbOnError)="notificationService.info('Unable to copy the link.')"
+                                mat-menu-item
+                                aria-label="Copy link"
+                            >
+                                <span>Copy Link</span>
+                            </button> -->
+                            <!-- <mat-divider></mat-divider>
+                            <button
+                                mat-menu-item
+                                [attr.aria-label]="'Edit'"
+                                *ngIf="canEditDataCatalog"
+                                (click)="showEditDataCatalogTemplate=true"
+                            >
+                                <span>Edit</span>
+                            </button>
+                            <button
+                                mat-menu-item
+                                [attr.aria-label]="'Delete'"
+                                *ngIf="canDeleteDataCatalog"
+                                (click)="onDeleteDataCatalog()"
+                                disabled
+                            >
+                                <span class="app-data-catalog-actions-delete-btn-label">Delete</span>
+                            </button> -->
+                        </mat-menu>
+                </div>
+                <div class="app-data-catalog-button-actions">
+                    <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
+                    <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
+                <!-- <a mat-raised-button *ngIf="canEditDataCatalog" (click)="showEditDataCatalogTemplate=true">Edit</a> -->
+                <!-- <a mat-raised-button color="warn" *ngIf="canDeleteDataCatalog" (click)="onDeleteDataCatalog()">Delete</a> -->
+                </div>
             </div>
         </mat-card>
     </div>
@@ -41,3 +88,6 @@
 <ng-template #showEditDataCatalogForm>
     <data-catalog-edit *ngIf="dataCatalog" [dataCatalog]="dataCatalog" (editDataCatalog)="onEditDataCatalog($event)" (close)="showEditDataCatalogTemplate=false"></data-catalog-edit>
 </ng-template>
+
+
+

@@ -70,13 +70,19 @@
 .data-catalog-actions {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
-  padding: 25px 10px;
+//   padding: 25px 10px;
   margin-left: 30px;
 }
 
 .data-catalog-actions > button, a {
   margin-bottom: 10px;
+}
+
+.data-catalog-share-button-space {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    padding-right: 55px;
+    padding-bottom: 10px;
 }
 
 :host ::ng-deep .app-share-button {
@@ -87,4 +93,16 @@
   .mat-button-wrapper {
     display: block;
   }
+}
+
+.app-data-catalog-button-actions {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 30px;
+}
+.app-data-catalog-icon-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 30px;
+    justify-content: flex-end;
 }
