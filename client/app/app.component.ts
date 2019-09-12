@@ -6,7 +6,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 @Component({
     selector: 'app',
     template: `
-    <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav-container class="app-sidenav-container" [hasBackdrop]="false">
         <mat-sidenav #sidenav>
             <!--<app-sidenav></app-sidenav>-->
         </mat-sidenav>
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     constructor(private secondarySidenavService: SecondarySidenavService) { }
 
     ngOnInit() {
-        this.secondarySidenav.mode = 'side';
+        this.secondarySidenav.mode = 'over';
         this.secondarySidenav.autoFocus = false;
         this.secondarySidenavService.sidenav = this.secondarySidenav;
         this.secondarySidenavService.sidenavContent = this.secondarySidenavContent;

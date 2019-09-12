@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -20,19 +20,21 @@ import { ObjectValidators } from 'components/validation/object-validators';
     selector: 'insight-page',
     template: require('./insight-page.html'),
     styles: [require('./insight-page.scss')],
+    encapsulation: ViewEncapsulation.None,
 })
-export class InsightPageComponent implements OnInit, OnDestroy {
-    @Output() insightOutput = new EventEmitter<Insight>();
+export class InsightPageComponent implements OnInit {
+    @Output() insightOutput: EventEmitter<Insight> = new EventEmitter<Insight>();
     private isAdmin = false;
     private mode = EntityAttachmentMode.DISPLAY;
     private userPermissionsSub: Subscription;
     private permissions: Observable<UserPermissions>;
+
     private insight: Insight;
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
     };
-    private entityType = config.entityTypes.INSIGHT.value
+    private entityType: string;
 
     static parameters = [
         Router,
@@ -53,15 +55,9 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService
     ) {
+        this.entityType = config.entityTypes.INSIGHT.value;
         this.form = formBuilder.group({
-            description: [
-                '',
-                [
-                    // Validators.required,
-                    // ObjectValidators.jsonStringifyMinLength(config.models.insight.description.minlength),
-                    ObjectValidators.jsonStringifyMaxLength(config.models.insight.description.maxlength),
-                ],
-            ],
+            description: ['', []],
         });
 
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
@@ -106,8 +102,6 @@ export class InsightPageComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnDestroy() {}
-
     updateAttachments(attachments): void {
         try {
             this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
@@ -123,33 +117,32 @@ export class InsightPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    updateDescription(): void {
-        let description = JSON.stringify(this.form.get('description').value);
-        // console.log('description', description);
-        // console.log('DESCRIPTION', description);
-        try {
-            this.insightService.updateInsightDescription(this.insight, description).subscribe(
-                insight => {
-                    this.notificationService.info('The description has been successfully saved');
-                },
-                err => {
-                    console.log(err);
-                    // this.errors.updateDescription = err.message;
-                }
-            );
-        } catch (e) {}
-        // try {
-        //     this.insightService.updateStateDescription(this.insight, description)
-        //         .subscribe(insight => {
-        //             this.notificationService.info('The description has been successfully saved');
-        //         }, err => {
-        //             console.log(err);
-        //             // this.errors.updateDescription = err.message;
-        //         });
-        // } catch (e) { }
+    onInsightEdit(insight: Insight): void {
+        if (insight) {
+            this.insight = insight;
+            this.form.setValue({
+                description: JSON.parse(this.insight.description),
+            });
+        }
+    }
+
+    sendInsight(insight: Insight): void {
+        if (insight) {
+            this.notificationService.info('Not implemented');
+        }
+    }
+
+    getLink(): string {
+        return window.location.href;
     }
 
     showActivity(): void {
         this.insightService.showActivity(this.insight);
+    }
+
+    deleteInsight(insight: Insight): void {
+        if (insight) {
+            this.notificationService.info('Not implemented');
+        }
     }
 }

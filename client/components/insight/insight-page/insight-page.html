@@ -1,43 +1,84 @@
 <div *ngIf="insight">
-    <div class="insight-content">
-        <mat-card class="insight-card">
-            <div class="insight-card-top">
-                <div class="insight-card-left-container">
-                    <div class="insight-card-prov-graph-actions">
-                        <show-activity-button [root]="insight" (click)="showActivity()"></show-activity-button>
-                        <share-button [entity]="insight" [entityType]="entityType"></share-button>
-                    </div>
-                    <h3>{{ insight.insightType }} Content</h3>
-                    <form [formGroup]="form" novalidate>
-                        <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description"
-                            placeholder="Insert text here..." [body]="form.controls['description']"
-                            (onSave)="updateDescription()"></app-quill-editor>
-                        <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
-                            This message must be smaller than
-                            {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2 * 1024) | number: '1.0-0' }}
-                            KB (value:
-                            {{ (form.controls.description.errors.jsonStringifyMaxLength.value * 2) / 1024 | number: '1.0-0' }}
-                            KB)
-                        </mat-error>
-                        <mat-error *ngIf="errors.updateDescription">
-                            {{ errors.updateDescription }}
-                        </mat-error>
-                    </form>
-                    <div class="insight-card-info">
-                        <span><b>Created by:</b> {{ insight.createdBy.name }}</span>
-                        <span *ngIf="insight.data === undefined"><b>Type:</b> Report</span>
-                        <span *ngIf="insight.data !== undefined"><b>Type:</b> Memo</span>
-                        <entity-attachments *ngIf="insight.attachments" [mode]="mode" [attachments]="insight.attachments" (updateAttachments)="updateAttachments($event)"></entity-attachments>
-                    </div>
-                </div>
-            </div>
+    <mat-card *ngIf="!showInsightEditTemplate; else showInsightEditForm" class="app-insight">
+        <mat-card-header class="app-insight-header">
+            <mat-card-title class="app-insight-title">{{ insight.title }}</mat-card-title>
+            <mat-card-subtitle
+                >{{ insight.insightType }} created by {{ insight.createdBy.name }} on
+                {{ insight.createdAt | dateAndTime }}</mat-card-subtitle
+            >
             <div class="app-insight-actions">
-                <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
-                <a mat-raised-button routerLink="..">Go Back</a>
-                <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create
-                    New Insight</a>
+                <share-button [entity]="insight" [entityType]="entityType"></share-button>
+                <a
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreActionsMenu"
+                    matTooltip="More actions"
+                    aria-label="More actions"
+                >
+                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                </a>
+                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                    <!-- <button
+                        mat-menu-item
+                        [attr.aria-label]="'Send ' + insight.insightType"
+                        (click)="sendInsight(insight)"
+                    >
+                        <span>Share {{ insight.insightType }}</span>
+                    </button> -->
+                    <button
+                        ngxClipboard
+                        [cbContent]="getLink()"
+                        (cbOnSuccess)="notificationService.info('Link copied')"
+                        (cbOnError)="notificationService.info('Unable to copy the link.')"
+                        mat-menu-item
+                        aria-label="Copy link"
+                    >
+                        <span>Copy Link</span>
+                    </button>
+                    <button mat-menu-item aria-label="Show Activity" (click)="showActivity(insight)">
+                        <span>Show Activity</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button
+                        mat-menu-item
+                        [attr.aria-label]="'Edit ' + insight.insightType"
+                        (click)="showInsightEditTemplate = true"
+                    >
+                        <span>Edit {{ insight.insightType }}</span>
+                    </button>
+                    <button
+                        mat-menu-item
+                        [attr.aria-label]="'Delete ' + insight.insightType"
+                        (click)="deleteInsight(insight)"
+                        disabled
+                    >
+                        <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
+                    </button>
+                </mat-menu>
             </div>
-        </mat-card>
-    </div>
+        </mat-card-header>
+
+        <mat-card-content class="app-insight-content">
+            <app-quill-editor
+                class=""
+                [isReadOnly]="true"
+                [showActions]="false"
+                [body]="form.controls['description']"
+            ></app-quill-editor>
+
+            <entity-attachments
+                *ngIf="insight.attachments"
+                [mode]="mode"
+                [attachments]="insight.attachments"
+                (updateAttachments)="updateAttachments($event)"
+            ></entity-attachments>
+        </mat-card-content>
+    </mat-card>
+
+    <ng-template #showInsightEditForm>
+        <insight-edit
+            [insight]="insight"
+            (insightEdit)="onInsightEdit($event)"
+            (cancel)="showInsightEditTemplate = false"
+        ></insight-edit>
+    </ng-template>
 </div>

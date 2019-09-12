@@ -1,15 +1,11 @@
-@mixin activity-sidenav-theme($theme) {
+@mixin share-sidenav-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
     $warn: map-get($theme, warn);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    .app-activity-header {
-        background: #9d9d9d;
-    }
-
-    .app-activity-header-close {
+    .app-share-header-close {
         color: mat-color($primary, default-contrast);
     }
 }
