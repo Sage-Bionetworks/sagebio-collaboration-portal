@@ -11,6 +11,11 @@ var EntityAttachmentSchema = new mongoose.Schema({
         enum: Object.values(config.entityTypes).map(entity => entity.value),
         required: true,
     },
+    entitySubType: {
+        type: String,
+        // enum: Object.values(config.entityTypes).map(entity => entity.value),
+        // required: true,
+    },
     parentEntityId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
