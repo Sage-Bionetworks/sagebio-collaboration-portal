@@ -6,7 +6,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 @Component({
     selector: 'app',
     template: `
-    <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav-container class="app-sidenav-container" [hasBackdrop]="false">
         <mat-sidenav #sidenav>
             <!--<app-sidenav></app-sidenav>-->
         </mat-sidenav>

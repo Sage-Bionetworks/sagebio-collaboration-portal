@@ -34,7 +34,7 @@ export class InsightPageComponent implements OnInit {
     private errors = {
         updateDescription: undefined,
     };
-    private entityType = config.entityTypes.INSIGHT.value;
+    private entityType: string;
 
     static parameters = [
         Router,
@@ -55,6 +55,7 @@ export class InsightPageComponent implements OnInit {
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService
     ) {
+        this.entityType = config.entityTypes.INSIGHT.value;
         this.form = formBuilder.group({
             description: ['', []],
         });
