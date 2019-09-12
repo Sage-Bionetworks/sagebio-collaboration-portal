@@ -54,4 +54,11 @@ export abstract class EntityService<E extends Entity> {
      * @param entity
      */
     abstract makePrivate(entity: E): Observable<E>;
+
+    // MODEL FUNCTIONS
+
+    /**
+     * Returns the sub-type of the entity or null.
+     */
+    abstract getEntitySubType(entity: E): string;
 }

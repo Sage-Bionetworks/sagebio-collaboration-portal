@@ -50,6 +50,12 @@ export class InsightService implements EntityService<Insight> {
         throw new Error('Method not implemented.');
     }
 
+    // MODEL FUNCTIONS
+
+    getEntitySubType(insight: Insight): string {
+        return insight.insightType;
+    }
+
     // FUNCTIONS TO REVIEW
 
     queryByProject(project: Project, query?: {}): Observable<Insight[]> {

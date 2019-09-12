@@ -4,15 +4,15 @@ import { entityTypes, insightTypes } from '../../environment/shared';
 
 let entityAttachments = [
     {
-        entityId: report3Id,
+        entityId: report2Id,
         entityType: entityTypes.INSIGHT.value,
         entitySubType: insightTypes.REPORT.value,
-        parentEntityId: report2Id,
+        parentEntityId: report3Id,
     },
     {
         entityId: phccpShinyToolExample._id,
         entityType: entityTypes.TOOL.value,
-        parentEntityId: report2Id,
+        parentEntityId: report3Id,
     },
 ];
 

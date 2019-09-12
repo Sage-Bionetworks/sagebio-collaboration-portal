@@ -1,0 +1,9 @@
+<h3>Attachments</h3>
+<mat-nav-list>
+    <mat-list-item *ngFor="let attachment of attachments | async">
+        <a matLine>{{ attachment.entityId }}</a>
+        <!-- <button mat-icon-button (click)="showInfo(link)">
+            <mat-icon>info</mat-icon>
+        </button> -->
+    </mat-list-item>
+</mat-nav-list>

@@ -58,11 +58,13 @@
                 [body]="form.controls['description']"
             ></app-quill-editor>
 
-            <entity-attachments
+            <entity-attachment-list [entity]="insight" [entityService]="insightService"></entity-attachment-list>
+
+            <!-- <entity-attachments
                 [mode]="mode"
                 [attachments]="insight.attachments"
                 (updateAttachments)="updateAttachments($event)"
-            ></entity-attachments>
+            ></entity-attachments> -->
         </mat-card-content>
     </mat-card>
 

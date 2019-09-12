@@ -47,6 +47,12 @@ export class ResourceService implements EntityService<Resource> {
         throw new Error('Method not implemented.');
     }
 
+    // MODEL FUNCTIONS
+
+    getEntitySubType(resource: Resource): string {
+        return resource.resourceType;
+    }
+
     // FUNCTIONS TO REVIEW
 
     queryByProject(project: Project, query?: {}): Observable<Resource[]> {

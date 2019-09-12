@@ -16,6 +16,8 @@ import { EntityDiscussionComponent } from './entity-discussion/entity-discussion
 import { EntityListComponent } from './entity-list/entity-list.component';
 import { EntityListCardComponent } from './entity-list-card/entity-list-card.component';
 import { EntityListItemComponent } from './entity-list-item/entity-list-item.component';
+import { EntityAttachmentService } from './entity-attachment/entity-attachment.service';
+import { EntityAttachmentListComponent } from './entity-attachment/entity-attachment-list/entity-attachment-list.component';
 
 @NgModule({
     imports: [
@@ -27,11 +29,9 @@ import { EntityListItemComponent } from './entity-list-item/entity-list-item.com
         SocketModule,
         RouterModule,
         FiltersModule,
-        MessagingModule
+        MessagingModule,
     ],
-    providers: [
-        // EntityService
-    ],
+    providers: [EntityAttachmentService],
     declarations: [
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
@@ -40,6 +40,7 @@ import { EntityListItemComponent } from './entity-list-item/entity-list-item.com
         EntityListComponent,
         EntityListCardComponent,
         EntityListItemComponent,
+        EntityAttachmentListComponent,
     ],
     exports: [
         EntityAccessListComponent,
@@ -49,6 +50,7 @@ import { EntityListItemComponent } from './entity-list-item/entity-list-item.com
         EntityListComponent,
         // EntityListItemComponent
         // EntityViewComponent
-    ]
+        EntityAttachmentListComponent,
+    ],
 })
-export class EntityModule { }
+export class EntityModule {}

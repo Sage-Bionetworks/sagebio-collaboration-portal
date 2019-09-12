@@ -47,6 +47,12 @@ export class ToolService implements EntityService<Tool> {
         throw new Error('Method not implemented.');
     }
 
+    // MODEL FUNCTIONS
+
+    getEntitySubType(tool: Tool): string {
+        return null;
+    }
+
     // FUNCTIONS TO REVIEW
 
     getToolHealth(tool: Tool): Observable<ToolHealth> {

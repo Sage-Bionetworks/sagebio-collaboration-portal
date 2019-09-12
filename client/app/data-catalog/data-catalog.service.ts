@@ -44,4 +44,10 @@ export class DataCatalogService implements EntityService<DataCatalog> {
     makePrivate(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
     }
+
+    // MODEL FUNCTIONS
+
+    getEntitySubType(dataCatalog: DataCatalog): string {
+        return null;
+    }
 }

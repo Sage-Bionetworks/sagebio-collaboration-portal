@@ -47,6 +47,12 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 
+    // MODEL FUNCTIONS
+
+    getEntitySubType(project: Project): string {
+        return null;
+    }
+
     // TOD REVIEW
 
     getVisibility(projectId: string): Observable<EntityVisibility> {
