@@ -53,6 +53,10 @@ export class ToolService implements EntityService<Tool> {
         return null;
     }
 
+    getRouterLink(tool: Tool): string[] {
+        return ['/tools', tool._id];
+    }
+
     // FUNCTIONS TO REVIEW
 
     getToolHealth(tool: Tool): Observable<ToolHealth> {

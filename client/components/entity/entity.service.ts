@@ -59,6 +59,13 @@ export abstract class EntityService<E extends Entity> {
 
     /**
      * Returns the sub-type of the entity or null.
+     * @param entity
      */
     abstract getEntitySubType(entity: E): string;
+
+    /**
+     * Returns the absolute URL of where the entity can be seen.
+     * @param entity
+     */
+    abstract getRouterLink(entity: E): string[];
 }

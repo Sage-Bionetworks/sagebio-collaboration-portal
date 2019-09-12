@@ -56,6 +56,10 @@ export class InsightService implements EntityService<Insight> {
         return insight.insightType;
     }
 
+    getRouterLink(insight: Insight): string[] {
+        return ['/projects', insight.projectId, 'insights', insight._id];
+    }
+
     // FUNCTIONS TO REVIEW
 
     queryByProject(project: Project, query?: {}): Observable<Insight[]> {

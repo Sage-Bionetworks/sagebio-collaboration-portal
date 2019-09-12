@@ -50,4 +50,8 @@ export class DataCatalogService implements EntityService<DataCatalog> {
     getEntitySubType(dataCatalog: DataCatalog): string {
         return null;
     }
+
+    getRouterLink(dataCatalog: DataCatalog): string[] {
+        return ['/data-catalogs', dataCatalog._id];
+    }
 }

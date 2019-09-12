@@ -53,6 +53,10 @@ export class ResourceService implements EntityService<Resource> {
         return resource.resourceType;
     }
 
+    getRouterLink(resource: Resource): string[] {
+        return ['/projects', resource.projectId, 'resources', resource._id];
+    }
+
     // FUNCTIONS TO REVIEW
 
     queryByProject(project: Project, query?: {}): Observable<Resource[]> {

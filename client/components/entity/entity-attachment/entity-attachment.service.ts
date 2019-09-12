@@ -14,6 +14,8 @@ import { QueryListResponse } from 'models/query-list-response.model';
 // import { Entity } from 'models/entities/entity.model';
 // import { Patch } from 'models/patch.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { EntityService } from '../entity.service';
+import { Entity } from 'models/entities/entity.model';
 
 @Injectable()
 export class EntityAttachmentService {

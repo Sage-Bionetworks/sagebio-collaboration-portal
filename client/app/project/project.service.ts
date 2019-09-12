@@ -58,4 +58,8 @@ export class ProjectService implements EntityService<Project> {
     getVisibility(projectId: string): Observable<EntityVisibility> {
         return this.httpClient.get<EntityVisibility>(`/api/projects/${projectId}/visibility`);
     }
+
+    getRouterLink(project: Project): string[] {
+        return ['/projects', project._id];
+    }
 }
