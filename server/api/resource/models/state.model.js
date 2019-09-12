@@ -9,6 +9,7 @@ var StateSchema = new mongoose.Schema({
     tool: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tool',
+        required: true
     },
 });
 
