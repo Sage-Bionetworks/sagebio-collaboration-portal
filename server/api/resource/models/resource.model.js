@@ -35,7 +35,7 @@ var ResourceSchema = new mongoose.Schema({
     },
     url: {
         type: String,
-        required: false,
+        required: true,
         minlength: modelSpecs.resource.url.minlength,
         maxlength: modelSpecs.resource.url.maxlength
     },

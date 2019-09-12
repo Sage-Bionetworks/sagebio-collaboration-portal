@@ -114,7 +114,7 @@ function attachInsightAuthorizationDetails() {
 function attachInsightAuthorizationDetailsForCreate() {
     return compose().use((req, res, next) => {
         if (!req.body || !req.body.projectId) {
-            return res.status(400).end();
+            return res.status(400).end('The property projectId is missing.');
         }
         return Project.findById(req.body.projectId, '_id visibility')
             .exec()
