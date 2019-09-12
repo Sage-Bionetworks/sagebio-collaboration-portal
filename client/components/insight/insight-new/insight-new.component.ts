@@ -8,7 +8,6 @@ import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
 // import { EntityAttachments, EntityAttachmentMode } from 'models/entities/entity.model';
 
-
 @Component({
     selector: 'insight-new',
     template: require('./insight-new.html'),
@@ -31,7 +30,7 @@ export class InsightNewComponent {
     constructor(
         private formBuilder: FormBuilder,
         private captureProvActivity: CaptureProvenanceActivityService,
-        private insightService: InsightService,
+        private insightService: InsightService
     ) {
         this.insightSpecs = config.models.insight;
         this.newForm = this.formBuilder.group({
@@ -50,7 +49,8 @@ export class InsightNewComponent {
                     Validators.minLength(this.insightSpecs.description.minlength),
                     Validators.maxLength(this.insightSpecs.description.maxlength),
                 ],
-            ]
+            ],
+            insightType: [this.insightSpecs.type.default.value, [Validators.required]],
         });
 
         // this.mode = EntityAttachmentMode.EDIT;
@@ -62,8 +62,8 @@ export class InsightNewComponent {
         newInsight.projectId = this.project._id;
         // newInsight.attachments = this.attachments;
 
-        this.insightService.create(newInsight)
-            .subscribe(insight => {
+        this.insightService.create(newInsight).subscribe(
+            insight => {
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,

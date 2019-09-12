@@ -18,12 +18,18 @@ import { mergeMap, switchMap, map, flatMap, tap, ignoreElements } from 'rxjs/ope
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
 
+export enum EntityAttachmentListMode {
+    DISPLAY,
+    NEW,
+    EDIT,
+}
+
 @Component({
     selector: 'entity-attachment-list',
     template: require('./entity-attachment-list.html'),
     styles: [require('./entity-attachment-list.scss')],
     providers: [ProjectService, DataCatalogService, ToolService, ResourceService, InsightService],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     @Input() entity: E;
@@ -66,37 +72,43 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
                 )
             );
 
-        const getAttachments = this.attachmentService
-            .query({
-                parentEntityId: this.entity._id,
-            })
-            .pipe(
-                map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
-                switchMap(bundles => forkJoinWithProgress(bundles))
-            );
-
+        console.log('PLOP', this.entity);
         if (this.entity) {
+            const getAttachments = this.attachmentService
+                .query({
+                    parentEntityId: this.entity._id,
+                })
+                .pipe(
+                    map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
+                    switchMap(bundles => forkJoinWithProgress(bundles))
+                );
 
             getAttachments
-            .pipe(
-                switchMap(([finalResult, progress]) => merge(
-                    progress.pipe(
-                        tap((value) => {
-                            console.log(`${value} completed`);
-                            this.attachmentsDownloadProgress = value;
-                        }),
-                        ignoreElements()
-                    ),
-                    finalResult
-                ))
-            ).subscribe((attachments: AttachmentBundle[]) => {
-                this.attachments.next(attachments);
-                console.log('attachments', attachments);
-                // this.invites = invites;
-                // if (this.invites.length < 1) {
-                //     this.sidenavService.close();
-                // }
-            }, err => console.error(err));
+                .pipe(
+                    switchMap(([finalResult, progress]) =>
+                        merge(
+                            progress.pipe(
+                                tap(value => {
+                                    console.log(`${value} completed`);
+                                    this.attachmentsDownloadProgress = value;
+                                }),
+                                ignoreElements()
+                            ),
+                            finalResult
+                        )
+                    )
+                )
+                .subscribe(
+                    (attachments: AttachmentBundle[]) => {
+                        this.attachments.next(attachments);
+                        console.log('attachments', attachments);
+                        // this.invites = invites;
+                        // if (this.invites.length < 1) {
+                        //     this.sidenavService.close();
+                        // }
+                    },
+                    err => console.error(err)
+                );
         }
     }
 
@@ -108,6 +120,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
         const entityType = attachment.attachment.entityType;
         const entitySubType = this.getEntityService(entityType).getEntitySubType(attachment.entity);
         return entitySubType ? entitySubType : entityType; // `${entityType} > ${entitySubType}`
+    }
+
+    removeAttachment(event, attachment: AttachmentBundle): void {
+        event.stopPropagation();
+        console.log('plop');
     }
 
     /**
@@ -134,12 +151,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
      * @param entity
      * @param entityType
      */
-    navigateToEntity(entity: Entity, entityType: string) {
-        console.log('entityType', entityType);
+    getEntityLink(entity: Entity, entityType: string) {
         if (entity && entityType) {
             const entityService = this.getEntityService(entityType);
-            console.log('entityService', entityService);
-            this.router.navigate(entityService.getRouterLink(entity));
+            return entityService.getRouterLink(entity);
         }
     }
 }
