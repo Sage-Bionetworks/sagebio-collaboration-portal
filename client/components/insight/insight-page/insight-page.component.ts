@@ -126,18 +126,8 @@ export class InsightPageComponent implements OnInit {
         }
     }
 
-    sendInsight(insight: Insight): void {
-        if (insight) {
-            this.notificationService.info('Not implemented');
-        }
-    }
-
     getLink(): string {
         return window.location.href;
-    }
-
-    showActivity(): void {
-        this.insightService.showActivity(this.insight);
     }
 
     deleteInsight(insight: Insight): void {

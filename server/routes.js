@@ -31,6 +31,8 @@ export default app => {
     app.use('/api/provenance', require('./api/provenance'));
     app.use('/auth', require('./auth').default);
 
+    console.log('domain', config.domain);
+
     // swagger definition
     // maps to https://swagger.io/specification/#oasObject
     var swaggerDefinition = {

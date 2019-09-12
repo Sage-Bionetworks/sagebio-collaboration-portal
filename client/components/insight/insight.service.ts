@@ -85,15 +85,4 @@ export class InsightService implements EntityService<Insight> {
             [{ op: 'replace', path: '/description', value: description }]
         );
     }
-
-    showActivity(insight: Insight): void {
-        let sidenavContentId = `activity:${insight._id}`;
-        if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ActivitySidenavComponent>(
-                this.secondarySidenavService.loadContentComponent(ActivitySidenavComponent)
-            )).setRoot(insight);
-            this.secondarySidenavService.setContentId(sidenavContentId);
-        }
-        this.secondarySidenavService.open();
-    }
 }
