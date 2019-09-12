@@ -1,31 +1,59 @@
 <h3>Attachments</h3>
-<span *ngIf="(attachments | async).length < 1">There are 0 attachments.</span>
+
 <mat-progress-spinner
-    *ngIf="attachmentsDownloadProgress < 100; else showAttachments"
+    *ngIf="attachmentsDownloadProgress > 0 && attachmentsDownloadProgress < 100; else showAttachments"
     [value]="attachmentsDownloadProgress"
 ></mat-progress-spinner>
+
 <ng-template #showAttachments>
-    <mat-nav-list>
-        <mat-list-item
-            class="app-entity-attachment-bundle"
-            *ngFor="let attachment of attachments | async"
-            [routerLink]="getEntityLink(attachment.entity, attachment.attachment.entityType)"
-        >
-            <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
-            <h3 class="app-entity-attachment-bundle-title" matLine>{{ attachment.entity.title }}</h3>
-            <h3 class="app-entity-attachment-bundle-entity-type" matLine>{{ getEntityTypeAndSubType(attachment) }}</h3>
-            <!-- <button mat-icon-button (click)="showInfo(link)">
-                        <mat-icon>info</mat-icon>
-                    </button> -->
-            <button
-                *ngIf="!isReadOnly"
-                mat-icon-button
-                (click)="removeAttachment($event, attachment)"
-                [matTooltip]="'Remove ' + getEntityTypeAndSubType(attachment)"
-                matTooltipPosition="before"
+    <span *ngIf="(attachments | async).length < 1; else showAttachmentList">There are 0 attachments.</span>
+    <ng-template #showAttachmentList>
+        <mat-nav-list>
+            <mat-list-item
+                class="app-entity-attachment-bundle"
+                *ngFor="let attachment of attachments | async"
+                [routerLink]="getEntityLink(attachment.entity, attachment.attachment.entityType)"
             >
-                <mat-icon>clear</mat-icon>
-            </button>
-        </mat-list-item>
-    </mat-nav-list>
+                <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
+                <h3 class="app-entity-attachment-bundle-title" matLine>{{ attachment.entity.title }}</h3>
+                <h3 class="app-entity-attachment-bundle-entity-type" matLine>
+                    {{ getEntityTypeAndSubType(attachment) }}
+                </h3>
+                <!-- <button mat-icon-button (click)="showInfo(link)">
+                            <mat-icon>info</mat-icon>
+                        </button> -->
+                <button
+                    *ngIf="!isReadOnly"
+                    mat-icon-button
+                    (click)="removeAttachment($event, attachment)"
+                    [matTooltip]="'Remove ' + getEntityTypeAndSubType(attachment)"
+                    matTooltipPosition="before"
+                >
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-nav-list>
+    </ng-template>
 </ng-template>
+
+<div *ngIf="!isReadOnly" [formGroup]="attachmentForm">
+        <mat-form-field>
+            <mat-label>Type</mat-label>
+            <select matNativeControl formControlName="attachmentType" required>
+                    <option *ngFor="let option of attachmentTypes" [value]="option.value">{{
+                        option.name
+                    }}</option>
+                </select>
+            <!-- <mat-label>Cars</mat-label>
+            <select matNativeControl>
+                <optgroup label="Swedish Cars">
+                    <option value="volvo">volvo</option>
+                    <option value="saab">Saab</option>
+                </optgroup>
+                <optgroup label="German Cars">
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </optgroup>
+            </select> -->
+        </mat-form-field>
+    </div>

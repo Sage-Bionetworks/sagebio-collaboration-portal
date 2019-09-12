@@ -18,6 +18,7 @@ import { mergeMap, switchMap, map, flatMap, tap, ignoreElements } from 'rxjs/ope
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
 import { remove, pull } from 'lodash';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'entity-attachment-list',
@@ -34,10 +35,14 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
     private attachmentsDownloadProgress = 0;
 
+    private attachmentForm: FormGroup;
+
     private entityTypes: any;
+    private attachmentTypes: any;
 
     static parameters = [
         Router,
+        FormBuilder,
         EntityAttachmentService,
         ProjectService,
         DataCatalogService,
@@ -47,16 +52,22 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     ];
     constructor(
         private router: Router,
+        private formBuilder: FormBuilder,
         private attachmentService: EntityAttachmentService,
         private projectService: ProjectService,
         private dataCatalogService: DataCatalogService,
         private toolService: ToolService,
         private resourceService: ResourceService,
         private insightService: InsightService
-    ) {}
+    ) {
+        this.entityTypes = config.entityTypes;
+        this.attachmentForm = this.formBuilder.group({
+            attachmentType: [this.entityTypes.INSIGHT.value, [Validators.required]],
+        });
+    }
 
     ngOnInit() {
-        this.entityTypes = config.entityTypes;
+        this.attachmentTypes = Object.values(this.entityTypes);
 
         const getAttachmentBundle = attachment =>
             of(attachment).pipe(
