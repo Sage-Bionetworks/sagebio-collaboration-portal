@@ -47,6 +47,20 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 
+    searchByTitle(terms: Observable<string>): Observable<Project[] | null> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<Project[]>(`/api/projects?title=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+
     // MODEL FUNCTIONS
 
     getEntitySubType(project: Project): string {

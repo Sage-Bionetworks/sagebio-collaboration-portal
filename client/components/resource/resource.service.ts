@@ -43,8 +43,23 @@ export class ResourceService implements EntityService<Resource> {
     makePublic(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
     }
+
     makePrivate(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTitle(terms: Observable<string>): Observable<Resource[] | null> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<Resource[]>(`/api/tools?resources=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
     }
 
     // MODEL FUNCTIONS

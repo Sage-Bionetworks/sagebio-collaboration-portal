@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { EntityService } from 'components/entity/entity.service';
 import { stringifyQuery } from 'components/util';
 import { DataCatalog } from 'models/entities/data-catalog.model';
@@ -43,6 +43,20 @@ export class DataCatalogService implements EntityService<DataCatalog> {
 
     makePrivate(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTitle(terms: Observable<string>): Observable<DataCatalog[] | null> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<DataCatalog[]>(`/api/data-catalogs?title=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
     }
 
     // MODEL FUNCTIONS

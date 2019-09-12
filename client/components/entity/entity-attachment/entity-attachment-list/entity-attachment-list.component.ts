@@ -1,12 +1,12 @@
 import { EntityAttachmentService } from './../entity-attachment.service';
-import { Component, OnInit, Input, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { Insight } from 'models/entities/insights/insight.model';
 // import config from '../../../app/app.constants';
 import { Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
-import { BehaviorSubject, from, forkJoin, of, merge } from 'rxjs';
+import { BehaviorSubject, from, forkJoin, of, merge, combineLatest } from 'rxjs';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
 import config from '../../../../app/app.constants';
 import { ProjectService } from '../../../../app/project/project.service';
@@ -14,7 +14,16 @@ import { DataCatalogService } from '../../../../app/data-catalog/data-catalog.se
 import { ToolService } from '../../../../app/tool/tool.service';
 import { ResourceService } from 'components/resource/resource.service';
 import { InsightService } from 'components/insight/insight.service';
-import { mergeMap, switchMap, map, flatMap, tap, ignoreElements } from 'rxjs/operators';
+import {
+    mergeMap,
+    switchMap,
+    map,
+    flatMap,
+    tap,
+    ignoreElements,
+    debounceTime,
+    distinctUntilChanged,
+} from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
 import { remove, pull } from 'lodash';
@@ -27,7 +36,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     providers: [ProjectService, DataCatalogService, ToolService, ResourceService, InsightService],
     encapsulation: ViewEncapsulation.None,
 })
-export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
+export class EntityAttachmentListComponent<E extends Entity> implements OnInit, AfterViewInit {
     @Input() entity: E;
     @Input() entityService: EntityService<E>;
     @Input() isReadOnly = true;
@@ -36,9 +45,13 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     private attachmentsDownloadProgress = 0;
 
     private attachmentForm: FormGroup;
+    private attachmentTypes: any;
+    private attachmentSearchResults: AttachmentBundle[];
+    private errors = {
+        attachmentForm: undefined,
+    };
 
     private entityTypes: any;
-    private attachmentTypes: any;
 
     static parameters = [
         Router,
@@ -63,6 +76,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
         this.entityTypes = config.entityTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [this.entityTypes.INSIGHT.value, [Validators.required]],
+            attachment: [''],
         });
     }
 
@@ -116,6 +130,32 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
                     err => console.error(err)
                 );
         }
+        // this.attachmentService.searchUserByUsername(this.inviteForm.controls.username.valueChanges)
+        //     .subscribe(users => {
+        //         this.userResults = users;
+        //     }, err => console.error(err));
+    }
+
+    ngAfterViewInit() {
+        // console.log('DEFAULT', this.attachmentForm.get('attachmentType').value);
+
+        merge(
+            of(this.attachmentForm.get('attachmentType').value),
+            this.attachmentForm.controls.attachmentType.valueChanges
+        )
+            .pipe(
+                tap(plop => console.log('PLOP', plop)),
+                switchMap(entityType =>
+                    this.getEntityService(entityType).searchByTitle(
+                        this.attachmentForm.controls.attachment.valueChanges
+                    )
+                )
+            )
+            .subscribe(res => {
+                console.log('SEARCH res', res);
+
+                // this.errors.createNewMessage = undefined;
+            });
     }
 
     // ngOnDesotry() {
@@ -126,6 +166,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
         const entityType = attachment.attachment.entityType;
         const entitySubType = this.getEntityService(entityType).getEntitySubType(attachment.entity);
         return entitySubType ? entitySubType : entityType; // `${entityType} > ${entitySubType}`
+    }
+
+    addAttachment(attachment: AttachmentBundle): void {
+        console.log('add attachment', attachment);
     }
 
     removeAttachment(event, attachment: AttachmentBundle): void {

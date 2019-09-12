@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
@@ -43,8 +43,23 @@ export class ToolService implements EntityService<Tool> {
     makePublic(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
     }
+
     makePrivate(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTitle(terms: Observable<string>): Observable<Tool[] | null> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<Tool[]>(`/api/tools?title=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
     }
 
     // MODEL FUNCTIONS

@@ -55,6 +55,12 @@ export abstract class EntityService<E extends Entity> {
      */
     abstract makePrivate(entity: E): Observable<E>;
 
+    /**
+     * Returns the entities matching the title terms specified.
+     * @param terms
+     */
+    abstract searchByTitle(terms: Observable<string>): Observable<E[] | null>;
+
     // MODEL FUNCTIONS
 
     /**

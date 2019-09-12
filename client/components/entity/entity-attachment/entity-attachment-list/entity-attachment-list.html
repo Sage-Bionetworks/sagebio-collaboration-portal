@@ -36,24 +36,34 @@
     </ng-template>
 </ng-template>
 
-<div *ngIf="!isReadOnly" [formGroup]="attachmentForm">
-        <mat-form-field>
-            <mat-label>Type</mat-label>
-            <select matNativeControl formControlName="attachmentType" required>
-                    <option *ngFor="let option of attachmentTypes" [value]="option.value">{{
-                        option.name
-                    }}</option>
-                </select>
-            <!-- <mat-label>Cars</mat-label>
-            <select matNativeControl>
-                <optgroup label="Swedish Cars">
-                    <option value="volvo">volvo</option>
-                    <option value="saab">Saab</option>
-                </optgroup>
-                <optgroup label="German Cars">
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                </optgroup>
-            </select> -->
-        </mat-form-field>
-    </div>
+<form *ngIf="!isReadOnly" [formGroup]="attachmentForm">
+    <mat-form-field>
+        <mat-label>Type</mat-label>
+        <select matNativeControl formControlName="attachmentType" required>
+            <option *ngFor="let option of attachmentTypes" [value]="option.value">{{ option.name }}</option>
+        </select>
+    </mat-form-field>
+    <mat-form-field class="app-add-collaborator-field">
+        <input
+            matInput
+            placeholder="Attachment"
+            formControlName="attachment"
+            [errorStateMatcher]="matcher"
+            [matAutocomplete]="auto"
+            [readonly]="disabled"
+        />
+        <mat-autocomplete #auto="matAutocomplete" flex>
+            <mat-option *ngFor="let attachment of attachmentSearchResults" [value]="attachment.entity.title" (click)="addAttachment(attachment)">
+                <!-- <user-avatar [user]="user" [size]="optionAvatarSize"></user-avatar> -->
+                <span>{{ user.username }}</span>
+            </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="attachmentForm.controls.attachment.invalid">
+            Please enter a valid attachment.
+        </mat-error>
+    </mat-form-field>
+    <!-- <a mat-raised-button class="app-add-collaborator-button" color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a> -->
+    <mat-error *ngIf="errors.attachmentForm">
+        {{ errors.attachmentForm }}
+    </mat-error>
+</form>
