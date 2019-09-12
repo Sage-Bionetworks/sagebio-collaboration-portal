@@ -7,11 +7,12 @@
     <mat-nav-list>
         <mat-list-item
             *ngFor="let attachment of attachments | async"
+            class="app-entity-attachment-bundle"
             (click)="navigateToEntity(attachment.entity, attachment.attachment.entityType)"
         >
             <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
-            <a matLine>{{ attachment.attachment.entityId }}</a>
-            <h3 matLine>{{ attachment.attachment.entityType }}</h3>
+            <h3 class="app-entity-attachment-bundle-title" matLine>{{ attachment.entity.title }}</h3>
+            <h3 class="app-entity-attachment-bundle-entity-type"matLine>{{ attachment.attachment.entityType }}</h3>
             <!-- <button mat-icon-button (click)="showInfo(link)">
                         <mat-icon>info</mat-icon>
                     </button> -->

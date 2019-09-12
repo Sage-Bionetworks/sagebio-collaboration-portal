@@ -1,5 +1,5 @@
 import { EntityAttachmentService } from './../entity-attachment.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { Insight } from 'models/entities/insights/insight.model';
@@ -25,6 +25,7 @@ import { AttachmentBundle } from '../models/attachment-bundle.model';
     template: require('./entity-attachment-list.html'),
     styles: [require('./entity-attachment-list.scss')],
     providers: [ProjectService, DataCatalogService, ToolService, ResourceService, InsightService],
+    encapsulation: ViewEncapsulation.None
 })
 export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     @Input() entity: E;
