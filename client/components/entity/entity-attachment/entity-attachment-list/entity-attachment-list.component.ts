@@ -1,5 +1,5 @@
 import { EntityAttachmentService } from './../entity-attachment.service';
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { Insight } from 'models/entities/insights/insight.model';
@@ -17,8 +17,6 @@ import { InsightService } from 'components/insight/insight.service';
 import { mergeMap, switchMap, map, flatMap, tap, ignoreElements } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
-
-
 
 @Component({
     selector: 'entity-attachment-list',
@@ -101,6 +99,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
             }, err => console.error(err));
         }
     }
+
+    // ngOnDesotry() {
+    //     console.log('DESTROYING LIST OF ATTACHMENTS');
+    // }
 
     /**
      * Returns the service associated to the Entity type specified.

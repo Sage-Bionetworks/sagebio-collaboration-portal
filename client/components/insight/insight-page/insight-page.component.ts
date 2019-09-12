@@ -62,6 +62,10 @@ export class InsightPageComponent implements OnInit {
             description: ['', []],
         });
 
+        this.router.routeReuseStrategy.shouldReuseRoute = function() {
+            return false;
+        };
+
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
             userPermissions => {
                 this.isAdmin = userPermissions.isAdmin();
