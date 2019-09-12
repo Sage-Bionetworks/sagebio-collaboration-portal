@@ -31,6 +31,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
     @Input() entityService: EntityService<E>;
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
+    private attachmentsDownloadProgress = 0;
 
     private entityTypes: any;
 
@@ -79,7 +80,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
             .pipe(
                 switchMap(([finalResult, progress]) => merge(
                     progress.pipe(
-                        // tap((value) => console.log(`${value} completed`)),
+                        tap((value) => {
+                            console.log(`${value} completed`);
+                            this.attachmentsDownloadProgress = value;
+                        }),
                         ignoreElements()
                     ),
                     finalResult
@@ -92,29 +96,6 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit {
                 //     this.sidenavService.close();
                 // }
             }, err => console.error(err));
-
-
-
-            // this.attachmentService
-            //     .query({
-            //         parentEntityId: this.entity._id,
-            //     })
-            //     .pipe(
-            //         tap(attachments => console.log('SOURCE', attachments)),
-            //         flatMap(
-            //             attachments => from(attachments)
-            //             // .pipe(
-            //             //     switchMap(attachment => forkJoin({
-            //             //         attachment: of(attachment),
-            //             //         entity: this.getEntityService(attachment.entityType).get(attachment.entityId)
-            //             //     }))
-            //             // )
-            //         )
-            //     )
-            //     .subscribe(attachments => {
-            //         console.log('attachment', attachments);
-            //         // this.attachments.next(attachments);
-            //     });
         }
     }
 

@@ -1,11 +1,17 @@
 <h3>Attachments</h3>
-<mat-nav-list>
-    <mat-list-item *ngFor="let attachment of attachments | async">
-        <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture">
-        <a matLine>{{ attachment.attachment.entityId }}</a>
-        <h3 matLine>{{ attachment.attachment.entityType }}</h3>
-        <!-- <button mat-icon-button (click)="showInfo(link)">
-            <mat-icon>info</mat-icon>
-        </button> -->
-    </mat-list-item>
-</mat-nav-list>
+<mat-progress-spinner
+    *ngIf="attachmentsDownloadProgress < 100; else showAttachments"
+    [value]="attachmentsDownloadProgress"
+></mat-progress-spinner>
+<ng-template #showAttachments>
+    <mat-nav-list>
+        <mat-list-item *ngFor="let attachment of attachments | async">
+            <img matListAvatar [src]="attachment.entity.picture" aria-label="Entity picture" />
+            <a matLine>{{ attachment.attachment.entityId }}</a>
+            <h3 matLine>{{ attachment.attachment.entityType }}</h3>
+            <!-- <button mat-icon-button (click)="showInfo(link)">
+                        <mat-icon>info</mat-icon>
+                    </button> -->
+        </mat-list-item>
+    </mat-nav-list>
+</ng-template>
