@@ -25,6 +25,9 @@
         <div class="app-navbar-item-container-right">
 
             <user-notification-button class="app-button" *ngIf="isLoggedIn"></user-notification-button>
+            <a mat-icon-button matTooltip="Docs" routerLink="/docs">
+                <mat-icon>description</mat-icon>
+            </a>
             <a mat-button class="app-button" *ngIf="!isLoggedIn" routerLink="/login" aria-label="Login">Login</a>
             <navbar-user-button class="app-button" *ngIf="isLoggedIn"></navbar-user-button>
         </div>
