@@ -1,22 +1,76 @@
 <header class="app-header-background">
     <div class="app-header-section">
-        <div class="app-header-headline">
+        <div *ngIf="!isLoggedIn" class="app-header-headline">
 	        <h2> Welcome to the </h2>
             <h1 class="mat-h1">PHC-IX Collaboration Portal</h1>
             <h3>A collaborative space based on FAIR principles to enable data discovery and tracking, reuse, and insight sharing.</h3>
-            <!-- <img class="app-logo" src="assets/images/SageBionetworks_LogoShape.svg" alt="Sage Bionetworks"> -->
+        </div>
+        <div *ngIf="isLoggedIn" class="app-header-headline-alt">
+            <h1>PHC-IX Collaboration Portal</h1>
+            <h3>A collaborative space based on FAIR principles to enable data discovery and tracking, reuse, and insight sharing.</h3>
         </div>
         <div class="app-header-start">
             <a *ngIf="!isLoggedIn" mat-raised-button class="app-button app-button-landing" routerLink="/login">Get started</a>
-<!--            <div class="app-header-logos">-->
-<!--                <i class="material-icons">-->
-<!--                    forum computer person_add-->
-<!--                </i>-->
-<!--            </div>-->
         </div>
 
     </div>
 </header>
+<div *ngIf="isLoggedIn" class="app-main-info-container">
+    <h2>What's inside?</h2>
+    <div class="app-info-row">
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">list</i></h2>
+                <h4>Resources</h4>
+                <p class="light">Browse for research resources to inspect, analyze, and reuse.</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">layers</i></h2>
+                <h4>Insights</h4>
+                <p class="light">Share and discover new insights about research data, activities, and results.</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">work</i></h2>
+                <h4>Projects</h4>
+                <p class="light">Create, manage, and discuss resources and insights in a workspace for yourself or your team.</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+    </div>
+    <div class="app-info-row">
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">folder</i></h2>
+                <h4>Datasets</h4>
+                <p class="light">Search live in connected data catalogs for analysis-ready datasets</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">build</i></h2>
+                <h4>Tools</h4>
+                <p class="light">Do something with data!</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+        <div class="app-info-box">
+            <mat-card>
+                <h2 class="info-box-icon"><i class="material-icons">forum</i></h2>
+                <h4>Discussion</h4>
+                <p class="light">Ask questions and discuss ideas with your colleagues.</p>
+                <a mat-raised-button color="primary" routerLink="/docs">Learn More</a>
+            </mat-card>
+        </div>
+    </div>
+    <hr>
+</div>
 <div class="app-main-fair-container">
     <div class="app-fair-box">
         <img src="assets/images/700px-FAIR_transparent.png" alt="FAIR logo">
@@ -30,12 +84,3 @@
     </div>
 </div>
 
-
-<!--<div class="app-main-connecting-container">-->
-<!--    <h2>Connecting...</h2>-->
-<!--    <div class="app-main-connecting-images">-->
-<!--      <img src="assets/images/600px-connecting-1.png" alt="Connecting image 1">-->
-<!--      <img src="assets/images/600px-connecting-2.png" alt="Connecting image 2">-->
-<!--      <img src="assets/images/600px-connecting-3.png" alt="Connecting image 3">-->
-<!--    </div>-->
-<!--</div>-->

@@ -45,7 +45,7 @@ hr {
 
 .app-header-headline-alt {
     color: #ffffff;
-    margin: -10px 0 -15px -25px;
+    margin: -10px 0 35px -25px;
 
     h1 {
         font-size: 36px;
@@ -61,12 +61,12 @@ hr {
 }
 
 .app-header-start,
-.app-main-bottom-start {
+.app-docs-bottom-start {
     text-align: left;
     margin: $margin-promotion-sections 0;
 }
 
-.app-main-info-container {
+.app-docs-info-container {
     width: 80%;
     margin: 30px auto;
 
@@ -114,7 +114,7 @@ hr {
   font-weight: 300;
 }
 
-.app-main-fair-container {
+.app-docs-summary-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -123,7 +123,7 @@ hr {
   margin: 0 auto;
 }
 
-.app-fair-box {
+.app-summary-box {
   width: 50%;
   margin: 30px auto;
   text-align: left;
@@ -136,7 +136,7 @@ hr {
   }
 }
 
-.app-main-fair-description {
+.app-docs-summary-description {
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
@@ -156,11 +156,11 @@ hr {
   }
 
   .app-header-start,
-  .app-main-bottom-start {
+  .app-docs-bottom-start {
       margin: $margin-promotion-sections-small 0;
   }
 
-  .app-main-row {
+  .app-docs-row {
       margin: $margin-promotion-sections-small 0;
   }
 }
