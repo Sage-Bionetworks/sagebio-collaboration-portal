@@ -87,4 +87,8 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
         // this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Project has been successfully updated');
     }
+
+    getLink(): string {
+        return window.location.href;
+    }
 }
