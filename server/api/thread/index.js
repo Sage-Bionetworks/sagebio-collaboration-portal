@@ -70,6 +70,7 @@ router.post('/entity/:entityId/:id/messages',
 //     WRITE_ACCESS,
 //     ADMIN_ACCESS
 // ),
+auth.isAuthenticated(),
 controller.createMessage);
 
 // Patches the message specified.

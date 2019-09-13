@@ -55,6 +55,12 @@ export function create(req, res) {
         ...req.body,
         createdBy: req.user._id,
     })
+        .then(entity => {
+            if (entity) {
+                // POST TO PROVENANCE
+            }
+            return entity;
+        })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
