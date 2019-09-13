@@ -9,8 +9,9 @@ import { ActivityModule } from 'components/activity/activity.module';
 import { ShareModule } from 'components/share/share.module';
 import { PipesModule } from 'components/pipes/pipes.module';
 
-import { ResourcePageComponent } from './resource-page/resource-page.component';
 import { ResourceNewComponent } from './resource-new/resource-new.component';
+import { ResourceEditComponent } from './resource-edit/resource-edit.component';
+import { ResourcePageComponent } from './resource-page/resource-page.component';
 
 import { ResourceService } from 'components/resource/resource.service';
 import { RouterModule } from '@angular/router';
@@ -28,7 +29,7 @@ import { RouterModule } from '@angular/router';
         ShareModule,
         PipesModule,
     ],
-    declarations: [ResourcePageComponent, ResourceNewComponent],
+    declarations: [ResourceEditComponent, ResourceNewComponent, ResourcePageComponent],
     providers: [ResourceService],
     exports: [ResourcePageComponent, ResourceNewComponent],
     entryComponents: [],

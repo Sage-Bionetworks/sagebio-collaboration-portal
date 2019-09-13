@@ -1,0 +1,52 @@
+<mat-card *ngIf="resource" class="app-resource-edit-card">
+        <mat-card-content>
+            <form class="app-resource-edit-card-form" [formGroup]="editForm" novalidate>
+                <mat-form-field class="app-resource-edit-form-field">
+                    <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" required />
+                    <mat-error *ngIf="editForm.controls.title.invalid">
+                        Please enter a valid name ({{ resourceSpecs.title.minlength }}-{{ resourceSpecs.title.maxlength }}
+                        characters).
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="app-resource-edit-form-field">
+                    <input matInput placeholder="URL" formControlName="url" [errorStateMatcher]="matcher" required>
+                    <mat-error class="app-error-message" *ngIf="editForm.controls.url.errors?.https">
+                        The URL must start with https://.
+                    </mat-error>
+                    <mat-error class="app-error-message" *ngIf="editForm.controls.url.errors?.noTrailingSlash">
+                        The URL must not have a trailing slash.
+                    </mat-error>
+                    <mat-error class="app-error-message" *ngIf="editForm.controls.url.invalid">
+                        Please enter a valid URL.
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="resourceType" required>
+                        <mat-option *ngFor="let option of resourceSpecs.type.options" [value]="option.value">{{ option.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <app-quill-editor
+                    class="app-resource-edit-description-editor"
+                    [isReadOnly]="false"
+                    [showActions]="false"
+                    placeholder="Insert description..."
+                    [body]="editForm.controls['description']"
+                ></app-quill-editor>
+
+                <mat-error *ngIf="errors.newResource">
+                    {{ errors.newResource }}
+                </mat-error>
+                <div class="app-resource-edit-form-actions">
+                    <a
+                        mat-raised-button
+                        color="primary"
+                        [disabled]="editForm.invalid"
+                        (click)="!editForm.invalid && updateResource()"
+                        >Update {{ resource.resourceType }}</a
+                    >
+                    <a mat-button (click)="cancel.emit(null)">Cancel</a>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
