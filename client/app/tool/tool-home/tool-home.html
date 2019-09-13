@@ -3,7 +3,6 @@
         <mat-card class="tool-card">
             <div class="tool-card-top">
                 <div class="tool-card-left-container">
-                    <share-button [entity]="tool" [entityType]="entityType"></share-button>
                     <h3>{{ tool.title }}</h3>
                     <picture>
                         <img [src]="tool.picture" aria-label="Tool picture" />
@@ -18,22 +17,61 @@
                             <mat-icon>storage</mat-icon>
                             <span>This tool is available.</span>
                         </div>
-                        <div *ngIf="!toolHealth" class="tool-metadata-row">
+                        <!-- <div *ngIf="!toolHealth" class="tool-metadata-row">
                             <mat-icon>cloud_off</mat-icon>
                             <span>This tool can not be reached.</span>
-                        </div>
+                        </div> -->
                         <div class="tool-metadata-description">
                             <span>{{ tool.description }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="tool-actions">
+            </div>
+            <div class="tool-actions">
+                    <div class="app-tool-icon-actions">
+                            <share-button [entity]="tool" [entityType]="entityType"></share-button>
+                            <a
+                                mat-icon-button
+                                [matMenuTriggerFor]="moreActionsMenu"
+                                matTooltip="More actions"
+                                aria-label="More actions"
+                            >
+                                <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                            </a>
+                            <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                                <button
+                                    ngxClipboard
+                                    [cbContent]="getLink()"
+                                    (cbOnSuccess)="notificationService.info('Link copied')"
+                                    (cbOnError)="notificationService.info('Unable to copy the link.')"
+                                    mat-menu-item
+                                    aria-label="Copy link"
+                                >
+                                    <span>Copy Link</span>
+                                </button>
+                                <mat-divider></mat-divider>
+                                <button
+                                    mat-menu-item
+                                    [attr.aria-label]="'Edit'"
+                                    *ngIf="canEditTool"
+                                    (click)="showEditToolTemplate=true"
+                                >
+                                    <span>Edit</span>
+                                </button>
+                                <button
+                                    mat-menu-item
+                                    [attr.aria-label]="'Delete'"
+                                    disabled
+                                >
+                                    <span class="app-tool-actions-delete-btn-label">Delete</span>
+                                </button>
+                            </mat-menu>
+                    </div>
+                    <div class="app-tool-button-actions">
                         <a mat-raised-button color="primary" [href]="tool.website" target="_blank">Open Tool</a>
                         <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
-                        <show-activity-button class="activity-button" [root]="tool" [routerLink]="'../activity'"></show-activity-button>
-                        <a *ngIf="canEditTool" mat-raised-button color="secondary" (click)="showEditToolTemplate = true">Edit</a>
                     </div>
-            </div>
+                    </div>
         </mat-card>
     </div>
 
@@ -45,3 +83,6 @@
         ></tool-edit>
     </ng-template>
 </div>
+
+
+
