@@ -28,6 +28,7 @@ var all = {
     // Server IP
     ip: process.env.IP || '0.0.0.0',
 
+    // Domain (e.g. https://localhost)
     domain: process.env.DOMAIN,
 
     // Secret for session, you will want to change this and make it an environment variable

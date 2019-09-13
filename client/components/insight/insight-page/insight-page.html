@@ -8,6 +8,7 @@
             >
             <div class="app-insight-actions">
                 <share-button [entity]="insight" [entityType]="entityType"></share-button>
+                <show-activity-button [root]="insight"></show-activity-button>
                 <a
                     mat-icon-button
                     [matMenuTriggerFor]="moreActionsMenu"
@@ -17,13 +18,6 @@
                     <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
                 </a>
                 <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                    <!-- <button
-                        mat-menu-item
-                        [attr.aria-label]="'Send ' + insight.insightType"
-                        (click)="sendInsight(insight)"
-                    >
-                        <span>Share {{ insight.insightType }}</span>
-                    </button> -->
                     <button
                         ngxClipboard
                         [cbContent]="getLink()"
@@ -33,9 +27,6 @@
                         aria-label="Copy link"
                     >
                         <span>Copy Link</span>
-                    </button>
-                    <button mat-menu-item aria-label="Show Activity" (click)="showActivity(insight)">
-                        <span>Show Activity</span>
                     </button>
                     <mat-divider></mat-divider>
                     <button
@@ -59,18 +50,18 @@
 
         <mat-card-content class="app-insight-content">
             <app-quill-editor
-                class=""
                 [isReadOnly]="true"
                 [showActions]="false"
                 [body]="form.controls['description']"
             ></app-quill-editor>
 
-            <entity-attachments
-                *ngIf="insight.attachments"
+            <entity-attachment-list [entity]="insight" [entityService]="insightService"></entity-attachment-list>
+
+            <!-- <entity-attachments
                 [mode]="mode"
                 [attachments]="insight.attachments"
                 (updateAttachments)="updateAttachments($event)"
-            ></entity-attachments>
+            ></entity-attachments> -->
         </mat-card-content>
     </mat-card>
 

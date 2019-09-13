@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Entity } from 'models/entities/entity.model';
 import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export abstract class EntityService<E extends Entity> {
@@ -54,4 +55,31 @@ export abstract class EntityService<E extends Entity> {
      * @param entity
      */
     abstract makePrivate(entity: E): Observable<E>;
+
+    /**
+     * Returns the entities matching the title terms specified.
+     * @param terms
+     */
+    abstract searchByTerms(terms: Observable<string>): Observable<QueryListResponse<E>>;
+
+    /**
+     * Adds attachments to the entity specified.
+     * @param entity
+     * @param attachments
+     */
+    abstract createAttachments(entity: E, attachments: EntityAttachment[]): Observable<EntityAttachment[]>;
+
+    // MODEL FUNCTIONS
+
+    /**
+     * Returns the sub-type of the entity or null.
+     * @param entity
+     */
+    abstract getEntitySubType(entity: E): string;
+
+    /**
+     * Returns the absolute URL of where the entity can be seen.
+     * @param entity
+     */
+    abstract getRouterLink(entity: E): string[];
 }

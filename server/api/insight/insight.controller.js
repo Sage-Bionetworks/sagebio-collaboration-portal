@@ -5,6 +5,7 @@ import { merge } from 'lodash';
 import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
+import EntityAttachment from '../entity-attachment/entity-attachment.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -93,9 +94,17 @@ export function patch(req, res) {
 
 // Deletes a Insight from the DB
 export function destroy(req, res) {
-    return Insight.findById(req.params.id).exec()
+    return Insight.findById(req.params.id)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
+// TODO TO REVIEW
+export function createAttachments(req, res) {
+    return EntityAttachment.create(req.body)
+        .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 

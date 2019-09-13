@@ -9,6 +9,7 @@ import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
@@ -47,9 +48,37 @@ export class ProjectService implements EntityService<Project> {
         return this.httpClient.patch<Project>(`/api/projects/${entity._id}/visibility/private`, []);
     }
 
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<Project>> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<QueryListResponse<Project>>(`/api/projects?searchTerms=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+
+    createAttachments(project: Project, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/projects/${project._id}/attachments`, attachments);
+    }
+
+    // MODEL FUNCTIONS
+
+    getEntitySubType(project: Project): string {
+        return null;
+    }
+
     // TOD REVIEW
 
     getVisibility(projectId: string): Observable<EntityVisibility> {
         return this.httpClient.get<EntityVisibility>(`/api/projects/${projectId}/visibility`);
+    }
+
+    getRouterLink(project: Project): string[] {
+        return ['/projects', project._id];
     }
 }

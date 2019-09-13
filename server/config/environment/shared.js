@@ -25,46 +25,53 @@ export const actionPermissionTypes = {
         value: 'CreateTool',
     },
     CREATE_ORGANIZATION: {
-        value: 'CreateOrganization'
+        value: 'CreateOrganization',
     },
     CREATE_USER: {
-        value: 'CreateUser'
-    }
+        value: 'CreateUser',
+    },
 };
 
 export const entityTypes = {
     APP: {
         value: 'App',
+        name: 'App',
     },
     PROJECT: {
         value: 'Project',
+        name: 'Project',
     },
     DATA_CATALOG: {
         value: 'DataCatalog',
+        name: 'Data Catalog',
     },
     INSIGHT: {
-        value: 'Insight'
+        value: 'Insight',
+        name: 'Insight',
     },
     RESOURCE: {
-        value: 'Resource'
+        value: 'Resource',
+        name: 'Resource',
     },
     TOOL: {
         value: 'Tool',
+        name: 'Tool',
     },
     ORGANIZATION: {
-        value: 'Organization'
-    }
+        value: 'Organization',
+        name: 'Organization',
+    },
 };
 
 export const notificationTypes = {
     ENTITY_ACCESS_NOTIFICATION: {
-        value: 'EntityAccessNotification'
+        value: 'EntityAccessNotification',
     },
     ENTITY_NOTIFICATION: {
-        value: 'EntityNotification'
+        value: 'EntityNotification',
     },
     MESSAGE_NOTIFICATION: {
-        value: 'MessageNotification'
+        value: 'MessageNotification',
     },
 };
 
@@ -98,24 +105,24 @@ export const resourceTypes = {
     },
 };
 
-export const entityAttachmentTypes = [
-    {
-        name: 'Insight',
-        options: [
-            { type: insightTypes.MEMO.name },
-            { type: insightTypes.REPORT.name },
-        ],
-    },
-    {
-        name: 'Resource',
-        options: [
-            { type: resourceTypes.ARTICLE.name },
-            { type: resourceTypes.DASHBOARD.name },
-            { type: resourceTypes.STATE.name },
-            { type: resourceTypes.WEBAPP.name },
-        ],
-    },
-];
+// export const entityAttachmentTypes = [
+//     {
+//         name: 'Insight',
+//         options: [
+//             { type: insightTypes.MEMO.name },
+//             { type: insightTypes.REPORT.name },
+//         ],
+//     },
+//     {
+//         name: 'Resource',
+//         options: [
+//             { type: resourceTypes.ARTICLE.name },
+//             { type: resourceTypes.DASHBOARD.name },
+//             { type: resourceTypes.STATE.name },
+//             { type: resourceTypes.WEBAPP.name },
+//         ],
+//     },
+// ];
 
 export const activityTypes = {
     RESOURCEGENERATION: {
@@ -288,11 +295,11 @@ export const models = {
     },
     share: {
         invitedUsers: {
-            minlength: 1
+            minlength: 1,
         },
         comment: {
             minlength: 1,
-            maxlength: 1024
+            maxlength: 1024,
         },
     },
     resource: {
@@ -457,5 +464,5 @@ export default {
     dataCatalogApiTypes,
 
     datasetOrders,
-    insightTypeFilters
+    insightTypeFilters,
 };

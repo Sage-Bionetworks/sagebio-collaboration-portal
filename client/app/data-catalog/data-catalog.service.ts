@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { EntityService } from 'components/entity/entity.service';
 import { stringifyQuery } from 'components/util';
 import { DataCatalog } from 'models/entities/data-catalog.model';
 import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class DataCatalogService implements EntityService<DataCatalog> {
@@ -43,5 +44,33 @@ export class DataCatalogService implements EntityService<DataCatalog> {
 
     makePrivate(entity: DataCatalog): Observable<DataCatalog> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<DataCatalog>> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs?searchTerms=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+
+    createAttachments(dataCatalog: DataCatalog, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/data-catalogs/${dataCatalog._id}/attachments`, attachments);
+    }
+
+    // MODEL FUNCTIONS
+
+    getEntitySubType(dataCatalog: DataCatalog): string {
+        return null;
+    }
+
+    getRouterLink(dataCatalog: DataCatalog): string[] {
+        return ['/data-catalogs', dataCatalog._id];
     }
 }
