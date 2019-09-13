@@ -20,6 +20,7 @@ import { ResourcePageComponent } from 'components/resource/resource-page/resourc
 import { ResourceModule } from 'components/resource/resource.module';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
+// import { ToolService } from './../tool/tool.service';
 
 import { ProjectComponent } from './project.component';
 import { ProjectActivityComponent } from './project-activity/project-activity.component';
@@ -99,6 +100,7 @@ export const ROUTES: Routes = [
     ],
     providers: [
         SocketService,
+        // ToolService,
         ProjectService,
         ProjectDataService,
         ProjectHeaderService,

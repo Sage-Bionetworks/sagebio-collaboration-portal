@@ -8,6 +8,7 @@ import { MaterialModule } from 'components/material/material.module';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ShareModule } from 'components/share/share.module';
 import { PipesModule } from 'components/pipes/pipes.module';
+// import { ToolService } from 'client/app/tool/tool.service';
 
 import { ResourceNewComponent } from './resource-new/resource-new.component';
 import { ResourceEditComponent } from './resource-edit/resource-edit.component';

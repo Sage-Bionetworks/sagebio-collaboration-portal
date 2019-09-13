@@ -21,7 +21,7 @@ export class ResourceNewComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     private resourceSpecs: any;
-    private toolOpts = [];
+    private toolOpts = []; // TODO get from backend
     private newForm: FormGroup;
     private errors = {
         newResource: undefined,

@@ -11,15 +11,19 @@ import { Resource } from 'models/entities/resources/resource.model';
 
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, forkJoin, of } from 'rxjs';
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import config from '../../../app/app.constants';
 import { ObjectValidators } from 'components/validation/object-validators';
+import { ToolService } from '../../../app/tool/tool.service';
+import { State } from 'models/entities/resources/state.model';
+import { Tool } from 'models/entities/tool.model';
 
 @Component({
     selector: 'resource-page',
     template: require('./resource-page.html'),
     styles: [require('./resource-page.scss')],
+    // providers: [ToolService],
     encapsulation: ViewEncapsulation.None,
 })
 export class ResourcePageComponent implements OnInit {
@@ -34,12 +38,15 @@ export class ResourcePageComponent implements OnInit {
     private userPermissionsSub: Subscription;
     private permissions: Observable<UserPermissions>;
 
+    private tool: Tool;
+
     static parameters = [
         Router,
         ActivatedRoute,
         FormBuilder,
         PageTitleService,
         ResourceService,
+        ToolService,
         NotificationService,
         UserPermissionDataService,
     ];
@@ -50,10 +57,11 @@ export class ResourcePageComponent implements OnInit {
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
+        private toolService: ToolService,
         private notificationService: NotificationService,
         private userPermissionDataService: UserPermissionDataService
     ) {
-        this.entityType = config.entityTypes.INSIGHT.value;
+        this.entityType = config.entityTypes.RESOURCE.value;
         this.form = formBuilder.group({
             description: ['', []],
         });
@@ -75,8 +83,17 @@ export class ResourcePageComponent implements OnInit {
         );
 
         this.route.params
-            .pipe(switchMap(params => this.resourceService.getResource(params.resourceId)))
-            .subscribe(resource => {
+            .pipe(
+                switchMap(params => this.resourceService.getResource(params.resourceId)),
+                switchMap(resource => forkJoin({
+                    resource: of(resource),
+                    tool: resource.resourceType === 'State' ? this.toolService.get((<State>resource).tool) : of(null) // TODO Hack
+                }))
+            )
+            .subscribe((res: any) => {
+                let resource = res.resource;
+                this.tool = res.tool;
+            // .subscribe(resource => {
                 if (resource.description) {
                     // TODO: should be required
                     try {

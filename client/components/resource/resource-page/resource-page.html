@@ -55,6 +55,12 @@
                 [body]="form.controls['description']"
             ></app-quill-editor>
         </mat-card-content>
+
+        <div class="app-resource-extra-actions">
+            <!-- Use enum for State -->
+            <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ tool.title }}</a>
+            <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
+        </div>
     </mat-card>
 
     <ng-template #showResourceEditForm>
