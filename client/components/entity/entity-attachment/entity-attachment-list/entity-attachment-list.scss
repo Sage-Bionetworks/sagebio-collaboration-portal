@@ -1,3 +1,8 @@
+.app-entity-attachment-header {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
 .app-entity-attachment-bundle-title {
     font-size: 1em;
     font-weight: bold;
@@ -5,4 +10,48 @@
 
 .app-entity-attachment-bundle-entity-type {
     margin-top: 5px;
+}
+
+.app-entity-attachment-form {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    margin-top: 14px;
+}
+
+.app-entity-attachment-form-attachment-type {
+    max-width: 150px;
+}
+
+.app-entity-attachment-form-attachment {
+    display: flex;
+    flex-grow: 1;
+    padding-left: 16px;
+
+    .mat-form-field-wrapper {
+        display: flex;
+        flex-grow: 1;
+    }
+}
+
+// ENTITY OPTION
+
+.app-entity-attachment-option {
+    display: flex;
+    flex-flow: row nowrap;
+    line-height: 20px;
+}
+
+.app-entity-attachment-option-text {
+    display: flex;
+    flex-flow: column nowrap;
+    padding-left: 16px;
+}
+
+.app-entity-attachment-option-text-title {
+    font-size: 0.9em;
+}
+
+.app-entity-attachment-option-text-type {
+    font-size: 0.8em;
 }

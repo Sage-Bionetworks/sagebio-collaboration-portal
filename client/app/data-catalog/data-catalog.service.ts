@@ -45,13 +45,13 @@ export class DataCatalogService implements EntityService<DataCatalog> {
         throw new Error('Method not implemented.');
     }
 
-    searchByTerms(terms: Observable<string>): Observable<DataCatalog[] | null> {
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<DataCatalog>> {
         return terms.pipe(
             debounceTime(400),
             distinctUntilChanged(),
             switchMap(term => {
                 if (term) {
-                    return this.httpClient.get<DataCatalog[]>(`/api/data-catalogs?searchTerms=${term}`);
+                    return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs?searchTerms=${term}`);
                 } else {
                     return of(null);
                 }

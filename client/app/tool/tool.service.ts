@@ -48,13 +48,13 @@ export class ToolService implements EntityService<Tool> {
         throw new Error('Method not implemented.');
     }
 
-    searchByTerms(terms: Observable<string>): Observable<Tool[] | null> {
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<Tool>> {
         return terms.pipe(
             debounceTime(400),
             distinctUntilChanged(),
             switchMap(term => {
                 if (term) {
-                    return this.httpClient.get<Tool[]>(`/api/tools?searchTerms=${term}`);
+                    return this.httpClient.get<QueryListResponse<Tool>>(`/api/tools?searchTerms=${term}`);
                 } else {
                     return of(null);
                 }

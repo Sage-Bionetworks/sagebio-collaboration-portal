@@ -1,4 +1,4 @@
-<h3>Attachments</h3>
+<h3 class="app-entity-attachment-header">Attachments</h3>
 
 <mat-progress-spinner
     *ngIf="attachmentsDownloadProgress > 0 && attachmentsDownloadProgress < 100; else showAttachments"
@@ -6,7 +6,9 @@
 ></mat-progress-spinner>
 
 <ng-template #showAttachments>
-    <span *ngIf="(attachments | async).length < 1; else showAttachmentList">There are 0 attachments.</span>
+    <span *ngIf="(attachments | async).length < 1 && isReadOnly; else showAttachmentList"
+        >There are 0 attachments.</span
+    >
     <ng-template #showAttachmentList>
         <mat-nav-list>
             <mat-list-item
@@ -19,9 +21,6 @@
                 <h3 class="app-entity-attachment-bundle-entity-type" matLine>
                     {{ getEntityTypeAndSubType(attachment) }}
                 </h3>
-                <!-- <button mat-icon-button (click)="showInfo(link)">
-                            <mat-icon>info</mat-icon>
-                        </button> -->
                 <button
                     *ngIf="!isReadOnly"
                     mat-icon-button
@@ -36,14 +35,14 @@
     </ng-template>
 </ng-template>
 
-<form *ngIf="!isReadOnly" [formGroup]="attachmentForm">
-    <mat-form-field>
+<form *ngIf="!isReadOnly" class="app-entity-attachment-form" [formGroup]="attachmentForm">
+    <mat-form-field class="app-entity-attachment-form-attachment-type">
         <mat-label>Type</mat-label>
-        <select matNativeControl formControlName="attachmentType" required>
-            <option *ngFor="let option of attachmentTypes" [value]="option.value">{{ option.name }}</option>
-        </select>
+        <mat-select formControlName="attachmentType" required>
+            <mat-option *ngFor="let option of attachmentTypes" [value]="option.value">{{ option.name }}</mat-option>
+        </mat-select>
     </mat-form-field>
-    <mat-form-field class="app-add-collaborator-field">
+    <mat-form-field class="app-entity-attachment-form-attachment">
         <input
             matInput
             placeholder="Attachment"
@@ -53,16 +52,30 @@
             [readonly]="disabled"
         />
         <mat-autocomplete #auto="matAutocomplete" flex>
-            <mat-option *ngFor="let attachment of attachmentSearchResults" [value]="attachment.entity.title" (click)="addAttachment(attachment)">
-                <!-- <user-avatar [user]="user" [size]="optionAvatarSize"></user-avatar> -->
-                <span>{{ user.username }}</span>
+            <mat-option
+                *ngFor="let attachment of attachmentSearchResults"
+                [value]="attachment.entity.title"
+                (click)="addAttachment(attachment)"
+            >
+                <div class="app-entity-attachment-option">
+                    <img
+                        [ngStyle]="getAttachmentPictureStyle()"
+                        [src]="attachment.entity.picture"
+                        aria-label="Entity picture"
+                    />
+                    <div class="app-entity-attachment-option-text">
+                        <span class="app-entity-attachment-option-text-title">{{ attachment.entity.title }}</span>
+                        <span class="app-entity-attachment-option-text-type">
+                            {{ getEntityTypeAndSubType(attachment) }}
+                        </span>
+                    </div>
+                </div>
             </mat-option>
         </mat-autocomplete>
         <mat-error *ngIf="attachmentForm.controls.attachment.invalid">
             Please enter a valid attachment.
         </mat-error>
     </mat-form-field>
-    <!-- <a mat-raised-button class="app-add-collaborator-button" color="primary" [disabled]="!selectedUser" (click)="addCollaborator()">Add collaborator</a> -->
     <mat-error *ngIf="errors.attachmentForm">
         {{ errors.attachmentForm }}
     </mat-error>

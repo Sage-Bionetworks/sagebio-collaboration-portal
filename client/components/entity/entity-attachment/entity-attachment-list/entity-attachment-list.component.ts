@@ -23,6 +23,7 @@ import {
     ignoreElements,
     debounceTime,
     distinctUntilChanged,
+    filter,
 } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
@@ -46,6 +47,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
 
     private attachmentForm: FormGroup;
     private attachmentTypes: any;
+    private attachmentPictureSize = 40;
     private attachmentSearchResults: AttachmentBundle[];
     private errors = {
         attachmentForm: undefined,
@@ -92,6 +94,8 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                     })
                 )
             );
+
+        // const createAttachmentBundle = (entity: Entity) =>
 
         if (this.entity) {
             const getAttachments = this.attachmentService
@@ -144,17 +148,34 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             this.attachmentForm.controls.attachmentType.valueChanges
         )
             .pipe(
-                tap(plop => console.log('PLOP', plop)),
-                switchMap(entityType =>
-                    this.getEntityService(entityType).searchByTerms(
-                        this.attachmentForm.controls.attachment.valueChanges
-                    )
-                )
+                switchMap(entityType => {
+                    const entityService = this.getEntityService(entityType);
+                    if (entityService) {
+                        return entityService.searchByTerms(
+                            this.attachmentForm.controls.attachment.valueChanges
+                        );
+                    }
+                    return of(null);
+                }),
+                map(response => {
+                    if (response && response.count > 0) {
+                        return response.results.map(entity => ({
+                            attachment: {
+                                entityId: entity._id,
+                                entityType: this.attachmentForm.get('attachmentType').value,
+                                entitySubType: this.getEntityService(
+                                    this.attachmentForm.get('attachmentType').value
+                                ).getEntitySubType(entity),
+                                parentEntityId: null,
+                            },
+                            entity,
+                        }));
+                    }
+                    return [];
+                })
             )
-            .subscribe(res => {
-                console.log('SEARCH res', res);
-
-                // this.errors.createNewMessage = undefined;
+            .subscribe((attachments: AttachmentBundle[]) => {
+                this.attachmentSearchResults = attachments;
             });
     }
 
@@ -169,7 +190,13 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     addAttachment(attachment: AttachmentBundle): void {
-        console.log('add attachment', attachment);
+        if (attachment) {
+            console.log('add attachment', attachment);
+            let attachments = this.attachments.getValue();
+            attachments.push(attachment);
+            this.attachments.next(attachments);
+            this.attachmentForm.get('attachment').setValue('');
+        }
     }
 
     removeAttachment(event, attachment: AttachmentBundle): void {
@@ -207,5 +234,15 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             const entityService = this.getEntityService(entityType);
             return entityService.getRouterLink(entity);
         }
+    }
+
+    getAttachmentPictureStyle(): {} {
+        return {
+            width: `${this.attachmentPictureSize}px`,
+            'min-width': `${this.attachmentPictureSize}px`,
+            height: `${this.attachmentPictureSize}px`,
+            margin: '0 0 0 0',
+            'border-radius': '50%',
+        };
     }
 }

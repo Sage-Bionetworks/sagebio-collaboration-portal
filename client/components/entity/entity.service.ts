@@ -59,7 +59,7 @@ export abstract class EntityService<E extends Entity> {
      * Returns the entities matching the title terms specified.
      * @param terms
      */
-    abstract searchByTerms(terms: Observable<string>): Observable<E[] | null>;
+    abstract searchByTerms(terms: Observable<string>): Observable<QueryListResponse<E>>;
 
     // MODEL FUNCTIONS
 

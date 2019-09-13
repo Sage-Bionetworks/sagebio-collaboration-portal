@@ -48,13 +48,13 @@ export class ResourceService implements EntityService<Resource> {
         throw new Error('Method not implemented.');
     }
 
-    searchByTerms(terms: Observable<string>): Observable<Resource[] | null> {
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<Resource>> {
         return terms.pipe(
             debounceTime(400),
             distinctUntilChanged(),
             switchMap(term => {
                 if (term) {
-                    return this.httpClient.get<Resource[]>(`/api/resources?searchTerms=${term}`);
+                    return this.httpClient.get<QueryListResponse<Resource>>(`/api/resources?searchTerms=${term}`);
                 } else {
                     return of(null);
                 }
