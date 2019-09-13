@@ -9,6 +9,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
+import { DirectivesModule } from 'components/directives/directives.module';
 
 import { ToolComponent } from './tool.component';
 import { ToolActivityComponent } from './tool-activity/tool-activity.component';
@@ -61,6 +62,7 @@ export const ROUTES: Routes = [
         ActivityModule,
         ProvenanceModule,
         EntityModule,
+        DirectivesModule,
         ShareModule,
         ClipboardModule,
     ],

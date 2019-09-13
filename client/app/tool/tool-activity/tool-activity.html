@@ -1,21 +1,25 @@
 <div *ngIf="!showNewActivityForm; else activityForm">
     <div class="tool-activities-container">
-        <div class="activities-graph-container">
+        <div *ngIf="root" class="activities-graph-container">
+            <div class="tool-activity-info">
+                <b>Activities for</b>
+                <span><em>{{ root.title }}</em></span>
+            </div>
             <!-- <div class="activities-graph-filters-container">
                 <h3>{{ entityName }} Type</h3>
                 <radio-button-filter [filters]="activityTypeFilters" [group]="filterGroup"></radio-button-filter>
-            </div>
+            </div> -->
             <div class="activities-graph-content-container">
                 <div class="activities-graph-results" (resized)="onResized($event)">
                     <provenance-graph
                         class="provenance-graph"
                         [graphData]="provenanceGraphData"
-                        [rootId]="null"
+                        [rootId]="root._id"
                     ></provenance-graph>
                 </div>
             </div>
         </div>
-        <div class="tool-activities-actions">
+        <!-- <div class="tool-activities-actions">
             <a
                 mat-raised-button
                 color="primary"
