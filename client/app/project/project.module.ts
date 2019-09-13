@@ -42,6 +42,7 @@ import { ProjectGuard } from './project-guard.service';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 import { ShareModule } from 'components/share/share.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export const ROUTES: Routes = [
     {
@@ -92,6 +93,7 @@ export const ROUTES: Routes = [
         FiltersModule,
         DirectivesModule,
         ShareModule,
+        ClipboardModule,
     ],
     providers: [
         SocketService,

@@ -24,6 +24,7 @@ import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
 import { ShareModule } from 'components/share/share.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export const ROUTES: Routes = [
     {
@@ -61,6 +62,7 @@ export const ROUTES: Routes = [
         ProvenanceModule,
         EntityModule,
         ShareModule,
+        ClipboardModule,
     ],
     declarations: [
         ToolComponent,

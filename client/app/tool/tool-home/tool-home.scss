@@ -12,7 +12,7 @@
 
 .tool-card {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     align-items: flex-start;
     padding: 5px 25px 25px 25px;
     margin-bottom: 30px;
@@ -89,30 +89,17 @@
         }
     }
 
-    // .tool-description {
-    //   padding-top: 20px;
-    // }
-
     .tool-actions {
         display: flex;
-        flex-flow: row nowrap;
-        flex-grow: 1;
-        justify-content: space-between;
-        margin-top: 40px;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        padding: 25px 10px;
+        margin-left: 30px;
+      }
 
-        > a {
-            display: flex;
-            flex-grow: 1;
-            justify-content: center;
-            padding: 0 10px;
-            margin: 0 5px;
-        }
-    }
-
-    // .tool-actions > button,
-    //   a {
-    //     margin-bottom: 10px;
-    //   }
+      .tool-actions > button, a {
+        margin-bottom: 10px;
+      }
 }
 
 .tool-card > picture {
@@ -123,3 +110,24 @@
     min-height: 200px;
     padding: 25px;
 }
+
+.activity-button {
+    color: red;
+}
+
+.app-tool-icon-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 30px;
+    justify-content: flex-end;
+}
+
+.app-tool-button-actions {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 30px;
+}
+
+.app-tool-button-actions > button, a {
+    margin-bottom: 10px;
+  }
