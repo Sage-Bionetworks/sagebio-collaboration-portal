@@ -16,6 +16,8 @@
                     [body]="editForm.controls['description']"
                 ></app-quill-editor>
 
+                <entity-attachment-list [isReadOnly]="false" [entity]="insight" [entityService]="insightService"></entity-attachment-list>
+
                 <mat-error *ngIf="errors.newInsight">
                     {{ errors.newInsight }}
                 </mat-error>

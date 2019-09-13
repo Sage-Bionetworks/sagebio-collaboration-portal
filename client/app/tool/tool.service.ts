@@ -10,6 +10,7 @@ import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/a
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { Patch } from 'models/patch.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ToolService implements EntityService<Tool> {
@@ -60,6 +61,10 @@ export class ToolService implements EntityService<Tool> {
                 }
             })
         );
+    }
+
+    createAttachments(tool: Tool, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/tools/${tool._id}/attachments`, attachments);
     }
 
     // MODEL FUNCTIONS

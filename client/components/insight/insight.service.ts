@@ -13,6 +13,7 @@ import { QueryListResponse } from 'models/query-list-response.model';
 import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
 import { Entity } from 'models/entities/entity.model';
 import { Patch } from 'models/patch.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class InsightService implements EntityService<Insight> {
@@ -63,6 +64,10 @@ export class InsightService implements EntityService<Insight> {
                 }
             })
         );
+    }
+
+    createAttachments(insight: Insight, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/insights/${insight._id}/attachments`, attachments);
     }
 
     // MODEL FUNCTIONS

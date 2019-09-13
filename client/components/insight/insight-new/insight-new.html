@@ -24,8 +24,6 @@
                 </select>
             </mat-form-field>
 
-            <!-- <entity-attachments *ngIf="project" [mode]="mode" [entityId]="project._id" (updateAttachments)="updateAttachments($event)"></entity-attachments> -->
-
             <entity-attachment-list [isReadOnly]="false" [entityService]="insightService"></entity-attachment-list>
 
             <mat-error *ngIf="errors.newInsight">

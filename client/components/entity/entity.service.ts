@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Entity } from 'models/entities/entity.model';
 import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export abstract class EntityService<E extends Entity> {
@@ -60,6 +61,13 @@ export abstract class EntityService<E extends Entity> {
      * @param terms
      */
     abstract searchByTerms(terms: Observable<string>): Observable<QueryListResponse<E>>;
+
+    /**
+     * Adds attachments to the entity specified.
+     * @param entity
+     * @param attachments
+     */
+    abstract createAttachments(entity: E, attachments: EntityAttachment[]): Observable<EntityAttachment[]>;
 
     // MODEL FUNCTIONS
 

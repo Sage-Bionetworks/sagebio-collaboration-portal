@@ -10,6 +10,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
 import { Patch } from 'models/patch.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ResourceService implements EntityService<Resource> {
@@ -60,6 +61,10 @@ export class ResourceService implements EntityService<Resource> {
                 }
             })
         );
+    }
+
+    createAttachments(resource: Resource, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/resources/${resource._id}/attachments`, attachments);
     }
 
     // MODEL FUNCTIONS

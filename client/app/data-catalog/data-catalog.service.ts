@@ -7,6 +7,7 @@ import { stringifyQuery } from 'components/util';
 import { DataCatalog } from 'models/entities/data-catalog.model';
 import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class DataCatalogService implements EntityService<DataCatalog> {
@@ -57,6 +58,10 @@ export class DataCatalogService implements EntityService<DataCatalog> {
                 }
             })
         );
+    }
+
+    createAttachments(dataCatalog: DataCatalog, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/data-catalogs/${dataCatalog._id}/attachments`, attachments);
     }
 
     // MODEL FUNCTIONS

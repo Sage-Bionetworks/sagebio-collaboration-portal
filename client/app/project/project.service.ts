@@ -9,6 +9,7 @@ import { some, orderBy, head } from 'lodash/fp';
 import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
@@ -59,6 +60,10 @@ export class ProjectService implements EntityService<Project> {
                 }
             })
         );
+    }
+
+    createAttachments(project: Project, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/projects/${project._id}/attachments`, attachments);
     }
 
     // MODEL FUNCTIONS

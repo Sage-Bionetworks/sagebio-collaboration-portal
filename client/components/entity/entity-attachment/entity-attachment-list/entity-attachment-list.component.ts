@@ -6,7 +6,7 @@ import { Insight } from 'models/entities/insights/insight.model';
 // import config from '../../../app/app.constants';
 import { Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
-import { BehaviorSubject, from, forkJoin, of, merge, combineLatest } from 'rxjs';
+import { BehaviorSubject, from, forkJoin, of, merge, combineLatest, Observable } from 'rxjs';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
 import config from '../../../../app/app.constants';
 import { ProjectService } from '../../../../app/project/project.service';
@@ -113,7 +113,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                         merge(
                             progress.pipe(
                                 tap(value => {
-                                    console.log(`${value} completed`);
+                                    // console.log(`${value} completed`);
                                     this.attachmentsDownloadProgress = value;
                                 }),
                                 ignoreElements()
@@ -125,24 +125,13 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 .subscribe(
                     (attachments: AttachmentBundle[]) => {
                         this.attachments.next(attachments);
-                        console.log('attachments', attachments);
-                        // this.invites = invites;
-                        // if (this.invites.length < 1) {
-                        //     this.sidenavService.close();
-                        // }
                     },
                     err => console.error(err)
                 );
         }
-        // this.attachmentService.searchUserByUsername(this.inviteForm.controls.username.valueChanges)
-        //     .subscribe(users => {
-        //         this.userResults = users;
-        //     }, err => console.error(err));
     }
 
     ngAfterViewInit() {
-        // console.log('DEFAULT', this.attachmentForm.get('attachmentType').value);
-
         merge(
             of(this.attachmentForm.get('attachmentType').value),
             this.attachmentForm.controls.attachmentType.valueChanges
@@ -151,9 +140,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 switchMap(entityType => {
                     const entityService = this.getEntityService(entityType);
                     if (entityService) {
-                        return entityService.searchByTerms(
-                            this.attachmentForm.controls.attachment.valueChanges
-                        );
+                        return entityService.searchByTerms(this.attachmentForm.controls.attachment.valueChanges);
                     }
                     return of(null);
                 }),
@@ -179,9 +166,16 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             });
     }
 
-    // ngOnDesotry() {
-    //     console.log('DESTROYING LIST OF ATTACHMENTS');
-    // }
+    public createAttachments(entity: E): Observable<EntityAttachment[]> {
+        if (entity && this.entityService) {
+            let attachments = this.attachments.getValue().map(attachment => {
+                let atta = attachment.attachment;
+                atta.parentEntityId = entity._id;
+                return atta;
+            });
+            return this.entityService.createAttachments(entity, attachments);
+        }
+    }
 
     getEntityTypeAndSubType(attachment: AttachmentBundle): string {
         const entityType = attachment.attachment.entityType;
@@ -191,7 +185,6 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
 
     addAttachment(attachment: AttachmentBundle): void {
         if (attachment) {
-            console.log('add attachment', attachment);
             let attachments = this.attachments.getValue();
             attachments.push(attachment);
             this.attachments.next(attachments);
