@@ -1,39 +1,67 @@
 <div *ngIf="resource">
-    <div class="resource-content">
-        <mat-card class="resource-card">
-            <div class="resource-card-top">
-                <div class="resource-card-left-container">
-                    <div class="resource-card-prov-graph-actions">
-                        <show-activity-button [root]="resource" (click)="showActivity()"></show-activity-button>
-                        <share-button [entity]="resource" [entityType]="entityType"></share-button>
-                    </div>
-                    <h3>{{ resource.resourceType }} Description</h3>
-                    <form [formGroup]="form" novalidate>
-                        <app-quill-editor [isReadOnly]="true" saveButtonLabel="Save description" placeholder="Insert text here..." [body]="form.controls['description']" (onSave)="updateDescription()"></app-quill-editor>
-                        <mat-error *ngIf="form.controls.description.errors?.jsonStringifyMaxLength">
-                            This message must be smaller than {{ form.controls.description.errors.jsonStringifyMaxLength.limit / (2*1024) | number:'1.0-0' }} KB (value:
-                            {{ form.controls.description.errors.jsonStringifyMaxLength.value * 2 / 1024 | number:'1.0-0' }} KB)
-                        </mat-error>
-                        <mat-error *ngIf="errors.updateDescription">
-                            {{ errors.updateDescription }}
-                        </mat-error>
-                    </form>
-
-                    <div class="resource-card-info">
-                        <span><b>Created by:</b> {{ resource.createdBy.name }}</span>
-                        <span><b>Type:</b> {{ resource.resourceType }}</span>
-                        <span *ngIf="resource.resourceType === 'State'"><b>Tool:</b> {{ toolName }}</span>
-                    </div>
-                </div>
-            </div>
+    <mat-card *ngIf="!showResourceEditTemplate; else showResourceEditForm" class="app-resource">
+        <mat-card-header class="app-resource-header">
+            <mat-card-title class="app-resource-title">{{ resource.title }}</mat-card-title>
+            <mat-card-subtitle
+                >{{ resource.resourceType }} created by {{ resource.createdBy.name }} on
+                {{ resource.createdAt | dateAndTime }}</mat-card-subtitle
+            >
             <div class="app-resource-actions">
-                <a mat-raised-button routerLink="..">Go Back</a>
-                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ toolName }}</a>
-                <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
-                <!-- <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a> -->
-                <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create New Insight</a>
+                <share-button [entity]="resource" [entityType]="entityType"></share-button>
+                <show-activity-button [root]="resource"></show-activity-button>
+                <a
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreActionsMenu"
+                    matTooltip="More actions"
+                    aria-label="More actions"
+                >
+                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                </a>
+                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        ngxClipboard
+                        [cbContent]="getLink()"
+                        (cbOnSuccess)="notificationService.info('Link copied')"
+                        (cbOnError)="notificationService.info('Unable to copy the link.')"
+                        mat-menu-item
+                        aria-label="Copy link"
+                    >
+                        <span>Copy Link</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button
+                        mat-menu-item
+                        [attr.aria-label]="'Edit ' + resource.resourceType"
+                        (click)="showResourceEditTemplate = true"
+                    >
+                        <span>Edit {{ resource.resourceType }}</span>
+                    </button>
+                    <button
+                        mat-menu-item
+                        [attr.aria-label]="'Delete ' + resource.resourceType"
+                        (click)="deleteResource(resource)"
+                        disabled
+                    >
+                        <span class="app-resource-actions-delete-btn-label">Delete {{ resource.resourceType }}</span>
+                    </button>
+                </mat-menu>
             </div>
-        </mat-card>
-    </div>
+        </mat-card-header>
+
+        <mat-card-content class="app-resource-content">
+            <app-quill-editor
+                [isReadOnly]="true"
+                [showActions]="false"
+                [body]="form.controls['description']"
+            ></app-quill-editor>
+        </mat-card-content>
+    </mat-card>
+
+    <ng-template #showResourceEditForm>
+        <!-- <resource-edit
+            [resource]="resource"
+            (resourceEdit)="onResourceEdit($event)"
+            (cancel)="showResourceEditTemplate = false"
+        ></resource-edit> -->
+    </ng-template>
 </div>
