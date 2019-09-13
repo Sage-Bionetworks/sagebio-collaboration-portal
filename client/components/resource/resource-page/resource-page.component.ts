@@ -143,7 +143,10 @@ export class ResourcePageComponent implements OnInit {
     }
 
     openInTool(resource): void {
-        window.open(resource.url, '_blank');
+        // TODO remove
+        // Shiny DEMO: insert portal token: ?_inputs_ => ?portal_token=xxx&_inputs_
+        let url = resource.url.replace('?_inputs_', `?token_portal=${this.tokenService.get()}&_inputs_`);
+        window.open(url, '_blank');
     }
 
     open(): void {
