@@ -91,7 +91,7 @@ export class InsightNewComponent {
                             generatedTargetId: insight._id,
                             generatedClass: ReferenceClass.INSIGHT,
                             generatedSubClass: insight.insightType,
-                            // usedEntities: usedEntitiesForProvenance
+                            usedEntities: usedEntitiesForProvenance
                         });
                         this.newInsight.emit(insight);
                     });

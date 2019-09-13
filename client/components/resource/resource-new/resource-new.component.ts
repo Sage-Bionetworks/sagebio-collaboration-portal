@@ -101,6 +101,7 @@ export class ResourceNewComponent implements OnInit {
                     generatedTargetId: resource._id,
                     generatedClass: ReferenceClass.RESOURCE,
                     generatedSubClass: resource.resourceType,
+                    usedEntities: []
                 });
             },
             err => {

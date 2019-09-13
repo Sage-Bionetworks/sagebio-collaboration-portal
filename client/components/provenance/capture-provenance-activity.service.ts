@@ -18,7 +18,7 @@ export class CaptureProvenanceActivityService {
 
     }
 
-    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass }) {
+    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities }) { // TODO use usedEntities
         const activity = {
             agents: [{
                 userId: this.currentUser._id,

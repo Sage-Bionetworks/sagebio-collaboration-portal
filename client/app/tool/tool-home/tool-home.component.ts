@@ -14,6 +14,7 @@ import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
 import config from "../../app.constants";
+import { TokenService } from 'components/auth/token.service';
 
 @Component({
     selector: 'tool-home',
@@ -40,6 +41,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         UserPermissionDataService,
         NotificationService,
         MatDialog,
+        TokenService
     ];
     constructor(
         private router: Router,
@@ -50,6 +52,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
         private dialog: MatDialog,
+        private tokenService: TokenService
     ) {
         this.tool$ = this.toolDataService.tool();
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
@@ -107,5 +110,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
 
     getLink(): string {
         return window.location.href;
+    }
+
+    openTool(tool: Tool): void {
+        window.open(`${tool.website}?portal_token=${this.tokenService.get()}`, '_blank');
     }
 }

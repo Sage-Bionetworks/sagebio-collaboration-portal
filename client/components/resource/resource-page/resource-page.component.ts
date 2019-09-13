@@ -18,6 +18,7 @@ import { ObjectValidators } from 'components/validation/object-validators';
 import { ToolService } from '../../../app/tool/tool.service';
 import { State } from 'models/entities/resources/state.model';
 import { Tool } from 'models/entities/tool.model';
+import { TokenService } from 'components/auth/token.service';
 
 @Component({
     selector: 'resource-page',
@@ -49,6 +50,7 @@ export class ResourcePageComponent implements OnInit {
         ToolService,
         NotificationService,
         UserPermissionDataService,
+        TokenService
     ];
 
     constructor(
@@ -59,7 +61,8 @@ export class ResourcePageComponent implements OnInit {
         private resourceService: ResourceService,
         private toolService: ToolService,
         private notificationService: NotificationService,
-        private userPermissionDataService: UserPermissionDataService
+        private userPermissionDataService: UserPermissionDataService,
+        private tokenService: TokenService
     ) {
         this.entityType = config.entityTypes.RESOURCE.value;
         this.form = formBuilder.group({
