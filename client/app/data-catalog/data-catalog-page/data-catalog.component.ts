@@ -70,6 +70,10 @@ export class DataCatalogComponent implements OnInit {
             });
     }
 
+    getLink(): string {
+        return window.location.href;
+    }
+
     onEditDataCatalog(dataCatalog: DataCatalog): void {
         this.showEditDataCatalogTemplate = false;
         this.dataCatalog = { ...this.dataCatalog, ... omit('organization', dataCatalog)};

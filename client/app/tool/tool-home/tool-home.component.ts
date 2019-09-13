@@ -100,4 +100,12 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             err => console.error(err)
         );
     }
+
+    onDeleteTool(): void {
+        console.log('DELETE');
+    }
+
+    getLink(): string {
+        return window.location.href;
+    }
 }
