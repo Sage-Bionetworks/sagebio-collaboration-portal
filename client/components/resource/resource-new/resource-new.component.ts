@@ -9,6 +9,7 @@ import { CaptureProvenanceActivityService } from 'components/provenance/capture-
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
 import { UrlValidators } from 'components/validation/url-validators';
+import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
 
 @Component({
     selector: 'resource-new',
@@ -98,7 +99,7 @@ export class ResourceNewComponent implements OnInit {
                 this.captureProvActivity.save({
                     generatedName: resource.title,
                     generatedTargetId: resource._id,
-                    generatedClass: 'Resource',
+                    generatedClass: ReferenceClass.RESOURCE,
                     generatedSubClass: resource.resourceType,
                 });
             },

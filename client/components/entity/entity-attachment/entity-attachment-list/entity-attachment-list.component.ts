@@ -24,6 +24,7 @@ import {
     debounceTime,
     distinctUntilChanged,
     filter,
+    take,
 } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
@@ -84,7 +85,8 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
 
     ngOnInit() {
         // this.attachmentTypes = Object.values(this.entityTypes);
-        this.attachmentTypes = [ // TODO Must be provided as @Input()
+        this.attachmentTypes = [
+            // TODO Must be provided as @Input()
             config.entityTypes.INSIGHT,
             config.entityTypes.RESOURCE,
             config.entityTypes.PROJECT,
@@ -171,6 +173,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             .subscribe((attachments: AttachmentBundle[]) => {
                 this.attachmentSearchResults = attachments;
             });
+    }
+
+    public getAttachments(): Observable<AttachmentBundle[]> {
+        return this.attachments.asObservable().pipe(take(1));
     }
 
     public createAttachments(entity: E): Observable<EntityAttachment[]> {
