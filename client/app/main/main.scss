@@ -90,11 +90,16 @@ hr {
   text-align: center;
   flex-direction: column;
   padding: 0 25px;
+
+
+  h4 {
+      margin: 5px auto;
+    }
 }
 
 .info-box-icon {
-  color: #455a64 !important;
-  margin: 0;
+    color: #455a64 !important;
+    margin: 0;
 }
 
 .material-icons {
