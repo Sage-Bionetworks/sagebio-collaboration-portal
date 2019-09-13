@@ -4,6 +4,7 @@
 @import './dataset/dataset-theme';
 @import './project/project-theme';
 @import './main/main-theme';
+@import './docs/docs-theme';
 @import '~components/footer/footer-theme';
 @import '~components/messaging/messaging-theme';
 @import '~components/navbar/navbar-theme';
@@ -62,6 +63,7 @@
     @include dataset-theme($theme);
     @include project-theme($theme);
     @include main-theme($theme);
+    @include docs-theme($theme);
     // components
     @include app-quill-theme($theme);
     @include footer-theme($theme);

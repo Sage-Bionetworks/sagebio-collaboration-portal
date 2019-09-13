@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
 import { DatasetModule } from './dataset/dataset.module';
 import { DataCatalogModule } from './data-catalog/data-catalog.module';
+import { DocsModule } from './docs/docs.module';
 import { ProjectModule } from './project/project.module';
 import { ToolModule } from './tool/tool.module';
 import { InsightModule } from './insight/insight.module';
@@ -81,6 +82,7 @@ const appRoutes: Routes = [{
         MainModule,
         DatasetModule,
         DataCatalogModule,
+        DocsModule,
         ProjectModule,
         ToolModule,
         InsightModule,
