@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 // import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
@@ -16,6 +16,7 @@ import { QueryListResponse } from 'models/query-list-response.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
 import { EntityService } from '../entity.service';
 import { Entity } from 'models/entities/entity.model';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class EntityAttachmentService {

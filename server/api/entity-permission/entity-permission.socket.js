@@ -21,24 +21,25 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
-        authBase.canReadEntity(
-            spark.userId,
-            doc.entityId,
-            entityTypes.PROJECT.value,
-            doc.visibility,
-            Object.values(accessTypes).map(access => access.value),
-            [
-                inviteStatusTypes.ACCEPTED.value,
-                inviteStatusTypes.PENDING.value
-            ]
-        )
-            .then(hasAccess => {
-                if (hasAccess) {
+        // TODO Fix authorization
+        // authBase.canReadEntity(
+        //     spark.userId,
+        //     doc.entityId,
+        //     entityTypes.PROJECT.value,
+        //     doc.visibility,
+        //     Object.values(accessTypes).map(access => access.value),
+        //     [
+        //         inviteStatusTypes.ACCEPTED.value,
+        //         inviteStatusTypes.PENDING.value
+        //     ]
+        // )
+        //     .then(hasAccess => {
+                // if (hasAccess) {
                     spark.emit(`${namespace}:${event}`, doc);
                     spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
-                }
-            })
-            .catch(err => console.error(`Unable to create listener: ${err}`));
+            //     }
+            // })
+            // .catch(err => console.error(`Unable to create listener: ${err}`));
     };
 }
 

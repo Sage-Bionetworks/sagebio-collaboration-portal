@@ -13,4 +13,25 @@ var StateSchema = new mongoose.Schema({
     },
 });
 
+/**
+ * Middlewares
+ */
+
+const autoPopulatePre = function (next) {
+    // eslint-disable-next-line no-invalid-this
+    this
+        .populate('tool');
+    next();
+};
+
+const autoPopulatePost = function (doc) {
+    return doc
+        .populate('tool')
+        .execPopulate();
+};
+
+StateSchema.pre('find', autoPopulatePre);
+StateSchema.pre('findOne', autoPopulatePre);
+StateSchema.post('save', autoPopulatePost);
+
 export default Resource.discriminator(resourceTypes.STATE.value, StateSchema);

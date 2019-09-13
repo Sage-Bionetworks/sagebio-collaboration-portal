@@ -16,7 +16,7 @@ var config = {
 
     activityTypeFilters: [
         {
-            value: 'Report generation',
+            value: 'ReportGeneration',
             title: 'Report generation',
             active: true,
         },
@@ -29,7 +29,7 @@ var config = {
             title: 'Mention',
         },
         {
-            value: 'Tool session',
+            value: 'ToolSession',
             title: 'Tool session',
         },
     ],

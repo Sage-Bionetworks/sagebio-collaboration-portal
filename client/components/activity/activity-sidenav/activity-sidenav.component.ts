@@ -30,6 +30,8 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     private provenanceGraphData: any;
     private activityDirectionFilters: Filter[] = [];
 
+    private activityDirection: any;
+
     static parameters = [SecondarySidenavService, ProvenanceService, SocketService, Router];
 
     constructor(private sidenavService: SecondarySidenavService,
@@ -43,7 +45,13 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        let selectedFilters = this.filters.map(f => f.getSelectedFilter());
+        console.log('activityDirectionFilters', this.activityDirectionFilters);
+        console.log('PLOP', this.filters);
+        let selectedFilters = this.filters.map(f => {
+            console.log('f', f);
+            return f.getSelectedFilter();
+        });
+        console.log('selectedFilters', selectedFilters);
         combineLatest(...selectedFilters)
             .pipe(
                 map(myFilters =>
@@ -54,6 +62,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 )
             )
             .subscribe(direction => {
+                console.log('direction', direction);
                 if (this.checkIfUser(this.root)) {
                     this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
                         .subscribe(activity => {
@@ -70,6 +79,25 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                         });
                 }
             });
+    }
+
+    showActivity(direction) {
+        console.log('show activity', direction);
+        if (this.checkIfUser(this.root)) {
+            this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
+                .subscribe(activity => {
+                    this.provenanceGraphData = activity;
+                });
+        } else {
+            this.provenanceService
+                .getProvenanceGraphByReference(
+                    this.root._id,
+                    direction,
+                    'created_at', 'desc', 3)
+                .subscribe(activity => {
+                    this.provenanceGraphData = activity;
+                });
+        }
     }
 
     ngOnDestroy() {

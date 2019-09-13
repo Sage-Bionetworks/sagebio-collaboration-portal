@@ -10,6 +10,7 @@ import { EntityAttachmentListComponent } from 'components/entity/entity-attachme
 import { forkJoin, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 // import { EntityAttachments, EntityAttachmentMode } from 'models/entities/entity.model';
+import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
 
 @Component({
     selector: 'insight-new',
@@ -55,15 +56,12 @@ export class InsightNewComponent {
             ],
             insightType: [this.insightSpecs.type.default.value, [Validators.required]],
         });
-
-        // this.mode = EntityAttachmentMode.EDIT;
     }
 
     createNewInsight(project: Project): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
         newInsight.projectId = this.project._id;
-        // newInsight.attachments = this.attachments;
 
         this.insightService.create(newInsight)
             .pipe(
@@ -75,13 +73,49 @@ export class InsightNewComponent {
         .subscribe(
             (res: any) => {
                 let insight = res.insight;
-                this.captureProvActivity.save({
-                    generatedName: insight.title,
-                    generatedTargetId: insight._id,
-                    generatedClass: ActivityClass.INSIGHT,
-                    generatedSubClass: insight.insightType,
-                });
-                this.newInsight.emit(insight);
+
+                // TODO Do not do subscribe inside another subscribe
+                this.attachments.getAttachments()
+                    .subscribe(attachments => {
+                        let usedEntitiesForProvenance = attachments.map(att => ({
+                            name: att.entity.title,
+                            role: '',
+                            targetId: att.attachment.entityId,
+                            targetVersionId: '1',
+                            class: att.attachment.entityType,
+                            subsclass: att.attachment.entitySubType
+                        }));
+
+                        this.captureProvActivity.save({
+                            generatedName: insight.title,
+                            generatedTargetId: insight._id,
+                            generatedClass: ReferenceClass.INSIGHT,
+                            generatedSubClass: insight.insightType,
+                            usedEntities: usedEntitiesForProvenance
+                        });
+                        this.newInsight.emit(insight);
+                    });
+
+                // let provenanceAttachment = this.attachments.getAttachments(attachment => ({
+                //     name: 'plop',
+                //     role: '',
+                //     // targetId: attachment.attachment.entityId,
+                //     // targetVersionId: '1',
+                //     // class: attachment.entityType,
+                //     // subsclass: attachment.entitySubType
+                // })),
+
+                // list of attachments
+                // - name, _id, entityType, entitySubtype,
+                // name, role = '', targetId: _id, targetVersionId: '1', class=entityType, subclass: subsclass if available
+                // this.captureProvActivity.save({
+                //     generatedName: insight.title,
+                //     generatedTargetId: insight._id,
+                //     generatedClass: ReferenceClass.INSIGHT,
+                //     generatedSubClass: insight.insightType,
+                //     // usedEntities:
+                // });
+                // this.newInsight.emit(insight);
             },
             err => {
                 console.error(err);
@@ -89,8 +123,4 @@ export class InsightNewComponent {
             }
         );
     }
-
-    // updateAttachments(attachments): void {
-    //     this.attachments = attachments;
-    // }
 }

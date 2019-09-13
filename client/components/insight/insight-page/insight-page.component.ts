@@ -30,13 +30,9 @@ export class InsightPageComponent implements OnInit {
     };
     private entityType: string;
 
-
     private isAdmin = false;
-    // private mode = EntityAttachmentMode.DISPLAY;
     private userPermissionsSub: Subscription;
     private permissions: Observable<UserPermissions>;
-
-
 
     static parameters = [
         Router,
@@ -106,21 +102,6 @@ export class InsightPageComponent implements OnInit {
                 this.errors.updateDescription = undefined;
             });
     }
-
-    // updateAttachments(attachments): void {
-    //     try {
-    //         this.insightService.updateInsightAttachments(this.insight, attachments).subscribe(
-    //             insight => {
-    //                 this.notificationService.info('The attachments have been successfully saved');
-    //             },
-    //             err => {
-    //                 console.log(err);
-    //             }
-    //         );
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
 
     getLink(): string {
         return window.location.href;

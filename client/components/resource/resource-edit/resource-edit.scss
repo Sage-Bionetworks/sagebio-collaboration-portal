@@ -1,0 +1,23 @@
+.app-resource-edit-card {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 40px;
+}
+
+.app-resource-edit-card-form {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 20px;
+}
+
+.app-resource-edit-form-field {
+    margin-bottom: 10px;
+}
+
+.app-resource-edit-description-editor {
+    padding-bottom: 25px;
+}
+
+.app-resource-edit-form-actions {
+    padding-bottom: 8px;
+}

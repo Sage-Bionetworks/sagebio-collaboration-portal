@@ -20,6 +20,7 @@ import { ResourcePageComponent } from 'components/resource/resource-page/resourc
 import { ResourceModule } from 'components/resource/resource.module';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
+// import { ToolService } from './../tool/tool.service';
 
 import { ProjectComponent } from './project.component';
 import { ProjectActivityComponent } from './project-activity/project-activity.component';
@@ -32,6 +33,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
+import { ProjectResourceNewComponent } from './project-resource-new/project-resource-new.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
@@ -66,6 +68,7 @@ export const ROUTES: Routes = [
             { path: 'insights/new', component: ProjectInsightNewComponent },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
+            { path: 'resources/new', component: ProjectResourceNewComponent },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
@@ -97,6 +100,7 @@ export const ROUTES: Routes = [
     ],
     providers: [
         SocketService,
+        // ToolService,
         ProjectService,
         ProjectDataService,
         ProjectHeaderService,
@@ -117,6 +121,7 @@ export const ROUTES: Routes = [
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
+        ProjectResourceNewComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,
     ],

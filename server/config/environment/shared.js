@@ -126,7 +126,7 @@ export const resourceTypes = {
 
 export const activityTypes = {
     RESOURCEGENERATION: {
-        value: 'Resource generation',
+        value: 'ResourceGeneration',
         name: 'Resouce generation',
     },
     MEMOIZATION: {
@@ -138,8 +138,8 @@ export const activityTypes = {
         name: 'Mention',
     },
     TOOLSESSION: {
-        value: 'Tool session',
-        name: 'Tool session',
+        value: 'ToolSession',
+        name: 'Tool Session',
     },
 };
 

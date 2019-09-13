@@ -24,20 +24,22 @@ export function register(spark) {
 
 function createListener(modelName, event, spark) {
     return function (doc) {
+        // TODO Set authorization
         Thread.findById(doc.thread)
             .exec()
-            .then(thread => hasAccessToEntity(spark.userId, [
-                    config.accessTypes.READ.value,
-                    config.accessTypes.WRITE.value,
-                    config.accessTypes.ADMIN.value
-                ], thread.entityId, [
-                    config.inviteStatusTypes.ACCEPTED.value
-                ])
-                .then(hasAccess => {
-                    if (hasAccess) {
-                        spark.emit(`${modelName}:entity:${thread.entityId}:${thread._id}:${event}`, doc);
-                    }
-                })
+            .then(thread =>
+                // hasAccessToEntity(spark.userId, [
+        //             config.accessTypes.READ.value,
+        //             config.accessTypes.WRITE.value,
+        //             config.accessTypes.ADMIN.value
+        //         ], thread.entityId, [
+        //             config.inviteStatusTypes.ACCEPTED.value
+        //         ])
+        //         .then(hasAccess => {
+        //             if (hasAccess) {
+                        spark.emit(`${modelName}:entity:${thread.entityId}:${thread._id}:${event}`, doc)
+    //                 }
+    //             })
             )
             .catch(err => {
                 console.error(err);
