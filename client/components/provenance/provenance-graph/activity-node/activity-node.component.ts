@@ -9,10 +9,10 @@ import { get } from 'lodash';
 })
 export class ActivityNodeComponent extends ProvenanceNodeComponent {
   private classIconMap = {
-    'Tool session': this.iconDictionary.gears,
+    'ToolSession': this.iconDictionary.gears,
     'Mention': this.iconDictionary.at,
     'Memoization': this.iconDictionary.stickyNote,
-    'Report generation': this.iconDictionary.edit,
+    'ReportGeneration': this.iconDictionary.edit,
     'Starred': this.iconDictionary.star,
   };
 

@@ -36,14 +36,15 @@ export class CaptureProvenanceActivityService {
                 subclass: generatedSubClass,
             }],
             name: `Creation of ${generatedName}`,
-            used: [{
-                name: '',
-                role: '',
-                targetId: '',
-                targetVersionId: '1',
-                class: '',
-                subclass: ''
-            }]
+            used: usedEntities
+            // used: [{
+            //     name: '',
+            //     role: '',
+            //     targetId: '',
+            //     targetVersionId: '1',
+            //     class: '',
+            //     subclass: ''
+            // }]
         };
 
         this.provenanceService.createProvenanceActivity(activity)

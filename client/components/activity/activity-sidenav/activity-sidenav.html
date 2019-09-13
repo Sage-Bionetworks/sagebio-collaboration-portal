@@ -8,15 +8,24 @@
 <div *ngIf="root" class="activities-graph-container">
     <div class="app-activity-info">
         <b>Activities for</b>
-        <span><em>{{ root.title }}</em></span>
+        <span
+            ><em>{{ root.title }}</em></span
+        >
     </div>
     <div *ngIf="!root.username" class="app-activity-filters-container">
         <b>Direction</b>
-        <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter>
+        <!-- <radio-button-filter [filters]="activityDirectionFilters" group="activityDirection"></radio-button-filter> -->
+
+        <a mat-raised-button color="primary" (click)="showActivity('down')">Down</a>
+        <a mat-raised-button color="primary" (click)="showActivity('up')">Up</a>
     </div>
     <div class="activities-graph-content-container">
         <div class="activities-graph-results" (resized)="onResized($event)">
-            <provenance-graph class="provenance-graph" [graphData]="provenanceGraphData" [rootId]="root._id"></provenance-graph>
+            <provenance-graph
+                class="provenance-graph"
+                [graphData]="provenanceGraphData"
+                [rootId]="root._id"
+            ></provenance-graph>
         </div>
     </div>
 </div>
