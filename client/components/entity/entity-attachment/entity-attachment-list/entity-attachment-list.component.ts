@@ -89,7 +89,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             config.entityTypes.RESOURCE,
             config.entityTypes.PROJECT,
             config.entityTypes.DATA_CATALOG,
-            config.entityTypes.RESOURCE,
+            config.entityTypes.TOOL,
         ];
 
         const getAttachmentBundle = attachment =>
