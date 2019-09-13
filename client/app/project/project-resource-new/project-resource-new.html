@@ -1,0 +1,6 @@
+<resource-new
+    *ngIf="project$ | async; let project"
+    [project]="project"
+    (newResource)="onNewResource($event)"
+    (cancel)="onCancel(project)"
+></resource-new>

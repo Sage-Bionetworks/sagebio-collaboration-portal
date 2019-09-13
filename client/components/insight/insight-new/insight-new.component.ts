@@ -55,15 +55,12 @@ export class InsightNewComponent {
             ],
             insightType: [this.insightSpecs.type.default.value, [Validators.required]],
         });
-
-        // this.mode = EntityAttachmentMode.EDIT;
     }
 
     createNewInsight(project: Project): void {
         let newInsight = this.newForm.value;
         newInsight.description = JSON.stringify(newInsight.description);
         newInsight.projectId = this.project._id;
-        // newInsight.attachments = this.attachments;
 
         this.insightService.create(newInsight)
             .pipe(
@@ -89,8 +86,4 @@ export class InsightNewComponent {
             }
         );
     }
-
-    // updateAttachments(attachments): void {
-    //     this.attachments = attachments;
-    // }
 }
