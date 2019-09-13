@@ -46,7 +46,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     private attachmentsDownloadProgress = 0;
 
     private attachmentForm: FormGroup;
-    private attachmentTypes: any;
+    private attachmentTypes: any[];
     private attachmentPictureSize = 40;
     private attachmentSearchResults: AttachmentBundle[];
     private errors = {
@@ -83,7 +83,14 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngOnInit() {
-        this.attachmentTypes = Object.values(this.entityTypes);
+        // this.attachmentTypes = Object.values(this.entityTypes);
+        this.attachmentTypes = [ // TODO Must be provided as @Input()
+            config.entityTypes.INSIGHT,
+            config.entityTypes.RESOURCE,
+            config.entityTypes.PROJECT,
+            config.entityTypes.DATA_CATALOG,
+            config.entityTypes.RESOURCE,
+        ];
 
         const getAttachmentBundle = attachment =>
             of(attachment).pipe(
