@@ -21,7 +21,7 @@ export function canReadResource() {
  */
 export function canCreateResource() {
     return auth.hasEntityPermission(
-        attachResourceAuthorizationDetails(),
+        attachResourceAuthorizationDetailsForCreate(),
         [accessTypes.WRITE.value, accessTypes.ADMIN.value]
     );
 }
@@ -108,5 +108,28 @@ function attachResourceAuthorizationDetails() {
                     });
             })
             .catch(err => next(err));
+    });
+}
+
+function attachResourceAuthorizationDetailsForCreate() {
+    return compose().use((req, res, next) => {
+        if (!req.body || !req.body.projectId) {
+            return res.status(400).end('The property projectId is missing.');
+        }
+        return Project.findById(req.body.projectId, '_id visibility')
+            .exec()
+            .then(project => {
+                if (!project) {
+                    return res.status(403).end();
+                }
+                req.entity = {
+                    _id: project._id,
+                    entityType: entityTypes.PROJECT.value,
+                    // visibility: project.visibility,
+                    // createdBy: insight.createdBy
+                };
+                next();
+                return null;
+            });
     });
 }

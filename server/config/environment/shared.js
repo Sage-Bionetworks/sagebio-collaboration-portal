@@ -301,7 +301,7 @@ export const models = {
             maxlength: 128,
         },
         description: {
-            minlength: 26, // 1 character when stringifying Quill content
+            minlength: 3, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         picture: {
@@ -326,7 +326,7 @@ export const models = {
             maxlength: 128,
         },
         description: {
-            minlength: 26, // 1 character when stringifying Quill content
+            minlength: 3, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         picture: {
