@@ -138,4 +138,12 @@ export class ResourcePageComponent implements OnInit {
             this.notificationService.info('Not implemented');
         }
     }
+
+    openInTool(resource): void {
+        window.open(resource.url, '_blank');
+    }
+
+    open(): void {
+        window.open(this.resource.url, '_blank');
+    }
 }

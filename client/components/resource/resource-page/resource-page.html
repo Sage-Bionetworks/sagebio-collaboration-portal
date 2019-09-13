@@ -60,6 +60,9 @@
             <!-- Use enum for State -->
             <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ tool.title }}</a>
             <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
+            <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
+                <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
+            <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Insight</a>
         </div>
     </mat-card>
 

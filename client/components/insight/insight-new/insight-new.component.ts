@@ -72,6 +72,10 @@ export class InsightNewComponent {
         .subscribe(
             (res: any) => {
                 let insight = res.insight;
+
+                // list of attachments
+                // - name, _id, entityType, entitySubtype,
+
                 this.captureProvActivity.save({
                     generatedName: insight.title,
                     generatedTargetId: insight._id,
