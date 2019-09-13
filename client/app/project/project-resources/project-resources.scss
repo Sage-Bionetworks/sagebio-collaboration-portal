@@ -1,7 +1,4 @@
-.project-resources-container {
-    .project-resources-actions {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-    }
-  }
+.app-project-resources {
+    display: flex;
+    flex-flow: column nowrap;
+}
