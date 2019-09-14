@@ -10,7 +10,7 @@ var router = Router();
  * /entity-permissions:
  *   get:
  *     tags:
- *       - EntityPermissions
+ *       - Entity permissions
  *     summary: Returns the EntityPermissions of the user.
  *     description: Returns the EntityPermissions of the user.
  *     produces:
@@ -25,13 +25,44 @@ var router = Router();
  */
 router.get('/', auth.isAuthenticated(), controller.index);
 
+/**
+ * @swagger
+ * /entity-permissions/{id}:
+ *   get:
+ *     tags:
+ *       - Entity permissions
+ *     summary: Gets a EntityPermission by ID.
+ *     description: Gets a EntityPermission by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: EntityPermission ID
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '200':
+ *         description: A EntityPermission
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EntityPermission'
+ *       '400':
+ *         description: Invalid ID supplied
+ *       '404':
+ *         description: EntityPermission not found
+ */
 router.get('/:id', auth.isAuthenticated(), controller.show);
+
 /**
  * @swagger
  * /entity-permissions/entity/{entityId}:
  *   get:
  *     tags:
- *       - EntityPermissions
+ *       - Entity permissions
  *     summary: Returns the EntityPermissions for the entity specified.
  *     description: Returns the EntityPermissions for the entity specified.
  *     produces:
@@ -44,14 +75,14 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
  *           items:
  *             $ref: '#/components/schemas/EntityPermission'
  */
-router.get('/entity/:entityId', entityPermissionAuth.canReadEntityPermission(), controller.indexByEntity);
+router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
 
 /**
  * @swagger
  * /entity-permissions:
  *   post:
  *     tags:
- *       - EntityPermissions
+ *       - Entity permissions
  *     summary: Creates an EntityPermissions.
  *     description: Creates an EntityPermissions.
  *     parameters:
@@ -78,7 +109,7 @@ router.post('/', entityPermissionAuth.canCreateEntityPermission(), controller.cr
  * /entity-permissions/{id}:
  *   patch:
  *     tags:
- *       - EntityPermissions
+ *       - Entity permissions
  *     summary: Updates a EntityPermission.
  *     description: Updates a EntityPermission.
  *     parameters:
@@ -107,7 +138,7 @@ router.patch('/:id', entityPermissionAuth.canEditEntityPermission(), controller.
  * /entity-permissions/{id}:
  *   delete:
  *     tags:
- *       - EntityPermissions
+ *       - Entity permissions
  *     summary: Deletes an EntityPermission by ID.
  *     description: Deletes an EntityPermission by ID.
  *     produces:

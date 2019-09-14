@@ -45,8 +45,8 @@ describe('EntityPermission API Router:', function () {
                     expect(
                         routerStub.get.withArgs(
                             '/entity/:entityId',
-                            entityPermissionAuthStub.canReadEntityPermission(),
-                            'entityPermissionCtrl.indexByEntity'
+                            authServiceStub.isAuthenticated(),
+                            entityPermissionCtrlStub.indexByEntity
                         )
                     ).to.have.been.calledOnce;
                 });
@@ -149,19 +149,19 @@ describe('EntityPermission API Router:', function () {
                     });
                 });
 
-                describe('"read" permission for a specific entity ID', () => {
-                    describe('GET /api/entity-permissions/entity/:entityId', function () {
-                        it('should route to entityPermission.controller.indexByEntity', function () {
-                            expect(
-                                routerStub.get.withArgs(
-                                    '/entity/:entityId',
-                                    entityPermissionAuthStub.canReadEntityPermission(),
-                                    'entityPermissionCtrl.indexByEntity'
-                                )
-                            ).to.have.been.calledOnce;
-                        });
-                    });
-                });
+                // describe('"read" permission for a specific entity ID', () => {
+                //     describe('GET /api/entity-permissions/entity/:entityId', function () {
+                //         it('should route to entityPermission.controller.indexByEntity', function () {
+                //             expect(
+                //                 routerStub.get.withArgs(
+                //                     '/entity/:entityId',
+                //                     entityPermissionAuthStub.canReadEntityPermission(),
+                //                     'entityPermissionCtrl.indexByEntity'
+                //                 )
+                //             ).to.have.been.calledOnce;
+                //         });
+                //     });
+                // });
             });
         });
     });
