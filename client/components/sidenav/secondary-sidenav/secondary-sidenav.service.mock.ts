@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-export class MockSecondarySidenavService {
+export class SecondarySidenavServiceMock {
     close = sinon.spy();
     destroyContentComponent = sinon.spy();
 }

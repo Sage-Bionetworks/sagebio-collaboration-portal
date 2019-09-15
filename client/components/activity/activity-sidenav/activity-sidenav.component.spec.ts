@@ -16,9 +16,9 @@ import { FiltersModule } from '../../../components/filters/filters.module';
 import { SecondarySidenavService } from '../../../components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { ProvenanceService } from '../../../components/provenance/provenance.service';
 import { SocketService } from '../../../components/socket/socket.service';
-import { MockProvenanceService } from './../../provenance/provenance.service.mock';
-import { MockSecondarySidenavService } from './../../sidenav/secondary-sidenav/secondary-sidenav.service.mock';
-import { MockSocketService } from './../../socket/socket.service.mock';
+import { ProvenanceServiceMock } from './../../provenance/provenance.service.mock';
+import { SecondarySidenavServiceMock } from './../../sidenav/secondary-sidenav/secondary-sidenav.service.mock';
+import { SocketServiceMock } from './../../socket/socket.service.mock';
 
 describe('ActivitySidenavComponent', () => {
     let component: ActivitySidenavComponent;
@@ -49,9 +49,9 @@ describe('ActivitySidenavComponent', () => {
             declarations: [ActivitySidenavComponent],
             imports: [MaterialModule, CommonModule, RouterTestingModule, FiltersModule],
             providers: [
-                { provide: ProvenanceService, useClass: MockProvenanceService },
-                { provide: SecondarySidenavService, useClass: MockSecondarySidenavService },
-                { provide: SocketService, useClass: MockSocketService },
+                { provide: ProvenanceService, useClass: ProvenanceServiceMock },
+                { provide: SecondarySidenavService, useClass: SecondarySidenavServiceMock },
+                { provide: SocketService, useClass: SocketServiceMock },
                 {
                     provide: HAMMER_LOADER, // this provider prevents warnings in the console regarding missing hammer.js module
                     useValue: () => new Promise(() => {}),

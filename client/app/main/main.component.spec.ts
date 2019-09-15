@@ -1,9 +1,4 @@
-import {
-    async,
-    ComponentFixture,
-    inject,
-    TestBed,
-} from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { expect } from 'chai';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +8,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { PageTitleServiceStub } from 'components/page-title/page-title.mock';
 import { MainComponent } from './main.component';
 
-describe('Component: MainComponent', function() {
+describe('Component: MainComponent', function () {
     let comp: MainComponent;
     let fixture: ComponentFixture<MainComponent>;
     let httpTestingController: HttpTestingController;
@@ -21,14 +16,11 @@ describe('Component: MainComponent', function() {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                FormsModule,
-                HttpClientTestingModule,
-            ],
-            declarations: [ MainComponent ], // declare the test component
+            imports: [FormsModule, HttpClientTestingModule],
+            declarations: [MainComponent], // declare the test component
             providers: [
                 { provide: SocketService, useClass: SocketServiceStub },
-                { provide: PageTitleService, useClass: PageTitleServiceStub }
+                { provide: PageTitleService, useClass: PageTitleServiceStub },
             ],
         }).compileComponents();
 

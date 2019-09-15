@@ -1,5 +1,5 @@
 import sinon from 'sinon';
 
-export class MockSocketService {
+export class SocketServiceMock {
     unsyncUpdates = sinon.spy();
 }
