@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 // Register the Babel require hook
 require('@babel/register');
 

@@ -1,6 +1,6 @@
 // Karma configuration
 // http://karma-runner.github.io/0.13/config/configuration-file.html
-/*eslint-env node*/
+/* eslint-env node */
 
 const makeWebpackConfig = require('./webpack.make');
 process.env.CHROME_BIN = require('puppeteer').executablePath();
@@ -15,37 +15,40 @@ module.exports = function (config) {
 
         client: {
             mocha: {
-                timeout: 5000 // set default mocha spec timeout
-            }
+                timeout: 5000, // set default mocha spec timeout
+            },
         },
 
         // list of files / patterns to load in the browser
         files: ['spec.js'],
 
         preprocessors: {
-            'spec.js': ['webpack']
+            'spec.js': ['webpack'],
         },
 
         webpack: makeWebpackConfig({
-            TEST: true
+            TEST: true,
         }),
 
         webpackMiddleware: {
             // webpack-dev-middleware configuration
             // i. e.
-            noInfo: true
+            noInfo: true,
         },
 
         coverageReporter: {
-            reporters: [{
-                type: 'html', //produces a html document after code is run
-                subdir: 'client'
-            }, {
-                type: 'json',
-                subdir: '.',
-                file: 'client-coverage.json'
-            }],
-            dir: 'coverage/' //path to created html doc
+            reporters: [
+                {
+                    type: 'html', //produces a html document after code is run
+                    subdir: 'client',
+                },
+                {
+                    type: 'json',
+                    subdir: '.',
+                    file: 'client-coverage.json',
+                },
+            ],
+            dir: 'coverage/', //path to created html doc
         },
 
         plugins: [
@@ -59,7 +62,7 @@ module.exports = function (config) {
             require('karma-phantomjs-launcher'),
             require('karma-script-launcher'),
             require('karma-webpack'),
-            require('karma-sourcemap-loader')
+            require('karma-sourcemap-loader'),
         ],
 
         // list of files / patterns to exclude
@@ -97,6 +100,6 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: false,
     });
 };

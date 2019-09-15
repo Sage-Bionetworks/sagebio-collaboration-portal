@@ -76,7 +76,7 @@ describe('ActivitySidenavComponent', () => {
         it('should get provenance graph by agent if entity is a user', () => {
             component.setRoot(user);
             fixture.detectChanges();
-            const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(
+            const provenanceService: ProvenanceServiceMock = fixture.debugElement.injector.get(
                 ProvenanceService
             ) as any;
             expect(provenanceService.getProvenanceGraphByAgent.calledOnce).to.be.true;
@@ -86,7 +86,7 @@ describe('ActivitySidenavComponent', () => {
         it('should get provenance graph by reference if entity is NOT a user', () => {
             component.setRoot(entity);
             fixture.detectChanges();
-            const provenanceService: MockProvenanceService = fixture.debugElement.injector.get(
+            const provenanceService: ProvenanceServiceMock = fixture.debugElement.injector.get(
                 ProvenanceService
             ) as any;
             expect(provenanceService.getProvenanceGraphByReference.calledOnce).to.be.true;
@@ -107,7 +107,7 @@ describe('ActivitySidenavComponent', () => {
         const button = fixture.debugElement.nativeElement.querySelector('.app-activity-header-close');
         button.click();
 
-        const sidenavService: MockSecondarySidenavService = fixture.debugElement.injector.get(
+        const sidenavService: SecondarySidenavServiceMock = fixture.debugElement.injector.get(
             SecondarySidenavService
         ) as any;
         expect(sidenavService.close.calledOnce).to.be.true;
