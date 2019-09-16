@@ -32,12 +32,14 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
 
     private activityDirection: any;
 
-    static parameters = [SecondarySidenavService, ProvenanceService, SocketService, Router];
+    static parameters = [Router, SecondarySidenavService, ProvenanceService, SocketService];
 
-    constructor(private sidenavService: SecondarySidenavService,
+    constructor(
+        private router: Router,
+        private sidenavService: SecondarySidenavService,
         private provenanceService: ProvenanceService,
-        private socketService: SocketService,
-        private router: Router) {
+        private socketService: SocketService
+        ) {
         this.activityDirectionFilters = values(config.activityDirectionFilters);
         this.router.events.pipe(
             filter(event => event instanceof NavigationStart)

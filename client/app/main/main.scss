@@ -77,23 +77,22 @@ hr {
 }
 
 .app-info-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 15px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px 0;
 }
 
 .app-info-box {
-  display: flex;
-  flex: 1;
-  text-align: center;
-  flex-direction: column;
-  padding: 0 25px;
+    display: flex;
+    flex: 1;
+    text-align: center;
+    flex-direction: column;
+    padding: 0 25px;
 
-
-  h4 {
-      margin: 5px auto;
+    h4 {
+        margin: 5px auto;
     }
 }
 
@@ -103,64 +102,64 @@ hr {
 }
 
 .material-icons {
-  text-rendering: optimizeLegibility;
-  -webkit-font-feature-settings: 'liga';
-  -moz-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
-  font-size: 50px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-feature-settings: 'liga';
+    -moz-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    font-size: 50px;
 }
 
 .light {
-  font-weight: 300;
+    font-weight: 300;
 }
 
 .app-main-fair-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .app-fair-box {
-  width: 50%;
-  margin: 30px auto;
-  text-align: left;
+    width: 50%;
+    margin: 30px auto;
+    text-align: left;
 
-  > img {
-      width: 70%;
-      height: 70%;
-      margin-right: 50px;
-      float: right;
-  }
+    > img {
+        width: 70%;
+        height: 70%;
+        margin-right: 50px;
+        float: right;
+    }
 }
 
 .app-main-fair-description {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-  > h2 {
-      margin-bottom: 10px;
-  }
+    > h2 {
+        margin-bottom: 10px;
+    }
 }
 
 /**
   * Rules for when the device is detected to be a small screen.
 */
 @media (max-width: 720px) {
-  .app-header-section {
-      padding-top: $margin-promotion-sections-small;
-  }
+    .app-header-section {
+        padding-top: $margin-promotion-sections-small;
+    }
 
-  .app-header-start,
-  .app-main-bottom-start {
-      margin: $margin-promotion-sections-small 0;
-  }
+    .app-header-start,
+    .app-main-bottom-start {
+        margin: $margin-promotion-sections-small 0;
+    }
 
-  .app-main-row {
-      margin: $margin-promotion-sections-small 0;
-  }
+    .app-main-row {
+        margin: $margin-promotion-sections-small 0;
+    }
 }
