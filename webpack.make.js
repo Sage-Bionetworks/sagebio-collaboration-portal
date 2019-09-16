@@ -10,6 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
@@ -166,7 +167,7 @@ module.exports = function makeWebpackConfig(options) {
                 include: [
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
-                    path.resolve(__dirname, 'node_modules/lodash-es/'),
+                    // path.resolve(__dirname, 'node_modules/lodash-es/'),
                     path.resolve(__dirname, 'node_modules/katex/dist/katex.min.js'),
                     path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
@@ -309,6 +310,9 @@ module.exports = function makeWebpackConfig(options) {
             // (“en” is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
+            }),
+            new BundleAnalyzerPlugin({
+                generateStatsFile: true,
             }),
         );
     }

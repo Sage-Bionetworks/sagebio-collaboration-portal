@@ -31,6 +31,7 @@ export function show(req, res) {
 }
 
 // Returns the permissions associated to an entity
+// TODO To review
 export function indexByEntity(req, res) {
     return EntityPermission.find({
         entityId: req.params.entityId,

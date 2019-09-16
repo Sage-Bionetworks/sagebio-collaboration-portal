@@ -32,12 +32,14 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
 
     private activityDirection: any;
 
-    static parameters = [SecondarySidenavService, ProvenanceService, SocketService, Router];
+    static parameters = [Router, SecondarySidenavService, ProvenanceService, SocketService];
 
-    constructor(private sidenavService: SecondarySidenavService,
+    constructor(
+        private router: Router,
+        private sidenavService: SecondarySidenavService,
         private provenanceService: ProvenanceService,
-        private socketService: SocketService,
-        private router: Router) {
+        private socketService: SocketService
+        ) {
         this.activityDirectionFilters = values(config.activityDirectionFilters);
         this.router.events.pipe(
             filter(event => event instanceof NavigationStart)
@@ -45,13 +47,13 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        console.log('activityDirectionFilters', this.activityDirectionFilters);
-        console.log('PLOP', this.filters);
+        // console.log('activityDirectionFilters', this.activityDirectionFilters);
+        // console.log('PLOP', this.filters);
         let selectedFilters = this.filters.map(f => {
-            console.log('f', f);
+            // console.log('f', f);
             return f.getSelectedFilter();
         });
-        console.log('selectedFilters', selectedFilters);
+        // console.log('selectedFilters', selectedFilters);
         combineLatest(...selectedFilters)
             .pipe(
                 map(myFilters =>
@@ -62,7 +64,7 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
                 )
             )
             .subscribe(direction => {
-                console.log('direction', direction);
+                // console.log('direction', direction);
                 if (this.checkIfUser(this.root)) {
                     this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
                         .subscribe(activity => {
