@@ -1,7 +1,7 @@
-import { Component, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap, switchMap, take } from 'rxjs/operators';
 import { flow, keyBy, mapValues, values } from 'lodash/fp';
 
 import { Entity } from 'models/entities/entity.model';
@@ -20,104 +20,74 @@ type EntityOrUser = Entity | User;
 @Component({
     selector: 'activity-sidenav',
     template: require('./activity-sidenav.html'),
-    styles: [require('./activity-sidenav.scss')]
+    styles: [require('./activity-sidenav.scss')],
 })
-export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
+export class ActivitySidenavComponent implements OnInit, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
-    @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
-
-    private root: EntityOrUser;
-    private provenanceGraphData: any;
     private activityDirectionFilters: Filter[] = [];
 
-    private activityDirection: any;
+    @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
+    private root: EntityOrUser;
+    private provenanceGraphData: any;
 
-    static parameters = [Router, SecondarySidenavService, ProvenanceService, SocketService];
-
+    static parameters = [Router, SecondarySidenavService, ProvenanceService];
     constructor(
         private router: Router,
         private sidenavService: SecondarySidenavService,
-        private provenanceService: ProvenanceService,
-        private socketService: SocketService
-        ) {
+        private provenanceService: ProvenanceService
+    ) {}
+
+    ngOnInit() {
         this.activityDirectionFilters = values(config.activityDirectionFilters);
-        this.router.events.pipe(
-            filter(event => event instanceof NavigationStart)
-          ).subscribe(_ => this.close());
+        this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
     }
 
     ngAfterViewInit() {
-        // console.log('activityDirectionFilters', this.activityDirectionFilters);
-        // console.log('PLOP', this.filters);
-        let selectedFilters = this.filters.map(f => {
-            // console.log('f', f);
-            return f.getSelectedFilter();
-        });
-        // console.log('selectedFilters', selectedFilters);
-        combineLatest(...selectedFilters)
+        this.filters.changes
             .pipe(
-                map(myFilters =>
-                    flow([
-                        keyBy('group'),
-                        mapValues('value')
-                    ])(myFilters)
-                )
-            )
-            .subscribe(direction => {
-                // console.log('direction', direction);
-                if (this.checkIfUser(this.root)) {
-                    this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
-                        .subscribe(activity => {
-                            this.provenanceGraphData = activity;
-                        });
-                } else {
-                    this.provenanceService
-                        .getProvenanceGraphByReference(
+                map(filters => filters.map((f: FiltersComponent) => f.getSelectedFilter())),
+                take(1),
+                switchMap(selectedFilters =>
+                    combineLatest(...selectedFilters).pipe(
+                        map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters))
+                    )
+                ),
+                switchMap(direction => {
+                    if (this.checkIfUser(this.root)) {
+                        return (
+                            // TODO Provenance: Add created_at, desc and 3 as default in config
+                            this.provenanceService
+                                .getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
+                        );
+                    } else {
+                        return this.provenanceService.getProvenanceGraphByReference(
                             this.root._id,
                             direction.activityDirection,
-                            'created_at', 'desc', 3)
-                        .subscribe(activity => {
-                            this.provenanceGraphData = activity;
-                        });
-                }
+                            'created_at',
+                            'desc',
+                            3
+                        );
+                    }
+                })
+            )
+            .subscribe(activity => {
+                this.provenanceGraphData = activity;
             });
-    }
-
-    showActivity(direction) {
-        console.log('show activity', direction);
-        if (this.checkIfUser(this.root)) {
-            this.provenanceService.getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
-                .subscribe(activity => {
-                    this.provenanceGraphData = activity;
-                });
-        } else {
-            this.provenanceService
-                .getProvenanceGraphByReference(
-                    this.root._id,
-                    direction,
-                    'created_at', 'desc', 3)
-                .subscribe(activity => {
-                    this.provenanceGraphData = activity;
-                });
-        }
-    }
-
-    ngOnDestroy() {
-        if (this.root) {
-            this.socketService.unsyncUpdates(`activity:${this.root._id}:entity`);
-        }
     }
 
     setRoot(root: EntityOrUser): void {
         if (root) {
             if (this.checkIfUser(root)) {
-                this.provenanceService.getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
+                // TODO Provenance: Add created_at, desc and 3 as default in config
+                this.provenanceService
+                    .getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
                     .subscribe(activity => {
                         this.provenanceGraphData = activity;
                         this.root = root;
                     });
             } else {
-                this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3)
+                this.provenanceService
+                    .getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3)
                     .subscribe(activity => {
                         this.provenanceGraphData = activity;
                         this.root = root;
@@ -135,7 +105,6 @@ export class ActivitySidenavComponent implements OnDestroy, AfterViewInit {
 
     close(): void {
         this.sidenavService.close();
-        this.sidenavService.destroyContentComponent();
     }
 
     onResized(event: ResizedEvent) {
