@@ -1,9 +1,10 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Insight } from 'models/entities/insights/insight.model';
 import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
 import { map } from 'lodash';
+import { EntityAttachmentListComponent } from 'components/entity/entity-attachment/entity-attachment-list/entity-attachment-list.component';
 
 @Component({
     selector: 'insight-edit',
@@ -14,6 +15,8 @@ export class InsightEditComponent implements OnInit {
     @Input() insight: Insight;
     @Output() insightEdit: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
+
+    @ViewChild(EntityAttachmentListComponent, { static: false }) attachments: EntityAttachmentListComponent<Insight>;
 
     private insightSpecs: any;
     private editForm: FormGroup;
@@ -57,6 +60,9 @@ export class InsightEditComponent implements OnInit {
     }
 
     updateInsight(): void {
+        this.attachments.updateAttachments();
+        // updateAttachments
+
         let editedInsight = this.editForm.value;
         // editedTool.slug = slugify(this.editForm.value.name).toLowerCase();
         const patches = map(editedInsight, (value, key) => ({

@@ -29,7 +29,7 @@ import {
 } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
-import { remove, pull } from 'lodash';
+import { remove, pull, difference, clone } from 'lodash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotificationService } from 'components/notification/notification.service';
 
@@ -46,7 +46,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     @Input() isReadOnly = true;
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
-    private attachmentsBackup: AttachmentBundle[] = []
+    private attachmentsBackup: AttachmentBundle[] = [];
     private attachmentsDownloadProgress = 0;
 
     private attachmentForm: FormGroup;
@@ -89,6 +89,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngOnInit() {
+        this.attachments.subscribe(attachments => {
+            console.log('attachments are now', attachments);
+        });
+
+
         // this.attachmentTypes = Object.values(this.entityTypes);
         this.attachmentTypes = [
             // TODO Must be provided as @Input()
@@ -143,7 +148,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 .subscribe(
                     (attachments: AttachmentBundle[]) => {
                         this.attachments.next(attachments);
-                        this.attachmentsBackup = attachments;
+                        this.attachmentsBackup = clone(attachments);
                     },
                     err => console.error(err)
                 );
@@ -200,8 +205,23 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
-    public updateAttachments(entity: E): void {
-        console.log('Backup', this.attachmentsBackup);
+    public updateAttachments(): void {
+        // TODO identify the attachment to add and the ones to remove,
+        // then returns an observable with success code or error
+        // console.log('Backup', this.attachmentsBackup);
+
+        this.attachments.subscribe(attachments => {
+            let current = attachments.map(atta => atta.attachment);
+            let backup = this.attachmentsBackup.map(atta => atta.attachment);
+
+            let toAdd = difference(current, backup);
+            let toRemove = difference(backup, current);
+            console.log('current', current);
+            console.log('backup', backup);
+            console.log('toAdd', toAdd);
+            console.log('toRemove', toRemove);
+        });
+
     }
 
     getEntityTypeAndSubType(attachment: AttachmentBundle): string {
