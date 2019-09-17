@@ -1,13 +1,11 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { map, filter, tap, switchMap, take } from 'rxjs/operators';
+import { combineLatest, BehaviorSubject, Observable } from 'rxjs';
+import { map, filter, switchMap } from 'rxjs/operators';
 import { flow, keyBy, mapValues, values } from 'lodash/fp';
-
 import { Entity } from 'models/entities/entity.model';
 import { User } from 'models/auth/user.model';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { SocketService } from 'components/socket/socket.service';
 import { Filter } from 'components/filters/filter.model';
 import { FiltersComponent } from 'components/filters/filters.component';
 import { ProvenanceService } from 'components/provenance/provenance.service';
@@ -24,11 +22,11 @@ type EntityOrUser = Entity | User;
 })
 export class ActivitySidenavComponent implements OnInit, AfterViewInit {
     @ViewChildren(FiltersComponent) filters: QueryList<FiltersComponent>;
-    private activityDirectionFilters: Filter[] = [];
+    private activityDirectionFilters: Filter[] = []; // used in html
 
     @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
-    private root: EntityOrUser;
-    private provenanceGraphData: any;
+    private root: BehaviorSubject<EntityOrUser> = new BehaviorSubject<EntityOrUser>(undefined);
+    private provenanceGraphData: any; // used in html
 
     static parameters = [Router, SecondarySidenavService, ProvenanceService];
     constructor(
@@ -43,26 +41,25 @@ export class ActivitySidenavComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.filters.changes
+        let selectedFilters = this.filters.map(f => f.getSelectedFilter());
+
+        combineLatest(
+            combineLatest(...selectedFilters).pipe(
+                map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters))
+            ),
+            this.root.pipe(filter(root => !!root))
+        )
             .pipe(
-                map(filters => filters.map((f: FiltersComponent) => f.getSelectedFilter())),
-                take(1),
-                switchMap(selectedFilters =>
-                    combineLatest(...selectedFilters).pipe(
-                        map(myFilters => flow([keyBy('group'), mapValues('value')])(myFilters))
-                    )
-                ),
-                switchMap(direction => {
-                    if (this.checkIfUser(this.root)) {
+                switchMap(([query, root]) => {
+                    if (this.checkIfUser(root)) {
                         return (
                             // TODO Provenance: Add created_at, desc and 3 as default in config
-                            this.provenanceService
-                                .getProvenanceGraphByAgent(this.root._id, 'created_at', 'desc', 3)
+                            this.provenanceService.getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
                         );
                     } else {
                         return this.provenanceService.getProvenanceGraphByReference(
-                            this.root._id,
-                            direction.activityDirection,
+                            root._id,
+                            query.activityDirection,
                             'created_at',
                             'desc',
                             3
@@ -70,30 +67,20 @@ export class ActivitySidenavComponent implements OnInit, AfterViewInit {
                     }
                 })
             )
-            .subscribe(activity => {
-                this.provenanceGraphData = activity;
-            });
+            .subscribe(
+                activity => {
+                    this.provenanceGraphData = activity;
+                },
+                err => console.error(err)
+            );
     }
 
     setRoot(root: EntityOrUser): void {
-        if (root) {
-            if (this.checkIfUser(root)) {
-                // TODO Provenance: Add created_at, desc and 3 as default in config
-                this.provenanceService
-                    .getProvenanceGraphByAgent(root._id, 'created_at', 'desc', 3)
-                    .subscribe(activity => {
-                        this.provenanceGraphData = activity;
-                        this.root = root;
-                    });
-            } else {
-                this.provenanceService
-                    .getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3)
-                    .subscribe(activity => {
-                        this.provenanceGraphData = activity;
-                        this.root = root;
-                    });
-            }
-        }
+        this.root.next(root);
+    }
+
+    get root$(): Observable<EntityOrUser> {
+        return this.root.asObservable();
     }
 
     checkIfUser(tbd: EntityOrUser): tbd is User {
