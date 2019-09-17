@@ -164,3 +164,40 @@ hr {
       margin: $margin-promotion-sections-small 0;
   }
 }
+
+.app-docs-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px 0;
+    width:100%
+}
+
+.app-docs-table-card-container {
+    display: flex;
+    flex: 1;
+    text-align: flex-start;
+    flex-direction: column;
+    padding: 0 25px;
+    margin: 20px;
+}
+.app-docs-table-card {
+    margin-bottom: 20px;
+}
+.app-docs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.app-docs-card-title {
+    text-transform: uppercase;
+
+}
+.app-docs-table-item {
+    padding: 15px;
+}
+
+.app-docs-table-definition {
+    padding: 15px;
+}
+
