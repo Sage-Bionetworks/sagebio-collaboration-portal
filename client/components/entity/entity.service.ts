@@ -1,3 +1,4 @@
+import { EntityAttachmentBundle } from './../../../shared/interfaces/entities/entity-attachment-bundle.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Entity } from 'models/entities/entity.model';
@@ -61,6 +62,12 @@ export abstract class EntityService<E extends Entity> {
      * @param terms
      */
     abstract searchByTerms(terms: Observable<string>): Observable<QueryListResponse<E>>;
+
+    /**
+     * Returns the entities attached to the entity specified.
+     * @param entityId
+     */
+    // abstract getAttachments(entityId: string): Observable<EntityAttachmentBundle[]>;
 
     /**
      * Adds attachments to the entity specified.
