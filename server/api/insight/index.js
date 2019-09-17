@@ -143,6 +143,8 @@ router.patch('/:id', insightAuth.canEditInsight(), controller.patch);
  */
 router.delete('/:id', insightAuth.canDeleteInsight(), controller.destroy);
 
-router.post('/:id/attachments', auth.isAuthenticated(), controller.createAttachments);
+router.get('/:id/attachments', auth.isAuthenticated(), controller.indexAttachments); // TODO change auth
+
+router.post('/:id/attachments', auth.isAuthenticated(), controller.createAttachments); // TODO change auth
 
 module.exports = router;

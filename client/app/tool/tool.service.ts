@@ -63,6 +63,10 @@ export class ToolService implements EntityService<Tool> {
         );
     }
 
+    getAttachments(entity: Tool): Observable<EntityAttachment[]> {
+        throw new Error('Method not implemented.');
+    }
+
     createAttachments(tool: Tool, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
         return this.httpClient.post<EntityAttachment[]>(`/api/tools/${tool._id}/attachments`, attachments);
     }

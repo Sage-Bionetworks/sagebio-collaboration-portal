@@ -107,10 +107,8 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         // const createAttachmentBundle = (entity: Entity) =>
 
         if (this.entity) {
-            const getAttachments = this.attachmentService
-                .query({
-                    parentEntityId: this.entity._id,
-                })
+            const getAttachments = this.entityService
+                .getAttachments(this.entity)
                 .pipe(
                     map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
                     switchMap(bundles => forkJoinWithProgress(bundles))

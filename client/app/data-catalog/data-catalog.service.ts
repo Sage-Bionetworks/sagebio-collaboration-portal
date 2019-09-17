@@ -52,7 +52,9 @@ export class DataCatalogService implements EntityService<DataCatalog> {
             distinctUntilChanged(),
             switchMap(term => {
                 if (term) {
-                    return this.httpClient.get<QueryListResponse<DataCatalog>>(`/api/data-catalogs?searchTerms=${term}`);
+                    return this.httpClient.get<QueryListResponse<DataCatalog>>(
+                        `/api/data-catalogs?searchTerms=${term}`
+                    );
                 } else {
                     return of(null);
                 }
@@ -60,8 +62,15 @@ export class DataCatalogService implements EntityService<DataCatalog> {
         );
     }
 
+    getAttachments(entity: DataCatalog): Observable<EntityAttachment[]> {
+        throw new Error('Method not implemented.');
+    }
+
     createAttachments(dataCatalog: DataCatalog, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
-        return this.httpClient.post<EntityAttachment[]>(`/api/data-catalogs/${dataCatalog._id}/attachments`, attachments);
+        return this.httpClient.post<EntityAttachment[]>(
+            `/api/data-catalogs/${dataCatalog._id}/attachments`,
+            attachments
+        );
     }
 
     // MODEL FUNCTIONS

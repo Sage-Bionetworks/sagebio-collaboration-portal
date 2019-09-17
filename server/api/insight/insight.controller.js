@@ -101,6 +101,13 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
+export function indexAttachments(req, res) {
+    return EntityAttachment.find({ parentEntityId: req.params.id })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // TODO TO REVIEW
 export function createAttachments(req, res) {
     return EntityAttachment.create(req.body)

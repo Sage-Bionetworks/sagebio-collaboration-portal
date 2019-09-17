@@ -66,6 +66,10 @@ export class InsightService implements EntityService<Insight> {
         );
     }
 
+    getAttachments(entity: Insight): Observable<EntityAttachment[]> {
+        return this.httpClient.get<EntityAttachment[]>(`/api/insights/${entity._id}/attachments`);
+    }
+
     createAttachments(insight: Insight, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
         return this.httpClient.post<EntityAttachment[]>(`/api/insights/${insight._id}/attachments`, attachments);
     }
