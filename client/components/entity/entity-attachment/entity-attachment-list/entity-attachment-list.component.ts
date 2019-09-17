@@ -25,11 +25,13 @@ import {
     distinctUntilChanged,
     filter,
     take,
+    catchError,
 } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
 import { remove, pull } from 'lodash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'entity-attachment-list',
@@ -65,6 +67,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         ToolService,
         ResourceService,
         InsightService,
+        NotificationService,
     ];
     constructor(
         private router: Router,
@@ -74,7 +77,8 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         private dataCatalogService: DataCatalogService,
         private toolService: ToolService,
         private resourceService: ResourceService,
-        private insightService: InsightService
+        private insightService: InsightService,
+        private notificationService: NotificationService
     ) {
         this.entityTypes = config.entityTypes;
         this.attachmentForm = this.formBuilder.group({
@@ -99,20 +103,26 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 switchMap(attachment_ =>
                     forkJoin({
                         attachment: of(attachment_),
-                        entity: this.getEntityService(attachment_.entityType).get(attachment_.entityId),
+                        entity: this.getEntityService(attachment_.entityType)
+                            .get(attachment_.entityId)
+                            .pipe(
+                                catchError(err => {
+                                    // TODO Review what to do with entities the user has not access to or
+                                    // that are no longer available (removed).
+                                    console.error(err);
+                                    this.notificationService.error(`Unable to get attachment ${attachment_.entityId}`);
+                                    return of(<Entity>{});
+                                })
+                            ),
                     })
                 )
             );
 
-        // const createAttachmentBundle = (entity: Entity) =>
-
         if (this.entity) {
-            const getAttachments = this.entityService
-                .getAttachments(this.entity)
-                .pipe(
-                    map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
-                    switchMap(bundles => forkJoinWithProgress(bundles))
-                );
+            const getAttachments = this.entityService.getAttachments(this.entity).pipe(
+                map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
+                switchMap(bundles => forkJoinWithProgress(bundles))
+            );
 
             getAttachments
                 .pipe(
