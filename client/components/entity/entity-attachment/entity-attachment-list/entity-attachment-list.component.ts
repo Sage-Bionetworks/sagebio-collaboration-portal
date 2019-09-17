@@ -177,7 +177,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                                 entitySubType: this.getEntityService(
                                     this.attachmentForm.get('attachmentType').value
                                 ).getEntitySubType(entity),
-                                parentEntityId: null,
+                                parentEntityId: this.entity._id,
                             },
                             entity,
                         }));
@@ -210,17 +210,54 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         // then returns an observable with success code or error
         // console.log('Backup', this.attachmentsBackup);
 
-        this.attachments.subscribe(attachments => {
-            let current = attachments.map(atta => atta.attachment);
-            let backup = this.attachmentsBackup.map(atta => atta.attachment);
+        // console.log('plop');
+        console.log('current', this.attachments.getValue());
+        console.log('backup', this.attachmentsBackup);
 
-            let toAdd = difference(current, backup);
-            let toRemove = difference(backup, current);
-            console.log('current', current);
-            console.log('backup', backup);
-            console.log('toAdd', toAdd);
-            console.log('toRemove', toRemove);
+        const addAttachments = this.attachments
+            .pipe(
+                map(bundles => {
+                    let current = bundles.map(bundle => bundle.attachment);
+                    let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+                    return difference(current, backup);
+                }),
+                map(attachments => this.entityService.createAttachments(this.entity, attachments)),
+                switchMap(attachments => forkJoin(attachments))
+            );
+
+        // const removeAttachments = this.attachments
+        //     .pipe(
+        //         map(bundles => {
+        //             let current = bundles.map(bundle => bundle.attachment);
+        //             let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+        //             return difference(backup, current);
+        //         }),
+        //         map(attachments => attachments.map(attachment => of(attachment))),
+        //         switchMap(attachments => forkJoin(attachments))
+        //     );
+
+        forkJoin({
+            added: addAttachments,
+            // removed: removeAttachments
+        })
+        .subscribe(res => {
+            console.log('ATTACHMENT UPDATED', res);
         });
+
+
+
+
+        // .subscribe(attachments => {
+        //     let current = attachments.map(atta => atta.attachment);
+        //     let backup = this.attachmentsBackup.map(atta => atta.attachment);
+
+        //     let toAdd = difference(current, backup);
+        //     let toRemove = difference(backup, current);
+        //     console.log('current', current);
+        //     console.log('backup', backup);
+        //     console.log('toAdd', toAdd);
+        //     console.log('toRemove', toRemove);
+        // });
 
     }
 
