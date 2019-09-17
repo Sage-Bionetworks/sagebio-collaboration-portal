@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
 import { Entity } from 'models/entities/entity.model';
 import { User } from 'models/auth/user.model';

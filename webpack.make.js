@@ -311,9 +311,9 @@ module.exports = function makeWebpackConfig(options) {
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
             }),
-            new BundleAnalyzerPlugin({
-                generateStatsFile: true,
-            }),
+            // new BundleAnalyzerPlugin({
+            //     generateStatsFile: true,
+            // }),
         );
     }
 
