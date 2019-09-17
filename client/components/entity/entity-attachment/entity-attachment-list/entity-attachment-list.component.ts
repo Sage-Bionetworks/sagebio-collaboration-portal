@@ -32,6 +32,7 @@ import { AttachmentBundle } from '../models/attachment-bundle.model';
 import { remove, pull, difference, clone } from 'lodash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotificationService } from 'components/notification/notification.service';
+import { AttachmentUpdateResult } from '../models/attachment-update-result.model';
 
 @Component({
     selector: 'entity-attachment-list',
@@ -89,11 +90,6 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngOnInit() {
-        this.attachments.subscribe(attachments => {
-            console.log('attachments are now', attachments);
-        });
-
-
         // this.attachmentTypes = Object.values(this.entityTypes);
         this.attachmentTypes = [
             // TODO Must be provided as @Input()
@@ -156,6 +152,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngAfterViewInit() {
+        // search entities to attach
         merge(
             of(this.attachmentForm.get('attachmentType').value),
             this.attachmentForm.controls.attachmentType.valueChanges
@@ -190,10 +187,17 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             });
     }
 
+    /**
+     * Returns the attachments.
+     */
     public getAttachments(): Observable<AttachmentBundle[]> {
         return this.attachments.asObservable().pipe(take(1));
     }
 
+    /**
+     * Adds the attachments to the entity specified.
+     * @param entity
+     */
     public createAttachments(entity: E): Observable<EntityAttachment[]> {
         if (entity && this.entityService) {
             let attachments = this.attachments.getValue().map(attachment => {
@@ -205,68 +209,57 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
-    public updateAttachments(): void {
-        // TODO identify the attachment to add and the ones to remove,
-        // then returns an observable with success code or error
-        // console.log('Backup', this.attachmentsBackup);
+    /**
+     * Saves the attachments to the server.
+     */
+    public updateAttachments(): Observable<AttachmentUpdateResult> {
+        const addAttachments = this.attachments.pipe(
+            take(1),
+            map(bundles => {
+                let current = bundles.map(bundle => bundle.attachment);
+                let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+                return difference(current, backup);
+            }),
+            switchMap(attachments =>
+                attachments.length > 0
+                    ? this.entityService.createAttachments(this.entity, attachments)
+                    : of(<EntityAttachment[]>[])
+            )
+        );
 
-        // console.log('plop');
-        console.log('current', this.attachments.getValue());
-        console.log('backup', this.attachmentsBackup);
+        const removeAttachments = this.attachments.pipe(
+            take(1),
+            map(bundles => {
+                let current = bundles.map(bundle => bundle.attachment);
+                let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+                return difference(backup, current);
+            }),
+            map(attachments =>
+                attachments.map(attachment => this.entityService.removeAttachment(this.entity, attachment))
+            ),
+            switchMap(attachments => (attachments.length > 0 ? forkJoin(attachments) : of(<EntityAttachment[]>[])))
+        );
 
-        const addAttachments = this.attachments
-            .pipe(
-                map(bundles => {
-                    let current = bundles.map(bundle => bundle.attachment);
-                    let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
-                    return difference(current, backup);
-                }),
-                map(attachments => this.entityService.createAttachments(this.entity, attachments)),
-                switchMap(attachments => forkJoin(attachments))
-            );
-
-        // const removeAttachments = this.attachments
-        //     .pipe(
-        //         map(bundles => {
-        //             let current = bundles.map(bundle => bundle.attachment);
-        //             let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
-        //             return difference(backup, current);
-        //         }),
-        //         map(attachments => attachments.map(attachment => of(attachment))),
-        //         switchMap(attachments => forkJoin(attachments))
-        //     );
-
-        forkJoin({
+        return forkJoin({
             added: addAttachments,
-            // removed: removeAttachments
-        })
-        .subscribe(res => {
-            console.log('ATTACHMENT UPDATED', res);
+            removed: removeAttachments,
         });
-
-
-
-
-        // .subscribe(attachments => {
-        //     let current = attachments.map(atta => atta.attachment);
-        //     let backup = this.attachmentsBackup.map(atta => atta.attachment);
-
-        //     let toAdd = difference(current, backup);
-        //     let toRemove = difference(backup, current);
-        //     console.log('current', current);
-        //     console.log('backup', backup);
-        //     console.log('toAdd', toAdd);
-        //     console.log('toRemove', toRemove);
-        // });
-
     }
 
+    /**
+     * Returns the sub-type of an entity attached. If null, the primary entity type is returned.
+     * @param attachment
+     */
     getEntityTypeAndSubType(attachment: AttachmentBundle): string {
         const entityType = attachment.attachment.entityType;
         const entitySubType = this.getEntityService(entityType).getEntitySubType(attachment.entity);
-        return entitySubType ? entitySubType : entityType; // `${entityType} > ${entitySubType}`
+        return entitySubType ? entitySubType : entityType;
     }
 
+    /**
+     * Adds an attachment to the list of attachments (client-side only).
+     * @param attachment
+     */
     addAttachment(attachment: AttachmentBundle): void {
         if (attachment) {
             let attachments = this.attachments.getValue();
@@ -276,6 +269,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
+    /**
+     * Removes an attachment from the list of attachments (client-side only).
+     * @param event
+     * @param attachment
+     */
     removeAttachment(event, attachment: AttachmentBundle): void {
         event.stopPropagation();
         let attachments = this.attachments.getValue();
@@ -313,6 +311,9 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
+    /**
+     * Sets the style of the picture of an attachment.
+     */
     getAttachmentPictureStyle(): {} {
         return {
             width: `${this.attachmentPictureSize}px`,

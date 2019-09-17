@@ -100,7 +100,6 @@ export function create(req, res) {
                     json: true
                 };
 
-                console.log('HERE');
                 return rp(options)
                     .then(provResponse => {
                         console.log('Provenance response', provResponse);

@@ -5,6 +5,7 @@ import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
 import { map } from 'lodash';
 import { EntityAttachmentListComponent } from 'components/entity/entity-attachment/entity-attachment-list/entity-attachment-list.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'insight-edit',
@@ -60,9 +61,6 @@ export class InsightEditComponent implements OnInit {
     }
 
     updateInsight(): void {
-        this.attachments.updateAttachments();
-        // updateAttachments
-
         let editedInsight = this.editForm.value;
         // editedTool.slug = slugify(this.editForm.value.name).toLowerCase();
         const patches = map(editedInsight, (value, key) => ({
@@ -75,10 +73,12 @@ export class InsightEditComponent implements OnInit {
         let patchIndex = patches.findIndex(patch => patch.path === '/description');
         patches[patchIndex].value = JSON.stringify(patches[patchIndex].value);
 
-        this.insightService.update(this.insight._id, patches).subscribe(
-            insight => {
-                console.log('INSIGHT RECEIVED', insight);
-                this.insightEdit.emit(insight);
+        forkJoin({
+            insight: this.insightService.update(this.insight._id, patches),
+            attachmentsUpdate: this.attachments.updateAttachments(),
+        }).subscribe(
+            res => {
+                this.insightEdit.emit(res.insight);
                 this.cancel.emit(null);
             },
             err => {
