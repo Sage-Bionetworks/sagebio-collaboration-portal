@@ -46,6 +46,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     @Input() isReadOnly = true;
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
+    private attachmentsBackup: AttachmentBundle[] = []
     private attachmentsDownloadProgress = 0;
 
     private attachmentForm: FormGroup;
@@ -142,6 +143,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 .subscribe(
                     (attachments: AttachmentBundle[]) => {
                         this.attachments.next(attachments);
+                        this.attachmentsBackup = attachments;
                     },
                     err => console.error(err)
                 );
@@ -196,6 +198,10 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             });
             return this.entityService.createAttachments(entity, attachments);
         }
+    }
+
+    public updateAttachments(entity: E): void {
+        console.log('Backup', this.attachmentsBackup);
     }
 
     getEntityTypeAndSubType(attachment: AttachmentBundle): string {

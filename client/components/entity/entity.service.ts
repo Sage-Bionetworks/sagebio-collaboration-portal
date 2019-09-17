@@ -75,6 +75,13 @@ export abstract class EntityService<E extends Entity> {
      */
     abstract createAttachments(entity: E, attachments: EntityAttachment[]): Observable<EntityAttachment[]>;
 
+    /**
+     * Removes an attachment from the entity specified.
+     * @param entity
+     * @param attachments
+     */
+    abstract removeAttachment(entity: E, attachments: EntityAttachment): Observable<EntityAttachment>;
+
     // MODEL FUNCTIONS
 
     /**

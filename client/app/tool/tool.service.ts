@@ -71,6 +71,10 @@ export class ToolService implements EntityService<Tool> {
         return this.httpClient.post<EntityAttachment[]>(`/api/tools/${tool._id}/attachments`, attachments);
     }
 
+    removeAttachment(entity: Tool, attachment: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
+    }
+
     // MODEL FUNCTIONS
 
     getEntitySubType(tool: Tool): string {

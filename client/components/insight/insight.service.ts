@@ -70,8 +70,12 @@ export class InsightService implements EntityService<Insight> {
         return this.httpClient.get<EntityAttachment[]>(`/api/insights/${entity._id}/attachments`);
     }
 
-    createAttachments(insight: Insight, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
-        return this.httpClient.post<EntityAttachment[]>(`/api/insights/${insight._id}/attachments`, attachments);
+    createAttachments(entity: Insight, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/insights/${entity._id}/attachments`, attachments);
+    }
+
+    removeAttachment(entity: Insight, attachment: EntityAttachment): Observable<EntityAttachment> {
+        return this.httpClient.delete<EntityAttachment>(`/api/insights/${entity._id}/attachments/${attachment._id}`);
     }
 
     // MODEL FUNCTIONS

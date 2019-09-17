@@ -73,6 +73,10 @@ export class DataCatalogService implements EntityService<DataCatalog> {
         );
     }
 
+    removeAttachment(entity: DataCatalog, attachment: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
+    }
+
     // MODEL FUNCTIONS
 
     getEntitySubType(dataCatalog: DataCatalog): string {

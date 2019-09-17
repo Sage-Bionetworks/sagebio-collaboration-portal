@@ -147,4 +147,6 @@ router.get('/:id/attachments', auth.isAuthenticated(), controller.indexAttachmen
 
 router.post('/:id/attachments', auth.isAuthenticated(), controller.createAttachments); // TODO change auth
 
+router.delete('/:id/attachments/:attachmentId', auth.isAuthenticated(), controller.destroyAttachment); // TODO change auth
+
 module.exports = router;

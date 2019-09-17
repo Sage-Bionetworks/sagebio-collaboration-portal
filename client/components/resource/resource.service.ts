@@ -71,6 +71,10 @@ export class ResourceService implements EntityService<Resource> {
         return this.httpClient.post<EntityAttachment[]>(`/api/resources/${resource._id}/attachments`, attachments);
     }
 
+    removeAttachment(entity: Resource, attachment: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
+    }
+
     // MODEL FUNCTIONS
 
     getEntitySubType(resource: Resource): string {
