@@ -18,9 +18,10 @@ module.exports = {
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_PROTOCOL + '://' + process.env.MONGODB_IP +
-            ':' + process.env.MONGODB_PORT + process.env.MONGODB_PATH ||
-            'mongodb://localhost/phccp'
+        uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_IP}:${process.env.MONGODB_PORT}${process.env.MONGODB_PATH}`,
+        options: {
+            useUnifiedTopology: false, // true leads to MongoTimeoutError in prod mode (works in development mode)
+        }
     },
 
     ssl: {

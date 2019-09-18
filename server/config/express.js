@@ -45,28 +45,33 @@ export default app => {
     app.engine('html', require('ejs').renderFile);
     app.set('view engine', 'html');
     app.use(compression());
-    app.use(bodyParser.urlencoded({
-        extended: false
-    }));
-    app.use(bodyParser.json({
-      limit: '10mb'
-    }));
+    app.use(
+        bodyParser.urlencoded({
+            extended: false,
+        })
+    );
+    app.use(
+        bodyParser.json({
+            limit: '10mb',
+        })
+    );
     app.use(methodOverride());
     app.use(cookieParser());
     app.use(passport.initialize());
 
-
     // Persist sessions with MongoStore / sequelizeStore
     // We need to enable sessions for Azure SSO
-    app.use(session({
-        secret: config.secrets.session,
-        saveUninitialized: true,
-        resave: false,
-        store: new MongoStore({
-            mongooseConnection: mongoose.connection,
-            db: 'phccp'
+    app.use(
+        session({
+            secret: config.secrets.session,
+            saveUninitialized: true,
+            resave: false,
+            store: new MongoStore({
+                mongooseConnection: mongoose.connection,
+                db: 'phccp',
+            }),
         })
-    }));
+    );
 
     // Enable flash message to pass server messages to the client
     // app.use(flash());

@@ -8,7 +8,7 @@ module.exports = {
         useMongoClient: true,
         uri: 'mongodb://localhost/phccp-test',
         options: {
-            useUnifiedTopology: false, // true leads to MongoTimeoutError in test mode (ok in production mode)
+            useUnifiedTopology: false, // true leads to MongoTimeoutError in test mode (works in development mode)
         }
     },
 
