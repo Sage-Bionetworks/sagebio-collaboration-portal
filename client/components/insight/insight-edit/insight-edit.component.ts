@@ -18,6 +18,7 @@ export class InsightEditComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     @ViewChild(EntityAttachmentListComponent, { static: false }) attachments: EntityAttachmentListComponent<Insight>;
+    private attachmentTypes: any[];
 
     private insightSpecs: any;
     private editForm: FormGroup;
@@ -27,6 +28,14 @@ export class InsightEditComponent implements OnInit {
 
     static parameters = [FormBuilder, InsightService];
     constructor(private formBuilder: FormBuilder, private insightService: InsightService) {
+        this.attachmentTypes = [
+            config.entityTypes.INSIGHT,
+            config.entityTypes.RESOURCE,
+            config.entityTypes.PROJECT,
+            config.entityTypes.DATA_CATALOG,
+            config.entityTypes.TOOL,
+        ];
+
         this.insightSpecs = config.models.insight;
         this.editForm = this.formBuilder.group({
             title: [

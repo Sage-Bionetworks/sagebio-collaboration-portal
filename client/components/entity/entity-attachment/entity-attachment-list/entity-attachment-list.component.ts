@@ -45,20 +45,19 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     @Input() entity: E;
     @Input() entityService: EntityService<E>;
     @Input() isReadOnly = true;
+    private _attachmentTypes: any[];
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
     private attachmentsBackup: AttachmentBundle[] = [];
     private attachmentsDownloadProgress = 0;
 
+    private entityTypes: any;
     private attachmentForm: FormGroup;
-    private attachmentTypes: any[];
     private attachmentPictureSize = 40;
     private attachmentSearchResults: AttachmentBundle[];
     private errors = {
         attachmentForm: undefined,
     };
-
-    private entityTypes: any;
 
     static parameters = [
         Router,
@@ -83,6 +82,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         private notificationService: NotificationService
     ) {
         this.entityTypes = config.entityTypes;
+        this._attachmentTypes = this.entityTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [this.entityTypes.INSIGHT.value, [Validators.required]],
             attachment: [''],
@@ -90,16 +90,6 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngOnInit() {
-        // this.attachmentTypes = Object.values(this.entityTypes);
-        this.attachmentTypes = [
-            // TODO Must be provided as @Input()
-            config.entityTypes.INSIGHT,
-            config.entityTypes.RESOURCE,
-            config.entityTypes.PROJECT,
-            config.entityTypes.DATA_CATALOG,
-            config.entityTypes.TOOL,
-        ];
-
         const getAttachmentBundle = attachment =>
             of(attachment).pipe(
                 switchMap(attachment_ =>
@@ -185,6 +175,18 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             .subscribe((attachments: AttachmentBundle[]) => {
                 this.attachmentSearchResults = attachments;
             });
+    }
+
+    get attachmentTypes(): any[] {
+        return this._attachmentTypes;
+    }
+
+    @Input()
+    set attachmentTypes(attachmentTypes: any[]) {
+        this._attachmentTypes = attachmentTypes;
+        if (attachmentTypes.length > 0) {
+            this.attachmentForm.get('attachmentType').setValue(attachmentTypes[0].value);
+        }
     }
 
     /**
