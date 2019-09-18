@@ -164,7 +164,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                                 entitySubType: this.getEntityService(
                                     this.attachmentForm.get('attachmentType').value
                                 ).getEntitySubType(entity),
-                                parentEntityId: this.entity._id,
+                                parentEntityId: this.entity ? this.entity._id : null, // TODO: must be set by the backend
                             },
                             entity,
                         }));
@@ -204,7 +204,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         if (entity && this.entityService) {
             let attachments = this.attachments.getValue().map(attachment => {
                 let atta = attachment.attachment;
-                atta.parentEntityId = entity._id;
+                atta.parentEntityId = entity._id; // TODO: must be set by the backend
                 return atta;
             });
             return this.entityService.createAttachments(entity, attachments);
