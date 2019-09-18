@@ -1,9 +1,11 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Insight } from 'models/entities/insights/insight.model';
 import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
 import { map } from 'lodash';
+import { EntityAttachmentListComponent } from 'components/entity/entity-attachment/entity-attachment-list/entity-attachment-list.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'insight-edit',
@@ -15,6 +17,9 @@ export class InsightEditComponent implements OnInit {
     @Output() insightEdit: EventEmitter<Insight> = new EventEmitter<Insight>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
+    @ViewChild(EntityAttachmentListComponent, { static: false }) attachments: EntityAttachmentListComponent<Insight>;
+    private attachmentTypes: any[];
+
     private insightSpecs: any;
     private editForm: FormGroup;
     private errors = {
@@ -23,6 +28,14 @@ export class InsightEditComponent implements OnInit {
 
     static parameters = [FormBuilder, InsightService];
     constructor(private formBuilder: FormBuilder, private insightService: InsightService) {
+        this.attachmentTypes = [
+            config.entityTypes.INSIGHT,
+            config.entityTypes.RESOURCE,
+            config.entityTypes.PROJECT,
+            config.entityTypes.DATA_CATALOG,
+            config.entityTypes.TOOL,
+        ];
+
         this.insightSpecs = config.models.insight;
         this.editForm = this.formBuilder.group({
             title: [
@@ -69,10 +82,12 @@ export class InsightEditComponent implements OnInit {
         let patchIndex = patches.findIndex(patch => patch.path === '/description');
         patches[patchIndex].value = JSON.stringify(patches[patchIndex].value);
 
-        this.insightService.update(this.insight._id, patches).subscribe(
-            insight => {
-                console.log('INSIGHT RECEIVED', insight);
-                this.insightEdit.emit(insight);
+        forkJoin({
+            insight: this.insightService.update(this.insight._id, patches),
+            attachmentsUpdate: this.attachments.updateAttachments(),
+        }).subscribe(
+            res => {
+                this.insightEdit.emit(res.insight);
                 this.cancel.emit(null);
             },
             err => {

@@ -25,11 +25,14 @@ import {
     distinctUntilChanged,
     filter,
     take,
+    catchError,
 } from 'rxjs/operators';
 import { forkJoinWithProgress } from 'components/rxjs/util';
 import { AttachmentBundle } from '../models/attachment-bundle.model';
-import { remove, pull } from 'lodash';
+import { remove, pull, difference, clone } from 'lodash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from 'components/notification/notification.service';
+import { AttachmentUpdateResult } from '../models/attachment-update-result.model';
 
 @Component({
     selector: 'entity-attachment-list',
@@ -42,19 +45,19 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     @Input() entity: E;
     @Input() entityService: EntityService<E>;
     @Input() isReadOnly = true;
+    private _attachmentTypes: any[];
 
     private attachments: BehaviorSubject<AttachmentBundle[]> = new BehaviorSubject<AttachmentBundle[]>([]);
+    private attachmentsBackup: AttachmentBundle[] = [];
     private attachmentsDownloadProgress = 0;
 
+    private entityTypes: any;
     private attachmentForm: FormGroup;
-    private attachmentTypes: any[];
     private attachmentPictureSize = 40;
     private attachmentSearchResults: AttachmentBundle[];
     private errors = {
         attachmentForm: undefined,
     };
-
-    private entityTypes: any;
 
     static parameters = [
         Router,
@@ -65,6 +68,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         ToolService,
         ResourceService,
         InsightService,
+        NotificationService,
     ];
     constructor(
         private router: Router,
@@ -74,9 +78,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         private dataCatalogService: DataCatalogService,
         private toolService: ToolService,
         private resourceService: ResourceService,
-        private insightService: InsightService
+        private insightService: InsightService,
+        private notificationService: NotificationService
     ) {
         this.entityTypes = config.entityTypes;
+        this._attachmentTypes = this.entityTypes;
         this.attachmentForm = this.formBuilder.group({
             attachmentType: [this.entityTypes.INSIGHT.value, [Validators.required]],
             attachment: [''],
@@ -84,37 +90,31 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngOnInit() {
-        // this.attachmentTypes = Object.values(this.entityTypes);
-        this.attachmentTypes = [
-            // TODO Must be provided as @Input()
-            config.entityTypes.INSIGHT,
-            config.entityTypes.RESOURCE,
-            config.entityTypes.PROJECT,
-            config.entityTypes.DATA_CATALOG,
-            config.entityTypes.TOOL,
-        ];
-
         const getAttachmentBundle = attachment =>
             of(attachment).pipe(
                 switchMap(attachment_ =>
                     forkJoin({
                         attachment: of(attachment_),
-                        entity: this.getEntityService(attachment_.entityType).get(attachment_.entityId),
+                        entity: this.getEntityService(attachment_.entityType)
+                            .get(attachment_.entityId)
+                            .pipe(
+                                catchError(err => {
+                                    // TODO Review what to do with entities the user has not access to or
+                                    // that are no longer available (removed).
+                                    console.error(err);
+                                    this.notificationService.error(`Unable to get attachment ${attachment_.entityId}`);
+                                    return of(<Entity>{});
+                                })
+                            ),
                     })
                 )
             );
 
-        // const createAttachmentBundle = (entity: Entity) =>
-
         if (this.entity) {
-            const getAttachments = this.attachmentService
-                .query({
-                    parentEntityId: this.entity._id,
-                })
-                .pipe(
-                    map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
-                    switchMap(bundles => forkJoinWithProgress(bundles))
-                );
+            const getAttachments = this.entityService.getAttachments(this.entity).pipe(
+                map(attachments => attachments.map(attachment => getAttachmentBundle(attachment))),
+                switchMap(bundles => forkJoinWithProgress(bundles))
+            );
 
             getAttachments
                 .pipe(
@@ -134,6 +134,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 .subscribe(
                     (attachments: AttachmentBundle[]) => {
                         this.attachments.next(attachments);
+                        this.attachmentsBackup = clone(attachments);
                     },
                     err => console.error(err)
                 );
@@ -141,6 +142,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
     }
 
     ngAfterViewInit() {
+        // search entities to attach
         merge(
             of(this.attachmentForm.get('attachmentType').value),
             this.attachmentForm.controls.attachmentType.valueChanges
@@ -162,7 +164,7 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                                 entitySubType: this.getEntityService(
                                     this.attachmentForm.get('attachmentType').value
                                 ).getEntitySubType(entity),
-                                parentEntityId: null,
+                                parentEntityId: this.entity ? this.entity._id : null, // TODO: must be set by the backend
                             },
                             entity,
                         }));
@@ -175,27 +177,91 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
             });
     }
 
+    get attachmentTypes(): any[] {
+        return this._attachmentTypes;
+    }
+
+    @Input()
+    set attachmentTypes(attachmentTypes: any[]) {
+        this._attachmentTypes = attachmentTypes;
+        if (attachmentTypes.length > 0) {
+            this.attachmentForm.get('attachmentType').setValue(attachmentTypes[0].value);
+        }
+    }
+
+    /**
+     * Returns the attachments.
+     */
     public getAttachments(): Observable<AttachmentBundle[]> {
         return this.attachments.asObservable().pipe(take(1));
     }
 
+    /**
+     * Adds the attachments to the entity specified.
+     * @param entity
+     */
     public createAttachments(entity: E): Observable<EntityAttachment[]> {
         if (entity && this.entityService) {
             let attachments = this.attachments.getValue().map(attachment => {
                 let atta = attachment.attachment;
-                atta.parentEntityId = entity._id;
+                atta.parentEntityId = entity._id; // TODO: must be set by the backend
                 return atta;
             });
             return this.entityService.createAttachments(entity, attachments);
         }
     }
 
+    /**
+     * Saves the attachments to the server.
+     */
+    public updateAttachments(): Observable<AttachmentUpdateResult> {
+        const addAttachments = this.attachments.pipe(
+            take(1),
+            map(bundles => {
+                let current = bundles.map(bundle => bundle.attachment);
+                let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+                return difference(current, backup);
+            }),
+            switchMap(attachments =>
+                attachments.length > 0
+                    ? this.entityService.createAttachments(this.entity, attachments)
+                    : of(<EntityAttachment[]>[])
+            )
+        );
+
+        const removeAttachments = this.attachments.pipe(
+            take(1),
+            map(bundles => {
+                let current = bundles.map(bundle => bundle.attachment);
+                let backup = this.attachmentsBackup.map(bundle => bundle.attachment);
+                return difference(backup, current);
+            }),
+            map(attachments =>
+                attachments.map(attachment => this.entityService.removeAttachment(this.entity, attachment))
+            ),
+            switchMap(attachments => (attachments.length > 0 ? forkJoin(attachments) : of(<EntityAttachment[]>[])))
+        );
+
+        return forkJoin({
+            added: addAttachments,
+            removed: removeAttachments,
+        });
+    }
+
+    /**
+     * Returns the sub-type of an entity attached. If null, the primary entity type is returned.
+     * @param attachment
+     */
     getEntityTypeAndSubType(attachment: AttachmentBundle): string {
         const entityType = attachment.attachment.entityType;
         const entitySubType = this.getEntityService(entityType).getEntitySubType(attachment.entity);
-        return entitySubType ? entitySubType : entityType; // `${entityType} > ${entitySubType}`
+        return entitySubType ? entitySubType : entityType;
     }
 
+    /**
+     * Adds an attachment to the list of attachments (client-side only).
+     * @param attachment
+     */
     addAttachment(attachment: AttachmentBundle): void {
         if (attachment) {
             let attachments = this.attachments.getValue();
@@ -205,6 +271,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
+    /**
+     * Removes an attachment from the list of attachments (client-side only).
+     * @param event
+     * @param attachment
+     */
     removeAttachment(event, attachment: AttachmentBundle): void {
         event.stopPropagation();
         let attachments = this.attachments.getValue();
@@ -242,6 +313,9 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
         }
     }
 
+    /**
+     * Sets the style of the picture of an attachment.
+     */
     getAttachmentPictureStyle(): {} {
         return {
             width: `${this.attachmentPictureSize}px`,

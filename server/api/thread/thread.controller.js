@@ -73,7 +73,6 @@ export function getEntityIdsByUser(userId) {
 
 // Returns the threads that the user has access to.
 export function indexByUser(req, res) {
-    console.log('HERE');
     // return res.status(200).json({});
     getEntityIdsByUser(req.user._id)
         .then(entityIds => Thread.find({

@@ -63,11 +63,24 @@ export abstract class EntityService<E extends Entity> {
     abstract searchByTerms(terms: Observable<string>): Observable<QueryListResponse<E>>;
 
     /**
+     * Returns the attachments of the entity specified.
+     * @param entity
+     */
+    abstract getAttachments(entity: E): Observable<EntityAttachment[]>;
+
+    /**
      * Adds attachments to the entity specified.
      * @param entity
      * @param attachments
      */
     abstract createAttachments(entity: E, attachments: EntityAttachment[]): Observable<EntityAttachment[]>;
+
+    /**
+     * Removes an attachment from the entity specified.
+     * @param entity
+     * @param attachments
+     */
+    abstract removeAttachment(entity: E, attachments: EntityAttachment): Observable<EntityAttachment>;
 
     // MODEL FUNCTIONS
 

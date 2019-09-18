@@ -62,8 +62,16 @@ export class ProjectService implements EntityService<Project> {
         );
     }
 
+    getAttachments(entity: Project): Observable<EntityAttachment[]> {
+        throw new Error('Method not implemented.');
+    }
+
     createAttachments(project: Project, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
         return this.httpClient.post<EntityAttachment[]>(`/api/projects/${project._id}/attachments`, attachments);
+    }
+
+    removeAttachment(entity: Project, attachments: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
     }
 
     // MODEL FUNCTIONS
