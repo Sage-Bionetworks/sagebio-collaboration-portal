@@ -1,11 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    flatMap
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators';
 import { find, filter } from 'lodash/fp';
 import { Entity } from 'models/entities/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
@@ -31,7 +27,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
 
     private inviteForm: FormGroup;
     private errors = {
-        inviteForm: undefined
+        inviteForm: undefined,
     };
     private userResults: UserProfile[];
     private selectedUser: UserProfile;
@@ -47,32 +43,32 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
         UserNotificationService,
         NotificationService,
     ];
-    constructor(private formBuilder: FormBuilder,
+    constructor(
+        private formBuilder: FormBuilder,
         private entityPermissionService: EntityPermissionService,
         private userService: UserService,
         private socketService: SocketService,
         private userNotificationService: UserNotificationService,
-        private notificationService: NotificationService) {
-
+        private notificationService: NotificationService
+    ) {
         this.listAvatarSize = config.avatar.size.small;
         this.optionAvatarSize = config.avatar.size.nano;
         this.accessTypes = Object.values(config.accessTypes);
         this.inviteForm = this.formBuilder.group({
-            username: ['', [
-            ]],
+            username: ['', []],
         });
 
-        this.userService.searchUserByUsername(this.inviteForm.controls.username.valueChanges)
-            .subscribe(users => {
+        this.userService.searchUserByUsername(this.inviteForm.controls.username.valueChanges).subscribe(
+            users => {
                 this.userResults = users;
-            }, err => console.error(err));
+            },
+            err => console.error(err)
+        );
     }
 
     ngOnInit() {
-        this.inviteForm
-            .controls
-            .username
-            .valueChanges.pipe(
+        this.inviteForm.controls.username.valueChanges
+            .pipe(
                 debounceTime(50),
                 distinctUntilChanged()
             )
@@ -88,14 +84,13 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
 
     ngAfterViewInit() {
         if (this.entity) {
-            this.entityPermissionService.queryByEntity(this.entity)
-                .subscribe(permissions => {
+            this.entityPermissionService.queryByEntity(this.entity).subscribe(
+                permissions => {
                     this.permissions = permissions;
-                    this.socketService.syncUpdates(
-                        `entity:${this.entity._id}:entityPermission`,
-                        this.permissions
-                    );
-                }, err => console.error(err));
+                    this.socketService.syncUpdates(`entity:${this.entity._id}:entityPermission`, this.permissions);
+                },
+                err => console.error(err)
+            );
         }
     }
 
@@ -115,9 +110,10 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                 entityId: this.entity._id,
                 entityType: config.entityTypes.PROJECT.value,
                 user: this.selectedUser._id,
-                access: config.accessTypes.READ.value
+                access: config.accessTypes.READ.value,
             };
-            this.entityPermissionService.create(newPermission)
+            this.entityPermissionService
+                .create(newPermission)
                 .pipe(
                     flatMap(permission => {
                         const notification: EntityAccessNotification = {
@@ -127,52 +123,60 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                             user: this.selectedUser._id,
                             messageBody: '',
                             entityPermissionId: permission._id,
-                        }
-                        return this.userNotificationService.createNotification<EntityAccessNotification>(notification)
+                        };
+                        return this.userNotificationService.create<EntityAccessNotification>(notification);
                     })
                 )
-                .subscribe(() => {
-                    this.inviteForm.get('username').setValue('');
-                    this.notificationService.info("Notification sent.")
-                }, err => {
-                    console.log(err);
-                    this.errors.inviteForm = err.message;
-                });
+                .subscribe(
+                    () => {
+                        this.inviteForm.get('username').setValue('');
+                        this.notificationService.info('Notification sent.');
+                    },
+                    err => {
+                        console.log(err);
+                        this.errors.inviteForm = err.message;
+                    }
+                );
         }
     }
 
     removeCollaborator($event, permission: EntityPermission): void {
         $event.stopPropagation();
-        this.entityPermissionService.delete(permission)
-            .subscribe(perm => {
+        this.entityPermissionService.delete(permission).subscribe(
+            perm => {
                 //
-            }, err => {
+            },
+            err => {
                 console.log(err);
                 this.errors.inviteForm = err.message;
-            });
+            }
+        );
     }
 
     changeCollaboratorAccess($event: MatSelectChange, permission: EntityPermission): void {
-        const newAccess = find({ value: $event.value }, this.accessTypes)
-            .value;
-        this.entityPermissionService.changeAccess(permission, newAccess)
-            .subscribe(perm => {
+        const newAccess = find({ value: $event.value }, this.accessTypes).value;
+        this.entityPermissionService.changeAccess(permission, newAccess).subscribe(
+            perm => {
                 //
-            }, err => {
+            },
+            err => {
                 console.error(err);
                 this.errors.inviteForm = err.message;
-            });
+            }
+        );
     }
 
     freezePermission(permission: EntityPermission): boolean {
         const isCurrentUser = (<UserProfile>permission.user)._id === this.user._id;
         const currentUserIsAppAdmin = this.user.role === config.userRoles.ADMIN.value;
-        const isProjectAdmin = permission.access === config.accessTypes.ADMIN.value
-            && permission.status === config.inviteStatusTypes.ACCEPTED.value;
-        const isLastProjectAdmin = this.permissions
-            .filter(perm =>
-                (perm.access === config.accessTypes.ADMIN.value
-                    && perm.status === config.inviteStatusTypes.ACCEPTED.value)
+        const isProjectAdmin =
+            permission.access === config.accessTypes.ADMIN.value &&
+            permission.status === config.inviteStatusTypes.ACCEPTED.value;
+        const isLastProjectAdmin =
+            this.permissions.filter(
+                perm =>
+                    perm.access === config.accessTypes.ADMIN.value &&
+                    perm.status === config.inviteStatusTypes.ACCEPTED.value
             ).length <= 1;
         return (isCurrentUser && !currentUserIsAppAdmin) || (isProjectAdmin && isLastProjectAdmin);
     }

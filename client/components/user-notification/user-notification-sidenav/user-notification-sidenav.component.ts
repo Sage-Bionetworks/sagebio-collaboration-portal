@@ -139,7 +139,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     ngOnInit() {
-        this.userNotificationService.queryNotifications({ archived: false })
+        this.userNotificationService.query({ archived: false })
             .subscribe(notifications => this.notifications$.next(notifications))
 
         this.notifications$.subscribe(notifications => {

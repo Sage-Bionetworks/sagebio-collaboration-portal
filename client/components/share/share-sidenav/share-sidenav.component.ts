@@ -5,7 +5,7 @@ import { filter, map, flatMap } from 'rxjs/operators';
 import { flow, get, filter as fpFilter, map as fpMap, uniqBy } from 'lodash/fp';
 
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { EntityPermissionService } from 'components/auth/entity-permission.service'
+import { EntityPermissionService } from 'components/auth/entity-permission.service';
 import { SocketService } from 'components/socket/socket.service';
 import { Entity } from 'models/entities/entity.model';
 import { UserProfile } from 'models/auth/user-profile.model';
@@ -41,7 +41,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         UserNotificationService,
         NotificationService,
         ProjectService,
-        UserService
+        UserService,
     ];
 
     constructor(
@@ -54,49 +54,48 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
         private userNotificationService: UserNotificationService,
         private notificationService: NotificationService,
         private projectService: ProjectService,
-        private userService: UserService,
+        private userService: UserService
     ) {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
         this.newForm = formBuilder.group({
             shareWithUsers: ['', [Validators.required]],
-            comments: [
-                '',
-                [
-                    Validators.maxLength(config.models.share.comment.maxlength),
-                ],
-            ],
+            comments: ['', [Validators.maxLength(config.models.share.comment.maxlength)]],
         });
     }
 
     ngAfterViewInit() {
         if (this.entityType === config.entityTypes.PROJECT.value) {
-            this.authService.authInfo()
-            .pipe(
-                flatMap((authInfo) => {
-                    if (this.entity.visibility === config.entityVisibility.PRIVATE.value) {
-                        return this.getUsersWithEntityPermissions(this.entity._id, authInfo.user)
-                    }
-
-                    return this.getAllUsers(authInfo.user)
-                })
-            ).subscribe(users => this.users = users)
-        } else {
-            const projectId: string = get('projectId')(this.entity)
-            if (projectId) {
-                combineLatest(this.projectService.get(projectId), this.authService.authInfo())
+            this.authService
+                .authInfo()
                 .pipe(
-                    flatMap(([project, authInfo]) => {
-                        if (project.visibility === config.entityVisibility.PRIVATE.value) {
-                            return this.getUsersWithEntityPermissions(projectId, authInfo.user)
+                    flatMap(authInfo => {
+                        if (this.entity.visibility === config.entityVisibility.PRIVATE.value) {
+                            return this.getUsersWithEntityPermissions(this.entity._id, authInfo.user);
                         }
 
-                        return this.getAllUsers(authInfo.user)
+                        return this.getAllUsers(authInfo.user);
                     })
-                ).subscribe(users => this.users = users)
+                )
+                .subscribe(users => (this.users = users));
+        } else {
+            const projectId: string = get('projectId')(this.entity);
+            if (projectId) {
+                combineLatest(this.projectService.get(projectId), this.authService.authInfo())
+                    .pipe(
+                        flatMap(([project, authInfo]) => {
+                            if (project.visibility === config.entityVisibility.PRIVATE.value) {
+                                return this.getUsersWithEntityPermissions(projectId, authInfo.user);
+                            }
+
+                            return this.getAllUsers(authInfo.user);
+                        })
+                    )
+                    .subscribe(users => (this.users = users));
             } else {
-                this.authService.authInfo().pipe(
-                    flatMap((authInfo) => this.getAllUsers(authInfo.user)),
-                ).subscribe(users => this.users = users)
+                this.authService
+                    .authInfo()
+                    .pipe(flatMap(authInfo => this.getAllUsers(authInfo.user)))
+                    .subscribe(users => (this.users = users));
             }
         }
     }
@@ -108,39 +107,37 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
     }
 
     getUsersWithEntityPermissions(entityId: string, currentUser: UserProfile) {
-        return this.entityPermissionService.queryByEntityId(entityId)
-            .pipe(
-                map(permissions => {
-                    return flow(
-                        fpFilter<EntityPermission>(permission => permission.status === config.inviteStatusTypes.ACCEPTED.value),
-                        fpMap('user'),
-                        uniqBy('_id'),
-                        (users: UserProfile[]) => this.withoutCurrentUser(users, currentUser)
-                    )(permissions)
-                })
-            )
+        return this.entityPermissionService.queryByEntityId(entityId).pipe(
+            map(permissions => {
+                return flow(
+                    fpFilter<EntityPermission>(
+                        permission => permission.status === config.inviteStatusTypes.ACCEPTED.value
+                    ),
+                    fpMap('user'),
+                    uniqBy('_id'),
+                    (users: UserProfile[]) => this.withoutCurrentUser(users, currentUser)
+                )(permissions);
+            })
+        );
     }
 
     getAllUsers(currentUser: UserProfile): Observable<UserProfile[]> {
-        return this.userService.query()
-            .pipe(
-                map((users) => this.withoutCurrentUser(users, currentUser)),
-            )
+        return this.userService.query().pipe(map(users => this.withoutCurrentUser(users, currentUser)));
     }
 
     withoutCurrentUser(users: UserProfile[], currentUser: UserProfile) {
-        return users.filter(user => user._id !== currentUser._id)
+        return users.filter(user => user._id !== currentUser._id);
     }
 
     setEntity(entity: Entity, entityType: string): void {
         if (entity) {
             this.entity = entity;
-            this.entityType = entityType
+            this.entityType = entityType;
         }
     }
 
     share(): void {
-        let ShareDetails: { comments: DeltaOperation, shareWithUsers: UserProfile[] } = this.newForm.value;
+        let ShareDetails: { comments: DeltaOperation; shareWithUsers: UserProfile[] } = this.newForm.value;
 
         ShareDetails.shareWithUsers.forEach(user => {
             const notification: EntityNotification = {
@@ -149,15 +146,17 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
                 entityType: this.entityType,
                 user: user._id,
                 messageBody: JSON.stringify(ShareDetails.comments),
-            }
+            };
 
-            this.userNotificationService.createNotification<EntityNotification>(notification)
-                .subscribe(() => {
-                    this.notificationService.info("Notification sent.")
-                    this.close()
-                }, err => {
+            this.userNotificationService.create<EntityNotification>(notification).subscribe(
+                () => {
+                    this.notificationService.info('Notification sent.');
+                    this.close();
+                },
+                err => {
                     console.error(err);
-                })
+                }
+            );
         });
     }
 

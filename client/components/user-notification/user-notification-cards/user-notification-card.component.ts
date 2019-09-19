@@ -17,70 +17,70 @@ import { DataCatalog } from 'models/entities/data-catalog.model';
 @Component({
     selector: 'user-notification-card',
     template: '',
-    styles: [require('./user-notification-card.scss')]
+    styles: [require('./user-notification-card.scss')],
 })
 export class UserNotificationCardComponent {
     @Input() notification: MessageNotification | EntityNotification | EntityAccessNotification;
     @Input() entity: Entity;
 
-    archived: boolean = false
-    router: Router
-    notificationService: NotificationService
-    userNotificationService: UserNotificationService
+    archived: boolean = false;
+    router: Router;
+    notificationService: NotificationService;
+    userNotificationService: UserNotificationService;
 
     static parameters = [Injector];
     constructor(public injector: Injector) {
-        this.router = this.injector.get(Router)
-        this.notificationService = this.injector.get(NotificationService)
-        this.userNotificationService = this.injector.get(UserNotificationService)
+        this.router = this.injector.get(Router);
+        this.notificationService = this.injector.get(NotificationService);
+        this.userNotificationService = this.injector.get(UserNotificationService);
     }
 
     goToEntity() {
-      if (
-        this.notification.notificationType === config.notificationTypes.ENTITY_NOTIFICATION.value ||
-        this.notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
-      ) {
-        const notification = this.notification as EntityNotification | EntityAccessNotification
-        switch(notification.entityType) {
-            case config.entityTypes.INSIGHT.value: {
-                const insight = this.entity as Insight
-                this.router.navigate(['/projects', insight.projectId, 'insights', insight._id]);
-                break;
+        if (
+            this.notification.notificationType === config.notificationTypes.ENTITY_NOTIFICATION.value ||
+            this.notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
+        ) {
+            const notification = this.notification as EntityNotification | EntityAccessNotification;
+            switch (notification.entityType) {
+                case config.entityTypes.INSIGHT.value: {
+                    const insight = this.entity as Insight;
+                    this.router.navigate(['/projects', insight.projectId, 'insights', insight._id]);
+                    break;
+                }
+                case config.entityTypes.PROJECT.value: {
+                    const project = this.entity as Project;
+                    this.router.navigate(['/projects', project._id]);
+                    break;
+                }
+                case config.entityTypes.RESOURCE.value: {
+                    const resource = this.entity as Resource;
+                    this.router.navigate(['/projects', resource.projectId, 'resources', resource._id]);
+                    break;
+                }
+                case config.entityTypes.TOOL.value: {
+                    const tool = this.entity as Tool;
+                    this.router.navigate(['/tools', tool._id]);
+                    break;
+                }
+                case config.entityTypes.DATA_CATALOG.value: {
+                    const catalog = this.entity as DataCatalog;
+                    this.router.navigate(['/data-catalogs', catalog._id]);
+                    break;
+                }
+                default:
+                    break;
             }
-            case config.entityTypes.PROJECT.value: {
-                const project = this.entity as Project
-                this.router.navigate(['/projects', project._id]);
-                break;
-            }
-            case config.entityTypes.RESOURCE.value: {
-                const resource = this.entity as Resource
-                this.router.navigate(['/projects', resource.projectId, 'resources', resource._id]);
-                break;
-            }
-            case config.entityTypes.TOOL.value: {
-                const tool = this.entity as Tool
-                this.router.navigate(['/tools', tool._id]);
-                break;
-            }
-            case config.entityTypes.DATA_CATALOG.value: {
-                const catalog = this.entity as DataCatalog
-                this.router.navigate(['/data-catalogs', catalog._id]);
-                break;
-            }
-            default:
-                break;
         }
-      }
     }
 
     archive() {
-        return this.userNotificationService.archiveNotification(this.notification)
+        return this.userNotificationService.archive(this.notification);
     }
 
     discard() {
         this.archive().subscribe(() => {
-            this.archived = true
+            this.archived = true;
             this.notificationService.info('Notification discarded.');
-        })
+        });
     }
 }
