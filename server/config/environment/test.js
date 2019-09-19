@@ -7,9 +7,9 @@ module.exports = {
     mongo: {
         useMongoClient: true,
         uri: 'mongodb://localhost/phccp-test',
-        options: {
-            useUnifiedTopology: false, // true leads to MongoTimeoutError in test mode (works in development mode)
-        }
+        // options: {
+        //     // useUnifiedTopology: false, // true leads to MongoTimeoutError
+        // }
     },
 
     sequelize: {
