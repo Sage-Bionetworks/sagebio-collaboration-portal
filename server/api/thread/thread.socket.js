@@ -21,25 +21,26 @@ export function register(spark) {
 
 function createListener(modelName, event, spark) {
     return function (doc) {
+        // TODO set authorization
         // console.log(`Firing ${modelName}:entity:${doc.entityId}:${event}`);
-        hasAccessToEntity(
-            spark.userId,
-            [config.accessTypes.READ.value, config.accessTypes.WRITE.value, config.accessTypes.ADMIN.value],
-            doc.entityId,
-            [
-                // TODO Rename inviteStatusTypes (do not use invite)
-                config.inviteStatusTypes.ACCEPTED.value,
-            ]
-        )
-            .then(hasAccess => {
-                if (hasAccess) {
+        // hasAccessToEntity(
+        //     spark.userId,
+        //     [config.accessTypes.READ.value, config.accessTypes.WRITE.value, config.accessTypes.ADMIN.value],
+        //     doc.entityId,
+        //     [
+        //         // TODO Rename inviteStatusTypes (do not use invite)
+        //         config.inviteStatusTypes.ACCEPTED.value,
+        //     ]
+        // )
+        //     .then(hasAccess => {
+        //         if (hasAccess) {
                     // spark.emit(`${modelName}:${event}`, doc);
                     spark.emit(`${modelName}:entity:${doc.entityId}:${event}`, doc);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-            });
+            //     }
+            // })
+            // .catch(err => {
+            //     console.error(err);
+            // });
     };
 }
 

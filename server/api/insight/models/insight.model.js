@@ -45,6 +45,10 @@ var InsightSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        attachments: {
+            type: Object,
+            ref: 'EntityAttachments',
+        },
     },
     options
 );

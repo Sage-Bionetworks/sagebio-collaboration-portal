@@ -7,10 +7,10 @@ import { ResizedDirective } from './resized/resized.directive';
         CommonModule
     ],
     declarations: [
-        ResizedDirective
+        ResizedDirective,
     ],
     exports: [
-        ResizedDirective
+        ResizedDirective,
     ]
 })
 export class DirectivesModule { }

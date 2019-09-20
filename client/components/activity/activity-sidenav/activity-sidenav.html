@@ -5,10 +5,10 @@
     </a>
 </div>
 
-<div *ngIf="root" class="activities-graph-container">
+<div *ngIf="root$ | async as root" class="activities-graph-container">
     <div class="app-activity-info">
         <b>Activities for</b>
-        <span><em>{{ root.title }}</em></span>
+        <span class="app-activity-info-title">{{ root.title }}</span>
     </div>
     <div *ngIf="!root.username" class="app-activity-filters-container">
         <b>Direction</b>
@@ -16,7 +16,11 @@
     </div>
     <div class="activities-graph-content-container">
         <div class="activities-graph-results" (resized)="onResized($event)">
-            <provenance-graph class="provenance-graph" [graphData]="provenanceGraphData" [rootId]="root._id"></provenance-graph>
+            <provenance-graph
+                class="provenance-graph"
+                [graphData]="provenanceGraphData"
+                [rootId]="root._id"
+            ></provenance-graph>
         </div>
     </div>
 </div>

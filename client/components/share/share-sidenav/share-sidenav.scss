@@ -1,0 +1,58 @@
+.app-share-header {
+    padding-left: 10px;
+}
+
+.app-share-header-title {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+    justify-content: center;
+}
+
+.app-share-header-close {
+    margin: 0 10px 0 0;
+}
+
+.app-share-info {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+
+    span {
+        margin: 10px;
+    }
+}
+
+.app-share-body {
+    margin: 10px 10px 10px 10px;
+}
+
+.app-share-users-search-filter {
+    widows: 75%;
+}
+
+.app-share-users-list-result-count {
+    margin-bottom: 20px;
+}
+
+.app-share-users-list-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.app-share-users-list-row > mat-icon {
+    margin-right: 10px;
+}
+
+.app-share-comment-editor {
+    margin-bottom: 20px;
+}
+
+.app-share-form-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-top: 20px;
+}

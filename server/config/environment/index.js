@@ -28,6 +28,7 @@ var all = {
     // Server IP
     ip: process.env.IP || '0.0.0.0',
 
+    // Domain (e.g. https://localhost)
     domain: process.env.DOMAIN,
 
     // Secret for session, you will want to change this and make it an environment variable
@@ -47,6 +48,7 @@ var all = {
             useNewUrlParser: true,
             useFindAndModify: false,
             useCreateIndex: true,
+            // useUnifiedTopology: true,
             reconnectTries: 30,
             reconnectInterval: 500, // in ms
         }

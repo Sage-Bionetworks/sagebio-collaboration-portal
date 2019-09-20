@@ -1,4 +1,4 @@
-import { find, pickBy, identity } from 'lodash/fp';
+import { pickBy, identity } from 'lodash/fp';
 import EntityPermission from './entity-permission.model';
 import {
     respondWithResult,
@@ -14,6 +14,7 @@ import { accessTypes, inviteStatusTypes } from '../../config/environment';
 // Returns the permissions of the user
 export function index(req, res) {
     return EntityPermission.find({
+        ...req.query,
         user: req.user._id,
     })
         .exec()
@@ -21,7 +22,16 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the permission by Id
+export function show(req, res) {
+    return EntityPermission.findById(req.params.id)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Returns the permissions associated to an entity
+// TODO To review
 export function indexByEntity(req, res) {
     return EntityPermission.find({
         entityId: req.params.entityId,

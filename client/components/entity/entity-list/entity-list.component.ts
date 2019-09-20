@@ -59,6 +59,7 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
                 title: `Oldest ${this.entityName}s`, // assumes plural simply ends with 's'
             },
         });
+        console.log('orderFilters', this.orderFilters);
 
         this.previewTypeFilters = values({
             ARRAY: {
@@ -77,6 +78,8 @@ export class EntityListComponent<E extends Entity> implements OnInit, AfterViewI
     }
 
     ngAfterViewInit() {
+        console.log('FILTER LENGTH', this.filters.length);
+        console.log('this.filters', this.filters);
         let previewTypeFilter = this.filters
             .find(f => f.group === 'previewType')
             .getSelectedFilter();

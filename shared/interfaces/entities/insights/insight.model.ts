@@ -26,10 +26,14 @@ import { Entity } from '../entity.model';
  *           format: date-time
  *         createdBy:
  *           $ref: '#/components/schemas/User'
+ *         attachments:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/EntityAttachment'
  */
 export interface Insight extends Entity {
     projectId: string;
-    insightType: InsightType;
+    insightType: string;
 }
 
 /**
@@ -46,3 +50,11 @@ export enum InsightType {
     MEMO = 'Memo',
     REPORT = 'Report',
 }
+
+
+export interface InsightAttachment {
+    entityId?: string;
+    entitySubType?: string;
+    name?: string;
+}
+

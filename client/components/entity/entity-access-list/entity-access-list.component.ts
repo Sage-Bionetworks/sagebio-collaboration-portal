@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
 import {
     debounceTime,
-    distinctUntilChanged
+    distinctUntilChanged,
+    flatMap
 } from 'rxjs/operators';
 import { find, filter } from 'lodash/fp';
 import { Entity } from 'models/entities/entity.model';
@@ -13,6 +14,9 @@ import { UserProfile } from 'models/auth/user-profile.model';
 import { UserService } from 'components/auth/user.service';
 import { SocketService } from 'components/socket/socket.service';
 import config from '../../../app/app.constants';
+import { UserNotificationService } from 'components/user-notification/user-notification.service';
+import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'entity-access-list',
@@ -35,11 +39,20 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
     private optionAvatarSize;
     private accessTypes: any[];
 
-    static parameters = [FormBuilder, EntityPermissionService, UserService, SocketService];
+    static parameters = [
+        FormBuilder,
+        EntityPermissionService,
+        UserService,
+        SocketService,
+        UserNotificationService,
+        NotificationService,
+    ];
     constructor(private formBuilder: FormBuilder,
         private entityPermissionService: EntityPermissionService,
         private userService: UserService,
-        private socketService: SocketService) {
+        private socketService: SocketService,
+        private userNotificationService: UserNotificationService,
+        private notificationService: NotificationService) {
 
         this.listAvatarSize = config.avatar.size.small;
         this.optionAvatarSize = config.avatar.size.nano;
@@ -105,8 +118,22 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                 access: config.accessTypes.READ.value
             };
             this.entityPermissionService.create(newPermission)
-                .subscribe(permission => {
+                .pipe(
+                    flatMap(permission => {
+                        const notification: EntityAccessNotification = {
+                            notificationType: config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
+                            entityId: this.entity._id,
+                            entityType: config.entityTypes.PROJECT.value,
+                            user: this.selectedUser._id,
+                            messageBody: '',
+                            entityPermissionId: permission._id,
+                        }
+                        return this.userNotificationService.createNotification<EntityAccessNotification>(notification)
+                    })
+                )
+                .subscribe(() => {
                     this.inviteForm.get('username').setValue('');
+                    this.notificationService.info("Notification sent.")
                 }, err => {
                     console.log(err);
                     this.errors.inviteForm = err.message;

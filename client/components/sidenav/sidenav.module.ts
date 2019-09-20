@@ -7,9 +7,8 @@ import { SidenavHostDirective } from './sidenav-host.directive';
 
 import { ThreadSidenavComponent } from 'components/messaging/thread-sidenav/thread-sidenav.component';
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
-import {
-    UserNotificationSidenavComponent
-} from 'components/user-notification/user-notification-sidenav/user-notification-sidenav.component';
+import { ShareSidenavComponent } from 'components/share/share-sidenav/share-sidenav.component';
+import { UserNotificationSidenavComponent } from 'components/user-notification/user-notification-sidenav/user-notification-sidenav.component';
 import { ThreadNewComponent } from 'components/messaging/thread-new/thread-new.component';
 
 @NgModule({
@@ -30,6 +29,7 @@ import { ThreadNewComponent } from 'components/messaging/thread-new/thread-new.c
     entryComponents: [
         ThreadSidenavComponent,
         ActivitySidenavComponent,
+        ShareSidenavComponent,
         UserNotificationSidenavComponent,
         ThreadNewComponent,
     ]

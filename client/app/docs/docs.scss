@@ -1,0 +1,203 @@
+// The margin between two sections
+$margin-promotion-sections: 60px;
+$margin-promotion-sections-small: 15px;
+
+hr {
+    width: 50%;
+}
+
+.app-header-background {
+    overflow: hidden;
+}
+
+.app-header-section {
+    text-align: left;
+    padding-top: $margin-promotion-sections;
+    padding-left: 100px;
+}
+
+.app-header-headline {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    //padding-top: 5px;
+    h1 {
+        font-size: 56px;
+        font-weight: 300;
+        line-height: 56px;
+        margin-bottom: 0.1em;
+    }
+
+    h2 {
+        font-size: 45px;
+        font-weight: 300;
+        line-height: 28px;
+        margin-bottom: 0.25em;
+    }
+    h3 {
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 28px;
+        margin: 25px 0 -30px 0;
+        width: 400px;
+    }
+}
+
+.app-header-headline-alt {
+    color: #ffffff;
+    margin: -10px 0 35px -25px;
+
+    h1 {
+        font-size: 36px;
+        font-weight: 400;
+        line-height: 18px;
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 300;
+    }
+}
+
+.app-header-start,
+.app-docs-bottom-start {
+    text-align: left;
+    margin: $margin-promotion-sections 0;
+}
+
+.app-docs-info-container {
+    width: 80%;
+    margin: 30px auto;
+
+    h2 {
+        font-weight: 500;
+        text-align: center;
+    }
+}
+
+.app-info-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 15px 0;
+}
+
+.app-info-box {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 25px;
+
+
+  h4 {
+      margin: 5px auto;
+    }
+}
+
+.info-box-icon {
+    color: #455a64 !important;
+    margin: 0;
+}
+
+.material-icons {
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'liga';
+  -moz-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  font-size: 50px;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.app-docs-summary-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.app-summary-box {
+  width: 50%;
+  margin: 30px auto;
+  text-align: left;
+
+  > img {
+      width: 70%;
+      height: 70%;
+      margin-right: 50px;
+      float: right;
+  }
+}
+
+.app-docs-summary-description {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  > h2 {
+      margin-bottom: 10px;
+  }
+}
+
+/**
+  * Rules for when the device is detected to be a small screen.
+*/
+@media (max-width: 720px) {
+  .app-header-section {
+      padding-top: $margin-promotion-sections-small;
+  }
+
+  .app-header-start,
+  .app-docs-bottom-start {
+      margin: $margin-promotion-sections-small 0;
+  }
+
+  .app-docs-row {
+      margin: $margin-promotion-sections-small 0;
+  }
+}
+
+.app-docs-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px 0;
+    width:100%
+}
+
+.app-docs-table-card-container {
+    display: flex;
+    flex: 1;
+    text-align: flex-start;
+    flex-direction: column;
+    padding: 0 25px;
+    margin: 20px;
+}
+.app-docs-table-card {
+    margin-bottom: 20px;
+}
+.app-docs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.app-docs-card-title {
+    text-transform: uppercase;
+
+}
+.app-docs-table-item {
+    padding: 15px;
+}
+
+.app-docs-table-definition {
+    padding: 15px;
+}
+

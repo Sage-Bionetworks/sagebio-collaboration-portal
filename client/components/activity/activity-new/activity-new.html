@@ -7,11 +7,29 @@
     <mat-card-content>
         <form class="app-activity-new-card-form" [formGroup]="newForm" novalidate>
             <mat-form-field class="app-activity-new-form-field">
-                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required>
+                <input matInput placeholder="Name" formControlName="title" [errorStateMatcher]="matcher" required />
                 <mat-error *ngIf="newForm.controls.title.invalid">
-                    Please enter a valid name ({{ activitySpecs.title.minlength }}-{{ activitySpecs.title.maxlength }} characters).
+                    Please enter a valid name ({{ activitySpecs.title.minlength }}-{{
+                        activitySpecs.title.maxlength
+                    }}
+                    characters).
                 </mat-error>
             </mat-form-field>
+
+            <app-quill-editor
+                class="app-activity-new-description-editor"
+                [isReadOnly]="false"
+                [showActions]="false"
+                placeholder="Insert description..."
+                [body]="newForm.controls['description']"
+            ></app-quill-editor>
+            <!-- <mat-form-field class="app-activity-new-form-field">
+                <input matInput placeholder="Description" formControlName="description" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="newForm.controls.description.invalid">
+                    Please enter a valid description ({{ activitySpecs.description.minlength }}-{{ activitySpecs.description.maxlength }} characters).
+                </mat-error>
+            </mat-form-field> -->
+
             <mat-form-field>
                 <mat-label>Type</mat-label>
                 <select matNativeControl formControlName="activityType" required>
@@ -36,10 +54,12 @@
             </mat-form-field>
             <app-quill-editor class="app-activity-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
             <mat-error *ngIf="errors.newActivity">
-                {{errors.newActivity}}
+                {{ errors.newActivity }}
             </mat-error>
             <div class="app-activity-new-form-actions">
-                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewActivity()">Create New Activity</a>
+                <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="createNewActivity()"
+                    >Create New Activity</a
+                >
                 <a mat-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>

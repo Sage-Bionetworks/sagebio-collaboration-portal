@@ -5,7 +5,7 @@ export interface Entity {
     title: string;
     description: string;
     picture: string;
-    visibility: EntityVisibility;
+    visibility?: EntityVisibility;
     createdAt: string;
     createdBy: UserProfile;
 }
@@ -22,5 +22,5 @@ export interface Entity {
  */
 export enum EntityVisibility {
     PUBLIC = 'Public',
-    PRIVATE = 'Private'
+    PRIVATE = 'Private',
 }

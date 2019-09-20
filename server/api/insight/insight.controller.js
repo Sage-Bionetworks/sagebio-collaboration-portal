@@ -5,6 +5,7 @@ import { merge } from 'lodash';
 import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
+import EntityAttachment from '../entity-attachment/entity-attachment.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -40,6 +41,15 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
+export function indexByEntity(req, res) {
+    let filters = req.query;
+    filters.projectId = req.params.entityId;
+    return Insight.find(filters)
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Gets a single Insight from the DB
 export function show(req, res) {
     return Insight.findById(req.params.id)
@@ -64,7 +74,6 @@ export function patch(req, res) {
     if (req.body._id) {
         Reflect.deleteProperty(req.body, '_id');
     }
-    console.log('HERE');
     return Insight.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
@@ -82,9 +91,32 @@ export function patch(req, res) {
 //         .catch(handleError(res));
 // }
 
-// Deletes a Insight from the DB
+// Deletes an Insight from the DB
 export function destroy(req, res) {
-    return Insight.findById(req.params.id).exec()
+    return Insight.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
+export function indexAttachments(req, res) {
+    return EntityAttachment.find({ parentEntityId: req.params.id })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function createAttachments(req, res) {
+    return EntityAttachment.create(req.body)
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
+}
+
+// Deletes an EntityAttachment from the DB.
+export function destroyAttachment(req, res) {
+    return EntityAttachment.findById(req.params.attachmentId)
+        .exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));

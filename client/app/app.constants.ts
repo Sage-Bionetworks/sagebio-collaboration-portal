@@ -14,6 +14,26 @@ var config = {
         showDelay: 0,
     },
 
+    activityTypeFilters: [
+        {
+            value: 'ReportGeneration',
+            title: 'Report generation',
+            active: true,
+        },
+        {
+            value: 'Memoization',
+            title: 'Memoization',
+        },
+        {
+            value: 'Mention',
+            title: 'Mention',
+        },
+        {
+            value: 'ToolSession',
+            title: 'Tool session',
+        },
+    ],
+
     activityDirectionFilters: [
         {
             value: 'down',

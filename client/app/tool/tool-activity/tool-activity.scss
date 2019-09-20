@@ -2,6 +2,17 @@
     width: 100%;
 
     .activities-graph-container {
+
+        .tool-activity-info {
+            margin: 25px;
+            display: flex;
+            flex-direction: column;
+
+            span {
+                margin: 10px;
+            }
+        }
+
         .activities-graph-filters-container {
             display: flex;
             flex-flow: column nowrap;

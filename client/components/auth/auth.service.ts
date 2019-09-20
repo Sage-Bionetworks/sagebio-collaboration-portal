@@ -6,7 +6,7 @@ import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { User } from 'models/auth/user.model';
 import { TokenResponse } from 'models/auth/token-response.model';
-import { AuthInfo } from './auth-info.model';
+import { AuthInfo } from './models/auth-info.model';
 
 const _loginWithTokenResponse = (authService: AuthService) => pipe(
     mergeMap((res: TokenResponse) => {

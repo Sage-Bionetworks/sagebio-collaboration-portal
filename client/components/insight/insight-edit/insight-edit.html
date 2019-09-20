@@ -1,0 +1,41 @@
+<mat-card *ngIf="insight" class="app-insight-edit-card">
+    <mat-card-content>
+        <form class="app-insight-edit-card-form" [formGroup]="editForm" novalidate>
+            <mat-form-field class="app-insight-edit-form-field">
+                <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" required />
+                <mat-error *ngIf="editForm.controls.title.invalid">
+                    Please enter a valid name ({{ insightSpecs.title.minlength }}-{{ insightSpecs.title.maxlength }}
+                    characters).
+                </mat-error>
+            </mat-form-field>
+            <app-quill-editor
+                class="app-insight-edit-description-editor"
+                [isReadOnly]="false"
+                [showActions]="false"
+                placeholder="Insert description..."
+                [body]="editForm.controls['description']"
+            ></app-quill-editor>
+
+            <entity-attachment-list
+                [isReadOnly]="false"
+                [entity]="insight"
+                [entityService]="insightService"
+                [attachmentTypes]="attachmentTypes"
+            ></entity-attachment-list>
+
+            <mat-error *ngIf="errors.newInsight">
+                {{ errors.newInsight }}
+            </mat-error>
+            <div class="app-insight-edit-form-actions">
+                <a
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="editForm.invalid"
+                    (click)="!editForm.invalid && updateInsight()"
+                    >Update {{ insight.insightType }}</a
+                >
+                <a mat-button (click)="cancel.emit(null)">Cancel</a>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
