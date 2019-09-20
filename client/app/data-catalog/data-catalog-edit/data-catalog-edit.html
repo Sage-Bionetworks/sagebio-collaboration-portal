@@ -33,7 +33,7 @@
             <mat-form-field>
                 <mat-label>Visibility</mat-label>
                 <select matNativeControl formControlName="visibility" required>
-                    <option *ngFor="let option of dataCatalogSpecs.visibility.options" [value]="option.value">{{ option.name }}</option>
+                    <option *ngFor="let option of dataCatalogSpecs.visibility.options" [value]="option.value">{{ option.title }}</option>
                 </select>
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-edit-form-field">

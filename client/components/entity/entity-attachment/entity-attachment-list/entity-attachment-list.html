@@ -39,7 +39,7 @@
     <mat-form-field class="app-entity-attachment-form-attachment-type">
         <mat-label>Type</mat-label>
         <mat-select formControlName="attachmentType" required>
-            <mat-option *ngFor="let option of attachmentTypes" [value]="option.value">{{ option.name }}</mat-option>
+            <mat-option *ngFor="let option of attachmentTypes" [value]="option.value">{{ option.title }}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field class="app-entity-attachment-form-attachment">
