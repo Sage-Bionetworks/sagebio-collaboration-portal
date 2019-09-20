@@ -14,7 +14,7 @@ Personalized Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roch
 
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/)
-- [Node.js and npm](nodejs.org) Node >= 10.16.0, npm >= 6.9.0
+- [Node.js and npm](nodejs.org) Node >= 10.16.3, npm >= 6.11.2
 
 ### Developing
 
