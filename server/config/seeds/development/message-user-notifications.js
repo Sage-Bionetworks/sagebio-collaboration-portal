@@ -1,21 +1,23 @@
 import { adminUserId, testUserId } from './users';
-import { notificationTypes } from '../../environment/shared';
+import { userNotificationTypes } from '../../environment';
 
-let messageNotifications = [
+console.log('VALUE', userNotificationTypes.MESSAGE.value);
+
+let messageUserNotifications = [
     {
         user: adminUserId,
         archived: false,
-        notificationType: notificationTypes.MESSAGE_NOTIFICATION.value,
+        userNotificationType: 'Message',
         message: 'test message body',
         createdBy: testUserId,
     },
     {
         user: testUserId,
         archived: false,
-        notificationType: notificationTypes.MESSAGE_NOTIFICATION.value,
+        userNotificationType: 'Message',
         message: 'test message 2',
         createdBy: adminUserId,
     },
 ];
 
-export { messageNotifications };
+export { messageUserNotifications };

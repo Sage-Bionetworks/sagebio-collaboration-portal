@@ -63,15 +63,15 @@ export const entityTypes = {
     },
 };
 
-export const notificationTypes = {
-    ENTITY_ACCESS_NOTIFICATION: {
-        value: 'EntityAccessNotification',
+export const userNotificationTypes = {
+    ENTITY_ACCESS: {
+        value: 'EntityAccess',
     },
-    ENTITY_NOTIFICATION: {
-        value: 'EntityNotification',
+    ENTITY: {
+        value: 'Entity',
     },
-    MESSAGE_NOTIFICATION: {
-        value: 'MessageNotification',
+    MESSAGE: {
+        value: 'Message',
     },
 };
 
@@ -456,7 +456,7 @@ export default {
     models,
     accessTypes,
     entityTypes,
-    notificationTypes,
+    userNotificationTypes,
     insightTypes,
     resourceTypes,
     inviteStatusTypes,

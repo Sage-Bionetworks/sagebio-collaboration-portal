@@ -9,9 +9,9 @@ import Dashboard from '../api/resource/models/dashboard.model';
 import DataCatalog from '../api/data-catalog/data-catalog.model';
 import EntityPermission from '../api/entity-permission/entity-permission.model';
 import EntityAttachment from '../api/entity-attachment/entity-attachment.model';
-import MessageNotification from '../api/user-notification/models/message-notification.model';
-import EntityAccessNotification from '../api/user-notification/models/entity-access-notification.model';
-import EntityNotification from '../api/user-notification/models/entity-notification.model';
+import MessageUserNotification from '../api/user-notification/models/message-user-notification.model';
+import EntityAccessUserNotification from '../api/user-notification/models/entity-access-user-notification.model';
+import EntityUserNotification from '../api/user-notification/models/entity-user-notification.model';
 import Thread from '../api/thread/thread.model';
 import Memo from '../api/insight/models/memo.model';
 import Message from '../api/thread/message/message.model';
@@ -27,6 +27,8 @@ import WebApp from '../api/resource/models/webapp.model';
 import { createActivities } from '../api/provenance/provenance.controller';
 import config from './environment';
 import seeds from './seeds';
+
+console.log('MessageUserNotification', seeds.messageUserNotifications);
 
 var express = require('express');
 
@@ -100,40 +102,40 @@ export function seedDatabaseIfNeeded() {
         .catch(err => console.log('error populating entity attachments', err));
     promises.push(promise);
 
-    promise = MessageNotification.find({})
+    promise = MessageUserNotification.find({})
         .deleteMany()
         .then(() =>
-            (seeds.messageNotifications
-                ? MessageNotification.create(seeds.messageNotifications).then(() =>
-                    console.log('finished populating message notifications')
+            (seeds.messageUserNotifications
+                ? MessageUserNotification.create(seeds.messageUserNotifications).then(() =>
+                    console.log('finished populating message user notifications')
                 )
                 : null)
         )
-        .catch(err => console.log('error populating message notifications', err));
+        .catch(err => console.log('error populating message user notifications', err));
     promises.push(promise);
 
-    promise = EntityAccessNotification.find({})
+    promise = EntityAccessUserNotification.find({})
         .deleteMany()
         .then(() =>
-            (seeds.entityAccessNotifications
-                ? EntityAccessNotification.create(seeds.entityAccessNotifications).then(() =>
-                    console.log('finished populating entity access notifications')
+            (seeds.entityAccessUserNotifications
+                ? EntityAccessUserNotification.create(seeds.entityAccessUserNotifications).then(() =>
+                    console.log('finished populating entity access user notifications')
                 )
                 : null)
         )
-        .catch(err => console.log('error populating entity access notifications', err));
+        .catch(err => console.log('error populating entity access user notifications', err));
     promises.push(promise);
 
-    promise = EntityNotification.find({})
+    promise = EntityUserNotification.find({})
         .deleteMany()
         .then(() =>
-            (seeds.entityNotifications
-                ? EntityNotification.create(seeds.entityNotifications).then(() =>
-                    console.log('finished populating entity notifications')
+            (seeds.entityUserNotifications
+                ? EntityUserNotification.create(seeds.entityUserNotifications).then(() =>
+                    console.log('finished populating entity user notifications')
                 )
                 : null)
         )
-        .catch(err => console.log('error populating entity notifications', err));
+        .catch(err => console.log('error populating entity user notifications', err));
     promises.push(promise);
 
     promise = Thread.find({})

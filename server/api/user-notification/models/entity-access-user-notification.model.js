@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import UserNotification from './user-notification.model';
 
-var EntityAccessNotificationSchema = new mongoose.Schema({
+var EntityAccessUserNotificationSchema = new mongoose.Schema({
     entityPermissionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EntityPermission',
@@ -9,4 +9,4 @@ var EntityAccessNotificationSchema = new mongoose.Schema({
     },
 });
 
-export default UserNotification.discriminator('EntityAccessNotification', EntityAccessNotificationSchema);
+export default UserNotification.discriminator('EntityAccessUserNotification', EntityAccessUserNotificationSchema);

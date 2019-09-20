@@ -12,6 +12,6 @@ import { UserNotification } from './user-notification.model';
  *         _id:
  *           type: string
  */
-export interface EntityAccessNotification extends UserNotification {
+export interface EntityAccessUserNotification extends UserNotification {
     entityPermissionId: EntityPermission | string;
 }

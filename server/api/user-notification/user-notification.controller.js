@@ -1,9 +1,9 @@
 import UserNotification from './models/user-notification.model';
-import EntityAccessNotification from './models/entity-access-notification.model';
-import EntityNotification from './models/entity-notification.model';
-import MessageNotification from './models/message-notification.model';
+import EntityAccessUserNotification from './models/entity-access-user-notification.model';
+import EntityUserNotification from './models/entity-user-notification.model';
+import MessageUserNotification from './models/message-user-notification.model';
 import { respondWithResult, handleEntityNotFound, handleError } from '../util';
-import { notificationTypes } from '../../config/environment';
+import { userNotificationTypes } from '../../config/environment';
 
 // Returns the notifications of the user based given by req.query.notificationType
 export function index(req, res) {
@@ -51,12 +51,12 @@ export function archive(req, res) {
  */
 function getUserNotificationModel(notificationType) {
     switch (notificationType) {
-    case notificationTypes.ENTITY_ACCESS_NOTIFICATION.value:
-        return EntityAccessNotification;
-    case notificationTypes.ENTITY_NOTIFICATION.value:
-        return EntityNotification;
-    case notificationTypes.MESSAGE_NOTIFICATION.value:
-        return MessageNotification;
+    case userNotificationTypes.ENTITY_ACCESS_NOTIFICATION.value:
+        return EntityAccessUserNotification;
+    case userNotificationTypes.ENTITY_NOTIFICATION.value:
+        return EntityUserNotification;
+    case userNotificationTypes.MESSAGE_NOTIFICATION.value:
+        return MessageUserNotification;
     default:
         throw new Error(`Unknown user notification type: ${notificationType}`);
     }

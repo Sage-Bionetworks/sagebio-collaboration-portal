@@ -4,14 +4,12 @@ import { UserNotification } from './user-notification.model';
  * @swagger
  * components:
  *   schemas:
- *     EntityNotification:
+ *     MessageNotification:
  *       type: object
  *       properties:
  *         _id:
  *           type: string
  */
-export interface EntityNotification extends UserNotification {
-    entityId: string;
-    entityType: string;
-    message?: string;
+export interface MessageUserNotification extends UserNotification {
+    message: string;
 }

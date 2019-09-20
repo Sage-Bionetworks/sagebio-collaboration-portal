@@ -18,9 +18,9 @@ import { tools } from './tools';
 import { users } from './users';
 import { organizations } from './organizations';
 import { webapps } from './webapps';
-import { messageNotifications } from './message-notifications';
-import { entityAccessNotifications } from './entity-access-notifications';
-import { entityNotifications } from './entity-notifications';
+import { messageUserNotifications } from './message-user-notifications';
+import { entityAccessUserNotifications } from './entity-access-user-notifications';
+import { entityUserNotifications } from './entity-user-notifications';
 
 module.exports = {
     actionPermissions,
@@ -41,7 +41,7 @@ module.exports = {
     users,
     organizations,
     webapps,
-    messageNotifications,
-    entityAccessNotifications,
-    entityNotifications,
+    messageUserNotifications,
+    // entityAccessUserNotifications,
+    // entityUserNotifications,
 };

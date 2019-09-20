@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import UserNotification from './user-notification.model';
 import { entityTypes } from '../../../config/environment';
 
-var EntityNotificationSchema = new mongoose.Schema({
+var EntityUserNotificationSchema = new mongoose.Schema({
     entityId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -18,4 +18,4 @@ var EntityNotificationSchema = new mongoose.Schema({
     },
 });
 
-export default UserNotification.discriminator('EntityNotification', EntityNotificationSchema);
+export default UserNotification.discriminator('EntityUserNotification', EntityUserNotificationSchema);

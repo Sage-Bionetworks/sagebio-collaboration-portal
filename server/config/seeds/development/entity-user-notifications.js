@@ -1,12 +1,12 @@
 import { report2Id, report3Id } from './reports';
 import { adminUserId, testUserId } from './users';
-import { notificationTypes, entityTypes } from '../../environment/shared';
+import { userNotificationTypes, entityTypes } from '../../environment';
 
-let entityNotifications = [
+let entityUserNotifications = [
     {
         user: testUserId,
         archived: false,
-        notificationType: notificationTypes.ENTITY_NOTIFICATION.value,
+        userNotificationType: userNotificationTypes.ENTITY.value,
         entityId: report2Id,
         entityType: entityTypes.INSIGHT.value,
         createdBy: adminUserId,
@@ -14,11 +14,11 @@ let entityNotifications = [
     {
         user: adminUserId,
         archived: false,
-        notificationType: notificationTypes.ENTITY_NOTIFICATION.value,
+        userNotificationType: userNotificationTypes.ENTITY.value,
         entityId: report3Id,
         entityType: entityTypes.INSIGHT.value,
         createdBy: testUserId,
     },
 ];
 
-export { entityNotifications };
+export { entityUserNotifications };

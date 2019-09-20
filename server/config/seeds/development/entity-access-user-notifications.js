@@ -2,11 +2,11 @@
 // import { adminUserId, testUserId } from './users';
 // import { memo1Id } from './memos';
 // import { report1Id } from './reports';
-// import { notificationTypes, entityTypes } from '../../environment/shared';
+// import { notificationTypes, entityTypes } from '../../environment';
 
-let entityAccessNotifications = [
+let entityAccessUserNotifications = [
     // {
-    //     notificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
+    //     userNotificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
     //     user: adminUserId,
     //     createdBy: testUserId,
     //     archived: false,
@@ -15,7 +15,7 @@ let entityAccessNotifications = [
     //     entityPermissionId: entityPermissionInsightTypeId,
     // },
     // {
-    //     notificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
+    //     userNotificationType: notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
     //     user: testUserId,
     //     createdBy: adminUserId,
     //     archived: false,
@@ -25,4 +25,4 @@ let entityAccessNotifications = [
     // },
 ];
 
-export { entityAccessNotifications };
+export { entityAccessUserNotifications };

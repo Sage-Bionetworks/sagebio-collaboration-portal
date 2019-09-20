@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import { registerEvents } from '../user-notification.events';
 import User from '../../user/user.model';
-import config from '../../../config/environment';
+import { userNotificationTypes } from '../../../config/environment';
 
 const options = {
-    discriminatorKey: 'notificationType',
+    discriminatorKey: 'userNotificationType',
     collection: 'user-notifications',
 };
 
@@ -19,9 +19,9 @@ var UserNotificationSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        notificationType: {
+        userNotificationType: {
             type: String,
-            enum: Object.values(config.notificationTypes).map(notification => notification.value),
+            enum: Object.values(userNotificationTypes).map(notification => notification.value),
             required: true,
         },
         createdAt: {
