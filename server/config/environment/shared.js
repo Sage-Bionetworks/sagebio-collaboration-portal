@@ -125,7 +125,7 @@ export const resourceTypes = {
 // ];
 
 export const activityTypes = {
-    RESOURCEGENERATION: {
+    RESOURCEGENERATION: { // TODO REPORT_GENERATION
         value: 'ResourceGeneration',
         name: 'Resouce generation',
     },

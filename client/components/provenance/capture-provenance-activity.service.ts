@@ -26,7 +26,7 @@ export class CaptureProvenanceActivityService {
                 role: this.currentUser.role,
             }],
             description: '',
-            class: 'Report generation',
+            class: 'Report generation', // TODO set from generatedSubClass
             generated: [{
                 name: generatedName,
                 role: '',
