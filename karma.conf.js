@@ -38,14 +38,18 @@ module.exports = function (config) {
 
         coverageReporter: {
             reporters: [
-                {
-                    type: 'html', //produces a html document after code is run
-                    subdir: 'client',
-                },
+                // {
+                //     type: 'html', //produces a html document after code is run
+                //     subdir: 'client',
+                // },
                 {
                     type: 'json',
                     subdir: '.',
                     file: 'client-coverage.json',
+                },
+                {
+                    type: 'lcov',
+                    subdir: 'client',
                 },
             ],
             dir: 'coverage/', //path to created html doc
