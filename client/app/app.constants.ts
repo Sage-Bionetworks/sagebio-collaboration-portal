@@ -23,26 +23,6 @@ let config = {
         return activityType;
     }),
 
-    // activityTypeFilters: [
-    //     {
-    //         value: 'ReportGeneration',
-    //         title: 'Report generation',
-    //         active: true,
-    //     },
-    //     {
-    //         value: 'Memorization',
-    //         title: 'Memorization',
-    //     },
-    //     {
-    //         value: 'Mention',
-    //         title: 'Mention',
-    //     },
-    //     {
-    //         value: 'ToolSession',
-    //         title: 'Tool session',
-    //     },
-    // ],
-
     activityDirectionFilters: [
         {
             value: 'down',
