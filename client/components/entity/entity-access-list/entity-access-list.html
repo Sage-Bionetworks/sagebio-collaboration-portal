@@ -17,7 +17,7 @@
 
                 <mat-select class="app-entity-access-list-access" [disabled]="freezePermission(perm)" [(ngModel)]="perm.access" (selectionChange)="changeCollaboratorAccess($event, perm)">
                     <mat-option *ngFor="let accessType of accessTypes" [value]="accessType.value" [disabled]="disabled">
-                        {{ accessType.name }}
+                        {{ accessType.title }}
                     </mat-option>
                 </mat-select>
                 <div class="app-entity-access-list-remove">

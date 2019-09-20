@@ -35,31 +35,31 @@ export const actionPermissionTypes = {
 export const entityTypes = {
     APP: {
         value: 'App',
-        name: 'App',
+        title: 'App',
     },
     PROJECT: {
         value: 'Project',
-        name: 'Project',
+        title: 'Project',
     },
     DATA_CATALOG: {
         value: 'DataCatalog',
-        name: 'Data Catalog',
+        title: 'Data Catalog',
     },
     INSIGHT: {
         value: 'Insight',
-        name: 'Insight',
+        title: 'Insight',
     },
     RESOURCE: {
         value: 'Resource',
-        name: 'Resource',
+        title: 'Resource',
     },
     TOOL: {
         value: 'Tool',
-        name: 'Tool',
+        title: 'Tool',
     },
     ORGANIZATION: {
         value: 'Organization',
-        name: 'Organization',
+        title: 'Organization',
     },
 };
 
@@ -78,66 +78,66 @@ export const notificationTypes = {
 export const insightTypes = {
     REPORT: {
         value: 'Report',
-        name: 'Report',
+        title: 'Report',
     },
     MEMO: {
         value: 'Memo',
-        name: 'Memo',
+        title: 'Memo',
     },
 };
 
 export const resourceTypes = {
     ARTICLE: {
         value: 'Article',
-        name: 'Article',
+        title: 'Article',
     },
     DASHBOARD: {
         value: 'Dashboard',
-        name: 'Dashboard',
+        title: 'Dashboard',
     },
     STATE: {
         value: 'State',
-        name: 'State',
+        title: 'State',
     },
     WEBAPP: {
         value: 'WebApp',
-        name: 'WebApp',
+        title: 'WebApp',
     },
 };
 
 export const activityTypes = {
     REPORT_CREATION: {
         value: 'ReportCreation',
-        name: 'Report Creation',
+        title: 'Report Creation',
     },
     MEMO_CREATION: {
         value: 'MemoCreation',
-        name: 'Memo Creation',
+        title: 'Memo Creation',
     },
     MENTION: {
         value: 'Mention',
-        name: 'Mention',
+        title: 'Mention',
     },
     STATE_CREATION: {
         value: 'StateCreation',
-        name: 'State Creation',
+        title: 'State Creation',
     },
 };
 
 export const accessTypes = {
     READ: {
         value: 'Read',
-        name: 'Read',
+        title: 'Read',
         description: 'Can read and download.',
     },
     WRITE: {
         value: 'Write',
-        name: 'Write',
+        title: 'Write',
         description: 'Can read, download, and write.',
     },
     ADMIN: {
         value: 'Admin',
-        name: 'Admin',
+        title: 'Admin',
         description: 'Can read, download, write, and admin.',
     },
 };
@@ -145,22 +145,22 @@ export const accessTypes = {
 export const inviteStatusTypes = {
     PENDING: {
         value: 'Pending',
-        name: 'Pending',
+        title: 'Pending',
     },
     ACCEPTED: {
         value: 'Accepted',
-        name: 'Accepted',
+        title: 'Accepted',
     },
     DECLINED: {
         value: 'Declined',
-        name: 'Declined',
+        title: 'Declined',
     },
 };
 
 export const dataCatalogApiTypes = {
     CKAN: {
         value: 'Ckan',
-        name: 'CKAN',
+        title: 'CKAN',
     },
 };
 
@@ -174,30 +174,30 @@ export const ckanApiBaseUrl = 'https://ckan.phc.sagesandbox.org/api/3';
 export const defaultTools = [
     {
         value: '5cb6a048e7bdc7740874fd93',
-        name: 'Facile Explorer',
+        title: 'Facile Explorer',
     },
     {
         value: '5cb6a048e7bdc7740874fd95',
-        name: 'IRIS Enterprise Explorer',
+        title: 'IRIS Enterprise Explorer',
     },
     {
         value: '5cb6a048e7bdc7740874fd98',
-        name: 'PHC Advanced Analytics',
+        title: 'PHC Advanced Analytics',
     },
     {
         value: '5cb7acb3167e4f14b29dfb1b',
-        name: 'PHCCP Shiny Tool Example',
+        title: 'PHCCP Shiny Tool Example',
     },
 ];
 
 export const entityVisibility = {
     PUBLIC: {
         value: 'Public',
-        name: 'Public',
+        title: 'Public',
     },
     PRIVATE: {
         value: 'Private',
-        name: 'Private',
+        title: 'Private',
     },
 };
 
@@ -408,18 +408,6 @@ export const datasetOrders = {
     },
 };
 
-export const insightTypeFilters = [
-    {
-        value: insightTypes.REPORT.value,
-        title: insightTypes.REPORT.name,
-        active: true,
-    },
-    {
-        value: insightTypes.MEMO.value,
-        title: insightTypes.MEMO.name,
-    },
-];
-
 export default {
     env,
     port,
@@ -442,5 +430,4 @@ export default {
     activityTypes,
 
     datasetOrders,
-    insightTypeFilters,
 };

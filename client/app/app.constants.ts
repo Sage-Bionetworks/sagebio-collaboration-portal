@@ -1,8 +1,6 @@
 import { merge } from 'lodash/fp';
 import shared from '../../server/config/environment/shared';
 
-console.log('shared', shared);
-
 let config = {
     avatar: {
         size: {
@@ -23,39 +21,19 @@ let config = {
         return activityType;
     }),
 
-    activityDirectionFilters: [
-        {
-            value: 'down',
-            title: 'Down',
-            active: true,
-        },
-        {
-            value: 'up',
-            title: 'Up',
-        },
-    ],
+    resourceTypeFilters: Object.values(shared.resourceTypes).map((resourceType: any) => {
+        if (resourceType.value === shared.resourceTypes.DASHBOARD.value) {
+            resourceType.active = true;
+        }
+        return resourceType;
+    }),
 
-    resourceTypeFilters: [
-        {
-            value: 'Dashboard',
-            title: 'Dashboard',
-            active: true,
-        },
-        {
-            value: 'State',
-            title: 'State',
-        },
-        {
-            value: 'WebApp',
-            title: 'WebApp',
-        },
-        {
-            value: 'Article',
-            title: 'Article',
-        },
-    ],
+    insightTypeFilters: Object.values(shared.insightTypes).map((insightType: any) => {
+        if (insightType.value === shared.insightTypes.REPORT.value) {
+            insightType.active = true;
+        }
+        return insightType;
+    }),
 };
-
-console.log('app config', config.activityTypeFilters);
 
 export default merge(config, shared);
