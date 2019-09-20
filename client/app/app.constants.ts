@@ -1,7 +1,7 @@
 import { merge } from 'lodash/fp';
 import shared from '../../server/config/environment/shared';
 
-var config = {
+let config = {
     avatar: {
         size: {
             nano: 26,
@@ -14,57 +14,26 @@ var config = {
         showDelay: 0,
     },
 
-    activityTypeFilters: [
-        {
-            value: 'ReportGeneration',
-            title: 'Report generation',
-            active: true,
-        },
-        {
-            value: 'Memoization',
-            title: 'Memoization',
-        },
-        {
-            value: 'Mention',
-            title: 'Mention',
-        },
-        {
-            value: 'ToolSession',
-            title: 'Tool session',
-        },
-    ],
+    activityTypeFilters: Object.values(shared.activityTypes).map((activityType: any) => {
+        if (activityType.value === shared.activityTypes.REPORT_CREATION.value) {
+            activityType.active = true;
+        }
+        return activityType;
+    }),
 
-    activityDirectionFilters: [
-        {
-            value: 'down',
-            title: 'Down',
-            active: true,
-        },
-        {
-            value: 'up',
-            title: 'Up',
-        },
-    ],
+    resourceTypeFilters: Object.values(shared.resourceTypes).map((resourceType: any) => {
+        if (resourceType.value === shared.resourceTypes.DASHBOARD.value) {
+            resourceType.active = true;
+        }
+        return resourceType;
+    }),
 
-    resourceTypeFilters: [
-        {
-            value: 'Dashboard',
-            title: 'Dashboard',
-            active: true,
-        },
-        {
-            value: 'State',
-            title: 'State',
-        },
-        {
-            value: 'WebApp',
-            title: 'WebApp',
-        },
-        {
-            value: 'Article',
-            title: 'Article',
-        },
-    ],
+    insightTypeFilters: Object.values(shared.insightTypes).map((insightType: any) => {
+        if (insightType.value === shared.insightTypes.REPORT.value) {
+            insightType.active = true;
+        }
+        return insightType;
+    }),
 };
 
 export default merge(config, shared);

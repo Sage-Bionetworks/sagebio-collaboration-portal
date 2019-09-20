@@ -26,6 +26,7 @@ export class ProjectResourcesComponent implements OnInit, OnDestroy {
         private projectHeaderService: ProjectHeaderService
     ) {
         this.resourceTypeFilters = config.resourceTypeFilters;
+        console.log('HERE', this.resourceTypeFilters);
     }
 
     ngOnInit() {

@@ -36,7 +36,17 @@ export class ActivitySidenavComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
-        this.activityDirectionFilters = values(config.activityDirectionFilters);
+        this.activityDirectionFilters = [
+            {
+                value: 'down',
+                title: 'Down',
+                active: true,
+            },
+            {
+                value: 'up',
+                title: 'Up',
+            },
+        ];
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
     }
 
