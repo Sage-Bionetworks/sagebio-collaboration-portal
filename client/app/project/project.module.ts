@@ -20,6 +20,7 @@ import { ResourcePageComponent } from 'components/resource/resource-page/resourc
 import { ResourceModule } from 'components/resource/resource.module';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
+// import { ToolService } from './../tool/tool.service';
 
 import { ProjectComponent } from './project.component';
 import { ProjectActivityComponent } from './project-activity/project-activity.component';
@@ -29,10 +30,10 @@ import { ProjectHeaderComponent } from './project-header/project-header.componen
 import { ProjectHomeComponent } from './project-home/project-home.component';
 import { ProjectInsightNewComponent } from './project-insight-new/project-insight-new.component';
 import { ProjectListComponent } from './project-list/project-list.component';
-import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDiscussionComponent } from './project-discussion/project-discussion.component';
 import { ProjectInsightsComponent } from './project-insights/project-insights.component';
 import { ProjectResourcesComponent } from './project-resources/project-resources.component';
+import { ProjectResourceNewComponent } from './project-resource-new/project-resource-new.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { ProjectSidenavComponent } from './project-sidenav/project-sidenav.component';
 import { ProjectService } from './project.service';
@@ -42,6 +43,8 @@ import { ProjectSidenavService } from './project-sidenav/project-sidenav.service
 import { ProjectGuard } from './project-guard.service';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
+import { ShareModule } from 'components/share/share.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export const ROUTES: Routes = [
     {
@@ -65,6 +68,7 @@ export const ROUTES: Routes = [
             { path: 'insights/new', component: ProjectInsightNewComponent },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
+            { path: 'resources/new', component: ProjectResourceNewComponent },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
@@ -91,9 +95,12 @@ export const ROUTES: Routes = [
         ProvenanceModule,
         FiltersModule,
         DirectivesModule,
+        ShareModule,
+        ClipboardModule,
     ],
     providers: [
         SocketService,
+        // ToolService,
         ProjectService,
         ProjectDataService,
         ProjectHeaderService,
@@ -111,10 +118,10 @@ export const ROUTES: Routes = [
         ProjectHomeComponent,
         ProjectInsightNewComponent,
         ProjectListComponent,
-        ProjectViewComponent,
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
+        ProjectResourceNewComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,
     ],

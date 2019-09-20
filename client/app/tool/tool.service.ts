@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
@@ -10,6 +10,7 @@ import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/a
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { Patch } from 'models/patch.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ToolService implements EntityService<Tool> {
@@ -43,8 +44,45 @@ export class ToolService implements EntityService<Tool> {
     makePublic(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
     }
+
     makePrivate(entity: Tool): Observable<Tool> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<Tool>> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<QueryListResponse<Tool>>(`/api/tools?searchTerms=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+
+    getAttachments(entity: Tool): Observable<EntityAttachment[]> {
+        throw new Error('Method not implemented.');
+    }
+
+    createAttachments(tool: Tool, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/tools/${tool._id}/attachments`, attachments);
+    }
+
+    removeAttachment(entity: Tool, attachment: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
+    }
+
+    // MODEL FUNCTIONS
+
+    getEntitySubType(tool: Tool): string {
+        return null;
+    }
+
+    getRouterLink(tool: Tool): string[] {
+        return ['/tools', tool._id];
     }
 
     // FUNCTIONS TO REVIEW

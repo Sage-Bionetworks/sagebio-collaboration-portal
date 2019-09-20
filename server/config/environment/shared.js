@@ -25,29 +25,54 @@ export const actionPermissionTypes = {
         value: 'CreateTool',
     },
     CREATE_ORGANIZATION: {
-        value: 'CreateOrganization'
+        value: 'CreateOrganization',
     },
     CREATE_USER: {
-        value: 'CreateUser'
-    }
+        value: 'CreateUser',
+    },
 };
 
 export const entityTypes = {
     APP: {
         value: 'App',
+        name: 'App',
     },
     PROJECT: {
         value: 'Project',
+        name: 'Project',
     },
     DATA_CATALOG: {
         value: 'DataCatalog',
+        name: 'Data Catalog',
+    },
+    INSIGHT: {
+        value: 'Insight',
+        name: 'Insight',
+    },
+    RESOURCE: {
+        value: 'Resource',
+        name: 'Resource',
     },
     TOOL: {
         value: 'Tool',
+        name: 'Tool',
     },
     ORGANIZATION: {
-        value: 'Organization'
-    }
+        value: 'Organization',
+        name: 'Organization',
+    },
+};
+
+export const notificationTypes = {
+    ENTITY_ACCESS_NOTIFICATION: {
+        value: 'EntityAccessNotification',
+    },
+    ENTITY_NOTIFICATION: {
+        value: 'EntityNotification',
+    },
+    MESSAGE_NOTIFICATION: {
+        value: 'MessageNotification',
+    },
 };
 
 export const insightTypes = {
@@ -79,22 +104,23 @@ export const resourceTypes = {
         name: 'WebApp',
     },
 };
+
 export const activityTypes = {
-    RESOURCEGENERATION: {
-        value: 'Resource generation',
-        name: 'Resouce generation',
+    REPORT_CREATION: {
+        value: 'ReportCreation',
+        name: 'Report Creation',
     },
-    MEMOIZATION: {
-        value: 'Memoization',
-        name: 'Memoization',
+    MEMO_CREATION: {
+        value: 'MemoCreation',
+        name: 'Memo Creation',
     },
     MENTION: {
         value: 'Mention',
         name: 'Mention',
     },
-    TOOLSESSION: {
-        value: 'Tool session',
-        name: 'Tool session',
+    STATE_CREATION: {
+        value: 'StateCreation',
+        name: 'State Creation',
     },
 };
 
@@ -248,13 +274,22 @@ export const models = {
             default: entityVisibility.PUBLIC, // entityVisibility.PRIVATE
         },
     },
+    share: {
+        invitedUsers: {
+            minlength: 1,
+        },
+        comment: {
+            minlength: 1,
+            maxlength: 1024,
+        },
+    },
     resource: {
         title: {
             minlength: 3,
             maxlength: 128,
         },
         description: {
-            minlength: 26, // 1 character when stringifying Quill content
+            minlength: 3, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         picture: {
@@ -279,7 +314,7 @@ export const models = {
             maxlength: 128,
         },
         description: {
-            minlength: 26, // 1 character when stringifying Quill content
+            minlength: 3, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
         },
         picture: {
@@ -398,12 +433,14 @@ export default {
     models,
     accessTypes,
     entityTypes,
+    notificationTypes,
     insightTypes,
     resourceTypes,
     inviteStatusTypes,
     entityVisibility,
     dataCatalogApiTypes,
+    activityTypes,
 
     datasetOrders,
-    insightTypeFilters
+    insightTypeFilters,
 };

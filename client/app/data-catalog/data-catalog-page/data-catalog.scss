@@ -63,19 +63,29 @@
   margin-top: 0px;
 }
 
-// .data-catalog-description {
-//   padding-top: 20px;
-// }
+:host ::ng-deep .app-share-button {
+  margin: 0;
+  margin-bottom: 10px;
+  width: 100%;
 
-.data-catalog-actions {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  padding: 25px 10px;
-  margin-left: 30px;
+  .mat-button-wrapper {
+    display: block;
+  }
 }
 
-.data-catalog-actions > button,
-a {
-  margin-bottom: 10px;
+.app-data-catalog-button-actions {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 30px;
+}
+
+.app-data-catalog-button-actions > button, a {
+    margin-bottom: 10px;
+  }
+
+.app-data-catalog-icon-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 30px;
+    justify-content: flex-end;
 }

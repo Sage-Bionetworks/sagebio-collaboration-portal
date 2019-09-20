@@ -26,6 +26,7 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
     private project: Observable<Project>;
     private userProjectPermission: UserEntityPermission = DEFAULT_USER_PERMISSION;
     private showEditProjectTemplate = false;
+    private entityType = config.entityTypes.PROJECT.value
 
     private form: FormGroup;
 
@@ -85,5 +86,9 @@ export class ProjectHomeComponent implements OnInit, OnDestroy {
         // console.log('onEditProject not yet implemented');
         // this.tool = { ...this.tool, ... omit(tool, 'organization')};
         this.notificationService.info('The Project has been successfully updated');
+    }
+
+    getLink(): string {
+        return window.location.href;
     }
 }

@@ -10,17 +10,24 @@ export interface Activity {
     description: string;
 }
 
+export enum ActivityClass {
+    RESOURCE_GENERATION = 'ResourceGeneration',
+    MEMOIZATION = 'Memoization',
+    MENTION = 'Mention',
+    TOOL_SESSION = 'ToolSession'
+}
+
 /**
  * @swagger
  * components:
  *   schemas:
- *     ActivityClass:
+ *     ReferenceClass:
  *       type: string
  *       enum:
  *         - Insight
  *         - Resource
  */
-export enum ActivityClass {
+export enum ReferenceClass {
     INSIGHT = 'Insight',
     RESOURCE = 'Resource'
 }

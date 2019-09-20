@@ -19,14 +19,17 @@ addons:
     packages:
     - g++-4.8
 
+install:
+  - npm install -g codecov
+
 before_script:
   - npm install -g gulp-cli
 
 script:
   - npm test || travis_terminate 1;
 
-# after_success:
-#   - coveralls
+after_success:
+  - codecov --token=${CODECOV_TOKEN}
 
 deploy:
   - provider: script

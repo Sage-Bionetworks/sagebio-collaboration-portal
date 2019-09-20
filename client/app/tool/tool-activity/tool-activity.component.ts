@@ -19,6 +19,7 @@ export class ToolActivityComponent implements OnInit {
     @ViewChild(ProvenanceGraphComponent, { static: false }) provenanceGraph: ProvenanceGraphComponent;
 
     private tool: Tool;
+    private root: Tool;
     private provenanceGraphData: any;
     private activityTypeFilters = config.activityTypeFilters;
     private showNewActivityForm = false;
@@ -29,25 +30,29 @@ export class ToolActivityComponent implements OnInit {
         private notificationService: NotificationService) { }
 
     ngOnInit() {
-        // this.toolDataService.tool()
-        //     .subscribe(tool => {
-        //         this.tool = tool;
-        //         const selectedFilter = config.activityTypeFilters.find(filter => filter.active);
-        //         const defaultQuery = { activityType: selectedFilter.value };
-        //         this.onFilterChange(defaultQuery);
-        //     }, err => console.error(err));
+        this.toolDataService.tool()
+            .subscribe(tool => {
+                this.provenanceService.getProvenanceGraphByReference(tool._id, 'down', 'created_at', 'desc', 3)
+                .subscribe(activity => {
+                    this.provenanceGraphData = activity;
+                    this.root = tool;
+                });
+                this.tool = tool;
+            }, err => console.error(err));
+
     }
 
-    onFilterChange(query) {
-        if (this.tool) {
-            // this.provenanceService.getProvenanceGraph('created_at', 'desc', 10)
-            //     .subscribe(activity => {
-            //         this.provenanceGraphData = activity;
-            //     }, err => {
-            //         console.log(err);
-            //     });
-        }
-    }
+    // onFilterChange(query) {
+    //     if (this.tool) {
+    //         // this.provenanceService.getProvenanceGraph('created_at', 'desc', 10)
+    //         //     .subscribe(activity => {
+    //         //         this.provenanceGraphData = activity;
+    //         //     }, err => {
+    //         //         console.log(err);
+    //         //     });
+
+    //     }
+    // }
 
     onNewActivity(activity: Activity): void {
         // this.showNewActivityForm = false;
@@ -55,9 +60,9 @@ export class ToolActivityComponent implements OnInit {
     }
 
     onResized(event: ResizedEvent) {
-        // if (this.provenanceGraph && event) {
-        //     let newHeight = Math.max(Math.min(400, event.newHeight), (9 / 16) * event.newWidth);
-        //     this.provenanceGraph.setDimentions(event.newWidth, newHeight);
-        // }
+        if (this.provenanceGraph && event) {
+            let newHeight = Math.max(Math.min(400, event.newHeight), (9 / 16) * event.newWidth);
+            this.provenanceGraph.setDimentions(event.newWidth, newHeight);
+        }
     }
 }

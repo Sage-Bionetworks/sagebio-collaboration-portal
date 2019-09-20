@@ -12,6 +12,48 @@
                       <span>{{ tool.organization.name }}</span>
                   </div> -->
                 </div>
+                <div class="project-actions">
+                        <div class="app-data-catalog-icon-actions">
+                                <share-button [entity]="project_" [entityType]="entityType"></share-button>
+                                <a
+                                    mat-icon-button
+                                    [matMenuTriggerFor]="moreActionsMenu"
+                                    matTooltip="More actions"
+                                    aria-label="More actions"
+                                >
+                                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                                </a>
+                                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                                    <button
+                                        ngxClipboard
+                                        [cbContent]="getLink()"
+                                        (cbOnSuccess)="notificationService.info('Link copied')"
+                                        (cbOnError)="notificationService.info('Unable to copy the link.')"
+                                        mat-menu-item
+                                        aria-label="Copy link"
+                                    >
+                                        <span>Copy Link</span>
+                                    </button>
+                                    <mat-divider></mat-divider>
+                                    <button
+                                        mat-menu-item
+                                        [attr.aria-label]="'Edit'"
+                                        *ngIf="userProjectPermission.canAdmin"
+                                        (click)="showEditProjectTemplate=true"
+                                    >
+                                        <span>Edit</span>
+                                    </button>
+                                    <button
+                                        mat-menu-item
+                                        [attr.aria-label]="'Delete'"
+                                        disabled
+                                    >
+                                        <span class="app-data-catalog-actions-delete-btn-label">Delete</span>
+                                    </button>
+                                </mat-menu>
+                        </div>
+                    <!-- <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a> -->
+                </div>
             </div>
 
             <div class="app-project-card-box">
@@ -19,9 +61,6 @@
                 <app-quill-editor [isReadOnly]="true" [showActions]="false" [body]="form.controls['description']"></app-quill-editor>
             </div>
 
-            <div class="project-actions">
-                <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a>
-            </div>
         </mat-card>
     </div>
 </div>

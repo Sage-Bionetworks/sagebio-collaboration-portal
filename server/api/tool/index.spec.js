@@ -9,14 +9,12 @@ var toolCtrlStub = {
     index: 'toolCtrl.index',
     show: 'toolCtrl.show',
     create: 'toolCtrl.create',
-    upsert: 'toolCtrl.upsert',
     patch: 'toolCtrl.patch',
     destroy: 'toolCtrl.destroy'
 };
 
 var routerStub = {
     get: sinon.spy(),
-    put: sinon.spy(),
     patch: sinon.spy(),
     post: sinon.spy(),
     delete: sinon.spy()
@@ -42,7 +40,7 @@ describe('Tool API Router:', function () {
     describe('GET /api/tools', function () {
         it('should route to tool.controller.index', function () {
             expect(routerStub.get
-                .withArgs('/', 'authService.isAuthenticated', 'toolCtrl.index')
+                .withArgs('/', authServiceStub.isAuthenticated(), toolCtrlStub.index)
             ).to.have.been.calledOnce;
         });
     });
@@ -50,7 +48,7 @@ describe('Tool API Router:', function () {
     describe('GET /api/tools/:id', function () {
         it('should route to tool.controller.show', function () {
             expect(routerStub.get
-                .withArgs('/:id', 'toolAuth.canReadTool', 'toolCtrl.show')
+                .withArgs('/:id', toolAuthStub.canReadTool(), toolCtrlStub.show)
             ).to.have.been.calledOnce;
         });
     });
@@ -58,7 +56,7 @@ describe('Tool API Router:', function () {
     describe('POST /api/tools', function () {
         it('should route to tool.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', 'toolAuth.canCreateTool', 'toolCtrl.create')
+                .withArgs('/', toolAuthStub.canCreateTool(), toolCtrlStub.create)
             ).to.have.been.calledOnce;
         });
     });
@@ -66,7 +64,7 @@ describe('Tool API Router:', function () {
     describe('PATCH /api/tools/:id', function () {
         it('should route to tool.controller.patch', function () {
             expect(routerStub.patch
-                .withArgs('/:id', 'toolAuth.canEditTool', 'toolCtrl.patch')
+                .withArgs('/:id', toolAuthStub.canEditTool(), toolCtrlStub.patch)
             ).to.have.been.calledOnce;
         });
     });
@@ -74,7 +72,7 @@ describe('Tool API Router:', function () {
     describe('DELETE /api/tools/:id', function () {
         it('should route to tool.controller.destroy', function () {
             expect(routerStub.delete
-                .withArgs('/:id', 'toolAuth.canDeleteTool', 'toolCtrl.destroy')
+                .withArgs('/:id', toolAuthStub.canDeleteTool(), toolCtrlStub.destroy)
             ).to.have.been.calledOnce;
         });
     });

@@ -10,6 +10,7 @@ import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/se
 import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/activity-sidenav.component';
 import { EntityService } from 'components/entity/entity.service';
 import { Patch } from 'models/patch.model';
+import { EntityAttachment } from 'models/entities/entity-attachment.model';
 
 @Injectable()
 export class ResourceService implements EntityService<Resource> {
@@ -43,8 +44,45 @@ export class ResourceService implements EntityService<Resource> {
     makePublic(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
     }
+
     makePrivate(entity: Resource): Observable<Resource> {
         throw new Error('Method not implemented.');
+    }
+
+    searchByTerms(terms: Observable<string>): Observable<QueryListResponse<Resource>> {
+        return terms.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            switchMap(term => {
+                if (term) {
+                    return this.httpClient.get<QueryListResponse<Resource>>(`/api/resources?searchTerms=${term}`);
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+
+    getAttachments(entity: Resource): Observable<EntityAttachment[]> {
+        throw new Error('Method not implemented.');
+    }
+
+    createAttachments(resource: Resource, attachments: EntityAttachment[]): Observable<EntityAttachment[]> {
+        return this.httpClient.post<EntityAttachment[]>(`/api/resources/${resource._id}/attachments`, attachments);
+    }
+
+    removeAttachment(entity: Resource, attachment: EntityAttachment): Observable<EntityAttachment> {
+        throw new Error('Method not implemented.');
+    }
+
+    // MODEL FUNCTIONS
+
+    getEntitySubType(resource: Resource): string {
+        return resource.resourceType;
+    }
+
+    getRouterLink(resource: Resource): string[] {
+        return ['/projects', resource.projectId, 'resources', resource._id];
     }
 
     // FUNCTIONS TO REVIEW

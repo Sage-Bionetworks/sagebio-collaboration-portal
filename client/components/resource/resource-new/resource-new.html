@@ -14,15 +14,21 @@
             </mat-form-field>
             <mat-form-field class="app-resource-new-form-field">
                 <input matInput placeholder="URL" formControlName="url" [errorStateMatcher]="matcher" required>
-                <mat-error *ngIf="newForm.controls.url.invalid">
-                    Please enter a valid URL ({{ resourceSpecs.url.minlength }}-{{ resourceSpecs.url.maxlength }} characters).
+                <mat-error class="app-error-message" *ngIf="newForm.controls.url.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.url.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="newForm.controls.url.invalid">
+                    Please enter a valid URL.
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Type</mat-label>
-                <select matNativeControl formControlName="resourceType" required>
-                    <option *ngFor="let value of resourceSpecs.type.values" [value]="value">{{ value }}</option>
-                </select>
+                <mat-select formControlName="resourceType" required>
+                    <mat-option *ngFor="let option of resourceSpecs.type.options" [value]="option.value">{{ option.name }}</mat-option>
+                </mat-select>
             </mat-form-field>
             <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('resourceType').value === 'State'">
                 <mat-label>Tool</mat-label>
@@ -39,7 +45,7 @@
             </mat-error>
             <div class="app-resource-new-form-actions">
                 <a mat-raised-button color="primary" [disabled]="newForm.invalid" (click)="!newForm.invalid && createNewResource()">Add New Resource</a>
-                <a mat-button (click)="close.emit(null)">Cancel</a>
+                <a mat-button (click)="cancel.emit(null)">Cancel</a>
             </div>
         </form>
     </mat-card-content>

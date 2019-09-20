@@ -1,9 +1,7 @@
-import {
-    async,
-    ComponentFixture,
-    inject,
-    TestBed,
-} from '@angular/core/testing';
+import { MaterialModule } from './../../components/material/material.module';
+/* tslint:disable no-unused-expression */
+
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { expect } from 'chai';
 import { FormsModule } from '@angular/forms';
@@ -12,39 +10,42 @@ import { SocketServiceStub } from 'components/socket/socket.mock';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { PageTitleServiceStub } from 'components/page-title/page-title.mock';
 import { MainComponent } from './main.component';
+import { SocketServiceMock } from '../../components/socket/socket.service.mock';
+import { AuthServiceMock } from './../../components/auth/auth.service.mock';
+import { AuthService } from '../../components/auth/auth.service';
 
-describe('Component: MainComponent', function() {
-    let comp: MainComponent;
+describe('Component: MainComponent', function () {
+    let component: MainComponent;
     let fixture: ComponentFixture<MainComponent>;
-    let httpTestingController: HttpTestingController;
+    // let httpTestingController: HttpTestingController;
     // const mockThings = ['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express'];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                FormsModule,
-                HttpClientTestingModule,
-            ],
-            declarations: [ MainComponent ], // declare the test component
+            imports: [MaterialModule], // FormsModule, HttpClientTestingModule
+            declarations: [MainComponent],
             providers: [
-                { provide: SocketService, useClass: SocketServiceStub },
-                { provide: PageTitleService, useClass: PageTitleServiceStub }
+                { provide: AuthService, useClass: AuthServiceMock },
+                { provide: PageTitleService, useClass: PageTitleServiceStub },
             ],
         }).compileComponents();
 
-        httpTestingController = TestBed.get(HttpTestingController);
+        // httpTestingController = TestBed.get(HttpTestingController);
     }));
 
     beforeEach(async(() => {
         fixture = TestBed.createComponent(MainComponent);
-        // MainComponent test instance
-        comp = fixture.componentInstance;
-
-        /**
-         * Trigger initial data binding and run lifecycle hooks
-         */
+        component = fixture.componentInstance;
         fixture.detectChanges();
     }));
+
+    // it('should instantiate', () => {
+    //     expect(component).to.not.be.undefined;
+    // });
+
+    // it('should set the page title to empty', () => {
+
+    // });
 
     // it('should attach a list of things to the controller', () => {
     //     // `GET /api/things` should be made once

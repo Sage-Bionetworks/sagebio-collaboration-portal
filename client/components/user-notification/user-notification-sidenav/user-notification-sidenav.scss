@@ -1,8 +1,4 @@
 .app-user-notification-sidenav-header {
-  // display: flex;
-  // flex-flow: row nowrap;
-  // align-items: center;
-  // padding: 0 0 0 10px;
   padding-left: 10px;
 }
 
@@ -15,6 +11,11 @@
 
 .app-user-notification-sidenav-header-close {
   margin: 0 10px 0 0;
+}
+
+.empty-message {
+  text-align: center;
+  margin-top: 50px;
 }
 
 .app-user-notification-sidenav-cards {

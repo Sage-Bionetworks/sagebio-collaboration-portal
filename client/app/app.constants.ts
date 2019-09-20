@@ -1,7 +1,9 @@
 import { merge } from 'lodash/fp';
 import shared from '../../server/config/environment/shared';
 
-var config = {
+console.log('shared', shared);
+
+let config = {
     avatar: {
         size: {
             nano: 26,
@@ -14,6 +16,33 @@ var config = {
         showDelay: 0,
     },
 
+    activityTypeFilters: Object.values(shared.activityTypes).map((activityType: any) => {
+        if (activityType.value === shared.activityTypes.REPORT_CREATION.value) {
+            activityType.active = true;
+        }
+        return activityType;
+    }),
+
+    // activityTypeFilters: [
+    //     {
+    //         value: 'ReportGeneration',
+    //         title: 'Report generation',
+    //         active: true,
+    //     },
+    //     {
+    //         value: 'Memorization',
+    //         title: 'Memorization',
+    //     },
+    //     {
+    //         value: 'Mention',
+    //         title: 'Mention',
+    //     },
+    //     {
+    //         value: 'ToolSession',
+    //         title: 'Tool session',
+    //     },
+    // ],
+
     activityDirectionFilters: [
         {
             value: 'down',
@@ -25,21 +54,6 @@ var config = {
             title: 'Up',
         },
     ],
-
-    activityTypeFilters: [{
-        value: 'Report generation',
-        title: 'Report generation',
-        active: true
-    }, {
-    //     value: 'Memoization',
-    //     title: 'Memoization',
-    // }, {
-    //     value: 'Mention',
-    //     title: 'Mention',
-    // }, {
-        value: 'Tool session',
-        title: 'Tool session'
-    }],
 
     resourceTypeFilters: [
         {
@@ -61,5 +75,7 @@ var config = {
         },
     ],
 };
+
+console.log('app config', config.activityTypeFilters);
 
 export default merge(config, shared);

@@ -1,0 +1,34 @@
+@mixin docs-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  app-docs {
+    .app-header-background {
+      background: mat-color($accent);
+    }
+
+    .app-header-headline {
+      color: mat-color($primary, default-contrast);
+    }
+
+    .app-header-start {
+      color: mat-color($primary);
+    }
+
+    .app-docs-row {
+      color: mat-color($foreground, secondary-text);
+    }
+  }
+
+.app-docs-table-row {
+    border-bottom: 1px solid mat-color($primary, 100);
+    border-top: 1px solid mat-color($primary, 100);
+}
+
+tr:nth-child(even) {
+    background-color: mat-color($primary, 50);
+  }
+}

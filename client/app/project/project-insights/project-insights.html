@@ -1,15 +1,4 @@
 <div *ngIf="project" class="app-project-insights">
-    <!-- <div class="project-insights-actions">
-        <a
-            mat-raised-button
-            color="warn"
-            class="app-insight-list-new-project"
-            (click)="onNewInsightClick()"
-            aria-label="Create insight"
-            >New Insight</a
-        >
-    </div> -->
-
     <entity-list
         entityName="insight"
         [entityService]="insightService"

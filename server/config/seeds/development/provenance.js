@@ -10,7 +10,7 @@ let activities = [
             'role': ''
         }],
         'description': '',
-        'class': 'Tool session',
+        'class': 'ToolSession',
         'generated': [{
             'name': 'PCA on TCGA breast cancer dataset',
             'role': '',
@@ -46,7 +46,7 @@ let activities = [
             'role': ''
         }],
         'description': '',
-        'class': 'Report generation',
+        'class': 'ReportGeneration',
         'generated': [{
             'name': 'Molecular charecteristics of NSCLC (TCGA)',
             'role': '',

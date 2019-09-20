@@ -18,7 +18,7 @@ export class CaptureProvenanceActivityService {
 
     }
 
-    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass }) {
+    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities }) { // TODO use usedEntities
         const activity = {
             agents: [{
                 userId: this.currentUser._id,
@@ -31,21 +31,27 @@ export class CaptureProvenanceActivityService {
                 name: generatedName,
                 role: '',
                 targetId: generatedTargetId,
-                targetVersionId: 1,
+                targetVersionId: '1',
                 class: generatedClass,
                 subclass: generatedSubClass,
             }],
             name: `Creation of ${generatedName}`,
-            used: [{
-                name: '',
-                role: '',
-                targetId: '',
-                targetVersionId: 1,
-                class: '',
-                subclass: ''
-            }]
+            used: usedEntities
+            // used: [{
+            //     name: '',
+            //     role: '',
+            //     targetId: '',
+            //     targetVersionId: '1',
+            //     class: '',
+            //     subclass: ''
+            // }]
         };
 
-        this.provenanceService.createProvenanceActivity(activity);
+        this.provenanceService.createProvenanceActivity(activity)
+            .subscribe(provenanceActivity => { /* Successfully created provenance activity */ },
+                (err => {
+                    console.error('Unable to create a provenance activity:', err);
+                })
+            );
     }
 }

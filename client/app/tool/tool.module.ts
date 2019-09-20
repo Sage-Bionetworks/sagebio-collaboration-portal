@@ -9,6 +9,7 @@ import { SocketService } from 'components/socket/socket.service';
 import { ActivityModule } from 'components/activity/activity.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 import { EntityModule } from 'components/entity/entity.module';
+import { DirectivesModule } from 'components/directives/directives.module';
 
 import { ToolComponent } from './tool.component';
 import { ToolActivityComponent } from './tool-activity/tool-activity.component';
@@ -23,6 +24,8 @@ import { ToolViewComponent } from './tool-view/tool-view.component';
 import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
+import { ShareModule } from 'components/share/share.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export const ROUTES: Routes = [
     {
@@ -59,6 +62,9 @@ export const ROUTES: Routes = [
         ActivityModule,
         ProvenanceModule,
         EntityModule,
+        DirectivesModule,
+        ShareModule,
+        ClipboardModule,
     ],
     declarations: [
         ToolComponent,

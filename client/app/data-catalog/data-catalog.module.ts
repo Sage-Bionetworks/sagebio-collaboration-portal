@@ -15,6 +15,8 @@ import { DataCatalogListComponent } from './data-catalog-list/data-catalog-list.
 import { DataCatalogNewComponent } from './data-catalog-new/data-catalog-new.component';
 import { DataCatalogComponent } from './data-catalog-page/data-catalog.component';
 import { DataCatalogService } from './data-catalog.service';
+import { ShareModule } from 'components/share/share.module';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export const ROUTES: Routes = [
     {
@@ -46,7 +48,9 @@ export const ROUTES: Routes = [
         ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild(ROUTES),
-        EntityModule
+        EntityModule,
+        ShareModule,
+        ClipboardModule
     ],
     declarations: [
         DataCatalogDiscussionComponent,

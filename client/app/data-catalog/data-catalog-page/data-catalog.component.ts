@@ -12,6 +12,7 @@ import {
 } from 'models/ckan/ckan-dataset-search-response.model';
 import { DataCatalogEditComponent } from '../data-catalog-edit/data-catalog-edit.component';
 import { omit } from 'lodash/fp';
+import config from "../../app.constants";
 
 interface CatalogStats {
     live: boolean;
@@ -32,6 +33,7 @@ export class DataCatalogComponent implements OnInit {
 
     private canEditDataCatalog = true;
     private canDeleteDataCatalog = true;
+    private entityType = config.entityTypes.DATA_CATALOG.value
 
     static parameters = [Router, ActivatedRoute, PageTitleService,
         DataCatalogService, DatasetService, NotificationService];
@@ -66,6 +68,10 @@ export class DataCatalogComponent implements OnInit {
                 this.dataCatalog = catalog;
                 this.pageTitleService.title = catalog.title;
             });
+    }
+
+    getLink(): string {
+        return window.location.href;
     }
 
     onEditDataCatalog(dataCatalog: DataCatalog): void {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { UserNotificationService } from '../user-notification.service';
+import { UserNotificationSidenavService } from '../user-notification-sidenav/user-notification-sidenav.service';
 
 @Component({
     selector: 'user-notification-button',
@@ -10,9 +10,9 @@ import { UserNotificationService } from '../user-notification.service';
 export class UserNotificationButtonComponent {
     private numNotifications = 0;
 
-    static parameters = [UserPermissionDataService, UserNotificationService];
+    static parameters = [UserPermissionDataService, UserNotificationSidenavService];
     constructor(private userPermissionDataService: UserPermissionDataService,
-        private userNotificationService: UserNotificationService) {
+        private userNotificationSidenavService: UserNotificationSidenavService) {
 
         this.userPermissionDataService.permissions()
             .subscribe(permissions => {
@@ -21,6 +21,6 @@ export class UserNotificationButtonComponent {
     }
 
     toggleNotifications(): void {
-        this.userNotificationService.toggleNotifications();
+        this.userNotificationSidenavService.toggleNotifications();
     }
 }
