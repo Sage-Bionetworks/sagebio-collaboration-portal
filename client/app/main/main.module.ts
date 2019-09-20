@@ -8,7 +8,7 @@ import { MaterialModule } from 'components/material/material.module';
 import { NotificationModule } from 'components/notification/notification.module';
 import { ProvenanceModule } from 'components/provenance/provenance.module';
 
-import { MainComponent } from './main.component';
+import { MainComponent, DialogContentExampleDialog } from './main.component';
 import { SocketService } from 'components/socket/socket.service';
 
 export const ROUTES: Routes = [
@@ -25,7 +25,11 @@ export const ROUTES: Routes = [
         ProvenanceModule,
     ],
     declarations: [
-        MainComponent
+        MainComponent,
+        DialogContentExampleDialog,
+    ],
+    entryComponents: [
+        DialogContentExampleDialog,
     ],
     providers: [
         SocketService,

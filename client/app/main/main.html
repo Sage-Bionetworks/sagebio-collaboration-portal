@@ -8,6 +8,8 @@
         <div *ngIf="isLoggedIn" class="app-header-headline-alt">
             <h1>PHC-IX Collaboration Portal</h1>
             <h3>A collaborative space based on FAIR principles to enable data discovery and tracking, reuse, and insight sharing.</h3>
+            <!-- Insert the dialog button here since this is what's visible when the user is logged in -->
+            <button class="executive-dashboard-dialog" mat-button (click)="openDialog()">Open Exceutive Dashboard</button>
         </div>
         <div class="app-header-start">
             <a *ngIf="!isLoggedIn" mat-raised-button class="app-button app-button-landing" routerLink="/login">Get started</a>
