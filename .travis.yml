@@ -19,8 +19,8 @@ addons:
     packages:
     - g++-4.8
 
-before_install:
-  - pip install --user codecov
+install:
+  - npm install -g codecov
 
 before_script:
   - npm install -g gulp-cli
@@ -29,8 +29,7 @@ script:
   - npm test || travis_terminate 1;
 
 after_success:
-  - codecov
-#   - coveralls
+  - codecov --token=${CODECOV_TOKEN}
 
 deploy:
   - provider: script
