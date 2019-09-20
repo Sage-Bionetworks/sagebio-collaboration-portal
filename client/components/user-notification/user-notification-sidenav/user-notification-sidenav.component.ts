@@ -103,7 +103,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
     }
 
     getEntityPermission(notification: EntityAccessNotification) {
-        return notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
+        return notification.notificationType === config.notificationTypes.ENTITY_ACCESS.value
             ? this.entityPermissionService.getPermission(notification.entityPermissionId as string)
             : of(null)
     }
@@ -129,11 +129,11 @@ export class UserNotificationSidenavComponent implements OnDestroy {
 
     buildBundleByType = async (notification: UserNotification): Promise<UserNotificationBundle<UserNotification>> => {
         switch (notification.notificationType) {
-            case config.notificationTypes.MESSAGE_NOTIFICATION.value:
+            case config.notificationTypes.MESSAGE.value:
                 return this.buildMessageNotificationBundle(notification as MessageNotification)
-            case config.notificationTypes.ENTITY_NOTIFICATION.value:
+            case config.notificationTypes.ENTITY.value:
                 return await this.buildEntityNotificationBundle(notification as EntityNotification)
-            case config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value:
+            case config.notificationTypes.ENTITY_ACCESS.value:
                 return await this.buildEntityAccessNotificationBundle(notification as EntityAccessNotification)
         }
     }

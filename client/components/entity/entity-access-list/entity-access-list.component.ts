@@ -117,7 +117,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                 .pipe(
                     flatMap(permission => {
                         const notification: EntityAccessNotification = {
-                            notificationType: config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value,
+                            notificationType: config.notificationTypes.ENTITY_ACCESS.value,
                             entityId: this.entity._id,
                             entityType: config.entityTypes.PROJECT.value,
                             user: this.selectedUser._id,

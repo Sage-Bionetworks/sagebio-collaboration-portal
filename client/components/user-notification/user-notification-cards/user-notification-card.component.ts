@@ -37,8 +37,8 @@ export class UserNotificationCardComponent {
 
     goToEntity() {
         if (
-            this.notification.notificationType === config.notificationTypes.ENTITY_NOTIFICATION.value ||
-            this.notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
+            this.notification.notificationType === config.notificationTypes.ENTITY.value ||
+            this.notification.notificationType === config.notificationTypes.ENTITY_ACCESS.value
         ) {
             const notification = this.notification as EntityNotification | EntityAccessNotification;
             switch (notification.entityType) {

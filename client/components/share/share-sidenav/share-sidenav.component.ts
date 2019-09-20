@@ -141,7 +141,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
 
         ShareDetails.shareWithUsers.forEach(user => {
             const notification: EntityNotification = {
-                notificationType: config.notificationTypes.ENTITY_NOTIFICATION.value,
+                notificationType: config.notificationTypes.ENTITY.value,
                 entityId: this.entity._id,
                 entityType: this.entityType,
                 user: user._id,
