@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import Notification from './notification.model';
+import UserNotification from './user-notification.model';
 
 var MessageNotificationSchema = new mongoose.Schema({
-    messageBody: {
+    message: {
         type: String,
         required: true,
     },
 });
 
-export default Notification.discriminator('MessageNotification', MessageNotificationSchema);
+export default UserNotification.discriminator('MessageNotification', MessageNotificationSchema);

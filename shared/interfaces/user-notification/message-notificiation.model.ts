@@ -11,5 +11,5 @@ import { UserNotification } from './user-notification.model';
  *           type: string
  */
 export interface MessageNotification extends UserNotification {
-  messageBody: string;
+    message: string;
 }

@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import * as UserNotificationController from './user-notification.controller';
-
 import * as auth from '../../auth/auth.service';
+import * as UserNotificationController from './user-notification.controller';
 
 var router = Router();
 
-router.get('/', auth.isAuthenticated(), UserNotificationController.indexMine);
-router.patch('/:id/archive', auth.isAuthenticated(), UserNotificationController.archive);
+router.get('/', auth.isAuthenticated(), UserNotificationController.index);
 router.post('/', auth.isAuthenticated(), UserNotificationController.create);
+router.patch('/:id/archive', auth.isAuthenticated(), UserNotificationController.archive);
 
 module.exports = router;

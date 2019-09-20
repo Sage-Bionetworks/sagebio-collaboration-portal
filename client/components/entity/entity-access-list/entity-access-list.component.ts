@@ -121,7 +121,7 @@ export class EntityAccessListComponent implements OnInit, AfterViewInit, OnDestr
                             entityId: this.entity._id,
                             entityType: config.entityTypes.PROJECT.value,
                             user: this.selectedUser._id,
-                            messageBody: '',
+                            message: '',
                             entityPermissionId: permission._id,
                         };
                         return this.userNotificationService.create<EntityAccessNotification>(notification);

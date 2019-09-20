@@ -145,7 +145,7 @@ export class ShareSidenavComponent implements OnDestroy, AfterViewInit {
                 entityId: this.entity._id,
                 entityType: this.entityType,
                 user: user._id,
-                messageBody: JSON.stringify(ShareDetails.comments),
+                message: JSON.stringify(ShareDetails.comments),
             };
 
             this.userNotificationService.create<EntityNotification>(notification).subscribe(

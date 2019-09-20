@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { UserNotification } from 'models/user-notification/user-notification.model';
 import { stringifyQuery } from 'components/util';
 

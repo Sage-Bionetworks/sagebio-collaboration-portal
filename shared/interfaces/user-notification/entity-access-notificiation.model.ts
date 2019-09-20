@@ -1,5 +1,6 @@
 import { EntityNotification } from './entity-notificiation.model';
-import { EntityPermission } from '../auth/entity-permission.model'
+import { EntityPermission } from '../auth/entity-permission.model';
+import { UserNotification } from './user-notification.model';
 
 /**`
  * @swagger
@@ -11,7 +12,6 @@ import { EntityPermission } from '../auth/entity-permission.model'
  *         _id:
  *           type: string
  */
-
-export interface EntityAccessNotification extends EntityNotification {
-  entityPermissionId: EntityPermission | string;
+export interface EntityAccessNotification extends UserNotification {
+    entityPermissionId: EntityPermission | string;
 }

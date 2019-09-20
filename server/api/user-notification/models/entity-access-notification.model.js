@@ -1,22 +1,12 @@
 import mongoose from 'mongoose';
-import Notification from './notification.model';
-import config from '../../../config/environment';
+import UserNotification from './user-notification.model';
 
 var EntityAccessNotificationSchema = new mongoose.Schema({
-    entityId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
-    entityType: {
-        type: String,
-        enum: Object.values(config.entityTypes).map(type => type.value),
-        required: true,
-    },
     entityPermissionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EntityPermission',
         required: true,
-    }
+    },
 });
 
-export default Notification.discriminator('EntityAccessNotification', EntityAccessNotificationSchema);
+export default UserNotification.discriminator('EntityAccessNotification', EntityAccessNotificationSchema);
