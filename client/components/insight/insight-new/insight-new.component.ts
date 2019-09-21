@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
+import { ActivityService } from 'components/activity/activity.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
@@ -31,10 +31,10 @@ export class InsightNewComponent {
         newInsight: undefined,
     };
 
-    static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
+    static parameters = [FormBuilder, ActivityService, InsightService];
     constructor(
         private formBuilder: FormBuilder,
-        private captureProvActivity: CaptureProvenanceActivityService,
+        private activityService: ActivityService,
         private insightService: InsightService
     ) {
         this.attachmentTypes = [
@@ -97,7 +97,7 @@ export class InsightNewComponent {
                             subsclass: att.attachment.entitySubType,
                         }));
 
-                        this.captureProvActivity.save({
+                        this.activityService.save({
                             generatedName: insight.title,
                             generatedTargetId: insight._id,
                             generatedClass: ReferenceClass.INSIGHT,
@@ -119,7 +119,7 @@ export class InsightNewComponent {
                     // list of attachments
                     // - name, _id, entityType, entitySubtype,
                     // name, role = '', targetId: _id, targetVersionId: '1', class=entityType, subclass: subsclass if available
-                    // this.captureProvActivity.save({
+                    // this.activityService.save({
                     //     generatedName: insight.title,
                     //     generatedTargetId: insight._id,
                     //     generatedClass: ReferenceClass.INSIGHT,

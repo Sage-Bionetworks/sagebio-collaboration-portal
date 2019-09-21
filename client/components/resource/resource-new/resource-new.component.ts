@@ -5,7 +5,7 @@ import { ResourceService } from 'components/resource/resource.service';
 import { Resource } from 'models/entities/resources/resource.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../../app/app.constants';
-import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
+import { ActivityService } from 'components/activity/activity.service';
 import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
 import { UrlValidators } from 'components/validation/url-validators';
@@ -22,7 +22,7 @@ export class ResourceNewComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     private resourceSpecs: any;
-    private toolOpts = []; // TODO get from backend
+    private toolOpts = [];
     private newForm: FormGroup;
     private errors = {
         newResource: undefined,
@@ -34,7 +34,7 @@ export class ResourceNewComponent implements OnInit {
         FormBuilder,
         PageTitleService,
         ResourceService,
-        CaptureProvenanceActivityService,
+        ActivityService,
         ProjectDataService,
     ];
     constructor(
@@ -43,7 +43,7 @@ export class ResourceNewComponent implements OnInit {
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
-        private captureProvActivity: CaptureProvenanceActivityService,
+        private activityService: ActivityService,
         private projectDataService: ProjectDataService
     ) {
         this.resourceSpecs = config.models.resource;
@@ -96,7 +96,7 @@ export class ResourceNewComponent implements OnInit {
         this.resourceService.create(newResource).subscribe(
             resource => {
                 this.newResource.emit(resource);
-                this.captureProvActivity.save({
+                this.activityService.save({
                     generatedName: resource.title,
                     generatedTargetId: resource._id,
                     generatedClass: ReferenceClass.RESOURCE,

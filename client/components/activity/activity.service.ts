@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { AuthService } from 'components/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { User } from 'models/auth/user.model';
-import { ProvenanceService } from './provenance.service';
+import { ProvenanceService } from 'components/provenance/provenance.service';
 
 @Injectable()
-export class CaptureProvenanceActivityService {
+export class ActivityService {
     authInfoSub: Subscription;
     currentUser: User;
 
@@ -15,7 +15,6 @@ export class CaptureProvenanceActivityService {
             .subscribe(authInfo => {
                 this.currentUser = authInfo.user;
             }, err => console.log(err));
-
     }
 
     save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities }) { // TODO use usedEntities

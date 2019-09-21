@@ -11,6 +11,7 @@ import { FiltersModule } from 'components/filters/filters.module';
 import { ActivityNewComponent } from './activity-new/activity-new.component';
 import { ActivitySidenavComponent } from './activity-sidenav/activity-sidenav.component';
 import { ShowActivityButtonComponent } from './show-activity-button/show-activity-button.component';
+import { ActivityService } from './activity.service';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { ShowActivityButtonComponent } from './show-activity-button/show-activit
         ActivityNewComponent
     ],
     providers: [
+        ActivityService,
         ProvenanceService
     ],
     exports: [
