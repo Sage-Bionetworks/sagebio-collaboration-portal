@@ -17,9 +17,9 @@ import {
     protractor,
     webdriver_update
 } from 'gulp-protractor';
-import {
-    Instrumenter
-} from 'isparta';
+// import {
+//     Instrumenter
+// } from 'isparta';
 import webpack from 'webpack';
 import makeWebpackConfig from './webpack.make';
 
@@ -365,7 +365,7 @@ gulp.task('coverage:pre', () => {
     return gulp.src(paths.server.scripts)
         // Covering files
         .pipe(plugins.istanbul({
-            instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
+            // instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
             includeUntested: true
         }));
         // Force `require` to return covered files

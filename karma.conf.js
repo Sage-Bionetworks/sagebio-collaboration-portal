@@ -45,7 +45,7 @@ module.exports = function (config) {
         plugins: [
             require('karma-mocha'),
             require('karma-chai-plugins'),
-            require('karma-coverage'),
+            // require('karma-coverage'),
             require('karma-chrome-launcher'),
             require('karma-firefox-launcher'),
             // require('karma-phantomjs-launcher'),
