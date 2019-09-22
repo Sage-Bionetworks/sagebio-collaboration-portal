@@ -75,7 +75,7 @@ module.exports = function (config) {
         // - growl
         // - coverage
         // - mocha
-        reporters: ['spec', 'coverage'],
+        reporters: ['spec'],
 
         // specReporter: {
         //     maxLogLines: 5, // limit number of lines logged per test
@@ -87,20 +87,20 @@ module.exports = function (config) {
         //     failFast: true, // test would finish with error when a first fail occurs.
         // },
 
-        coverageReporter: {
-            reporters: [
-                {
-                    type: 'html',
-                    subdir: 'client',
-                },
-                {
-                    type: 'json',
-                    subdir: '.',
-                    file: 'client-coverage.json',
-                },
-            ],
-            dir: 'coverage/',
-        },
+        // coverageReporter: {
+        //     reporters: [
+        //         {
+        //             type: 'html',
+        //             subdir: 'client',
+        //         },
+        //         {
+        //             type: 'json',
+        //             subdir: '.',
+        //             file: 'client-coverage.json',
+        //         },
+        //     ],
+        //     dir: 'coverage/',
+        // },
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: false,

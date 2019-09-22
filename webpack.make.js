@@ -163,7 +163,8 @@ module.exports = function makeWebpackConfig(options) {
                             // '@babel/plugin-transform-async-to-generator',
                             // '@babel/plugin-syntax-dynamic-import',
                             // '@babel/plugin-proposal-object-rest-spread'
-                        ].concat(TEST ? ['istanbul'] : []),
+                        ].concat(TEST ? [] : []),
+                        // ].concat(TEST ? ['istanbul'] : []),
                     }
                 }].concat(DEV ? '@angularclass/hmr-loader' : []),
                 include: [
