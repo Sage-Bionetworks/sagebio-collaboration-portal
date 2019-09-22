@@ -367,9 +367,9 @@ gulp.task('coverage:pre', () => {
         .pipe(plugins.istanbul({
             instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
             includeUntested: true
-        }))
+        }));
         // Force `require` to return covered files
-        .pipe(plugins.istanbul.hookRequire());
+        // .pipe(plugins.istanbul.hookRequire());
 });
 
 gulp.task('coverage:unit', () => {
@@ -389,10 +389,10 @@ gulp.task('coverage:integration', () => {
 gulp.task('test:server:coverage', cb =>
     gulp.series(
         'coverage:pre',
-        'env:all',
-        'env:test',
-        'coverage:unit',
-        'coverage:integration',
+        // 'env:all',
+        // 'env:test',
+        // 'coverage:unit',
+        // 'coverage:integration',
         cb
     ));
 

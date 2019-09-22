@@ -1,13 +1,18 @@
 {
-    "presets": [
-        ["@babel/preset-env", {}]
-    ],
-    "plugins": [
-        ["@babel/transform-runtime", {
-            "regenerator": true
-        }]
-    ],
-    "ignore": [
-        "client/components/socket/primus.js",
-    ]
+    "presets": [["@babel/preset-env", {}]],
+    // "env": {
+    //     "test": {
+    //         "plugins": ["istanbul"]
+    //     }
+    // },
+    // "plugins": [
+    //     [
+
+    //         "@babel/plugin-transform-runtime", // was "@babel/transform-runtime"
+    //         {
+    //             "regenerator": true
+    //         }
+    //     ]
+    // ],
+    "ignore": ["client/components/socket/primus.js"]
 }
