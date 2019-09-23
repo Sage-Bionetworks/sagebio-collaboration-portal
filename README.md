@@ -1,7 +1,7 @@
 # PHC Collaboration Portal
 
 
- CI | Branch  | Build Status | Client Coverage
+ CI | Branch  | Build Status | Coverage
  ---|---------|--------------|----------------
 Travis | develop | [![Build Status develop branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal) | [![codecov](https://codecov.io/gh/Sage-Bionetworks/PHCCollaborationPortal/branch/develop/graph/badge.svg?token=ApC9zY6G1B)](https://codecov.io/gh/Sage-Bionetworks/PHCCollaborationPortal)
 Travis | master  | [![Build Status master branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal)
