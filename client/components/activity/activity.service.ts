@@ -11,39 +11,44 @@ export class ActivityService {
 
     static parameters = [AuthService, ProvenanceService];
     constructor(private authService: AuthService, private provenanceService: ProvenanceService) {
-        this.authInfoSub = this.authService.authInfo()
-            .subscribe(authInfo => {
+        this.authInfoSub = this.authService.authInfo().subscribe( // TODO unsubscribe
+            authInfo => {
                 this.currentUser = authInfo.user;
-            }, err => console.log(err));
+            },
+            err => console.error(err)
+        );
     }
 
     // TODO Add input and output types
     save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities = [] }): Observable<any> {
         const activity = {
-            agents: [{
-                userId: this.currentUser._id,
-                name: this.currentUser.name,
-                role: this.currentUser.role,
-            }],
+            agents: [
+                {
+                    userId: this.currentUser._id,
+                    name: this.currentUser.name,
+                    role: this.currentUser.role,
+                },
+            ],
             description: '',
             class: 'Report generation', // TODO set from generatedSubClass
-            generated: [{
-                name: generatedName,
-                role: '',
-                targetId: generatedTargetId,
-                targetVersionId: '1',
-                class: generatedClass,
-                subclass: generatedSubClass,
-            }],
+            generated: [
+                {
+                    name: generatedName,
+                    role: '',
+                    targetId: generatedTargetId,
+                    targetVersionId: '1',
+                    class: generatedClass,
+                    subclass: generatedSubClass,
+                },
+            ],
             name: `Creation of ${generatedName}`,
-            used: usedEntities
+            used: usedEntities,
         };
 
         return this.provenanceService.createProvenanceActivity(activity);
-            // .subscribe(provenanceActivity => { /* Successfully created provenance activity */ },
-            //     (err => {
-            //         console.error('Unable to create a provenance activity:', err);
-            //     })
-            // );
     }
+
+    // inferActivityClass(generatedClass, generatedSubClass): string {
+
+    // }
 }

@@ -12,7 +12,9 @@ import { UrlValidators } from 'components/validation/url-validators';
 import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
-import { of } from 'rxjs';
+import { of, forkJoin } from 'rxjs';
+// import { ToolService } from 'client/app/tool/tool.service';
+// import { Tool } from 'models/entities/tool.model';
 
 @Component({
     selector: 'resource-new',
@@ -40,6 +42,7 @@ export class ResourceNewComponent implements OnInit {
         ActivityService,
         ProjectDataService,
         NotificationService,
+        // ToolService,
     ];
     constructor(
         private router: Router,
@@ -50,7 +53,8 @@ export class ResourceNewComponent implements OnInit {
         private activityService: ActivityService,
         private projectDataService: ProjectDataService,
         private notificationService: NotificationService
-    ) {
+    ) // private toolService: ToolService
+    {
         this.resourceSpecs = config.models.resource;
         this.toolOpts = config.defaultTools;
         this.newForm = this.formBuilder.group({
@@ -87,7 +91,7 @@ export class ResourceNewComponent implements OnInit {
     ngOnInit() {
         this.newForm.get('resourceType').valueChanges.subscribe(values => {
             if (values === config.resourceTypes.STATE.value) {
-                this.newForm.addControl('tool', new FormControl('', Validators.required)); // Add new form control
+                this.newForm.addControl('tool', new FormControl('', Validators.required));
             } else {
                 this.newForm.removeControl('tool');
             }
@@ -99,37 +103,14 @@ export class ResourceNewComponent implements OnInit {
         newResource.description = JSON.stringify(newResource.description);
         newResource.projectId = this.project._id;
 
-        this.resourceService
-            .create(newResource)
-            .pipe(
-                // Save activity
-                switchMap(resource => {
-                    return this.activityService
-                        .save({
-                            generatedName: resource.title,
-                            generatedTargetId: resource._id,
-                            generatedClass: ReferenceClass.RESOURCE,
-                            generatedSubClass: resource.resourceType,
-                            usedEntities: [],
-                        })
-                        .pipe(
-                            map(() => resource),
-                            catchError(err => {
-                                console.error('Unable to create a provenance activity', err);
-                                this.notificationService.error('Unable to create a provenance activity');
-                                return of(<Resource>undefined);
-                            })
-                        );
-                })
-            )
-            .subscribe(
-                resource => {
-                    this.newResource.emit(resource);
-                },
-                err => {
-                    console.error(err);
-                    this.errors.newResource = err.message;
-                }
-            );
+        this.resourceService.create(newResource).subscribe(
+            resource => {
+                this.newResource.emit(resource);
+            },
+            err => {
+                console.error(err);
+                this.errors.newResource = err.message;
+            }
+        );
     }
 }
