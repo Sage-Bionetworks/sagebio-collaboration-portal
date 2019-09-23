@@ -10,6 +10,9 @@ import { ProjectDataService } from '../../../app/project/project-data.service';
 import { Project } from 'models/entities/project.model';
 import { UrlValidators } from 'components/validation/url-validators';
 import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
+import { map, catchError, switchMap } from 'rxjs/operators';
+import { NotificationService } from 'components/notification/notification.service';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'resource-new',
@@ -36,6 +39,7 @@ export class ResourceNewComponent implements OnInit {
         ResourceService,
         ActivityService,
         ProjectDataService,
+        NotificationService,
     ];
     constructor(
         private router: Router,
@@ -44,7 +48,8 @@ export class ResourceNewComponent implements OnInit {
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
         private activityService: ActivityService,
-        private projectDataService: ProjectDataService
+        private projectDataService: ProjectDataService,
+        private notificationService: NotificationService
     ) {
         this.resourceSpecs = config.models.resource;
         this.toolOpts = config.defaultTools;
@@ -93,21 +98,38 @@ export class ResourceNewComponent implements OnInit {
         let newResource = this.newForm.value;
         newResource.description = JSON.stringify(newResource.description);
         newResource.projectId = this.project._id;
-        this.resourceService.create(newResource).subscribe(
-            resource => {
-                this.newResource.emit(resource);
-                this.activityService.save({
-                    generatedName: resource.title,
-                    generatedTargetId: resource._id,
-                    generatedClass: ReferenceClass.RESOURCE,
-                    generatedSubClass: resource.resourceType,
-                    usedEntities: []
-                });
-            },
-            err => {
-                console.error(err);
-                this.errors.newResource = err.message;
-            }
-        );
+
+        this.resourceService
+            .create(newResource)
+            .pipe(
+                // Save activity
+                switchMap(resource => {
+                    return this.activityService
+                        .save({
+                            generatedName: resource.title,
+                            generatedTargetId: resource._id,
+                            generatedClass: ReferenceClass.RESOURCE,
+                            generatedSubClass: resource.resourceType,
+                            usedEntities: [],
+                        })
+                        .pipe(
+                            map(() => resource),
+                            catchError(err => {
+                                console.error('Unable to create a provenance activity', err);
+                                this.notificationService.error('Unable to create a provenance activity');
+                                return of(<Resource>undefined);
+                            })
+                        );
+                })
+            )
+            .subscribe(
+                resource => {
+                    this.newResource.emit(resource);
+                },
+                err => {
+                    console.error(err);
+                    this.errors.newResource = err.message;
+                }
+            );
     }
 }

@@ -27,7 +27,7 @@
             <mat-form-field>
                 <mat-label>Type</mat-label>
                 <mat-select formControlName="resourceType" required>
-                    <mat-option *ngFor="let option of resourceSpecs.type.options" [value]="option.value">{{ option.name }}</mat-option>
+                    <mat-option *ngFor="let option of resourceSpecs.type.options" [value]="option.value">{{ option.title }}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="app-resource-new-form-field" *ngIf="newForm.get('resourceType').value === 'State'">
@@ -36,7 +36,7 @@
                 <!-- <mat-error *ngIf="newForm.controls.tool.invalid">
                     Please enter a valid Tool.
                 </mat-error> -->
-                <option *ngFor="let opt of toolOpts" [value]="opt.value">{{ opt.name }}</option>
+                <option *ngFor="let opt of toolOpts" [value]="opt.value">{{ opt.title }}</option>
                 </select>
             </mat-form-field>
             <app-quill-editor class="app-resource-new-description-editor" [isReadOnly]="false" [showActions]="false" placeholder="Insert description..." [body]="newForm.controls['description']"></app-quill-editor>
