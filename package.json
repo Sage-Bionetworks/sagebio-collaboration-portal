@@ -210,13 +210,15 @@
         "lint:scss": "stylelint 'client/**/*.scss' --config client/stylelint.json",
         "test": "gulp test",
         "test:client": "karma start ./karma.conf.js --single-run",
-        "test:server": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --timeout 5000 --require ./mocha.conf.js ./server/**/*.{spec,integration}.js mocha.global.js",
+        "test:server": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --timeout 5000 --require ./mocha.conf.js './server/**/*.{spec,integration}.js' mocha.global.js",
         "test:e2e": "gulp webpack:dev && protractor ./protractor.conf.js",
+        "cover": "npm run cover:server && npm run cover:report",
+        "cover:server": "./node_modules/nyc/bin/nyc.js --silent npm run test:server",
+        "cover:report": "./node_modules/nyc/bin/nyc.js report --reporter=lcov --reporter=text --reporter=text-summary",
         "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
         "start": "node server",
         "start:client": "webpack-dev-server --config webpack.dev.js",
         "start:server": "nodemon --inspect --trace-warnings --watch server server",
-        "deploy:dev": "docker-compose -f docker-compose.dev.yml up --build",
         "deploy:prod": "docker-compose up --build"
     },
     "sideEffects": [

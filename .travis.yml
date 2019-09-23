@@ -23,7 +23,7 @@ before_script:
   - npm install -g gulp-cli codecov
 
 script:
-  - npm test || travis_terminate 1;
+  - npm run cover || travis_terminate 1;
 
 after_success:
   - codecov --token=${CODECOV_TOKEN}
