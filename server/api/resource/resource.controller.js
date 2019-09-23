@@ -1,5 +1,6 @@
 import { union } from 'lodash/fp';
 import { merge } from 'lodash';
+import rp from 'request-promise';
 import { isAdmin } from '../../auth/auth';
 import { respondWithResult, patchUpdates, removeEntity, handleEntityNotFound, handleError } from '../util';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
@@ -7,8 +8,6 @@ import { buildEntityIndexQuery } from '../entity-util';
 import Resource from './models/resource.model';
 import Tool from '../tool/tool.model';
 import User from '../user/user.model';
-
-import rp from 'request-promise';
 import { entityTypes, resourceTypes, activityTypes, provenance } from '../../config/environment';
 
 // Returns the Resources visible to the user.
@@ -52,69 +51,6 @@ export function show(req, res) {
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
-}
-
-// Creates a provenance record for the creation of a new resource.
-function createNewResourceActivity(user, toolId) {
-    return function (resource) {
-        if (resource) {
-            return new Promise(async resolve => {
-                let activity = {
-                    'agents': [{
-                        'userId': user._id,
-                        'name': user.name, // TODO should not be provided to provenance
-                        'role': '' // TODO user.role?
-                    }],
-                    'description': resource.description, // TODO should not be provided to provenance (?)
-                    'class': activityTypes.RESOURCE_REGISTRATION.value,
-                    'generated': [{
-                        'name': resource.title, // TODO should not be provided to provenance
-                        'role': '', // TODO What is this role?
-                        'targetId': resource._id,
-                        'targetVersionId': '1',
-                        'class': entityTypes.RESOURCE.value,
-                        'subclass': resource.resourceType
-                    }],
-                    'name': `Creation of ${resource.title}`, // TODO should not be provided to provenance
-                    'used': []
-                };
-
-                if (resource.resourceType === resourceTypes.STATE.value) {
-                    if (!toolId) {
-                        throw new Error('Invalid State: property tool is missing');
-                    }
-                    let tool = await Tool.findById(toolId, '_id title');
-                    if (tool) {
-                        activity.class = activityTypes.TOOL_SESSION.value;
-                        activity.used.push({
-                            'name': tool.title,
-                            'role': '',
-                            'targetId': tool._id,
-                            'targetVersionId': '1',
-                            'class': entityTypes.TOOL.value,
-                            'subclass': entityTypes.TOOL.value
-                        });
-                    }
-                }
-
-                var options = {
-                    method: 'POST',
-                    uri: `${provenance.apiServerUrl}/activities`,
-                    body: activity,
-                    headers: {
-                        'User-Agent': 'Request-Promise'
-                    },
-                    json: true
-                };
-
-                rp(options)
-                    .then(provResponse => {
-                        resolve(resource)
-                    });
-            });
-        }
-        return null;
-    };
 }
 
 // Creates a new Resource in the DB
@@ -217,4 +153,71 @@ function getResourceIdsByUser(userId) {
             ? getAllResourceIds()
             : Promise.all([getPublicResourceIds(), getPrivateResourceIds(userId)]).then(result => union(...result)))
     );
+}
+
+/**
+ * Creates a provenance record for the creation of a new resource.
+ * @param {User} user
+ * @param {string} toolId
+ */
+function createNewResourceActivity(user, toolId) {
+    return function (resource) {
+        if (resource) {
+            return new Promise(async resolve => {
+                let activity = {
+                    'agents': [{
+                        'userId': user._id,
+                        'name': user.name, // TODO should not be provided to provenance
+                        'role': '' // TODO user.role?
+                    }],
+                    'description': resource.description, // TODO should not be provided to provenance (?)
+                    'class': activityTypes.RESOURCE_REGISTRATION.value,
+                    'generated': [{
+                        'name': resource.title, // TODO should not be provided to provenance
+                        'role': '', // TODO What is this role?
+                        'targetId': resource._id,
+                        'targetVersionId': '1',
+                        'class': entityTypes.RESOURCE.value,
+                        'subclass': resource.resourceType
+                    }],
+                    'name': `Creation of ${resource.title}`, // TODO should not be provided to provenance
+                    'used': []
+                };
+
+                if (resource.resourceType === resourceTypes.STATE.value) {
+                    if (!toolId) {
+                        throw new Error('Invalid State: property tool is missing');
+                    }
+                    let tool = await Tool.findById(toolId, '_id title');
+                    if (tool) {
+                        activity.class = activityTypes.TOOL_SESSION.value;
+                        activity.used.push({
+                            'name': tool.title,
+                            'role': '',
+                            'targetId': tool._id,
+                            'targetVersionId': '1',
+                            'class': entityTypes.TOOL.value,
+                            'subclass': entityTypes.TOOL.value
+                        });
+                    }
+                }
+
+                var options = {
+                    method: 'POST',
+                    uri: `${provenance.apiServerUrl}/activities`,
+                    body: activity,
+                    headers: {
+                        'User-Agent': 'Request-Promise'
+                    },
+                    json: true
+                };
+
+                rp(options)
+                    .then(provResponse => {
+                        resolve(resource)
+                    });
+            });
+        }
+        return null;
+    };
 }

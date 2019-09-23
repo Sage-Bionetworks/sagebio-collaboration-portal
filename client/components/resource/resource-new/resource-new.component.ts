@@ -1,20 +1,11 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ResourceService } from 'components/resource/resource.service';
+import { Project } from 'models/entities/project.model';
 import { Resource } from 'models/entities/resources/resource.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
-import config from '../../../app/app.constants';
-import { ActivityService } from 'components/activity/activity.service';
-import { ProjectDataService } from '../../../app/project/project-data.service';
-import { Project } from 'models/entities/project.model';
+import { ResourceService } from 'components/resource/resource.service';
 import { UrlValidators } from 'components/validation/url-validators';
-import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
-import { map, catchError, switchMap } from 'rxjs/operators';
-import { NotificationService } from 'components/notification/notification.service';
-import { of, forkJoin } from 'rxjs';
-// import { ToolService } from 'client/app/tool/tool.service';
-// import { Tool } from 'models/entities/tool.model';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'resource-new',
@@ -27,33 +18,22 @@ export class ResourceNewComponent implements OnInit {
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     private resourceSpecs: any;
-    private toolOpts = [];
+    private toolOpts = []; // used in html
     private newForm: FormGroup;
     private errors = {
         newResource: undefined,
     };
 
     static parameters = [
-        Router,
-        ActivatedRoute,
         FormBuilder,
         PageTitleService,
         ResourceService,
-        ActivityService,
-        ProjectDataService,
-        NotificationService,
-        // ToolService,
     ];
     constructor(
-        private router: Router,
-        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private pageTitleService: PageTitleService,
         private resourceService: ResourceService,
-        private activityService: ActivityService,
-        private projectDataService: ProjectDataService,
-        private notificationService: NotificationService
-    ) // private toolService: ToolService
+    )
     {
         this.resourceSpecs = config.models.resource;
         this.toolOpts = config.defaultTools;
