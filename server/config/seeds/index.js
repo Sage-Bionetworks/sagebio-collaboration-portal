@@ -2,7 +2,7 @@
 import {
     merge
 } from 'lodash';
-import { flow, groupBy, orderBy, map, keyBy, pick, mapValues, uniqBy, pickBy, get } from 'lodash/fp';
+import { flow, groupBy, orderBy, mapValues, uniqBy, get } from 'lodash/fp';
 import config from '../../config/environment';
 import { adminUserId } from './default/constants';
 // import { message } from 'gulp-typescript/release/utils';
@@ -13,26 +13,8 @@ var seeds = module.exports = config.init.dbSeedName ? merge(
     default_,
     require(`./${config.init.dbSeedName}`) || {}) : null;
 
-
-const messagesStub = [{
-    thread: 'A',
-    createdBy: 'Thomas',
-    createdAt: 2
-},
-{
-    thread: 'B',
-    createdBy: 'Thomas',
-    createdAt: 2
-},
-{
-    thread: 'A',
-    createdBy: 'Bob',
-    createdAt: 1
-}
-];
-
 // Creating entity-permissions with Admin access for the authors of projects
-if (seeds.projects) {
+if (seeds && seeds.projects) {
     let permissions = seeds.projects.map(project => ({
         status: config.inviteStatusTypes.ACCEPTED.value,
         entityId: project._id,
@@ -48,7 +30,7 @@ if (seeds.projects) {
 }
 
 // Creating entity-permissions with Admin access for the authors of tools
-if (seeds.tools) {
+if (seeds && seeds.tools) {
     let permissions = seeds.tools.map(tool => ({
         status: config.inviteStatusTypes.ACCEPTED.value,
         entityId: tool._id,
@@ -64,7 +46,7 @@ if (seeds.tools) {
 }
 
 // Populating thread.contributors from messages
-if (seeds.threads && seeds.messages) {
+if (seeds && seeds.threads && seeds.messages) {
     const contributorsByThread = flow([
         groupBy('thread'),
         // contributors are ordered by their last message posted to the thread
