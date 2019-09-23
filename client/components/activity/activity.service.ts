@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from 'components/auth/auth.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { User } from 'models/auth/user.model';
 import { ProvenanceService } from 'components/provenance/provenance.service';
 
@@ -17,7 +17,8 @@ export class ActivityService {
             }, err => console.log(err));
     }
 
-    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities }) { // TODO use usedEntities
+    // TODO Add input and output types
+    save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities = [] }): Observable<any> {
         const activity = {
             agents: [{
                 userId: this.currentUser._id,
@@ -36,21 +37,13 @@ export class ActivityService {
             }],
             name: `Creation of ${generatedName}`,
             used: usedEntities
-            // used: [{
-            //     name: '',
-            //     role: '',
-            //     targetId: '',
-            //     targetVersionId: '1',
-            //     class: '',
-            //     subclass: ''
-            // }]
         };
 
-        this.provenanceService.createProvenanceActivity(activity)
-            .subscribe(provenanceActivity => { /* Successfully created provenance activity */ },
-                (err => {
-                    console.error('Unable to create a provenance activity:', err);
-                })
-            );
+        return this.provenanceService.createProvenanceActivity(activity);
+            // .subscribe(provenanceActivity => { /* Successfully created provenance activity */ },
+            //     (err => {
+            //         console.error('Unable to create a provenance activity:', err);
+            //     })
+            // );
     }
 }
