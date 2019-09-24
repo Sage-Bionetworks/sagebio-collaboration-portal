@@ -8,9 +8,10 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
-var GitRevisionPlugin = require('git-revision-webpack-plugin');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const SwaggerJSDocWebpackPlugin = require('swagger-jsdoc-webpack-plugin');
 const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
@@ -315,10 +316,54 @@ module.exports = function makeWebpackConfig(options) {
             // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
-            })
+            }),
             // new BundleAnalyzerPlugin({
             //     generateStatsFile: true,
             // }),
+
+            // https://github.com/patsimm/swagger-jsdoc-webpack-plugin
+            // This writes a swagger.json file to ./dist/client/swagger.json.
+            new SwaggerJSDocWebpackPlugin({
+                swaggerDefinition: {
+                    openapi: '3.0.2',
+                    info: {
+                        title: 'PHC Collaboration Portal API',
+                        version: '1.0.0', // TODO Get version from config
+                        description: `Personalized Health Care (PHC) Collaboration Portal
+                            developed by Sage Bionetworks and Roche/Genentech`,
+                        contact: {
+                            name: 'API Support',
+                            url: 'https://www.synapse.org',
+                            email: 'thomas.schaffter@sagebase.org',
+                        },
+                        license: {
+                            name: 'CC BY-NC 3.0',
+                            url: 'https://creativecommons.org/licenses/by-nc/3.0/',
+                        },
+                    },
+                    servers: [
+                        {
+                            url: 'plop/api', // `${config.domain}/api`,
+                            description: 'This app',
+                        },
+                    ],
+                    components: {
+                        securitySchemes: {
+                            BearerAuth: {
+                                type: 'http',
+                                scheme: 'bearer',
+                                bearerFormat: 'JWT',
+                            },
+                        },
+                        responses: {
+                            UnauthorizedError: {
+                                description: 'Access token is missing or invalid',
+                            },
+                        },
+                    },
+                },
+                apis: ['./**/api/**/index.js', './**/auth/**/*.js', './shared/interfaces/**/*.ts'],
+            })
         );
     }
 
