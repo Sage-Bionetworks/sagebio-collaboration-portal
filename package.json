@@ -48,6 +48,7 @@
     "quill-image-drop-module": "^1.0.3",
     "quill-mention": "^2.1.4",
     "regenerator-runtime": "^0.13.3",
+    "release-it": "^12.4.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "serve-favicon": "^2.5.0",
