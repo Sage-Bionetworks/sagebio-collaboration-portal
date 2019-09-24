@@ -1,6 +1,6 @@
 {
     "name": "phccp",
-    "version": "1.0.0-alpha.10",
+    "version": "1.0.0-alpha.9",
     "main": "server/index.js",
     "dependencies": {
         "@babel/polyfill": "^7.6.0",
