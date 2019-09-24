@@ -37,18 +37,6 @@
                 </select>
             </mat-form-field>
             <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
-                <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
-                    The URL must start with https://.
-                </mat-error>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
-                    The URL must not have a trailing slash.
-                </mat-error>
-                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.invalid">
-                    Please enter a valid URL for the API health check.
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
                 <input matInput placeholder="Website" formControlName="website" [errorStateMatcher]="matcher" required>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.website.errors?.http">
                     The URL must start with http:// or https://.
@@ -58,6 +46,30 @@
                 </mat-error>
                 <mat-error class="app-error-message" *ngIf="editForm.controls.website.invalid">
                     Please enter a valid URL for the website.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
+                <input matInput placeholder="API Server URL" formControlName="apiServerUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiServerUrl.invalid">
+                    Please enter a valid URL for the API.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="app-form-field app-data-catalog-edit-form-field">
+                <input matInput placeholder="API Health Check URL" formControlName="apiHealthCheckUrl" [errorStateMatcher]="matcher" required>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.https">
+                    The URL must start with https://.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.errors?.noTrailingSlash">
+                    The URL must not have a trailing slash.
+                </mat-error>
+                <mat-error class="app-error-message" *ngIf="editForm.controls.apiHealthCheckUrl.invalid">
+                    Please enter a valid URL for the API health check.
                 </mat-error>
             </mat-form-field>
             <mat-error *ngIf="errors.editTool">

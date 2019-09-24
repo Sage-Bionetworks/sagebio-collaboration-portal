@@ -62,7 +62,12 @@ export class DataCatalogNewComponent implements OnInit {
                 Validators.required,
                 UrlValidators.https(),
                 UrlValidators.noTrailingSlash()
-            ]]
+            ]],
+            apiHealthCheckUrl: ['', [
+                Validators.required,
+                UrlValidators.https(),
+                UrlValidators.noTrailingSlash()
+            ]],
         });
     }
 

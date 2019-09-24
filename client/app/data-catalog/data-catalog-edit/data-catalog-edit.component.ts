@@ -47,16 +47,21 @@ export class DataCatalogEditComponent implements OnInit {
                 visibility: [this.dataCatalogSpecs.visibility.default.value, [
                     Validators.required
                 ]],
+                website: ['', [
+                    Validators.required,
+                    UrlValidators.http(),
+                    UrlValidators.noTrailingSlash()
+                ]],
+                apiServerUrl: ['', [
+                    Validators.required,
+                    UrlValidators.https(),
+                    UrlValidators.noTrailingSlash()
+                ]],
                 apiHealthCheckUrl: ['', [
                     Validators.required,
                     UrlValidators.https(),
                     UrlValidators.noTrailingSlash()
                 ]],
-                website: ['', [
-                    Validators.required,
-                    UrlValidators.http(),
-                    UrlValidators.noTrailingSlash()
-                ]]
             });
     }
 
@@ -68,8 +73,9 @@ export class DataCatalogEditComponent implements OnInit {
                 description: this.dataCatalog.description,
                 picture: this.dataCatalog.picture,
                 visibility: this.dataCatalog.visibility,
-                apiHealthCheckUrl: this.dataCatalog.apiHealthCheckUrl,
-                website: this.dataCatalog.website
+                website: this.dataCatalog.website,
+                apiServerUrl: this.dataCatalog.apiServerUrl,
+                apiHealthCheckUrl: this.dataCatalog.apiHealthCheckUrl
             });
             this.editForm.markAllAsTouched();
         }
