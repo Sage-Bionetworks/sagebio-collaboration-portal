@@ -25,11 +25,10 @@ before_script:
 script:
   - npm run cover || travis_terminate 1;
 
+after_success:
+  - bash .travis/after-success.sh || travis_terminate 1;
+
 deploy:
-  - provider: script
-    script: codecov --token=${CODECOV_TOKEN}
-    on:
-      branch: develop
   - provider: script
     script: bash .travis/docker-deploy.sh
     on:
