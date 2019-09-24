@@ -5,6 +5,7 @@
     "dependencies": {
         "@babel/polyfill": "^7.6.0",
         "@babel/runtime": "^7.6.0",
+        "ansi-colors": "^4.1.1",
         "bluebird": "^3.5.5",
         "body-parser": "^1.19.0",
         "composable-middleware": "^0.3.0",

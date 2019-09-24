@@ -23,6 +23,7 @@ import {
 import webpack from 'webpack';
 import makeWebpackConfig from './webpack.make';
 import log from 'fancy-log';
+import * as colors from 'ansi-colors';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -65,9 +66,9 @@ const paths = {
  ********************/
 
 function onServerLog(log) {
-    console.log(plugins.util.colors.white('[') +
-        plugins.util.colors.yellow('nodemon') +
-        plugins.util.colors.white('] ') +
+    console.log(colors.white('[') +
+        colors.yellow('nodemon') +
+        colors.white('] ') +
         log.message);
 }
 
