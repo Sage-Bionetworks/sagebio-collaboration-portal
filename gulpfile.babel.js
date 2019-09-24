@@ -22,6 +22,7 @@ import {
 // } from 'isparta';
 import webpack from 'webpack';
 import makeWebpackConfig from './webpack.make';
+import log from 'fancy-log';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -234,7 +235,7 @@ function webpackCompile(options, cb) {
     compiler.run((err, stats) => {
         if (err) return cb(err);
 
-        plugins.util.log(stats.toString({
+        log(stats.toString({
             colors: true,
             timings: true,
             chunks: options.BUILD
