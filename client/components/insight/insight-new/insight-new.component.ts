@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CaptureProvenanceActivityService } from 'components/provenance/capture-provenance-activity.service';
+import { ActivityService } from 'components/activity/activity.service';
 import { Insight } from 'models/entities/insights/insight.model';
 import { Project } from 'models/entities/project.model';
 import { ActivityClass } from 'models/provenance/activity.model';
@@ -8,9 +8,10 @@ import { InsightService } from '../insight.service';
 import config from '../../../app/app.constants';
 import { EntityAttachmentListComponent } from 'components/entity/entity-attachment/entity-attachment-list/entity-attachment-list.component';
 import { forkJoin, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take, map, catchError } from 'rxjs/operators';
 // import { EntityAttachments, EntityAttachmentMode } from 'models/entities/entity.model';
 import { ReferenceClass } from './../../../../shared/interfaces/provenance/activity.model';
+import { NotificationService } from 'components/notification/notification.service';
 
 @Component({
     selector: 'insight-new',
@@ -31,11 +32,12 @@ export class InsightNewComponent {
         newInsight: undefined,
     };
 
-    static parameters = [FormBuilder, CaptureProvenanceActivityService, InsightService];
+    static parameters = [FormBuilder, ActivityService, InsightService, NotificationService];
     constructor(
         private formBuilder: FormBuilder,
-        private captureProvActivity: CaptureProvenanceActivityService,
-        private insightService: InsightService
+        private activityService: ActivityService,
+        private insightService: InsightService,
+        private notificationService: NotificationService
     ) {
         this.attachmentTypes = [
             config.entityTypes.INSIGHT,
@@ -78,55 +80,47 @@ export class InsightNewComponent {
                 switchMap(insight =>
                     forkJoin({
                         insight: of(insight),
-                        attachments: this.attachments.createAttachments(insight),
+                        attachments: this.attachments.createAttachments(insight).pipe(
+                            switchMap(() => this.attachments.getAttachments()), // get bundles that have extra info
+                            take(1)
+                        ),
                     })
-                )
-            )
-            .subscribe(
-                (res: any) => {
+                ),
+                // Save activity
+                switchMap((res: any) => {
                     let insight = res.insight;
+                    let attachments = res.attachments;
 
-                    // TODO Do not do subscribe inside another subscribe
-                    this.attachments.getAttachments().subscribe(attachments => {
-                        let usedEntitiesForProvenance = attachments.map(att => ({
-                            name: att.entity.title,
-                            role: '',
-                            targetId: att.attachment.entityId,
-                            targetVersionId: '1',
-                            class: att.attachment.entityType,
-                            subsclass: att.attachment.entitySubType,
-                        }));
+                    let usedEntities = attachments.map(att => ({
+                        name: att.entity.title,
+                        role: '',
+                        targetId: att.attachment.entityId,
+                        targetVersionId: '1',
+                        class: att.attachment.entityType,
+                        subsclass: att.attachment.entitySubType,
+                    }));
 
-                        this.captureProvActivity.save({
+                    return this.activityService
+                        .save({
                             generatedName: insight.title,
                             generatedTargetId: insight._id,
                             generatedClass: ReferenceClass.INSIGHT,
                             generatedSubClass: insight.insightType,
-                            usedEntities: usedEntitiesForProvenance,
-                        });
-                        this.newInsight.emit(insight);
-                    });
-
-                    // let provenanceAttachment = this.attachments.getAttachments(attachment => ({
-                    //     name: 'plop',
-                    //     role: '',
-                    //     // targetId: attachment.attachment.entityId,
-                    //     // targetVersionId: '1',
-                    //     // class: attachment.entityType,
-                    //     // subsclass: attachment.entitySubType
-                    // })),
-
-                    // list of attachments
-                    // - name, _id, entityType, entitySubtype,
-                    // name, role = '', targetId: _id, targetVersionId: '1', class=entityType, subclass: subsclass if available
-                    // this.captureProvActivity.save({
-                    //     generatedName: insight.title,
-                    //     generatedTargetId: insight._id,
-                    //     generatedClass: ReferenceClass.INSIGHT,
-                    //     generatedSubClass: insight.insightType,
-                    //     // usedEntities:
-                    // });
-                    // this.newInsight.emit(insight);
+                            usedEntities,
+                        })
+                        .pipe(
+                            map(() => insight),
+                            catchError(err => {
+                                console.error('Unable to create a provenance activity', err);
+                                this.notificationService.error('Unable to create a provenance activity');
+                                return of(<Insight>undefined);
+                            })
+                        );
+                })
+            )
+            .subscribe(
+                insight => {
+                    this.newInsight.emit(insight);
                 },
                 err => {
                     console.error(err);

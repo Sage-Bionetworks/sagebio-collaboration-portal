@@ -83,6 +83,7 @@ module.exports = function makeWebpackConfig(options) {
         extensions: ['.js', '.ts', '.scss'],
         alias: {
             primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
+            app: path.resolve(__dirname, 'client/app/'),
             components: path.resolve(__dirname, 'client/components/'),
             models: path.resolve(__dirname, 'shared/interfaces/')
         }
@@ -97,6 +98,7 @@ module.exports = function makeWebpackConfig(options) {
             alias: {
                 // for some reason the primus client and webpack don't get along in test
                 primus: path.resolve(__dirname, 'client/components/socket/primus.mock.ts'),
+                app: path.resolve(__dirname, 'client/app/'),
                 components: path.resolve(__dirname, 'client/components/'),
                 models: path.resolve(__dirname, 'shared/interfaces/')
             }
@@ -161,13 +163,13 @@ module.exports = function makeWebpackConfig(options) {
                             // '@babel/plugin-transform-async-to-generator',
                             // '@babel/plugin-syntax-dynamic-import',
                             // '@babel/plugin-proposal-object-rest-spread'
-                        ].concat(TEST ? ['istanbul'] : []),
+                        ].concat(TEST ? [] : []),
+                        // ].concat(TEST ? ['istanbul'] : []),
                     }
                 }].concat(DEV ? '@angularclass/hmr-loader' : []),
                 include: [
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
-                    // path.resolve(__dirname, 'node_modules/lodash-es/'),
                     path.resolve(__dirname, 'node_modules/katex/dist/katex.min.js'),
                     path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
@@ -307,7 +309,8 @@ module.exports = function makeWebpackConfig(options) {
                 filename: '[name].[hash].css',
                 chunkFilename: '[id].[hash].css',
             }),
-            // (“en” is built into Moment and can’t be removed)
+            // To strip all locales except "en"
+            // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
             }),
@@ -370,7 +373,8 @@ module.exports = function makeWebpackConfig(options) {
     if (DEV) {
         config.plugins.push(
             new webpack.HotModuleReplacementPlugin(),
-            // (“en” is built into Moment and can’t be removed)
+            // To strip all locales except "en"
+            // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
             }),
@@ -392,6 +396,7 @@ module.exports = function makeWebpackConfig(options) {
                 },
             },
             minimizer: [
+                // TODO: Uncomment for production build
                 // new TerserPlugin({
                 //     cache: true,
                 //     parallel: true,

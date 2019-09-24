@@ -1,0 +1,9 @@
+{
+    "all": false,
+    "check-coverage": false,
+    "include": ["server/**/*.js"],
+    "explude": ["'server/**/*.{spec,integration}.js'"],
+    "reporter": ["lcovonly", "text", "text-summary"],
+    "temp-directory": "coverage/.nyc_output",
+    "report-dir": "coverage"
+}

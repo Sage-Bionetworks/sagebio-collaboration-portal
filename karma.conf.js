@@ -17,10 +17,16 @@ module.exports = function (config) {
             mocha: {
                 timeout: 5000, // set default mocha spec timeout
             },
+            captureConsole: true,
         },
 
         // list of files / patterns to load in the browser
-        files: ['spec.js'],
+        files: [
+            {
+                pattern: 'spec.js',
+                watched: false,
+            },
+        ],
 
         preprocessors: {
             'spec.js': ['webpack'],
@@ -36,37 +42,19 @@ module.exports = function (config) {
             noInfo: true,
         },
 
-        coverageReporter: {
-            reporters: [
-                // {
-                //     type: 'html', //produces a html document after code is run
-                //     subdir: 'client',
-                // },
-                {
-                    type: 'json',
-                    subdir: '.',
-                    file: 'client-coverage.json',
-                },
-                {
-                    type: 'lcov',
-                    subdir: 'client',
-                },
-            ],
-            dir: 'coverage/', //path to created html doc
-        },
-
         plugins: [
-            require('karma-chrome-launcher'),
-            require('karma-coverage'),
-            require('karma-firefox-launcher'),
             require('karma-mocha'),
             require('karma-chai-plugins'),
-
-            require('karma-spec-reporter'),
-            require('karma-phantomjs-launcher'),
-            require('karma-script-launcher'),
+            // require('karma-coverage'),
+            require('karma-chrome-launcher'),
+            require('karma-firefox-launcher'),
+            // require('karma-phantomjs-launcher'),
+            // require('karma-script-launcher'),
             require('karma-webpack'),
             require('karma-sourcemap-loader'),
+            require('karma-spec-reporter'),
+            require('karma-mocha-reporter'),
+            require('karma-spec-reporter'),
         ],
 
         // list of files / patterns to exclude
@@ -86,7 +74,33 @@ module.exports = function (config) {
         // - junit
         // - growl
         // - coverage
-        reporters: ['spec', 'coverage'],
+        // - mocha
+        reporters: ['spec'],
+
+        // specReporter: {
+        //     maxLogLines: 5, // limit number of lines logged per test
+        //     suppressErrorSummary: true, // do not print error summary
+        //     suppressFailed: false, // do not print information about failed tests
+        //     suppressPassed: false, // do not print information about passed tests
+        //     suppressSkipped: true, // do not print information about skipped tests
+        //     showSpecTiming: false, // print the time elapsed for each spec
+        //     failFast: true, // test would finish with error when a first fail occurs.
+        // },
+
+        // coverageReporter: {
+        //     reporters: [
+        //         {
+        //             type: 'html',
+        //             subdir: 'client',
+        //         },
+        //         {
+        //             type: 'json',
+        //             subdir: '.',
+        //             file: 'client-coverage.json',
+        //         },
+        //     ],
+        //     dir: 'coverage/',
+        // },
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: false,

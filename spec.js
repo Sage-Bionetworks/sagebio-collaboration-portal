@@ -1,10 +1,6 @@
-/*eslint-env node*/
+/* eslint-env node */
 import '@babel/polyfill';
-// import "core-js/stable";
-// import "regenerator-runtime/runtime";
-
 import 'core-js/proposals/reflect-metadata';
-
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 import 'zone.js/dist/proxy';
@@ -14,7 +10,7 @@ import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
 
 var testsContext = require.context('./client', true, /\.(spec|test)\.ts$/);
-// testsContext.keys().forEach(testsContext);
+testsContext.keys().forEach(testsContext);
 testsContext('./app/main/main.component.spec.ts');
 testsContext('./components/util.spec.ts');
 testsContext('./components/activity/activity-sidenav/activity-sidenav.component.spec.ts');
@@ -22,7 +18,6 @@ testsContext('./components/activity/activity-sidenav/activity-sidenav.component.
 
 import {
     TestBed,
-    getTestBed
 } from '@angular/core/testing';
 import {
     BrowserDynamicTestingModule,

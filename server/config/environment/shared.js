@@ -118,10 +118,14 @@ export const activityTypes = {
         value: 'Mention',
         title: 'Mention',
     },
-    STATE_CREATION: {
-        value: 'StateCreation',
-        title: 'State Creation',
+    TOOL_SESSION: {
+        value: 'ToolSession',
+        title: 'Tool Session',
     },
+    RESOURCE_REGISTRATION: {
+        value: 'ResourceRegistration',
+        title: 'Resource Registration'
+    }
 };
 
 export const accessTypes = {
