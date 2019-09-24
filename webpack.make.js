@@ -30,9 +30,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     const config = {};
 
-    config.mode = BUILD ?
-        'production' :
-        'development';
+    config.mode = BUILD ? 'production' : 'development';
 
     /**
      * Entry
@@ -43,10 +41,8 @@ module.exports = function makeWebpackConfig(options) {
     if (!TEST) {
         config.entry = {
             polyfills: './client/app/polyfills.ts',
-            vendor: [
-                'lodash'
-            ],
-            app: './client/app/app.ts'
+            vendor: ['lodash'],
+            app: './client/app/app.ts',
         };
     }
 
@@ -74,7 +70,7 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js'
+            chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js',
         };
     }
 
@@ -85,23 +81,21 @@ module.exports = function makeWebpackConfig(options) {
             primus: path.resolve(__dirname, 'client/components/socket/primus.js'),
             app: path.resolve(__dirname, 'client/app/'),
             components: path.resolve(__dirname, 'client/components/'),
-            models: path.resolve(__dirname, 'shared/interfaces/')
-        }
+            models: path.resolve(__dirname, 'shared/interfaces/'),
+        },
     };
 
     if (TEST) {
         config.resolve = {
-            modules: [
-                'node_modules'
-            ],
+            modules: ['node_modules'],
             extensions: ['.js', '.ts', '.scss'],
             alias: {
                 // for some reason the primus client and webpack don't get along in test
                 primus: path.resolve(__dirname, 'client/components/socket/primus.mock.ts'),
                 app: path.resolve(__dirname, 'client/app/'),
                 components: path.resolve(__dirname, 'client/components/'),
-                models: path.resolve(__dirname, 'shared/interfaces/')
-            }
+                models: path.resolve(__dirname, 'shared/interfaces/'),
+            },
         };
     }
 
@@ -127,68 +121,74 @@ module.exports = function makeWebpackConfig(options) {
 
     // Initialize module
     config.module = {
-        rules: [{
+        rules: [
+            {
                 // JS LOADER
                 // Reference: https://github.com/babel/babel-loader
                 // Transpile .js files using babel-loader
                 // Compiles ES6 and ES7 into ES5 code
                 test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env', {
-                                targets: {
-                                    browsers: ['last 2 versions', 'not dead'],
-                                },
-                                debug: BUILD,
-                                modules: false
-                                // corejs: 3
-                                // useBuiltIns: 'usage'
-                            }]
-                        ],
-                        plugins: [
-                            // '@babel/transform-runtime'
-                            // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
-                            //     "corejs": 2,
-                            // }],
-                            // ['@babel/plugin-proposal-decorators', {
-                            //     legacy: true
-                            // }],
-                            // '@babel/plugin-proposal-class-properties', // must be after decorators
-                            // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
-                            // '@babel/plugin-proposal-export-default-from',
-                            // '@babel/plugin-proposal-export-namespace-from',
-                            // '@babel/plugin-syntax-export-default-from',
-                            // '@babel/plugin-transform-async-to-generator',
-                            // '@babel/plugin-syntax-dynamic-import',
-                            // '@babel/plugin-proposal-object-rest-spread'
-                        ].concat(TEST ? [] : []),
-                        // ].concat(TEST ? ['istanbul'] : []),
-                    }
-                }].concat(DEV ? '@angularclass/hmr-loader' : []),
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        targets: {
+                                            browsers: ['last 2 versions', 'not dead'],
+                                        },
+                                        debug: BUILD,
+                                        modules: false,
+                                        // corejs: 3
+                                        // useBuiltIns: 'usage'
+                                    },
+                                ],
+                            ],
+                            plugins: [
+                                // '@babel/transform-runtime'
+                                // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
+                                //     "corejs": 2,
+                                // }],
+                                // ['@babel/plugin-proposal-decorators', {
+                                //     legacy: true
+                                // }],
+                                // '@babel/plugin-proposal-class-properties', // must be after decorators
+                                // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
+                                // '@babel/plugin-proposal-export-default-from',
+                                // '@babel/plugin-proposal-export-namespace-from',
+                                // '@babel/plugin-syntax-export-default-from',
+                                // '@babel/plugin-transform-async-to-generator',
+                                // '@babel/plugin-syntax-dynamic-import',
+                                // '@babel/plugin-proposal-object-rest-spread'
+                            ].concat(TEST ? [] : []),
+                            // ].concat(TEST ? ['istanbul'] : []),
+                        },
+                    },
+                ].concat(DEV ? '@angularclass/hmr-loader' : []),
                 include: [
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
                     path.resolve(__dirname, 'node_modules/katex/dist/katex.min.js'),
                     path.resolve(__dirname, 'node_modules/quill/dist/quill.min.js'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.js'),
-                ]
-            }, {
+                ],
+            },
+            {
                 // TS LOADER
                 // Reference: https://github.com/s-panferov/awesome-typescript-loader
                 // Transpile .ts files using awesome-typescript-loader
                 test: /\.ts$/,
-                use: [{
-                    loader: 'awesome-typescript-loader',
-                    options: {
-                        tsconfig: path.resolve(__dirname, 'tsconfig.json')
-                    }
-                }].concat(DEV ? '@angularclass/hmr-loader' : []),
-                include: [
-                    path.resolve(__dirname, 'client/'),
-                    path.resolve(__dirname, 'shared/interfaces/')
-                ]
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: {
+                            tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+                        },
+                    },
+                ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                include: [path.resolve(__dirname, 'client/'), path.resolve(__dirname, 'shared/interfaces/')],
             },
             {
                 // ASSET LOADER
@@ -198,7 +198,7 @@ module.exports = function makeWebpackConfig(options) {
                 // Pass along the updated reference to your code
                 // You can add here any file extension you want to get copied to your output
                 test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
-                use: 'file-loader'
+                use: 'file-loader',
             },
             {
                 // HTML LOADER
@@ -208,10 +208,11 @@ module.exports = function makeWebpackConfig(options) {
                 use: {
                     loader: 'html-loader',
                     options: {
-                        attrs: false
-                    }
-                }
-            }, {
+                        attrs: false,
+                    },
+                },
+            },
+            {
                 // CSS LOADER
                 // Reference: https://github.com/webpack/css-loader
                 // Allow loading css through js
@@ -219,20 +220,17 @@ module.exports = function makeWebpackConfig(options) {
                 // Reference: https://github.com/postcss/postcss-loader
                 // Postprocess your css with PostCSS plugins
                 test: /\.css$/,
-                use: [
-                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'postcss-loader',
-                ],
+                use: [DEV ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
                 include: [
                     path.resolve(__dirname, 'node_modules/katex/dist/katex.min.css'),
                     path.resolve(__dirname, 'node_modules/quill/dist/*.css'),
                     path.resolve(__dirname, 'node_modules/quill-emoji/dist/quill-emoji.css'),
                     path.resolve(__dirname, 'node_modules/quill-mention/dist/quill.mention.min.css'),
                     path.resolve(__dirname, 'node_modules/quill-mention/src/quill.mention.css'), // because quill-mention use src instead of dist
-                    path.resolve(__dirname, 'client/app/app.css')
-                ]
-            }, {
+                    path.resolve(__dirname, 'client/app/app.css'),
+                ],
+            },
+            {
                 // SASS LOADER
                 // Reference: https://github.com/jtangelder/sass-loader
                 test: /\.(scss|sass)$/,
@@ -244,24 +242,18 @@ module.exports = function makeWebpackConfig(options) {
                 ],
                 include: [
                     // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
-                    path.resolve(__dirname, 'client/app/app.scss')
-                ]
-            }, {
+                    path.resolve(__dirname, 'client/app/app.scss'),
+                ],
+            },
+            {
                 // SASS LOADER
                 // Reference: https://github.com/jtangelder/sass-loader
                 test: /\.(scss|sass)$/,
-                use: [
-                    'to-string-loader?sourceMap',
-                    'css-loader?sourceMap',
-                    'postcss-loader',
-                    'sass-loader?sourceMap',
-                ],
-                include: [
-                    path.resolve(__dirname, 'client')
-                ],
-                exclude: [/app\.scss$/]
-            }
-        ]
+                use: ['to-string-loader?sourceMap', 'css-loader?sourceMap', 'postcss-loader', 'sass-loader?sourceMap'],
+                include: [path.resolve(__dirname, 'client')],
+                exclude: [/app\.scss$/],
+            },
+        ],
     };
 
     /**
@@ -271,35 +263,45 @@ module.exports = function makeWebpackConfig(options) {
      */
     config.plugins = [
         // Hides the 'the request of a dependency is an expression' warnings
-        new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core/,
-            path.resolve(__dirname, '../src')
-        ),
+        new webpack.ContextReplacementPlugin(/angular(\\|\/)core/, path.resolve(__dirname, '../src')),
 
         new webpack.LoaderOptionsPlugin({
             options: {
-                context: __dirname
+                context: __dirname,
             },
             sassLoader: {
                 outputStyle: 'compressed',
                 precision: 10,
-                sourceComments: false
+                sourceComments: false,
             },
-
         }),
-
-        // TypeScript compilation errors WILL NOT FAIL THE BUILD unless we explicitly handle it here
-        // function () {
-        //     this.plugin("done", function(stats)
-        //     {
-        //         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1)
-        //         {
-        //             console.log(stats.compilation.errors);
-        //             process.exit(1); // or throw new Error('webpack build failed.');
-        //         }
-        //     });
-        // }
     ];
+
+    /**
+     * TypeScript compilation errors WILL NOT FAIL THE TEST
+     * unless we explicitly handle it (fixes the case where test:client reports
+     * an error but overall test is reported as successful).
+     *
+     * Note: There should be a more elegant way to handle this.
+     */
+    class TestCompilationErrorHandlerPlugin {
+        apply(compiler) {
+            compiler.hooks.done.tap('TestCompilationErrorHandlerPlugin', stats => {
+                if (
+                    stats.compilation.errors
+                    && stats.compilation.errors.length
+                    && process.argv.indexOf('--watch') == -1
+                ) {
+                    console.log(stats.compilation.errors);
+                    throw new Error('An error occurred during TestCompilationErrorHandlerPlugin');
+                }
+            });
+        }
+    }
+
+    if (TEST) {
+        config.plugins.push(new TestCompilationErrorHandlerPlugin());
+    }
 
     if (BUILD) {
         config.plugins.push(
@@ -313,7 +315,7 @@ module.exports = function makeWebpackConfig(options) {
             // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
-            }),
+            })
             // new BundleAnalyzerPlugin({
             //     generateStatsFile: true,
             // }),
@@ -330,7 +332,7 @@ module.exports = function makeWebpackConfig(options) {
                 filename: '../client/app.html',
                 alwaysWriteToDisk: true,
             }),
-            new HtmlWebpackHarddiskPlugin(),
+            new HtmlWebpackHarddiskPlugin()
         );
     }
 
@@ -345,14 +347,17 @@ module.exports = function makeWebpackConfig(options) {
 
     var gitRevisionPlugin = new GitRevisionPlugin();
 
-    let env = _.merge({
-        'process.env': {
-            'NODE_ENV': DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
-            'GIT_VERSION': JSON.stringify(gitRevisionPlugin.version()),
-            'GIT_COMMIT_HASH': JSON.stringify(gitRevisionPlugin.commithash()),
-            'GIT_BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
-        }
-    }, localEnv);
+    let env = _.merge(
+        {
+            'process.env': {
+                NODE_ENV: DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
+                GIT_VERSION: JSON.stringify(gitRevisionPlugin.version()),
+                GIT_COMMIT_HASH: JSON.stringify(gitRevisionPlugin.commithash()),
+                GIT_BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
+            },
+        },
+        localEnv
+    );
 
     if (DEV) {
         // Define the envronment variables that appear in config/shared.js
@@ -360,9 +365,9 @@ module.exports = function makeWebpackConfig(options) {
         let sharedEnv = {
             'process.env': {
                 // 'NODE_ENV'  // already set above
-                'CONTACT_US_URL': `"${process.env.CONTACT_US_URL}"`
-            }
-        }
+                CONTACT_US_URL: `"${process.env.CONTACT_US_URL}"`,
+            },
+        };
         env = _.merge(env, sharedEnv);
     }
 
@@ -377,7 +382,7 @@ module.exports = function makeWebpackConfig(options) {
             // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
-            }),
+            })
         );
     }
 
@@ -391,7 +396,7 @@ module.exports = function makeWebpackConfig(options) {
                         name: 'styles',
                         test: /\.css$/,
                         chunks: 'all',
-                        enforce: true
+                        enforce: true,
                     },
                 },
             },
@@ -410,7 +415,7 @@ module.exports = function makeWebpackConfig(options) {
     if (TEST) {
         config.stats = {
             colors: true,
-            reasons: true
+            reasons: true,
         };
     }
 
@@ -426,7 +431,7 @@ module.exports = function makeWebpackConfig(options) {
             serverIp: process.env.IP || '0.0.0.0',
             serverPort: process.env.PORT || 9000,
             sslKey: process.env.SSL_KEY || fs.readFileSync('certs/server.key'),
-            sslCert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert')
+            sslCert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert'),
         };
 
         config.devServer = {
@@ -450,7 +455,7 @@ module.exports = function makeWebpackConfig(options) {
                     ws: true,
                     onError(err) {
                         console.log('Suppressing WDS proxy upgrade error:', err);
-                    }
+                    },
                 },
             },
             stats: {
@@ -460,14 +465,14 @@ module.exports = function makeWebpackConfig(options) {
                 chunks: false,
             },
             historyApiFallback: {
-                index: 'app.html'
+                index: 'app.html',
             },
             http2: true,
             https: {
                 key: webpackAppConfig.sslKey,
                 cert: webpackAppConfig.sslCert,
                 // ca: fs.readFileSync('.certs/ca.pem'),
-            }
+            },
         };
     }
 
