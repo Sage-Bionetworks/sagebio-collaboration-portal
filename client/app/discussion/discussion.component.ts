@@ -34,4 +34,8 @@ export class DiscussionComponent implements OnInit {
                 err => console.error(err)
             );
     }
+
+    newThread(): void {
+        console.log('plop');
+    }
 }
