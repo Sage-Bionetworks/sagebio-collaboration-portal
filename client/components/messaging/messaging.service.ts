@@ -50,11 +50,21 @@ export class MessagingService {
      */
     updateThread(thread: Thread): Observable<Thread> {
         return this.httpClient.patch<Thread>(`/api/threads/${thread._id}`, [
-            { op: 'replace', path: '/title', value: thread.title }
+            { op: 'replace', path: '/title', value: thread.title },
         ]);
     }
 
     // MESSAGES FUNCTIONS
+
+    /**
+     * Returns the messages associated to the thread specified.
+     * @param thread
+     */
+    getMessages(thread: Thread): Observable<Message[]> {
+        return this.httpClient
+            .get<Message[]>(`/api/threads/${thread._id}/messages`)
+            .pipe(map(messages => orderBy(['createdAt'], ['asc'], messages)));
+    }
 
     /**
      * Creates a new message and associates it to the thread specified.
@@ -97,12 +107,6 @@ export class MessagingService {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
-    }
-
-    getMessagesByThread(thread: Thread): Observable<Message[]> {
-        return this.httpClient
-            .get<Message[]>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`)
-            .pipe(map(messages => orderBy(['createdAt'], ['asc'], messages)));
     }
 
     updateMessage(thread: Thread, message: Message): Observable<Message> {

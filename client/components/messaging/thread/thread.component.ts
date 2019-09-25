@@ -5,8 +5,10 @@ import { App } from 'models/entities/app.model';
 import { Thread } from 'models/messaging/thread.model';
 // import { AppService } from './../../app.service';
 // import config from '../../app.constants';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, filter, take, tap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
+import { MessagingService } from '../messaging.service';
+import { Message } from 'models/messaging/message.model';
 
 @Component({
     selector: 'thread',
@@ -15,13 +17,18 @@ import { NotificationService } from 'components/notification/notification.servic
 })
 export class ThreadComponent implements OnInit {
     private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(null);
+    private messages: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
     // @Input() private thread$: Observable<Thread>;
     private showThreadEditTemplate = false;
 
-    static parameters = [Router, ActivatedRoute, NotificationService];
-    constructor(private router: Router, private route: ActivatedRoute, private notificationService: NotificationService) {
-
+    static parameters = [Router, ActivatedRoute, NotificationService, MessagingService];
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private notificationService: NotificationService,
+        private messagingService: MessagingService
+    ) {
         // this.thread$ = this.route.params.pipe(
         //     switchMap(res => this.dataCatalogService.get(res.id))
         // );
@@ -33,12 +40,32 @@ export class ThreadComponent implements OnInit {
 
     @Input()
     set thread(thread) {
-        console.log('THEAD IS NOW', thread);
         this._thread.next(thread);
     }
 
+    get messages$(): Observable<Message[]> {
+        return this.messages.asObservable();
+    }
+
     ngOnInit() {
-        // this.app$ = this.appService.getApp();
+        this._thread
+            .pipe(
+                filter(thread => !!thread),
+                take(1),
+                // TODO Emit socket event when Message is created or added
+                // tap(thread => this.socketMessagesEventName = `message:entity:${thread.entityId}:${thread._id}`),
+                switchMap(thread => this.messagingService.getMessages(thread))
+            )
+            .subscribe(
+                messages => {
+                    this.messages.next(messages);
+                    // this.socketService.syncArraySubject(this.socketMessagesEventName,
+                    //     this._messages, (items: Message[]) => {
+                    //         return orderBy('createdAt', 'asc', items);
+                    //     });
+                },
+                err => console.error(err)
+            );
     }
 
     getLink(): string {

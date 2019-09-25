@@ -17,11 +17,16 @@ router.patch('/:id', auth.isAuthenticated(), controller.patch);
 // Returns the threads associated with the entity specified.
 router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
 
+// Returns the messages for the thread specified.
+router.get('/:id/messages', auth.isAuthenticated(), controller.indexMessages);
+
 // Adds a message to the thread specified.
 router.post('/:id/messages', auth.isAuthenticated(), controller.createMessage);
 
 // Returns the number of messages for the thread specified.
 router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
+
+
 
 
 
@@ -43,15 +48,6 @@ router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCou
 // //     ADMIN_ACCESS
 // // ),
 // controller.destroy);
-
-// // Returns the messages for the thread specified.
-// router.get('/entity/:entityId/:id/messages',
-// // auth.canAccessEntity(
-// //     READ_ACCESS,
-// //     WRITE_ACCESS,
-// //     ADMIN_ACCESS
-// // ),
-// controller.indexMessages);
 
 // // Patches the message specified.
 // router.patch('/entity/:entityId/:id/messages/:messageId',
