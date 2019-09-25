@@ -27,7 +27,7 @@ import { Thread } from './thread.model';
 export interface Message {
     _id?: string;
     body: string | any;
-    thread: Thread | string;
+    thread?: Thread | string;
     createdAt?: string;
     createdBy?: UserProfile;
     updatedAt?: string;

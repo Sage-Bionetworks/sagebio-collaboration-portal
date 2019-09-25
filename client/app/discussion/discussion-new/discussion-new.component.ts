@@ -29,7 +29,9 @@ export class DiscussionNewComponent implements OnInit {
     }
 
     onNewThread(thread: Thread): void {
-        console.log('New thread has been created', thread);
+        if (thread) {
+            this.router.navigate(['/discussion', thread._id]);
+        }
     }
 
     onClose(): void {

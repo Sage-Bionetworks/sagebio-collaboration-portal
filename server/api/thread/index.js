@@ -5,8 +5,14 @@ import * as controller from './thread.controller';
 
 var router = Router();
 
+// Creates a new thread associated to the entity specified.
+router.post('/', auth.isAuthenticated(), controller.create);
+
 // Returns the threads associated with the entity specified.
 router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
+
+// Adds a message to the thread specified.
+router.post('/:id/messages', auth.isAuthenticated(), controller.createMessage);
 
 // Returns the number of messages for the thread specified.
 router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
@@ -24,15 +30,6 @@ router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCou
 
 // // Returns the threads that the user has access to.
 // router.get('/', auth.isAuthenticated(), controller.indexByUser);
-
-// // Creates a new thread associated to the entity specified.
-// router.post('/entity/:entityId',
-// // auth.canAccessEntity(
-// //     READ_ACCESS,
-// //     WRITE_ACCESS,
-// //     ADMIN_ACCESS
-// // ),
-// controller.create);
 
 // // Patches the thread specified.
 // router.patch('/entity/:entityId/:id',
@@ -54,16 +51,6 @@ router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCou
 // //     ADMIN_ACCESS
 // // ),
 // controller.indexMessages);
-
-// // Adds a message to the thread specified.
-// router.post('/entity/:entityId/:id/messages',
-// // auth.canAccessEntity(
-// //     READ_ACCESS,
-// //     WRITE_ACCESS,
-// //     ADMIN_ACCESS
-// // ),
-// auth.isAuthenticated(),
-// controller.createMessage);
 
 // // Patches the message specified.
 // router.patch('/entity/:entityId/:id/messages/:messageId',

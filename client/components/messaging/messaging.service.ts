@@ -20,6 +20,18 @@ export class MessagingService {
      * Threads
      */
 
+    /**
+     * Creates a new thread.
+     * @param thread
+     */
+    createThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.post<Thread>(`/api/threads`, thread);
+    }
+
+    /**
+     * Returns the thread associated to the entity specified.
+     * @param entityId
+     */
     getThreadsByEntity(entityId: string): Observable<Thread[]> {
         return this.httpClient
             .get<Thread[]>(`/api/threads/entity/${entityId}`)
@@ -30,6 +42,19 @@ export class MessagingService {
      * Messages
      */
 
+    /**
+     * Creates a new message and associates it to the thread specified.
+     * @param thread
+     * @param message
+     */
+    createMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/threads/${thread._id}/messages`, message);
+    }
+
+    /**
+     * Returns the number of messages in a thread.
+     * @param thread
+     */
     getNumMessages(thread: Thread): Observable<number> {
         return this.httpClient
             .get<NumberValue>(`/api/threads/${thread._id}/messages/count`)
@@ -41,17 +66,11 @@ export class MessagingService {
 
 
 
-
-
     getThreads(): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/threads`);
         // .pipe(
         //     map(threads => orderBy(['createdAt'], ['desc'], threads))
         // );
-    }
-
-    createThread(thread: Thread): Observable<Thread> {
-        return this.httpClient.post<Thread>(`/api/threads/entity/${thread.entityId}`, thread);
     }
 
     removeThread(thread: Thread): Observable<void> {
@@ -73,10 +92,6 @@ export class MessagingService {
         return this.httpClient
             .get<Message[]>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`)
             .pipe(map(messages => orderBy(['createdAt'], ['asc'], messages)));
-    }
-
-    createMessage(thread: Thread, message: Message): Observable<Message> {
-        return this.httpClient.post<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`, message);
     }
 
     updateMessage(thread: Thread, message: Message): Observable<Message> {

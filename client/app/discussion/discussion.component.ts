@@ -4,6 +4,7 @@ import { AppService } from '../app.service';
 import { App } from 'models/entities/app.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import config from '../../app/app.constants';
+import { Thread } from 'models/messaging/thread.model';
 
 @Component({
     selector: 'discussion',
@@ -35,7 +36,9 @@ export class DiscussionComponent implements OnInit {
             );
     }
 
-    newThread(): void {
-        console.log('plop');
+    newThread(thread: Thread): void {
+        // if (thread) {
+        //     this.router.navigate(['/discussion', thread._id]);
+        // }
     }
 }
