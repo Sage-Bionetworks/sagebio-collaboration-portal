@@ -1,8 +1,10 @@
+/* global require */
+
 // Generated on 2019-03-20 using generator-angular-fullstack 5.0.0-rc.4
-import _ from 'lodash';
 import del from 'del';
+
+import _ from 'lodash';
 import gulp from 'gulp';
-import grunt from 'grunt';
 import path from 'path';
 import through2 from 'through2';
 import gulpLoadPlugins from 'gulp-load-plugins';
@@ -45,7 +47,7 @@ const paths = {
         },
     },
     karma: 'karma.conf.js',
-    dist: 'dist',
+    dist: 'dist', // used
 };
 
 /********************
@@ -186,49 +188,85 @@ gulp.task('env:all', cb => {
     });
     cb();
 });
-gulp.task('env:test', cb => {
+
+/**
+ * Sets NODE_ENV to 'test' in process.env.
+ */
+gulp.task('env:test', done => {
     plugins.env({
         vars: {
             NODE_ENV: 'test',
         },
     });
-    cb();
+    done();
 });
-gulp.task('env:prod', cb => {
+
+/**
+ * Sets NODE_ENV to 'production' in process.env.
+ */
+gulp.task('env:prod', done => {
     plugins.env({
+        file: 'envvars-prod',
+        handler: () => {
+            return '';
+        },
         vars: {
             NODE_ENV: 'production',
         },
     });
-    cb();
+    done();
 });
+
+/********************
+ * Clean tasks
+ ********************/
+
+/**
+ * Removes the content of the dist folder.
+ */
+gulp.task('clean:dist', () =>
+    del([`${paths.dist}/!(.git*|.openshift)**`], {
+        dot: true,
+    })
+);
+
+/**
+ * Removes the content of the .tmp folder.
+ */
+gulp.task('clean:tmp', () =>
+    del(['.tmp/**/*'], {
+        dot: true,
+    })
+);
 
 /********************
  * Tasks
  ********************/
 
-gulp.task('inject:scss', () => gulp
-    .src(paths.client.mainStyle)
-    .pipe(
-        plugins.inject(
-            gulp
-                .src(_.union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
-                    read: false,
-                })
-                .pipe(plugins.sort()),
-            {
-                transform: filepath => {
-                    let newPath = filepath
-                        .replace(`/${clientPath}/app/`, '')
-                        .replace(`/${clientPath}/components/`, '../components/')
-                        .replace(/_(.*).scss/, (match, p1, offset, string) => p1)
-                        .replace('.scss', '');
-                    return `@import '${newPath}';`;
-                },
-            }
+gulp.task('inject:scss', () =>
+    gulp
+        .src(paths.client.mainStyle)
+        .pipe(
+            plugins.inject(
+                gulp
+                    .src(_.union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
+                        read: false,
+                    })
+                    .pipe(plugins.sort()),
+                {
+                    transform: filepath => {
+                        let newPath = filepath
+                            .replace(`/${clientPath}/app/`, '')
+                            .replace(`/${clientPath}/components/`, '../components/')
+                            .replace(/_(.*).scss/, (match, p1, offset, string) => p1)
+                            .replace('.scss', '');
+                        return `@import '${newPath}';`;
+                    },
+                }
+            )
         )
-    )
-    .pipe(gulp.dest(`${clientPath}/app`)));
+        .pipe(gulp.dest(`${clientPath}/app`))
+);
 
 gulp.task('inject', gulp.series('inject:scss'));
 
@@ -274,10 +312,12 @@ gulp.task('webpack:test', cb =>
     )
 );
 
-gulp.task('styles', () => gulp
-    .src(paths.client.mainStyle)
-    .pipe(styles())
-    .pipe(gulp.dest('.tmp/app')));
+gulp.task('styles', () =>
+    gulp
+        .src(paths.client.mainStyle)
+        .pipe(styles())
+        .pipe(gulp.dest('.tmp/app'))
+);
 
 gulp.task('transpile:server', () => {
     var toTranspile = _.union(paths.server.scripts, paths.server.json);
@@ -287,15 +327,19 @@ gulp.task('transpile:server', () => {
         .pipe(gulp.dest(`${paths.dist}/${serverPath}`));
 });
 
-gulp.task('lint:scripts:client', cb => gulp
-    .src(_.union(paths.client.scripts, _.map(paths.client.test, blob => `!${blob}`)))
-    .pipe(lintClientScripts())
-    .on('end', cb));
+gulp.task('lint:scripts:client', cb =>
+    gulp
+        .src(_.union(paths.client.scripts, _.map(paths.client.test, blob => `!${blob}`)))
+        .pipe(lintClientScripts())
+        .on('end', cb)
+);
 
-gulp.task('lint:scripts:server', cb => gulp
-    .src(_.union(paths.server.scripts, _.map(paths.server.test, blob => `!${blob}`)))
-    .pipe(lintServerScripts())
-    .on('end', cb));
+gulp.task('lint:scripts:server', cb =>
+    gulp
+        .src(_.union(paths.server.scripts, _.map(paths.server.test, blob => `!${blob}`)))
+        .pipe(lintServerScripts())
+        .on('end', cb)
+);
 
 gulp.task('lint:scripts', gulp.parallel('lint:scripts:client', 'lint:scripts:server'));
 
@@ -305,23 +349,21 @@ gulp.task('lint:scripts', gulp.parallel('lint:scripts:client', 'lint:scripts:ser
 //         .pipe(lintServerTestScripts());
 // });
 
-gulp.task('jscs', () => gulp
-    .src(_.union(paths.client.scripts, paths.server.scripts))
-    .pipe(plugins.jscs())
-    .pipe(plugins.jscs.reporter()));
-
-gulp.task('clean:tmp', () =>
-    del(['.tmp/**/*'], {
-        dot: true,
-    })
+gulp.task('jscs', () =>
+    gulp
+        .src(_.union(paths.client.scripts, paths.server.scripts))
+        .pipe(plugins.jscs())
+        .pipe(plugins.jscs.reporter())
 );
 
-gulp.task('start:client', cb => require('./webpack.server')
-    .start(config.clientPort)
-    .then(() => {
-        open(`http://localhost:${config.clientPort}`);
-        cb();
-    }));
+gulp.task('start:client', cb =>
+    require('./webpack.server')
+        .start(config.clientPort)
+        .then(() => {
+            open(`http://localhost:${config.clientPort}`);
+            cb();
+        })
+);
 
 gulp.task('start:server', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -437,43 +479,39 @@ gulp.task('test', gulp.series('test:server', 'test:client'));
  * Build
  ********************/
 
-gulp.task('clean:dist', () =>
-    del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {
-        dot: true,
-    })
+gulp.task('build:images', () =>
+    gulp
+        .src(paths.client.images)
+        .pipe(
+            plugins.imagemin([
+                plugins.imagemin.optipng({
+                    optimizationLevel: 5,
+                }),
+                plugins.imagemin.jpegtran({
+                    progressive: true,
+                }),
+                plugins.imagemin.gifsicle({
+                    interlaced: true,
+                }),
+                plugins.imagemin.svgo({
+                    plugins: [
+                        {
+                            removeViewBox: false,
+                        },
+                    ],
+                }),
+            ])
+        )
+        .pipe(plugins.rev())
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
+        .pipe(
+            plugins.rev.manifest(`${paths.dist}/${paths.client.revManifest}`, {
+                base: `${paths.dist}/${clientPath}/assets`,
+                merge: true,
+            })
+        )
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`))
 );
-
-gulp.task('build:images', () => gulp
-    .src(paths.client.images)
-    .pipe(
-        plugins.imagemin([
-            plugins.imagemin.optipng({
-                optimizationLevel: 5,
-            }),
-            plugins.imagemin.jpegtran({
-                progressive: true,
-            }),
-            plugins.imagemin.gifsicle({
-                interlaced: true,
-            }),
-            plugins.imagemin.svgo({
-                plugins: [
-                    {
-                        removeViewBox: false,
-                    },
-                ],
-            }),
-        ])
-    )
-    .pipe(plugins.rev())
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
-    .pipe(
-        plugins.rev.manifest(`${paths.dist}/${paths.client.revManifest}`, {
-            base: `${paths.dist}/${clientPath}/assets`,
-            merge: true,
-        })
-    )
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`)));
 
 gulp.task('revReplaceWebpack', function () {
     return gulp
@@ -486,11 +524,13 @@ gulp.task('revReplaceWebpack', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('copy:extras', () => gulp
-    .src([`${clientPath}/favicon.ico`, `${clientPath}/robots.txt`, `${clientPath}/.htaccess`], {
-        dot: true,
-    })
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}`)));
+gulp.task('copy:extras', () =>
+    gulp
+        .src([`${clientPath}/favicon.ico`, `${clientPath}/robots.txt`, `${clientPath}/.htaccess`], {
+            dot: true,
+        })
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}`))
+);
 
 /**
  * turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'
@@ -520,15 +560,6 @@ function flatten() {
 //         .pipe(flatten())
 //         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`));
 // });
-
-// gulp.task('plop', cb => cb());
-// gulp.task('hello', cb => cb());
-//
-// var done = (cb) => {
-//     console.log('calling cb');
-//     cb();
-// };
-// gulp.task('my', gulp.series('plop', gulp.parallel('hello', 'plop')), done);
 
 gulp.task(
     'serve',
@@ -562,9 +593,9 @@ gulp.task('serve:debug', cb =>
     )
 );
 
-gulp.task('copy:assets', () => gulp
-    .src([paths.client.assets, `!${paths.client.images}`])
-    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`)));
+gulp.task('copy:assets', () =>
+    gulp.src([paths.client.assets, `!${paths.client.images}`]).pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`))
+);
 
 gulp.task('copy:server', () => {
     var serverFiles = _.union('package.json', paths.server.swagger);
@@ -602,3 +633,8 @@ gulp.task('serve:dist', cb =>
  ********************/
 
 gulp.task('default', gulp.series('build'));
+
+// suggestion of default task
+// gulp.series(
+//     gulp.parallel('lint', 'test'), 'build', gulp.parallel('watch', 'start')
+//   )
