@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 // import { AppService } from '../app.service';
 // import { App } from 'models/entities/app.model';
 // import { PageTitleService } from 'components/page-title/page-title.service';
-// import config from '../../app/app.constants';
 import { App } from 'models/entities/app.model';
+import { Thread } from 'models/messaging/thread.model';
 import { AppService } from './../../app.service';
+import config from '../../app.constants';
 
 @Component({
     selector: 'discussion-new',
@@ -16,12 +17,19 @@ import { AppService } from './../../app.service';
 })
 export class DiscussionNewComponent implements OnInit {
     private app$: Observable<App>;
+    private appEntityType: string;
 
     static parameters = [Router, AppService];
-    constructor(private router: Router, private appService: AppService) {}
+    constructor(private router: Router, private appService: AppService) {
+        this.appEntityType = config.entityTypes.APP.value;
+    }
 
     ngOnInit() {
         this.app$ = this.appService.getApp();
+    }
+
+    onNewThread(thread: Thread): void {
+        console.log('New thread has been created', thread);
     }
 
     onClose(): void {

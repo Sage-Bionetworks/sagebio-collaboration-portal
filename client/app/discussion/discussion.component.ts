@@ -12,7 +12,7 @@ import config from '../../app/app.constants';
 })
 export class DiscussionComponent implements OnInit {
     private app: App;
-    private entityType: string;
+    private appEntityType: string;
 
     static parameters = [Router, ActivatedRoute, AppService, PageTitleService];
     constructor(
@@ -21,7 +21,7 @@ export class DiscussionComponent implements OnInit {
         private appService: AppService,
         private pageTitleService: PageTitleService
     ) {
-        this.entityType = config.entityTypes.APP.value;
+        this.appEntityType = config.entityTypes.APP.value;
     }
 
     ngOnInit() {

@@ -17,6 +17,28 @@ import DataCatalog from '../data-catalog/data-catalog.model';
 import Tool from '../tool/tool.model';
 import App from '../app/app.model';
 
+// Get a list of Threads for an entity
+export function indexByEntity(req, res) {
+    return Thread.find({
+        entityId: req.params.entityId,
+    })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // TODO Protect thread.contributors field
 
 export function getPublicProjectIds() {
@@ -105,16 +127,6 @@ export function create(req, res) {
             })
         )
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Get a list of Threads for an entity
-export function indexByEntity(req, res) {
-    return Thread.find({
-        entityId: req.params.entityId,
-    })
-        .exec()
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 

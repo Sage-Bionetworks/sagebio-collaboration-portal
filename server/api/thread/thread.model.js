@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
 import { registerEvents } from './thread.events';
 import User from '../user/user.model';
+import { models as modelSpecs } from '../../config/environment';
 
 var ThreadSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        minlength: modelSpecs.thread.title.minlength,
+        maxlength: modelSpecs.thread.title.maxlength,
     },
     entityId: {
         type: String,

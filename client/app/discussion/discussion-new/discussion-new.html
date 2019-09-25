@@ -1,13 +1,12 @@
 <div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" routerLink="/discussion">keyboard_arrow_left</mat-icon>
     <h1>Create a New Thread</h1>
 </div>
 
 <thread-new
     *ngIf="app$ | async as app"
     [entityId]="app._id"
-    [entityType]="entityType"
+    [entityType]="appEntityType"
+    (newThread)="onNewThread($event)"
     (close)="onClose()"
 ></thread-new>
-
-<!-- (newThread)="onNewThread($event)"
-(close)="showNewThreadForm = false" -->

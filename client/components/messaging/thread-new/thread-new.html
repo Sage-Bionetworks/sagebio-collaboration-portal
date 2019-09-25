@@ -23,8 +23,8 @@
                 {{ (form.controls.body.errors.jsonStringifyMaxLength.value * 2) / 1024 | number: '1.0-0' }}
                 KB)
             </mat-error>
-            <mat-error *ngIf="errors.createNewThread">
-                {{ errors.createNewThread }}
+            <mat-error *ngIf="errors.newThread">
+                {{ errors.newThread }}
             </mat-error>
             <div class="app-thread-new-form-actions">
                 <a
@@ -33,7 +33,7 @@
                     color="primary"
                     [disabled]="form.invalid"
                     (click)="form.invalid || createThread()"
-                    >Create a new Thread</a
+                    >Create New Thread</a
                 >
                 <a mat-raised-button (click)="close.emit(null)">Cancel</a>
             </div>

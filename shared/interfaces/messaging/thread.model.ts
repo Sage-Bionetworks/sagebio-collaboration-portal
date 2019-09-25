@@ -31,13 +31,13 @@ import { UserProfile } from '../auth/user-profile.model';
  *           $ref: '#/components/schemas/UserProfile'
  */
 export interface Thread {
-    _id: string;
+    _id?: string;
     title: string;
     entityId: string;
     entityType: string;
-    contributors: UserProfile[];
-    createdAt: string;
-    createdBy: UserProfile;
-    updatedAt: string;
-    updatedBy: UserProfile;
+    contributors?: UserProfile[];
+    createdAt?: string;
+    createdBy?: UserProfile;
+    updatedAt?: string;
+    updatedBy?: UserProfile;
 }

@@ -3,4 +3,6 @@
     <a mat-raised-button color="warn" class="app-thread-list-new-thread-btn" routerLink="/discussion/new" aria-label="Create a new thread">New Thread</a>
 </div>
 
-<entity-discussion *ngIf="app" [entity]="app" [entityType]="entityType"></entity-discussion>
+<thread-list *ngIf="app" [entityId]="app._id" [entityType]="appEntityType"></thread-list>
+
+<!-- <entity-discussion *ngIf="app" [entity]="app" [entityType]="entityType"></entity-discussion> -->

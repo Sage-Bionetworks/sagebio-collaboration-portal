@@ -1,7 +1,26 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, Input, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    AfterViewInit,
+    Input,
+    ViewChild,
+    ViewEncapsulation,
+    Output,
+    EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject, Subscription, combineLatest, of } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, filter, startWith, delay, switchMap, catchError } from 'rxjs/operators';
+import {
+    map,
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+    startWith,
+    delay,
+    switchMap,
+    catchError,
+} from 'rxjs/operators';
 
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
@@ -19,9 +38,8 @@ import { AuthService } from 'components/auth/auth.service';
     selector: 'thread-preview',
     template: require('./thread-preview.html'),
     styles: [require('./thread-preview.scss')],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
-
 export class ThreadPreviewComponent {
     @Output() deleteThread: EventEmitter<Thread> = new EventEmitter<Thread>();
     // @ViewChild(MessageStarButtonComponent, { static: false }) starButton: MessageStarButtonComponent;
@@ -42,14 +60,22 @@ export class ThreadPreviewComponent {
 
     // TODO add thread title max length to 64
 
-    static parameters = [FormBuilder, NotificationService, MessagingService, MessagingDataService, UserPermissionDataService, AuthService];
-    constructor(private formBuilder: FormBuilder,
+    static parameters = [
+        FormBuilder,
+        NotificationService,
+        MessagingService,
+        MessagingDataService,
+        UserPermissionDataService,
+        AuthService,
+    ];
+    constructor(
+        private formBuilder: FormBuilder,
         private notificationService: NotificationService,
         private messagingService: MessagingService,
         private messagingDataService: MessagingDataService,
         private userPermissionDataService: UserPermissionDataService,
         private authService: AuthService
-        ) {
+    ) {
         this.tooltipShowDelay = config.tooltip.showDelay;
         this.authorAvatarSize = config.avatar.size.mini;
         this.contributorAvatarSize = config.avatar.size.nano;
@@ -60,21 +86,27 @@ export class ThreadPreviewComponent {
                 switchMap(thread => this.messagingService.getNumMessages(thread)),
                 map(count => count - 1)
             )
-            .subscribe(numReplies => {
-                this.numReplies = numReplies;
-            }, err => console.error(err));
+            .subscribe(
+                numReplies => {
+                    this.numReplies = numReplies;
+                },
+                err => console.error(err)
+            );
 
         combineLatest(
             this.authService.authInfo(),
             this.userPermissionDataService.permissions(),
             this._thread
-        ).subscribe(([authInfo, permissions, thread]) => {
-            const canAdminEntity = thread && permissions.canAdminEntity(thread.entityId, thread.entityType);
-            const canReadEntity = thread && permissions.canReadEntity(thread.entityId, thread.entityType);
-            const isThreadOwner = thread && authInfo.user && thread.createdBy._id === authInfo.user._id;
-            this.canDeleteThread = canAdminEntity;
-            this.canEditThread = canAdminEntity || (canReadEntity && isThreadOwner);
-        }, err => console.error(err));
+        ).subscribe(
+            ([authInfo, permissions, thread]) => {
+                const canAdminEntity = thread && permissions.canAdminEntity(thread.entityId, thread.entityType);
+                const canReadEntity = thread && permissions.canReadEntity(thread.entityId, thread.entityType);
+                const isThreadOwner = thread && authInfo.user && thread.createdBy._id === authInfo.user._id;
+                this.canDeleteThread = canAdminEntity;
+                this.canEditThread = canAdminEntity || (canReadEntity && isThreadOwner);
+            },
+            err => console.error(err)
+        );
     }
 
     get thread() {
@@ -91,13 +123,14 @@ export class ThreadPreviewComponent {
     }
 
     removeThread(): void {
-        this.messagingService.removeThread(this.thread)
-            .subscribe(() => {
+        this.messagingService.removeThread(this.thread).subscribe(
+            () => {
                 this.deleteThread.emit();
             },
-                err => {
-                    console.error(err);
-                    this.notificationService.error('Unable to remove the thread');
-                });
+            err => {
+                console.error(err);
+                this.notificationService.error('Unable to remove the thread');
+            }
+        );
     }
 }
