@@ -24,6 +24,7 @@ export class EntityDiscussionComponent implements AfterViewInit {
             .subscribe(threads => {
                 this.threads = threads;
                 // this.socketService.syncUpdates('thread', this.threads);
+
             }, err => console.error(err));
     }
 }
