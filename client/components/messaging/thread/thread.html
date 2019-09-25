@@ -1,5 +1,92 @@
-<mat-card *ngIf="!showThreadEditTemplate; else showThreadEditForm">
+<ng-container *ngIf="thread$ | async as thread">
+    <mat-card *ngIf="!showThreadEditTemplate; else showThreadEditForm">
+        <mat-card-header>
+            <mat-card-title>{{ thread.title }}</mat-card-title>
+            <mat-card-subtitle
+                >Thread created by {{ thread.createdBy.name }} on
+                {{ thread.createdAt | dateAndTime }}</mat-card-subtitle
+            >
+            <div class="app-thread-actions">
+                <!-- <share-button [entity]="insight" [entityType]="entityType"></share-button>
+                    <show-activity-button [root]="insight"></show-activity-button> -->
+                <a
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreActionsMenu"
+                    matTooltip="More actions"
+                    aria-label="More actions"
+                >
+                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                </a>
+                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        ngxClipboard
+                        [cbContent]="getLink()"
+                        (cbOnSuccess)="notificationService.info('Link copied')"
+                        (cbOnError)="notificationService.info('Unable to copy the link.')"
+                        mat-menu-item
+                        aria-label="Copy link"
+                    >
+                        <span>Copy Link</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <!-- <button
+                            mat-menu-item
+                            [attr.aria-label]="'Edit ' + insight.insightType"
+                            (click)="showInsightEditTemplate = true"
+                        >
+                            <span>Edit {{ insight.insightType }}</span>
+                        </button>
+                        <button
+                            mat-menu-item
+                            [attr.aria-label]="'Delete ' + insight.insightType"
+                            (click)="deleteInsight(insight)"
+                            disabled
+                        >
+                            <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
+                        </button> -->
+                </mat-menu>
+            </div>
+        </mat-card-header>
+    </mat-card>
+</ng-container>
 
-
-
-</mat-card>
+<!-- <div class="app-insight-actions">
+        <share-button [entity]="insight" [entityType]="entityType"></share-button>
+        <show-activity-button [root]="insight"></show-activity-button>
+        <a
+            mat-icon-button
+            [matMenuTriggerFor]="moreActionsMenu"
+            matTooltip="More actions"
+            aria-label="More actions"
+        >
+            <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+        </a>
+        <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+            <button
+                ngxClipboard
+                [cbContent]="getLink()"
+                (cbOnSuccess)="notificationService.info('Link copied')"
+                (cbOnError)="notificationService.info('Unable to copy the link.')"
+                mat-menu-item
+                aria-label="Copy link"
+            >
+                <span>Copy Link</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button
+                mat-menu-item
+                [attr.aria-label]="'Edit ' + insight.insightType"
+                (click)="showInsightEditTemplate = true"
+            >
+                <span>Edit {{ insight.insightType }}</span>
+            </button>
+            <button
+                mat-menu-item
+                [attr.aria-label]="'Delete ' + insight.insightType"
+                (click)="deleteInsight(insight)"
+                disabled
+            >
+                <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
+            </button>
+        </mat-menu>
+    </div> -->

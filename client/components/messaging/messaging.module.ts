@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
+import { ClipboardModule } from 'ngx-clipboard';
 import { MaterialModule } from 'components/material/material.module';
 import { SidenavModule } from 'components/sidenav/sidenav.module';
 import { PipesModule } from '../pipes/pipes.module';
@@ -31,6 +32,7 @@ import { ThreadComponent } from './thread/thread.component';
         MaterialModule,
         SidenavModule,
         AvatarModule,
+        ClipboardModule,
         // QuillModule.forRoot({
         //     modules: {
         //         imageDrop: true,
