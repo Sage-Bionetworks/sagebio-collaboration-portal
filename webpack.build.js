@@ -1,3 +1,5 @@
+/* global module, require */
+
 /**
  * Webpack config for builds
  */
