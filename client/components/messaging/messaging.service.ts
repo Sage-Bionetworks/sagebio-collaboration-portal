@@ -75,6 +75,12 @@ export class MessagingService {
         return this.httpClient.post<Message>(`/api/threads/${thread._id}/messages`, message);
     }
 
+    updateMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.patch<Message>(`/api/threads/${thread._id}/messages/${message._id}`, [
+            { op: 'replace', path: '/body', value: message.body },
+        ]);
+    }
+
     /**
      * Returns the number of messages in a thread.
      * @param thread
@@ -83,6 +89,17 @@ export class MessagingService {
         return this.httpClient
             .get<NumberValue>(`/api/threads/${thread._id}/messages/count`)
             .pipe(map(count => count.value));
+    }
+
+    /**
+     * Deletes the message specified.
+     * @param thread
+     * @param message
+     */
+    removeMessage(thread: Thread, message: Message): Observable<void> {
+        return this.httpClient.delete<void>(
+            `/api/threads/${thread._id}/messages/${message._id}`
+        );
     }
 
     // TO REVIEW
@@ -107,19 +124,6 @@ export class MessagingService {
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
-    }
-
-    updateMessage(thread: Thread, message: Message): Observable<Message> {
-        return this.httpClient.patch<Message>(
-            `/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`,
-            [{ op: 'replace', path: '/body', value: message.body }]
-        );
-    }
-
-    removeMessage(thread: Thread, message: Message): Observable<void> {
-        return this.httpClient.delete<void>(
-            `/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`
-        );
     }
 
     // getThreads(query?: {}): Observable<Thread[]> {

@@ -4,7 +4,7 @@
             <mat-form-field class="app-thread-new-form-field">
                 <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" required />
                 <mat-error *ngIf="form.controls.title.invalid">
-                    Please enter a valid title ({{ messageSpecs.title.minlength }}-{{ messageSpecs.title.maxlength }}
+                    Please enter a valid title ({{ threadSpecs.title.minlength }}-{{ threadSpecs.title.maxlength }}
                     characters).
                 </mat-error>
             </mat-form-field>

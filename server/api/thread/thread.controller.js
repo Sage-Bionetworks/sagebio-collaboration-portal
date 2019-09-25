@@ -68,6 +68,16 @@ export function createMessage(req, res) {
         .catch(handleError(res));
 }
 
+// Patches the message specified.
+export function patchMessage(req, res) {
+    return Message.findById(req.params.messageId)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(updateMessage(req.user, req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Returns the number of Messages for the Thread specified.
 export function messagesCount(req, res) {
     Message.countDocuments(
@@ -185,17 +195,6 @@ export function indexMessages(req, res) {
         },
     })
         .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Patches the message specified.
-// TODO: Check that the message belong to the thread and entity specified as URL parameters
-export function patchMessage(req, res) {
-    return Message.findById(req.params.messageId)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(updateMessage(req.user, req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

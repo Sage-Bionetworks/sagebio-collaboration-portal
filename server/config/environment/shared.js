@@ -340,10 +340,6 @@ export const models = {
         },
     },
     message: {
-        title: {
-            minlength: 1,
-            maxlength: 256,
-        },
         body: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)

@@ -23,8 +23,14 @@ router.get('/:id/messages', auth.isAuthenticated(), controller.indexMessages);
 // Adds a message to the thread specified.
 router.post('/:id/messages', auth.isAuthenticated(), controller.createMessage);
 
+// Patches the message specified.
+router.patch('/:id/messages/:messageId', auth.isAuthenticated(), controller.patchMessage);
+
 // Returns the number of messages for the thread specified.
 router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
+
+
+
 
 
 
@@ -48,11 +54,6 @@ router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCou
 // //     ADMIN_ACCESS
 // // ),
 // controller.destroy);
-
-// // Patches the message specified.
-// router.patch('/entity/:entityId/:id/messages/:messageId',
-// // auth.hasPermissionForEntityRelatedObject(Thread),
-// controller.patchMessage);
 
 // // Deletes the message specified.
 // router.delete('/entity/:entityId/:id/messages/:messageId',

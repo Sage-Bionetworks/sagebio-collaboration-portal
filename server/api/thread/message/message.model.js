@@ -3,11 +3,14 @@ import {
     registerEvents
 } from './message.events';
 import User from '../../user/user.model';
+import { models as modelSpecs } from '../../../config/environment';
 
 var MessageSchema = new mongoose.Schema({
     body: {
         type: String,
-        required: true
+        required: true,
+        minlength: modelSpecs.message.body.minlength,
+        maxlength: modelSpecs.message.body.maxlength,
     },
     thread: {
         type: mongoose.Schema.Types.ObjectId,

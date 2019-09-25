@@ -45,7 +45,8 @@
                     <message-date-separator *ngIf="!first && !(message.createdAt | sameDay: (messages)[i-1].createdAt)" class="message-date-separator" [isoDate]="message.createdAt"></message-date-separator> -->
                     <!-- TODO Remove message.showStartThreadButton -->
                     <!-- TODO Remove message.showReplyButton -->
-                    <!-- <message [thread]="thread" [message]="message" (deleteMessage)="onDeleteMessage($event)" (editMessage)="onEditMessage($event)"></message> -->
+                    <message [thread]="thread" [message]="message"></message>
+                    <!-- (deleteMessage)="onDeleteMessage($event)" (editMessage)="onEditMessage($event)" -->
                 </ng-template>
             </div>
             <!-- <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new> -->
