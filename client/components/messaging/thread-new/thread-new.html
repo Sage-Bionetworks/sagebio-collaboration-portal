@@ -35,7 +35,7 @@
                     (click)="form.invalid || createThread()"
                     >Create a new Thread</a
                 >
-                <a mat-raised-button (click)="discard()">Discard</a>
+                <a mat-raised-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>
     </mat-card-content>

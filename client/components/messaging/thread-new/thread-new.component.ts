@@ -89,8 +89,4 @@ export class ThreadNewComponent implements OnInit {
         newMessage.body = JSON.stringify(this.form.get('body').value);
         return this.messagingService.createMessage(thread, newMessage);
     }
-
-    discard(): void {
-        this.close.emit(null);
-    }
 }
