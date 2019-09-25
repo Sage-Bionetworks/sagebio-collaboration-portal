@@ -6,7 +6,7 @@ import {
     handleError,
     patchUpdates,
     removeEntity,
-    getEntityIdsWithEntityPermissionsByUser
+    getEntityIdsWithEntityPermissionsByUser,
 } from '../util';
 import Thread from './thread.model';
 import User from '../user/user.model';
@@ -36,6 +36,18 @@ export function create(req, res) {
         .catch(handleError(res));
 }
 
+// Updates an existing Thread in the DB
+export function patch(req, res) {
+    Reflect.deleteProperty(req.body, '_id');
+
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(patchUpdates(req.body))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Get a list of Threads for an entity
 export function indexByEntity(req, res) {
     return Thread.find({
@@ -58,20 +70,23 @@ export function createMessage(req, res) {
 
 // Returns the number of Messages for the Thread specified.
 export function messagesCount(req, res) {
-    Message.countDocuments({
-        thread: req.params.id
-    }, function (err, count) {
-        if (err) {
-            res.status(404).json({
-                error: err
-            });
-        } else {
-            res.status(200).json({
-                value: count
-            });
+    Message.countDocuments(
+        {
+            thread: req.params.id,
+        },
+        function (err, count) {
+            if (err) {
+                res.status(404).json({
+                    error: err,
+                });
+            } else {
+                res.status(200).json({
+                    value: count,
+                });
+            }
+            return null;
         }
-        return null;
-    });
+    );
 }
 
 
@@ -88,8 +103,7 @@ export function messagesCount(req, res) {
 // TODO Protect thread.contributors field
 
 export function getPublicProjectIds() {
-    return Project
-        .find({ visibility: 'Public' }, '_id')
+    return Project.find({ visibility: 'Public' }, '_id')
         .exec()
         .then(projects => projects.map(project => project._id.toString()));
 }
@@ -103,21 +117,18 @@ export function getProjectIdsByUser(userId) {
             Object.values(accessTypes).map(access => access.value),
             [inviteStatusTypes.ACCEPTED.value],
             entityTypes.PROJECT.value
-        )
-    ])
-        .then(result => union(...result));
+        ),
+    ]).then(result => union(...result));
 }
 
 export function getPublicDataCatalogIds() {
-    return DataCatalog
-        .find({ visibility: 'Public' }, '_id')
+    return DataCatalog.find({ visibility: 'Public' }, '_id')
         .exec()
         .then(catalogs => catalogs.map(catalog => catalog._id.toString()));
 }
 
 export function getPublicToolIds() {
-    return Tool
-        .find({ visibility: 'Public' }, '_id')
+    return Tool.find({ visibility: 'Public' }, '_id')
         .exec()
         .then(tools => tools.map(tool => tool._id.toString()));
 }
@@ -134,40 +145,26 @@ export function getEntityIdsByUser(userId) {
         getPublicDataCatalogIds(),
         getPublicToolIds(),
         getAppId(),
-        getEntityIdsWithEntityPermissionsByUser(userId)
-    ])
-        .then(result => flatten(result));
+        getEntityIdsWithEntityPermissionsByUser(userId),
+    ]).then(result => flatten(result));
 }
 
 // Returns the threads that the user has access to.
 export function indexByUser(req, res) {
     // return res.status(200).json({});
     getEntityIdsByUser(req.user._id)
-        .then(entityIds => Thread.find({
-            entityId: {
-                $in: entityIds
-            }
-        }))
+        .then(entityIds =>
+            Thread.find({
+                entityId: {
+                    $in: entityIds,
+                },
+            })
+        )
         .then(t => {
             console.log('THREADS', t);
             return t;
         })
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Updates an existing Thread in the DB
-export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
-
-    return Thread.findById(req.params.threadId)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(validateEntityId(res, req.params.entityId))
-        .then(patchUpdates(req.body))
-        .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
@@ -223,29 +220,14 @@ export function destroyMessage(req, res) {
 function addMessage(user, message) {
     return function (thread) {
         if (thread) {
-            message = omit([
-                '_id',
-                'createdAt',
-                'createdBy',
-                'updatedBy',
-                'updatedAt'
-            ], message);
+            message = omit(['_id', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt'], message);
             message.thread = thread._id.toString();
             message.createdBy = user._id.toString();
-            return Message
-                .create(message)
-                .then(addContributorToThread(thread));
+            return Message.create(message).then(addContributorToThread(thread));
         }
         return null;
     };
 }
-
-
-
-
-
-
-
 
 function validateEntityId(res, targetEntityId) {
     return function (thread) {
@@ -255,7 +237,7 @@ function validateEntityId(res, targetEntityId) {
             }
         }
         return null;
-    }
+    };
 }
 
 function removeThread(res) {
@@ -289,11 +271,9 @@ function addContributorToThread(thread) {
             // keep last contribution order
             thread.contributors = uniq([
                 ...pull(message.createdBy.toString(), thread.contributors),
-                message.createdBy.toString()
+                message.createdBy.toString(),
             ]);
-            return thread
-                .save()
-                .then(() => message);
+            return thread.save().then(() => message);
         }
         return null;
     };
@@ -303,19 +283,17 @@ function updateMessage(user, patches) {
     return function (message) {
         if (message) {
             patches = patches.filter(
-                p => ![
-                    '_id',
-                    'thread',
-                    'createdAt',
-                    'createdBy',
-                    'updatedAt',
-                    'updatedBy'
-                ].map(x => `/${x}`).includes(p.path)
+                p =>
+                    !['_id', 'thread', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy']
+                        .map(x => `/${x}`)
+                        .includes(p.path)
             );
-            patches.push(...[
-                { op: 'add', path: '/updatedBy', value: user._id.toString() },
-                { op: 'replace', path: '/updatedAt', value: new Date() }
-            ]);
+            patches.push(
+                ...[
+                    { op: 'add', path: '/updatedBy', value: user._id.toString() },
+                    { op: 'replace', path: '/updatedAt', value: new Date() },
+                ]
+            );
             return patchUpdates(patches)(message);
         }
         return null;

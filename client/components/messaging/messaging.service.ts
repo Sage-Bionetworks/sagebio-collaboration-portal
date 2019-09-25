@@ -18,10 +18,10 @@ export class MessagingService {
 
     // THEADS FUNCTIONS
 
-     /**
-      * Returns the thread specified.
-      * @param id
-      */
+    /**
+     * Returns the thread specified.
+     * @param id
+     */
     getThread(id: string): Observable<Thread> {
         return this.httpClient.get<Thread>(`/api/threads/${id}`);
     }
@@ -42,6 +42,16 @@ export class MessagingService {
         return this.httpClient
             .get<Thread[]>(`/api/threads/entity/${entityId}`)
             .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)));
+    }
+
+    /**
+     * Updates the thread specified.
+     * @param thread
+     */
+    updateThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.patch<Thread>(`/api/threads/${thread._id}`, [
+            { op: 'replace', path: '/title', value: thread.title }
+        ]);
     }
 
     // MESSAGES FUNCTIONS
@@ -65,12 +75,7 @@ export class MessagingService {
             .pipe(map(count => count.value));
     }
 
-
-
-
-
-
-
+    // TO REVIEW
 
     getThreads(): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/threads`);

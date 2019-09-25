@@ -7,6 +7,7 @@ import config from '../../../app/app.constants';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ObjectValidators } from './../../validation/object-validators';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
 
 @Component({
     selector: 'thread-edit',
@@ -15,7 +16,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class ThreadEditComponent implements OnInit {
     @Input() thread: Thread;
-    @Output() editThread: EventEmitter<Thread> = new EventEmitter<Thread>();
+    @Output() threadEdit: EventEmitter<Thread> = new EventEmitter<Thread>();
     @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
     private userId: string;
@@ -61,9 +62,22 @@ export class ThreadEditComponent implements OnInit {
     }
 
     updateThread() {
-        let editedThread = this.form.value;
-        editedThread._id = this.thread._id;
-        editedThread.updatedBy = this.userId;
+        let updatedThread = cloneDeep(this.thread);
+        updatedThread.title = this.form.controls.title.value;
+
+        this.messagingService.updateThread(updatedThread).subscribe(
+            thread => {
+                this.threadEdit.emit(thread);
+            },
+            err => {
+                console.error(err);
+                this.errors.editThreadTitle = err.message || err;
+            }
+        );
+
+        // let editedThread = this.form.value;
+        // editedThread._id = this.thread._id;
+        // editedThread.updatedBy = this.userId;
 
         // this.messagingService.updateThread(editedThread).subscribe(
         //     thread => {

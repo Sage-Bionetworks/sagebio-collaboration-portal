@@ -5,11 +5,14 @@ import * as controller from './thread.controller';
 
 var router = Router();
 
+// Returns the thread specified
+router.get('/:id', auth.isAuthenticated(), controller.show);
+
 // Creates a new thread associated to the entity specified.
 router.post('/', auth.isAuthenticated(), controller.create);
 
-// Returns the thread specified
-router.get('/:id', auth.isAuthenticated(), controller.show);
+// Patches the thread specified.
+router.patch('/:id', auth.isAuthenticated(), controller.patch);
 
 // Returns the threads associated with the entity specified.
 router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
@@ -33,11 +36,6 @@ router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCou
 
 // // Returns the threads that the user has access to.
 // router.get('/', auth.isAuthenticated(), controller.indexByUser);
-
-// // Patches the thread specified.
-// router.patch('/entity/:entityId/:id',
-// // auth.hasPermissionForEntityRelatedObject(Thread),
-// controller.patch);
 
 // // Deletes the thread specified.
 // router.delete('/entity/:entityId/:id',

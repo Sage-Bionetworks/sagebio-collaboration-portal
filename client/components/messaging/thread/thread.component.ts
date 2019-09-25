@@ -44,4 +44,11 @@ export class ThreadComponent implements OnInit {
     getLink(): string {
         return window.location.href;
     }
+
+    onThreadEdit(thread: Thread): void {
+        if (thread) {
+            this._thread.next(thread);
+            this.showThreadEditTemplate = false;
+        }
+    }
 }
