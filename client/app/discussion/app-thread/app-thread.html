@@ -1,0 +1,6 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" routerLink="/discussion">keyboard_arrow_left</mat-icon>
+    <h1 *ngIf="thread$ | async as thread">{{ thread.title }}</h1>
+</div>
+
+<thread [thread$]="thread$"></thread>

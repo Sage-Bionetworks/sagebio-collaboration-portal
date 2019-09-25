@@ -16,9 +16,15 @@ export class MessagingService {
     static parameters = [HttpClient, SecondarySidenavService];
     constructor(private httpClient: HttpClient, private secondarySidenavService: SecondarySidenavService) {}
 
-    /**
-     * Threads
-     */
+    // THEADS FUNCTIONS
+
+     /**
+      * Returns the thread specified.
+      * @param id
+      */
+    getThread(id: string): Observable<Thread> {
+        return this.httpClient.get<Thread>(`/api/threads/${id}`);
+    }
 
     /**
      * Creates a new thread.
@@ -38,9 +44,7 @@ export class MessagingService {
             .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)));
     }
 
-    /**
-     * Messages
-     */
+    // MESSAGES FUNCTIONS
 
     /**
      * Creates a new message and associates it to the thread specified.
@@ -60,6 +64,8 @@ export class MessagingService {
             .get<NumberValue>(`/api/threads/${thread._id}/messages/count`)
             .pipe(map(count => count.value));
     }
+
+
 
 
 

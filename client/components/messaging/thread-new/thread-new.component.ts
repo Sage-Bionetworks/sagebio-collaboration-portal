@@ -89,7 +89,6 @@ export class ThreadNewComponent implements OnInit {
 
     createMessage(thread: Thread): Observable<Message> {
         let newMessage = {
-            thread: thread._id,
             body: JSON.stringify(this.form.controls.body.value),
         };
         return this.messagingService.createMessage(thread, newMessage);

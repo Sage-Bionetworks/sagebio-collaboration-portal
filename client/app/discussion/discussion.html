@@ -1,8 +1,13 @@
 <div class="app-primary-header app-thread-list-header">
     <h1 class="app-primary-header-title">General Discussion</h1>
-    <a mat-raised-button color="warn" class="app-thread-list-new-thread-btn" routerLink="/discussion/new" aria-label="Create a new thread">New Thread</a>
+    <a
+        mat-raised-button
+        color="warn"
+        class="app-thread-list-new-thread-btn"
+        routerLink="/discussion/new"
+        aria-label="Create a new thread"
+        >New Thread</a
+    >
 </div>
 
 <thread-list *ngIf="app" [entityId]="app._id" [entityType]="appEntityType"></thread-list>
-
-<!-- <entity-discussion *ngIf="app" [entity]="app" [entityType]="entityType"></entity-discussion> -->

@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-// import { Router, ActivatedRoute } from '@angular/router';
-// import { AppService } from '../app.service';
-// import { App } from 'models/entities/app.model';
-// import { PageTitleService } from 'components/page-title/page-title.service';
 import { App } from 'models/entities/app.model';
 import { Thread } from 'models/messaging/thread.model';
 import { AppService } from './../../app.service';

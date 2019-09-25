@@ -13,6 +13,7 @@ import { AppService } from '../app.service';
 
 import { DiscussionComponent } from './discussion.component';
 import { DiscussionNewComponent } from './discussion-new/discussion-new.component';
+import { AppThreadComponent } from './app-thread/app-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -23,6 +24,11 @@ export const ROUTES: Routes = [
     {
         path: 'discussion/new',
         component: DiscussionNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'discussion/:id',
+        component: AppThreadComponent,
         canActivate: [AuthGuard],
     },
 ];
@@ -37,7 +43,7 @@ export const ROUTES: Routes = [
         MessagingModule,
         RouterModule.forChild(ROUTES),
     ],
-    declarations: [DiscussionComponent, DiscussionNewComponent],
+    declarations: [DiscussionComponent, DiscussionNewComponent, AppThreadComponent],
     providers: [AppService, SocketService],
     exports: [],
 })

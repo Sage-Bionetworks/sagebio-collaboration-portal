@@ -8,6 +8,9 @@ var router = Router();
 // Creates a new thread associated to the entity specified.
 router.post('/', auth.isAuthenticated(), controller.create);
 
+// Returns the thread specified
+router.get('/:id', auth.isAuthenticated(), controller.show);
+
 // Returns the threads associated with the entity specified.
 router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
 

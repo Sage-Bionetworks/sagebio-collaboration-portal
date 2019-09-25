@@ -22,6 +22,7 @@ import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 import { AppQuillModule } from '../quill/app-quill.module';
 import { SocketService } from 'components/socket/socket.service';
+import { ThreadComponent } from './thread/thread.component';
 
 @NgModule({
     imports: [
@@ -60,7 +61,8 @@ import { SocketService } from 'components/socket/socket.service';
         ThreadListComponent,
         ThreadDateSeparatorComponent,
         StarredMessageListComponent,
-        MessageDateSeparatorComponent
+        MessageDateSeparatorComponent,
+        ThreadComponent
     ],
     exports: [
         ThreadNewComponent,
@@ -68,7 +70,8 @@ import { SocketService } from 'components/socket/socket.service';
         MessageComponent,
         MessageNewComponent,
         ThreadListComponent,
-        StarredMessageListComponent
+        StarredMessageListComponent,
+        ThreadComponent
     ],
     entryComponents: [
         // MessageThreadComponent

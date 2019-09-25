@@ -35,10 +35,4 @@ export class DiscussionComponent implements OnInit {
                 err => console.error(err)
             );
     }
-
-    newThread(thread: Thread): void {
-        // if (thread) {
-        //     this.router.navigate(['/discussion', thread._id]);
-        // }
-    }
 }

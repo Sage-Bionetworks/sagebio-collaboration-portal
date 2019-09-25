@@ -17,6 +17,15 @@ import DataCatalog from '../data-catalog/data-catalog.model';
 import Tool from '../tool/tool.model';
 import App from '../app/app.model';
 
+// Gets a single Thread from the DB
+export function show(req, res) {
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Creates a new Thread in the DB
 export function create(req, res) {
     Reflect.deleteProperty(req.body, 'createdAt');
