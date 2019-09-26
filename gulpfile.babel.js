@@ -1,19 +1,19 @@
 /* global require, process */
 
+import gulp from 'gulp';
 import del from 'del';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { union } from 'lodash';
+import { union, map } from 'lodash';
 import log from 'fancy-log';
 import * as colors from 'ansi-colors';
 import webpack from 'webpack';
 import makeWebpackConfig from './webpack.make';
 import lazypipe from 'lazypipe';
 import nodemon from 'nodemon';
-
-import gulp from 'gulp';
-import path from 'path';
 import through2 from 'through2';
+
+import path from 'path';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import http from 'http';
 import open from 'open';
@@ -148,14 +148,20 @@ const lintClientTestScripts = lazypipe()
         }
     );
 
-let lintServerScripts = lazypipe()
+/**
+ * Lints the server scripts.
+ */
+const lintServerScripts = lazypipe()
     .pipe(
         plugins.eslint,
         `${serverPath}/.eslintrc`
     )
     .pipe(plugins.eslint.format);
 
-let lintServerTestScripts = lazypipe()
+/**
+ * Lints the server test scripts.
+ */
+const lintServerTestScripts = lazypipe()
     .pipe(
         plugins.eslint,
         {
@@ -403,27 +409,34 @@ gulp.task('transpile:server', () => {
         .pipe(gulp.dest(`${paths.dist}/${serverPath}`));
 });
 
-gulp.task('lint:scripts:client', cb =>
+gulp.task('lint:client', cb =>
     gulp
-        .src(union(paths.client.scripts, _.map(paths.client.test, blob => `!${blob}`)))
+        .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
         .pipe(lintClientScripts())
         .on('end', cb)
 );
 
-gulp.task('lint:scripts:server', cb =>
+/**
+ * Lints the server scripts.
+ */
+gulp.task('lint:server', done =>
     gulp
-        .src(union(paths.server.scripts, _.map(paths.server.test, blob => `!${blob}`)))
+        .src(union(paths.server.scripts, map(paths.server.test, blob => `!${blob}`)))
         .pipe(lintServerScripts())
-        .on('end', cb)
+        .on('end', done)
 );
 
-gulp.task('lint:scripts', gulp.parallel('lint:scripts:client', 'lint:scripts:server'));
+gulp.task('lint', gulp.parallel('lint:client', 'lint:server'));
 
-//
-// gulp.task('lint:scripts:serverTest', () => {
-//     return gulp.src(paths.server.test)
-//         .pipe(lintServerTestScripts());
-// });
+/**
+ * Lints the server test scripts.
+ */
+gulp.task('lint:server:test', done =>
+    gulp
+        .src(union(paths.server.test.integration, paths.server.test.unit))
+        .pipe(lintServerTestScripts())
+        .on('end', done)
+);
 
 gulp.task('jscs', () =>
     gulp
@@ -622,23 +635,26 @@ gulp.task('copy:extras', () =>
 );
 
 /**
- * turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'
+ *
+ *
+ * Example: turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'.
  */
-function flatten() {
-    return through2.obj(function (file, enc, next) {
+const flatten = () =>
+    through2.obj(function (file, enc, next) {
         if (!file.isDirectory()) {
             try {
                 let dir = path.dirname(file.relative).split(path.sep)[0];
                 let fileName = path.normalize(path.basename(file.path));
                 file.path = path.join(file.base, path.join(dir, fileName));
+                // eslint-disable-next-line no-invalid-this
                 this.push(file);
             } catch (e) {
-                this.emit('error', new Error(e));
+                // eslint-disable-next-line no-invalid-this
+                this.emit('error', new Error('Unable to flatten filename', e));
             }
         }
         next();
     });
-}
 
 /**
  * Copies fonts to assets/fonts in development environment.
@@ -665,7 +681,7 @@ gulp.task(
     gulp.series(
         gulp.parallel(
             'clean:tmp',
-            'lint:scripts',
+            'lint',
             'inject'
             // 'copy:fonts:dev',
             /*'env:all',*/
@@ -680,7 +696,7 @@ gulp.task('serve:debug', cb =>
     gulp.series(
         gulp.parallel(
             'clean:tmp',
-            'lint:scripts',
+            'lint',
             'inject'
             // 'copy:fonts:dev',
             /*'env:all',*/
