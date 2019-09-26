@@ -25,6 +25,7 @@ var config;
 
 const clientPath = 'client';
 const serverPath = 'server';
+const configPath = 'config';
 const paths = {
     client: {
         assets: `${clientPath}/assets/**/*`,
@@ -49,6 +50,13 @@ const paths = {
     },
     karma: 'karma.conf.js',
     dist: 'dist', // used
+    config: {
+        default: `${configPath}/default.env`,
+        development: `${configPath}/development.env`,
+        production: `${configPath}/production.env`,
+        serverSslCert: `${configPath}/certs/server.cert`,
+        serverSslKey: `${configPath}/certs/server.key`,
+    },
 };
 
 /********************
@@ -202,7 +210,7 @@ let mocha = lazypipe().pipe(
  * Sets the default env vars.
  */
 gulp.task('env:default', done => {
-    readConfig('config/default.env');
+    readConfig(paths.config.default);
     done();
 });
 
@@ -218,8 +226,19 @@ gulp.task('env:test', done => {
  * Sets the env vars specific to the production environment.
  */
 gulp.task('env:prod', done => {
-    readConfig('config/production.env');
+    readConfig(paths.config.production);
     process.env.NODE_ENV = 'production';
+    done();
+});
+
+/**
+ * Sets the server SSL certificate and key.
+ */
+gulp.task('env:ssl', done => {
+    // eslint-disable-next-line no-sync
+    process.env.SSL_CERT = fs.readFileSync(paths.config.serverSslCert);
+    // eslint-disable-next-line no-sync
+    process.env.SSL_KEY = fs.readFileSync(paths.config.serverSslKey);
     done();
 });
 
@@ -689,7 +708,7 @@ gulp.task(
 gulp.task(
     'serve:dist',
     // 'build',
-    gulp.series('env:default', 'env:prod', gulp.parallel('start:server:prod' /*, 'start:client'*/))
+    gulp.series('env:default', 'env:prod', 'env:ssl', gulp.parallel('start:server:prod' /*, 'start:client'*/))
 );
 
 /********************

@@ -16,6 +16,8 @@ coverage
 envvars-dev
 envvars-prod
 envvars-test
-certs
+config/certs/server.cert
+config/certs/server.key
+config/certs/mongodb.pem
 envvars
 mongodb

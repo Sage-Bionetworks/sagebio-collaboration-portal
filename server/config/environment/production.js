@@ -6,14 +6,10 @@ import fs from 'fs';
 // =================================
 module.exports = {
     // Server IP
-    ip: process.env.OPENSHIFT_NODEJS_IP ||
-        process.env.ip ||
-        undefined,
+    ip: process.env.OPENSHIFT_NODEJS_IP || process.env.ip || undefined,
 
     // Server port
-    port: process.env.OPENSHIFT_NODEJS_PORT ||
-        process.env.PORT ||
-        8080,
+    port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
 
     // MongoDB connection options
     mongo: {
@@ -22,7 +18,7 @@ module.exports = {
     },
 
     ssl: {
-        key: process.env.SSL_KEY || fs.readFileSync('certs/server.key'),
-        cert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert')
-    }
+        key: process.env.SSL_KEY || '',
+        cert: process.env.SSL_CERT || '',
+    },
 };
