@@ -4,8 +4,11 @@ import del from 'del';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import { union } from 'lodash';
+import log from 'fancy-log';
+import * as colors from 'ansi-colors';
+import webpack from 'webpack';
+import makeWebpackConfig from './webpack.make';
 
-import _ from 'lodash';
 import gulp from 'gulp';
 import path from 'path';
 import through2 from 'through2';
@@ -16,10 +19,6 @@ import lazypipe from 'lazypipe';
 import nodemon from 'nodemon';
 import { Server as KarmaServer } from 'karma';
 import { protractor, webdriver_update } from 'gulp-protractor';
-import webpack from 'webpack';
-import makeWebpackConfig from './webpack.make';
-import log from 'fancy-log';
-import * as colors from 'ansi-colors';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -42,7 +41,7 @@ const paths = {
     server: {
         scripts: [`${serverPath}/**/!(*.spec|*.integration|*.mock).js`, `!${serverPath}/config/local.env.sample.js`],
         json: [`${serverPath}/{,**/}*.json`],
-        swagger: [`${serverPath}/swagger/**/*.yaml`],
+        // swagger: [`${serverPath}/swagger/**/*.yaml`],
         test: {
             integration: [`${serverPath}/**/*.integration.js`, 'mocha.global.js'],
             unit: [`${serverPath}/**/*.spec.js`, 'mocha.global.js'],
@@ -281,7 +280,12 @@ gulp.task('inject:scss', () =>
  */
 gulp.task('inject', gulp.series('inject:scss'));
 
-function webpackCompile(options, cb) {
+/**
+ * Compiles the app using webpack.
+ * @param {*} options
+ * @param {*} cb
+ */
+const webpackCompile = (options, cb) => {
     let compiler = webpack(makeWebpackConfig(options));
 
     compiler.run((err, stats) => {
@@ -296,8 +300,11 @@ function webpackCompile(options, cb) {
         );
         cb();
     });
-}
+};
 
+/**
+ * Builds the app with webpack for development.
+ */
 gulp.task('webpack:dev', cb =>
     webpackCompile(
         {
@@ -306,6 +313,10 @@ gulp.task('webpack:dev', cb =>
         cb
     )
 );
+
+/**
+ * Builds the app with webpack for production.
+ */
 gulp.task('webpack:dist', cb =>
     webpackCompile(
         {
@@ -314,6 +325,10 @@ gulp.task('webpack:dist', cb =>
         cb
     )
 );
+
+/**
+ * Builds the app with webpack for testing.
+ */
 gulp.task('webpack:test', cb =>
     webpackCompile(
         {
@@ -343,14 +358,14 @@ gulp.task('transpile:server', () => {
 
 gulp.task('lint:scripts:client', cb =>
     gulp
-        .src(_.union(paths.client.scripts, _.map(paths.client.test, blob => `!${blob}`)))
+        .src(union(paths.client.scripts, _.map(paths.client.test, blob => `!${blob}`)))
         .pipe(lintClientScripts())
         .on('end', cb)
 );
 
 gulp.task('lint:scripts:server', cb =>
     gulp
-        .src(_.union(paths.server.scripts, _.map(paths.server.test, blob => `!${blob}`)))
+        .src(union(paths.server.scripts, _.map(paths.server.test, blob => `!${blob}`)))
         .pipe(lintServerScripts())
         .on('end', cb)
 );
@@ -365,7 +380,7 @@ gulp.task('lint:scripts', gulp.parallel('lint:scripts:client', 'lint:scripts:ser
 
 gulp.task('jscs', () =>
     gulp
-        .src(_.union(paths.client.scripts, paths.server.scripts))
+        .src(union(paths.client.scripts, paths.server.scripts))
         .pipe(plugins.jscs())
         .pipe(plugins.jscs.reporter())
 );
@@ -399,15 +414,15 @@ gulp.task('start:server:debug', () => {
 });
 
 gulp.task('watch', () => {
-    var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
+    var testFiles = union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
 
     plugins
-        .watch(_.union(paths.server.scripts, testFiles))
+        .watch(union(paths.server.scripts, testFiles))
         .pipe(plugins.plumber())
         .pipe(lintServerScripts());
 
     plugins
-        .watch(_.union(paths.server.test.unit, paths.server.test.integration))
+        .watch(union(paths.server.test.unit, paths.server.test.integration))
         .pipe(plugins.plumber())
         .pipe(lintServerTestScripts());
 });
@@ -494,7 +509,8 @@ gulp.task('test', gulp.series('test:server', 'test:client'));
  ********************/
 
 /**
- * Builds the images.
+ * Optimizes the images and adds static asset revisioning by appending content
+ * hash to filenames.
  */
 gulp.task('build:images', () =>
     gulp
@@ -530,6 +546,9 @@ gulp.task('build:images', () =>
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`))
 );
 
+/**
+ * Rewrites occurrences of filenames which have been renamed by gulp-rev.
+ */
 gulp.task('revReplaceWebpack', function () {
     return gulp
         .src('dist/**/*.js')
@@ -541,6 +560,9 @@ gulp.task('revReplaceWebpack', function () {
         .pipe(gulp.dest('dist'));
 });
 
+/**
+ * Copies extra files such as favicon.ico, robots.txt, and .htaccess to the dist folder.
+ */
 gulp.task('copy:extras', () =>
     gulp
         .src([`${clientPath}/favicon.ico`, `${clientPath}/robots.txt`, `${clientPath}/.htaccess`], {
@@ -567,16 +589,26 @@ function flatten() {
         next();
     });
 }
-// gulp.task('copy:fonts:dev', () => {
-//     return gulp.src('node_modules/{bootstrap,font-awesome}/fonts/*')
-//         .pipe(flatten())
-//         .pipe(gulp.dest(`${clientPath}/assets/fonts`));
-// });
-// gulp.task('copy:fonts:dist', () => {
-//     return gulp.src('node_modules/{bootstrap,font-awesome}/fonts/*')
-//         .pipe(flatten())
-//         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`));
-// });
+
+/**
+ * Copies fonts to assets/fonts in development environment.
+ */
+gulp.task('copy:fonts:dev', () =>
+    gulp
+        .src('node_modules/{font-awesome}/fonts/*')
+        .pipe(flatten())
+        .pipe(gulp.dest(`${clientPath}/assets/fonts`))
+);
+
+/**
+ * Copies fonts to assets/fonts when building the app.
+ */
+gulp.task('copy:fonts:dist', () =>
+    gulp
+        .src('node_modules/{font-awesome}/fonts/*')
+        .pipe(flatten())
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`))
+);
 
 gulp.task(
     'serve',
@@ -610,12 +642,18 @@ gulp.task('serve:debug', cb =>
     )
 );
 
+/**
+ * Copies the client assets but the images to the dist folder.
+ */
 gulp.task('copy:assets', () =>
     gulp.src([paths.client.assets, `!${paths.client.images}`]).pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`))
 );
 
+/**
+ * Copies the files required to run the server.
+ */
 gulp.task('copy:server', () => {
-    var serverFiles = _.union('package.json', paths.server.swagger);
+    var serverFiles = ['package.json'];
     return gulp
         .src(serverFiles, {
             cwdbase: true,
@@ -623,6 +661,9 @@ gulp.task('copy:server', () => {
         .pipe(gulp.dest(paths.dist));
 });
 
+/**
+ * Builds the app for distribution.
+ */
 gulp.task(
     'build',
     gulp.series(
@@ -630,14 +671,11 @@ gulp.task(
         'inject',
         'transpile:server',
         'build:images',
-        // gulp.parallel(
-        //     'copy:extras',
-        //     'copy:assets',
-        //     // 'copy:fonts:dist',
-        //     'copy:server'
-        // ),
-        // 'webpack:dist',
-        // 'revReplaceWebpack'
+        gulp.parallel('copy:extras', 'copy:assets', /*'copy:fonts:dist',*/ 'copy:server'),
+        // TODO do we need all the font put in dist/client/?
+        // TODO Investigate @babel/preset-env: `DEBUG` option (tsconfig.json)?
+        'webpack:dist',
+        'revReplaceWebpack'
     )
 );
 
