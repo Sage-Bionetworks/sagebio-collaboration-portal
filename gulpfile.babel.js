@@ -1,13 +1,8 @@
 /* global require, process */
 
-// Generated on 2019-03-20 using generator-angular-fullstack 5.0.0-rc.4
 import del from 'del';
 import dotenv from 'dotenv';
 import fs from 'fs';
-// dotenv.config();
-// require('dotenv').config();
-
-// .config({ path: '/full/custom/path/to/your/env/vars' })
 
 import _ from 'lodash';
 import gulp from 'gulp';
@@ -59,6 +54,19 @@ const paths = {
 /********************
  * Helper functions
  ********************/
+
+/**
+ * Sets the env vars stored in the .env file specified.
+ * @param {*} envFile
+ */
+const readConfig = envFile => {
+    // https://www.npmjs.com/package/dotenv#what-happens-to-environment-variables-that-were-already-set
+    // eslint-disable-next-line no-sync
+    const envConfig = dotenv.parse(fs.readFileSync(envFile));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k];
+    }
+};
 
 function onServerLog(log) {
     console.log(colors.white('[') + colors.yellow('nodemon') + colors.white('] ') + log.message);
@@ -182,28 +190,24 @@ let mocha = lazypipe().pipe(
  * Env
  ********************/
 
-gulp.task('env:all', cb => {
-    let localConfig;
-    try {
-        localConfig = require(`./${serverPath}/config/local.env`);
-    } catch (e) {
-        localConfig = {};
-    }
-    plugins.env({
-        vars: localConfig,
-    });
-    cb();
-});
+// gulp.task('env:all', cb => {
+//     let localConfig;
+//     try {
+//         localConfig = require(`./${serverPath}/config/local.env`);
+//     } catch (e) {
+//         localConfig = {};
+//     }
+//     plugins.env({
+//         vars: localConfig,
+//     });
+//     cb();
+// });
 
 /**
  * Sets NODE_ENV to 'test' in process.env.
  */
 gulp.task('env:test', done => {
-    plugins.env({
-        vars: {
-            NODE_ENV: 'test',
-        },
-    });
+    process.env.NODE_ENV = 'test';
     done();
 });
 
@@ -211,30 +215,10 @@ gulp.task('env:test', done => {
  * Sets NODE_ENV to 'production' in process.env.
  */
 gulp.task('env:prod', done => {
-    // let { parsed } = dotenv.config({
-    //     path: 'config/production.env',
-    //     debug: true
-    // });
-
-    const envConfig = dotenv.parse(fs.readFileSync('config/production.env'));
-    for (const k in envConfig) {
-        process.env[k] = envConfig[k];
-    }
-    //     log('parsed', parsed);
-    // plugins.env({
-    //     // file: 'config/production.env',
-    //     // handler: () => {
-    //     //     return '';
-    //     // },
-    //     vars: {
-    //         NODE_ENV: 'production',
-    //     },
-    // });
-    log('MONGO_PORT', process.env.MONGO_PORT);
+    readConfig('config/production.env');
+    process.env.NODE_ENV = 'production';
     done();
 });
-
-// gulp.src('.env').pipe(plop())
 
 /********************
  * Clean tasks
@@ -421,7 +405,7 @@ gulp.task('mocha:unit', () => gulp.src(paths.server.test.unit).pipe(mocha()));
 
 gulp.task('mocha:integration', () => gulp.src(paths.server.test.integration).pipe(mocha()));
 
-gulp.task('test:server', gulp.series('env:all', 'env:test', 'mocha:unit', 'mocha:integration'));
+gulp.task('test:server', gulp.series(/*'env:all',*/ 'env:test', 'mocha:unit', 'mocha:integration'));
 
 // gulp.task('coverage:pre', () => {
 //     return gulp.src(paths.server.scripts)
@@ -463,7 +447,7 @@ gulp.task('webdriver_update', webdriver_update);
 
 gulp.task(
     'test:e2e',
-    gulp.series(gulp.parallel('webpack:dist', 'env:all', 'env:test', 'start:server', 'webdriver_update'), () => {
+    gulp.series(gulp.parallel('webpack:dist', /*'env:all',*/ 'env:test', 'start:server', 'webdriver_update'), () => {
         gulp.src(paths.client.e2e)
             .pipe(
                 protractor({
@@ -586,9 +570,9 @@ gulp.task(
         gulp.parallel(
             'clean:tmp',
             'lint:scripts',
-            'inject',
+            'inject'
             // 'copy:fonts:dev',
-            'env:all'
+            /*'env:all',*/
         ),
         // 'webpack:dev',
         gulp.parallel('start:server', 'start:client'),
@@ -601,9 +585,9 @@ gulp.task('serve:debug', cb =>
         gulp.parallel(
             'clean:tmp',
             'lint:scripts',
-            'inject',
+            'inject'
             // 'copy:fonts:dev',
-            'env:all'
+            /*'env:all',*/
         ),
         'webpack:dev',
         gulp.parallel('start:server:debug', 'start:client'),
@@ -644,7 +628,7 @@ gulp.task(
 );
 
 gulp.task('serve:dist', cb =>
-    gulp.series('build', 'env:all', 'env:prod', gulp.parallel('start:server:prod', 'start:client'), cb)
+    gulp.series('build', /*'env:all',*/ 'env:prod', gulp.parallel('start:server:prod', 'start:client'), cb)
 );
 
 /********************
@@ -652,8 +636,3 @@ gulp.task('serve:dist', cb =>
  ********************/
 
 gulp.task('default', gulp.series('build'));
-
-// suggestion of default task
-// gulp.series(
-//     gulp.parallel('lint', 'test'), 'build', gulp.parallel('watch', 'start')
-//   )

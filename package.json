@@ -128,7 +128,6 @@
         "grunt-build-control": "^0.7.1",
         "gulp": "^4.0.2",
         "gulp-babel": "^8.0.0",
-        "gulp-env": "^0.4.0",
         "gulp-eslint": "^6.0.0",
         "gulp-imagemin": "^6.1.0",
         "gulp-inject": "^5.0.4",
