@@ -1,7 +1,13 @@
-/* global require */
+/* global require, process */
 
 // Generated on 2019-03-20 using generator-angular-fullstack 5.0.0-rc.4
 import del from 'del';
+import dotenv from 'dotenv';
+import fs from 'fs';
+// dotenv.config();
+// require('dotenv').config();
+
+// .config({ path: '/full/custom/path/to/your/env/vars' })
 
 import _ from 'lodash';
 import gulp from 'gulp';
@@ -205,17 +211,30 @@ gulp.task('env:test', done => {
  * Sets NODE_ENV to 'production' in process.env.
  */
 gulp.task('env:prod', done => {
-    plugins.env({
-        file: 'envvars-prod',
-        handler: () => {
-            return '';
-        },
-        vars: {
-            NODE_ENV: 'production',
-        },
-    });
+    // let { parsed } = dotenv.config({
+    //     path: 'config/production.env',
+    //     debug: true
+    // });
+
+    const envConfig = dotenv.parse(fs.readFileSync('config/production.env'));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k];
+    }
+    //     log('parsed', parsed);
+    // plugins.env({
+    //     // file: 'config/production.env',
+    //     // handler: () => {
+    //     //     return '';
+    //     // },
+    //     vars: {
+    //         NODE_ENV: 'production',
+    //     },
+    // });
+    log('MONGO_PORT', process.env.MONGO_PORT);
     done();
 });
+
+// gulp.src('.env').pipe(plop())
 
 /********************
  * Clean tasks
