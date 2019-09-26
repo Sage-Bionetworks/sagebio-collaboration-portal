@@ -56,6 +56,10 @@ const paths = {
         production: `${configPath}/production.env`,
         serverSslCert: `${configPath}/certs/server.cert`,
         serverSslKey: `${configPath}/certs/server.key`,
+        serverSslCA: '',
+        mongodbSslCert: `${configPath}/certs/server.cert`, // here reused server cert for simplicity
+        mongodbSslKey: `${configPath}/certs/server.key`, // here reused server key for simplicity
+        mongodbSslCA: '',
     },
 };
 
@@ -232,15 +236,35 @@ gulp.task('env:prod', done => {
 });
 
 /**
- * Sets the server SSL certificate and key.
+ * Sets the server SSL certificate, key, and certificate authority.
  */
-gulp.task('env:ssl', done => {
+gulp.task('env:ssl:server', done => {
     // eslint-disable-next-line no-sync
     process.env.SSL_CERT = fs.readFileSync(paths.config.serverSslCert);
     // eslint-disable-next-line no-sync
     process.env.SSL_KEY = fs.readFileSync(paths.config.serverSslKey);
+    // eslint-disable-next-line no-sync
+    process.env.SSL_CA = paths.config.serverSslCA ? fs.readFileSync(paths.config.serverSslCA) : '';
     done();
 });
+
+/**
+ * Sets the MongoDB SSL certificate, key, and certificate authority.
+ */
+gulp.task('env:ssl:mongodb', done => {
+    // eslint-disable-next-line no-sync
+    process.env.MONGODB_SSL_CERT = paths.config.mongodbSslCert ? fs.readFileSync(paths.config.mongodbSslCert) : '';
+    // eslint-disable-next-line no-sync
+    process.env.MONGODB_SSL_KEY = paths.config.mongodbSslKey ? fs.readFileSync(paths.config.mongodbSslKey) : '';
+    // eslint-disable-next-line no-sync
+    process.env.MONGODB_SSL_CA = paths.config.mongodbSslCA ? fs.readFileSync(paths.config.mongodbSslCA) : '';
+    done();
+});
+
+/**
+ * Sets the SSL certificates and keys.
+ */
+gulp.task('env:ssl', gulp.series('env:ssl:server', 'env:ssl:mongodb'));
 
 /********************
  * Clean tasks
