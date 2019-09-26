@@ -190,21 +190,16 @@ let mocha = lazypipe().pipe(
  * Env
  ********************/
 
-// gulp.task('env:all', cb => {
-//     let localConfig;
-//     try {
-//         localConfig = require(`./${serverPath}/config/local.env`);
-//     } catch (e) {
-//         localConfig = {};
-//     }
-//     plugins.env({
-//         vars: localConfig,
-//     });
-//     cb();
-// });
+/**
+ * Sets the default env vars.
+ */
+gulp.task('env:default', done => {
+    readConfig('config/default.env');
+    done();
+});
 
 /**
- * Sets NODE_ENV to 'test' in process.env.
+ * Sets the env vars specific to the test environment.
  */
 gulp.task('env:test', done => {
     process.env.NODE_ENV = 'test';
@@ -212,7 +207,7 @@ gulp.task('env:test', done => {
 });
 
 /**
- * Sets NODE_ENV to 'production' in process.env.
+ * Sets the env vars specific to the production environment.
  */
 gulp.task('env:prod', done => {
     readConfig('config/production.env');
