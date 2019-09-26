@@ -7,6 +7,8 @@ public
 client/bower_components
 client/app.html
 client/components/socket/primus.js
+config/development.env
+config/production.env
 dist
 /server/config/local.env.js
 npm-debug.log

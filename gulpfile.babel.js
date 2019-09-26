@@ -3,6 +3,7 @@
 import del from 'del';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { union } from 'lodash';
 
 import _ from 'lodash';
 import gulp from 'gulp';
@@ -39,7 +40,7 @@ const paths = {
         e2e: ['e2e/**/*.spec.js'],
     },
     server: {
-        scripts: [`${serverPath}/**/!(*.spec|*.integration).js`, `!${serverPath}/config/local.env.sample.js`],
+        scripts: [`${serverPath}/**/!(*.spec|*.integration|*.mock).js`, `!${serverPath}/config/local.env.sample.js`],
         json: [`${serverPath}/{,**/}*.json`],
         swagger: [`${serverPath}/swagger/**/*.yaml`],
         test: {
@@ -149,11 +150,15 @@ let lintServerTestScripts = lazypipe()
     )
     .pipe(plugins.eslint.format);
 
+/**
+ * Transpiles the server files.
+ */
 let transpileServer = lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(
-        plugins.babel,
+        plugins.babel, // reads .babelrc
         {
+            presets: ['@babel/preset-env'],
             plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-transform-runtime'],
         }
     )
@@ -241,13 +246,17 @@ gulp.task('clean:tmp', () =>
  * Tasks
  ********************/
 
+/**
+ * Injects the style filenames into the client main style file.
+ */
+// TODO This tasks reports: gulp-inject Nothing to inject into app.scss
 gulp.task('inject:scss', () =>
     gulp
         .src(paths.client.mainStyle)
         .pipe(
             plugins.inject(
                 gulp
-                    .src(_.union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
+                    .src(union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
                         read: false,
                     })
                     .pipe(plugins.sort()),
@@ -256,7 +265,8 @@ gulp.task('inject:scss', () =>
                         let newPath = filepath
                             .replace(`/${clientPath}/app/`, '')
                             .replace(`/${clientPath}/components/`, '../components/')
-                            .replace(/_(.*).scss/, (match, p1, offset, string) => p1)
+                            // eslint-disable-next-line no-unused-vars
+                            .replace(/_(.*).scss/, (match, p1, offset, string) => p1) // TODO: Remove theme files?
                             .replace('.scss', '');
                         return `@import '${newPath}';`;
                     },
@@ -266,6 +276,9 @@ gulp.task('inject:scss', () =>
         .pipe(gulp.dest(`${clientPath}/app`))
 );
 
+/**
+ * Injects content into files.
+ */
 gulp.task('inject', gulp.series('inject:scss'));
 
 function webpackCompile(options, cb) {
@@ -317,8 +330,11 @@ gulp.task('styles', () =>
         .pipe(gulp.dest('.tmp/app'))
 );
 
+/**
+ * Transpiles the server files.
+ */
 gulp.task('transpile:server', () => {
-    var toTranspile = _.union(paths.server.scripts, paths.server.json);
+    var toTranspile = union(paths.server.scripts, paths.server.json);
     return gulp
         .src(toTranspile)
         .pipe(transpileServer())
@@ -477,6 +493,9 @@ gulp.task('test', gulp.series('test:server', 'test:client'));
  * Build
  ********************/
 
+/**
+ * Builds the images.
+ */
 gulp.task('build:images', () =>
     gulp
         .src(paths.client.images)
@@ -611,14 +630,14 @@ gulp.task(
         'inject',
         'transpile:server',
         'build:images',
-        gulp.parallel(
-            'copy:extras',
-            'copy:assets',
-            // 'copy:fonts:dist',
-            'copy:server'
-        ),
-        'webpack:dist',
-        'revReplaceWebpack'
+        // gulp.parallel(
+        //     'copy:extras',
+        //     'copy:assets',
+        //     // 'copy:fonts:dist',
+        //     'copy:server'
+        // ),
+        // 'webpack:dist',
+        // 'revReplaceWebpack'
     )
 );
 
