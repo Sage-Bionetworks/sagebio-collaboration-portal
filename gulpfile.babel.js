@@ -145,20 +145,6 @@ const lintClientTypescript = () => {
         );
 };
 
-const lintClientTestScripts = lazypipe()
-    .pipe(
-        plugins.tslint,
-        {
-            formatter: 'verbose',
-        }
-    )
-    .pipe(
-        plugins.tslint.report,
-        {
-            emitError: false,
-        }
-    );
-
 /**
  * Lints the server scripts.
  */
@@ -423,10 +409,24 @@ gulp.task('transpile:server', () => {
 /**
  * Lints the client scripts.
  */
-gulp.task('lint:client:ts', done => gulp
-    .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
-    .pipe(lintClientTypescript()())
-    .on('end', done));
+gulp.task('lint:client:ts', done =>
+    gulp
+        .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
+        .pipe(lintClientTypescript()())
+        .on('end', done)
+);
+
+/**
+ * Lints the client html files.
+ */
+gulp.task('lint:client:html', done =>
+    gulp
+        .src(paths.client.views)
+        .pipe(plugins.htmlhint(`${clientPath}/htmlhint.json`))
+        .pipe(plugins.htmlhint.reporter('htmlhint-stylish'))
+        .pipe(plugins.htmlhint.failOnError({ suppress: true }))
+        .on('end', done)
+);
 
 /**
  * Lints the server scripts.

@@ -128,6 +128,7 @@
         "gulp": "^4.0.2",
         "gulp-babel": "^8.0.0",
         "gulp-eslint": "^6.0.0",
+        "gulp-htmlhint": "^2.2.1",
         "gulp-imagemin": "^6.1.0",
         "gulp-inject": "^5.0.4",
         "gulp-load-plugins": "^2.0.1",
@@ -211,10 +212,10 @@
         "lint:server": "gulp lint:server",
         "lint:server:test": "gulp lint:server:test",
         "lint:client:ts": "gulp lint:client:ts",
+        "lint:html": "gulp lint:client:html",
 
-        "lint:html": "./node_modules/.bin/htmlhint --config client/htmlhint.json 'client/**/*.html'",
+
         "lint:scss": "stylelint 'client/**/*.scss' --config client/stylelint.json",
-
         "test": "gulp test",
         "test:client": "karma start ./karma.conf.js --single-run",
         "test:server": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --timeout 5000 --require ./mocha.conf.js './server/**/*.{spec,integration}.js' mocha.global.js",
