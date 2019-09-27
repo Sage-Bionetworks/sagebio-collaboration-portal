@@ -124,7 +124,7 @@ function whenServerReady(cb) {
 /**
  * Lints Typescript files.
  */
-const lintClientTypescript = () => {
+const lintTs = () => {
     const program = tslint.Linter.createProgram('./tsconfig.json');
     return lazypipe()
         .pipe(
@@ -146,9 +146,9 @@ const lintClientTypescript = () => {
 };
 
 /**
- * Lints the server scripts.
+ * Lints Javascript scripts.
  */
-const lintServerScripts = lazypipe()
+const lintJs = lazypipe()
     .pipe(
         plugins.eslint,
         `${serverPath}/.eslintrc`
@@ -388,12 +388,12 @@ gulp.task('webpack:test', cb =>
     )
 );
 
-gulp.task('styles', () =>
-    gulp
-        .src(paths.client.mainStyle)
-        .pipe(styles())
-        .pipe(gulp.dest('.tmp/app'))
-);
+// gulp.task('styles', () =>
+//     gulp
+//         .src(paths.client.mainStyle)
+//         .pipe(styles())
+//         .pipe(gulp.dest('.tmp/app'))
+// );
 
 /**
  * Transpiles the server files.
@@ -412,7 +412,7 @@ gulp.task('transpile:server', () => {
 gulp.task('lint:client:ts', done =>
     gulp
         .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
-        .pipe(lintClientTypescript()())
+        .pipe(lintTs()())
         .on('end', done)
 );
 
@@ -423,22 +423,36 @@ gulp.task('lint:client:html', done =>
     gulp
         .src(paths.client.views)
         .pipe(plugins.htmlhint(`${clientPath}/htmlhint.json`))
-        .pipe(plugins.htmlhint.reporter('htmlhint-stylish'))
-        .pipe(plugins.htmlhint.failOnError({ suppress: true }))
+        .pipe(plugins.htmlhint.reporter())
+        // .pipe(plugins.htmlhint.failAfterError({ suppress: false })) // suppress doesn't seem to work
         .on('end', done)
 );
 
 /**
- * Lints the server scripts.
+ * Lints the client scss files.
  */
-gulp.task('lint:server', done =>
+gulp.task('lint:client:scss', done =>
     gulp
-        .src(union(paths.server.scripts, map(paths.server.test, blob => `!${blob}`)))
-        .pipe(lintServerScripts())
+        .src(paths.client.styles)
+        .pipe(
+            plugins.stylelint({
+                configFile: `${clientPath}/stylelint.json`,
+                failAfterError: false,
+                reporters: [{ formatter: 'verbose', console: true }],
+            })
+        )
         .on('end', done)
 );
 
-gulp.task('lint', gulp.parallel('lint:client:ts', 'lint:server'));
+/**
+ * Lints the server js files.
+ */
+gulp.task('lint:server:js', done =>
+    gulp
+        .src(union(paths.server.scripts, map(paths.server.test, blob => `!${blob}`)))
+        .pipe(lintJs())
+        .on('end', done)
+);
 
 /**
  * Lints the server test scripts.
@@ -450,12 +464,22 @@ gulp.task('lint:server:test', done =>
         .on('end', done)
 );
 
-gulp.task('jscs', () =>
-    gulp
-        .src(union(paths.client.scripts, paths.server.scripts))
-        .pipe(plugins.jscs())
-        .pipe(plugins.jscs.reporter())
-);
+/**
+ * Lints the server files.
+ */
+gulp.task('lint:server', gulp.series('lint:server:js', 'lint:server:test'));
+
+/**
+ * Lints the client files.
+ */
+gulp.task('lint:client', gulp.series('lint:client:ts', 'lint:client:html', 'lint:client:scss'));
+
+/**
+ * Lints all the files.
+ */
+gulp.task('lint', gulp.parallel('lint:server', 'lint:client'));
+
+
 
 gulp.task('start:client', cb =>
     require('./webpack.server')
@@ -494,7 +518,7 @@ gulp.task('watch', () => {
     plugins
         .watch(union(paths.server.scripts, testFiles))
         .pipe(plugins.plumber())
-        .pipe(lintServerScripts());
+        .pipe(lintJs());
 
     plugins
         .watch(union(paths.server.test.unit, paths.server.test.integration))
