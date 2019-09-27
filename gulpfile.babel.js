@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 /* global require, process */
 
 import gulp from 'gulp';
@@ -18,6 +19,9 @@ import * as tslint from 'tslint';
 import { Server as KarmaServer } from 'karma';
 // eslint-disable-next-line camelcase
 import { protractor, webdriver_update } from 'gulp-protractor';
+import { generateKeyPair } from 'crypto';
+
+var forge = require('node-forge');
 
 import open from 'open';
 
@@ -27,6 +31,7 @@ var config;
 const clientPath = 'client';
 const serverPath = 'server';
 const configPath = 'config';
+const certsPath = `${configPath}/certs`;
 const paths = {
     client: {
         assets: `${clientPath}/assets/**/*`,
@@ -55,12 +60,17 @@ const paths = {
         default: `${configPath}/default.env`,
         development: `${configPath}/development.env`,
         production: `${configPath}/production.env`,
-        serverSslCert: `${configPath}/certs/server.cert`,
-        serverSslKey: `${configPath}/certs/server.key`,
-        serverSslCA: '',
-        mongodbSslCert: `${configPath}/certs/server.cert`, // here reused server cert for simplicity
-        mongodbSslKey: `${configPath}/certs/server.key`, // here reused server key for simplicity
-        mongodbSslCA: '',
+    },
+    // Certificates, private key and certificate authority are set using the
+    // following files if their associated environment variable is not already set.
+    certs: {
+        serverSslCert: `${certsPath}/server.cert`,
+        serverSslKey: `${certsPath}/server.key`,
+        serverSslCA: `${certsPath}/server.ca`,
+        mongodbSslCert: `${certsPath}/mongodb.cert`,
+        mongodbSslKey: `${certsPath}/mongodb.key`,
+        mongodbSslCA: `${certsPath}/mongodb.ca`,
+        mongodbSslCertAndKey: `${certsPath}/mongodb.pem`, // used by mongodb service
     },
 };
 
@@ -87,6 +97,64 @@ const readConfig = envFile => {
  */
 const onServerLog = msg => {
     log(colors.white('[') + colors.yellow('nodemon') + colors.white('] ') + msg.message); // was console.log()
+};
+
+/**
+ * Generates X.509 certificate and RSA private key.
+ *
+ * The subject of the certificate has its attributes set to 'TBD'.
+ */
+const generateCertAndPrivateKey = () => {
+    var pki = forge.pki;
+    var keys = pki.rsa.generateKeyPair(4096);
+    var cert = pki.createCertificate();
+
+    // fill the required fields
+    cert.publicKey = keys.publicKey;
+    cert.serialNumber = '01';
+    cert.validity.notBefore = new Date();
+    cert.validity.notAfter = new Date();
+    cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
+
+    // use your own attributes here, or supply a csr (check the docs)
+    var attrs = [
+        {
+            name: 'commonName',
+            value: 'TBD',
+        },
+        {
+            name: 'countryName',
+            value: 'TBD',
+        },
+        {
+            shortName: 'ST',
+            value: 'TBD',
+        },
+        {
+            name: 'localityName',
+            value: 'TBD',
+        },
+        {
+            name: 'organizationName',
+            value: 'TBD',
+        },
+        {
+            shortName: 'OU',
+            value: 'TBD',
+        },
+    ];
+
+    // here we set subject and issuer as the same one
+    cert.setSubject(attrs);
+    cert.setIssuer(attrs);
+
+    // the actual certificate signing
+    cert.sign(keys.privateKey);
+
+    return {
+        cert: pki.certificateToPem(cert),
+        privateKey: forge.ssh.privateKeyToOpenSSH(keys.privateKey, ''),
+    };
 };
 
 /********************
@@ -255,6 +323,56 @@ gulp.task('clean:tmp', () =>
 /********************
  * Tasks
  ********************/
+
+/**
+ * Generates server X.509 certificate and private key
+ */
+gulp.task('init:ssl:server', done => {
+    log('Generating server X.509 certificate and private key');
+    const { cert, privateKey } = generateCertAndPrivateKey();
+
+    fs.mkdirSync(certsPath, { recursive: true });
+
+    log(paths.certs.serverSslCert);
+    fs.writeFileSync(paths.certs.serverSslCert, cert);
+    log(paths.certs.serverSslKey);
+    fs.writeFileSync(paths.certs.serverSslKey, privateKey);
+
+    log(colors.yellow('Please replace these files with your own in production environment.'));
+
+    done();
+});
+
+/**
+ * Generates MongoDB X.509 certificate and private key
+ */
+gulp.task('init:ssl:mongodb', done => {
+    log('Generating MongoDB X.509 certificate and private key');
+    const { cert, privateKey } = generateCertAndPrivateKey();
+
+    fs.mkdirSync(certsPath, { recursive: true });
+
+    log(paths.certs.mongodbSslCert);
+    fs.writeFileSync(paths.certs.mongodbSslCert, cert);
+    log(paths.certs.mongodbSslKey);
+    fs.writeFileSync(paths.certs.mongodbSslKey, privateKey);
+    log(paths.certs.mongodbSslCertAndKey);
+    fs.writeFileSync(paths.certs.mongodbSslCertAndKey, `${cert}${privateKey}`);
+
+    log(colors.yellow('Please replace these files with your own in production environment.'));
+
+    done();
+});
+
+/**
+ * Generates X.509 certificates and private keys.
+ */
+gulp.task('init:ssl', gulp.series('init:ssl:server', 'init:ssl:mongodb'));
+
+/**
+ * Runs initialization tasks.
+ */
+gulp.task('init', gulp.series('init:ssl'));
 
 /**
  * Injects the style filenames into the client main style file.
