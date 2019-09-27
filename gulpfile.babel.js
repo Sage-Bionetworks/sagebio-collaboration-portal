@@ -12,6 +12,7 @@ import makeWebpackConfig from './webpack.make';
 import lazypipe from 'lazypipe';
 import nodemon from 'nodemon';
 import through2 from 'through2';
+import * as tslint from 'tslint';
 
 import path from 'path';
 import gulpLoadPlugins from 'gulp-load-plugins';
@@ -120,19 +121,29 @@ function whenServerReady(cb) {
 // About lazypipe and Gulp 4
 // https://stackoverflow.com/a/40101404
 
-let lintClientScripts = lazypipe()
-    .pipe(
-        plugins.tslint,
-        {
-            formatter: 'verbose',
-        }
-    )
-    .pipe(
-        plugins.tslint.report,
-        {
-            emitError: false,
-        }
-    );
+/**
+ * Lints Typescript files.
+ */
+const lintClientTypescript = () => {
+    const program = tslint.Linter.createProgram('./tsconfig.json');
+    return lazypipe()
+        .pipe(
+            plugins.tslint,
+            {
+                configuration: `${clientPath}/tslint.json`,
+                fix: false,
+                formatter: 'verbose',
+                tslint,
+                program,
+            }
+        )
+        .pipe(
+            plugins.tslint.report,
+            {
+                emitError: false,
+            }
+        );
+};
 
 const lintClientTestScripts = lazypipe()
     .pipe(
@@ -409,12 +420,13 @@ gulp.task('transpile:server', () => {
         .pipe(gulp.dest(`${paths.dist}/${serverPath}`));
 });
 
-gulp.task('lint:client', cb =>
-    gulp
-        .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
-        .pipe(lintClientScripts())
-        .on('end', cb)
-);
+/**
+ * Lints the client scripts.
+ */
+gulp.task('lint:client:ts', done => gulp
+    .src(union(paths.client.scripts, map(paths.client.test, blob => `!${blob}`)))
+    .pipe(lintClientTypescript()())
+    .on('end', done));
 
 /**
  * Lints the server scripts.
@@ -426,7 +438,7 @@ gulp.task('lint:server', done =>
         .on('end', done)
 );
 
-gulp.task('lint', gulp.parallel('lint:client', 'lint:server'));
+gulp.task('lint', gulp.parallel('lint:client:ts', 'lint:server'));
 
 /**
  * Lints the server test scripts.

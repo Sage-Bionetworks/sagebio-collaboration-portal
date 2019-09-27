@@ -11,10 +11,7 @@ import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
     selector: 'tool',
     template: require('./tool.html'),
     styles: [require('./tool.scss')],
-    providers: [
-        ToolDataService,
-        ToolSidenavService
-    ],
+    providers: [ToolDataService, ToolSidenavService],
 })
 export class ToolComponent implements OnInit {
     private tool$: Observable<Tool>; // used in html
@@ -25,8 +22,7 @@ export class ToolComponent implements OnInit {
         private toolService: ToolService,
         private toolDataService: ToolDataService,
         private toolSidenavService: ToolSidenavService // used in html
-    )
-    {}
+    ) {}
 
     ngOnInit() {
         const getTool = this.route.params.pipe(
