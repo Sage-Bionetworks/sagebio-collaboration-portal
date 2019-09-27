@@ -220,7 +220,6 @@
         "test:client:karma": "gulp test:client:karma",
         "webdriver_update": "gulp webdriver_update",
         "test:client:e2e": "gulp test:client:e2e",
-
         "cover": "npm run cover:server && npm run cover:client && npm run cover:report",
         "cover:server": "./node_modules/nyc/bin/nyc.js --silent npm run test:server",
         "cover:client": "npm run test:client",

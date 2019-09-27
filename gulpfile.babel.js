@@ -170,21 +170,6 @@ const mocha = lazypipe().pipe(
     }
 );
 
-// let istanbul = lazypipe()
-//     .pipe(plugins.istanbul.writeReports)
-//     .pipe(plugins.istanbulEnforcer, {
-//         thresholds: {
-//             global: {
-//                 lines: 80,
-//                 statements: 80,
-//                 branches: 80,
-//                 functions: 80
-//             }
-//         },
-//         coverageDirectory: './coverage',
-//         rootDirectory: ''
-//     });
-
 /********************
  * Env
  ********************/
@@ -517,41 +502,6 @@ gulp.task(
     'test:server',
     gulp.series('env:default', 'env:test', 'env:ssl', 'test:server:unit', 'test:server:integration')
 );
-
-// gulp.task('coverage:pre', () => {
-//     return gulp.src(paths.server.scripts)
-//         // Covering files
-//         .pipe(plugins.istanbul({
-//             // instrumenter: Instrumenter, // Use the isparta instrumenter (code coverage for ES6)
-//             includeUntested: true
-//         }));
-//         // Force `require` to return covered files
-//         // .pipe(plugins.istanbul.hookRequire());
-// });
-
-// gulp.task('coverage:unit', () => {
-//     return gulp.src(paths.server.test.unit)
-//         .pipe(mocha())
-//         .pipe(istanbul())
-//     // Creating the reports after tests ran
-// });
-
-// gulp.task('coverage:integration', () => {
-//     return gulp.src(paths.server.test.integration)
-//         .pipe(mocha())
-//         .pipe(istanbul())
-//     // Creating the reports after tests ran
-// });
-
-// gulp.task('test:server:coverage', cb =>
-//     gulp.series(
-//         'coverage:pre',
-//         // 'env:all',
-//         // 'env:test',
-//         // 'coverage:unit',
-//         // 'coverage:integration',
-//         cb
-//     ));
 
 /**
  * Downloads the selenium webdriver.
