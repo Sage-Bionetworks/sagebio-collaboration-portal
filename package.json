@@ -214,19 +214,18 @@
         "lint:client:ts": "gulp lint:client:ts",
         "lint:client:html": "gulp lint:client:html",
         "lint:client:scss": "gulp lint:client:scss",
-
-        "test:server": "gulp test:server",
-
         "test": "gulp test",
-        "test:client": "karma start ./karma.conf.js --single-run",
-
-        "test:e2e": "gulp webpack:dev && protractor ./protractor.conf.js",
+        "test:server": "gulp test:server",
+        "test:client": "gulp test:client",
+        "test:client:karma": "gulp test:client:karma",
+        "webdriver_update": "gulp webdriver_update",
+        "test:client:e2e": "gulp test:client:e2e",
 
         "cover": "npm run cover:server && npm run cover:client && npm run cover:report",
         "cover:server": "./node_modules/nyc/bin/nyc.js --silent npm run test:server",
         "cover:client": "npm run test:client",
         "cover:report": "./node_modules/nyc/bin/nyc.js report --reporter=lcov --reporter=text --reporter=text-summary",
-        "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
+
         "start": "node server",
         "start:client": "webpack-dev-server --config webpack.dev.js",
         "start:server": "nodemon --inspect --trace-warnings --watch server server",

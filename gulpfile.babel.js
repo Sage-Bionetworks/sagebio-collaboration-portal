@@ -1,11 +1,13 @@
 /* global require, process */
 
 import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import { union, map } from 'lodash';
 import log from 'fancy-log';
+import path from 'path';
 import * as colors from 'ansi-colors';
 import webpack from 'webpack';
 import makeWebpackConfig from './webpack.make';
@@ -13,13 +15,11 @@ import lazypipe from 'lazypipe';
 import nodemon from 'nodemon';
 import through2 from 'through2';
 import * as tslint from 'tslint';
-
-import path from 'path';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import http from 'http';
-import open from 'open';
 import { Server as KarmaServer } from 'karma';
+// eslint-disable-next-line camelcase
 import { protractor, webdriver_update } from 'gulp-protractor';
+
+import open from 'open';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -89,37 +89,9 @@ const onServerLog = msg => {
     log(colors.white('[') + colors.yellow('nodemon') + colors.white('] ') + msg.message); // was console.log()
 };
 
-function checkAppReady(cb) {
-    var options = {
-        host: 'localhost',
-        port: config.port,
-    };
-    http.get(options, () => cb(true)).on('error', () => cb(false));
-}
-
-// Call page until first success
-function whenServerReady(cb) {
-    var serverReady = false;
-    var appReadyInterval = setInterval(
-        () =>
-            checkAppReady(ready => {
-                if (!ready || serverReady) {
-                    return;
-                }
-                clearInterval(appReadyInterval);
-                serverReady = true;
-                cb();
-            }),
-        100
-    );
-}
-
 /********************
  * Reusable pipelines
  ********************/
-
-// About lazypipe and Gulp 4
-// https://stackoverflow.com/a/40101404
 
 /**
  * Lints Typescript files.
@@ -492,7 +464,7 @@ gulp.task('start:client', cb =>
         })
 );
 
-gulp.task('start:server', () => {
+gulp.task('start:server:dev', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     config = require(`./${serverPath}/config/environment`);
     nodemon(`-w ${serverPath} ${serverPath}`).on('log', onServerLog);
@@ -531,9 +503,7 @@ gulp.task('watch', () => {
 /**
  * Runs the server unit tests with Mocha.
  */
-gulp.task('test:server:unit', () =>
-    gulp.src(paths.server.test.unit, { read: false }).pipe(mocha())
-);
+gulp.task('test:server:unit', () => gulp.src(paths.server.test.unit, { read: false }).pipe(mocha()));
 
 /**
  * Runs the server integration tests with Mocha.
@@ -543,7 +513,10 @@ gulp.task('test:server:integration', () => gulp.src(paths.server.test.integratio
 /**
  * Runs the server tests.
  */
-gulp.task('test:server', gulp.series('env:default', 'env:test', 'env:ssl', 'test:server:unit', 'test:server:integration'));
+gulp.task(
+    'test:server',
+    gulp.series('env:default', 'env:test', 'env:ssl', 'test:server:unit', 'test:server:integration')
+);
 
 // gulp.task('coverage:pre', () => {
 //     return gulp.src(paths.server.scripts)
@@ -580,12 +553,15 @@ gulp.task('test:server', gulp.series('env:default', 'env:test', 'env:ssl', 'test
 //         cb
 //     ));
 
-// Downloads the selenium webdriver
+/**
+ * Downloads the selenium webdriver.
+ */
 gulp.task('webdriver_update', webdriver_update);
 
+// TODO Server starts but nothing happens
 gulp.task(
-    'test:e2e',
-    gulp.series(gulp.parallel('webpack:dist', /*'env:all',*/ 'env:test', 'start:server', 'webdriver_update'), () => {
+    'test:client:e2e',
+    gulp.series('webpack:dist', 'env:default', 'env:test', 'env:ssl', 'start:server:dev', 'webdriver_update', () => {
         gulp.src(paths.client.e2e)
             .pipe(
                 protractor({
@@ -595,25 +571,32 @@ gulp.task(
             .on('error', e => {
                 throw e;
             })
-            .on('end', () => {
-                process.exit();
-            });
+            .on('end', () => {});
     })
 );
 
-gulp.task('test:client', done => {
+/**
+ * Runs the client tests with Karma.
+ */
+gulp.task('test:client:karma', done => {
     new KarmaServer(
         {
+            // eslint-disable-next-line no-undef
             configFile: `${__dirname}/${paths.karma}`,
             singleRun: true,
         },
-        err => {
-            done(err);
-            process.exit(err);
-        }
+        done
     ).start();
 });
 
+/**
+ * Runs the client tests.
+ */
+gulp.task('test:client', gulp.series('test:client:karma'));
+
+/**
+ * Runs the server and client tests.
+ */
 gulp.task('test', gulp.series('test:server', 'test:client'));
 
 /********************
@@ -736,7 +719,7 @@ gulp.task(
             /*'env:all',*/
         ),
         // 'webpack:dev',
-        gulp.parallel('start:server', 'start:client'),
+        gulp.parallel('start:server:dev', 'start:client'),
         'watch'
     )
 );
