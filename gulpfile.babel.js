@@ -171,7 +171,7 @@ const lintServerTestScripts = lazypipe()
 /**
  * Transpiles the server files.
  */
-let transpileServer = lazypipe()
+const transpileServer = lazypipe()
     .pipe(plugins.sourcemaps.init)
     .pipe(
         plugins.babel, // reads .babelrc
@@ -185,10 +185,14 @@ let transpileServer = lazypipe()
         '.'
     );
 
-let mocha = lazypipe().pipe(
+/**
+ * Runs Mocha on the files specified.
+ */
+const mocha = lazypipe().pipe(
     plugins.mocha,
     {
         reporter: 'spec',
+        exit: true,
         timeout: 5000,
         require: ['./mocha.conf'],
     }
@@ -479,8 +483,6 @@ gulp.task('lint:client', gulp.series('lint:client:ts', 'lint:client:html', 'lint
  */
 gulp.task('lint', gulp.parallel('lint:server', 'lint:client'));
 
-
-
 gulp.task('start:client', cb =>
     require('./webpack.server')
         .start(config.clientPort)
@@ -526,11 +528,22 @@ gulp.task('watch', () => {
         .pipe(lintServerTestScripts());
 });
 
-gulp.task('mocha:unit', () => gulp.src(paths.server.test.unit).pipe(mocha()));
+/**
+ * Runs the server unit tests with Mocha.
+ */
+gulp.task('test:server:unit', () =>
+    gulp.src(paths.server.test.unit, { read: false }).pipe(mocha())
+);
 
-gulp.task('mocha:integration', () => gulp.src(paths.server.test.integration).pipe(mocha()));
+/**
+ * Runs the server integration tests with Mocha.
+ */
+gulp.task('test:server:integration', () => gulp.src(paths.server.test.integration).pipe(mocha()));
 
-gulp.task('test:server', gulp.series(/*'env:all',*/ 'env:test', 'mocha:unit', 'mocha:integration'));
+/**
+ * Runs the server tests.
+ */
+gulp.task('test:server', gulp.series('env:default', 'env:test', 'env:ssl', 'test:server:unit', 'test:server:integration'));
 
 // gulp.task('coverage:pre', () => {
 //     return gulp.src(paths.server.scripts)
