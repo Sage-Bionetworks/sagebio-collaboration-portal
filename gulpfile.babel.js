@@ -100,6 +100,18 @@ const onServerLog = msg => {
 };
 
 /**
+ * Creates a config file (.env) from its sample (.sample.env).
+ */
+const createConfigFileFromSample = envFile => {
+    let source = envFile.replace('.env', '.sample.env');
+    let destination = envFile;
+    log(`Copying ${source} to ${destination}`);
+    fs.copyFile(source, destination, err => {
+        if (err) throw err;
+    });
+};
+
+/**
  * Generates X.509 certificate and RSA private key.
  *
  * The subject of the certificate has its attributes set to 'TBD'.
@@ -325,6 +337,27 @@ gulp.task('clean:tmp', () =>
  ********************/
 
 /**
+ * Creates the development config file from its sample.
+ */
+gulp.task('init:config:dev', done => {
+    createConfigFileFromSample(paths.config.development);
+    done();
+});
+
+/**
+ * Creates the production config file from its sample.
+ */
+gulp.task('init:config:prod', done => {
+    createConfigFileFromSample(paths.config.production);
+    done();
+});
+
+/**
+ * Creates configuration files from sample files.
+ */
+gulp.task('init:config', gulp.parallel('init:config:dev', 'init:config:prod'));
+
+/**
  * Generates server X.509 certificate and private key
  */
 gulp.task('init:ssl:server', done => {
@@ -367,12 +400,12 @@ gulp.task('init:ssl:mongodb', done => {
 /**
  * Generates X.509 certificates and private keys.
  */
-gulp.task('init:ssl', gulp.series('init:ssl:server', 'init:ssl:mongodb'));
+gulp.task('init:ssl', gulp.parallel('init:ssl:server', 'init:ssl:mongodb'));
 
 /**
  * Runs initialization tasks.
  */
-gulp.task('init', gulp.series('init:ssl'));
+gulp.task('init', gulp.series('init:config', 'init:ssl'));
 
 /**
  * Injects the style filenames into the client main style file.
