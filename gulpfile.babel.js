@@ -53,7 +53,7 @@ const paths = {
         },
     },
     karma: 'karma.conf.js',
-    dist: 'dist', // used
+    dist: 'dist',
     config: {
         default: `${configPath}/default.env`,
         development: `${configPath}/development.env`,
