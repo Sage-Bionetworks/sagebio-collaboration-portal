@@ -15,10 +15,13 @@ config.entry.app = devServerEntry.concat(config.entry.app);
 
 const compiler = webpack(config);
 
-export const server = new WebpackDevServer(compiler, config.devServer);
+export const server = new WebpackDevServer(compiler, {
+    ...config.devServer,
+    hot: true
+});
 
 /**
- * Starts the dev server
+ * Starts the dev server.
  * @returns {Promise}
  */
 export function start() {
