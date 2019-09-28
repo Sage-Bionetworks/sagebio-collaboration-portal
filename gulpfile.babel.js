@@ -912,7 +912,7 @@ gulp.task(
  * Starts the distribution server in production environment.
  */
 gulp.task(
-    'serve:dist',
+    'serve:dist:prod',
     gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:dist:prod') // gulp.parallel('start:server:dist:prod', 'start:client')
 );
 

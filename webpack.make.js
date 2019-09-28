@@ -106,60 +106,26 @@ module.exports = function makeWebpackConfig(options) {
     }
 
     /**
-     * Loaders
-     * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
-     * List: http://webpack.github.io/docs/list-of-loaders.html
+     * Module
+     * Reference: https://webpack.js.org/configuration/module/
+     * List: https://webpack.js.org/loaders/
      * This handles most of the magic responsible for converting modules
      */
-
-    // Initialize module
     config.module = {
         rules: [
             {
                 // JS LOADER
+                // Reference: https://webpack.js.org/loaders/babel-loader/
                 // Reference: https://github.com/babel/babel-loader
                 // Transpile .js files using babel-loader
                 // Compiles ES6 and ES7 into ES5 code
+                // Options are set using .babelrc
                 test: /\.js$/,
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                [
-                                    '@babel/preset-env',
-                                    {
-                                        targets: {
-                                            browsers: ['last 2 versions', 'not dead'],
-                                        },
-                                        debug: BUILD,
-                                        modules: false,
-                                        // corejs: 3
-                                        // useBuiltIns: 'usage'
-                                    },
-                                ],
-                            ],
-                            plugins: [
-                                // '@babel/transform-runtime'
-                                // ['@babel/plugin-transform-runtime', {  // MESS WITH PRIMUS
-                                //     "corejs": 2,
-                                // }],
-                                // ['@babel/plugin-proposal-decorators', {
-                                //     legacy: true
-                                // }],
-                                // '@babel/plugin-proposal-class-properties', // must be after decorators
-                                // // https://babeljs.io/docs/en/v7-migration#split-babel-plugin-transform-export-extensions-into-the-two-renamed-proposals
-                                // '@babel/plugin-proposal-export-default-from',
-                                // '@babel/plugin-proposal-export-namespace-from',
-                                // '@babel/plugin-syntax-export-default-from',
-                                // '@babel/plugin-transform-async-to-generator',
-                                // '@babel/plugin-syntax-dynamic-import',
-                                // '@babel/plugin-proposal-object-rest-spread'
-                            ].concat(TEST ? [] : []),
-                            // ].concat(TEST ? ['istanbul'] : []),
-                        },
                     },
-                ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                ],
                 include: [
                     path.resolve(__dirname, 'client/'),
                     path.resolve(__dirname, 'server/config/environment/shared.js'),
@@ -170,7 +136,7 @@ module.exports = function makeWebpackConfig(options) {
             },
             {
                 // TS LOADER
-                // Reference: https://github.com/s-panferov/awesome-typescript-loader
+                // Reference: https://www.npmjs.com/package/awesome-typescript-loader
                 // Transpile .ts files using awesome-typescript-loader
                 test: /\.ts$/,
                 use: [
@@ -180,7 +146,8 @@ module.exports = function makeWebpackConfig(options) {
                             tsconfig: path.resolve(__dirname, 'tsconfig.json'),
                         },
                     },
-                ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                // ].concat(DEV ? '@angularclass/hmr-loader' : []),
+                ],
                 include: [path.resolve(__dirname, 'client/'), path.resolve(__dirname, 'shared/interfaces/')],
             },
             {
