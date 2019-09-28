@@ -82,7 +82,6 @@ const paths = {
  */
 const readConfig = envFile => {
     // https://www.npmjs.com/package/dotenv#what-happens-to-environment-variables-that-were-already-set
-    // eslint-disable-next-line no-sync
     const envConfig = dotenv.parse(fs.readFileSync(envFile));
     for (const k in envConfig) {
         process.env[k] = envConfig[k];
@@ -256,7 +255,17 @@ const mocha = lazypipe().pipe(
  * Sets the default env vars.
  */
 gulp.task('env:default', done => {
-    readConfig(paths.config.default);
+    if (fs.existsSync(paths.config.default)) {
+        readConfig(paths.config.default);
+    }
+    done();
+});
+
+/**
+ * Sets the env vars specific to the development environment.
+ */
+gulp.task('env:test', done => {
+    process.env.NODE_ENV = 'development';
     done();
 });
 
@@ -272,7 +281,9 @@ gulp.task('env:test', done => {
  * Sets the env vars specific to the production environment.
  */
 gulp.task('env:prod', done => {
-    readConfig(paths.config.production);
+    if (fs.existsSync(paths.config.production)) {
+        readConfig(paths.config.production);
+    }
     process.env.NODE_ENV = 'production';
     done();
 });
@@ -281,12 +292,18 @@ gulp.task('env:prod', done => {
  * Sets the server SSL certificate, key, and certificate authority.
  */
 gulp.task('env:ssl:server', done => {
-    // eslint-disable-next-line no-sync
-    process.env.SSL_CERT = fs.readFileSync(paths.config.serverSslCert);
-    // eslint-disable-next-line no-sync
-    process.env.SSL_KEY = fs.readFileSync(paths.config.serverSslKey);
-    // eslint-disable-next-line no-sync
-    process.env.SSL_CA = paths.config.serverSslCA ? fs.readFileSync(paths.config.serverSslCA) : '';
+    if (fs.existsSync(paths.certs.serverSslCert)) {
+        log(`Setting ${paths.certs.serverSslCert} to process.env.SSL_CERT`);
+        process.env.SSL_CERT = fs.readFileSync(paths.certs.serverSslCert);
+    }
+    if (fs.existsSync(paths.certs.serverSslKey)) {
+        log(`Setting ${paths.certs.serverSslKey} to process.env.SSL_KEY`);
+        process.env.SSL_KEY = fs.readFileSync(paths.certs.serverSslKey);
+    }
+    if (fs.existsSync(paths.certs.serverSslCA)) {
+        log(`Setting ${paths.certs.serverSslCA} to process.env.serverSslCA`);
+        process.env.SSL_CA = fs.readFileSync(paths.certs.serverSslCA);
+    }
     done();
 });
 
@@ -294,12 +311,18 @@ gulp.task('env:ssl:server', done => {
  * Sets the MongoDB SSL certificate, key, and certificate authority.
  */
 gulp.task('env:ssl:mongodb', done => {
-    // eslint-disable-next-line no-sync
-    process.env.MONGODB_SSL_CERT = paths.config.mongodbSslCert ? fs.readFileSync(paths.config.mongodbSslCert) : '';
-    // eslint-disable-next-line no-sync
-    process.env.MONGODB_SSL_KEY = paths.config.mongodbSslKey ? fs.readFileSync(paths.config.mongodbSslKey) : '';
-    // eslint-disable-next-line no-sync
-    process.env.MONGODB_SSL_CA = paths.config.mongodbSslCA ? fs.readFileSync(paths.config.mongodbSslCA) : '';
+    if (fs.existsSync(paths.certs.mongodbSslCert)) {
+        log(`Setting ${paths.certs.mongodbSslCert} to process.env.MONGODB_SSL_CERT`);
+        process.env.MONGODB_SSL_CERT = fs.readFileSync(paths.certs.mongodbSslCert);
+    }
+    if (fs.existsSync(paths.certs.mongodbSslKey)) {
+        log(`Setting ${paths.certs.mongodbSslKey} to process.env.MONGODB_SSL_KEY`);
+        process.env.MONGODB_SSL_KEY = fs.readFileSync(paths.certs.mongodbSslKey);
+    }
+    if (fs.existsSync(paths.certs.mongodbSslCA)) {
+        log(`Setting ${paths.certs.mongodbSslCA} to process.env.MONGODB_SSL_CA`);
+        process.env.MONGODB_SSL_CA = fs.readFileSync(paths.certs.mongodbSslCA);
+    }
     done();
 });
 
@@ -888,4 +911,6 @@ gulp.task(
  * Default task
  ********************/
 
-gulp.task('default', gulp.series('build'));
+gulp.task('default', gulp.series('lint', 'test', 'build'));
+
+// gulp.series(gulp.parallel('lint', 'test'), 'build', gulp.parallel('watch', 'start'));

@@ -207,6 +207,9 @@
     "scripts": {
         "build": "gulp build",
         "init": "gulp init",
+        "init:config": "gulp init:config",
+        "init:ssl:server": "gulp init:ssl:server",
+        "init:ssl:mongodb": "gulp init:ssl:mongodb",
         "lint": "gulp lint",
         "lint:server": "gulp lint:server",
         "lint:server:js": "gulp lint:server",

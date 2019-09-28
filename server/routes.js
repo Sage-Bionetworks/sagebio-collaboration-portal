@@ -32,8 +32,8 @@ export default app => {
         // docExpansion: 'none'
     };
 
-    const swaggerSpec = require('/Users/tschaffter/dev/PHCCollaborationPortal/dist/client/swagger.json');
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerOptions));
+    // const swaggerSpec = require('/Users/tschaffter/dev/PHCCollaborationPortal/dist/client/swagger.json');
+    // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerOptions));
 
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|auth|components|app|bower_components|assets|api-docs)/*')
