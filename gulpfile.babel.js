@@ -19,9 +19,7 @@ import * as tslint from 'tslint';
 import { Server as KarmaServer } from 'karma';
 // eslint-disable-next-line camelcase
 import { protractor, webdriver_update } from 'gulp-protractor';
-import { generateKeyPair } from 'crypto';
-
-var forge = require('node-forge');
+import forge from 'node-forge';
 
 import open from 'open';
 
