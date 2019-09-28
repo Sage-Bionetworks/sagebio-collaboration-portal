@@ -843,7 +843,7 @@ gulp.task(
     'serve:dev',
     gulp.series(
         'clean:tmp',
-        'lint',
+        // 'lint',
         'inject',
         // 'copy:fonts:dev',
         'env:default',
@@ -855,21 +855,21 @@ gulp.task(
     )
 );
 
-gulp.task('serve:debug', cb =>
-    gulp.series(
-        gulp.parallel(
-            'clean:tmp',
-            'lint',
-            'inject'
-            // 'copy:fonts:dev',
-            /*'env:all',*/
-        ),
-        'webpack:dev',
-        gulp.parallel('start:server:dev:debug', 'start:client'),
-        // 'watch',
-        cb
-    )
-);
+// gulp.task('serve:debug', cb =>
+//     gulp.series(
+//         gulp.parallel(
+//             'clean:tmp',
+//             'lint',
+//             'inject'
+//             // 'copy:fonts:dev',
+//             /*'env:all',*/
+//         ),
+//         'webpack:dev',
+//         gulp.parallel('start:server:dev:debug', 'start:client'),
+//         // 'watch',
+//         cb
+//     )
+// );
 
 /**
  * Copies the client assets but the images to the dist folder.

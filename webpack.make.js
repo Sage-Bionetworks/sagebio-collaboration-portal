@@ -136,17 +136,16 @@ module.exports = function makeWebpackConfig(options) {
             },
             {
                 // TS LOADER
-                // Reference: https://www.npmjs.com/package/awesome-typescript-loader
-                // Transpile .ts files using awesome-typescript-loader
+                // Reference: https://www.npmjs.com/package/ts-loader
+                // Transpile .ts files using ts-loader
                 test: /\.ts$/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'ts-loader',
                         options: {
-                            tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+                            configFile: path.resolve(__dirname, 'tsconfig.json'),
                         },
                     },
-                // ].concat(DEV ? '@angularclass/hmr-loader' : []),
                 ],
                 include: [path.resolve(__dirname, 'client/'), path.resolve(__dirname, 'shared/interfaces/')],
             },
@@ -157,13 +156,13 @@ module.exports = function makeWebpackConfig(options) {
                 // Rename the file using the asset hash
                 // Pass along the updated reference to your code
                 // You can add here any file extension you want to get copied to your output
+                // eslint-disable-next-line no-useless-escape
                 test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
                 use: 'file-loader',
             },
             {
                 // HTML LOADER
-                // Reference: https://github.com/webpack/raw-loader
-                // Allow loading html through js
+                // Reference: https://webpack.js.org/loaders/html-loader/
                 test: /\.html$/,
                 use: {
                     loader: 'html-loader',
