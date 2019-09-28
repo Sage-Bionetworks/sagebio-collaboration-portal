@@ -21,8 +21,6 @@ import { Server as KarmaServer } from 'karma';
 import { protractor, webdriver_update } from 'gulp-protractor';
 import forge from 'node-forge';
 
-import open from 'open';
-
 var plugins = gulpLoadPlugins();
 var config;
 
@@ -264,8 +262,11 @@ gulp.task('env:default', done => {
 /**
  * Sets the env vars specific to the development environment.
  */
-gulp.task('env:test', done => {
+gulp.task('env:dev', done => {
     process.env.NODE_ENV = 'development';
+    if (fs.existsSync(paths.config.development)) {
+        readConfig(paths.config.development);
+    }
     done();
 });
 
@@ -612,50 +613,58 @@ gulp.task('lint:client', gulp.series('lint:client:ts', 'lint:client:html', 'lint
  */
 gulp.task('lint', gulp.parallel('lint:server', 'lint:client'));
 
-gulp.task('start:client', cb =>
+/**
+ * Starts the client using the Webpack Dev Server.
+ */
+gulp.task('start:client', done =>
     require('./webpack.server')
         .start(config.clientPort)
         .then(() => {
-            open(`http://localhost:${config.clientPort}`);
-            cb();
+            done();
         })
 );
 
+/**
+ * Starts the server in development environment.
+ */
 gulp.task('start:server:dev', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     config = require(`./${serverPath}/config/environment`);
-    nodemon(`-w ${serverPath} ${serverPath}`).on('log', onServerLog);
+    nodemon(`--inspect --trace-warnings -w ${serverPath} ${serverPath}`).on('log', onServerLog);
 });
 
 /**
- * Starts the server in production environment.
+ * Start the server in debug mode and development environment.
  */
-gulp.task('start:server:prod', () => {
-    process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-    config = require(`./${paths.dist}/${serverPath}/config/environment`);
-    nodemon(`-w ${paths.dist}/${serverPath} ${paths.dist}/${serverPath}`).on('log', onServerLog);
-});
-
-gulp.task('start:server:debug', () => {
+gulp.task('start:server:dev:debug', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     config = require(`./${serverPath}/config/environment`);
     // nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
     nodemon(`-w ${serverPath} --inspect --debug-brk ${serverPath}`).on('log', onServerLog);
 });
 
-gulp.task('watch', () => {
-    var testFiles = union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
-
-    plugins
-        .watch(union(paths.server.scripts, testFiles))
-        .pipe(plugins.plumber())
-        .pipe(lintJs());
-
-    plugins
-        .watch(union(paths.server.test.unit, paths.server.test.integration))
-        .pipe(plugins.plumber())
-        .pipe(lintServerTestScripts());
+/**
+ * Starts the production server in production environment.
+ */
+gulp.task('start:server:dist:prod', () => {
+    process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+    config = require(`./${paths.dist}/${serverPath}/config/environment`);
+    nodemon(`-w ${paths.dist}/${serverPath} ${paths.dist}/${serverPath}`).on('log', onServerLog);
 });
+
+// gulp.task('watch', () => {
+//     var testFiles = union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
+
+//     plugins
+//         .watch(union(paths.server.scripts, testFiles))
+//         .pipe(plugins.plumber())
+//         .pipe(lintJs());
+
+//     plugins
+//         .watch(union(paths.server.test.unit, paths.server.test.integration))
+//         .pipe(plugins.plumber())
+//         .pipe(lintServerTestScripts());
+// });
 
 /**
  * Runs the server unit tests with Mocha.
@@ -831,18 +840,18 @@ gulp.task('copy:fonts:dist', () =>
 );
 
 gulp.task(
-    'serve',
+    'serve:dev',
     gulp.series(
-        gulp.parallel(
-            'clean:tmp',
-            'lint',
-            'inject'
-            // 'copy:fonts:dev',
-            /*'env:all',*/
-        ),
-        // 'webpack:dev',
-        gulp.parallel('start:server:dev', 'start:client'),
-        'watch'
+        'clean:tmp',
+        'lint',
+        'inject',
+        // 'copy:fonts:dev',
+        'env:default',
+        'env:dev',
+        'env:ssl',
+        'webpack:dev',
+        gulp.parallel('start:server:dev', 'start:client')
+        // 'watch'
     )
 );
 
@@ -856,8 +865,8 @@ gulp.task('serve:debug', cb =>
             /*'env:all',*/
         ),
         'webpack:dev',
-        gulp.parallel('start:server:debug', 'start:client'),
-        'watch',
+        gulp.parallel('start:server:dev:debug', 'start:client'),
+        // 'watch',
         cb
     )
 );
@@ -904,7 +913,7 @@ gulp.task(
  */
 gulp.task(
     'serve:dist',
-    gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:prod') // gulp.parallel('start:server:prod', 'start:client')
+    gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:dist:prod') // gulp.parallel('start:server:dist:prod', 'start:client')
 );
 
 /********************

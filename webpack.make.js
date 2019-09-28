@@ -475,8 +475,8 @@ module.exports = function makeWebpackConfig(options) {
             clientPort: process.env.CLIENT_PORT || 8080,
             serverIp: process.env.IP || '0.0.0.0',
             serverPort: process.env.PORT || 9000,
-            sslKey: process.env.SSL_KEY || fs.readFileSync('certs/server.key'),
-            sslCert: process.env.SSL_CERT || fs.readFileSync('certs/server.cert'),
+            sslKey: process.env.SSL_KEY,
+            sslCert: process.env.SSL_CERT,
         };
 
         config.devServer = {
