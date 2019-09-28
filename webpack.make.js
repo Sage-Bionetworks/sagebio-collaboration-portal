@@ -1,5 +1,7 @@
 /*eslint-env node*/
-const _ = require('lodash');
+
+import { mapValues, mapKeys, merge } from 'lodash';
+
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
@@ -12,7 +14,7 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const SwaggerJSDocWebpackPlugin = require('swagger-jsdoc-webpack-plugin');
-const fs = require('fs');
+import fs from 'fs';
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -26,7 +28,7 @@ module.exports = function makeWebpackConfig(options) {
 
     /**
      * Config
-     * Reference: http://webpack.github.io/docs/configuration.html
+     * Reference: https://webpack.js.org/configuration/
      * This is the object where all configuration gets set
      */
     const config = {};
@@ -35,21 +37,20 @@ module.exports = function makeWebpackConfig(options) {
 
     /**
      * Entry
-     * Reference: http://webpack.github.io/docs/configuration.html#entry
+     * Reference: https://webpack.js.org/concepts/entry-points/
      * Should be an empty object if it's generating a test build
      * Karma will set this when it's a test build
      */
     if (!TEST) {
         config.entry = {
             polyfills: './client/app/polyfills.ts',
-            vendor: ['lodash'],
             app: './client/app/app.ts',
         };
     }
 
     /**
      * Output
-     * Reference: http://webpack.github.io/docs/configuration.html#output
+     * Reference: https://webpack.js.org/configuration/output/
      * Should be an empty object if it's generating a test build
      * Karma will handle setting it up for you when it's a test build
      */
@@ -62,8 +63,8 @@ module.exports = function makeWebpackConfig(options) {
 
             // Output path from the view of the page
             // Uses webpack-dev-server in development
-            publicPath: BUILD || DEV ? '/' : `http://localhost:${8080}/`,
-            //publicPath: BUILD ? '/' : 'http://localhost:' + env.port + '/',
+            publicPath: '/',
+            // publicPath: BUILD || DEV ? '/' : `http://localhost:${8081}/`,
 
             // Filename for entry points
             // Only adds hash in build mode
@@ -87,22 +88,13 @@ module.exports = function makeWebpackConfig(options) {
     };
 
     if (TEST) {
-        config.resolve = {
-            modules: ['node_modules'],
-            extensions: ['.js', '.ts', '.scss'],
-            alias: {
-                // for some reason the primus client and webpack don't get along in test
-                primus: path.resolve(__dirname, 'client/components/socket/primus.mock.ts'),
-                app: path.resolve(__dirname, 'client/app/'),
-                components: path.resolve(__dirname, 'client/components/'),
-                models: path.resolve(__dirname, 'shared/interfaces/'),
-            },
-        };
+        // for some reason the primus client and webpack don't get along in test
+        config.resolve.alias.prmius = path.resolve(__dirname, 'client/components/socket/primus.mock.ts');
     }
 
     /**
      * Devtool
-     * Reference: http://webpack.github.io/docs/configuration.html#devtool
+     * Reference: https://webpack.js.org/configuration/devtool/
      * Type of sourcemap to use per build type
      */
     if (TEST) {
@@ -387,12 +379,12 @@ module.exports = function makeWebpackConfig(options) {
     } catch (e) {
         localEnv = {};
     }
-    localEnv = _.mapValues(localEnv, value => `"${value}"`);
-    localEnv = _.mapKeys(localEnv, (value, key) => `process.env.${key}`);
+    localEnv = mapValues(localEnv, value => `"${value}"`);
+    localEnv = mapKeys(localEnv, (value, key) => `process.env.${key}`);
 
     var gitRevisionPlugin = new GitRevisionPlugin();
 
-    let env = _.merge(
+    let env = merge(
         {
             'process.env': {
                 NODE_ENV: DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
@@ -413,7 +405,7 @@ module.exports = function makeWebpackConfig(options) {
                 CONTACT_US_URL: `"${process.env.CONTACT_US_URL}"`,
             },
         };
-        env = _.merge(env, sharedEnv);
+        env = merge(env, sharedEnv);
     }
 
     // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
@@ -446,12 +438,11 @@ module.exports = function makeWebpackConfig(options) {
                 },
             },
             minimizer: [
-                // TODO: Uncomment for production build
-                // new TerserPlugin({
-                //     cache: true,
-                //     parallel: true,
-                //     // sourceMap: true,
-                // }),
+                new TerserPlugin({
+                    cache: true,
+                    parallel: true,
+                    sourceMap: true,
+                }),
                 new OptimizeCssAssetsPlugin({}),
             ],
         };
@@ -477,7 +468,7 @@ module.exports = function makeWebpackConfig(options) {
             serverPort: process.env.PORT || 9000,
             sslKey: process.env.SSL_KEY,
             sslCert: process.env.SSL_CERT,
-            sslCA: process.env.SSL_CA
+            sslCA: process.env.SSL_CA,
         };
 
         config.devServer = {

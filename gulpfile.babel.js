@@ -572,7 +572,7 @@ gulp.task('lint:client:scss', done =>
             plugins.stylelint({
                 configFile: `${clientPath}/stylelint.json`,
                 failAfterError: false,
-                reporters: [{ formatter: 'verbose', console: true }],
+                reporters: [{ formatter: 'string', console: true }],
             })
         )
         .on('end', done)
