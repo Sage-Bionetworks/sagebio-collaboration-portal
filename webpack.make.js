@@ -217,64 +217,42 @@ module.exports = function makeWebpackConfig(options) {
 
     /**
      * Plugins
-     * Reference: http://webpack.github.io/docs/configuration.html#plugins
-     * List: http://webpack.github.io/docs/list-of-plugins.html
+     * Reference: https://webpack.js.org/configuration/plugins/
+     * List: https://webpack.js.org/plugins/
      */
     config.plugins = [
         // Hides the 'the request of a dependency is an expression' warnings
         new webpack.ContextReplacementPlugin(/angular(\\|\/)core/, path.resolve(__dirname, '../src')),
 
-        new webpack.LoaderOptionsPlugin({
-            options: {
-                context: __dirname,
-            },
-            sassLoader: {
-                outputStyle: 'compressed',
-                precision: 10,
-                sourceComments: false,
-            },
-        }),
+        // new webpack.LoaderOptionsPlugin({
+        //     options: {
+        //         context: __dirname,
+        //     },
+        //     sassLoader: {
+        //         outputStyle: 'compressed',
+        //         precision: 10,
+        //         sourceComments: false,
+        //     },
+        // }),
     ];
-
-    /**
-     * TypeScript compilation errors WILL NOT FAIL THE TEST
-     * unless we explicitly handle it (fixes the case where test:client reports
-     * an error but overall test is reported as successful).
-     *
-     * Note: There should be a more elegant way to handle this.
-     */
-    class TestCompilationErrorHandlerPlugin {
-        apply(compiler) {
-            compiler.hooks.done.tap('TestCompilationErrorHandlerPlugin', stats => {
-                if (
-                    stats.compilation.errors
-                    && stats.compilation.errors.length
-                    && process.argv.indexOf('--watch') == -1
-                ) {
-                    console.log(stats.compilation.errors);
-                    throw new Error('An error occurred during TestCompilationErrorHandlerPlugin');
-                }
-            });
-        }
-    }
-
-    if (TEST) {
-        config.plugins.push(new TestCompilationErrorHandlerPlugin());
-    }
 
     if (BUILD) {
         config.plugins.push(
-            new CompressionPlugin({}),
+            new CompressionPlugin(),
+
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             new MiniCssExtractPlugin({
                 filename: '[name].[hash].css',
                 chunkFilename: '[id].[hash].css',
             }),
-            // To strip all locales except "en"
-            // ("en" is built into Moment and can’t be removed)
-            new MomentLocalesPlugin({
-                // localesToKeep: ['fr'],
-            }),
+
+            // Easily remove unused Moment.js locales when building with webpack
+            // Reference: https://www.npmjs.com/package/moment-locales-webpack-plugin
+            // To strip all locales except “en”
+            new MomentLocalesPlugin(),
+
+            // Visualize size of webpack output files with an interactive zoomable treemap.
+            // Reference: https://www.npmjs.com/package/webpack-bundle-analyzer
             // new BundleAnalyzerPlugin({
             //     generateStatsFile: true,
             // }),

@@ -633,15 +633,24 @@ gulp.task('start:server:dev', () => {
     nodemon(`--inspect --trace-warnings -w ${serverPath} ${serverPath}`).on('log', onServerLog);
 });
 
-/**
- * Start the server in debug mode and development environment.
- */
-gulp.task('start:server:dev:debug', () => {
-    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-    config = require(`./${serverPath}/config/environment`);
-    // nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
-    nodemon(`-w ${serverPath} --inspect --debug-brk ${serverPath}`).on('log', onServerLog);
-});
+// /**
+//  * Starts the server in test environment.
+//  */
+// gulp.task('start:server:test', () => {
+//     process.env.NODE_ENV = process.env.NODE_ENV || 'test';
+//     config = require(`./${serverPath}/config/environment`);
+//     nodemon(`--trace-warnings ${serverPath}`).on('log', onServerLog);
+// });
+
+// /**
+//  * Start the server in debug mode and development environment.
+//  */
+// gulp.task('start:server:dev:debug', () => {
+//     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+//     config = require(`./${serverPath}/config/environment`);
+//     // nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
+//     nodemon(`-w ${serverPath} --inspect --debug-brk ${serverPath}`).on('log', onServerLog);
+// });
 
 /**
  * Starts the production server in production environment.
@@ -901,8 +910,6 @@ gulp.task(
         'transpile:server',
         'build:images',
         gulp.parallel('copy:extras', 'copy:assets', /*'copy:fonts:dist',*/ 'copy:server'),
-        // TODO do we need all the font put in dist/client/?
-        // TODO Investigate @babel/preset-env: `DEBUG` option (tsconfig.json)?
         'webpack:dist',
         'revReplaceWebpack'
     )
