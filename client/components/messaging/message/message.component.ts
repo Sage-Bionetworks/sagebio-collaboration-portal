@@ -37,8 +37,8 @@ export class MessageComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private notificationService: NotificationService,
-        private userPermissionDataService: UserPermissionDataService,
         private authService: AuthService,
+        private userPermissionDataService: UserPermissionDataService,
         private messagingService: MessagingService
     ) {
         this.messageSpecs = config.models.message;

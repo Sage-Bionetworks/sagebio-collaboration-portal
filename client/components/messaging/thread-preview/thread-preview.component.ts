@@ -33,6 +33,7 @@ import config from '../../../app/app.constants';
 import { DateAndTimePipe } from '../../pipes/date/date-and-time.pipe';
 import { AppQuillEditorComponent } from 'components/quill/app-quill-editor/app-quill-editor.component';
 import { AuthService } from 'components/auth/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'thread-preview',
@@ -61,6 +62,8 @@ export class ThreadPreviewComponent {
     // TODO add thread title max length to 64
 
     static parameters = [
+        Router,
+        ActivatedRoute,
         FormBuilder,
         NotificationService,
         MessagingService,
@@ -69,6 +72,8 @@ export class ThreadPreviewComponent {
         AuthService,
     ];
     constructor(
+        private router: Router,
+        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private notificationService: NotificationService,
         private messagingService: MessagingService,
@@ -118,8 +123,20 @@ export class ThreadPreviewComponent {
         this._thread.next(thread);
     }
 
-    showThread(): void {
-        this.messagingService.showThread(this.thread);
+    goToThread(): void {
+        this.router.navigate([this.thread._id], { relativeTo: this.route });
+    }
+
+    showThread(event: Event): void {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.notificationService.info('Showing thread in sidenav not available.');
+        // this.messagingService.showThread(this.thread);
+    }
+
+    stopPropagation(event: Event): void {
+        event.preventDefault();
+        event.stopImmediatePropagation();
     }
 
     removeThread(): void {

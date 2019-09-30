@@ -1,50 +1,48 @@
 import mongoose from 'mongoose';
-import {
-    registerEvents
-} from './entity-permission.events';
+import { registerEvents } from './entity-permission.events';
 import User from '../user/user.model';
 import config from '../../config/environment';
 
 var EntityPermissionSchema = new mongoose.Schema({
     entityId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
     },
     entityType: {
         type: String,
         enum: Object.values(config.entityTypes).map(entity => entity.value),
-        required: true
+        required: true,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
     },
     access: {
         type: String,
         enum: Object.values(config.accessTypes).map(access => access.value),
-        required: true
+        required: true,
     },
     status: {
         type: String,
         enum: Object.values(config.inviteStatusTypes).map(status => status.value),
         default: config.inviteStatusTypes.PENDING.value,
-        required: true
+        required: true,
     },
     createdAt: {
         type: Date,
         default: Date.now,
-        required: true
+        required: true,
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
     },
     __v: {
         type: Number,
-        select: false
-    }
+        select: false,
+    },
 });
 
 /**
@@ -52,9 +50,7 @@ var EntityPermissionSchema = new mongoose.Schema({
  */
 
 const autoPopulatePre = function (next) {
-    this
-        .populate('user', User.profileProperties)
-        .populate('createdBy', User.profileProperties)
+    this.populate('user', User.profileProperties).populate('createdBy', User.profileProperties);
     next();
 };
 
@@ -65,11 +61,8 @@ const autoPopulatePost = function (doc) {
         .execPopulate();
 };
 
-EntityPermissionSchema
-    .pre('find', autoPopulatePre);
-
-EntityPermissionSchema
-    .post('save', autoPopulatePost);
+EntityPermissionSchema.pre('find', autoPopulatePre);
+EntityPermissionSchema.post('save', autoPopulatePost);
 
 EntityPermissionSchema.post('save', function (error, doc, next) {
     if (error.name === 'MongoError' && error.code === 11000) {
@@ -80,11 +73,14 @@ EntityPermissionSchema.post('save', function (error, doc, next) {
 });
 
 registerEvents(EntityPermissionSchema);
-EntityPermissionSchema.index({
-    entityId: 1,
-    entityType: 1,
-    user: 1
-}, {
-    unique: true
-});
+EntityPermissionSchema.index(
+    {
+        entityId: 1,
+        entityType: 1,
+        user: 1,
+    },
+    {
+        unique: true,
+    }
+);
 export default mongoose.model('EntityPermission', EntityPermissionSchema);
