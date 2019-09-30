@@ -294,15 +294,12 @@ gulp.task('env:prod', done => {
  */
 gulp.task('env:ssl:server', done => {
     if (fs.existsSync(paths.certs.serverSslCert)) {
-        log(`Setting ${paths.certs.serverSslCert} to process.env.SSL_CERT`);
         process.env.SSL_CERT = fs.readFileSync(paths.certs.serverSslCert);
     }
     if (fs.existsSync(paths.certs.serverSslKey)) {
-        log(`Setting ${paths.certs.serverSslKey} to process.env.SSL_KEY`);
         process.env.SSL_KEY = fs.readFileSync(paths.certs.serverSslKey);
     }
     if (fs.existsSync(paths.certs.serverSslCA)) {
-        log(`Setting ${paths.certs.serverSslCA} to process.env.serverSslCA`);
         process.env.SSL_CA = fs.readFileSync(paths.certs.serverSslCA);
     }
     done();
@@ -313,15 +310,12 @@ gulp.task('env:ssl:server', done => {
  */
 gulp.task('env:ssl:mongodb', done => {
     if (fs.existsSync(paths.certs.mongodbSslCert)) {
-        log(`Setting ${paths.certs.mongodbSslCert} to process.env.MONGODB_SSL_CERT`);
         process.env.MONGODB_SSL_CERT = fs.readFileSync(paths.certs.mongodbSslCert);
     }
     if (fs.existsSync(paths.certs.mongodbSslKey)) {
-        log(`Setting ${paths.certs.mongodbSslKey} to process.env.MONGODB_SSL_KEY`);
         process.env.MONGODB_SSL_KEY = fs.readFileSync(paths.certs.mongodbSslKey);
     }
     if (fs.existsSync(paths.certs.mongodbSslCA)) {
-        log(`Setting ${paths.certs.mongodbSslCA} to process.env.MONGODB_SSL_CA`);
         process.env.MONGODB_SSL_CA = fs.readFileSync(paths.certs.mongodbSslCA);
     }
     done();
@@ -431,38 +425,52 @@ gulp.task('init', gulp.series('init:config', 'init:ssl'));
 
 /**
  * Injects the style filenames into the client main style file.
+ *
+ * This function expects this placeholder to be commented in app.scss:
+ *
+ * inject:scss
+ * endinject
+ *
+ * Reference: https://github.com/angular-fullstack/generator-angular-fullstack/blob/e8eb10563ea31e03b55dfd41976e566538be2cca/templates/app/gulpfile.babel.js#L207
+ *
+ * TODO: The boilerplate code does not come with the above placehold in app.scss.
+ * Therefore, this function does not inject anything. Yet the app works. Yet the style
+ * ends up in a .js after building the app. webpack.make.js has a plugin MiniCssExtractPlugin
+ * whose purpose seems to be to extract css (and likely sass) code from JS file.
+ * I'm not sure that it works properly. The current result is that the app.[hash].css
+ * only contains information from the custom theme files while the html and scss
+ * style files of the angular components are inserted inline into app.[hash].js.
  */
-// TODO This tasks reports: gulp-inject Nothing to inject into app.scss
-gulp.task('inject:scss', () =>
-    gulp
-        .src(paths.client.mainStyle)
-        .pipe(
-            plugins.inject(
-                gulp
-                    .src(union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
-                        read: false,
-                    })
-                    .pipe(plugins.sort()),
-                {
-                    transform: filepath => {
-                        let newPath = filepath
-                            .replace(`/${clientPath}/app/`, '')
-                            .replace(`/${clientPath}/components/`, '../components/')
-                            // eslint-disable-next-line no-unused-vars
-                            .replace(/_(.*).scss/, (match, p1, offset, string) => p1) // TODO: Remove theme files?
-                            .replace('.scss', '');
-                        return `@import '${newPath}';`;
-                    },
-                }
-            )
-        )
-        .pipe(gulp.dest(`${clientPath}/app`))
-);
+// gulp.task('inject:scss', () =>
+//     gulp
+//         .src(paths.client.mainStyle)
+//         .pipe(
+//             plugins.inject(
+//                 gulp
+//                     .src(union(paths.client.styles, [`!${paths.client.mainStyle}`]), {
+//                         read: false,
+//                     })
+//                     .pipe(plugins.sort()),
+//                 {
+//                     transform: filepath => {
+//                         let newPath = filepath
+//                             .replace(`/${clientPath}/app/`, '')
+//                             .replace(`/${clientPath}/components/`, '../components/')
+//                             // eslint-disable-next-line no-unused-vars
+//                             .replace(/_(.*).scss/, (match, p1, offset, string) => p1) // TODO: Remove theme files?
+//                             .replace('.scss', '');
+//                         return `@import '${newPath}';`;
+//                     },
+//                 }
+//             )
+//         )
+//         .pipe(gulp.dest(`${clientPath}/app`))
+// );
 
 /**
  * Injects content into files.
  */
-gulp.task('inject', gulp.series('inject:scss'));
+// gulp.task('inject', gulp.series('inject:scss'));
 
 /**
  * Compiles the app using webpack.
@@ -510,17 +518,17 @@ gulp.task('webpack:dist', cb =>
     )
 );
 
-/**
- * Builds the app with webpack for testing.
- */
-gulp.task('webpack:test', cb =>
-    webpackCompile(
-        {
-            TEST: true,
-        },
-        cb
-    )
-);
+// /**
+//  * Builds the app with webpack for testing.
+//  */
+// gulp.task('webpack:test', cb =>
+//     webpackCompile(
+//         {
+//             TEST: true,
+//         },
+//         cb
+//     )
+// );
 
 // gulp.task('styles', () =>
 //     gulp
@@ -655,7 +663,7 @@ gulp.task('start:server:dev', () => {
 /**
  * Starts the production server in production environment.
  */
-gulp.task('start:server:dist:prod', () => {
+gulp.task('start:server:dist', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     config = require(`./${paths.dist}/${serverPath}/config/environment`);
     nodemon(`-w ${paths.dist}/${serverPath} ${paths.dist}/${serverPath}`).on('log', onServerLog);
@@ -853,12 +861,15 @@ gulp.task(
     gulp.series(
         'clean:tmp',
         // 'lint',
-        'inject',
-        // 'copy:fonts:dev',
+        // 'inject',
+        'copy:fonts:dev',
         'env:default',
         'env:dev',
         'env:ssl',
         'webpack:dev',
+        // start:client depends on start:server:dev for the generation of primus.js
+        // in the rare occurence of an issue with empty primus.js, run start:server:dev
+        // alone to regenerate primus.js before reusing this gulp task as it is.
         gulp.parallel('start:server:dev', 'start:client')
         // 'watch'
     )
@@ -906,10 +917,10 @@ gulp.task(
     'build',
     gulp.series(
         gulp.parallel('clean:dist', 'clean:tmp'),
-        'inject',
+        // 'inject',
         'transpile:server',
         'build:images',
-        gulp.parallel('copy:extras', 'copy:assets', /*'copy:fonts:dist',*/ 'copy:server'),
+        gulp.parallel('copy:extras', 'copy:assets', 'copy:fonts:dist', 'copy:server'),
         'webpack:dist',
         'revReplaceWebpack'
     )
@@ -919,8 +930,8 @@ gulp.task(
  * Starts the distribution server in production environment.
  */
 gulp.task(
-    'serve:dist:prod',
-    gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:dist:prod') // gulp.parallel('start:server:dist:prod', 'start:client')
+    'serve:dist',
+    gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:dist') // gulp.parallel('start:server:dist', 'start:client')
 );
 
 /********************

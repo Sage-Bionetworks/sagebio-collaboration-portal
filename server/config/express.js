@@ -23,8 +23,6 @@ var MongoStore = connectMongo(session);
 export default app => {
     var env = process.env.NODE_ENV;
 
-    // process.setMaxListeners(128);  // prevent primus to complain that spark have too many listeners
-
     if (env === 'development' || env === 'test') {
         app.use(express.static(path.join(config.root, '.tmp')));
         app.use(require('cors')());

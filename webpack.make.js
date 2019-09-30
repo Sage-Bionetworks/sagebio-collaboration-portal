@@ -234,72 +234,37 @@ module.exports = function makeWebpackConfig(options) {
         //         sourceComments: false,
         //     },
         // }),
+
+        // Easily remove unused Moment.js locales when building with webpack
+        // Reference: https://www.npmjs.com/package/moment-locales-webpack-plugin
+        // To strip all locales except “en”
+        new MomentLocalesPlugin(),
+
+        // https://github.com/patsimm/swagger-jsdoc-webpack-plugin
+        // This writes a swagger.json file in your output folder
+        // DEV
+        // new SwaggerJSDocWebpackPlugin({
+        //     swaggerDefinition: require('server/config/swaggerDef.js'),
+        //     apis: ['./server/**/api/**/index.js', './server/**/auth/**/*.js', './shared/interfaces/**/*.ts'],
+        // }),
     ];
 
     if (BUILD) {
         config.plugins.push(
             new CompressionPlugin(),
 
+            // Provides MiniCssExtractPlugin.loader used in css and scss loaders.
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             new MiniCssExtractPlugin({
                 filename: '[name].[hash].css',
                 chunkFilename: '[id].[hash].css',
-            }),
-
-            // Easily remove unused Moment.js locales when building with webpack
-            // Reference: https://www.npmjs.com/package/moment-locales-webpack-plugin
-            // To strip all locales except “en”
-            new MomentLocalesPlugin(),
+            })
 
             // Visualize size of webpack output files with an interactive zoomable treemap.
             // Reference: https://www.npmjs.com/package/webpack-bundle-analyzer
             // new BundleAnalyzerPlugin({
             //     generateStatsFile: true,
             // }),
-
-            // https://github.com/patsimm/swagger-jsdoc-webpack-plugin
-            // This writes a swagger.json file to ./dist/client/swagger.json.
-            new SwaggerJSDocWebpackPlugin({
-                swaggerDefinition: {
-                    openapi: '3.0.2',
-                    info: {
-                        title: 'PHC Collaboration Portal API',
-                        version: '1.0.0', // TODO Get version from config
-                        description: `Personalized Health Care (PHC) Collaboration Portal
-                            developed by Sage Bionetworks and Roche/Genentech`,
-                        contact: {
-                            name: 'API Support',
-                            url: 'https://www.synapse.org',
-                            email: 'thomas.schaffter@sagebase.org',
-                        },
-                        license: {
-                            name: 'CC BY-NC 3.0',
-                            url: 'https://creativecommons.org/licenses/by-nc/3.0/',
-                        },
-                    },
-                    servers: [
-                        {
-                            url: 'plop/api', // `${config.domain}/api`,
-                            description: 'This app',
-                        },
-                    ],
-                    components: {
-                        securitySchemes: {
-                            BearerAuth: {
-                                type: 'http',
-                                scheme: 'bearer',
-                                bearerFormat: 'JWT',
-                            },
-                        },
-                        responses: {
-                            UnauthorizedError: {
-                                description: 'Access token is missing or invalid',
-                            },
-                        },
-                    },
-                },
-                apis: ['./**/api/**/index.js', './**/auth/**/*.js', './shared/interfaces/**/*.ts'],
-            })
         );
     }
 
@@ -308,11 +273,17 @@ module.exports = function makeWebpackConfig(options) {
     // Render app.html
     if (!TEST) {
         config.plugins.push(
+            // Generates app.html from app.template.html
+            // Reference; https://www.npmjs.com/package/html-webpack-plugin
             new HtmlWebpackPlugin({
                 template: 'client/app.template.html',
                 filename: '../client/app.html',
                 alwaysWriteToDisk: true,
             }),
+
+            // Enhances html-webpack-plugin functionality by adding the
+            // {alwaysWriteToDisk: true|false} option.
+            // Reference: https://www.npmjs.com/package/html-webpack-harddisk-plugin
             new HtmlWebpackHarddiskPlugin()
         );
     }

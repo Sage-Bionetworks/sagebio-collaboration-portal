@@ -5,6 +5,8 @@
 import errors from './components/errors';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
+// var swaggerJSDoc = require('swagger-jsdoc');
+import fs from 'fs';
 
 export default app => {
     // Insert routes below
@@ -32,7 +34,8 @@ export default app => {
         // docExpansion: 'none'
     };
 
-    // const swaggerSpec = require('/Users/tschaffter/dev/PHCCollaborationPortal/dist/client/swagger.json');
+    // eslint-disable-next-line no-sync
+    // const swaggerSpec = fs.readFileSync('./swagger.js');
     // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerOptions));
 
     // All undefined asset or api routes should return a 404
