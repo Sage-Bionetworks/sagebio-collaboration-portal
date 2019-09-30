@@ -860,13 +860,12 @@ gulp.task(
     'serve:dev',
     gulp.series(
         'clean:tmp',
-        // 'lint',
+        'lint',
         // 'inject',
         'copy:fonts:dev',
         'env:default',
         'env:dev',
         'env:ssl',
-        'webpack:dev',
         // start:client depends on start:server:dev for the generation of primus.js
         // in the rare occurence of an issue with empty primus.js, run start:server:dev
         // alone to regenerate primus.js before reusing this gulp task as it is.
