@@ -269,8 +269,6 @@ module.exports = function makeWebpackConfig(options) {
     }
 
     // Skip rendering app.html in test mode
-    // Reference: https://github.com/ampedandwired/html-webpack-plugin
-    // Render app.html
     if (!TEST) {
         config.plugins.push(
             // Generates app.html from app.template.html
@@ -288,53 +286,34 @@ module.exports = function makeWebpackConfig(options) {
         );
     }
 
-    let localEnv;
-    try {
-        localEnv = require('./server/config/local.env').default;
-    } catch (e) {
-        localEnv = {};
-    }
-    localEnv = mapValues(localEnv, value => `"${value}"`);
-    localEnv = mapKeys(localEnv, (value, key) => `process.env.${key}`);
-
+    // Get current commit during build based on a local git repository.
+    // Reference: https://www.npmjs.com/package/git-revision-webpack-plugin
     var gitRevisionPlugin = new GitRevisionPlugin();
 
-    let env = merge(
-        {
-            'process.env': {
-                NODE_ENV: DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
-                GIT_VERSION: JSON.stringify(gitRevisionPlugin.version()),
-                GIT_COMMIT_HASH: JSON.stringify(gitRevisionPlugin.commithash()),
-                GIT_BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
-            },
+    // Set environment variables
+    let env = {
+        'process.env': {
+            NODE_ENV: DEV ? '"development"' : BUILD ? '"production"' : TEST ? '"test"' : '"development"',
+            GIT_VERSION: JSON.stringify(gitRevisionPlugin.version()),
+            GIT_COMMIT_HASH: JSON.stringify(gitRevisionPlugin.commithash()),
+            GIT_BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
         },
-        localEnv
-    );
+    };
 
-    if (DEV) {
-        // Define the envronment variables that appear in config/shared.js
-        // For some reason PORT is already set but I don't know how
-        let sharedEnv = {
-            'process.env': {
-                // 'NODE_ENV'  // already set above
-                CONTACT_US_URL: `"${process.env.CONTACT_US_URL}"`,
-            },
-        };
-        env = merge(env, sharedEnv);
-    }
-
-    // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    // Define free global variables
+    // Define free global variables.
+    // Reference: https://webpack.js.org/plugins/define-plugin/
     config.plugins.push(new webpack.DefinePlugin(env));
 
     if (DEV) {
         config.plugins.push(
+            // Enables Hot Module Replacement, otherwise known as HMR.
+            // Reference: https://webpack.js.org/plugins/hot-module-replacement-plugin/
             new webpack.HotModuleReplacementPlugin(),
-            // To strip all locales except "en"
-            // ("en" is built into Moment and can’t be removed)
-            new MomentLocalesPlugin({
-                // localesToKeep: ['fr'],
-            })
+
+            // Easily remove unused Moment.js locales when building with webpack
+            // Reference: https://www.npmjs.com/package/moment-locales-webpack-plugin
+            // To strip all locales except “en”
+            new MomentLocalesPlugin()
         );
     }
 

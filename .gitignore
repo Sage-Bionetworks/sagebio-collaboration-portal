@@ -10,7 +10,6 @@ client/components/socket/primus.js
 config/development.env
 config/production.env
 dist
-/server/config/local.env.js
 npm-debug.log
 coverage
 envvars-dev

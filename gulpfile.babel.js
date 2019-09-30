@@ -42,7 +42,7 @@ const paths = {
         e2e: ['e2e/**/*.spec.js'],
     },
     server: {
-        scripts: [`${serverPath}/**/!(*.spec|*.integration|*.mock).js`, `!${serverPath}/config/local.env.sample.js`],
+        scripts: [`${serverPath}/**/!(*.spec|*.integration|*.mock).js`],
         json: [`${serverPath}/{,**/}*.json`],
         // swagger: [`${serverPath}/swagger/**/*.yaml`],
         test: {
