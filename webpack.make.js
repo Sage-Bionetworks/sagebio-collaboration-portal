@@ -332,11 +332,16 @@ module.exports = function makeWebpackConfig(options) {
                 },
             },
             minimizer: [
+                // This plugin uses terser to minify JavaScript.
+                // Reference: https://www.npmjs.com/package/terser-webpack-plugin
                 new TerserPlugin({
                     cache: true,
                     parallel: true,
                     sourceMap: true,
                 }),
+
+                // A Webpack plugin to optimize \ minimize CSS assets.
+                // Reference: https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
                 new OptimizeCssAssetsPlugin({}),
             ],
         };
@@ -352,8 +357,7 @@ module.exports = function makeWebpackConfig(options) {
     if (DEV) {
         /**
          * Dev server configuration
-         * Reference: http://webpack.github.io/docs/configuration.html#devserver
-         * Reference: http://webpack.github.io/docs/webpack-dev-server.html
+         * Reference: https://webpack.js.org/configuration/dev-server/
          */
         const webpackAppConfig = {
             clientIp: process.env.CLIENT_IP || '0.0.0.0',
