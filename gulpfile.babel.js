@@ -814,47 +814,45 @@ gulp.task('copy:extras', () =>
         .pipe(gulp.dest(`${paths.dist}/${clientPath}`))
 );
 
-/**
- *
- *
- * Example: turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'.
- */
-const flatten = () =>
-    through2.obj(function (file, enc, next) {
-        if (!file.isDirectory()) {
-            try {
-                let dir = path.dirname(file.relative).split(path.sep)[0];
-                let fileName = path.normalize(path.basename(file.path));
-                file.path = path.join(file.base, path.join(dir, fileName));
-                // eslint-disable-next-line no-invalid-this
-                this.push(file);
-            } catch (e) {
-                // eslint-disable-next-line no-invalid-this
-                this.emit('error', new Error('Unable to flatten filename', e));
-            }
-        }
-        next();
-    });
+// /**
+//  * Example: turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'.
+//  */
+// const flatten = () =>
+//     through2.obj(function (file, enc, next) {
+//         if (!file.isDirectory()) {
+//             try {
+//                 let dir = path.dirname(file.relative).split(path.sep)[0];
+//                 let fileName = path.normalize(path.basename(file.path));
+//                 file.path = path.join(file.base, path.join(dir, fileName));
+//                 // eslint-disable-next-line no-invalid-this
+//                 this.push(file);
+//             } catch (e) {
+//                 // eslint-disable-next-line no-invalid-this
+//                 this.emit('error', new Error('Unable to flatten filename', e));
+//             }
+//         }
+//         next();
+//     });
 
-/**
- * Copies fonts to assets/fonts in development environment.
- */
-gulp.task('copy:fonts:dev', () =>
-    gulp
-        .src('node_modules/{font-awesome}/fonts/*')
-        .pipe(flatten())
-        .pipe(gulp.dest(`${clientPath}/assets/fonts`))
-);
+// /**
+//  * Copies fonts to assets/fonts in development environment.
+//  */
+// gulp.task('copy:fonts:dev', () =>
+//     gulp
+//         .src('node_modules/{font-awesome}/fonts/*')
+//         .pipe(flatten())
+//         .pipe(gulp.dest(`${clientPath}/assets/fonts`))
+// );
 
-/**
- * Copies fonts to assets/fonts when building the app.
- */
-gulp.task('copy:fonts:dist', () =>
-    gulp
-        .src('node_modules/{font-awesome}/fonts/*')
-        .pipe(flatten())
-        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`))
-);
+// /**
+//  * Copies fonts to assets/fonts when building the app.
+//  */
+// gulp.task('copy:fonts:dist', () =>
+//     gulp
+//         .src('node_modules/{font-awesome}/fonts/*')
+//         .pipe(flatten())
+//         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/fonts`))
+// );
 
 gulp.task(
     'serve:dev',
@@ -862,7 +860,7 @@ gulp.task(
         'clean:tmp',
         'lint',
         // 'inject',
-        'copy:fonts:dev',
+        // 'copy:fonts:dev',
         'env:default',
         'env:dev',
         'env:ssl',
@@ -919,7 +917,7 @@ gulp.task(
         // 'inject',
         'transpile:server',
         'build:images',
-        gulp.parallel('copy:extras', 'copy:assets', 'copy:fonts:dist', 'copy:server'),
+        gulp.parallel('copy:extras', 'copy:assets', /*'copy:fonts:dist',*/ 'copy:server'),
         'webpack:dist',
         'revReplaceWebpack'
     )
