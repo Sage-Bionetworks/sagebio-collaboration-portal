@@ -9,6 +9,7 @@ client/app.html
 client/components/socket/primus.js
 config/development.env
 config/production.env
+config/certs
 dist
 npm-debug.log
 coverage

@@ -20,6 +20,7 @@ import { Server as KarmaServer } from 'karma';
 // eslint-disable-next-line camelcase
 import { protractor, webdriver_update } from 'gulp-protractor';
 import forge from 'node-forge';
+var spawn = require('child_process').spawn;
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -858,7 +859,7 @@ gulp.task(
     'serve:dev',
     gulp.series(
         'clean:tmp',
-        'lint',
+        // 'lint',
         // 'inject',
         // 'copy:fonts:dev',
         'env:default',
@@ -930,6 +931,18 @@ gulp.task(
     'serve:dist',
     gulp.series('env:default', 'env:prod', 'env:ssl', 'start:server:dist') // gulp.parallel('start:server:dist', 'start:client')
 );
+
+/********************
+ * Docker task
+ ********************/
+
+gulp.task('docker-compose', done => {
+    // var cmd = spawn('docker-compose', ['config'], { stdio: 'inherit' });
+    var cmd = spawn('docker-compose', ['up'], { stdio: 'inherit' });
+    cmd.on('close', code => done(code));
+});
+
+gulp.task('docker:serve:dist', gulp.series('env:default', 'env:prod', 'env:ssl', 'docker-compose'));
 
 /********************
  * Default task

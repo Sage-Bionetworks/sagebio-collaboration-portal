@@ -6,7 +6,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
-    image: phccp
+    image: phccp-wip
     # OR comment the above `build` and `image` sections and uncomment
     # the following line to use the official docker image:
     # image: docker.synapse.org/syn18489221/phc-collaboration-portal:1.0.0-alpha.6
@@ -79,7 +79,7 @@ services:
         MONGO_USERNAME: ${MONGO_USERNAME}
         MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes:
-        - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
+        - ./config/certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
         # - /home/tschaffter/mongodb:/data/db
 
   phccp-neo4j:
