@@ -1,1 +1,1 @@
-<entity-discussion [entity]="tool" [entityType]="entityType"></entity-discussion>
+<thread-list *ngIf="tool" [entityId]="tool._id" [entityType]="entityType"></thread-list>

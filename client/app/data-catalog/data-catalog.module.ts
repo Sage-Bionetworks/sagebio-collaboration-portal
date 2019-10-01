@@ -17,6 +17,7 @@ import { DataCatalogComponent } from './data-catalog-page/data-catalog.component
 import { DataCatalogService } from './data-catalog.service';
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
+import { MessagingModule } from 'components/messaging/messaging.module';
 
 export const ROUTES: Routes = [
     {
@@ -50,7 +51,8 @@ export const ROUTES: Routes = [
         RouterModule.forChild(ROUTES),
         EntityModule,
         ShareModule,
-        ClipboardModule
+        ClipboardModule,
+        MessagingModule
     ],
     declarations: [
         DataCatalogDiscussionComponent,

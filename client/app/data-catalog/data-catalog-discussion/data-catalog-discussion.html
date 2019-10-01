@@ -4,5 +4,5 @@
         <a class="app-primary-header-link" [routerLink]="['/data-catalogs',catalog.slug]"><h1>{{ catalog.title }}</h1></a>
     </div>
 
-    <entity-discussion [entity]="catalog" [entityType]="entityType"></entity-discussion>
+    <thread-list [entityId]="catalog._id" [entityType]="entityType"></thread-list>
 </div>
