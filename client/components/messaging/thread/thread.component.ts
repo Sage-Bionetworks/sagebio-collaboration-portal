@@ -45,9 +45,9 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         if (this.threadId) {
-            this.route.params
+            this.messagingService
+                .getThread(this.threadId)
                 .pipe(
-                    switchMap(res => this.messagingService.getThread(res.id)),
                     switchMap(thread =>
                         forkJoin({
                             thread: of(thread),

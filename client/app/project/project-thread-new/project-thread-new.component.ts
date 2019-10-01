@@ -26,7 +26,7 @@ export class ProjectThreadNewComponent implements OnInit {
 
     onNewThread(project: Project, thread: Thread): void {
         if (project && thread) {
-            this.router.navigate(['/projects', thread._id]);
+            this.router.navigate(['/projects', project._id , 'discussion', thread._id]);
         }
     }
 
