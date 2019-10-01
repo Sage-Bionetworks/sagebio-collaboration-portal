@@ -1,14 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { App } from 'models/entities/app.model';
+import { Observable, BehaviorSubject, forkJoin, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
+import { Message } from 'models/messaging/message.model';
 import { Thread } from 'models/messaging/thread.model';
-// import { AppService } from './../../app.service';
-// import config from '../../app.constants';
-import { switchMap, filter, take, tap } from 'rxjs/operators';
 import { NotificationService } from 'components/notification/notification.service';
 import { MessagingService } from '../messaging.service';
-import { Message } from 'models/messaging/message.model';
 
 @Component({
     selector: 'thread',
@@ -16,11 +13,11 @@ import { Message } from 'models/messaging/message.model';
     styles: [require('./thread.scss')],
 })
 export class ThreadComponent implements OnInit {
-    private _thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(null);
-    private messages: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+    @Input() threadId: string;
+    private showThreadEditTemplate = false; // used in html
 
-    // @Input() private thread$: Observable<Thread>;
-    private showThreadEditTemplate = false;
+    private thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(null);
+    private messages: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
 
     static parameters = [Router, ActivatedRoute, NotificationService, MessagingService];
     constructor(
@@ -29,18 +26,11 @@ export class ThreadComponent implements OnInit {
         private notificationService: NotificationService,
         private messagingService: MessagingService
     ) {
-        // this.thread$ = this.route.params.pipe(
-        //     switchMap(res => this.dataCatalogService.get(res.id))
-        // );
+
     }
 
     get thread$(): Observable<Thread> {
-        return this._thread.asObservable();
-    }
-
-    @Input()
-    set thread(thread) {
-        this._thread.next(thread);
+        return this.thread.asObservable();
     }
 
     get messages$(): Observable<Message[]> {
@@ -48,33 +38,40 @@ export class ThreadComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._thread
-            .pipe(
-                filter(thread => !!thread),
-                take(1),
-                // TODO Emit socket event when Message is created or added
-                // tap(thread => this.socketMessagesEventName = `message:entity:${thread.entityId}:${thread._id}`),
-                switchMap(thread => this.messagingService.getMessages(thread))
-            )
-            .subscribe(
-                messages => {
-                    this.messages.next(messages);
-                    // this.socketService.syncArraySubject(this.socketMessagesEventName,
-                    //     this._messages, (items: Message[]) => {
-                    //         return orderBy('createdAt', 'asc', items);
-                    //     });
-                },
-                err => console.error(err)
-            );
+        if (this.threadId) {
+            this.route.params
+                .pipe(
+                    switchMap(res => this.messagingService.getThread(res.id)),
+                    switchMap(thread => forkJoin({
+                        thread: of(thread),
+                        messages: this.messagingService.getMessages(thread)
+                            .pipe(
+                                catchError(err => {
+                                    console.error(err);
+                                    this.notificationService.error('Unable to get messages');
+                                    return of<Message[]>([]);
+                                })
+                            )
+                    }))
+                )
+                .subscribe(res => {
+                    this.thread.next(res.thread);
+                    this.messages.next(res.messages);
+                });
+        }
     }
 
     getLink(): string {
         return window.location.href;
     }
 
+    deleteThread(thread: Thread): void {
+        this.notificationService.info('Not implemented');
+    }
+
     onThreadEdit(thread: Thread): void {
         if (thread) {
-            this._thread.next(thread);
+            this.thread.next(thread);
             this.showThreadEditTemplate = false;
         }
     }
