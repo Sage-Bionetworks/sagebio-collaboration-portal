@@ -21,7 +21,7 @@
                     <button
                         ngxClipboard
                         [cbContent]="getLink()"
-                        (cbOnSuccess)="notificationService.info('Link copied')"
+                        (cbOnSuccess)="notificationService.info('Link successfully copied')"
                         (cbOnError)="notificationService.info('Unable to copy the link.')"
                         mat-menu-item
                         aria-label="Copy link"
