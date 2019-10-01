@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { App } from 'models/entities/app.model';
 import { Thread } from 'models/messaging/thread.model';
@@ -15,8 +15,8 @@ export class DiscussionNewComponent implements OnInit {
     private app$: Observable<App>;
     private appEntityType: string;
 
-    static parameters = [Router, AppService];
-    constructor(private router: Router, private appService: AppService) {
+    static parameters = [Router, ActivatedRoute, AppService];
+    constructor(private router: Router, private route: ActivatedRoute, private appService: AppService) {
         this.appEntityType = config.entityTypes.APP.value;
     }
 
@@ -26,11 +26,11 @@ export class DiscussionNewComponent implements OnInit {
 
     onNewThread(thread: Thread): void {
         if (thread) {
-            this.router.navigate(['/discussion', thread._id]);
+            this.router.navigate(['..', thread._id], { relativeTo: this.route });
         }
     }
 
     onClose(): void {
-        this.router.navigate(['/discussion']);
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }

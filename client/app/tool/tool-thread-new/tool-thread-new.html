@@ -1,6 +1,6 @@
 <thread-new
-    *ngIf="project$ | async as project"
-    [entityId]="project._id"
+    *ngIf="tool$ | async as tool"
+    [entityId]="tool._id"
     [entityType]="entityType"
     (newThread)="onNewThread($event)"
     (close)="onClose()"

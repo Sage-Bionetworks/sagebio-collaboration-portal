@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Project } from 'models/entities/project.model';
 import { Thread } from 'models/messaging/thread.model';
@@ -15,8 +15,8 @@ export class ProjectThreadNewComponent implements OnInit {
     private project$: Observable<Project>;
     private entityType: string;
 
-    static parameters = [Router, ProjectDataService];
-    constructor(private router: Router, private projectDataService: ProjectDataService) {
+    static parameters = [Router, ActivatedRoute, ProjectDataService];
+    constructor(private router: Router, private route: ActivatedRoute, private projectDataService: ProjectDataService) {
         this.entityType = config.entityTypes.PROJECT.value;
     }
 
@@ -24,15 +24,13 @@ export class ProjectThreadNewComponent implements OnInit {
         this.project$ = this.projectDataService.project();
     }
 
-    onNewThread(project: Project, thread: Thread): void {
-        if (project && thread) {
-            this.router.navigate(['/projects', project._id , 'discussion', thread._id]);
+    onNewThread(thread: Thread): void {
+        if (thread) {
+            this.router.navigate(['..', thread._id], { relativeTo: this.route });
         }
     }
 
-    onClose(project: Project): void {
-        if (project) {
-            this.router.navigate(['/projects', project._id , 'discussion']);
-        }
+    onClose(): void {
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }
