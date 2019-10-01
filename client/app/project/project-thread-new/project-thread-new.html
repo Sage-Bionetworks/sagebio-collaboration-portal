@@ -1,0 +1,7 @@
+<thread-new
+    *ngIf="project$ | async as project"
+    [entityId]="project._id"
+    [entityType]="entityType"
+    (newThread)="onNewThread(project, $event)"
+    (close)="onClose(project)"
+></thread-new>
