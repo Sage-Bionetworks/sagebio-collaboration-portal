@@ -27,7 +27,7 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'discussion/:id',
+        path: 'discussion/:threadId',
         component: AppThreadComponent,
         canActivate: [AuthGuard],
     },

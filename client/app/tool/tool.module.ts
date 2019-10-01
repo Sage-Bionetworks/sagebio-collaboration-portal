@@ -29,6 +29,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { ToolHeaderComponent } from './tool-header/tool-header.component';
 import { ToolHeaderService } from './tool-header/tool-header.service';
+import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -50,6 +51,7 @@ export const ROUTES: Routes = [
             { path: 'home', component: ToolHomeComponent },
             { path: 'activity', component: ToolActivityComponent },
             { path: 'discussion', component: ToolDiscussionComponent },
+            { path: 'discussion/:threadId', component: EntityThreadComponent },
             { path: 'settings', component: ToolSettingsComponent },
         ],
     },

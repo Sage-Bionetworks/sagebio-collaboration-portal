@@ -16,6 +16,7 @@ import { EntityListCardComponent } from './entity-list-card/entity-list-card.com
 import { EntityListItemComponent } from './entity-list-item/entity-list-item.component';
 import { EntityAttachmentService } from './entity-attachment/entity-attachment.service';
 import { EntityAttachmentListComponent } from './entity-attachment/entity-attachment-list/entity-attachment-list.component';
+import { EntityThreadComponent } from './entity-thread/entity-thread.component';
 
 @NgModule({
     imports: [
@@ -37,12 +38,14 @@ import { EntityAttachmentListComponent } from './entity-attachment/entity-attach
         EntityListCardComponent,
         EntityListItemComponent,
         EntityAttachmentListComponent,
+        EntityThreadComponent
     ],
     exports: [
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
         EntityListComponent,
         EntityAttachmentListComponent,
+        EntityThreadComponent
     ],
 })
 export class EntityModule {}

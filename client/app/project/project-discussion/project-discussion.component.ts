@@ -11,8 +11,8 @@ import config from '../../app.constants';
     styles: [require('./project-discussion.scss')],
 })
 export class ProjectDiscussionComponent implements OnInit, OnDestroy {
-    private project$: Observable<Project>;
-    private entityType: string;
+    private project$: Observable<Project>; // used in html
+    private entityType: string; // used in html
 
     static parameters = [ProjectDataService, ProjectHeaderService];
     constructor(private projectDataService: ProjectDataService, private projectHeaderService: ProjectHeaderService) {

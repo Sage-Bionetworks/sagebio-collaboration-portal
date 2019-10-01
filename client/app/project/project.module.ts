@@ -46,7 +46,7 @@ import { EntityModule as EntityListModule } from '../../components/entity/entity
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
-import { ProjectThreadComponent } from './project-thread/project-thread.component';
+import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -75,7 +75,7 @@ export const ROUTES: Routes = [
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'discussion/new', component: ProjectThreadNewComponent },
-            { path: 'discussion/:threadId', component: ProjectThreadComponent },
+            { path: 'discussion/:threadId', component: EntityThreadComponent },
             { path: 'settings', component: ProjectSettingsComponent },
         ],
     },
@@ -129,7 +129,6 @@ export const ROUTES: Routes = [
         ProjectSettingsComponent,
         ProjectSidenavComponent,
         ProjectThreadNewComponent,
-        ProjectThreadComponent
     ],
     exports: [],
 })

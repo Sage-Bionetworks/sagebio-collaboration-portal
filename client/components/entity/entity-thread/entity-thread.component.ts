@@ -6,16 +6,19 @@ import { Thread } from 'models/messaging/thread.model';
 import { MessagingService } from 'components/messaging/messaging.service';
 
 @Component({
-    selector: 'project-thread',
-    template: require('./project-thread.html'),
-    styles: [require('./project-thread.scss')],
+    selector: 'entity-thread',
+    template: require('./entity-thread.html'),
+    styles: [require('./entity-thread.scss')],
 })
-export class ProjectThreadComponent {
+export class EntityThreadComponent {
     private thread$: Observable<Thread>; // used in html
 
     static parameters = [Router, ActivatedRoute, MessagingService];
     constructor(private router: Router, private route: ActivatedRoute, private messagingService: MessagingService) {
-        this.thread$ = this.route.params.pipe(switchMap(res => this.messagingService.getThread(res.threadId)));
+        this.thread$ = this.route.params.pipe(switchMap(res => {
+            console.log('PLOP', res.threadId);
+            return this.messagingService.getThread(res.threadId);
+        }));
     }
 
     onThreadDeletion(thread: Thread): void {
