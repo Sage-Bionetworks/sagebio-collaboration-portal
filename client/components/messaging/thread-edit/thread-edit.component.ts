@@ -21,7 +21,7 @@ export class ThreadEditComponent implements OnInit {
 
     private userId: string;
     private form: FormGroup;
-    private threadSpecs: object;
+    private threadSpecs: any;
     private errors = {
         editThreadTitle: undefined,
     };
@@ -32,14 +32,14 @@ export class ThreadEditComponent implements OnInit {
         private userService: UserService,
         private messagingService: MessagingService
     ) {
-        this.threadSpecs = config.models.message;
+        this.threadSpecs = config.models.thread;
         this.form = formBuilder.group({
             title: [
                 '',
                 [
                     Validators.required,
-                    ObjectValidators.jsonStringifyMinLength(config.models.message.title.minlength),
-                    ObjectValidators.jsonStringifyMaxLength(config.models.message.title.maxlength),
+                    ObjectValidators.jsonStringifyMinLength(this.threadSpecs.title.minlength),
+                    ObjectValidators.jsonStringifyMaxLength(this.threadSpecs.title.maxlength),
                 ],
             ],
         });
