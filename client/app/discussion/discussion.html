@@ -10,4 +10,4 @@
     >
 </div>
 
-<thread-list *ngIf="app" [entityId]="app._id" [entityType]="appEntityType"></thread-list>
+<thread-list *ngIf="app$ | async as app" [entityId]="app._id" [entityType]="entityType"></thread-list>

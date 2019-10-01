@@ -1,1 +1,1 @@
-<thread-list *ngIf="project$ | async; let project" [entityId]="project._id" [entityType]="entityType"></thread-list>
+<thread-list *ngIf="project$ | async as project" [entityId]="project._id" [entityType]="entityType"></thread-list>
