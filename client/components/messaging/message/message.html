@@ -16,6 +16,7 @@
                 <span class="app-message-header-author">{{
                     message.updatedBy.username || message.createdBy.username
                 }}</span>
+                <span> on </span>
                 <span
                     class="app-message-header-time"
                     matTooltip="{{ message.createdAt | dateAndTime }}"
