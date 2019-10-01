@@ -61,5 +61,5 @@ const autoPopulatePost = function (doc) {
 MessageSchema.pre('find', autoPopulatePre);
 MessageSchema.post('save', doc => autoPopulatePost(doc).execPopulate());
 
-// registerEvents(MessageSchema, autoPopulatePost);
+registerEvents(MessageSchema, autoPopulatePost);
 export default mongoose.model('Message', MessageSchema);

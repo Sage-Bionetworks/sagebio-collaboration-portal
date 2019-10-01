@@ -170,10 +170,6 @@ export function indexByUser(req, res) {
                 },
             })
         )
-        .then(t => {
-            console.log('THREADS', t);
-            return t;
-        })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }

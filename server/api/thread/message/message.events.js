@@ -26,7 +26,7 @@ function registerEvents(Message, autoPopulatePost) {
 
 function emitEvent(event, autoPopulatePost) {
     return function (doc) {
-        if (event === 'save') {
+        if (event === events.save) {
             autoPopulatePost(doc)
                 .execPopulate()
                 .then(document => {
