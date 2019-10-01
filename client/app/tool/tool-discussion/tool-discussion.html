@@ -1,1 +1,1 @@
-<thread-list *ngIf="tool" [entityId]="tool._id" [entityType]="entityType"></thread-list>
+<thread-list *ngIf="tool$ | async as tool" [entityId]="tool._id" [entityType]="entityType"></thread-list>

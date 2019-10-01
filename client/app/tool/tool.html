@@ -1,9 +1,5 @@
-<div *ngIf="tool$ | async; let tool" class="app-tool">
-    <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
-        <h1>{{ tool.title }}</h1>
-    </div>
-
+<div *ngIf="tool$ | async as tool" class="app-tool">
+    <tool-header [tool]="tool"></tool-header>
     <mat-sidenav-container class="app-tool-sidenav-container">
         <mat-sidenav
             #toolSidenav

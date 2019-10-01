@@ -1,8 +1,20 @@
-<div *ngIf="catalog">
-    <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
-        <a class="app-primary-header-link" [routerLink]="['/data-catalogs',catalog.slug]"><h1>{{ catalog.title }}</h1></a>
+<ng-container *ngIf="catalog">
+    <div class="app-primary-header app-thread-list-header">
+        <mat-icon class="app-nav-back-icon" [routerLink]="['/data-catalogs', catalog._id]"
+            >keyboard_arrow_left</mat-icon
+        >
+        <a class="app-primary-header-title app-primary-header-link" [routerLink]="['/data-catalogs', catalog._id]"
+            ><h1>{{ catalog.title }}</h1></a
+        >
+        <a
+            mat-raised-button
+            color="warn"
+            class="app-thread-list-new-thread-btn"
+            routerLink="/discussion/new"
+            aria-label="Create a new thread"
+            >New Thread</a
+        >
     </div>
 
     <thread-list [entityId]="catalog._id" [entityType]="entityType"></thread-list>
-</div>
+</ng-container>

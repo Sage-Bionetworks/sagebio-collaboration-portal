@@ -12,10 +12,12 @@ import config from '../../app.constants';
 })
 export class ProjectDiscussionComponent implements OnInit, OnDestroy {
     private project$: Observable<Project>;
-    private entityType = config.entityTypes.PROJECT.value;
+    private entityType: string;
 
     static parameters = [ProjectDataService, ProjectHeaderService];
-    constructor(private projectDataService: ProjectDataService, private projectHeaderService: ProjectHeaderService) {}
+    constructor(private projectDataService: ProjectDataService, private projectHeaderService: ProjectHeaderService) {
+        this.entityType = config.entityTypes.PROJECT.value;
+    }
 
     ngOnInit() {
         this.project$ = this.projectDataService.project();
