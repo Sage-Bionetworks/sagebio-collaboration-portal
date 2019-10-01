@@ -13,11 +13,12 @@ import { MessagingService } from 'components/messaging/messaging.service';
 export class AppThreadComponent {
     private thread$: Observable<Thread>; // used in html
 
-    static parameters = [ActivatedRoute, MessagingService];
-    constructor(
-        private route: ActivatedRoute,
-        private messagingService: MessagingService
-    ) {
+    static parameters = [Router, ActivatedRoute, MessagingService];
+    constructor(private router: Router, private route: ActivatedRoute, private messagingService: MessagingService) {
         this.thread$ = this.route.params.pipe(switchMap(res => this.messagingService.getThread(res.id)));
+    }
+
+    onThreadDeletion(thread: Thread): void {
+        this.router.navigate(['/discussion']);
     }
 }

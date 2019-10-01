@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, forkJoin, of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
@@ -16,6 +16,8 @@ import { orderBy } from 'lodash/fp';
 })
 export class ThreadComponent implements OnInit, OnDestroy {
     @Input() threadId: string;
+    @Output() deleted: EventEmitter<Thread> = new EventEmitter<Thread>();
+
     private showThreadEditTemplate = false; // used in html
 
     private thread: BehaviorSubject<Thread> = new BehaviorSubject<Thread>(null);
@@ -88,7 +90,15 @@ export class ThreadComponent implements OnInit, OnDestroy {
     }
 
     deleteThread(thread: Thread): void {
-        this.notificationService.info('Not implemented');
+        this.messagingService.removeThread(thread).subscribe(
+            () => {
+                this.deleted.emit(thread);
+            },
+            err => {
+                console.error('Unable to remove the thread', err);
+                this.notificationService.error('Unable to remove the thread');
+            }
+        );
     }
 
     onThreadEdit(thread: Thread): void {

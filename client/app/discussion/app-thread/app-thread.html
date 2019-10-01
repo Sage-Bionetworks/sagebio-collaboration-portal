@@ -4,5 +4,5 @@
         <h1>Thread</h1>
     </div>
 
-    <thread [threadId]="thread._id"></thread>
+    <thread [threadId]="thread._id" (deleted)="onThreadDeletion($event)"></thread>
 </ng-container>

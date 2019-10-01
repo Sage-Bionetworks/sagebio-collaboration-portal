@@ -48,6 +48,15 @@ export function patch(req, res) {
         .catch(handleError(res));
 }
 
+// Deletes a Thread from the DB
+export function destroy(req, res) {
+    return Thread.findById(req.params.id)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(removeThread(res))
+        .catch(handleError(res));
+}
+
 // Get a list of Threads for an entity
 export function indexByEntity(req, res) {
     return Thread.find({
@@ -171,15 +180,6 @@ export function indexByUser(req, res) {
             })
         )
         .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Deletes a Thread from the DB
-export function destroy(req, res) {
-    return Thread.findById(req.params.id)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(removeThread(res))
         .catch(handleError(res));
 }
 

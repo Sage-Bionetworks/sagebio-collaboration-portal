@@ -110,7 +110,6 @@ export class MessageComponent implements OnInit {
     }
 
     deleteMessage(): void {
-
         this.messagingService.removeMessage(this.thread, this.message).subscribe(
             () => {
                 // this.messageDeleted.emit();

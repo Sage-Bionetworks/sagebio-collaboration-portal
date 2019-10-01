@@ -14,6 +14,9 @@ router.post('/', auth.isAuthenticated(), controller.create);
 // Patches the thread specified.
 router.patch('/:id', auth.isAuthenticated(), controller.patch);
 
+// Deletes the thread specified along its messages.
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
+
 // Returns the threads associated with the entity specified.
 router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
 
@@ -30,7 +33,7 @@ router.patch('/:id/messages/:messageId', auth.isAuthenticated(), controller.patc
 router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
 
 // Deletes the message specified.
-router.delete('/:id/messages/:messageId', controller.destroyMessage);
+router.delete('/:id/messages/:messageId', auth.isAuthenticated(), controller.destroyMessage);
 
 
 
@@ -48,19 +51,5 @@ router.delete('/:id/messages/:messageId', controller.destroyMessage);
 
 // // Returns the threads that the user has access to.
 // router.get('/', auth.isAuthenticated(), controller.indexByUser);
-
-// // Deletes the thread specified.
-// router.delete('/entity/:entityId/:id',
-// // auth.canAccessEntity(
-// //     ADMIN_ACCESS
-// // ),
-// controller.destroy);
-
-// // Deletes the message specified.
-// router.delete('/entity/:entityId/:id/messages/:messageId',
-// // auth.canAccessEntity(
-// //     ADMIN_ACCESS
-// // ),
-// controller.destroyMessage);
 
 module.exports = router;

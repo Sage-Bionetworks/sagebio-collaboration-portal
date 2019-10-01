@@ -54,6 +54,14 @@ export class MessagingService {
         ]);
     }
 
+    /**
+     * Deletes the thread specified along its messages.
+     * @param thread
+     */
+    removeThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.delete<void>(`/api/threads/${thread._id}`).pipe(map(() => thread));
+    }
+
     // MESSAGES FUNCTIONS
 
     /**
@@ -114,10 +122,6 @@ export class MessagingService {
         // .pipe(
         //     map(threads => orderBy(['createdAt'], ['desc'], threads))
         // );
-    }
-
-    removeThread(thread: Thread): Observable<void> {
-        return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}`);
     }
 
     showThread(thread: Thread): void {
