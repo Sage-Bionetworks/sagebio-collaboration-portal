@@ -1,7 +1,7 @@
 <ng-container *ngIf="thread$ | async as thread">
     <div class="app-primary-header">
         <mat-icon class="app-nav-back-icon" routerLink="/discussion">keyboard_arrow_left</mat-icon>
-        <h1>Thread</h1>
+        <h1>&nbsp;</h1>
     </div>
 
     <thread [threadId]="thread._id" (deleted)="onThreadDeletion($event)"></thread>

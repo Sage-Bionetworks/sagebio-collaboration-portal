@@ -59,7 +59,7 @@
             ></message-date-separator>
             <message [thread]="thread" [message]="message"></message>
         </ng-template>
-        <!-- <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new> -->
+        <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new>
     </mat-card>
 
     <ng-template #showThreadEditForm>

@@ -107,4 +107,8 @@ export class ThreadComponent implements OnInit, OnDestroy {
             this.showThreadEditTemplate = false;
         }
     }
+
+    onNewMessage(message: Message): void {
+        console.log('THREAD: NEW MESSAGE');
+    }
 }

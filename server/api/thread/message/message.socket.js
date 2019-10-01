@@ -27,6 +27,8 @@ function createListener(modelName, event, spark) {
         if (event === 'remove') { // TODO use enum
             console.log(`thread:${doc.thread}:messages:${event}`);
             spark.emit(`thread:${doc.thread}:messages:${event}`, doc);
+        } else if (event === 'save') { // TODO use enum
+            spark.emit(`thread:${doc.thread._id}:messages:${event}`, doc);
         }
     };
 }
