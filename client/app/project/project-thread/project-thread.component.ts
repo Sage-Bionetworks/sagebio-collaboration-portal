@@ -15,15 +15,10 @@ export class ProjectThreadComponent {
 
     static parameters = [Router, ActivatedRoute, MessagingService];
     constructor(private router: Router, private route: ActivatedRoute, private messagingService: MessagingService) {
-        this.thread$ = this.route.params.pipe(
-            switchMap(res => {
-                console.log('ProjectThreadComponent', res.threadId);
-                return this.messagingService.getThread(res.threadId);
-            })
-        );
+        this.thread$ = this.route.params.pipe(switchMap(res => this.messagingService.getThread(res.threadId)));
     }
 
     onThreadDeletion(thread: Thread): void {
-        this.router.navigate(['/discussion']);
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }

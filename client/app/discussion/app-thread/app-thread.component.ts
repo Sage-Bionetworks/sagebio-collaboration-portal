@@ -19,6 +19,6 @@ export class AppThreadComponent {
     }
 
     onThreadDeletion(thread: Thread): void {
-        this.router.navigate(['/discussion']);
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }
