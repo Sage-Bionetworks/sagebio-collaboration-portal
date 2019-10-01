@@ -1,21 +1,10 @@
-import {
-    NgModule,
-    ApplicationRef,
-    Provider
-} from '@angular/core';
+import { NgModule, ApplicationRef, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-    HttpClientModule,
-    HTTP_INTERCEPTORS
-} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from 'components/http/http-error.interceptor';
 import { JwtInterceptor } from 'components/http/jwt.interceptor';
 
-import {
-    removeNgStyles,
-    createNewHosts,
-    createInputTransfer,
-} from '@angularclass/hmr';
+import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,24 +26,30 @@ import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 
 export function tokenGetter() {
-    return localStorage.getItem('access_token');  // was 'id_token'
+    return localStorage.getItem('access_token'); // was 'id_token'
 }
 
-let providers: Provider[] = [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true
-}, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
-    multi: true,
-}];
+let providers: Provider[] = [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: JwtInterceptor,
+        multi: true,
+    },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: HttpErrorInterceptor,
+        multi: true,
+    },
+];
 
-const appRoutes: Routes = [{
-    path: '',
-    redirectTo: '/home', // was /home
-    pathMatch: 'full'
-}];
+const appRoutes: Routes = [
+    {
+        path: '',
+        redirectTo: '/home', // was /home
+        pathMatch: 'full',
+    },
+    { path: '**', redirectTo: '/home' } // redirect from pages that do not exist
+];
 
 @NgModule({
     providers,
@@ -77,8 +72,6 @@ const appRoutes: Routes = [{
 
         RouterModule.forRoot(appRoutes, { enableTracing: process.env.NODE_ENV === 'development' }),
 
-
-
         MainModule,
         DatasetModule,
         DataCatalogModule,
@@ -93,9 +86,7 @@ const appRoutes: Routes = [{
         AccountModule,
         AdminModule,
     ],
-    declarations: [
-        AppComponent,
-    ],
+    declarations: [AppComponent],
     bootstrap: [AppComponent],
 })
 export class AppModule {
