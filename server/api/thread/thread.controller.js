@@ -269,8 +269,8 @@ function addContributorToThread(thread) {
             // ]);
             // keep last contribution order
             thread.contributors = uniq([
-                ...pull(message.createdBy.toString(), thread.contributors),
-                message.createdBy.toString(),
+                ...pull(message.createdBy._id.toString(), thread.contributors),
+                message.createdBy._id.toString(),
             ]);
             return thread.save().then(() => message);
         }

@@ -98,6 +98,7 @@ export class MessageComponent implements OnInit {
 
         this.messagingService.updateMessage(this.thread, updatedMessage).subscribe(
             message => {
+                console.log('Updated message', message);
                 this.setMessage(message);
             },
             err => {
