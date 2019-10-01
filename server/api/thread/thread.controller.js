@@ -200,7 +200,6 @@ export function indexMessages(req, res) {
 }
 
 // Deletes the message specified.
-// TODO: Check that the message belong to the thread and entity specified as URL parameters
 export function destroyMessage(req, res) {
     return Message.findById(req.params.messageId)
         .exec()

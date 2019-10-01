@@ -109,7 +109,7 @@ export class MessageComponent implements OnInit {
         );
     }
 
-    removeMessage(): void {
+    deleteMessage(): void {
 
         this.messagingService.removeMessage(this.thread, this.message).subscribe(
             () => {

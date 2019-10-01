@@ -29,7 +29,8 @@ router.patch('/:id/messages/:messageId', auth.isAuthenticated(), controller.patc
 // Returns the number of messages for the thread specified.
 router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
 
-
+// Deletes the message specified.
+router.delete('/:id/messages/:messageId', controller.destroyMessage);
 
 
 

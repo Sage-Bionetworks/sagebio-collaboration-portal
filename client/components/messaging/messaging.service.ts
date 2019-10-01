@@ -75,6 +75,11 @@ export class MessagingService {
         return this.httpClient.post<Message>(`/api/threads/${thread._id}/messages`, message);
     }
 
+    /**
+     * Updates the body of a message.
+     * @param thread
+     * @param message
+     */
     updateMessage(thread: Thread, message: Message): Observable<Message> {
         return this.httpClient.patch<Message>(`/api/threads/${thread._id}/messages/${message._id}`, [
             { op: 'replace', path: '/body', value: message.body },
@@ -96,10 +101,10 @@ export class MessagingService {
      * @param thread
      * @param message
      */
-    removeMessage(thread: Thread, message: Message): Observable<void> {
-        return this.httpClient.delete<void>(
-            `/api/threads/${thread._id}/messages/${message._id}`
-        );
+    removeMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient
+            .delete<void>(`/api/threads/${thread._id}/messages/${message._id}`)
+            .pipe(map(() => message));
     }
 
     // TO REVIEW
