@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
 import { ToolSidenavItem } from './models/tool-sidenav-item.model';
 import { ToolAuthorizationService } from '../tool-authorization.service';
@@ -11,7 +11,7 @@ const enum itemTitles {
 }
 
 @Injectable()
-export class ToolSidenavService implements OnInit, OnDestroy {
+export class ToolSidenavService implements OnDestroy {
     private opened_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     private mode_: BehaviorSubject<string> = new BehaviorSubject<string>('side');
     private items_: BehaviorSubject<ToolSidenavItem[]> = new BehaviorSubject<ToolSidenavItem[]>([
@@ -48,15 +48,12 @@ export class ToolSidenavService implements OnInit, OnDestroy {
     private sub: Subscription;
 
     static parameters = [ToolAuthorizationService];
-    constructor(private toolAuthorizationService: ToolAuthorizationService) {}
-
-    ngOnInit() {
-        this.sub = combineLatest(this.items_, this.toolAuthorizationService.authorization()).subscribe(
-            ([items, auth]) => {
-                items.find(item => item.title === itemTitles.SETTINGS).visible = auth.canAdmin;
-                this.items_.next(items);
-            }
-        );
+    constructor(private toolAuthorizationService: ToolAuthorizationService) {
+        this.sub = this.toolAuthorizationService.authorization().subscribe(auth => {
+            let items = this.items_.getValue();
+            items.find(item => item.title === itemTitles.SETTINGS).visible = auth.canAdmin;
+            this.items_.next(items);
+        });
     }
 
     ngOnDestroy() {

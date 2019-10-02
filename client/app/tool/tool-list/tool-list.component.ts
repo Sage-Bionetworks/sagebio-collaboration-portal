@@ -6,6 +6,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { ToolService } from '../tool.service';
 import { NotificationService } from 'components/notification/notification.service';
+import { ToolAuthorizationService } from '../tool-authorization.service';
 
 @Component({
     selector: 'tool-list',
@@ -16,20 +17,23 @@ export class ToolListComponent implements OnInit, OnDestroy {
     private canCreateTool = false; // used in html
     private canCreateToolSub: Subscription;
 
-    static parameters = [Router, PageTitleService, UserPermissionDataService, NotificationService, ToolService];
+    static parameters = [Router, PageTitleService, NotificationService, ToolService, ToolAuthorizationService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private permissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
-        private toolService: ToolService // used in html
+        private toolService: ToolService, // used in html
+        private toolAuthorizationService: ToolAuthorizationService
     ) {}
 
     ngOnInit() {
         this.pageTitleService.title = 'Tools';
-        this.canCreateToolSub = this.permissionDataService
-            .permissions()
-            .subscribe(permissions => (this.canCreateTool = permissions.canCreateTool()), err => console.error(err));
+        this.canCreateToolSub = this.toolAuthorizationService.authorization().subscribe(
+            auth => {
+                this.canCreateTool = auth.canCreate;
+            },
+            err => console.error(err)
+        );
     }
 
     ngOnDestroy() {

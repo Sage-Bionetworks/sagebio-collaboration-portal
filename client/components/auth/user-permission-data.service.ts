@@ -33,22 +33,6 @@ export class UserPermissions {
         return !!find({ action: actionPermission }, this.actionPermissions);
     }
 
-    // TOOLS
-
-    public canCreateTool(): boolean {
-        return (
-            this.isAdmin() || !!find({ action: config.actionPermissionTypes.CREATE_TOOL.value }, this.actionPermissions)
-        );
-    }
-
-    public canAdminTool(entityId: string, entityType: string): boolean {
-        return this.isAdmin() || this.canAdminEntity(entityId, entityType);
-    }
-
-
-
-
-
     public canCreateProject(): boolean {
         return (
             this.isAdmin() ||
