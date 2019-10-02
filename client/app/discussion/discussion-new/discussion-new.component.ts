@@ -13,11 +13,11 @@ import config from '../../app.constants';
 })
 export class DiscussionNewComponent implements OnInit {
     private app$: Observable<App>;
-    private appEntityType: string;
+    private entityType: string;
 
     static parameters = [Router, ActivatedRoute, AppService];
     constructor(private router: Router, private route: ActivatedRoute, private appService: AppService) {
-        this.appEntityType = config.entityTypes.APP.value;
+        this.entityType = config.entityTypes.APP.value;
     }
 
     ngOnInit() {

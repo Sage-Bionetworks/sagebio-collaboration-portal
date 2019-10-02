@@ -18,6 +18,8 @@ import { DataCatalogService } from './data-catalog.service';
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MessagingModule } from 'components/messaging/messaging.module';
+import { DataCatalogThreadComponent } from './data-catalog-thread/data-catalog-thread.component';
+import { DataCatalogThreadNewComponent } from './data-catalog-thread-new/data-catalog-thread-new.component';
 
 export const ROUTES: Routes = [
     {
@@ -40,6 +42,16 @@ export const ROUTES: Routes = [
         component: DataCatalogDiscussionComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path: 'data-catalogs/:id/discussion/new',
+        component: DataCatalogThreadNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'data-catalogs/:id/discussion/:threadId',
+        component: DataCatalogThreadComponent,
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({
@@ -52,7 +64,7 @@ export const ROUTES: Routes = [
         EntityModule,
         ShareModule,
         ClipboardModule,
-        MessagingModule
+        MessagingModule,
     ],
     declarations: [
         DataCatalogDiscussionComponent,
@@ -60,6 +72,8 @@ export const ROUTES: Routes = [
         DataCatalogListComponent,
         DataCatalogNewComponent,
         DataCatalogComponent,
+        DataCatalogThreadComponent,
+        DataCatalogThreadNewComponent,
     ],
     providers: [SocketService, DataCatalogService],
     exports: [],

@@ -4,8 +4,8 @@
 </div>
 
 <thread-new
-    *ngIf="app$ | async as app"
-    [entityId]="app._id"
+    *ngIf="dataCatalogId$ | async as dataCatalogId"
+    [entityId]="dataCatalogId"
     [entityType]="entityType"
     (newThread)="onNewThread($event)"
     (close)="onClose()"
