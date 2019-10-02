@@ -31,6 +31,7 @@ import { ToolHeaderComponent } from './tool-header/tool-header.component';
 import { ToolHeaderService } from './tool-header/tool-header.service';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
+import { ToolAuthorizationService } from './tool-authorization.service';
 
 export const ROUTES: Routes = [
     {
@@ -86,9 +87,16 @@ export const ROUTES: Routes = [
         ToolSidenavComponent,
         ToolViewComponent,
         ToolHeaderComponent,
-        ToolThreadNewComponent
+        ToolThreadNewComponent,
     ],
-    providers: [SocketService, ToolService, ToolDataService, ToolSidenavService, ToolHeaderService],
+    providers: [
+        SocketService,
+        ToolService,
+        ToolDataService,
+        ToolAuthorizationService,
+        ToolSidenavService,
+        ToolHeaderService,
+    ],
     exports: [],
 })
 export class ToolModule {}
