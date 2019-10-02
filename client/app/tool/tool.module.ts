@@ -49,7 +49,8 @@ export const ROUTES: Routes = [
     {
         path: 'tools/:id',
         component: ToolComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ToolAuthorizationGuard],
+        data: { authorization: ToolAuthorizationTypes.READ },
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ToolHomeComponent },
@@ -57,7 +58,12 @@ export const ROUTES: Routes = [
             { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'discussion/new', component: ToolThreadNewComponent },
             { path: 'discussion/:threadId', component: EntityThreadComponent },
-            { path: 'settings', component: ToolSettingsComponent },
+            {
+                path: 'settings',
+                component: ToolSettingsComponent,
+                canActivate: [ToolAuthorizationGuard],
+                data: { authorization: ToolAuthorizationTypes.ADMIN },
+            },
         ],
     },
 ];

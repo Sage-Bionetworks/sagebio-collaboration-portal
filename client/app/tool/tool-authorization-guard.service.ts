@@ -12,7 +12,6 @@ import { map, catchError } from 'rxjs/operators';
 export enum ToolAuthorizationTypes {
     CREATE,
     READ,
-    WRITE,
     ADMIN,
 }
 
@@ -26,13 +25,21 @@ export class ToolAuthorizationGuard implements CanActivate {
 
         return this.toolAuthorizationService.authorization().pipe(
             map(auth => {
-                if (route.data.authorization === ToolAuthorizationTypes.CREATE) {
-                    return auth.canCreate;
+                switch (route.data.authorization) {
+                    case ToolAuthorizationTypes.CREATE:
+                        return auth.canCreate;
+                    case ToolAuthorizationTypes.READ:
+                        return auth.canRead;
+                    case ToolAuthorizationTypes.ADMIN:
+                        return auth.canAdmin;
+                    default:
+                        return false;
                 }
-                return false;
             }),
             map(authorized => {
-                this.router.navigate(['/', 'tools']);
+                if (!authorized) {
+                    this.router.navigate(['/', 'tools']);
+                }
                 return authorized;
             }),
             catchError(err => {
