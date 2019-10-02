@@ -1,21 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import config from '../../app.constants';
-import { ProjectDataService } from '../project-data.service';
+import { Observable } from 'rxjs';
 import { Project } from 'models/entities/project.model';
+import { ProjectDataService } from '../project-data.service';
 import { ProjectHeaderService } from '../project-header/project-header.service';
+import config from '../../app.constants';
 
 @Component({
     selector: 'project-discussion',
     template: require('./project-discussion.html'),
-    styles: [require('./project-discussion.scss')]
+    styles: [require('./project-discussion.scss')],
 })
 export class ProjectDiscussionComponent implements OnInit, OnDestroy {
-    private project$: Observable<Project>;
-    private entityType = config.entityTypes.PROJECT.value;
+    private project$: Observable<Project>; // used in html
+    private entityType: string; // used in html
 
     static parameters = [ProjectDataService, ProjectHeaderService];
-    constructor(private projectDataService: ProjectDataService, private projectHeaderService: ProjectHeaderService) {}
+    constructor(private projectDataService: ProjectDataService, private projectHeaderService: ProjectHeaderService) {
+        this.entityType = config.entityTypes.PROJECT.value;
+    }
 
     ngOnInit() {
         this.project$ = this.projectDataService.project();

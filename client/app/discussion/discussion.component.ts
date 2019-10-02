@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AppService } from '../app.service';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { App } from 'models/entities/app.model';
-import { PageTitleService } from 'components/page-title/page-title.service';
+import { AppService } from '../app.service';
 import config from '../../app/app.constants';
 
 @Component({
@@ -11,27 +11,15 @@ import config from '../../app/app.constants';
     styles: [require('./discussion.scss')],
 })
 export class DiscussionComponent implements OnInit {
-    private app: App;
-    private entityType: string;
+    private app$: Observable<App>; // used in html
+    private entityType: string; // used in html
 
-    static parameters = [Router, ActivatedRoute, AppService, PageTitleService];
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private appService: AppService,
-        private pageTitleService: PageTitleService
-    ) {
+    static parameters = [Router, AppService];
+    constructor(private router: Router, private appService: AppService) {
         this.entityType = config.entityTypes.APP.value;
     }
 
     ngOnInit() {
-        this.appService.getApp()
-            .subscribe(
-                app => {
-                    this.app = app;
-                    this.pageTitleService.title = `Discussion`;
-                },
-                err => console.error(err)
-            );
+        this.app$ = this.appService.getApp();
     }
 }

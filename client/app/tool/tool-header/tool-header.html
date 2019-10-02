@@ -1,0 +1,7 @@
+<div *ngIf="tool" class="app-primary-header app-tool-header">
+    <mat-icon class="app-nav-back-icon" routerLink="/tools">keyboard_arrow_left</mat-icon>
+    <h1 class="app-primary-header-title">{{ tool.title }}</h1>
+    <a *ngIf="actionButtonData" mat-raised-button color="warn" class="app-tool-action-btn" [routerLink]="actionButtonData.routerLink" [attr.aria-label]="actionButtonData.title"
+        >{{ actionButtonData.title }}</a
+    >
+</div>

@@ -124,8 +124,8 @@ export const activityTypes = {
     },
     RESOURCE_REGISTRATION: {
         value: 'ResourceRegistration',
-        title: 'Resource Registration'
-    }
+        title: 'Resource Registration',
+    },
 };
 
 export const accessTypes = {
@@ -333,11 +333,13 @@ export const models = {
             default: insightTypes.REPORT,
         },
     },
-    message: {
+    thread: {
         title: {
-            minlength: 1,
+            minlength: 3,
             maxlength: 256,
         },
+    },
+    message: {
         body: {
             minlength: 26, // 1 character when stringifying Quill content
             maxlength: 1024 * 1024, // allows for 500 KB (Unicode: 1 character = 2 bytes)
@@ -354,8 +356,8 @@ export const models = {
         },
         type: {
             values: ['Report generation', 'Tool session'],
-            default: 'Report generation'
-        }
+            default: 'Report generation',
+        },
     },
     user: {
         // title: {

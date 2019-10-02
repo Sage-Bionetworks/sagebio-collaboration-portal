@@ -1,16 +1,27 @@
-<div class="app-message" *ngIf="_message | async; let message">
+<div class="app-message" *ngIf="message">
     <div class="app-message-header">
         <user-avatar class="app-message-header-avatar" [user]="message.createdBy" [size]="avatarSize"></user-avatar>
         <div class="app-message-header-metadata">
             <div class="app-message-header-metadata-line">
                 <span class="app-message-header-author">{{ message.createdBy.username }}</span>
-                <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.createdAt | date: 'shortTime' }}</span>
+                <span
+                    class="app-message-header-time"
+                    matTooltip="{{ message.createdAt | dateAndTime }}"
+                    >{{ message.createdAt | date: 'shortTime' }}</span
+                >
                 <!-- <span>{{ message._id }}</span> -->
             </div>
             <div *ngIf="edited" class="app-message-header-metadata-line">
-                    <span class="app-message-header-text">Edited by</span>
-                    <span class="app-message-header-author">{{ message.updatedBy.username || message.createdBy.username }}</span>
-                    <span class="app-message-header-time" matTooltip="{{ message.createdAt | dateAndTime }}" [matTooltipPosition]="tooltipPosition">{{ message.updatedAt | dateAndTime }}</span>
+                <span class="app-message-header-text">Edited by</span>
+                <span class="app-message-header-author">{{
+                    message.updatedBy.username || message.createdBy.username
+                }}</span>
+                <span> on </span>
+                <span
+                    class="app-message-header-time"
+                    matTooltip="{{ message.createdAt | dateAndTime }}"
+                    >{{ message.updatedAt | dateAndTime }}</span
+                >
             </div>
         </div>
         <div class="app-message-header-reply-button">
@@ -19,14 +30,24 @@
         <div class="app-message-header-actions">
             <!-- <message-star-button [message]="message"></message-star-button> -->
             <div>
-                <a mat-icon-button [matMenuTriggerFor]="moreActionsMenu" matTooltip="More actions" [matTooltipPosition]="tooltipPosition" aria-label="More actions">
+                <a
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreActionsMenu"
+                    matTooltip="More actions"
+                    aria-label="More actions"
+                >
                     <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
                 </a>
                 <mat-menu #moreActionsMenu="matMenu" xPosition="before" [overlapTrigger]="false">
                     <button *ngIf="canEditMessage" mat-menu-item aria-label="Edit message" (click)="editor.edit()">
                         <span>Edit message</span>
                     </button>
-                    <button *ngIf="canDeleteMessage" mat-menu-item aria-label="Delete message" (click)="removeMessage()">
+                    <button
+                        *ngIf="canDeleteMessage"
+                        mat-menu-item
+                        aria-label="Delete message"
+                        (click)="deleteMessage()"
+                    >
                         <span class="app-message-delete-btn-label">Delete message</span>
                     </button>
                     <!-- <message-star-archive-button *ngIf="starred | async" [message]="message"></message-star-archive-button> -->
@@ -36,6 +57,11 @@
     </div>
 
     <form [formGroup]="form" class="app-message-body">
-        <app-quill-editor #editor saveButtonLabel="Update" [body]="form.controls['body']" (onSave)="updateMessage()"></app-quill-editor>
+        <app-quill-editor
+            #editor
+            saveButtonLabel="Update"
+            [body]="form.controls['body']"
+            (onSave)="updateMessage()"
+        ></app-quill-editor>
     </form>
 </div>

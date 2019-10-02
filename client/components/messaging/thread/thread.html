@@ -1,0 +1,72 @@
+<ng-container *ngIf="thread$ | async as thread">
+    <mat-card *ngIf="!showThreadEditTemplate; else showThreadEditForm">
+        <mat-card-header>
+            <mat-card-title>{{ thread.title }}</mat-card-title>
+            <mat-card-subtitle
+                >Thread created by {{ thread.createdBy.name }} on
+                {{ thread.createdAt | dateAndTime }}</mat-card-subtitle
+            >
+            <div class="app-thread-actions">
+                <!-- <share-button [entity]="insight" [entityType]="entityType"></share-button>
+                    <show-activity-button [root]="insight"></show-activity-button> -->
+                <a
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreActionsMenu"
+                    matTooltip="More actions"
+                    aria-label="More actions"
+                >
+                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                </a>
+                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        ngxClipboard
+                        [cbContent]="getLink()"
+                        (cbOnSuccess)="notificationService.info('Link successfully copied')"
+                        (cbOnError)="notificationService.info('Unable to copy the link.')"
+                        mat-menu-item
+                        aria-label="Copy link"
+                    >
+                        <span>Copy Link</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item aria-label="Edit Thread" (click)="showThreadEditTemplate = true">
+                        <span>Edit Thread</span>
+                    </button>
+                    <button mat-menu-item aria-label="Delete Thread" (click)="deleteThread(thread)">
+                        <span class="app-thread-actions-delete-btn-label">Delete Thread</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </mat-card-header>
+
+        <ng-template
+            *ngIf="messages$ | async as messages"
+            ngFor
+            let-message
+            let-i="index"
+            let-first="first"
+            [ngForOf]="messages"
+        >
+            <message-date-separator
+                *ngIf="first"
+                class="message-date-separator"
+                [isoDate]="message.createdAt"
+            ></message-date-separator>
+            <message-date-separator
+                *ngIf="!first && !(message.createdAt | sameDay: messages[i - 1].createdAt)"
+                class="message-date-separator"
+                [isoDate]="message.createdAt"
+            ></message-date-separator>
+            <message [thread]="thread" [message]="message"></message>
+        </ng-template>
+        <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new>
+    </mat-card>
+
+    <ng-template #showThreadEditForm>
+        <thread-edit
+            [thread]="thread"
+            (threadEdit)="onThreadEdit($event)"
+            (cancel)="showThreadEditTemplate = false"
+        ></thread-edit>
+    </ng-template>
+</ng-container>

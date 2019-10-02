@@ -1,7 +1,13 @@
-<div *ngIf="app">
-    <div class="app-primary-header">
-        <h1>General Discussion</h1>
-    </div>
-
-    <entity-discussion [entity]="app" [entityType]="entityType"></entity-discussion>
+<div class="app-primary-header app-thread-list-header">
+    <h1 class="app-primary-header-title">General Discussion</h1>
+    <a
+        mat-raised-button
+        color="warn"
+        class="app-thread-list-new-thread-btn"
+        routerLink="new"
+        aria-label="Create a new thread"
+        >New Thread</a
+    >
 </div>
+
+<thread-list *ngIf="app$ | async as app" [entityId]="app._id" [entityType]="entityType"></thread-list>

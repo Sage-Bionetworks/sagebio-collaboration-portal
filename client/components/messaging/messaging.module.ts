@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'ng2-avatar';
+import { ClipboardModule } from 'ngx-clipboard';
 import { MaterialModule } from 'components/material/material.module';
 import { SidenavModule } from 'components/sidenav/sidenav.module';
 import { PipesModule } from '../pipes/pipes.module';
@@ -22,6 +23,7 @@ import { MessagingDataService } from './messaging-data.service';
 import { MessageDateSeparatorComponent } from './message-date-separator/message-date-separator.component';
 import { AppQuillModule } from '../quill/app-quill.module';
 import { SocketService } from 'components/socket/socket.service';
+import { ThreadComponent } from './thread/thread.component';
 
 @NgModule({
     imports: [
@@ -30,6 +32,7 @@ import { SocketService } from 'components/socket/socket.service';
         MaterialModule,
         SidenavModule,
         AvatarModule,
+        ClipboardModule,
         // QuillModule.forRoot({
         //     modules: {
         //         imageDrop: true,
@@ -60,7 +63,8 @@ import { SocketService } from 'components/socket/socket.service';
         ThreadListComponent,
         ThreadDateSeparatorComponent,
         StarredMessageListComponent,
-        MessageDateSeparatorComponent
+        MessageDateSeparatorComponent,
+        ThreadComponent
     ],
     exports: [
         ThreadNewComponent,
@@ -68,7 +72,8 @@ import { SocketService } from 'components/socket/socket.service';
         MessageComponent,
         MessageNewComponent,
         ThreadListComponent,
-        StarredMessageListComponent
+        StarredMessageListComponent,
+        ThreadComponent
     ],
     entryComponents: [
         // MessageThreadComponent

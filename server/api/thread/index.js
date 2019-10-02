@@ -1,88 +1,55 @@
-var express = require('express');
-var controller = require('./thread.controller');
-var auth = require('../../auth/auth.service');
-import Thread from './thread.model';
+import { Router } from 'express';
+import * as auth from '../../auth/auth.service';
+// import * as threadAuth from './thread.auth';
+import * as controller from './thread.controller';
 
-var router = express.Router();
+var router = Router();
 
-import {
-    accessTypes,
-} from '../../config/environment';
-const ADMIN_ACCESS = accessTypes.ADMIN.value;
-const READ_ACCESS = accessTypes.READ.value;
-const WRITE_ACCESS = accessTypes.WRITE.value;
-
-// Returns the threads that the user has access to.
-router.get('/', auth.isAuthenticated(), controller.indexByUser);
+// Returns the thread specified
+router.get('/:id', auth.isAuthenticated(), controller.show);
 
 // Creates a new thread associated to the entity specified.
-router.post('/entity/:entityId',
-// auth.canAccessEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ),
-controller.create);
-
-// Returns the threads associated with the entity specified.
-router.get('/entity/:entityId',
-// auth.canAccessEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ),
-controller.indexByEntity);
+router.post('/', auth.isAuthenticated(), controller.create);
 
 // Patches the thread specified.
-router.patch('/entity/:entityId/:id',
-// auth.hasPermissionForEntityRelatedObject(Thread),
-controller.patch);
+router.patch('/:id', auth.isAuthenticated(), controller.patch);
 
-// Deletes the thread specified.
-router.delete('/entity/:entityId/:id',
-// auth.canAccessEntity(
-//     ADMIN_ACCESS
-// ),
-controller.destroy);
+// Deletes the thread specified along its messages.
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
-// Returns the number of messages for the thread specified.
-router.get('/entity/:entityId/:id/messages/count',
-// auth.canAccessEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ),
-controller.messagesCount);
+// Returns the threads associated with the entity specified.
+router.get('/entity/:entityId', auth.isAuthenticated(), controller.indexByEntity);
 
 // Returns the messages for the thread specified.
-router.get('/entity/:entityId/:id/messages',
-// auth.canAccessEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ),
-controller.indexMessages);
+router.get('/:id/messages', auth.isAuthenticated(), controller.indexMessages);
 
 // Adds a message to the thread specified.
-router.post('/entity/:entityId/:id/messages',
-// auth.canAccessEntity(
-//     READ_ACCESS,
-//     WRITE_ACCESS,
-//     ADMIN_ACCESS
-// ),
-auth.isAuthenticated(),
-controller.createMessage);
+router.post('/:id/messages', auth.isAuthenticated(), controller.createMessage);
 
 // Patches the message specified.
-router.patch('/entity/:entityId/:id/messages/:messageId',
-// auth.hasPermissionForEntityRelatedObject(Thread),
-controller.patchMessage);
+router.patch('/:id/messages/:messageId', auth.isAuthenticated(), controller.patchMessage);
+
+// Returns the number of messages for the thread specified.
+router.get('/:id/messages/count', auth.isAuthenticated(), controller.messagesCount);
 
 // Deletes the message specified.
-router.delete('/entity/:entityId/:id/messages/:messageId',
-// auth.canAccessEntity(
-//     ADMIN_ACCESS
-// ),
-controller.destroyMessage);
+router.delete('/:id/messages/:messageId', auth.isAuthenticated(), controller.destroyMessage);
+
+
+
+
+
+
+
+
+// import {
+//     accessTypes,
+// } from '../../config/environment';
+// const ADMIN_ACCESS = accessTypes.ADMIN.value;
+// const READ_ACCESS = accessTypes.READ.value;
+// const WRITE_ACCESS = accessTypes.WRITE.value;
+
+// // Returns the threads that the user has access to.
+// router.get('/', auth.isAuthenticated(), controller.indexByUser);
 
 module.exports = router;

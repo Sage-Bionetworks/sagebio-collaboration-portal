@@ -1,0 +1,7 @@
+<thread-new
+    *ngIf="tool$ | async as tool"
+    [entityId]="tool._id"
+    [entityType]="entityType"
+    (newThread)="onNewThread($event)"
+    (close)="onClose()"
+></thread-new>

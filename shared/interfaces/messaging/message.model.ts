@@ -1,5 +1,5 @@
 import { UserProfile } from '../auth/user-profile.model';
-import { Thread } from '../auth/thread.model';
+import { Thread } from './thread.model';
 
 /**
  * @swagger
@@ -25,11 +25,11 @@ import { Thread } from '../auth/thread.model';
  *           $ref: '#/components/schemas/UserProfile'
  */
 export interface Message {
-    _id: string;
+    _id?: string;
     body: string | any;
-    thread: Thread | string;
-    createdAt: string;
-    createdBy: UserProfile;
-    updatedAt: string;
-    updatedBy: UserProfile;
+    thread?: Thread | string;
+    createdAt?: string;
+    createdBy?: UserProfile;
+    updatedAt?: string;
+    updatedBy?: UserProfile;
 }

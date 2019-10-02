@@ -1,10 +1,13 @@
 <mat-card class="app-thread-new-card">
+    <mat-card-header>
+        <mat-card-title class="app-thread-new-title">Create a New Thread</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
         <form class="app-thread-new-card-form" [formGroup]="form" novalidate>
             <mat-form-field class="app-thread-new-form-field">
                 <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" required />
                 <mat-error *ngIf="form.controls.title.invalid">
-                    Please enter a valid title ({{ messageSpecs.title.minlength }}-{{ messageSpecs.title.maxlength }}
+                    Please enter a valid title ({{ threadSpecs.title.minlength }}-{{ threadSpecs.title.maxlength }}
                     characters).
                 </mat-error>
             </mat-form-field>
@@ -23,8 +26,8 @@
                 {{ (form.controls.body.errors.jsonStringifyMaxLength.value * 2) / 1024 | number: '1.0-0' }}
                 KB)
             </mat-error>
-            <mat-error *ngIf="errors.createNewThread">
-                {{ errors.createNewThread }}
+            <mat-error *ngIf="errors.newThread">
+                {{ errors.newThread }}
             </mat-error>
             <div class="app-thread-new-form-actions">
                 <a
@@ -33,9 +36,9 @@
                     color="primary"
                     [disabled]="form.invalid"
                     (click)="form.invalid || createThread()"
-                    >Create a new Thread</a
+                    >Create New Thread</a
                 >
-                <a mat-raised-button (click)="discard()">Discard</a>
+                <a mat-raised-button (click)="close.emit(null)">Cancel</a>
             </div>
         </form>
     </mat-card-content>

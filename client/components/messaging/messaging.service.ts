@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    switchMap,
-    tap
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Thread } from 'models/messaging/thread.model';
 import { Message } from 'models/messaging/message.model';
@@ -19,83 +13,127 @@ import { ThreadSidenavComponent } from './thread-sidenav/thread-sidenav.componen
 
 @Injectable()
 export class MessagingService {
-
     static parameters = [HttpClient, SecondarySidenavService];
-    constructor(private httpClient: HttpClient,
-        private secondarySidenavService: SecondarySidenavService) { }
+    constructor(private httpClient: HttpClient, private secondarySidenavService: SecondarySidenavService) {}
+
+    // THEADS FUNCTIONS
 
     /**
-     * Threads
+     * Returns the thread specified.
+     * @param id
      */
+    getThread(id: string): Observable<Thread> {
+        return this.httpClient.get<Thread>(`/api/threads/${id}`);
+    }
+
+    /**
+     * Creates a new thread.
+     * @param thread
+     */
+    createThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.post<Thread>(`/api/threads`, thread);
+    }
+
+    /**
+     * Returns the thread associated to the entity specified.
+     * @param entityId
+     */
+    getThreadsByEntity(entityId: string): Observable<Thread[]> {
+        return this.httpClient
+            .get<Thread[]>(`/api/threads/entity/${entityId}`)
+            .pipe(map(threads => orderBy(['createdAt'], ['desc'], threads)));
+    }
+
+    /**
+     * Updates the thread specified.
+     * @param thread
+     */
+    updateThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.patch<Thread>(`/api/threads/${thread._id}`, [
+            { op: 'replace', path: '/title', value: thread.title },
+        ]);
+    }
+
+    /**
+     * Deletes the thread specified along its messages.
+     * @param thread
+     */
+    removeThread(thread: Thread): Observable<Thread> {
+        return this.httpClient.delete<void>(`/api/threads/${thread._id}`).pipe(map(() => thread));
+    }
+
+    // MESSAGES FUNCTIONS
+
+    /**
+     * Returns the messages associated to the thread specified.
+     * @param thread
+     */
+    getMessages(thread: Thread): Observable<Message[]> {
+        return this.httpClient
+            .get<Message[]>(`/api/threads/${thread._id}/messages`)
+            .pipe(map(messages => orderBy(['createdAt'], ['asc'], messages)));
+    }
+
+    /**
+     * Creates a new message and associates it to the thread specified.
+     * @param thread
+     * @param message
+     */
+    createMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.post<Message>(`/api/threads/${thread._id}/messages`, message);
+    }
+
+    /**
+     * Updates the body of a message.
+     * @param thread
+     * @param message
+     */
+    updateMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient.patch<Message>(`/api/threads/${thread._id}/messages/${message._id}`, [
+            { op: 'replace', path: '/body', value: message.body },
+        ]);
+    }
+
+    /**
+     * Returns the number of messages in a thread.
+     * @param thread
+     */
+    getNumMessages(thread: Thread): Observable<number> {
+        return this.httpClient
+            .get<NumberValue>(`/api/threads/${thread._id}/messages/count`)
+            .pipe(map(count => count.value));
+    }
+
+    /**
+     * Deletes the message specified.
+     * @param thread
+     * @param message
+     */
+    removeMessage(thread: Thread, message: Message): Observable<Message> {
+        return this.httpClient
+            .delete<void>(`/api/threads/${thread._id}/messages/${message._id}`)
+            .pipe(map(() => message));
+    }
+
+    // TO REVIEW
 
     getThreads(): Observable<Thread[]> {
         return this.httpClient.get<Thread[]>(`/api/threads`);
-            // .pipe(
-            //     map(threads => orderBy(['createdAt'], ['desc'], threads))
-            // );
-    }
-
-    getThreadsByEntity(entityId: string): Observable<Thread[]> {
-        return this.httpClient.get<Thread[]>(`/api/threads/entity/${entityId}`)
-            .pipe(
-                map(threads => orderBy(['createdAt'], ['desc'], threads))
-            );
-    }
-
-    createThread(thread: Thread): Observable<Thread> {
-        return this.httpClient.post<Thread>(`/api/threads/entity/${thread.entityId}`, thread);
-    }
-
-    removeThread(thread: Thread): Observable<void> {
-        return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}`);
+        // .pipe(
+        //     map(threads => orderBy(['createdAt'], ['desc'], threads))
+        // );
     }
 
     showThread(thread: Thread): void {
         let sidenavContentId = `thread:${thread._id}`;
         if (this.secondarySidenavService.getContentId() !== sidenavContentId) {
-            (<ThreadSidenavComponent>this.secondarySidenavService
-                .loadContentComponent(ThreadSidenavComponent))
-                .setThread(thread);
+            (<ThreadSidenavComponent>(
+                this.secondarySidenavService.loadContentComponent(ThreadSidenavComponent)
+            )).setThread(thread);
             this.secondarySidenavService.setContentId(sidenavContentId);
         }
         this.secondarySidenavService.open();
     }
-
-    /**
-     * Messages
-     */
-
-    getMessagesByThread(thread: Thread): Observable<Message[]> {
-        return this.httpClient.get<Message[]>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`)
-            .pipe(
-                map(messages => orderBy(['createdAt'], ['asc'], messages))
-            );
-    }
-
-    getNumMessages(thread: Thread): Observable<number> {
-        return this.httpClient.get<NumberValue>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/count`)
-            .pipe(
-                map(count => count.value)
-            );
-    }
-
-    createMessage(thread: Thread, message: Message): Observable<Message> {
-        return this.httpClient.post<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages`, message);
-    }
-
-    updateMessage(thread: Thread, message: Message): Observable<Message> {
-        return this.httpClient.patch<Message>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`,
-            [
-                { op: 'replace', path: '/body', value: message.body }
-            ]
-        );
-    }
-
-    removeMessage(thread: Thread, message: Message): Observable<void> {
-        return this.httpClient.delete<void>(`/api/threads/entity/${thread.entityId}/${thread._id}/messages/${message._id}`);
-    }
-
-
 
     // getThreads(query?: {}): Observable<Thread[]> {
     //     return this.httpClient.get<Thread[]>(`/api/messages/threads${stringifyQuery(query)}`)
@@ -103,12 +141,6 @@ export class MessagingService {
     //             map(threads => orderBy(['updatedAt'], ['desc'], threads))
     //         );
     // }
-
-
-
-
-
-
 
     // updateThread(thread: Thread): Observable<Thread> {
     //     return this.httpClient.patch<Thread>(`/api/messages/threads/${thread._id}`,
@@ -119,8 +151,6 @@ export class MessagingService {
     //         ]
     //     );
     // }
-
-
 
     /**
      * Messages
@@ -208,7 +238,6 @@ export class MessagingService {
     // addReply(thread: Message, reply: Message): Observable<Message> {
     //     return this.httpClient.post<Message>(`/api/messages/${thread._id}/replies`, reply);
     // }
-
 
     // showThread(): void {
     //     this.sidenavService.toggle();

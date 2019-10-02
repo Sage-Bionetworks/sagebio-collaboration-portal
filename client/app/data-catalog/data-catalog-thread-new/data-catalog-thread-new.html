@@ -1,0 +1,12 @@
+<div class="app-primary-header">
+    <mat-icon class="app-nav-back-icon" routerLink="..">keyboard_arrow_left</mat-icon>
+    <h1>Create a New Thread</h1>
+</div>
+
+<thread-new
+    *ngIf="dataCatalogId$ | async as dataCatalogId"
+    [entityId]="dataCatalogId"
+    [entityType]="entityType"
+    (newThread)="onNewThread($event)"
+    (close)="onClose()"
+></thread-new>

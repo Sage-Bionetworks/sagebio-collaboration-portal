@@ -12,12 +12,26 @@ import { SocketService } from 'components/socket/socket.service';
 import { AppService } from '../app.service';
 
 import { DiscussionComponent } from './discussion.component';
+import { DiscussionNewComponent } from './discussion-new/discussion-new.component';
+import { AppThreadComponent } from './app-thread/app-thread.component';
 
-export const ROUTES: Routes = [{
-    path: 'discussion',
-    component: DiscussionComponent,
-    canActivate: [AuthGuard]
-}];
+export const ROUTES: Routes = [
+    {
+        path: 'discussion',
+        component: DiscussionComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'discussion/new',
+        component: DiscussionNewComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'discussion/:threadId',
+        component: AppThreadComponent,
+        canActivate: [AuthGuard],
+    },
+];
 
 @NgModule({
     imports: [
@@ -27,15 +41,10 @@ export const ROUTES: Routes = [{
         EntityModule,
         MaterialModule,
         MessagingModule,
-        RouterModule.forChild(ROUTES)
+        RouterModule.forChild(ROUTES),
     ],
-    declarations: [
-        DiscussionComponent
-    ],
-    providers: [
-        AppService,
-        SocketService
-    ],
+    declarations: [DiscussionComponent, DiscussionNewComponent, AppThreadComponent],
+    providers: [AppService, SocketService],
     exports: [],
 })
-export class DiscussionModule { }
+export class DiscussionModule {}

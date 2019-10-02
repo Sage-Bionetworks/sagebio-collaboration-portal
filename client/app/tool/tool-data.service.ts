@@ -58,7 +58,7 @@ export class ToolDataService implements OnDestroy {
     }
 
     public setTool(tool: Tool): void {
-        console.log('PROJECT IS SET TO', tool);
+        console.log('tool data service is now', tool);
         this._tool.next(tool);
         this.socketEventName = `tool:${tool._id}`;
         this.socketService.syncItemSubject(this.socketEventName, this._tool);

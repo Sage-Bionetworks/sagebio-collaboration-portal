@@ -1,39 +1,40 @@
 import mongoose from 'mongoose';
-import {
-    registerEvents
-} from './message.events';
+import { registerEvents } from './message.events';
 import User from '../../user/user.model';
+import { models as modelSpecs } from '../../../config/environment';
 
 var MessageSchema = new mongoose.Schema({
     body: {
         type: String,
-        required: true
+        required: true,
+        minlength: modelSpecs.message.body.minlength,
+        maxlength: modelSpecs.message.body.maxlength,
     },
     thread: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Thread'
+        ref: 'Thread',
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
     },
     updatedAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     __v: {
         type: Number,
-        select: false
-    }
+        select: false,
+    },
 });
 
 /**
@@ -41,6 +42,7 @@ var MessageSchema = new mongoose.Schema({
  */
 
 const autoPopulatePre = function (next) {
+    // eslint-disable-next-line no-invalid-this
     this
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
@@ -53,10 +55,11 @@ const autoPopulatePost = function (doc) {
         .populate('createdBy', User.profileProperties)
         .populate('updatedBy', User.profileProperties)
         .populate('thread');
+    // .execPopulate();
 };
 
 MessageSchema.pre('find', autoPopulatePre);
-MessageSchema.post('save', autoPopulatePost);
+MessageSchema.post('save', doc => autoPopulatePost(doc).execPopulate());
 
 registerEvents(MessageSchema, autoPopulatePost);
 export default mongoose.model('Message', MessageSchema);

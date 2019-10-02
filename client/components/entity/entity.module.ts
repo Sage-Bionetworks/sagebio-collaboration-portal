@@ -11,13 +11,12 @@ import { MessagingModule } from 'components/messaging/messaging.module';
 
 import { EntityAccessListComponent } from './entity-access-list/entity-access-list.component';
 import { EntityDangerZoneOptionsComponent } from './entity-danger-zone-options/entity-danger-zone-options.component';
-// import { EntityAttachmentsComponent } from './entity-attachments/entity-attachments.component';
-import { EntityDiscussionComponent } from './entity-discussion/entity-discussion.component';
 import { EntityListComponent } from './entity-list/entity-list.component';
 import { EntityListCardComponent } from './entity-list-card/entity-list-card.component';
 import { EntityListItemComponent } from './entity-list-item/entity-list-item.component';
 import { EntityAttachmentService } from './entity-attachment/entity-attachment.service';
 import { EntityAttachmentListComponent } from './entity-attachment/entity-attachment-list/entity-attachment-list.component';
+import { EntityThreadComponent } from './entity-thread/entity-thread.component';
 
 @NgModule({
     imports: [
@@ -35,22 +34,18 @@ import { EntityAttachmentListComponent } from './entity-attachment/entity-attach
     declarations: [
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
-        // EntityAttachmentsComponent,
-        EntityDiscussionComponent,
         EntityListComponent,
         EntityListCardComponent,
         EntityListItemComponent,
         EntityAttachmentListComponent,
+        EntityThreadComponent
     ],
     exports: [
         EntityAccessListComponent,
         EntityDangerZoneOptionsComponent,
-        // EntityAttachmentsComponent,
-        EntityDiscussionComponent,
         EntityListComponent,
-        // EntityListItemComponent
-        // EntityViewComponent
         EntityAttachmentListComponent,
+        EntityThreadComponent
     ],
 })
 export class EntityModule {}

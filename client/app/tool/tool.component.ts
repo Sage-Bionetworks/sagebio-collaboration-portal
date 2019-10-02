@@ -6,15 +6,13 @@ import { Tool } from 'models/entities/tool.model';
 import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
+import { ToolHeaderService } from './tool-header/tool-header.service';
 
 @Component({
     selector: 'tool',
     template: require('./tool.html'),
     styles: [require('./tool.scss')],
-    providers: [
-        ToolDataService,
-        ToolSidenavService
-    ],
+    providers: [ToolDataService, ToolHeaderService, ToolSidenavService],
 })
 export class ToolComponent implements OnInit {
     private tool$: Observable<Tool>; // used in html
@@ -25,8 +23,7 @@ export class ToolComponent implements OnInit {
         private toolService: ToolService,
         private toolDataService: ToolDataService,
         private toolSidenavService: ToolSidenavService // used in html
-    )
-    {}
+    ) {}
 
     ngOnInit() {
         const getTool = this.route.params.pipe(

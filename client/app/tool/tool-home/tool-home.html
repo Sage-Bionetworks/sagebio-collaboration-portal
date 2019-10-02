@@ -42,7 +42,7 @@
                                 <button
                                     ngxClipboard
                                     [cbContent]="getLink()"
-                                    (cbOnSuccess)="notificationService.info('Link copied')"
+                                    (cbOnSuccess)="notificationService.info('Link successfully copied')"
                                     (cbOnError)="notificationService.info('Unable to copy the link.')"
                                     mat-menu-item
                                     aria-label="Copy link"
@@ -69,7 +69,6 @@
                     </div>
                     <div class="app-tool-button-actions">
                         <a mat-raised-button color="primary" (click)="openTool(tool)" target="_blank">Open Tool</a>
-                        <a mat-raised-button color="primary" [routerLink]="'../discussion'">Discuss</a>
                     </div>
                     </div>
         </mat-card>

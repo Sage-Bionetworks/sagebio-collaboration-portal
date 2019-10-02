@@ -26,6 +26,11 @@ import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
+import { MessagingModule } from 'components/messaging/messaging.module';
+import { ToolHeaderComponent } from './tool-header/tool-header.component';
+import { ToolHeaderService } from './tool-header/tool-header.service';
+import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
+import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
 
 export const ROUTES: Routes = [
     {
@@ -47,6 +52,8 @@ export const ROUTES: Routes = [
             { path: 'home', component: ToolHomeComponent },
             { path: 'activity', component: ToolActivityComponent },
             { path: 'discussion', component: ToolDiscussionComponent },
+            { path: 'discussion/new', component: ToolThreadNewComponent },
+            { path: 'discussion/:threadId', component: EntityThreadComponent },
             { path: 'settings', component: ToolSettingsComponent },
         ],
     },
@@ -65,6 +72,7 @@ export const ROUTES: Routes = [
         DirectivesModule,
         ShareModule,
         ClipboardModule,
+        MessagingModule,
     ],
     declarations: [
         ToolComponent,
@@ -77,8 +85,10 @@ export const ROUTES: Routes = [
         ToolSettingsComponent,
         ToolSidenavComponent,
         ToolViewComponent,
+        ToolHeaderComponent,
+        ToolThreadNewComponent
     ],
-    providers: [SocketService, ToolService, ToolDataService, ToolSidenavService],
+    providers: [SocketService, ToolService, ToolDataService, ToolSidenavService, ToolHeaderService],
     exports: [],
 })
 export class ToolModule {}

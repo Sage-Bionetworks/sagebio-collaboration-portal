@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap } from 'rxjs/operators';
 import { ObjectValidators } from 'components/validation/object-validators';
 import { Thread } from 'models/messaging/thread.model';
@@ -19,78 +19,78 @@ export class ThreadNewComponent implements OnInit {
     @Output() newThread: EventEmitter<Thread> = new EventEmitter<Thread>();
     @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-    private messageSpecs: {};
+    private threadSpecs: any;
+    private messageSpecs: any;
     private form: FormGroup;
     private errors = {
-        createNewThread: undefined
+        newThread: undefined,
     };
 
     static parameters = [FormBuilder, MessagingService];
     constructor(private formBuilder: FormBuilder, private messagingService: MessagingService) {
-
+        this.threadSpecs = config.models.thread;
         this.messageSpecs = config.models.message;
         this.form = this.formBuilder.group({
-            title: ['', [
-                Validators.required,
-                ObjectValidators.jsonStringifyMinLength(config.models.message.title.minlength),
-                ObjectValidators.jsonStringifyMaxLength(config.models.message.title.maxlength)
-            ]],
-            body: ['', [
-                Validators.required,
-                ObjectValidators.jsonStringifyMinLength(config.models.message.body.minlength),
-                ObjectValidators.jsonStringifyMaxLength(config.models.message.body.maxlength)
-            ]]
+            title: [
+                '',
+                [
+                    Validators.required,
+                    Validators.minLength(this.threadSpecs.title.minlength),
+                    Validators.maxLength(this.threadSpecs.title.maxlength),
+                ],
+            ],
+            body: [
+                '',
+                [
+                    Validators.required,
+                    ObjectValidators.jsonStringifyMinLength(this.messageSpecs.body.minlength),
+                    ObjectValidators.jsonStringifyMaxLength(this.messageSpecs.body.maxlength),
+                ],
+            ],
         });
     }
 
-    ngOnInit() {
-        this.form
-            .controls
-            .body
-            .valueChanges.pipe(
-                debounceTime(50),
-                distinctUntilChanged()
-            )
-            .subscribe((data) => {
-                this.errors.createNewThread = undefined;
-            });
-    }
+    ngOnInit() {}
 
     createThread(): void {
-        let newThread = this.form.value;
-        newThread.entityId = this.entityId;
-        newThread.entityType = this.entityType;
+        let newThread = {
+            title: this.form.controls.title.value,
+            entityId: this.entityId,
+            entityType: this.entityType,
+        };
 
-        let threadFromBackend: Thread;
-        this.messagingService.createThread(newThread)
+        this.messagingService
+            .createThread(newThread)
             .pipe(
-                tap(thread => threadFromBackend = thread),
-                switchMap(thread => this.createMessage(thread)
-                    .pipe(
-                        catchError(err => {
-                            console.error(`Unable to add message to thread: ${thread._id}`, err);
-                            this.errors.createNewThread = err;
-                            return of(<Message>{});
-                        })
-                    )
+                switchMap(thread =>
+                    forkJoin({
+                        thread: of(thread),
+                        message: this.createMessage(thread).pipe(
+                            catchError(err => {
+                                // TODO Delete thread if message is empty
+                                console.error(`Unable to add message to thread: ${thread._id}`, err);
+                                this.errors.newThread = err;
+                                return of(<Message>{});
+                            })
+                        ),
+                    })
                 )
             )
-            .subscribe(message => {
-                // TODO Delete thread if message is empty
-                this.newThread.emit(threadFromBackend);
-            }, err => {
-                console.error('Unable to create thread', err);
-                this.errors.createNewThread = err;
-            });
+            .subscribe(
+                (res: any) => {
+                    this.newThread.emit(res.thread);
+                },
+                err => {
+                    console.error('Unable to create thread', err);
+                    this.errors.newThread = err;
+                }
+            );
     }
 
     createMessage(thread: Thread): Observable<Message> {
-        let newMessage = this.form.value;
-        newMessage.body = JSON.stringify(this.form.get('body').value);
+        let newMessage = {
+            body: JSON.stringify(this.form.controls.body.value),
+        };
         return this.messagingService.createMessage(thread, newMessage);
-    }
-
-    discard(): void {
-        this.close.emit(null);
     }
 }
