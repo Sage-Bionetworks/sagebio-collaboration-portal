@@ -1,3 +1,4 @@
+import { ToolAuthorizationService } from './../tool-authorization.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -15,6 +16,7 @@ import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
 import config from '../../app.constants';
 import { TokenService } from 'components/auth/token.service';
+import { ToolAuthorization } from '../tool-authorization.service';
 
 @Component({
     selector: 'tool-home',
@@ -27,9 +29,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
 
-    private canEditTool = true;
-    private canDeleteTool = false;
-    private userPermissionsSub: Subscription;
+    private toolAuthorization: ToolAuthorization;
+    private toolAuthorizationSub: Subscription;
+
     private entityType = config.entityTypes.TOOL.value;
 
     static parameters = [
@@ -37,6 +39,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         ActivatedRoute,
         PageTitleService,
         ToolService,
+        ToolAuthorizationService,
         ToolDataService,
         UserPermissionDataService,
         NotificationService,
@@ -48,20 +51,24 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private pageTitleService: PageTitleService,
         private toolService: ToolService,
+        private toolAuthorizationService: ToolAuthorizationService,
         private toolDataService: ToolDataService,
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
         private dialog: MatDialog,
         private tokenService: TokenService
-    ) {
-        this.tool$ = this.toolDataService.tool();
-        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
-            // this.canEditTool = permissions.canEditTool();
-            // this.canDeleteTool = permissions.canDeleteTool();
-        });
-    }
+    ) {}
 
     ngOnInit() {
+        this.tool$ = this.toolDataService.tool();
+
+        this.toolAuthorizationSub = this.toolAuthorizationService.authorization().subscribe(
+            auth => {
+                this.toolAuthorization = auth;
+            },
+            err => console.error(err)
+        );
+
         // const getTool = this.toolDataService.tool();
 
         // const getToolHealth = this.tool$.pipe(  // TODO To review
@@ -89,7 +96,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.userPermissionsSub.unsubscribe();
+        if (this.toolAuthorizationSub) {
+            this.toolAuthorizationSub.unsubscribe();
+        }
     }
 
     onEditTool(tool: Tool): void {

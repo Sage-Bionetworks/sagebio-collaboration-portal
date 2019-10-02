@@ -1,3 +1,4 @@
+import { ToolAuthorization } from './../tool-authorization.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,8 +15,8 @@ import { ToolAuthorizationService } from '../tool-authorization.service';
     styles: [require('./tool-list.scss')],
 })
 export class ToolListComponent implements OnInit, OnDestroy {
-    private canCreateTool = false; // used in html
-    private canCreateToolSub: Subscription;
+    private toolAuthorization: ToolAuthorization;
+    private toolAuthorizationSub: Subscription;
 
     static parameters = [Router, PageTitleService, NotificationService, ToolService, ToolAuthorizationService];
     constructor(
@@ -28,17 +29,17 @@ export class ToolListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.pageTitleService.title = 'Tools';
-        this.canCreateToolSub = this.toolAuthorizationService.authorization().subscribe(
+        this.toolAuthorizationSub = this.toolAuthorizationService.authorization().subscribe(
             auth => {
-                this.canCreateTool = auth.canCreate;
+                this.toolAuthorization = auth;
             },
             err => console.error(err)
         );
     }
 
     ngOnDestroy() {
-        if (this.canCreateToolSub) {
-            this.canCreateToolSub.unsubscribe();
+        if (this.toolAuthorizationSub) {
+            this.toolAuthorizationSub.unsubscribe();
         }
     }
 
@@ -49,7 +50,7 @@ export class ToolListComponent implements OnInit, OnDestroy {
     }
 
     newTool(): void {
-        if (this.canCreateTool) {
+        if (this.toolAuthorization.canCreate) {
             this.router.navigate(['/', 'tools', 'new']);
         } else {
             this.notificationService.info('Not available to Users yet.');

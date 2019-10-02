@@ -6,7 +6,7 @@
         class="app-tool-list-new-tool-btn"
         (click)="newTool()"
         aria-label="Create a new tool"
-        ><mat-icon class="app-tool-list-new-tool-btn-icon" *ngIf="!canCreateTool">lock</mat-icon> New Tool</a
+        ><mat-icon class="app-tool-list-new-tool-btn-icon" *ngIf="!toolAuthorization.canCreate">lock</mat-icon> New Tool</a
     >
 </div>
 

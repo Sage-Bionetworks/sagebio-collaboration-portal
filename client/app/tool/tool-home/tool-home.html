@@ -28,60 +28,46 @@
                 </div>
             </div>
             <div class="tool-actions">
-                    <div class="app-tool-icon-actions">
-                            <share-button [entity]="tool" [entityType]="entityType"></share-button>
-                            <a
-                                mat-icon-button
-                                [matMenuTriggerFor]="moreActionsMenu"
-                                matTooltip="More actions"
-                                aria-label="More actions"
-                            >
-                                <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
-                            </a>
-                            <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                                <button
-                                    ngxClipboard
-                                    [cbContent]="getLink()"
-                                    (cbOnSuccess)="notificationService.info('Link successfully copied')"
-                                    (cbOnError)="notificationService.info('Unable to copy the link.')"
-                                    mat-menu-item
-                                    aria-label="Copy link"
-                                >
-                                    <span>Copy Link</span>
-                                </button>
-                                <mat-divider></mat-divider>
-                                <button
-                                    mat-menu-item
-                                    [attr.aria-label]="'Edit'"
-                                    *ngIf="canEditTool"
-                                    (click)="showEditToolTemplate=true"
-                                >
-                                    <span>Edit</span>
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    [attr.aria-label]="'Delete'"
-                                    disabled
-                                >
-                                    <span class="app-tool-actions-delete-btn-label">Delete</span>
-                                </button>
-                            </mat-menu>
-                    </div>
-                    <div class="app-tool-button-actions">
-                        <a mat-raised-button color="primary" (click)="openTool(tool)" target="_blank">Open Tool</a>
-                    </div>
-                    </div>
+                <div class="app-tool-icon-actions">
+                    <share-button [entity]="tool" [entityType]="entityType"></share-button>
+                    <a
+                        mat-icon-button
+                        [matMenuTriggerFor]="moreActionsMenu"
+                        matTooltip="More actions"
+                        aria-label="More actions"
+                    >
+                        <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                    </a>
+                    <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                        <button
+                            ngxClipboard
+                            [cbContent]="getLink()"
+                            (cbOnSuccess)="notificationService.info('Link successfully copied')"
+                            (cbOnError)="notificationService.info('Unable to copy the link.')"
+                            mat-menu-item
+                            aria-label="Copy link"
+                        >
+                            <span>Copy Link</span>
+                        </button>
+                        <mat-divider *ngIf="toolAuthorization.canWrite"></mat-divider>
+                        <button
+                            mat-menu-item
+                            aria-label="Edit Tool"
+                            *ngIf="toolAuthorization.canWrite"
+                            (click)="showEditToolTemplate = true"
+                        >
+                            <span>Edit Tool</span>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="app-tool-button-actions">
+                    <a mat-raised-button color="primary" (click)="openTool(tool)" target="_blank">Open Tool</a>
+                </div>
+            </div>
         </mat-card>
     </div>
 
     <ng-template #showEditToolForm>
-        <tool-edit
-            [tool]="tool"
-            (editTool)="onEditTool($event)"
-            (close)="showEditToolTemplate = false"
-        ></tool-edit>
+        <tool-edit [tool]="tool" (editTool)="onEditTool($event)" (close)="showEditToolTemplate = false"></tool-edit>
     </ng-template>
 </div>
-
-
-
