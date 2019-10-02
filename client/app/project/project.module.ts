@@ -40,13 +40,14 @@ import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
 import { ProjectHeaderService } from './project-header/project-header.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
-import { ProjectGuard } from './project-guard.service';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
+import { ProjectAuthorizationGuard, ProjectAuthorizationTypes } from './project-authorization-guard.service';
+import { ProjectAuthorizationService } from './project-authorization.service';
 
 export const ROUTES: Routes = [
     {
@@ -57,12 +58,13 @@ export const ROUTES: Routes = [
     {
         path: 'projects/new',
         component: ProjectNewComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ProjectAuthorizationGuard],
+        data: { authorization: ProjectAuthorizationTypes.CREATE },
     },
     {
         path: 'projects/:id',
         component: ProjectComponent,
-        canActivate: [AuthGuard, ProjectGuard],
+        canActivate: [AuthGuard],
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ProjectHomeComponent },
@@ -107,9 +109,10 @@ export const ROUTES: Routes = [
         // ToolService,
         ProjectService,
         ProjectDataService,
+        ProjectAuthorizationService,
+        ProjectAuthorizationGuard,
         ProjectHeaderService,
         ProjectSidenavService,
-        ProjectGuard,
         InsightService,
         ResourceService,
     ],

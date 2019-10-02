@@ -7,14 +7,14 @@ import config from '../app.constants';
 export interface ToolAuthorization {
     canCreate: boolean;
     canRead: boolean;
-    canWrite: boolean;
+    canEdit: boolean;
     canAdmin: boolean;
 }
 
 const DEFAULT_AUTHORIZATION: ToolAuthorization = {
     canCreate: false,
     canRead: false,
-    canWrite: false,
+    canEdit: false,
     canAdmin: false,
 };
 
@@ -38,7 +38,7 @@ export class ToolAuthorizationService implements OnDestroy {
                 toolAuth.canCreate =
                     auth.isAdmin() || auth.hasActionPermission(config.actionPermissionTypes.CREATE_TOOL.value);
                 toolAuth.canRead = true;
-                toolAuth.canWrite = tool && auth.canWriteEntity(tool._id, entityType);
+                toolAuth.canEdit = tool && auth.canWriteEntity(tool._id, entityType);
                 toolAuth.canAdmin = tool && auth.canAdminEntity(tool._id, entityType);
 
                 this.authorization_.next(toolAuth);

@@ -55,7 +55,7 @@ router.get('/', auth.isAuthenticated(), controller.index);
  *       '404':
  *         description: Tool not found
  */
-router.get('/:id', toolAuth.canReadTool(), controller.show);
+router.get('/:id', toolAuth.canRead(), controller.show);
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.get('/:id', toolAuth.canReadTool(), controller.show);
  *       '400':
  *         description: Invalid Tool
  */
-router.post('/', toolAuth.canCreateTool(), controller.create);
+router.post('/', toolAuth.canCreate(), controller.create);
 
 /**
  * @swagger
@@ -111,7 +111,7 @@ router.post('/', toolAuth.canCreateTool(), controller.create);
  *       '404':
  *         description: Tool not found
  */
-router.patch('/:id', toolAuth.canEditTool(), controller.patch); // TODO Sanitize patches
+router.patch('/:id', toolAuth.canEdit(), controller.patch); // TODO Sanitize patches
 
 /**
  * @swagger
@@ -139,6 +139,6 @@ router.patch('/:id', toolAuth.canEditTool(), controller.patch); // TODO Sanitize
  *       '404':
  *         description: Tool not found
  */
-router.delete('/:id', toolAuth.canDeleteTool(), controller.destroy);
+router.delete('/:id', toolAuth.canDelete(), controller.destroy);
 
 module.exports = router;

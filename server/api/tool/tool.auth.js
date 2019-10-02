@@ -3,35 +3,40 @@ import { entityTypes, accessTypes, actionPermissionTypes } from '../../config/en
 import Tool from './tool.model';
 
 /**
- * Resolves as true if the tool is public OR if the user has at least the
- * entity permission READ for the tool.
+ * Resolves as true if the user can read the Tool.
  */
-export function canReadTool() {
-    return auth.canReadEntity(
-        auth.attachEntityAuthorizationDetails(Tool, entityTypes.TOOL.value),
-        Object.values(accessTypes).map(access => access.value)
-    );
+export function canRead() {
+    return auth.isAuthenticated();
+    // TODO for now anyone can read a Tool
+    // return auth.canReadEntity(
+    //     auth.attachEntityAuthorizationDetails(Tool, entityTypes.TOOL.value),
+    //     Object.values(accessTypes).map(access => access.value)
+    // );
 }
 
 /**
- * Resolves as true if the user has the action permission CREATE_TOOL.
+ * Resolves as true if the user can create a new Tool.
  */
-export function canCreateTool() {
+export function canCreate() {
+    // return auth.canReadEntity(
+    //     auth.attachEntityAuthorizationDetails(Tool, entityTypes.TOOL.value),
+    //     Object.values(accessTypes).map(access => access.value)
+    // );
     return auth.hasUserPermission(actionPermissionTypes.CREATE_TOOL.value);
 }
 
 /**
  * Resolves as true if the user has the entity permission ADMIN for the tool.
  */
-export function canEditTool() {
-    return canAdminTool();
+export function canEdit() {
+    return canAdmin();
 }
 
 /**
  * Resolves as true if the user has the entity permission ADMIN for the tool.
  */
-export function canDeleteTool() {
-    return canAdminTool();
+export function canDelete() {
+    return canAdmin();
 }
 
 // HELPER FUNCTIONS
@@ -39,9 +44,8 @@ export function canDeleteTool() {
 /**
  * Resolves as true if the user has the entity permission ADMIN for the tool.
  */
-export function canAdminTool() {
-    return auth.hasEntityPermission(
-        auth.attachEntityAuthorizationDetails(Tool, entityTypes.TOOL.value),
-        [accessTypes.ADMIN.value]
-    );
+export function canAdmin() {
+    return auth.hasEntityPermission(auth.attachEntityAuthorizationDetails(Tool, entityTypes.TOOL.value), [
+        accessTypes.ADMIN.value,
+    ]);
 }

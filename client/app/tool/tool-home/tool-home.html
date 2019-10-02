@@ -49,11 +49,11 @@
                         >
                             <span>Copy Link</span>
                         </button>
-                        <mat-divider *ngIf="toolAuthorization.canWrite"></mat-divider>
+                        <mat-divider *ngIf="toolAuthorization.canEdit"></mat-divider>
                         <button
                             mat-menu-item
                             aria-label="Edit Tool"
-                            *ngIf="toolAuthorization.canWrite"
+                            *ngIf="toolAuthorization.canEdit"
                             (click)="showEditToolTemplate = true"
                         >
                             <span>Edit Tool</span>
