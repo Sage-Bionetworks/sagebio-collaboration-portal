@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Tool } from 'models/entities/tool.model';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { Tool } from 'models/entities/tool.model';
 import { ToolService } from '../tool.service';
 
 @Component({
@@ -10,8 +11,9 @@ import { ToolService } from '../tool.service';
     template: require('./tool-list.html'),
     styles: [require('./tool-list.scss')],
 })
-export class ToolListComponent implements OnInit {
+export class ToolListComponent implements OnInit, OnDestroy {
     private canCreateTool = false; // used in html
+    private canCreateToolSub: Subscription;
 
     static parameters = [Router, PageTitleService, UserPermissionDataService, ToolService];
     constructor(
@@ -23,12 +25,15 @@ export class ToolListComponent implements OnInit {
 
     ngOnInit() {
         this.pageTitleService.title = 'Tools';
-        this.permissionDataService
+        this.canCreateToolSub = this.permissionDataService
             .permissions()
-            .subscribe(
-                permissions => (this.canCreateTool = permissions.canCreateTool()),
-                err => console.error(err)
-            ); // unsubscribe in destructor
+            .subscribe(permissions => (this.canCreateTool = permissions.canCreateTool()), err => console.error(err));
+    }
+
+    ngOnDestroy() {
+        if (this.canCreateToolSub) {
+            this.canCreateToolSub.unsubscribe();
+        }
     }
 
     onEntityClick(tool: Tool) {

@@ -13,7 +13,7 @@ import { UserPermissionDataService, UserPermissions } from 'components/auth/user
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
-import config from "../../app.constants";
+import config from '../../app.constants';
 import { TokenService } from 'components/auth/token.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     private canEditTool = true;
     private canDeleteTool = false;
     private userPermissionsSub: Subscription;
-    private entityType = config.entityTypes.TOOL.value
+    private entityType = config.entityTypes.TOOL.value;
 
     static parameters = [
         Router,
@@ -41,7 +41,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         UserPermissionDataService,
         NotificationService,
         MatDialog,
-        TokenService
+        TokenService,
     ];
     constructor(
         private router: Router,
