@@ -113,6 +113,10 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     }
 
     openTool(tool: Tool): void {
-        window.open(`${tool.website}?portal_token=${this.tokenService.get()}`, '_blank');
+        if (tool._id === '5cb7acb3167e4f14b29dfb1b') { // TODO To remove when developing way to interact with tools
+            window.open(`${tool.website}?portal_token=${this.tokenService.get()}`, '_blank');
+        } else {
+            window.open(tool.website, '_blank');
+        }
     }
 }
