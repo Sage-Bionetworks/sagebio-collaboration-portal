@@ -7,12 +7,13 @@ import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
 import { ProjectHeaderService } from './project-header/project-header.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
+import { ProjectAuthorizationService } from './project-authorization.service';
 
 @Component({
     selector: 'project',
     template: require('./project.html'),
     styles: [require('./project.scss')],
-    providers: [ProjectDataService, ProjectHeaderService, ProjectSidenavService],
+    providers: [ProjectDataService, ProjectAuthorizationService, ProjectHeaderService, ProjectSidenavService],
 })
 export class ProjectComponent implements OnInit {
     private project$: Observable<Project>; // used in html

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ToolSidenavItem } from './models/tool-sidenav-item.model';
 import { ToolAuthorizationService } from '../tool-authorization.service';
 

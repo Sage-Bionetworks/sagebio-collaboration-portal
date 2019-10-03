@@ -1,8 +1,7 @@
+import { ProjectAuthorizationService } from './../project-authorization.service';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ProjectSidenavItem } from './models/project-sidenav-item.model';
-import { ProjectDataService } from '../project-data.service';
 
 const enum itemTitles {
     HOME = 'Home',
@@ -15,9 +14,9 @@ const enum itemTitles {
 
 @Injectable()
 export class ProjectSidenavService implements OnDestroy {
-    private _opened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-    private _mode: BehaviorSubject<string> = new BehaviorSubject<string>('side');
-    private _items: BehaviorSubject<ProjectSidenavItem[]> = new BehaviorSubject<ProjectSidenavItem[]>([{
+    private opened_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    private mode_: BehaviorSubject<string> = new BehaviorSubject<string>('side');
+    private items_: BehaviorSubject<ProjectSidenavItem[]> = new BehaviorSubject<ProjectSidenavItem[]>([{
         title: itemTitles.HOME,
         icon: 'dashboard',
         routerLink: ['home'],
@@ -55,27 +54,32 @@ export class ProjectSidenavService implements OnDestroy {
         visible: false
     }]);
 
-    static parameters = [ProjectDataService];
-    constructor(private projectDataService: ProjectDataService) {
-      this.projectDataService.userPermission()
-          .subscribe(userPermission => {
-              let items = this._items.getValue();
-              items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
-              this._items.next(items);
-          });
+    private sub: Subscription;
+
+    static parameters = [ProjectAuthorizationService];
+    constructor(private projectAuthorizationService: ProjectAuthorizationService) {
+        this.sub = this.projectAuthorizationService.authorization().subscribe(auth => {
+            let items = this.items_.getValue();
+            items.find(item => item.title === itemTitles.SETTINGS).visible = auth.canAdmin;
+            this.items_.next(items);
+        });
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+    }
 
     opened(): Observable<boolean> {
-        return this._opened.asObservable();
+        return this.opened_.asObservable();
     }
 
     mode(): Observable<string> {
-        return this._mode.asObservable();
+        return this.mode_.asObservable();
     }
 
     items(): Observable<ProjectSidenavItem[]> {
-        return this._items.asObservable();
+        return this.items_.asObservable();
     }
 }

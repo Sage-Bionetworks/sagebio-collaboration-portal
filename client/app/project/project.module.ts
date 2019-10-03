@@ -78,7 +78,12 @@ export const ROUTES: Routes = [
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'discussion/new', component: ProjectThreadNewComponent },
             { path: 'discussion/:threadId', component: EntityThreadComponent },
-            { path: 'settings', component: ProjectSettingsComponent },
+            {
+                path: 'settings',
+                component: ProjectSettingsComponent,
+                canActivate: [ProjectGuard],
+                data: { authorization: ProjectAuthorizationTypes.ADMIN },
+            },
         ],
     },
 ];

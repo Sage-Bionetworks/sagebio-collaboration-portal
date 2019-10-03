@@ -22,7 +22,7 @@ export class ProjectAuthorizationService implements OnDestroy {
         private userPermissionDataService: UserPermissionDataService,
         private projectDataService: ProjectDataService
     ) {
-        const entityType = config.entityTypes.TOOL.value;
+        const entityType = config.entityTypes.PROJECT.value;
         this.authorizationSub = combineLatest(
             this.projectDataService.project(),
             this.userPermissionDataService.permissions()
@@ -41,6 +41,8 @@ export class ProjectAuthorizationService implements OnDestroy {
                 projectAuth.canRead = project && auth.canReadEntity(project._id, entityType);
                 projectAuth.canEdit = project && auth.canWriteEntity(project._id, entityType);
                 projectAuth.canAdmin = project && auth.canAdminEntity(project._id, entityType);
+
+                console.log('PROJECT AUTH', projectAuth);
 
                 this.authorization_.next(projectAuth);
             });
