@@ -22,7 +22,7 @@ export class ProjectListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.pageTitleService.title = 'Projects';
+        this.pageTitleService.setTitle('Projects');
         this.permissionDataService
             .permissions()
             .subscribe(

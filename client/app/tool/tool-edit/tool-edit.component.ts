@@ -61,7 +61,7 @@ export class ToolEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Edit Tool';
+        this.pageTitleService.setTitle('Edit Tool');
         if (this.tool) {
             this.editForm.setValue({
                 title: this.tool.title,

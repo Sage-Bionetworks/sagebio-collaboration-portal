@@ -47,7 +47,7 @@ export class DatasetListComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Datasets';
+        this.pageTitleService.setTitle('Datasets');
     }
 
     ngAfterViewInit() {

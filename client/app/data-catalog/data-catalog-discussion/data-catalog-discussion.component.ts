@@ -31,7 +31,7 @@ export class DataCatalogDiscussionComponent implements OnInit {
         getCatalog.subscribe(
             catalog => {
                 this.catalog = catalog;
-                this.pageTitleService.title = `${catalog.title} - Discussion`;
+                this.pageTitleService.setTitle(`${catalog.title} - Discussion`);
             },
             err => console.error(err)
         );

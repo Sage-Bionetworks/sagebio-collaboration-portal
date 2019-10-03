@@ -66,7 +66,7 @@ export class DataCatalogComponent implements OnInit {
             .subscribe(([catalog, stats]) => {
                 this.catalogStats = stats;
                 this.dataCatalog = catalog;
-                this.pageTitleService.title = catalog.title;
+                this.pageTitleService.setTitle(catalog.title);
             });
     }
 

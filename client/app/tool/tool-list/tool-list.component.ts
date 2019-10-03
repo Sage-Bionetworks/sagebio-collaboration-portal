@@ -22,7 +22,7 @@ export class ToolListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.pageTitleService.title = 'Tools';
+        this.pageTitleService.setTitle('Tools');
         this.permissionDataService
             .permissions()
             .subscribe(

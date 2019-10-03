@@ -53,7 +53,7 @@ export class ProjectNewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'New Project';
+        this.pageTitleService.setTitle('New Project');
     }
 
     createNewProject(): void {

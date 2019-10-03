@@ -34,7 +34,7 @@ export class ProjectInsightsComponent implements OnInit, OnDestroy {
             project => {
                 if (project) {
                     this.project = project;
-                    this.pageTitleService.title = `${project.title} - Insights`;
+                    this.pageTitleService.setTitle(`${project.title} - Insights`);
                 }
             },
             err => console.error(err)

@@ -53,7 +53,7 @@ export class DatasetComponent implements OnInit, OnDestroy {
             .subscribe(dataset => {
                 this.resources = dataset.resources;
                 this.dataset = dataset;
-                this.pageTitleService.title = dataset.title;
+                this.pageTitleService.setTitle(dataset.title);
             });
     }
 

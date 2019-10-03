@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Settings';
+        this.pageTitleService.setTitle('Settings');
     }
 
     changePassword(): void {

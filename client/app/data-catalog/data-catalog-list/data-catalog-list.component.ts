@@ -22,7 +22,7 @@ export class DataCatalogListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.pageTitleService.title = 'Data Catalogs';
+        this.pageTitleService.setTitle('Data Catalogs');
         this.permissionDataService
             .permissions()
             .subscribe(
