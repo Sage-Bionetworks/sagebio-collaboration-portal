@@ -13,8 +13,8 @@ import { NotificationService } from 'components/notification/notification.servic
     styles: [require('./project-list.scss')],
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
-    private authorization: ProjectAuthorization;
-    private authorizationSub: Subscription;
+    private projectAuthorization: ProjectAuthorization;
+    private projectAuthorizationSub: Subscription;
 
     static parameters = [Router, PageTitleService, NotificationService, ProjectService, ProjectAuthorizationService];
     constructor(
@@ -27,17 +27,17 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.pageTitleService.title = 'Projects';
-        this.authorizationSub = this.projectAuthorizationService.authorization().subscribe(
+        this.projectAuthorizationSub = this.projectAuthorizationService.authorization().subscribe(
             auth => {
-                this.authorization = auth;
+                this.projectAuthorization = auth;
             },
             err => console.error(err)
         );
     }
 
     ngOnDestroy() {
-        if (this.authorizationSub) {
-            this.authorizationSub.unsubscribe();
+        if (this.projectAuthorizationSub) {
+            this.projectAuthorizationSub.unsubscribe();
         }
     }
 
@@ -48,7 +48,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
 
     newProject(): void {
-        if (this.authorization.canCreate) {
+        if (this.projectAuthorization.canCreate) {
             this.router.navigate(['/', 'projects', 'new']);
         } else {
             this.notificationService.info(`You don't have permission to create a Project.`);
