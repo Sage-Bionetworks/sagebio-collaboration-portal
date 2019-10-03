@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { ToolDataService } from './tool-data.service';
 import config from '../app.constants';
+import { filter } from 'rxjs/operators';
 
 export interface ToolAuthorization {
     canCreate: boolean;
@@ -11,18 +12,9 @@ export interface ToolAuthorization {
     canAdmin: boolean;
 }
 
-const DEFAULT_AUTHORIZATION: ToolAuthorization = {
-    canCreate: false,
-    canRead: false,
-    canEdit: false,
-    canAdmin: false,
-};
-
 @Injectable()
 export class ToolAuthorizationService implements OnDestroy {
-    private authorization_: BehaviorSubject<ToolAuthorization> = new BehaviorSubject<ToolAuthorization>(
-        DEFAULT_AUTHORIZATION
-    );
+    private authorization_: BehaviorSubject<ToolAuthorization> = new BehaviorSubject<ToolAuthorization>(null);
     private sub: Subscription;
 
     static parameters = [UserPermissionDataService, ToolDataService];
@@ -31,9 +23,18 @@ export class ToolAuthorizationService implements OnDestroy {
         private toolDataService: ToolDataService
     ) {
         const entityType = config.entityTypes.TOOL.value;
-        this.sub = combineLatest(this.toolDataService.tool(), this.userPermissionDataService.permissions()).subscribe(
+        this.sub = combineLatest(this.toolDataService.tool(), this.userPermissionDataService.permissions())
+        .pipe(
+            filter(([tool, auth]) => !!auth)
+        )
+        .subscribe(
             ([tool, auth]) => {
-                let toolAuth = DEFAULT_AUTHORIZATION;
+                let toolAuth = {
+                    canCreate: false,
+                    canRead: false,
+                    canEdit: false,
+                    canAdmin: false,
+                };
 
                 toolAuth.canCreate =
                     auth.isAdmin() || auth.hasActionPermission(config.actionPermissionTypes.CREATE_TOOL.value);
@@ -53,6 +54,6 @@ export class ToolAuthorizationService implements OnDestroy {
     }
 
     authorization(): Observable<ToolAuthorization> {
-        return this.authorization_.asObservable();
+        return this.authorization_.asObservable().pipe(filter(auth => !!auth));
     }
 }

@@ -32,7 +32,7 @@ import { ToolHeaderService } from './tool-header/tool-header.service';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
 import { ToolAuthorizationService } from './tool-authorization.service';
-import { ToolAuthorizationGuard, ToolAuthorizationTypes } from './tool-authorization-guard.service';
+import { ToolGuard, ToolAuthorizationTypes } from './tool-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -43,13 +43,13 @@ export const ROUTES: Routes = [
     {
         path: 'tools/new',
         component: ToolNewComponent,
-        canActivate: [AuthGuard, ToolAuthorizationGuard],
+        canActivate: [AuthGuard, ToolGuard],
         data: { authorization: ToolAuthorizationTypes.CREATE },
     },
     {
         path: 'tools/:id',
         component: ToolComponent,
-        canActivate: [AuthGuard, ToolAuthorizationGuard],
+        canActivate: [AuthGuard, ToolGuard],
         data: { authorization: ToolAuthorizationTypes.READ },
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -61,7 +61,7 @@ export const ROUTES: Routes = [
             {
                 path: 'settings',
                 component: ToolSettingsComponent,
-                canActivate: [ToolAuthorizationGuard],
+                canActivate: [ToolGuard],
                 data: { authorization: ToolAuthorizationTypes.ADMIN },
             },
         ],
@@ -102,7 +102,7 @@ export const ROUTES: Routes = [
         ToolService,
         ToolDataService,
         ToolAuthorizationService,
-        ToolAuthorizationGuard,
+        ToolGuard,
         ToolSidenavService,
         ToolHeaderService,
     ],

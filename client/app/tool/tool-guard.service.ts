@@ -11,7 +11,7 @@ export enum ToolAuthorizationTypes {
 }
 
 @Injectable()
-export class ToolAuthorizationGuard implements CanActivate {
+export class ToolGuard implements CanActivate {
     static parameters = [Router, ToolAuthorizationService];
     constructor(private router: Router, private toolAuthorizationService: ToolAuthorizationService) {}
 
@@ -22,6 +22,7 @@ export class ToolAuthorizationGuard implements CanActivate {
             map(auth => {
                 switch (route.data.authorization) {
                     case ToolAuthorizationTypes.CREATE:
+                        console.log('CHECKING FOR CREATE');
                         return auth.canCreate;
                     case ToolAuthorizationTypes.READ:
                         return auth.canRead;
@@ -32,6 +33,7 @@ export class ToolAuthorizationGuard implements CanActivate {
                 }
             }),
             map(authorized => {
+                console.log('Tool Guard', authorized);
                 if (!authorized) {
                     this.router.navigate(['/', 'tools']);
                 }

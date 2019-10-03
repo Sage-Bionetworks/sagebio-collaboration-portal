@@ -47,11 +47,6 @@ export class UserPermissions {
         );
     }
 
-
-
-
-
-
     private getEntityUserAccess(entityId: string, entityType: string): string {
         let permission = find(
             {
@@ -114,9 +109,7 @@ export class UserPermissions {
 export class UserPermissionDataService {
     static UNKNOWN_PERMISSIONS = new UserPermissions(null, [], []);
 
-    private _permissions: BehaviorSubject<UserPermissions> = new BehaviorSubject<UserPermissions>(
-        UserPermissionDataService.UNKNOWN_PERMISSIONS
-    );
+    private _permissions: BehaviorSubject<UserPermissions> = new BehaviorSubject<UserPermissions>(null);
 
     static parameters = [AuthService, UserService, ActionPermissionService, EntityPermissionService, SocketService];
     constructor(
@@ -205,7 +198,7 @@ export class UserPermissionDataService {
      * @return {Observable<UserPermissions>}
      */
     permissions(): Observable<UserPermissions> {
-        return this._permissions.asObservable();
+        return this._permissions.asObservable().pipe(filter(auth => !!auth));
     }
 
     acceptEntityPermission(invite: EntityPermission): Observable<EntityPermission> {
