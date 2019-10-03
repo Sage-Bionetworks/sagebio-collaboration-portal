@@ -207,7 +207,11 @@ export class EntityAttachmentListComponent<E extends Entity> implements OnInit, 
                 atta.parentEntityId = entity._id; // TODO: must be set by the backend
                 return atta;
             });
-            return this.entityService.createAttachments(entity, attachments);
+            if (attachments.length > 0) {
+                return this.entityService.createAttachments(entity, attachments);
+            } else {
+                return of<EntityAttachment[]>([]);
+            }
         }
     }
 
