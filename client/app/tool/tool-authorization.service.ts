@@ -15,7 +15,7 @@ export interface ToolAuthorization {
 @Injectable()
 export class ToolAuthorizationService implements OnDestroy {
     private authorization_: BehaviorSubject<ToolAuthorization> = new BehaviorSubject<ToolAuthorization>(null);
-    private sub: Subscription;
+    private authorizationSub: Subscription;
 
     static parameters = [UserPermissionDataService, ToolDataService];
     constructor(
@@ -23,12 +23,9 @@ export class ToolAuthorizationService implements OnDestroy {
         private toolDataService: ToolDataService
     ) {
         const entityType = config.entityTypes.TOOL.value;
-        this.sub = combineLatest(this.toolDataService.tool(), this.userPermissionDataService.permissions())
-        .pipe(
-            filter(([tool, auth]) => !!auth)
-        )
-        .subscribe(
-            ([tool, auth]) => {
+        this.authorizationSub = combineLatest(this.toolDataService.tool(), this.userPermissionDataService.permissions())
+            .pipe(filter(([tool, auth]) => !!auth))
+            .subscribe(([tool, auth]) => {
                 let toolAuth = {
                     canCreate: false,
                     canRead: false,
@@ -43,13 +40,12 @@ export class ToolAuthorizationService implements OnDestroy {
                 toolAuth.canAdmin = tool && auth.canAdminEntity(tool._id, entityType);
 
                 this.authorization_.next(toolAuth);
-            }
-        );
+            });
     }
 
     ngOnDestroy() {
-        if (this.sub) {
-            this.sub.unsubscribe();
+        if (this.authorizationSub) {
+            this.authorizationSub.unsubscribe();
         }
     }
 

@@ -11,7 +11,7 @@ export enum ProjectAuthorizationTypes {
 }
 
 @Injectable()
-export class ProjectAuthorizationGuard implements CanActivate {
+export class ProjectGuard implements CanActivate {
     static parameters = [Router, ProjectAuthorizationService];
     constructor(private router: Router, private projectAuthorizationService: ProjectAuthorizationService) {}
 

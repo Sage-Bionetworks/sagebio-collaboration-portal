@@ -46,8 +46,8 @@ import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
-import { ProjectAuthorizationGuard, ProjectAuthorizationTypes } from './project-authorization-guard.service';
 import { ProjectAuthorizationService } from './project-authorization.service';
+import { ProjectGuard, ProjectAuthorizationTypes } from './project-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -58,7 +58,7 @@ export const ROUTES: Routes = [
     {
         path: 'projects/new',
         component: ProjectNewComponent,
-        canActivate: [AuthGuard, ProjectAuthorizationGuard],
+        canActivate: [AuthGuard, ProjectGuard],
         data: { authorization: ProjectAuthorizationTypes.CREATE },
     },
     {
@@ -110,7 +110,7 @@ export const ROUTES: Routes = [
         ProjectService,
         ProjectDataService,
         ProjectAuthorizationService,
-        ProjectAuthorizationGuard,
+        ProjectGuard,
         ProjectHeaderService,
         ProjectSidenavService,
         InsightService,
