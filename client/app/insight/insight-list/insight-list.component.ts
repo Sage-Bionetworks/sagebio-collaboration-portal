@@ -23,7 +23,7 @@ export class InsightListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Insights';
+        this.pageTitleService.setTitle('Insights');
     }
 
     onEntityClick(insight: Insight) {

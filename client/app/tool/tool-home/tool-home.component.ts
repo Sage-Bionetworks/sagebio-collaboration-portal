@@ -77,7 +77,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         this.tool$.subscribe(
             tool => {
                 if (tool) {
-                    this.pageTitleService.title = tool.title;
+                    this.pageTitleService.setTitle(tool.title);
                 }
             },
             err => console.log(err)

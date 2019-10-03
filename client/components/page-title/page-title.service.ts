@@ -1,47 +1,36 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { UserNotificationDataService } from 'components/user-notification/user-notification-data.service';
 
-/**
- * Service responsible for setting the title that appears above the components
- * and guide pages.
- */
 @Injectable()
-export class PageTitleService {
-    _title = '';
-    _numNotifications = 0;
+export class PageTitleService implements OnDestroy {
+    private title: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    private subscription: Subscription;
 
-    static parameters = [Title, UserPermissionDataService];
-    constructor(private bodyTitle: Title,
-        private userPermissionDataService: UserPermissionDataService) {
-
-        this.userPermissionDataService.permissions()
-            .subscribe(permissions => {
-                this.numNotifications = permissions.countPendingEntityInvites();
-            });
+    static parameters = [Title, UserNotificationDataService];
+    constructor(private bodyTitle: Title, private userNotificationDataService: UserNotificationDataService) {
+        combineLatest(
+            this.title,
+            this.userNotificationDataService.notifications().pipe(map(notifications => notifications.length))
+        ).subscribe(
+            ([title, numNotifications]) => {
+                title = title !== '' ? `${title} | ` : '';
+                let notification = numNotifications > 0 ? `(${numNotifications}) ` : '';
+                this.bodyTitle.setTitle(`${notification}${title}PHC Collaboration Portal`);
+            },
+            err => console.error(err)
+        );
     }
 
-    get title(): string {
-        return this._title;
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
-    set title(title: string) {
-        this._title = title;
-        this.renderTitle();
-    }
-
-    get numNotifications(): number {
-        return this._numNotifications;
-    }
-
-    set numNotifications(numNotifications: number) {
-        this._numNotifications = numNotifications;
-        this.renderTitle();
-    }
-
-    renderTitle(): void {
-        const title = (this._title !== '') ? `${this._title} | ` : '';
-        const notification = (this._numNotifications > 0) ? `(${this._numNotifications}) ` : '';
-        this.bodyTitle.setTitle(`${notification}${title}PHC Collaboration Portal`);
+    setTitle(title: string): void {
+        this.title.next(title);
     }
 }

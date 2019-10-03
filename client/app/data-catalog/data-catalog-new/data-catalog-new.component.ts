@@ -72,7 +72,7 @@ export class DataCatalogNewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'New Data Catalog';
+        this.pageTitleService.setTitle('New Data Catalog');
     }
 
     createNewDataCatalog(): void {

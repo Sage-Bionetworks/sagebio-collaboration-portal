@@ -66,7 +66,7 @@ export class DataCatalogEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Edit DataCatalog';
+        this.pageTitleService.setTitle('Edit Data Catalog');
         if (this.dataCatalog) {
             this.editForm.setValue({
                 title: this.dataCatalog.title,

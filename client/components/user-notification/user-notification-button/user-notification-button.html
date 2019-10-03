@@ -1,5 +1,11 @@
 <a mat-icon-button matTooltip="Notifications" (click)="toggleNotifications()">
-    <!-- class="app-hide-text" -->
-    <mat-icon *ngIf="numNotifications > 0" class="app-hide-text" matBadge="&#8226;" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
-    <mat-icon *ngIf="numNotifications === 0">notifications</mat-icon>
+    <ng-container *ngIf="(numNotifications$ | async) === 0; else showIconWithBadge">
+        <mat-icon>notifications</mat-icon>
+    </ng-container>
+    <ng-template #showIconWithBadge>
+        <!-- class="app-hide-text" -->
+        <mat-icon class="app-hide-text" matBadge="&#8226;" matBadgeColor="warn" matBadgeSize="small"
+            >notifications</mat-icon
+        >
+    </ng-template>
 </a>

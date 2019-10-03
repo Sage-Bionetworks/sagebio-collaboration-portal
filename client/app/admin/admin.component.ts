@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Admin';
+        this.pageTitleService.setTitle('Admin');
     }
 
     ngOnDestroy() { }

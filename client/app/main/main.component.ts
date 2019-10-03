@@ -19,7 +19,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.authInfoSub = this.authService.authInfo().subscribe(authInfo => {
             this.isLoggedIn = authInfo.isLoggedIn();
         });
-        this.pageTitleService.title = '';
+        this.pageTitleService.setTitle('');
     }
 
     ngOnDestroy() {

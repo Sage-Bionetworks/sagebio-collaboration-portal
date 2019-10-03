@@ -54,7 +54,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Admin User';
+        this.pageTitleService.setTitle('Admin User');
     }
 
     onChangePermissionCheckbox(permissionOption: any) {

@@ -32,7 +32,7 @@ export class UserCardEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Edit Profile';
+        this.pageTitleService.setTitle('Edit Profile');
         if (this.user) {
             this.editForm = this.formBuilder.group({
                 // Declare edit form validators

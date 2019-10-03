@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
                 } else {
                     this.authStrategies = this.authService.getAuthStrategies()
                         .pipe(share());
-                    this.pageTitleService.title = 'Login';
+                    this.pageTitleService.setTitle('Login');
                 }
             }, err => console.error(err));
     }

@@ -22,7 +22,7 @@ export class DocsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = '';
+        this.pageTitleService.setTitle('');
     }
 
     ngOnDestroy() {

@@ -35,7 +35,7 @@ export class ProjectResourcesComponent implements OnInit, OnDestroy {
             project => {
                 if (project) {
                     this.project = project;
-                    this.pageTitleService.title = `${project.title} - Resources`;
+                    this.pageTitleService.setTitle(`${project.title} - Resources`);
                 }
             },
             err => console.error(err)
