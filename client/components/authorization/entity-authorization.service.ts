@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 
 export interface EntityAuthorization {
     canCreate: boolean;
@@ -11,26 +12,60 @@ export interface EntityAuthorization {
 
 @Injectable()
 export abstract class EntityAuthorizationService {
+    static parameters = [UserPermissionDataService];
+    constructor(protected userPermissionDataService: UserPermissionDataService) {}
+
+    abstract getEntityType(): string; // TODO use enum
+
+    // TODO Put in place a convention that remove the need to implement this.
+    abstract getCreateActionPermissionType(): string; // TODO use enum
+
     /**
      * Returns true if the user can create an entity of a given type.
      */
-    abstract canCreate(): Observable<boolean>;
+    canCreate(): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => {
+                const isAdmin = auth.isAdmin();
+                const hasActionPermission = auth.hasActionPermission(this.getCreateActionPermissionType());
+                console.log('isAdmin', isAdmin);
+                console.log(`has permission ${this.getCreateActionPermissionType()}`, hasActionPermission);
+                return isAdmin || hasActionPermission;
+            })
+        );
+    }
 
     /**
      * Returns true if the user can read the entity specified.
      * @param entityId
      */
-    abstract canRead(entityId: string): Observable<boolean>;
+    canRead(entityId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => auth.canWriteEntity(entityId, this.getEntityType()))
+        );
+    }
 
     /**
      * Returns true if the user can edit the entity specified.
      * @param entityId
      */
-    abstract canEdit(entityId: string): Observable<boolean>;
+    canEdit(entityId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => auth.canWriteEntity(entityId, this.getEntityType()))
+        );
+    }
 
     /**
      * Returns true if the user can admin the entity specified.
      * @param entityId
      */
-    abstract canAdmin(entityId: string): Observable<boolean>;
+    canAdmin(entityId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => auth.canAdminEntity(entityId, this.getEntityType()))
+        );
+    }
 }

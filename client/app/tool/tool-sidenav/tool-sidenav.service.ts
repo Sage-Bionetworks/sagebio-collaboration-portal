@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, filter } from 'rxjs/operators';
 import { ToolSidenavItem } from './models/tool-sidenav-item.model'; // TODO Move closer to client side
 import { ToolAuthorizationService } from '../tool-authorization.service';
 import { ToolDataService } from '../tool-data.service';
@@ -54,12 +54,10 @@ export class ToolSidenavService implements OnDestroy {
         this.sub = this.toolDataService
             .tool()
             .pipe(
-                tap(tool => console.log('TOOL', tool)),
                 switchMap(tool => this.toolAuthorizationService.canAdmin(tool._id))
             )
             .subscribe(
                 canAdmin => {
-                    console.log('CAN ADMIN', canAdmin);
                     let items = this.items_.getValue();
                     items.find(item => item.title === itemTitles.SETTINGS).visible = canAdmin;
                     this.items_.next(items);
