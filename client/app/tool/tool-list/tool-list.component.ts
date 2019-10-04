@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Tool } from 'models/entities/tool.model';
+import { NotificationService } from 'components/notification/notification.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { ToolService } from '../tool.service';
-import { NotificationService } from 'components/notification/notification.service';
 import { ToolAuthorizationService } from '../tool-authorization.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ToolListComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.pageTitleService.title = 'Tools';
+        this.pageTitleService.setTitle('Tools');
 
         this.canCreateToolSub = this.toolAuthorizationService.canCreate().subscribe(
             canCreate => {

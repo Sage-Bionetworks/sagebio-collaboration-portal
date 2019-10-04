@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import  _fp from "lodash/fp";
+import _fp from 'lodash/fp';
 
 import { InsightService } from 'components/insight/insight.service';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
@@ -12,12 +12,11 @@ import { EntityPermissionService } from 'components/auth/entity-permission.servi
 
 import config from '../../../app/app.constants';
 
-import { UserNotificationBundle } from '../user-notification-bundle.model'
+import { UserNotificationBundle } from '../user-notification-bundle.model';
 
-import { MessageNotification } from 'models/user-notification/message-notificiation.model'
-import { EntityNotification } from 'models/user-notification/entity-notificiation.model'
-import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model'
-
+import { MessageNotification } from 'models/user-notification/message-notificiation.model';
+import { EntityNotification } from 'models/user-notification/entity-notificiation.model';
+import { EntityAccessNotification } from 'models/user-notification/entity-access-notificiation.model';
 
 // ---------------------------------------------------------------
 // TODO: Do not refer to something in app/, instead move ProjectService to components
@@ -32,16 +31,14 @@ import { Entity } from 'models/entities/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
 // ---------------------------------------------------------------
 
-
 @Component({
     selector: 'user-notification-sidenav',
     template: require('./user-notification-sidenav.html'),
-    styles: [require('./user-notification-sidenav.scss')]
+    styles: [require('./user-notification-sidenav.scss')],
 })
-
 export class UserNotificationSidenavComponent implements OnDestroy {
     // private socketEventName: string;
-    private notificationTypes = config.notificationTypes
+    private notificationTypes = config.notificationTypes;
     private notificationBundles$ = new BehaviorSubject<UserNotificationBundle<UserNotification>[]>([]);
     private notifications$ = new BehaviorSubject<UserNotification[]>([]);
 
@@ -67,95 +64,94 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         private toolService: ToolService,
         private dataCatalogService: DataCatalogService,
         private router: Router,
-        private socketService: SocketService,
+        private socketService: SocketService
     ) {
-        this.router.events.pipe(
-            filter(event => event instanceof NavigationStart)
-        ).subscribe(_ => this.close());
+        this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
 
-        this.socketService.syncArraySubject(
-            "notifications",
-            this.notifications$,
-            (items: UserNotification[]) => {
-                return _fp.flow(
-                    _fp.filter<UserNotification>(n => !n.archived),
-                    _fp.orderBy('createdAt', 'desc')
-                )(items);
-            }
-        );
+        this.socketService.syncArraySubject('notifications', this.notifications$, (items: UserNotification[]) => {
+            return _fp.flow(
+                _fp.filter<UserNotification>(n => !n.archived),
+                _fp.orderBy('createdAt', 'desc')
+            )(items);
+        });
     }
 
     getAssociatedEntity(notification: EntityNotification) {
         switch (notification.entityType) {
             case config.entityTypes.PROJECT.value:
-                return this.projectService.get(notification.entityId)
+                return this.projectService.get(notification.entityId);
             case config.entityTypes.INSIGHT.value:
-                return this.insightService.getInsight(notification.entityId)
+                return this.insightService.getInsight(notification.entityId);
             case config.entityTypes.RESOURCE.value:
-                return this.resourceServive.getResource(notification.entityId)
+                return this.resourceServive.getResource(notification.entityId);
             case config.entityTypes.TOOL.value:
-                return this.toolService.get(notification.entityId)
+                return this.toolService.get(notification.entityId);
             case config.entityTypes.DATA_CATALOG.value:
-                return this.dataCatalogService.get(notification.entityId)
+                return this.dataCatalogService.get(notification.entityId);
             default:
-                return of(null)
+                return of(null);
         }
     }
 
     getEntityPermission(notification: EntityAccessNotification) {
         return notification.notificationType === config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value
             ? this.entityPermissionService.getPermission(notification.entityPermissionId as string)
-            : of(null)
+            : of(null);
     }
 
     buildMessageNotificationBundle(notification: MessageNotification): UserNotificationBundle<MessageNotification> {
-        return { notification }
+        return { notification };
     }
 
-    async buildEntityNotificationBundle(notification: EntityNotification): Promise<UserNotificationBundle<EntityNotification>> {
-        return Promise.resolve({
-            notification,
-            associatedEntity: await this.getAssociatedEntity(notification).toPromise<Entity>()
-        })
-    }
-
-    async buildEntityAccessNotificationBundle(notification: EntityAccessNotification): Promise<UserNotificationBundle<EntityAccessNotification>> {
+    async buildEntityNotificationBundle(
+        notification: EntityNotification
+    ): Promise<UserNotificationBundle<EntityNotification>> {
         return Promise.resolve({
             notification,
             associatedEntity: await this.getAssociatedEntity(notification).toPromise<Entity>(),
-            entityPermission: await this.getEntityPermission(notification).toPromise<EntityPermission>()
-        })
+        });
+    }
+
+    async buildEntityAccessNotificationBundle(
+        notification: EntityAccessNotification
+    ): Promise<UserNotificationBundle<EntityAccessNotification>> {
+        return Promise.resolve({
+            notification,
+            associatedEntity: await this.getAssociatedEntity(notification).toPromise<Entity>(),
+            entityPermission: await this.getEntityPermission(notification).toPromise<EntityPermission>(),
+        });
     }
 
     buildBundleByType = async (notification: UserNotification): Promise<UserNotificationBundle<UserNotification>> => {
         switch (notification.notificationType) {
             case config.notificationTypes.MESSAGE_NOTIFICATION.value:
-                return this.buildMessageNotificationBundle(notification as MessageNotification)
+                return this.buildMessageNotificationBundle(notification as MessageNotification);
             case config.notificationTypes.ENTITY_NOTIFICATION.value:
-                return await this.buildEntityNotificationBundle(notification as EntityNotification)
+                return await this.buildEntityNotificationBundle(notification as EntityNotification);
             case config.notificationTypes.ENTITY_ACCESS_NOTIFICATION.value:
-                return await this.buildEntityAccessNotificationBundle(notification as EntityAccessNotification)
+                return await this.buildEntityAccessNotificationBundle(notification as EntityAccessNotification);
         }
-    }
+    };
 
     ngOnInit() {
-        this.userNotificationService.queryNotifications({ archived: false })
-            .subscribe(notifications => this.notifications$.next(notifications))
+        this.userNotificationService
+            .queryNotifications({ archived: false })
+            .subscribe(notifications => this.notifications$.next(notifications));
 
         this.notifications$.subscribe(notifications => {
-            const notificationBundlesPromises = notifications.map(this.buildBundleByType)
+            const notificationBundlesPromises = notifications.map(this.buildBundleByType);
 
-            Promise.all(notificationBundlesPromises)
-                .then(notifications => this.notificationBundles$.next(notifications))
-        })
+            Promise.all(notificationBundlesPromises).then(notifications =>
+                this.notificationBundles$.next(notifications)
+            );
+        });
     }
 
     ngOnDestroy() {
-        this.socketService.unsyncUpdates(this.notifications$);
+        // this.socketService.unsyncUpdates(this.notifications$);
     }
 
     close(): void {
         this.sidenavService.close();
     }
 }
-

@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Profile';
+        this.pageTitleService.setTitle('Profile');
     }
 
     ngOnDestroy() {

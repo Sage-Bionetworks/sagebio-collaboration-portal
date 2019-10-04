@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Sign up';
+        this.pageTitleService.setTitle('Sign up');
     }
 
     register(): void {

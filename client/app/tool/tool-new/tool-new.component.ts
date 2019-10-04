@@ -65,7 +65,7 @@ export class ToolNewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'New Tool';
+        this.pageTitleService.setTitle('New Tool');
     }
 
     createNewTool(): void {

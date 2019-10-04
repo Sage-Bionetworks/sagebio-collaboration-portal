@@ -23,7 +23,7 @@ export class ResourceListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.pageTitleService.title = 'Resources';
+        this.pageTitleService.setTitle('Resources');
     }
 
     onEntityClick(resource: Resource) {

@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Project } from 'models/entities/project.model';
-import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { ProjectService } from '../project.service';
 import { ProjectAuthorizationService } from './../project-authorization.service';
 
@@ -26,7 +26,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.pageTitleService.title = 'Projects';
+        this.pageTitleService.setTitle('Projects');
 
         this.canCreateProjectSub = this.projectAuthorizationService.canCreate().subscribe(
             canCreate => {

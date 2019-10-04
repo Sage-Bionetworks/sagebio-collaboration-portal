@@ -9,23 +9,14 @@ import { MessageNotificationViewComponent } from './user-notification-cards/mess
 import { EntityNotificationCardComponent } from './user-notification-cards/entity-notification-card/entity-notification-card.component';
 import { EntityAccessNotificationCardComponent } from './user-notification-cards/entity-access-notification-card/entity-access-notification-card.component';
 import { UserNotificationService } from './user-notification.service';
-import { PipesModule } from 'components/pipes/pipes.module'
+import { UserNotificationDataService } from './user-notification-data.service';
+import { PipesModule } from 'components/pipes/pipes.module';
 import { UserNotificationSidenavService } from './user-notification-sidenav/user-notification-sidenav.service';
 import { QuillModule } from 'ngx-quill';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MaterialModule,
-        SidenavModule,
-        UserAvatarModule,
-        PipesModule,
-        QuillModule.forRoot(),
-    ],
-    providers: [
-        UserNotificationService,
-        UserNotificationSidenavService,
-    ],
+    imports: [CommonModule, MaterialModule, SidenavModule, UserAvatarModule, PipesModule, QuillModule.forRoot()],
+    providers: [UserNotificationService, UserNotificationDataService, UserNotificationSidenavService],
     declarations: [
         UserNotificationButtonComponent,
         UserNotificationSidenavComponent,
@@ -33,9 +24,6 @@ import { QuillModule } from 'ngx-quill';
         EntityNotificationCardComponent,
         EntityAccessNotificationCardComponent,
     ],
-    exports: [
-        UserNotificationButtonComponent,
-        UserNotificationSidenavComponent
-    ]
+    exports: [UserNotificationButtonComponent, UserNotificationSidenavComponent],
 })
-export class UserNotificationModule { }
+export class UserNotificationModule {}

@@ -11,6 +11,9 @@ export class UserNotificationService {
     static parameters = [HttpClient];
     constructor(private httpClient: HttpClient) { }
 
+    // TODO: Need an endpoint to get only the unarchived notifications
+    // TODO: Need a websocket model to receive only the unarchived notifications
+
     queryNotifications(query?: {}): Observable<UserNotification[]> {
         return this.httpClient.get<UserNotification[]>(`/api/user-notifications${stringifyQuery(query)}`);
     }
@@ -22,5 +25,4 @@ export class UserNotificationService {
     createNotification<N extends UserNotification>(notification: N): Observable<N> {
         return this.httpClient.post<N>('/api/user-notifications/', notification);
     }
-
 }
