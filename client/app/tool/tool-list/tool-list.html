@@ -4,10 +4,9 @@
         mat-raised-button
         color="warn"
         class="app-tool-list-new-tool-btn"
-        *ngIf="toolAuthorization"
         (click)="newTool()"
         aria-label="Create a new tool"
-        ><mat-icon class="app-project-list-new-project-btn-icon" *ngIf="!toolAuthorization.canCreate">lock</mat-icon>New Tool</a
+        ><mat-icon class="app-project-list-new-project-btn-icon" *ngIf="!canCreateTool">lock</mat-icon>New Tool</a
     >
 </div>
 

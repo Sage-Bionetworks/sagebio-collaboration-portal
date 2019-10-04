@@ -1,55 +1,48 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, mapTo } from 'rxjs/operators';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { ToolDataService } from './tool-data.service';
+import { EntityAuthorizationService } from 'components/authorization/entity-authorization.service';
 import config from '../app.constants';
-import { filter } from 'rxjs/operators';
-
-export interface ToolAuthorization {
-    canCreate: boolean;
-    canRead: boolean;
-    canEdit: boolean;
-    canAdmin: boolean;
-}
 
 @Injectable()
-export class ToolAuthorizationService implements OnDestroy {
-    private authorization_: BehaviorSubject<ToolAuthorization> = new BehaviorSubject<ToolAuthorization>(null);
-    private authorizationSub: Subscription;
+export class ToolAuthorizationService implements EntityAuthorizationService {
+    private entityType: string;
 
-    static parameters = [UserPermissionDataService, ToolDataService];
-    constructor(
-        private userPermissionDataService: UserPermissionDataService,
-        private toolDataService: ToolDataService
-    ) {
-        const entityType = config.entityTypes.TOOL.value;
-        this.authorizationSub = combineLatest(this.toolDataService.tool(), this.userPermissionDataService.permissions())
-            .pipe(filter(([tool, auth]) => !!auth))
-            .subscribe(([tool, auth]) => {
-                let toolAuth = {
-                    canCreate: false,
-                    canRead: false,
-                    canEdit: false,
-                    canAdmin: false,
-                };
-
-                toolAuth.canCreate =
-                    auth.isAdmin() || auth.hasActionPermission(config.actionPermissionTypes.CREATE_TOOL.value);
-                toolAuth.canRead = true;
-                toolAuth.canEdit = tool && auth.canWriteEntity(tool._id, entityType);
-                toolAuth.canAdmin = tool && auth.canAdminEntity(tool._id, entityType);
-
-                this.authorization_.next(toolAuth);
-            });
+    static parameters = [UserPermissionDataService];
+    constructor(private userPermissionDataService: UserPermissionDataService) {
+        this.entityType = config.entityTypes.TOOL.value;
     }
 
-    ngOnDestroy() {
-        if (this.authorizationSub) {
-            this.authorizationSub.unsubscribe();
-        }
+    canCreate(): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => {
+                const isAdmin = auth.isAdmin();
+                const hasActionPermission = auth.hasActionPermission(config.actionPermissionTypes.CREATE_TOOL.value);
+                return isAdmin || hasActionPermission;
+            })
+        );
     }
 
-    authorization(): Observable<ToolAuthorization> {
-        return this.authorization_.asObservable().pipe(filter(auth => !!auth));
+    canRead(toolId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            mapTo(true)
+        );
+    }
+
+    canEdit(toolId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => auth.canWriteEntity(toolId, this.entityType))
+        );
+    }
+
+    canAdmin(toolId: string): Observable<boolean> {
+        return this.userPermissionDataService.permissions().pipe(
+            filter(auth => !!auth),
+            map(auth => auth.canAdminEntity(toolId, this.entityType))
+        );
     }
 }

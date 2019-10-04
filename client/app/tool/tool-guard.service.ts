@@ -16,21 +16,23 @@ export class ToolGuard implements CanActivate {
     constructor(private router: Router, private toolAuthorizationService: ToolAuthorizationService) {}
 
     canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-        // const entityId = route.params.id;
+        let authorized$: Observable<boolean>;
 
-        return this.toolAuthorizationService.authorization().pipe(
-            map(auth => {
-                switch (route.data.authorization) {
-                    case ToolAuthorizationTypes.CREATE:
-                        return auth.canCreate;
-                    case ToolAuthorizationTypes.READ:
-                        return auth.canRead;
-                    case ToolAuthorizationTypes.ADMIN:
-                        return auth.canAdmin;
-                    default:
-                        return false;
-                }
-            }),
+        switch (route.data.authorization) {
+            case ToolAuthorizationTypes.CREATE:
+                authorized$ = this.toolAuthorizationService.canCreate();
+                break;
+            case ToolAuthorizationTypes.READ:
+                authorized$ = this.toolAuthorizationService.canRead(route.params.id);
+                break;
+            case ToolAuthorizationTypes.ADMIN:
+                authorized$ = this.toolAuthorizationService.canAdmin(route.params.id);
+                break;
+            default:
+                authorized$ = of(false);
+        }
+
+        return authorized$.pipe(
             map(authorized => {
                 if (!authorized) {
                     this.router.navigate(['/', 'tools']);

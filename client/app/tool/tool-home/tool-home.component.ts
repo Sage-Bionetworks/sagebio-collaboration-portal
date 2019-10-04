@@ -2,21 +2,19 @@ import { ToolAuthorizationService } from './../tool-authorization.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Subscription, of, Observable } from 'rxjs';
-import { switchMap, catchError, take } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
-import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
 import config from '../../app.constants';
 import { TokenService } from 'components/auth/token.service';
-import { ToolAuthorization } from '../tool-authorization.service';
 
 @Component({
     selector: 'tool-home',
@@ -29,10 +27,10 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
 
-    private toolAuthorization: ToolAuthorization;
-    private toolAuthorizationSub: Subscription;
+    private canEditTool = false;
+    private canEditToolSub: Subscription;
 
-    private entityType = config.entityTypes.TOOL.value;
+    private entityType: string;
 
     static parameters = [
         Router,
@@ -57,29 +55,21 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private dialog: MatDialog,
         private tokenService: TokenService
-    ) {}
+    ) {
+        this.entityType = config.entityTypes.TOOL.value;
+    }
 
     ngOnInit() {
         this.tool$ = this.toolDataService.tool();
 
-        this.toolAuthorizationSub = this.toolAuthorizationService.authorization().subscribe(
-            auth => {
-                this.toolAuthorization = auth;
-            },
-            err => console.error(err)
-        );
-
-        // const getTool = this.toolDataService.tool();
-
-        // const getToolHealth = this.tool$.pipe(  // TODO To review
-        //     switchMap(tool =>
-        //         this.toolService.getToolHealth(tool).pipe(
-        //             catchError(err => {
-        //                 return of(<ToolHealth>undefined);
-        //             })
-        //         )
-        //     )
-        // );
+        this.canEditToolSub = this.tool$
+            .pipe(switchMap(tool => this.toolAuthorizationService.canEdit(tool._id)))
+            .subscribe(
+                canEdit => {
+                    this.canEditTool = canEdit;
+                },
+                err => console.error(err)
+            );
 
         this.tool$.subscribe(
             tool => {
@@ -89,15 +79,11 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             },
             err => console.log(err)
         );
-
-        // getToolHealth.subscribe(toolHealth => {
-        //     this.toolHealth = toolHealth;
-        // });
     }
 
     ngOnDestroy() {
-        if (this.toolAuthorizationSub) {
-            this.toolAuthorizationSub.unsubscribe();
+        if (this.canEditToolSub) {
+            this.canEditToolSub.unsubscribe();
         }
     }
 

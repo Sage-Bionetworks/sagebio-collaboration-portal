@@ -1,7 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { ToolSidenavItem } from './models/tool-sidenav-item.model';
+import { switchMap, tap } from 'rxjs/operators';
+import { ToolSidenavItem } from './models/tool-sidenav-item.model'; // TODO Move closer to client side
 import { ToolAuthorizationService } from '../tool-authorization.service';
+import { ToolDataService } from '../tool-data.service';
 
 const enum itemTitles {
     HOME = 'Home',
@@ -47,13 +49,23 @@ export class ToolSidenavService implements OnDestroy {
 
     private sub: Subscription;
 
-    static parameters = [ToolAuthorizationService];
-    constructor(private toolAuthorizationService: ToolAuthorizationService) {
-        this.sub = this.toolAuthorizationService.authorization().subscribe(auth => {
-            let items = this.items_.getValue();
-            items.find(item => item.title === itemTitles.SETTINGS).visible = auth.canAdmin;
-            this.items_.next(items);
-        });
+    static parameters = [ToolDataService, ToolAuthorizationService];
+    constructor(private toolDataService: ToolDataService, private toolAuthorizationService: ToolAuthorizationService) {
+        this.sub = this.toolDataService
+            .tool()
+            .pipe(
+                tap(tool => console.log('TOOL', tool)),
+                switchMap(tool => this.toolAuthorizationService.canAdmin(tool._id))
+            )
+            .subscribe(
+                canAdmin => {
+                    console.log('CAN ADMIN', canAdmin);
+                    let items = this.items_.getValue();
+                    items.find(item => item.title === itemTitles.SETTINGS).visible = canAdmin;
+                    this.items_.next(items);
+                },
+                err => console.error(err)
+            );
     }
 
     ngOnDestroy() {
