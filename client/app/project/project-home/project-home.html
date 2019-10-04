@@ -34,11 +34,11 @@
                             >
                                 <span>Copy Link</span>
                             </button>
-                            <mat-divider *ngIf="canAdmin"></mat-divider>
+                            <mat-divider *ngIf="canAdminProject"></mat-divider>
                             <button
                                 mat-menu-item
                                 [attr.aria-label]="'Edit'"
-                                *ngIf="canAdmin"
+                                *ngIf="canAdminProject"
                                 (click)="showEditProjectTemplate = true"
                             >
                                 <span>Edit</span>
