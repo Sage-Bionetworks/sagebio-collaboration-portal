@@ -1,4 +1,4 @@
-<mat-nav-list>
+<mat-nav-list class="app-thread">
     <mat-list-item *ngIf="thread" (click)="goToThread()">
         <h3 matLine>{{ thread.title }}</h3>
         <h3 matLine matTooltip="{{ thread.updatedAt || thread.createdAt | dateAndTime }}">{{ thread.updatedAt || thread.createdAt | date: 'shortTime' }}</h3>
@@ -41,3 +41,4 @@
         </div>
     </mat-list-item>
 </mat-nav-list>
+

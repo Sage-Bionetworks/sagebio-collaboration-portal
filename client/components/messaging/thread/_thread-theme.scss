@@ -1,0 +1,12 @@
+@mixin thread-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    .app-message-thread-ellipses {
+        border: 1px solid;
+        border-color: mat-color($primary, 100);
+    }
+}
