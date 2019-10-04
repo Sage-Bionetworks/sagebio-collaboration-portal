@@ -21,6 +21,8 @@ import { MessagingModule } from 'components/messaging/messaging.module';
 import { DataCatalogThreadComponent } from './data-catalog-thread/data-catalog-thread.component';
 import { DataCatalogThreadNewComponent } from './data-catalog-thread-new/data-catalog-thread-new.component';
 import { DataCatalogAuthorizationService } from './data-catalog-authorization.service';
+import { DataCatalogGuard } from './data-catalog-guard.service';
+import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -31,12 +33,14 @@ export const ROUTES: Routes = [
     {
         path: 'data-catalogs/new',
         component: DataCatalogNewComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, DataCatalogGuard],
+        data: { authorization: EntityAuthorizationTypes.CREATE },
     },
     {
         path: 'data-catalogs/:id',
         component: DataCatalogComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, DataCatalogGuard],
+        data: { authorization: EntityAuthorizationTypes.READ },
     },
     {
         path: 'data-catalogs/:id/discussion',
@@ -76,7 +80,7 @@ export const ROUTES: Routes = [
         DataCatalogThreadComponent,
         DataCatalogThreadNewComponent,
     ],
-    providers: [SocketService, DataCatalogService, DataCatalogAuthorizationService],
+    providers: [SocketService, DataCatalogService, DataCatalogAuthorizationService, DataCatalogGuard],
     exports: [],
 })
 export class DataCatalogModule {}
