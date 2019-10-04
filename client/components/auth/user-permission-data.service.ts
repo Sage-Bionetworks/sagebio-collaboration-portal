@@ -33,20 +33,6 @@ export class UserPermissions {
         return !!find({ action: actionPermission }, this.actionPermissions);
     }
 
-    public canCreateProject(): boolean {
-        return (
-            this.isAdmin() ||
-            !!find({ action: config.actionPermissionTypes.CREATE_PROJECT.value }, this.actionPermissions)
-        );
-    }
-
-    public canCreateDataCatalog(): boolean {
-        return (
-            this.isAdmin() ||
-            !!find({ action: config.actionPermissionTypes.CREATE_DATA_CATALOG.value }, this.actionPermissions)
-        );
-    }
-
     private getEntityUserAccess(entityId: string, entityType: string): string {
         let permission = find(
             {
@@ -64,7 +50,6 @@ export class UserPermissions {
         visibility: EntityVisibility = EntityVisibility.PRIVATE
     ): boolean {
         if (visibility === EntityVisibility.PUBLIC) {
-            console.log('YOU CAN SEE PUBLIC ENTITY');
             return true;
         }
         const access = this.getEntityUserAccess(entityId, entityType);
@@ -91,10 +76,12 @@ export class UserPermissions {
         return this.isAdmin() || identity([config.accessTypes.ADMIN.value]).includes(access);
     }
 
+    // TODO Review, do not used the word "invite"
     public countPendingEntityInvites(): number {
         return this.getPendingEntityInvites().length;
     }
 
+    // TODO Review, do not used the word "invite"
     public getPendingEntityInvites(): EntityPermission[] {
         if (this.entityPermissions) {
             return this.entityPermissions.filter(invite => {

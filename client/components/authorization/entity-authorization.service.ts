@@ -29,8 +29,6 @@ export abstract class EntityAuthorizationService {
             map(auth => {
                 const isAdmin = auth.isAdmin();
                 const hasActionPermission = auth.hasActionPermission(this.getCreateActionPermissionType());
-                console.log('isAdmin', isAdmin);
-                console.log(`has permission ${this.getCreateActionPermissionType()}`, hasActionPermission);
                 return isAdmin || hasActionPermission;
             })
         );
@@ -43,7 +41,7 @@ export abstract class EntityAuthorizationService {
     canRead(entityId: string): Observable<boolean> {
         return this.userPermissionDataService.permissions().pipe(
             filter(auth => !!auth),
-            map(auth => auth.canWriteEntity(entityId, this.getEntityType()))
+            map(auth => auth.canReadEntity(entityId, this.getEntityType()))
         );
     }
 

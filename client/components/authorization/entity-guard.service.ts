@@ -23,13 +23,13 @@ export abstract class EntityGuard implements CanActivate {
                 authorized$ = this.authorizationService.canCreate();
                 break;
             case EntityAuthorizationTypes.READ:
-                authorized$ = this.authorizationService.canRead(route.params.id);
+                authorized$ = this.authorizationService.canRead(route.params.id || route.parent.params.id);
                 break;
             case EntityAuthorizationTypes.WRITE:
-                authorized$ = this.authorizationService.canWrite(route.params.id);
+                authorized$ = this.authorizationService.canWrite(route.params.id || route.parent.params.id);
                 break;
             case EntityAuthorizationTypes.ADMIN:
-                authorized$ = this.authorizationService.canAdmin(route.params.id);
+                authorized$ = this.authorizationService.canAdmin(route.params.id || route.parent.params.id);
                 break;
             default:
                 authorized$ = of(false);
