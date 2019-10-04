@@ -1,11 +1,22 @@
 <div *ngIf="resource">
     <mat-card *ngIf="!showResourceEditTemplate; else showResourceEditForm" class="app-resource">
+
         <mat-card-header class="app-resource-header">
+                <div class="app-resource-left-container">
             <mat-card-title class="app-resource-title">{{ resource.title }}</mat-card-title>
             <mat-card-subtitle
                 >{{ resource.resourceType }} created by {{ resource.createdBy.name }} on
                 {{ resource.createdAt | dateAndTime }}</mat-card-subtitle
             >
+            <mat-card-content class="app-resource-content">
+                <app-quill-editor
+                    [isReadOnly]="true"
+                    [showActions]="false"
+                    [body]="form.controls['description']"
+                ></app-quill-editor>
+            </mat-card-content>
+            </div>
+            <div class="app-resource-action-section">
             <div class="app-resource-actions">
                 <share-button [entity]="resource" [entityType]="entityType"></share-button>
                 <show-activity-button [root]="resource"></show-activity-button>
@@ -45,25 +56,23 @@
                         <span class="app-resource-actions-delete-btn-label">Delete {{ resource.resourceType }}</span>
                     </button>
                 </mat-menu>
+
             </div>
+            <div class="app-resource-extra-actions">
+                <!-- Use enum for State -->
+                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ tool.title }}</a>
+                <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" [disabled]="true">Discuss</a>
+                    <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
+                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" [disabled]="true">Create Insight</a>
+            </div>
+        </div>
+
         </mat-card-header>
 
-        <mat-card-content class="app-resource-content">
-            <app-quill-editor
-                [isReadOnly]="true"
-                [showActions]="false"
-                [body]="form.controls['description']"
-            ></app-quill-editor>
-        </mat-card-content>
 
-        <div class="app-resource-extra-actions">
-            <!-- Use enum for State -->
-            <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ tool.title }}</a>
-            <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
-            <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Discuss</a>
-                <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
-            <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')">Create Insight</a>
-        </div>
+
+
     </mat-card>
 
     <ng-template #showResourceEditForm>

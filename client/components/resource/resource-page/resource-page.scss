@@ -6,6 +6,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
+    justify-content: space-between;
 }
 
 .app-resource-title {
@@ -16,12 +17,14 @@
 .app-resource-content {
     padding-top: 8px;
     padding-bottom: 8px;
-    margin: 0 16px;
+    margin-right: 8px;
 }
 
 .app-resource-actions {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: flex-end;
+    padding-bottom: 10px;
 }
 
 .app-resource-action-btn {
@@ -29,7 +32,26 @@
 }
 
 .mat-card-header-text {
+    margin: 0px !important;
+}
+
+.app-resource-action-section {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.app-resource-extra-actions {
     display: flex;
     flex-flow: column nowrap;
-    flex-grow: 1;
+
+}
+
+.app-resource-extra-actions > a {
+    margin-bottom: 10px;
+}
+
+.app-resource-left-container {
+    display: flex;
+    flex-flow: column wrap;
+    margin: 5px;
 }
