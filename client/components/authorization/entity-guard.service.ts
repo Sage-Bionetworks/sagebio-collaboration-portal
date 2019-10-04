@@ -7,6 +7,7 @@ import { EntityAuthorizationService } from './entity-authorization.service';
 export enum EntityAuthorizationTypes {
     CREATE,
     READ,
+    WRITE,
     ADMIN,
 }
 
@@ -23,6 +24,9 @@ export abstract class EntityGuard implements CanActivate {
                 break;
             case EntityAuthorizationTypes.READ:
                 authorized$ = this.authorizationService.canRead(route.params.id);
+                break;
+            case EntityAuthorizationTypes.WRITE:
+                authorized$ = this.authorizationService.canWrite(route.params.id);
                 break;
             case EntityAuthorizationTypes.ADMIN:
                 authorized$ = this.authorizationService.canAdmin(route.params.id);

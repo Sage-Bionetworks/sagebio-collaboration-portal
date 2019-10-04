@@ -63,7 +63,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
         this.tool$ = this.toolDataService.tool();
 
         this.canEditToolSub = this.tool$
-            .pipe(switchMap(tool => this.toolAuthorizationService.canEdit(tool._id)))
+            .pipe(switchMap(tool => this.toolAuthorizationService.canWrite(tool._id)))
             .subscribe(
                 canEdit => {
                     this.canEditTool = canEdit;

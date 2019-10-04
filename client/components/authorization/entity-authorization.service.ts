@@ -48,10 +48,10 @@ export abstract class EntityAuthorizationService {
     }
 
     /**
-     * Returns true if the user can edit the entity specified.
+     * Returns true if the user can write to the entity specified.
      * @param entityId
      */
-    canEdit(entityId: string): Observable<boolean> {
+    canWrite(entityId: string): Observable<boolean> {
         return this.userPermissionDataService.permissions().pipe(
             filter(auth => !!auth),
             map(auth => auth.canWriteEntity(entityId, this.getEntityType()))
