@@ -23,12 +23,16 @@ import { TokenService } from 'components/auth/token.service';
 })
 export class ToolHomeComponent implements OnInit, OnDestroy {
     private tool$: Observable<Tool>;
+
     @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
 
     private canEditTool = false;
+
+    private toolSub: Subscription;
     private canEditToolSub: Subscription;
+
 
     private entityType: string;
 
@@ -71,7 +75,7 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
                 err => console.error(err)
             );
 
-        this.tool$.subscribe(
+        this.toolSub = this.tool$.subscribe(
             tool => {
                 if (tool) {
                     this.pageTitleService.title = tool.title;
@@ -84,6 +88,9 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         if (this.canEditToolSub) {
             this.canEditToolSub.unsubscribe();
+        }
+        if (this.toolSub) {
+            this.toolSub.unsubscribe();
         }
     }
 

@@ -1,48 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { ToolAuthorizationService } from './tool-authorization.service';
-
-export enum ToolAuthorizationTypes {
-    CREATE,
-    READ,
-    ADMIN,
-}
+import { EntityGuard } from 'components/authorization/entity-guard.service';
 
 @Injectable()
-export class ToolGuard implements CanActivate {
+export class ToolGuard extends EntityGuard {
     static parameters = [Router, ToolAuthorizationService];
-    constructor(private router: Router, private toolAuthorizationService: ToolAuthorizationService) {}
+    constructor(protected router: Router, protected authorizationService: ToolAuthorizationService) {
+        super(router, authorizationService);
+    }
 
-    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-        let authorized$: Observable<boolean>;
-
-        switch (route.data.authorization) {
-            case ToolAuthorizationTypes.CREATE:
-                authorized$ = this.toolAuthorizationService.canCreate();
-                break;
-            case ToolAuthorizationTypes.READ:
-                authorized$ = this.toolAuthorizationService.canRead(route.params.id);
-                break;
-            case ToolAuthorizationTypes.ADMIN:
-                authorized$ = this.toolAuthorizationService.canAdmin(route.params.id);
-                break;
-            default:
-                authorized$ = of(false);
-        }
-
-        return authorized$.pipe(
-            map(authorized => {
-                if (!authorized) {
-                    this.router.navigate(['/', 'tools']);
-                }
-                return authorized;
-            }),
-            catchError(err => {
-                console.error(err);
-                return of(false);
-            })
-        );
+    falsyRedirectUrl(): string[] {
+        return ['/', 'tools'];
     }
 }

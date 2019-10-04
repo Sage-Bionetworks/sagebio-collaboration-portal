@@ -2,6 +2,8 @@ import { ProjectAuthorizationService } from './../project-authorization.service'
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ProjectSidenavItem } from './models/project-sidenav-item.model';
+import { ProjectDataService } from '../project-data.service';
+import { switchMap } from 'rxjs/operators';
 
 const enum itemTitles {
     HOME = 'Home',
@@ -56,13 +58,21 @@ export class ProjectSidenavService implements OnDestroy {
 
     private sub: Subscription;
 
-    static parameters = [ProjectAuthorizationService];
-    constructor(private projectAuthorizationService: ProjectAuthorizationService) {
-        this.sub = this.projectAuthorizationService.authorization().subscribe(auth => {
-            let items = this.items_.getValue();
-            items.find(item => item.title === itemTitles.SETTINGS).visible = auth.canAdmin;
-            this.items_.next(items);
-        });
+    static parameters = [ProjectDataService, ProjectAuthorizationService];
+    constructor(private projectDataService: ProjectDataService, private projectAuthorizationService: ProjectAuthorizationService) {
+        this.sub = this.projectDataService
+            .project()
+            .pipe(
+                switchMap(tool => this.projectAuthorizationService.canAdmin(tool._id))
+            )
+            .subscribe(
+                canAdmin => {
+                    let items = this.items_.getValue();
+                    items.find(item => item.title === itemTitles.SETTINGS).visible = canAdmin;
+                    this.items_.next(items);
+                },
+                err => console.error(err)
+            );
     }
 
     ngOnDestroy() {

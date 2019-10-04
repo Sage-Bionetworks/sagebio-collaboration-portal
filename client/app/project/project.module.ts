@@ -47,7 +47,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ProjectAuthorizationService } from './project-authorization.service';
-import { ProjectGuard, ProjectAuthorizationTypes } from './project-guard.service';
+import { ProjectGuard } from './project-guard.service';
+import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -59,7 +60,7 @@ export const ROUTES: Routes = [
         path: 'projects/new',
         component: ProjectNewComponent,
         canActivate: [AuthGuard, ProjectGuard],
-        data: { authorization: ProjectAuthorizationTypes.CREATE },
+        data: { authorization: EntityAuthorizationTypes.CREATE },
     },
     {
         path: 'projects/:id',
@@ -82,7 +83,7 @@ export const ROUTES: Routes = [
                 path: 'settings',
                 component: ProjectSettingsComponent,
                 canActivate: [ProjectGuard],
-                data: { authorization: ProjectAuthorizationTypes.ADMIN },
+                data: { authorization: EntityAuthorizationTypes.ADMIN },
             },
         ],
     },

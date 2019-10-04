@@ -4,10 +4,9 @@
         mat-raised-button
         color="warn"
         class="app-project-list-new-project-btn"
-        *ngIf="projectAuthorization"
         (click)="newProject()"
         aria-label="Create project"
-        ><mat-icon class="app-project-list-new-project-btn-icon" *ngIf="!projectAuthorization.canCreate">lock</mat-icon>New
+        ><mat-icon class="app-project-list-new-project-btn-icon" *ngIf="!canCreateProject">lock</mat-icon>New
         Project</a
     >
 </div>

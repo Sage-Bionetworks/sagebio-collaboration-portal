@@ -1,11 +1,11 @@
-import { ProjectAuthorizationService, ProjectAuthorization } from './../project-authorization.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { PageTitleService } from 'components/page-title/page-title.service';
-import { Project } from 'models/entities/project.model';
-import { ProjectService } from '../project.service';
 import { Subscription } from 'rxjs';
+import { Project } from 'models/entities/project.model';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
+import { ProjectService } from '../project.service';
+import { ProjectAuthorizationService } from './../project-authorization.service';
 
 @Component({
     selector: 'project-list',
@@ -13,8 +13,8 @@ import { NotificationService } from 'components/notification/notification.servic
     styles: [require('./project-list.scss')],
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
-    private projectAuthorization: ProjectAuthorization;
-    private projectAuthorizationSub: Subscription;
+    private canCreateProject = false;
+    private canCreateProjectSub: Subscription;
 
     static parameters = [Router, PageTitleService, NotificationService, ProjectService, ProjectAuthorizationService];
     constructor(
@@ -27,17 +27,18 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.pageTitleService.title = 'Projects';
-        this.projectAuthorizationSub = this.projectAuthorizationService.authorization().subscribe(
-            auth => {
-                this.projectAuthorization = auth;
+
+        this.canCreateProjectSub = this.projectAuthorizationService.canCreate().subscribe(
+            canCreate => {
+                this.canCreateProject = canCreate;
             },
             err => console.error(err)
         );
     }
 
     ngOnDestroy() {
-        if (this.projectAuthorizationSub) {
-            this.projectAuthorizationSub.unsubscribe();
+        if (this.canCreateProjectSub) {
+            this.canCreateProjectSub.unsubscribe();
         }
     }
 
@@ -48,7 +49,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
 
     newProject(): void {
-        if (this.projectAuthorization.canCreate) {
+        if (this.canCreateProject) {
             this.router.navigate(['/', 'projects', 'new']);
         } else {
             this.notificationService.info(`You don't have permission to create a Project.`);

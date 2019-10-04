@@ -1,60 +1,21 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
-import { ProjectDataService } from './project-data.service';
+import { EntityAuthorizationService } from 'components/authorization/entity-authorization.service';
 import config from '../app.constants';
 
-export interface ProjectAuthorization {
-    canCreate: boolean;
-    canRead: boolean;
-    canEdit: boolean;
-    canAdmin: boolean;
-}
-
 @Injectable()
-export class ProjectAuthorizationService implements OnDestroy {
-    private authorization_: BehaviorSubject<ProjectAuthorization> = new BehaviorSubject<ProjectAuthorization>(null);
-    private authorizationSub: Subscription;
-
-    static parameters = [UserPermissionDataService, ProjectDataService];
-    constructor(
-        private userPermissionDataService: UserPermissionDataService,
-        private projectDataService: ProjectDataService
-    ) {
-        const entityType = config.entityTypes.PROJECT.value;
-        this.authorizationSub = combineLatest(
-            this.projectDataService.project(),
-            this.userPermissionDataService.permissions()
-        )
-            .pipe(filter(([tool, auth]) => !!auth))
-            .subscribe(([project, auth]) => {
-                let projectAuth = {
-                    canCreate: false,
-                    canRead: false,
-                    canEdit: false,
-                    canAdmin: false,
-                };
-
-                projectAuth.canCreate =
-                    auth.isAdmin() || auth.hasActionPermission(config.actionPermissionTypes.CREATE_PROJECT.value);
-                projectAuth.canRead = project && auth.canReadEntity(project._id, entityType);
-                projectAuth.canEdit = project && auth.canWriteEntity(project._id, entityType);
-                projectAuth.canAdmin = project && auth.canAdminEntity(project._id, entityType);
-
-                console.log('PROJECT AUTH', projectAuth);
-
-                this.authorization_.next(projectAuth);
-            });
+export class ProjectAuthorizationService extends EntityAuthorizationService {
+    // TODO Find a way to not have to inject the service in the child service, only the parent service.
+    static parameters = [UserPermissionDataService];
+    constructor(protected userPermissionDataService: UserPermissionDataService) {
+        super(userPermissionDataService);
     }
 
-    ngOnDestroy() {
-        if (this.authorizationSub) {
-            this.authorizationSub.unsubscribe();
-        }
+    getEntityType(): string {
+        return config.entityTypes.PROJECT.value;
     }
 
-    authorization(): Observable<ProjectAuthorization> {
-        return this.authorization_.asObservable().pipe(filter(auth => !!auth));
+    getCreateActionPermissionType(): string {
+        return config.actionPermissionTypes.CREATE_PROJECT.value;
     }
 }
