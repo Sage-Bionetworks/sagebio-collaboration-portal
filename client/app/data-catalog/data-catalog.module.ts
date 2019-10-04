@@ -20,6 +20,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { DataCatalogThreadComponent } from './data-catalog-thread/data-catalog-thread.component';
 import { DataCatalogThreadNewComponent } from './data-catalog-thread-new/data-catalog-thread-new.component';
+import { DataCatalogAuthorizationService } from './data-catalog-authorization.service';
 
 export const ROUTES: Routes = [
     {
@@ -75,7 +76,7 @@ export const ROUTES: Routes = [
         DataCatalogThreadComponent,
         DataCatalogThreadNewComponent,
     ],
-    providers: [SocketService, DataCatalogService],
+    providers: [SocketService, DataCatalogService, DataCatalogAuthorizationService],
     exports: [],
 })
 export class DataCatalogModule {}

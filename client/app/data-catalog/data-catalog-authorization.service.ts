@@ -6,7 +6,7 @@ import { EntityAuthorizationService } from 'components/authorization/entity-auth
 import config from '../app.constants';
 
 @Injectable()
-export class ToolAuthorizationService extends EntityAuthorizationService {
+export class DataCatalogAuthorizationService extends EntityAuthorizationService {
     // TODO Find a way to not have to inject the service in the child service, only the parent service.
     static parameters = [UserPermissionDataService];
     constructor(protected userPermissionDataService: UserPermissionDataService) {
@@ -14,16 +14,16 @@ export class ToolAuthorizationService extends EntityAuthorizationService {
     }
 
     getEntityType(): string {
-        return config.entityTypes.TOOL.value;
+        return config.entityTypes.DATA_CATALOG.value;
     }
 
     getCreateActionPermissionType(): string {
-        return config.actionPermissionTypes.CREATE_TOOL.value;
+        return config.actionPermissionTypes.CREATE_DATA_CATALOG.value;
     }
 
-    // TODO Remove when Tool can be made private
+    // TODO Remove when DataCatalog can be made private
     /** @override */
-    canRead(toolId: string): Observable<boolean> {
+    canRead(catalogId: string): Observable<boolean> {
         return this.userPermissionDataService.permissions().pipe(
             filter(auth => !!auth),
             mapTo(true)
