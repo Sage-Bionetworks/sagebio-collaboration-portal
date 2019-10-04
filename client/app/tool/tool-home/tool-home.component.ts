@@ -23,18 +23,14 @@ import { TokenService } from 'components/auth/token.service';
 })
 export class ToolHomeComponent implements OnInit, OnDestroy {
     private tool$: Observable<Tool>;
-
-    @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
-
     private canEditTool = false;
-
     private toolSub: Subscription;
     private canEditToolSub: Subscription;
+    private entityType: string; // used in html
 
-
-    private entityType: string;
+    @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
 
     static parameters = [
         Router,

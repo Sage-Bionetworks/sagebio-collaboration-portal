@@ -1,4 +1,4 @@
-<div *ngIf="tool$ | async; let tool">
+<ng-container *ngIf="tool$ | async as tool">
     <div *ngIf="!showEditToolTemplate; else showEditToolForm" class="tool-content">
         <mat-card class="tool-card">
             <div class="tool-card-top">
@@ -70,4 +70,4 @@
     <ng-template #showEditToolForm>
         <tool-edit [tool]="tool" (editTool)="onEditTool($event)" (close)="showEditToolTemplate = false"></tool-edit>
     </ng-template>
-</div>
+</ng-container>

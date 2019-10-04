@@ -1,36 +1,36 @@
-<div *ngIf="dataCatalog && !showEditDataCatalogTemplate; else showEditDataCatalogForm">
-    <div class="app-primary-header">
-        <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
-        <h1>{{ dataCatalog.title }}</h1>
-    </div>
+<ng-container *ngIf="dataCatalog$ | async as dataCatalog">
+    <div *ngIf="!showEditDataCatalogTemplate; else showEditDataCatalogForm">
+        <div class="app-primary-header">
+            <mat-icon class="app-nav-back-icon" routerLink="/data-catalogs">keyboard_arrow_left</mat-icon>
+            <h1>{{ dataCatalog.title }}</h1>
+        </div>
 
-    <div class="data-catalog-content">
+        <div class="data-catalog-content">
+            <mat-card class="data-catalog-card">
+                <picture>
+                    <img [src]="dataCatalog.picture" aria-label="Data catalog preview" />
+                </picture>
+                <div class="data-catalog-metadata">
+                    <h1>{{ dataCatalog.title }}</h1>
+                    <div class="data-catalog-metadata-row">
+                        <mat-icon>home</mat-icon>
+                        <span>{{ dataCatalog.organization.title }}</span>
+                    </div>
+                    <div class="data-catalog-metadata-row">
+                        <mat-icon>storage</mat-icon>
+                        <span>{{ dataCatalogStats?.datasetCount }} datasets</span>
+                    </div>
+                    <!-- <div *ngIf="!catalogStats.live" class="data-catalog-metadata-row">
+                                    <mat-icon>cloud_off</mat-icon>
+                                    <span>This data catalog can not be reached.</span>
+                                </div> -->
+                    <div class="data-catalog-metadata-description">
+                        <span>{{ dataCatalog.description }}</span>
+                    </div>
+                </div>
 
-        <mat-card class="data-catalog-card">
-            <picture>
-                <img [src]="dataCatalog.picture" aria-label="Data catalog preview" />
-            </picture>
-            <div class="data-catalog-metadata">
-                <h1>{{ dataCatalog.title }}</h1>
-                <div class="data-catalog-metadata-row">
-                    <mat-icon>home</mat-icon>
-                    <span>{{ dataCatalog.organization.title }}</span>
-                </div>
-                <div *ngIf="catalogStats.datasetCount" class="data-catalog-metadata-row">
-                    <mat-icon>storage</mat-icon>
-                    <span>{{ catalogStats.datasetCount }} datasets</span>
-                </div>
-                <!-- <div *ngIf="!catalogStats.live" class="data-catalog-metadata-row">
-                    <mat-icon>cloud_off</mat-icon>
-                    <span>This data catalog can not be reached.</span>
-                </div> -->
-                <div class="data-catalog-metadata-description">
-                    <span>{{ dataCatalog.description }}</span>
-                </div>
-            </div>
-
-            <div class="app-data-catalog-actions">
-                <div class="app-data-catalog-icon-actions">
+                <div class="app-data-catalog-actions">
+                    <div class="app-data-catalog-icon-actions">
                         <share-button [entity]="dataCatalog" [entityType]="entityType"></share-button>
                         <a
                             mat-icon-button
@@ -51,38 +51,33 @@
                             >
                                 <span>Copy Link</span>
                             </button>
-                            <mat-divider></mat-divider>
+                            <mat-divider *ngIf="canAdminDataCatalog"></mat-divider>
                             <button
                                 mat-menu-item
                                 [attr.aria-label]="'Edit'"
-                                *ngIf="canEditDataCatalog"
-                                (click)="showEditDataCatalogTemplate=true"
+                                *ngIf="canAdminDataCatalog"
+                                (click)="showEditDataCatalogTemplate = true"
                             >
                                 <span>Edit</span>
                             </button>
-                            <button
-                                mat-menu-item
-                                [attr.aria-label]="'Delete'"
-                                *ngIf="canDeleteDataCatalog"
-                                (click)="onDeleteDataCatalog()"
-                                disabled
-                            >
-                                <span class="app-data-catalog-actions-delete-btn-label">Delete</span>
-                            </button>
                         </mat-menu>
+                    </div>
+                    <div class="app-data-catalog-button-actions">
+                        <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank"
+                            >Open Data Catalog</a
+                        >
+                        <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
+                    </div>
                 </div>
-                <div class="app-data-catalog-button-actions">
-                    <a mat-raised-button color="primary" [href]="dataCatalog.website" target="_blank">Open Data Catalog</a>
-                    <a mat-raised-button color="primary" [routerLink]="'discussion'">Discuss</a>
-                </div>
-            </div>
-        </mat-card>
+            </mat-card>
+        </div>
     </div>
-</div>
 
-<ng-template #showEditDataCatalogForm>
-    <data-catalog-edit *ngIf="dataCatalog" [dataCatalog]="dataCatalog" (editDataCatalog)="onEditDataCatalog($event)" (close)="showEditDataCatalogTemplate=false"></data-catalog-edit>
-</ng-template>
-
-
-
+    <ng-template #showEditDataCatalogForm>
+        <data-catalog-edit
+            [dataCatalog]="dataCatalog"
+            (editDataCatalog)="onDataCatalogUpdated($event)"
+            (close)="showEditDataCatalogTemplate = false"
+        ></data-catalog-edit>
+    </ng-template>
+</ng-container>
