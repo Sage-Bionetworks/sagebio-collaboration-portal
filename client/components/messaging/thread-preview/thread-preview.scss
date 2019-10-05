@@ -8,6 +8,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
 
+    .app-thread-metadata {
+        height: 48px !important;
+    }
+
     .app-thread-header-avatar {
         padding-right: 10px;
     }
@@ -17,7 +21,8 @@
         flex-flow: row nowrap;
         padding-right: 8px;
         justify-content: flex-end;
-        width: 155px;
+        align-items: center;
+        width: 88px;
     }
 
     .app-thread-header-metadata-line {
@@ -25,14 +30,20 @@
     }
 
     .app-thread-preview-contributor-avatar {
-        padding-right: 5px;
+        padding: 0 2.5px;
     }
 
     .app-thread-header-metadata-contributor {
         display: flex;
         flex-flow: row-reverse nowrap;
         justify-content: flex-end;
-        width: 155px;
+        width: 95px;
+    }
+
+    .app-thread-preview-contributor-list {
+        display: flex;
+        flex-flow: row nowrap;
+        flex-grow: 1;
     }
 
     .app-thread-header-title {
@@ -77,3 +88,4 @@
         padding-right: 4px;
     }
 }
+
