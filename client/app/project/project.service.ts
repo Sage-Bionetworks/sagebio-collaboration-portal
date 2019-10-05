@@ -1,3 +1,4 @@
+import { BooleanValue } from './../../../shared/interfaces/boolean-value.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
@@ -10,6 +11,8 @@ import { EntityVisibility, Entity } from 'models/entities/entity.model';
 import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { StringValue } from 'models/string-value.model';
+import config from '../app.constants';
 
 @Injectable()
 export class ProjectService implements EntityService<Project> {
@@ -38,6 +41,12 @@ export class ProjectService implements EntityService<Project> {
 
     remove(project: Project): Observable<Project> {
         return this.httpClient.delete(`/api/projects/${project._id}`).pipe(map(() => project));
+    }
+
+    isPublic(id: string): Observable<boolean> {
+        return this.httpClient
+            .get<StringValue>(`/api/projects/${id}/visibility`)
+            .pipe(map(res => res.value === config.entityVisibility.PUBLIC.value));
     }
 
     makePublic(entity: Project): Observable<Project> {

@@ -7,12 +7,13 @@ import { ToolService } from './tool.service';
 import { ToolDataService } from './tool-data.service';
 import { ToolSidenavService } from './tool-sidenav/tool-sidenav.service';
 import { ToolHeaderService } from './tool-header/tool-header.service';
+import { ToolAuthorizationService } from './tool-authorization.service';
 
 @Component({
     selector: 'tool',
     template: require('./tool.html'),
     styles: [require('./tool.scss')],
-    providers: [ToolDataService, ToolHeaderService, ToolSidenavService],
+    providers: [ToolDataService, ToolAuthorizationService, ToolHeaderService, ToolSidenavService],
 })
 export class ToolComponent implements OnInit {
     private tool$: Observable<Tool>; // used in html

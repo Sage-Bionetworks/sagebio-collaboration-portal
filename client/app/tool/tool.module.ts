@@ -31,6 +31,9 @@ import { ToolHeaderComponent } from './tool-header/tool-header.component';
 import { ToolHeaderService } from './tool-header/tool-header.service';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
+import { ToolAuthorizationService } from './tool-authorization.service';
+import { ToolGuard } from './tool-guard.service';
+import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -41,12 +44,14 @@ export const ROUTES: Routes = [
     {
         path: 'tools/new',
         component: ToolNewComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ToolGuard],
+        data: { authorization: EntityAuthorizationTypes.CREATE },
     },
     {
         path: 'tools/:id',
         component: ToolComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ToolGuard],
+        data: { authorization: EntityAuthorizationTypes.READ },
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ToolHomeComponent },
@@ -54,7 +59,12 @@ export const ROUTES: Routes = [
             { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'discussion/new', component: ToolThreadNewComponent },
             { path: 'discussion/:threadId', component: EntityThreadComponent },
-            { path: 'settings', component: ToolSettingsComponent },
+            {
+                path: 'settings',
+                component: ToolSettingsComponent,
+                canActivate: [ToolGuard],
+                data: { authorization: EntityAuthorizationTypes.ADMIN },
+            },
         ],
     },
 ];
@@ -86,9 +96,17 @@ export const ROUTES: Routes = [
         ToolSidenavComponent,
         ToolViewComponent,
         ToolHeaderComponent,
-        ToolThreadNewComponent
+        ToolThreadNewComponent,
     ],
-    providers: [SocketService, ToolService, ToolDataService, ToolSidenavService, ToolHeaderService],
+    providers: [
+        SocketService,
+        ToolService,
+        ToolDataService,
+        ToolAuthorizationService,
+        ToolGuard,
+        ToolSidenavService,
+        ToolHeaderService,
+    ],
     exports: [],
 })
 export class ToolModule {}

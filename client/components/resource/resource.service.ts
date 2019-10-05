@@ -11,6 +11,8 @@ import { ActivitySidenavComponent } from 'components/activity/activity-sidenav/a
 import { EntityService } from 'components/entity/entity.service';
 import { Patch } from 'models/patch.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { StringValue } from 'models/string-value.model';
+import config from '../../app/app.constants';
 
 @Injectable()
 export class ResourceService implements EntityService<Resource> {
@@ -39,6 +41,12 @@ export class ResourceService implements EntityService<Resource> {
 
     remove(resource: Resource): Observable<Resource> {
         return this.httpClient.delete(`/api/resources/${resource._id}`).pipe(map(() => resource));
+    }
+
+    isPublic(id: string): Observable<boolean> {
+        return this.httpClient
+            .get<StringValue>(`/api/resources/${id}/visibility`)
+            .pipe(map(res => res.value === config.entityVisibility.PUBLIC.value));
     }
 
     makePublic(entity: Resource): Observable<Resource> {

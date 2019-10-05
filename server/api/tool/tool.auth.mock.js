@@ -1,14 +1,14 @@
 export const toolAuthStub = {
-    canReadTool() {
-        return 'toolAuth.canReadTool';
+    canRead() {
+        return 'toolAuth.canRead';
     },
-    canCreateTool() {
-        return 'toolAuth.canCreateTool';
+    canCreate() {
+        return 'toolAuth.canCreate';
     },
-    canEditTool() {
-        return 'toolAuth.canEditTool';
+    canEdit() {
+        return 'toolAuth.canEdit';
     },
-    canDeleteTool() {
-        return 'toolAuth.canDeleteTool';
+    canDelete() {
+        return 'toolAuth.canDelete';
     },
 };

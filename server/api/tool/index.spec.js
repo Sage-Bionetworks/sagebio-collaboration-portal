@@ -48,7 +48,7 @@ describe('Tool API Router:', function () {
     describe('GET /api/tools/:id', function () {
         it('should route to tool.controller.show', function () {
             expect(routerStub.get
-                .withArgs('/:id', toolAuthStub.canReadTool(), toolCtrlStub.show)
+                .withArgs('/:id', toolAuthStub.canRead(), toolCtrlStub.show)
             ).to.have.been.calledOnce;
         });
     });
@@ -56,7 +56,7 @@ describe('Tool API Router:', function () {
     describe('POST /api/tools', function () {
         it('should route to tool.controller.create', function () {
             expect(routerStub.post
-                .withArgs('/', toolAuthStub.canCreateTool(), toolCtrlStub.create)
+                .withArgs('/', toolAuthStub.canCreate(), toolCtrlStub.create)
             ).to.have.been.calledOnce;
         });
     });
@@ -64,7 +64,7 @@ describe('Tool API Router:', function () {
     describe('PATCH /api/tools/:id', function () {
         it('should route to tool.controller.patch', function () {
             expect(routerStub.patch
-                .withArgs('/:id', toolAuthStub.canEditTool(), toolCtrlStub.patch)
+                .withArgs('/:id', toolAuthStub.canEdit(), toolCtrlStub.patch)
             ).to.have.been.calledOnce;
         });
     });
@@ -72,7 +72,7 @@ describe('Tool API Router:', function () {
     describe('DELETE /api/tools/:id', function () {
         it('should route to tool.controller.destroy', function () {
             expect(routerStub.delete
-                .withArgs('/:id', toolAuthStub.canDeleteTool(), toolCtrlStub.destroy)
+                .withArgs('/:id', toolAuthStub.canDelete(), toolCtrlStub.destroy)
             ).to.have.been.calledOnce;
         });
     });

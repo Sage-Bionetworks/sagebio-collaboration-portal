@@ -11,6 +11,8 @@ import { EntityService } from 'components/entity/entity.service';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { Patch } from 'models/patch.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { StringValue } from 'models/string-value.model';
+import config from '../app.constants';
 
 @Injectable()
 export class ToolService implements EntityService<Tool> {
@@ -39,6 +41,15 @@ export class ToolService implements EntityService<Tool> {
 
     remove(tool: Tool): Observable<Tool> {
         return this.httpClient.delete(`/api/tools/${tool._id}`).pipe(map(() => tool));
+    }
+
+    isPublic(id: string): Observable<boolean> {
+        // TODO Restore meaningful code when tools fully support ACL
+        // For now tools are considered public
+        return of(true);
+        // return this.httpClient
+        //     .get<StringValue>(`/api/tools/${id}/visibility`)
+        //     .pipe(map(res => res.value === config.entityVisibility.PUBLIC.value));
     }
 
     makePublic(entity: Tool): Observable<Tool> {

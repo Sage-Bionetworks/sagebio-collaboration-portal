@@ -8,6 +8,8 @@ import { DataCatalog } from 'models/entities/data-catalog.model';
 import { Patch } from 'models/patch.model';
 import { QueryListResponse } from 'models/query-list-response.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { StringValue } from 'models/string-value.model';
+import config from '../app.constants';
 
 @Injectable()
 export class DataCatalogService implements EntityService<DataCatalog> {
@@ -36,6 +38,15 @@ export class DataCatalogService implements EntityService<DataCatalog> {
 
     remove(dataCatalog: DataCatalog): Observable<DataCatalog> {
         return this.httpClient.delete(`/api/data-catalogs/${dataCatalog._id}`).pipe(map(() => dataCatalog));
+    }
+
+    isPublic(id: string): Observable<boolean> {
+        // TODO Restore meaningful code when data catalogs fully support ACL
+        // For now data catalogs are considered public
+        return of(true);
+        // return this.httpClient
+            // .get<StringValue>(`/api/data-catalogs/${id}/visibility`)
+            // .pipe(map(res => res.value === config.entityVisibility.PUBLIC.value));
     }
 
     makePublic(entity: DataCatalog): Observable<DataCatalog> {

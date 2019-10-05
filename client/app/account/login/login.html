@@ -1,47 +1,86 @@
 <div *ngIf="authStrategies">
     <div class="app-primary-header">
-            <h1>Login</h1>
-        </div>
+        <h1>Login</h1>
+    </div>
 
-        <div class="app-login-content">
-            <div class="app-login-box">
-
-                <div class="app-login-buttons">
-                    <form *ngIf="(authStrategies | async)?.includes('local')" (ngSubmit)="login()" class="app-login-local-form" [formGroup]="loginForm" novalidate>
-                        <h3>Sign in with your PHCCP account</h3>
-                        <mat-form-field class="form-field-full-width">
-                            <input matInput placeholder="Email" type="email" formControlName="email" [errorStateMatcher]="matcher">
-                            <mat-error *ngIf="loginForm.controls.email.invalid && !loginForm.controls.email.errors?.unknownEmail">
-                                Please enter a valid email.
-                            </mat-error>
-                            <mat-error *ngIf="loginForm.controls.email.errors?.unknownEmail">
-                                This email is not registered.
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="form-field-full-width">
-                            <input matInput placeholder="Password" type="password" formControlName="password" [errorStateMatcher]="matcher">
-                            <mat-error *ngIf="loginForm.controls.password.errors?.required && !loginForm.controls.password.errors?.incorrect">
-                                Please enter the password.
-                            </mat-error>
-                            <mat-error *ngIf="loginForm.controls.password.errors?.incorrect">
-                                Wrong password. Try again of click Forgot password to reset it.
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-error *ngIf="errors.login">
-                            {{errors.login}}
+    <div class="app-login-content">
+        <div class="app-login-box">
+            <div class="app-login-buttons">
+                <form
+                    *ngIf="(authStrategies | async)?.includes('local')"
+                    (ngSubmit)="login()"
+                    class="app-login-local-form"
+                    [formGroup]="loginForm"
+                    novalidate
+                >
+                    <h3>Sign in with your PHCCP account</h3>
+                    <mat-form-field class="form-field-full-width">
+                        <input
+                            matInput
+                            placeholder="Email"
+                            type="email"
+                            formControlName="email"
+                            [errorStateMatcher]="matcher"
+                        />
+                        <mat-error
+                            *ngIf="loginForm.controls.email.invalid && !loginForm.controls.email.errors?.unknownEmail"
+                        >
+                            Please enter a valid email.
                         </mat-error>
-                        <button tpye="submit" class="app-login-button app-login-local-login-btn" mat-raised-button color="warn" [disabled]="loginForm.invalid">Login</button>
-                    </form>
+                        <mat-error *ngIf="loginForm.controls.email.errors?.unknownEmail">
+                            This email is not registered.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-field-full-width">
+                        <input
+                            matInput
+                            placeholder="Password"
+                            type="password"
+                            formControlName="password"
+                            [errorStateMatcher]="matcher"
+                        />
+                        <mat-error
+                            *ngIf="
+                                loginForm.controls.password.errors?.required &&
+                                !loginForm.controls.password.errors?.incorrect
+                            "
+                        >
+                            Please enter the password.
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.controls.password.errors?.incorrect">
+                            Wrong password. Try again of click Forgot password to reset it.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-error *ngIf="errors.login">
+                        {{ errors.login }}
+                    </mat-error>
+                    <button
+                        tpye="submit"
+                        class="app-login-button app-login-local-login-btn"
+                        mat-raised-button
+                        color="warn"
+                        [disabled]="loginForm.invalid"
+                    >
+                        Login
+                    </button>
+                </form>
 
-                    <h3>Sign in with one of the following strategies</h3>
-                    <!-- <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a> -->
-                    <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsTestUser()">Login as TEST USER</a>
-                    <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
-                </div>
-                <div class="app-request-questions">
-                    <a href="https://webforms.roche.com/phcixcc" target="_blank">Contact Us</a>
-        <!--            <a [href]="contactUsUrl" target="_blank">Contact Us</a>-->
-                </div>
+                <h3>Sign in with one of the following strategies</h3>
+                <!-- <a *ngIf="(authStrategies | async)?.includes('local')" class="app-login-button" mat-raised-button color="warn" (click)="loginAsAdmin()">Login as ADMIN USER</a> -->
+                <a
+                    *ngIf="(authStrategies | async)?.includes('local')"
+                    class="app-login-button"
+                    mat-raised-button
+                    color="warn"
+                    (click)="loginAsTestUser()"
+                    >Login as TEST USER</a
+                >
+                <sso-buttons [authStrategies]="authStrategies | async"></sso-buttons>
+            </div>
+            <div class="app-request-questions">
+                <a href="https://webforms.roche.com/phcixcc" target="_blank">Contact Us</a>
+                <!--            <a [href]="contactUsUrl" target="_blank">Contact Us</a>-->
             </div>
         </div>
+    </div>
 </div>

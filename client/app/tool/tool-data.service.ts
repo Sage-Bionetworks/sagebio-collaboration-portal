@@ -1,6 +1,17 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, forkJoin, of, merge, Observable, Subscription, Subject, combineLatest } from 'rxjs';
-import { switchMap, filter, tap, mapTo, last, pairwise, takeUntil, map, catchError, distinctUntilChanged } from 'rxjs/operators';
+import {
+    switchMap,
+    filter,
+    tap,
+    mapTo,
+    last,
+    pairwise,
+    takeUntil,
+    map,
+    catchError,
+    distinctUntilChanged,
+} from 'rxjs/operators';
 import { Tool } from 'models/entities/tool.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { EntityPermission } from 'models/auth/entity-permission.model';
@@ -12,7 +23,7 @@ import config from '../../app/app.constants';
 export const DEFAULT_USER_PERMISSION: UserEntityPermission = {
     canRead: false,
     canWrite: false,
-    canAdmin: false
+    canAdmin: false,
 };
 
 interface ToolAclResult {
@@ -24,28 +35,32 @@ interface ToolAclResult {
 export class ToolDataService implements OnDestroy {
     private _tool: BehaviorSubject<Tool> = new BehaviorSubject<Tool>(null);
 
-    private _userPermission: BehaviorSubject<UserEntityPermission> = new BehaviorSubject<UserEntityPermission>(DEFAULT_USER_PERMISSION);
+    private _userPermission: BehaviorSubject<UserEntityPermission> = new BehaviorSubject<UserEntityPermission>(
+        DEFAULT_USER_PERMISSION
+    );
     private _acl: BehaviorSubject<EntityPermission[]> = new BehaviorSubject<EntityPermission[]>([]);
     private unsubscribe = new Subject<void>();
 
     private socketEventName: string;
 
-    static parameters = [UserPermissionDataService, EntityPermissionService,
-        SocketService];
-    constructor(private userPermissionDataService: UserPermissionDataService,
+    static parameters = [UserPermissionDataService, EntityPermissionService, SocketService];
+    constructor(
+        private userPermissionDataService: UserPermissionDataService,
         private entityPermissionService: EntityPermissionService,
-        private socketService: SocketService) {
-
+        private socketService: SocketService
+    ) {
         this.getUserEntityPermission()
-            .pipe(
-                takeUntil(this.unsubscribe)
-            )
-            .subscribe(userPermission => {
-                this._userPermission.next(userPermission);
-            }, err => console.log(err), () => {
-                this._userPermission.next(DEFAULT_USER_PERMISSION);
-                this._userPermission.complete();
-            });
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+                userPermission => {
+                    this._userPermission.next(userPermission);
+                },
+                err => console.log(err),
+                () => {
+                    this._userPermission.next(DEFAULT_USER_PERMISSION);
+                    this._userPermission.complete();
+                }
+            );
     }
 
     ngOnDestroy() {
@@ -124,55 +139,41 @@ export class ToolDataService implements OnDestroy {
      * @return {Observable<UserEntityPermission>}
      */
     private getUserEntityPermission(): Observable<UserEntityPermission> {
-        const queryUserEntityPermission = this._tool
-            .pipe(
-                filter(tool => !!tool),
-                switchMap(tool => this.userPermissionDataService.permissions()
-                    .pipe(
-                        map(permissions => ({
-                            canRead: permissions.canReadEntity(
-                                tool._id,
-                                config.entityTypes.TOOL.value
-                            ),
-                            canWrite: permissions.canWriteEntity(
-                                tool._id,
-                                config.entityTypes.TOOL.value
-                            ),
-                            canAdmin: permissions.canAdminEntity(
-                                tool._id,
-                                config.entityTypes.TOOL.value
-                            )
-                        })),
-                        catchError(err => of(<UserEntityPermission>DEFAULT_USER_PERMISSION))
-                    )
+        const queryUserEntityPermission = this._tool.pipe(
+            filter(tool => !!tool),
+            switchMap(tool =>
+                this.userPermissionDataService.permissions().pipe(
+                    map(permissions => ({
+                        canRead: permissions.canReadEntity(tool._id, config.entityTypes.TOOL.value),
+                        canWrite: permissions.canWriteEntity(tool._id, config.entityTypes.TOOL.value),
+                        canAdmin: permissions.canAdminEntity(tool._id, config.entityTypes.TOOL.value),
+                    })),
+                    catchError(err => of(<UserEntityPermission>DEFAULT_USER_PERMISSION))
                 )
-            );
-
-        const emptyUserEntityPermission = this._tool
-            .pipe(
-                filter(tool => !tool),
-                mapTo(DEFAULT_USER_PERMISSION)
-            );
-
-        const getUserEntityPermission = merge(
-            queryUserEntityPermission,
-            emptyUserEntityPermission
+            )
         );
+
+        const emptyUserEntityPermission = this._tool.pipe(
+            filter(tool => !tool),
+            mapTo(DEFAULT_USER_PERMISSION)
+        );
+
+        const getUserEntityPermission = merge(queryUserEntityPermission, emptyUserEntityPermission);
 
         return getUserEntityPermission;
     }
 
     tool(): Observable<Tool> {
-        return this._tool.asObservable();
+        return this._tool.asObservable().pipe(filter(tool => !!tool));
     }
 
     /**
      * Returns whether the user can admin the tool.
      * @return {Observable<UserEntityPermission>}
      */
-    userPermission(): Observable<UserEntityPermission> {
-        return this._userPermission.asObservable();
-    }
+    // userPermission(): Observable<UserEntityPermission> {
+    //     return this._userPermission.asObservable();
+    // }
 
     /**
      * Returns the ACL associated to this tool.

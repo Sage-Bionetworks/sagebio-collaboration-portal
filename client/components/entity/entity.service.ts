@@ -19,11 +19,11 @@ export abstract class EntityService<E extends Entity> {
      */
     abstract get(id: string): Observable<E>;
 
-    /**
-     * Returns the entity with the slug specified.
-     * @param slug
-     */
-    abstract getBySlug(slug: string): Observable<E>;
+    // /**
+    //  * Returns the entity with the slug specified.
+    //  * @param slug
+    //  */
+    // abstract getBySlug(slug: string): Observable<E>;
 
     /**
      * Creates a new entity.
@@ -43,6 +43,12 @@ export abstract class EntityService<E extends Entity> {
      * @param entity
      */
     abstract remove(entity: E): Observable<E>;
+
+    /**
+     * Returns true if the entity is public.
+     * @param id
+     */
+    abstract isPublic(id: string): Observable<boolean>;
 
     /**
      * Makes an entity public.

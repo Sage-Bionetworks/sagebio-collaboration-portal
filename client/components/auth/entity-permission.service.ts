@@ -14,6 +14,7 @@ export class EntityPermissionService {
     getPermission(id: string): Observable<EntityPermission> {
         return this.httpClient.get<EntityPermission>(`/api/entity-permissions/${id}`);
     }
+
     /**
      * Returns the entity-permissions of the current user.
      */

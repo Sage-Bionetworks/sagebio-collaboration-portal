@@ -40,13 +40,15 @@ import { ProjectService } from './project.service';
 import { ProjectDataService } from './project-data.service';
 import { ProjectHeaderService } from './project-header/project-header.service';
 import { ProjectSidenavService } from './project-sidenav/project-sidenav.service';
-import { ProjectGuard } from './project-guard.service';
 
 import { EntityModule as EntityListModule } from '../../components/entity/entity.module';
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
 import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
+import { ProjectAuthorizationService } from './project-authorization.service';
+import { ProjectGuard } from './project-guard.service';
+import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 
 export const ROUTES: Routes = [
     {
@@ -57,26 +59,43 @@ export const ROUTES: Routes = [
     {
         path: 'projects/new',
         component: ProjectNewComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, ProjectGuard],
+        data: { authorization: EntityAuthorizationTypes.CREATE },
     },
     {
         path: 'projects/:id',
         component: ProjectComponent,
         canActivate: [AuthGuard, ProjectGuard],
+        data: { authorization: EntityAuthorizationTypes.READ },
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ProjectHomeComponent },
             { path: 'insights', component: ProjectInsightsComponent },
-            { path: 'insights/new', component: ProjectInsightNewComponent },
+            {
+                path: 'insights/new',
+                component: ProjectInsightNewComponent,
+                canActivate: [ProjectGuard],
+                data: { authorization: EntityAuthorizationTypes.WRITE },
+            },
             { path: 'insights/:insightId', component: InsightPageComponent },
             { path: 'resources', component: ProjectResourcesComponent },
-            { path: 'resources/new', component: ProjectResourceNewComponent },
+            {
+                path: 'resources/new',
+                component: ProjectResourceNewComponent,
+                canActivate: [ProjectGuard],
+                data: { authorization: EntityAuthorizationTypes.WRITE },
+            },
             { path: 'resources/:resourceId', component: ResourcePageComponent },
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'discussion/new', component: ProjectThreadNewComponent },
             { path: 'discussion/:threadId', component: EntityThreadComponent },
-            { path: 'settings', component: ProjectSettingsComponent },
+            {
+                path: 'settings',
+                component: ProjectSettingsComponent,
+                canActivate: [ProjectGuard],
+                data: { authorization: EntityAuthorizationTypes.ADMIN },
+            },
         ],
     },
 ];
@@ -107,9 +126,10 @@ export const ROUTES: Routes = [
         // ToolService,
         ProjectService,
         ProjectDataService,
+        ProjectAuthorizationService,
+        ProjectGuard,
         ProjectHeaderService,
         ProjectSidenavService,
-        ProjectGuard,
         InsightService,
         ResourceService,
     ],
