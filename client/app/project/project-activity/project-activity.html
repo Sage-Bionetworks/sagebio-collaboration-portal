@@ -7,7 +7,7 @@
         </div>
         <div class="activities-graph-content-container">
             <div class="activities-graph-results" (resized)="onResized($event)">
-                <provenance-graph class="provenance-graph" [graphData]="provenanceGraphData" [rootId]=null></provenance-graph>
+                <provenance-graph class="provenance-graph" [graphData]="provenanceGraphData" [rootId]=project._id></provenance-graph>
             </div>
         </div>
     </div>
