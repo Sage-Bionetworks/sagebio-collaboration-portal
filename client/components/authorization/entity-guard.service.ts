@@ -3,6 +3,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { EntityAuthorizationService } from './entity-authorization.service';
+import { Entity } from 'models/entities/entity.model';
 
 export enum EntityAuthorizationTypes {
     CREATE,
@@ -12,8 +13,8 @@ export enum EntityAuthorizationTypes {
 }
 
 @Injectable()
-export abstract class EntityGuard implements CanActivate {
-    constructor(protected router: Router, protected authorizationService: EntityAuthorizationService) {}
+export abstract class EntityGuard<E extends Entity> implements CanActivate {
+    constructor(protected router: Router, protected authorizationService: EntityAuthorizationService<E>) {}
 
     canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         let authorized$: Observable<boolean>;

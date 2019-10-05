@@ -65,8 +65,8 @@ export const ROUTES: Routes = [
     {
         path: 'projects/:id',
         component: ProjectComponent,
-        canActivate: [AuthGuard/*, ProjectGuard*/],
-        // data: { authorization: EntityAuthorizationTypes.READ }, // TODO Need to add a step to check whether a project is public
+        canActivate: [AuthGuard, ProjectGuard],
+        data: { authorization: EntityAuthorizationTypes.READ },
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: ProjectHomeComponent },

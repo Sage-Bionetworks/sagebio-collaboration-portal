@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, mapTo } from 'rxjs/operators';
+import { Tool } from 'models/entities/tool.model';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { EntityAuthorizationService } from 'components/authorization/entity-authorization.service';
+import { ToolService } from './tool.service';
 import config from '../app.constants';
 
 @Injectable()
-export class ToolAuthorizationService extends EntityAuthorizationService {
+export class ToolAuthorizationService extends EntityAuthorizationService<Tool> {
     // TODO Find a way to not have to inject the service in the child service, only the parent service.
-    static parameters = [UserPermissionDataService];
-    constructor(protected userPermissionDataService: UserPermissionDataService) {
-        super(userPermissionDataService);
+    static parameters = [UserPermissionDataService, ToolService];
+    constructor(protected userPermissionDataService: UserPermissionDataService, protected entityService: ToolService) {
+        super(userPermissionDataService, entityService);
     }
 
     getEntityType(): string {
@@ -19,14 +19,5 @@ export class ToolAuthorizationService extends EntityAuthorizationService {
 
     getCreateActionPermissionType(): string {
         return config.actionPermissionTypes.CREATE_TOOL.value;
-    }
-
-    // TODO Remove when Tool can be made private
-    /** @override */
-    canRead(toolId: string): Observable<boolean> {
-        return this.userPermissionDataService.permissions().pipe(
-            filter(auth => !!auth),
-            mapTo(true)
-        );
     }
 }

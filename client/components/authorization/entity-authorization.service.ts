@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { EntityService } from 'components/entity/entity.service';
+import { Entity } from 'models/entities/entity.model';
 
 export interface EntityAuthorization {
     canCreate: boolean;
@@ -11,9 +13,8 @@ export interface EntityAuthorization {
 }
 
 @Injectable()
-export abstract class EntityAuthorizationService {
-    static parameters = [UserPermissionDataService];
-    constructor(protected userPermissionDataService: UserPermissionDataService) {}
+export abstract class EntityAuthorizationService<E extends Entity> {
+    constructor(protected userPermissionDataService: UserPermissionDataService, protected entityService: EntityService<E>) {}
 
     abstract getEntityType(): string; // TODO use enum
 
@@ -39,9 +40,15 @@ export abstract class EntityAuthorizationService {
      * @param entityId
      */
     canRead(entityId: string): Observable<boolean> {
-        return this.userPermissionDataService.permissions().pipe(
-            filter(auth => !!auth),
-            map(auth => auth.canReadEntity(entityId, this.getEntityType()))
+        return this.entityService.isPublic(entityId).pipe(
+            switchMap(isPublic =>
+                isPublic
+                    ? of(true)
+                    : this.userPermissionDataService.permissions().pipe(
+                          filter(auth => !!auth),
+                          map(auth => auth.canReadEntity(entityId, this.getEntityType()))
+                      )
+            )
         );
     }
 

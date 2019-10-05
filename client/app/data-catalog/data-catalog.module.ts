@@ -39,8 +39,7 @@ export const ROUTES: Routes = [
     {
         path: 'data-catalogs/:id',
         component: DataCatalogComponent,
-        canActivate: [AuthGuard, DataCatalogGuard],
-        data: { authorization: EntityAuthorizationTypes.READ },
+        canActivate: [AuthGuard],
     },
     {
         path: 'data-catalogs/:id/discussion',

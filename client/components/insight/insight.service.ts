@@ -14,6 +14,8 @@ import { ShareSidenavComponent } from 'components/share/share-sidenav/share-side
 import { Entity } from 'models/entities/entity.model';
 import { Patch } from 'models/patch.model';
 import { EntityAttachment } from 'models/entities/entity-attachment.model';
+import { StringValue } from 'models/string-value.model';
+import config from '../../app/app.constants';
 
 @Injectable()
 export class InsightService implements EntityService<Insight> {
@@ -42,6 +44,12 @@ export class InsightService implements EntityService<Insight> {
 
     remove(insight: Insight): Observable<Insight> {
         return this.httpClient.delete(`/api/insights/${insight._id}`).pipe(map(() => insight));
+    }
+
+    isPublic(id: string): Observable<boolean> {
+        return this.httpClient
+            .get<StringValue>(`/api/insights/${id}/visibility`)
+            .pipe(map(res => res.value === config.entityVisibility.PUBLIC.value));
     }
 
     makePublic(entity: Insight): Observable<Insight> {
