@@ -4,7 +4,7 @@
         <h3 matLine matTooltip="{{ thread.updatedAt || thread.createdAt | dateAndTime }}">
             {{ thread.updatedAt || thread.createdAt | date: 'shortTime' }}</h3>
         <div class="app-thread-preview-contributor-list">
-            <!-- <div *ngIf="numReplies == 1" class="app-thread-header-metadata">{{ numReplies }} reply</div> -->
+            <div *ngIf="numReplies == 1" class="app-thread-header-metadata">{{ numReplies }} reply</div>
             <div *ngIf="numReplies > 1" class="app-thread-header-metadata">{{ numReplies }} replies</div>
             <div class="app-thread-header-metadata-contributor">
                 <user-avatar class="app-thread-preview-contributor-avatar" [user]="thread.createdBy"
