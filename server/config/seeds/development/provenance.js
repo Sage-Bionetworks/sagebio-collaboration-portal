@@ -22,6 +22,14 @@ let activities = [
         name: 'FE-lite PCA',
         used: [
             {
+                name: 'Admin Project',
+                role: '',
+                targetId: '5cb7acea2d718654d81bb97e',
+                targetVersionId: '1',
+                class: 'Project',
+                subclass: 'Project'
+            },
+            {
                 name: 'PHCCP Shiny Tool Example',
                 role: '',
                 targetId: '5cb7acb3167e4f14b29dfb1b',
@@ -57,6 +65,14 @@ let activities = [
         }],
         name: 'TCGA PCA Report',
         used: [
+            {
+                name: 'Admin Project',
+                role: '',
+                targetId: '5cb7acea2d718654d81bb97e',
+                targetVersionId: '1',
+                class: 'Project',
+                subclass: 'Project'
+            },
             {
                 name: 'PCA on TCGA breast cancer dataset',
                 role: '',
