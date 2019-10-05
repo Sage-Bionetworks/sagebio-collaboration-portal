@@ -70,12 +70,14 @@ export class ProvenanceNodeComponent implements OnInit {
         lightbulb: '&#xf0eb',
         cube: '&#xf1b2',
         comment: '&#xf075',
+        suitcase: '&#xf0f2'
     };
 
     colorDictionary = {
         blue: '#679EC1',
         orange: '#EB8231',
         green: '#6DB56D',
+        gray: '#3C4A63'
     };
 
     get r() {
