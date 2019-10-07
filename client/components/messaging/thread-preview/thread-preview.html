@@ -1,7 +1,7 @@
 <mat-nav-list class="app-thread">
     <mat-list-item class="app-thread-metadata" *ngIf="thread" (click)="goToThread()">
         <h3 matLine>{{ thread.title }}</h3>
-        <h3 matLine matTooltip="{{ thread.updatedAt || thread.createdAt | dateAndTime }}">
+        <h3 class="app-thread-preview-timestamp" matLine matTooltip="{{ thread.updatedAt || thread.createdAt | dateAndTime }}">
             {{ thread.updatedAt || thread.createdAt | date: 'shortTime' }}</h3>
         <div class="app-thread-preview-contributor-list">
             <div *ngIf="numReplies == 1" class="app-thread-header-metadata">{{ numReplies }} reply</div>
