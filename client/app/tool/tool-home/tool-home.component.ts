@@ -1,19 +1,19 @@
+import { ToolAuthorizationService } from './../tool-authorization.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Subscription, of, Observable } from 'rxjs';
-import { switchMap, catchError, take } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { PageTitleService } from 'components/page-title/page-title.service';
 import { NotificationService } from 'components/notification/notification.service';
-import { ConfirmationDialog } from 'components/confirmation-dialog/confirmation-dialog.component';
 import { ToolService } from '../tool.service';
 import { Tool } from 'models/entities/tool.model';
 import { ToolHealth } from 'models/entities/tool-health.model';
-import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
+import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
 import { ToolEditComponent } from '../tool-edit/tool-edit.component';
 import { omit } from 'lodash';
 import { ToolDataService } from '../tool-data.service';
-import config from "../../app.constants";
+import config from '../../app.constants';
 import { TokenService } from 'components/auth/token.service';
 
 @Component({
@@ -23,58 +23,55 @@ import { TokenService } from 'components/auth/token.service';
 })
 export class ToolHomeComponent implements OnInit, OnDestroy {
     private tool$: Observable<Tool>;
-    @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
     private showEditToolTemplate = false;
     private toolHealth: ToolHealth;
+    private canEditTool = false;
+    private toolSub: Subscription;
+    private canEditToolSub: Subscription;
+    private entityType: string; // used in html
 
-    private canEditTool = true;
-    private canDeleteTool = false;
-    private userPermissionsSub: Subscription;
-    private entityType = config.entityTypes.TOOL.value
+    @ViewChild(ToolEditComponent, { static: false }) editTool: ToolEditComponent;
 
     static parameters = [
         Router,
         ActivatedRoute,
         PageTitleService,
         ToolService,
+        ToolAuthorizationService,
         ToolDataService,
         UserPermissionDataService,
         NotificationService,
         MatDialog,
-        TokenService
+        TokenService,
     ];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private pageTitleService: PageTitleService,
         private toolService: ToolService,
+        private toolAuthorizationService: ToolAuthorizationService,
         private toolDataService: ToolDataService,
         private userPermissionDataService: UserPermissionDataService,
         private notificationService: NotificationService,
         private dialog: MatDialog,
         private tokenService: TokenService
     ) {
-        this.tool$ = this.toolDataService.tool();
-        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(permissions => {
-            // this.canEditTool = permissions.canEditTool();
-            // this.canDeleteTool = permissions.canDeleteTool();
-        });
+        this.entityType = config.entityTypes.TOOL.value;
     }
 
     ngOnInit() {
-        // const getTool = this.toolDataService.tool();
+        this.tool$ = this.toolDataService.tool();
 
-        // const getToolHealth = this.tool$.pipe(  // TODO To review
-        //     switchMap(tool =>
-        //         this.toolService.getToolHealth(tool).pipe(
-        //             catchError(err => {
-        //                 return of(<ToolHealth>undefined);
-        //             })
-        //         )
-        //     )
-        // );
+        this.canEditToolSub = this.tool$
+            .pipe(switchMap(tool => this.toolAuthorizationService.canWrite(tool._id)))
+            .subscribe(
+                canEdit => {
+                    this.canEditTool = canEdit;
+                },
+                err => console.error(err)
+            );
 
-        this.tool$.subscribe(
+        this.toolSub = this.tool$.subscribe(
             tool => {
                 if (tool) {
                     this.pageTitleService.setTitle(tool.title);
@@ -82,14 +79,15 @@ export class ToolHomeComponent implements OnInit, OnDestroy {
             },
             err => console.log(err)
         );
-
-        // getToolHealth.subscribe(toolHealth => {
-        //     this.toolHealth = toolHealth;
-        // });
     }
 
     ngOnDestroy() {
-        this.userPermissionsSub.unsubscribe();
+        if (this.canEditToolSub) {
+            this.canEditToolSub.unsubscribe();
+        }
+        if (this.toolSub) {
+            this.toolSub.unsubscribe();
+        }
     }
 
     onEditTool(tool: Tool): void {

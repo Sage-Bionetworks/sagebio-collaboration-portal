@@ -1,3 +1,5 @@
+@import "../../../styles/general";
+
 .app-tool-list {
     display: flex;
     flex-flow: row nowrap;
@@ -14,4 +16,9 @@
 
 .app-tool-list-new-tool-btn {
     margin-right: 20px;
+}
+
+.app-tool-list-new-tool-btn-icon {
+    @include mat-icon-size(20px);
+    padding-right: 5px;
 }

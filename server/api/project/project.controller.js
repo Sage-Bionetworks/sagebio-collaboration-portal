@@ -1,13 +1,7 @@
 import Project from './project.model';
 import EntityPermission from '../entity-permission/entity-permission.model';
 import { entityTypes, accessTypes, inviteStatusTypes, entityVisibility } from '../../config/environment';
-import {
-    respondWithResult,
-    patchUpdates,
-    removeEntity,
-    handleEntityNotFound,
-    handleError,
-} from '../util';
+import { respondWithResult, patchUpdates, removeEntity, handleEntityNotFound, handleError } from '../util';
 import { union } from 'lodash/fp';
 import { merge } from 'lodash';
 import { getEntityIdsWithEntityPermissionByUser } from '../entity-permission/entity-permission.controller';
@@ -20,24 +14,29 @@ export function index(req, res) {
 
     getProjectIdsByUser(req.user._id)
         .then(projectIds => {
-            filter = merge({
-                _id: {
-                    $in: projectIds,
-                }
-            }, filter);
+            filter = merge(
+                {
+                    _id: {
+                        $in: projectIds,
+                    },
+                },
+                filter
+            );
             return filter;
         })
-        .then(filter_ => Promise.all([
-            Project.countDocuments(filter_),
-            Project.find(filter_, projection)
-                .sort(sort)
-                .skip(skip)
-                .limit(limit)
-                .exec()
-        ]))
+        .then(filter_ =>
+            Promise.all([
+                Project.countDocuments(filter_),
+                Project.find(filter_, projection)
+                    .sort(sort)
+                    .skip(skip)
+                    .limit(limit)
+                    .exec(),
+            ])
+        )
         .then(([count, resources]) => ({
             count,
-            results: resources
+            results: resources,
         }))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -90,18 +89,20 @@ export function showVisibility(req, res) {
     return Project.findById(req.params.id, 'visibility')
         .exec()
         .then(handleEntityNotFound(res))
-        .then(project => project && project.visibility)
+        .then(project => ({ value: project.visibility }))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Makes a project public.
 export function makePublic(req, res) {
-    const patches = [{
-        op: 'replace',
-        path: '/visibility',
-        value: entityVisibility.PUBLIC.value
-    }];
+    const patches = [
+        {
+            op: 'replace',
+            path: '/visibility',
+            value: entityVisibility.PUBLIC.value,
+        },
+    ];
 
     return Project.findById(req.params.id)
         .exec()
@@ -113,11 +114,13 @@ export function makePublic(req, res) {
 
 // Makes a project private.
 export function makePrivate(req, res) {
-    const patches = [{
-        op: 'replace',
-        path: '/visibility',
-        value: entityVisibility.PRIVATE.value
-    }];
+    const patches = [
+        {
+            op: 'replace',
+            path: '/visibility',
+            value: entityVisibility.PRIVATE.value,
+        },
+    ];
 
     return Project.findById(req.params.id)
         .exec()
@@ -168,14 +171,9 @@ export function getAllProjectIds() {
  * @return {string[]}
  */
 export function getProjectIdsByUser(userId) {
-    return isAdmin(userId)
-        .then(is =>
-            (is
-                ? getAllProjectIds()
-                : Promise.all([
-                    getPublicProjectIds(),
-                    getPrivateProjectIds(userId)
-                ]).then(result => union(...result))
-            )
-        );
+    return isAdmin(userId).then(is =>
+        (is
+            ? getAllProjectIds()
+            : Promise.all([getPublicProjectIds(), getPrivateProjectIds(userId)]).then(result => union(...result)))
+    );
 }

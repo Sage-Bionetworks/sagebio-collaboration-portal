@@ -1,34 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { PageTitleService } from 'components/page-title/page-title.service';
+import { Subscription } from 'rxjs';
 import { DataCatalog } from 'models/entities/data-catalog.model';
+import { NotificationService } from 'components/notification/notification.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { DataCatalogService } from '../data-catalog.service';
-import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { DataCatalogAuthorizationService } from './../data-catalog-authorization.service';
 
 @Component({
     selector: 'data-catalog-list',
     template: require('./data-catalog-list.html'),
     styles: [require('./data-catalog-list.scss')],
 })
-export class DataCatalogListComponent implements OnInit {
-    private canCreateDataCatalog = false; // used in html
+export class DataCatalogListComponent implements OnInit, OnDestroy {
+    private canCreateDataCatalog = false;
+    private canCreateDataCatalogSub: Subscription;
 
-    static parameters = [Router, PageTitleService, UserPermissionDataService, DataCatalogService];
+    static parameters = [
+        Router,
+        NotificationService,
+        PageTitleService,
+        DataCatalogService,
+        DataCatalogAuthorizationService,
+    ];
     constructor(
         private router: Router,
+        private notificationService: NotificationService,
         private pageTitleService: PageTitleService,
-        private permissionDataService: UserPermissionDataService,
-        private catalogService: DataCatalogService // used in html
+        private catalogService: DataCatalogService, // used in html
+        private catalogAuthorizationService: DataCatalogAuthorizationService
     ) {}
 
     ngOnInit() {
         this.pageTitleService.setTitle('Data Catalogs');
-        this.permissionDataService
-            .permissions()
-            .subscribe(
-                permissions => (this.canCreateDataCatalog = permissions.canCreateDataCatalog()),
-                err => console.error(err)
-            ); // unsubscribe in destructor
+
+        this.canCreateDataCatalogSub = this.catalogAuthorizationService.canCreate().subscribe(
+            canCreate => {
+                this.canCreateDataCatalog = canCreate;
+            },
+            err => console.error(err)
+        );
+    }
+
+    ngOnDestroy() {
+        if (this.canCreateDataCatalogSub) {
+            this.canCreateDataCatalogSub.unsubscribe();
+        }
     }
 
     onEntityClick(catalog: DataCatalog) {
@@ -37,9 +54,11 @@ export class DataCatalogListComponent implements OnInit {
         }
     }
 
-    onCreateNewDataCatalog(): void {
+    newDataCatalog(): void {
         if (this.canCreateDataCatalog) {
             this.router.navigate(['/', 'data-catalogs', 'new']);
+        } else {
+            this.notificationService.info('Not available to Users yet.');
         }
     }
 }

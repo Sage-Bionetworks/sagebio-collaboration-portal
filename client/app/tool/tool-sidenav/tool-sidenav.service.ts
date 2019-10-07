@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
-import { ToolSidenavItem } from './models/tool-sidenav-item.model';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { switchMap, tap, filter } from 'rxjs/operators';
+import { ToolSidenavItem } from './models/tool-sidenav-item.model'; // TODO Move closer to client side
+import { ToolAuthorizationService } from '../tool-authorization.service';
 import { ToolDataService } from '../tool-data.service';
 
 const enum itemTitles {
@@ -13,9 +14,9 @@ const enum itemTitles {
 
 @Injectable()
 export class ToolSidenavService implements OnDestroy {
-    private _opened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-    private _mode: BehaviorSubject<string> = new BehaviorSubject<string>('side');
-    private _items: BehaviorSubject<ToolSidenavItem[]> = new BehaviorSubject<ToolSidenavItem[]>([
+    private opened_: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    private mode_: BehaviorSubject<string> = new BehaviorSubject<string>('side');
+    private items_: BehaviorSubject<ToolSidenavItem[]> = new BehaviorSubject<ToolSidenavItem[]>([
         {
             title: itemTitles.HOME,
             icon: 'dashboard',
@@ -46,26 +47,40 @@ export class ToolSidenavService implements OnDestroy {
         },
     ]);
 
-    static parameters = [ToolDataService];
-    constructor(private toolDataService: ToolDataService) {
-        this.toolDataService.userPermission().subscribe(userPermission => {
-            let items = this._items.getValue();
-            items.find(item => item.title === itemTitles.SETTINGS).visible = userPermission.canAdmin;
-            this._items.next(items);
-        });
+    private sub: Subscription;
+
+    static parameters = [ToolDataService, ToolAuthorizationService];
+    constructor(private toolDataService: ToolDataService, private toolAuthorizationService: ToolAuthorizationService) {
+        this.sub = this.toolDataService
+            .tool()
+            .pipe(
+                switchMap(tool => this.toolAuthorizationService.canAdmin(tool._id))
+            )
+            .subscribe(
+                canAdmin => {
+                    let items = this.items_.getValue();
+                    items.find(item => item.title === itemTitles.SETTINGS).visible = canAdmin;
+                    this.items_.next(items);
+                },
+                err => console.error(err)
+            );
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+    }
 
     opened(): Observable<boolean> {
-        return this._opened.asObservable();
+        return this.opened_.asObservable();
     }
 
     mode(): Observable<string> {
-        return this._mode.asObservable();
+        return this.mode_.asObservable();
     }
 
     items(): Observable<ToolSidenavItem[]> {
-        return this._items.asObservable();
+        return this.items_.asObservable();
     }
 }

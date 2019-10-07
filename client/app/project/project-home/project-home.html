@@ -1,70 +1,70 @@
-<div *ngIf="!showEditProjectTemplate && project | async; let project_; else showEditProjectForm">
+<div *ngIf="!showEditProjectTemplate && project$ | async as project; else: showEditProjectForm">
     <div class="app-project-content">
         <mat-card class="app-project-card">
             <div class="app-project-card-box app-project-card-box-top">
                 <picture class="app-project-picture">
-                    <img [src]="project_.picture" aria-label="Project picture">
+                    <img [src]="project.picture" aria-label="Project picture" />
                 </picture>
                 <div class="app-project-metadata">
-                    <h1>{{ project_.title }}</h1>
+                    <h1>{{ project.title }}</h1>
                     <!-- <div class="tool-metadata-row">
                       <mat-icon>home</mat-icon>
                       <span>{{ tool.organization.title }}</span>
                   </div> -->
                 </div>
                 <div class="project-actions">
-                        <div class="app-data-catalog-icon-actions">
-                                <share-button [entity]="project_" [entityType]="entityType"></share-button>
-                                <a
-                                    mat-icon-button
-                                    [matMenuTriggerFor]="moreActionsMenu"
-                                    matTooltip="More actions"
-                                    aria-label="More actions"
-                                >
-                                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
-                                </a>
-                                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                                    <button
-                                        ngxClipboard
-                                        [cbContent]="getLink()"
-                                        (cbOnSuccess)="notificationService.info('Link successfully copied')"
-                                        (cbOnError)="notificationService.info('Unable to copy the link.')"
-                                        mat-menu-item
-                                        aria-label="Copy link"
-                                    >
-                                        <span>Copy Link</span>
-                                    </button>
-                                    <mat-divider></mat-divider>
-                                    <button
-                                        mat-menu-item
-                                        [attr.aria-label]="'Edit'"
-                                        *ngIf="userProjectPermission.canAdmin"
-                                        (click)="showEditProjectTemplate=true"
-                                    >
-                                        <span>Edit</span>
-                                    </button>
-                                    <button
-                                        mat-menu-item
-                                        [attr.aria-label]="'Delete'"
-                                        disabled
-                                    >
-                                        <span class="app-data-catalog-actions-delete-btn-label">Delete</span>
-                                    </button>
-                                </mat-menu>
-                        </div>
-                    <!-- <a *ngIf="userProjectPermission.canAdmin" mat-raised-button color="secondary" (click)="showEditProjectTemplate=true">Edit</a> -->
+                    <div class="app-data-catalog-icon-actions">
+                        <share-button [entity]="project" [entityType]="entityType"></share-button>
+                        <a
+                            mat-icon-button
+                            [matMenuTriggerFor]="moreActionsMenu"
+                            matTooltip="More actions"
+                            aria-label="More actions"
+                        >
+                            <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                        </a>
+                        <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                            <button
+                                ngxClipboard
+                                [cbContent]="getLink()"
+                                (cbOnSuccess)="notificationService.info('Link successfully copied')"
+                                (cbOnError)="notificationService.info('Unable to copy the link.')"
+                                mat-menu-item
+                                aria-label="Copy link"
+                            >
+                                <span>Copy Link</span>
+                            </button>
+                            <mat-divider *ngIf="canAdminProject"></mat-divider>
+                            <button
+                                mat-menu-item
+                                [attr.aria-label]="'Edit'"
+                                *ngIf="canAdminProject"
+                                (click)="showEditProjectTemplate = true"
+                            >
+                                <span>Edit</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
             </div>
 
             <div class="app-project-card-box">
                 <h2>Description</h2>
-                <app-quill-editor [isReadOnly]="true" [showActions]="false" [body]="form.controls['description']"></app-quill-editor>
+                <app-quill-editor
+                    [isReadOnly]="true"
+                    [showActions]="false"
+                    [body]="form.controls['description']"
+                ></app-quill-editor>
             </div>
-
         </mat-card>
     </div>
 </div>
 
 <ng-template #showEditProjectForm>
-    <project-edit *ngIf="project | async; let project_" [project]="project_" (editProject)="onEditProject($event)" (close)="showEditProjectTemplate=false"></project-edit>
+    <project-edit
+        *ngIf="project$ | async as project"
+        [project]="project"
+        (editProject)="onEditProject($event)"
+        (close)="showEditProjectTemplate = false"
+    ></project-edit>
 </ng-template>

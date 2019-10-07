@@ -1,34 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { PageTitleService } from 'components/page-title/page-title.service';
-import { UserPermissionDataService } from 'components/auth/user-permission-data.service';
+import { Subscription } from 'rxjs';
 import { Tool } from 'models/entities/tool.model';
+import { NotificationService } from 'components/notification/notification.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
 import { ToolService } from '../tool.service';
+import { ToolAuthorizationService } from '../tool-authorization.service';
 
 @Component({
     selector: 'tool-list',
     template: require('./tool-list.html'),
     styles: [require('./tool-list.scss')],
 })
-export class ToolListComponent implements OnInit {
-    private canCreateTool = false; // used in html
+export class ToolListComponent implements OnInit, OnDestroy {
+    private canCreateTool = false;
+    private canCreateToolSub: Subscription;
 
-    static parameters = [Router, PageTitleService, UserPermissionDataService, ToolService];
+    static parameters = [Router, PageTitleService, NotificationService, ToolService, ToolAuthorizationService];
     constructor(
         private router: Router,
         private pageTitleService: PageTitleService,
-        private permissionDataService: UserPermissionDataService,
-        private toolService: ToolService // used in html
+        private notificationService: NotificationService,
+        private toolService: ToolService, // used in html
+        private toolAuthorizationService: ToolAuthorizationService
     ) {}
 
     ngOnInit() {
         this.pageTitleService.setTitle('Tools');
-        this.permissionDataService
-            .permissions()
-            .subscribe(
-                permissions => (this.canCreateTool = permissions.canCreateTool()),
-                err => console.error(err)
-            ); // unsubscribe in destructor
+
+        this.canCreateToolSub = this.toolAuthorizationService.canCreate().subscribe(
+            canCreate => {
+                this.canCreateTool = canCreate;
+            },
+            err => console.error(err)
+        );
+    }
+
+    ngOnDestroy() {
+        if (this.canCreateToolSub) {
+            this.canCreateToolSub.unsubscribe();
+        }
     }
 
     onEntityClick(tool: Tool) {
@@ -37,9 +48,11 @@ export class ToolListComponent implements OnInit {
         }
     }
 
-    onCreateNewTool(): void {
+    newTool(): void {
         if (this.canCreateTool) {
             this.router.navigate(['/', 'tools', 'new']);
+        } else {
+            this.notificationService.info('Not available to Users yet.');
         }
     }
 }

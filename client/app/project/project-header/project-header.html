@@ -1,7 +1,13 @@
 <div *ngIf="project" class="app-primary-header app-project-header">
     <mat-icon class="app-nav-back-icon" routerLink="/projects">keyboard_arrow_left</mat-icon>
     <h1 class="app-primary-header-title">{{ project.title }}</h1>
-    <a *ngIf="actionButtonData" mat-raised-button color="warn" class="app-project-action-btn" [routerLink]="actionButtonData.routerLink" [attr.aria-label]="actionButtonData.title"
-        >{{ actionButtonData.title }}</a
+    <a
+        *ngIf="actionButtonData"
+        mat-raised-button
+        color="warn"
+        class="app-project-action-btn"
+        (click)=action(actionButtonData)
+        [attr.aria-label]="actionButtonData.title"
+        ><mat-icon class="app-project-new-project-btn-icon" *ngIf="actionButtonData.unauthorized">lock</mat-icon>{{ actionButtonData.title }}</a
     >
 </div>
