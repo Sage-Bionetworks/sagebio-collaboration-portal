@@ -1,4 +1,4 @@
-<mat-card class="app-thread-card">
+<mat-card class="app-thread-list-card">
 <mat-list class="thread-list" *ngIf="threads$ | async as threads">
     <div *ngIf="threads.length == 0; else showThreads">
         <span>Use Discussion to start a stimulating conversation with your collaborators.</span>

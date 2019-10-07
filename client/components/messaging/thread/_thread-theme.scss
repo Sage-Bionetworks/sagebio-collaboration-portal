@@ -9,4 +9,7 @@
         border: 1px solid;
         border-color: mat-color($primary, 100);
     }
+    .app-thread-card {
+        background: mat-color($primary, darker-contrast);
+    }
 }

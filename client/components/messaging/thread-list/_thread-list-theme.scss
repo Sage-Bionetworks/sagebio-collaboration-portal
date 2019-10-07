@@ -5,7 +5,7 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  .app-thread-card {
+  .app-thread-list-card {
       background: mat-color($primary, 50);
   }
 }
