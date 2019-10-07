@@ -6,7 +6,9 @@
     $foreground: map-get($theme, foreground);
 
     .app-thread {
-        background: mat-color($primary, 50);
+        border: 1px solid;
+        border-color: mat-color($accent, 200);
+        background: white;
     }
 
     .app-thread-delete-btn-label {
