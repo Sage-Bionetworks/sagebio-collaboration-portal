@@ -8,7 +8,7 @@
     .app-thread {
         border: 1px solid;
         border-color: mat-color($accent, 200);
-        background: white;
+        background: mat-color($primary, darker-contrast)
     }
 
     .app-thread-delete-btn-label {
