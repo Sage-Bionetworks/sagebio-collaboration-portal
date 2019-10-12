@@ -45,7 +45,8 @@ export function getProvenanceGraph(req, res) {
         qs: {
             'sortBy': req.query.sortBy,
             'order': req.query.order,
-            'limit': req.query.limit
+            'limit': req.query.limit,
+            'q': req.query.filter
         },
         headers: {
             'User-Agent': 'Request-Promise'
@@ -70,7 +71,8 @@ export function getProvenanceGraphByAgent(req, res) {
         qs: {
             'sortBy': req.query.sortBy,
             'order': req.query.order,
-            'limit': req.query.limit
+            'limit': req.query.limit,
+            'q': req.query.filter
         },
         json: true
     };
@@ -93,7 +95,8 @@ export function getProvenanceGraphByReference(req, res) {
             'direction': req.query.direction,
             'sortBy': req.query.sortBy,
             'order': req.query.order,
-            'limit': req.query.limit
+            'limit': req.query.limit,
+            'q': req.query.filter
         },
         json: true
     };
