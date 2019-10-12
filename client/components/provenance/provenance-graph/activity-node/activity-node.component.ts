@@ -11,8 +11,8 @@ export class ActivityNodeComponent extends ProvenanceNodeComponent {
   private classIconMap = {
     'ToolSession': this.iconDictionary.gears,
     'Mention': this.iconDictionary.at,
-    'Memoization': this.iconDictionary.stickyNote,
-    'ReportGeneration': this.iconDictionary.edit,
+    'MemoCreation': this.iconDictionary.stickyNote,
+    'ReportCreation': this.iconDictionary.edit,
     'Starred': this.iconDictionary.star,
   };
 
