@@ -2,8 +2,8 @@
   <div class="project-activities-container">
     <div class="activities-graph-container">
         <div class="activities-graph-filters-container">
-            <h3>{{ entityName }} Type</h3>
-            <radio-button-filter [filters]="activityTypeFilters" [group]="filterGroup"></radio-button-filter>
+            <h3>Activity Type</h3>
+            <radio-button-filter [filters]="activityTypeFilters" group="activityType"></radio-button-filter>
         </div>
         <div class="activities-graph-content-container">
             <div class="activities-graph-results" (resized)="onResized($event)">
