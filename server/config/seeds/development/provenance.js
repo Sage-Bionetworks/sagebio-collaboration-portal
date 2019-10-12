@@ -1,6 +1,6 @@
 import {
-    adminUserId
-} from '../default/constants';
+    adminUserId, testUserId
+} from './users';
 
 let activities = [
     {
@@ -49,12 +49,40 @@ let activities = [
     },
     {
         agents: [{
+            userId: testUserId,
+            name: 'Test User',
+            role: ''
+        }],
+        description: '',
+        class: 'ReportCreation',
+        generated: [{
+            name: 'Prognostic biomarkers are not necessarily strong cancer drivers',
+            role: '',
+            targetId: '5d40f40a0226447f14f07b98',
+            targetVersionId: '1',
+            class: 'Insight',
+            subclass: 'Report'
+        }],
+        name: 'Prognostic biomarkers report',
+        used: [
+            {
+                name: 'Test Project',
+                role: '',
+                targetId: '5cb7acea2d718614d81db97f',
+                targetVersionId: '1',
+                class: 'Project',
+                subclass: 'Project'
+            }
+        ]
+    },
+    {
+        agents: [{
             userId: adminUserId,
             name: 'Admin',
             role: ''
         }],
         description: '',
-        class: 'ReportGeneration',
+        class: 'ReportCreation',
         generated: [{
             name: 'Molecular charecteristics of NSCLC (TCGA)',
             role: '',
@@ -82,8 +110,36 @@ let activities = [
                 subclass: 'State'
             }
         ]
+    },
+    {
+        agents: [{
+            userId: adminUserId,
+            name: 'Admin',
+            role: ''
+        }],
+        description: '',
+        class: 'ReportCreation',
+        generated: [{
+            name: 'Tissue-based classification of digital path slides in IMvigor study using python',
+            role: '',
+            targetId: '5d00229797146c78d42a33f3',
+            targetVersionId: '1',
+            class: 'Insight',
+            subclass: 'Report'
+        }],
+        name: 'IMvigor Report',
+        used: [
+            {
+                name: 'Admin Project',
+                role: '',
+                targetId: '5cb7acea2d718654d81bb97e',
+                targetVersionId: '1',
+                class: 'Project',
+                subclass: 'Project'
+            }
+        ]
     }
-]
+];
 
 export {
     activities
