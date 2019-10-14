@@ -1,7 +1,6 @@
-import {
-    omit
-} from 'lodash/fp';
-import config from '../config/environment';
+import { omit } from 'lodash/fp';
+import ActionPermission from '../api/action-permission/action-permission.model';
+import { userRoles, init, actionPermissionTypes } from '../config/environment';
 
 export function handleUnauthorizedOrganization(done) {
     return function (organization) {
@@ -16,23 +15,18 @@ export function handleUnauthorizedOrganization(done) {
 export function createOrUpdateUser(User, userDataFromProvider) {
     return function (organization) {
         if (organization) {
-            return User
-                .findOne({
-                    email: userDataFromProvider.email
-                })
+            return User.findOne({
+                email: userDataFromProvider.email,
+            })
                 .exec()
                 .then(user => {
                     if (user) {
-                        userDataFromProvider = omit([
-                            'username',
-                            'email',
-                            'role'
-                        ], userDataFromProvider);
+                        userDataFromProvider = omit(['username', 'email', 'role'], userDataFromProvider);
                         user = Object.assign(user, userDataFromProvider);
                     } else {
                         user = new User(userDataFromProvider);
                         user = Object.assign(user, {
-                            role: config.userRoles.USER.value
+                            role: userRoles.USER.value,
                         });
                     }
                     return user;
@@ -44,8 +38,8 @@ export function createOrUpdateUser(User, userDataFromProvider) {
 
 export function giveInitAdminRole() {
     return function (user) {
-        if (user && user.email === config.init.admin.email) {
-            user.role = config.userRoles.ADMIN.value;
+        if (user && user.email === init.admin.email) {
+            user.role = userRoles.ADMIN.value;
         }
         return user;
     };
@@ -54,9 +48,24 @@ export function giveInitAdminRole() {
 export function saveUser(done) {
     return function (user) {
         if (user) {
-            return user.save()
-                .then(savedUser => done(null, savedUser));
+            if (user._id) { // returning user
+                return user.save().then(savedUser => done(null, savedUser));
+            } else { // new user
+                return user
+                    .save()
+                    .then(newUser => {
+                        // TODO Implement in a more promise-chain friendly way
+                        ActionPermission.create([
+                            {
+                                user: newUser._id,
+                                action: actionPermissionTypes.CREATE_PROJECT.value,
+                                createdBy: newUser._id, // TODO: Is this the best choice?
+                            },
+                        ]).then(() => newUser);
+                    })
+                    .then(savedUser => done(null, savedUser));
+            }
         }
         return null;
-    }
+    };
 }
