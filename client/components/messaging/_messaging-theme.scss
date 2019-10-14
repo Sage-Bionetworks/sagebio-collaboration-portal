@@ -4,6 +4,7 @@
 @import './message-date-separator/message-date-separator-theme';
 @import './thread-preview/thread-preview-theme';
 @import './thread-sidenav/thread-sidenav-theme';
+@import './thread/thread-theme';
 
 @mixin messaging-theme($theme) {
   $primary: map-get($theme, primary);
@@ -18,4 +19,5 @@
   @include message-date-separator-theme($theme);
   @include thread-preview-theme($theme);
   @include thread-sidenav-theme($theme);
+  @include thread-theme($theme);
 }

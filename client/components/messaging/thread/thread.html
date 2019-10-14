@@ -1,5 +1,5 @@
 <ng-container *ngIf="thread$ | async as thread">
-    <mat-card *ngIf="!showThreadEditTemplate; else showThreadEditForm">
+    <mat-card class="app-thread-card" *ngIf="!showThreadEditTemplate; else showThreadEditForm">
         <mat-card-header>
             <mat-card-title>{{ thread.title }}</mat-card-title>
             <mat-card-subtitle
@@ -15,7 +15,7 @@
                     matTooltip="More actions"
                     aria-label="More actions"
                 >
-                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                    <mat-icon class="app-message-thread-ellipses" aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
                 </a>
                 <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
                     <button

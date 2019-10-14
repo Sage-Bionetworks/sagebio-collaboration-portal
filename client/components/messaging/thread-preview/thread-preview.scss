@@ -1,12 +1,20 @@
 .app-thread {
-    background: #f6f6f6;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    // background: #f6f6f6;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     padding: 8px 12px 8px;
     margin-top: 10px;
     margin-bottom: 10px;
+    border-radius: 4px;
+
+    .app-thread-metadata {
+        height: 48px !important;
+    }
+
+    .app-thread-preview-timestamp {
+        width: 100px;
+    }
 
     .app-thread-header-avatar {
         padding-right: 10px;
@@ -17,7 +25,8 @@
         flex-flow: row nowrap;
         padding-right: 8px;
         justify-content: flex-end;
-        width: 155px;
+        align-items: center;
+        width: 88px;
     }
 
     .app-thread-header-metadata-line {
@@ -25,14 +34,20 @@
     }
 
     .app-thread-preview-contributor-avatar {
-        padding-right: 5px;
+        padding: 0 2.5px;
     }
 
     .app-thread-header-metadata-contributor {
         display: flex;
         flex-flow: row-reverse nowrap;
         justify-content: flex-end;
-        width: 155px;
+        width: 95px;
+    }
+
+    .app-thread-preview-contributor-list {
+        display: flex;
+        flex-flow: row nowrap;
+        flex-grow: 1;
     }
 
     .app-thread-header-title {
@@ -77,3 +92,4 @@
         padding-right: 4px;
     }
 }
+
