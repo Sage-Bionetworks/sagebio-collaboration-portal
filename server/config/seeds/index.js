@@ -24,15 +24,19 @@ if (seeds && seeds.projects) {
     seeds.entityPermissions = [...seeds.entityPermissions, ...permissions];
 }
 
-// Create default action-permissions for all seeded users
-if (seeds) {
+// Create default action-permissions for the seed users
+if (seeds && seeds.users) {
     const createProject = seeds.users.map(user => ({
         user: user._id,
         action: config.actionPermissionTypes.CREATE_PROJECT.value,
         createdBy: user._id,
     }));
 
-    seeds.actionPermissions = [...seeds.actionPermissions, ...createProject];
+    if (!seeds.actionPermissions) {
+        seeds.actionPermissions = [];
+    }
+
+    seeds.actionPermissions.push(...createProject);
 }
 
 // Create entity-permissions with Admin access for the authors of tools
