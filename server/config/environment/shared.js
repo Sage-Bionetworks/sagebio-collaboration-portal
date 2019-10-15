@@ -109,10 +109,14 @@ export const activityTypes = {
     REPORT_CREATION: {
         value: 'ReportCreation',
         title: 'Report Creation',
+        entityType: 'Insight',
+        entitySubtype: 'Report'
     },
     MEMO_CREATION: {
         value: 'MemoCreation',
         title: 'Memo Creation',
+        entityType: 'Insight',
+        entitySubtype: 'Memo'
     },
     MENTION: {
         value: 'Mention',
@@ -121,10 +125,14 @@ export const activityTypes = {
     TOOL_SESSION: {
         value: 'ToolSession',
         title: 'Tool Session',
+        entityType: 'Resource',
+        entitySubtype: 'State'
     },
     RESOURCE_REGISTRATION: {
         value: 'ResourceRegistration',
         title: 'Resource Registration',
+        entityType: 'Resource',
+        entitySubtype: ''
     },
 };
 

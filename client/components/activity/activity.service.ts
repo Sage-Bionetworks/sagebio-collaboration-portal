@@ -3,6 +3,7 @@ import { AuthService } from 'components/auth/auth.service';
 import { Subscription, Observable } from 'rxjs';
 import { User } from 'models/auth/user.model';
 import { ProvenanceService } from 'components/provenance/provenance.service';
+import config from '../../app/app.constants';
 
 @Injectable()
 export class ActivityService {
@@ -21,6 +22,15 @@ export class ActivityService {
 
     // TODO Add input and output types
     save({ generatedName, generatedTargetId, generatedClass, generatedSubClass, usedEntities = [] }): Observable<any> {
+        let activityTypeMap = Object.values(config.activityTypes);
+        let activityTypeMatch = activityTypeMap
+            .filter(a => a.entitySubtype === generatedSubClass);
+        if (!activityTypeMatch) {
+            activityTypeMatch = activityTypeMap
+                .filter(a => a.entityType === generatedClass)
+                .filter(a => a.entitySubtype === '');
+        }
+        let activityClass = activityTypeMatch.pop().value;
         const activity = {
             agents: [
                 {
@@ -30,7 +40,7 @@ export class ActivityService {
                 },
             ],
             description: '',
-            class: 'Report generation', // TODO set from generatedSubClass
+            class: activityClass, // TODO set from generatedSubClass
             generated: [
                 {
                     name: generatedName,
