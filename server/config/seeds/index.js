@@ -1,28 +1,15 @@
 /*eslint no-process-env:0*/
+
 import { merge } from 'lodash';
 import { flow, groupBy, orderBy, mapValues, uniqBy, get } from 'lodash/fp';
 import config from '../../config/environment';
 import { adminUserId } from './default/constants';
-// import { message } from 'gulp-typescript/release/utils';
 
 var default_ = require('./default');
 
 var seeds = module.exports = config.init.dbSeedName
     ? merge(default_, require(`./${config.init.dbSeedName}`) || {})
     : null;
-
-// Create entity-permissions with Admin access for the authors of projects
-if (seeds && seeds.projects) {
-    let permissions = seeds.projects.map(project => ({
-        status: config.inviteStatusTypes.ACCEPTED.value,
-        entityId: project._id,
-        entityType: config.entityTypes.PROJECT.value,
-        user: project.createdBy,
-        access: config.accessTypes.ADMIN.value,
-        createdBy: adminUserId,
-    }));
-    seeds.entityPermissions = [...seeds.entityPermissions, ...permissions];
-}
 
 // Create default action-permissions for the seed users
 if (seeds && seeds.users) {
@@ -37,6 +24,19 @@ if (seeds && seeds.users) {
     }
 
     seeds.actionPermissions.push(...createProject);
+}
+
+// Create entity-permissions with Admin access for the authors of projects
+if (seeds && seeds.projects) {
+    let permissions = seeds.projects.map(project => ({
+        status: config.inviteStatusTypes.ACCEPTED.value,
+        entityId: project._id,
+        entityType: config.entityTypes.PROJECT.value,
+        user: project.createdBy,
+        access: config.accessTypes.ADMIN.value,
+        createdBy: adminUserId,
+    }));
+    seeds.entityPermissions = [...seeds.entityPermissions, ...permissions];
 }
 
 // Create entity-permissions with Admin access for the authors of tools
