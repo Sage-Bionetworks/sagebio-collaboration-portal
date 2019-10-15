@@ -1,8 +1,7 @@
 import { adminUserId } from './constants';
 import config from '../../environment';
 
-// Notes:
-// - Users must have the property _id.
+// Users must have the property _id set.
 
 let users = [
     {
