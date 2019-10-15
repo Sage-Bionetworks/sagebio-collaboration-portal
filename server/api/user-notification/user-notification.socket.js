@@ -19,11 +19,7 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return doc => {
-        console.log('Could emit user notification', doc._id);
-        console.log('doc.user._id', doc.user._id);
-        console.log('spark.userId', spark.userId);
         if (doc && doc.user._id.toString() === spark.userId) {
-            console.log('EMITTING USER NOTIFICATION', doc);
             spark.emit(event, doc);
         }
     };

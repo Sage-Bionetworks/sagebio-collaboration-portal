@@ -30,7 +30,7 @@ export class UserNotificationDataService implements OnDestroy {
                 }),
                 switchMap(isLoggedIn => {
                     if (isLoggedIn) {
-                        // TODO: Need an endpoint to get only the archived notifications
+                        // TODO: Need an endpoint to get only the archived notifications + paginated + for websocket
                         return this.userNotificationService.queryNotifications({ archived: false });
                     } else {
                         return of<UserNotification[]>(null);
