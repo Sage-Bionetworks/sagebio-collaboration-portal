@@ -14,6 +14,7 @@ export class ActivityNodeComponent extends ProvenanceNodeComponent {
     'MemoCreation': this.iconDictionary.stickyNote,
     'ReportCreation': this.iconDictionary.edit,
     'Starred': this.iconDictionary.star,
+    'ResourceRegistration': this.iconDictionary.link,
   };
 
   get icon() {

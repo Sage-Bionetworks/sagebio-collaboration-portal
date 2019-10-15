@@ -70,7 +70,8 @@ export class ProvenanceNodeComponent implements OnInit {
         lightbulb: '&#xf0eb',
         cube: '&#xf1b2',
         comment: '&#xf075',
-        suitcase: '&#xf0f2'
+        suitcase: '&#xf0f2',
+        link: '&#xf0c1'
     };
 
     colorDictionary = {
