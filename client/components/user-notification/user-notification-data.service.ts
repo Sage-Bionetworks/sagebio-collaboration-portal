@@ -13,14 +13,18 @@ export class UserNotificationDataService implements OnDestroy {
     static parameters = [SocketService, UserNotificationService];
     constructor(private socketService: SocketService, private userNotificationService: UserNotificationService) {
         this.notificationSocketModel = 'notifications';
+
         // TODO: Need an endpoint to get only the archived notifications
+        console.log('INIT NOTIFICATION DATA SERVICE');
         this.userNotificationService.queryNotifications({ archived: false }).subscribe(
             notifications => {
+                console.log('Number of unarchive notifications', notifications.length);
                 this.notifications_.next(notifications);
                 this.socketService.syncArraySubject(
                     this.notificationSocketModel,
                     this.notifications_,
                     (items: UserNotification[]) => {
+                        console.log('received notifications update from websockets');
                         // TODO: Remove when listening only to unarchive notifications
                         return flow(
                             filter<UserNotification>(n => !n.archived),

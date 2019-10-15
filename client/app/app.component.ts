@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SecondarySidenavComponent } from 'components/sidenav/secondary-sidenav/secondary-sidenav.component';
 import { SecondarySidenavService } from 'components/sidenav/secondary-sidenav/secondary-sidenav.service';
-import { UserNotificationDataService } from 'components/user-notification/user-notification-data.service';
 import { PageTitleService } from 'components/page-title/page-title.service';
 
 @Component({
@@ -26,7 +25,7 @@ import { PageTitleService } from 'components/page-title/page-title.service';
             <app-secondary-sidenav #secondarySidenavContent></app-secondary-sidenav>
         </mat-sidenav>
     </mat-sidenav-container>`,
-    providers: [UserNotificationDataService, PageTitleService],
+    providers: [PageTitleService],
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild('secondarySidenav', { static: true }) private secondarySidenav: MatSidenav;

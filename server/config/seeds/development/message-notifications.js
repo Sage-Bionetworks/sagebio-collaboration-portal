@@ -6,14 +6,14 @@ let messageNotifications = [{
     user: adminUserId,
     createdBy: testUserId,
     archived: false,
-    messageBody: 'test message body'
+    messageBody: 'test message for admin'
 },
 {
     notificationType: notificationTypes.MESSAGE_NOTIFICATION.value,
     user: testUserId,
     createdBy: adminUserId,
     archived: false,
-    messageBody: 'test message 2'
+    messageBody: 'test message for test user'
 }];
 
 export { messageNotifications };
