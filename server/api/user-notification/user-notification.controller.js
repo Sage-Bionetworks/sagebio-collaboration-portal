@@ -3,11 +3,7 @@ import MessageNotification from './models/message-notification.model';
 import EntityAccessNotification from './models/entity-access-notification.model';
 import EntityNotification from './models/entity-notification.model';
 
-import {
-    respondWithResult,
-    handleEntityNotFound,
-    handleError
-} from '../util';
+import { respondWithResult, handleEntityNotFound, handleError } from '../util';
 import config from '../../config/environment';
 
 function getModelForNotificationType(notificationType) {
@@ -26,12 +22,17 @@ function getModelForNotificationType(notificationType) {
 // Returns the notifications of the user based given by req.query.notificationType
 export function indexMine(req, res) {
     var userId = req.user._id.toString();
+    console.log('Getting notifications for user', userId);
     return Notification.find({
         ...req.query,
-        user: userId
+        user: userId,
     })
-        .sort({createdAt: 'desc'})
+        .sort({ createdAt: 'desc' })
         .exec()
+        .then(items => {
+            console.log(items);
+            return items;
+        })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

@@ -1,45 +1,74 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { UserNotification } from 'models/user-notification/user-notification.model';
-import { UserNotificationService } from './user-notification.service';
-import { SocketService } from 'components/socket/socket.service';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { orderBy, flow, filter } from 'lodash/fp';
+import { UserNotification } from 'models/user-notification/user-notification.model';
+import { AuthService } from 'components/auth/auth.service';
+import { SocketService } from 'components/socket/socket.service';
+import { UserNotificationService } from './user-notification.service';
 
 @Injectable()
 export class UserNotificationDataService implements OnDestroy {
     private notifications_ = new BehaviorSubject<UserNotification[]>([]);
+    private notificationsSub: Subscription;
     private notificationSocketModel: string;
 
-    static parameters = [SocketService, UserNotificationService];
-    constructor(private socketService: SocketService, private userNotificationService: UserNotificationService) {
+    static parameters = [AuthService, SocketService, UserNotificationService];
+    constructor(
+        private authService: AuthService,
+        private socketService: SocketService,
+        private userNotificationService: UserNotificationService
+    ) {
         this.notificationSocketModel = 'notifications';
 
-        // TODO: Need an endpoint to get only the archived notifications
-        console.log('INIT NOTIFICATION DATA SERVICE');
-        this.userNotificationService.queryNotifications({ archived: false }).subscribe(
-            notifications => {
-                console.log('Number of unarchive notifications', notifications.length);
-                this.notifications_.next(notifications);
-                this.socketService.syncArraySubject(
-                    this.notificationSocketModel,
-                    this.notifications_,
-                    (items: UserNotification[]) => {
-                        console.log('received notifications update from websockets');
-                        // TODO: Remove when listening only to unarchive notifications
-                        return flow(
-                            filter<UserNotification>(n => !n.archived),
-                            orderBy('createdAt', 'desc')
-                        )(items);
+        this.notificationsSub = this.authService
+            .authInfo()
+            .pipe(
+                map(authInfo => authInfo.isLoggedIn()),
+                tap(isLoggedIn => {
+                    console.log('User notificaiton data logged in changed', isLoggedIn);
+                }),
+                switchMap(isLoggedIn => {
+                    if (isLoggedIn) {
+                        // TODO: Need an endpoint to get only the archived notifications
+                        return this.userNotificationService.queryNotifications({ archived: false });
+                    } else {
+                        return of<UserNotification[]>(null);
                     }
-                );
-            },
-            err => console.error(err)
-        );
+                })
+            )
+            .subscribe(
+                notifications => {
+                    if (notifications) {
+                        console.log('notifications fetched are', notifications);
+                        this.notifications_.next(notifications);
+                        this.socketService.syncArraySubject(
+                            this.notificationSocketModel,
+                            this.notifications_,
+                            (items: UserNotification[]) => {
+                                console.log('received notifications update from websockets');
+                                // TODO: Remove when listening only to unarchive notifications
+                                return flow(
+                                    filter<UserNotification>(n => !n.archived),
+                                    orderBy('createdAt', 'desc')
+                                )(items);
+                            }
+                        );
+                    } else {
+                        this.notifications_.next([]);
+                        this.socketService.unsyncUpdates(this.notificationSocketModel);
+                    }
+                },
+                err => console.error(err)
+            );
     }
 
     ngOnDestroy() {
         if (this.notificationSocketModel) {
             this.socketService.unsyncUpdates(this.notificationSocketModel);
+        }
+        if (this.notificationsSub) {
+            this.notificationsSub.unsubscribe();
         }
     }
 
