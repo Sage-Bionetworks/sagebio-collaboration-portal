@@ -4,6 +4,9 @@ import {
     adminUserId
 } from '../default/users';
 
+// Notes:
+// - Users must have the property _id.
+
 const testUserId = new mongoose.Types.ObjectId('5cb7acea2d718614d81cc97e');
 const testUser1Id = new mongoose.Types.ObjectId('5cb7acea2371abc4d8121e91');
 
