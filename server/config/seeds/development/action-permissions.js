@@ -1,12 +1,8 @@
-import { adminUserId, testUserId } from './users';
-import { actionPermissionTypes } from '../../environment';
+// import { adminUserId, testUserId } from './users';
+// import { actionPermissionTypes } from '../../environment';
 
-let actionPermissions = [
-    {
-        user: testUserId,
-        action: actionPermissionTypes.CREATE_PROJECT.value,
-        createdBy: adminUserId,
-    },
-];
+// Default action-permissions are created in server/config/seeds/index.js
+
+let actionPermissions = [];
 
 export { actionPermissions };

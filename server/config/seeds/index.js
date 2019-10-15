@@ -1,7 +1,5 @@
 /*eslint no-process-env:0*/
-import {
-    merge
-} from 'lodash';
+import { merge } from 'lodash';
 import { flow, groupBy, orderBy, mapValues, uniqBy, get } from 'lodash/fp';
 import config from '../../config/environment';
 import { adminUserId } from './default/constants';
@@ -9,11 +7,11 @@ import { adminUserId } from './default/constants';
 
 var default_ = require('./default');
 
-var seeds = module.exports = config.init.dbSeedName ? merge(
-    default_,
-    require(`./${config.init.dbSeedName}`) || {}) : null;
+var seeds = module.exports = config.init.dbSeedName
+    ? merge(default_, require(`./${config.init.dbSeedName}`) || {})
+    : null;
 
-// Creating entity-permissions with Admin access for the authors of projects
+// Create entity-permissions with Admin access for the authors of projects
 if (seeds && seeds.projects) {
     let permissions = seeds.projects.map(project => ({
         status: config.inviteStatusTypes.ACCEPTED.value,
@@ -23,13 +21,21 @@ if (seeds && seeds.projects) {
         access: config.accessTypes.ADMIN.value,
         createdBy: adminUserId,
     }));
-    seeds.entityPermissions = [
-        ...seeds.entityPermissions,
-        ...permissions
-    ];
+    seeds.entityPermissions = [...seeds.entityPermissions, ...permissions];
 }
 
-// Creating entity-permissions with Admin access for the authors of tools
+// Create default action-permissions for all seeded users
+if (seeds) {
+    const createProject = seeds.users.map(user => ({
+        user: user._id,
+        action: config.actionPermissionTypes.CREATE_PROJECT.value,
+        createdBy: user._id,
+    }));
+
+    seeds.actionPermissions = [...seeds.actionPermissions, ...createProject];
+}
+
+// Create entity-permissions with Admin access for the authors of tools
 if (seeds && seeds.tools) {
     let permissions = seeds.tools.map(tool => ({
         status: config.inviteStatusTypes.ACCEPTED.value,
@@ -39,13 +45,10 @@ if (seeds && seeds.tools) {
         access: config.accessTypes.ADMIN.value,
         createdBy: adminUserId,
     }));
-    seeds.entityPermissions = [
-        ...seeds.entityPermissions,
-        ...permissions
-    ];
+    seeds.entityPermissions = [...seeds.entityPermissions, ...permissions];
 }
 
-// Populating thread.contributors from messages
+// Populate thread.contributors from messages
 if (seeds && seeds.threads && seeds.messages) {
     const contributorsByThread = flow([
         groupBy('thread'),
@@ -59,7 +62,7 @@ if (seeds && seeds.threads && seeds.messages) {
 
     seeds.threads = seeds.threads.map(thread => ({
         ...thread,
-        contributors: get(thread._id, contributorsByThread)
+        contributors: get(thread._id, contributorsByThread),
     }));
 }
 
