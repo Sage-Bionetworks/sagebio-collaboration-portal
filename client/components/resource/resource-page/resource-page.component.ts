@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -28,7 +28,10 @@ import { TokenService } from 'components/auth/token.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class ResourcePageComponent implements OnInit {
-    private resource: Resource;
+    private _resource: Resource;
+    @Input() private canEdit = false;
+    @Input() private canDelete = false;
+
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
@@ -50,7 +53,7 @@ export class ResourcePageComponent implements OnInit {
         ToolService,
         NotificationService,
         UserPermissionDataService,
-        TokenService
+        TokenService,
     ];
 
     constructor(
@@ -69,9 +72,9 @@ export class ResourcePageComponent implements OnInit {
             description: ['', []],
         });
 
-        this.router.routeReuseStrategy.shouldReuseRoute = function() {
-            return false;
-        };
+        // this.router.routeReuseStrategy.shouldReuseRoute = function() {
+        //     return false;
+        // };
 
         this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
             userPermissions => {
@@ -85,31 +88,31 @@ export class ResourcePageComponent implements OnInit {
             err => console.log(err)
         );
 
-        this.route.params
-            .pipe(
-                switchMap(params => this.resourceService.getResource(params.resourceId)),
-                switchMap(resource => forkJoin({
-                    resource: of(resource),
-                    tool: resource.resourceType === 'State' ? this.toolService.get((<State>resource).tool) : of(null) // TODO Hack
-                }))
-            )
-            .subscribe((res: any) => {
-                let resource = res.resource;
-                this.tool = res.tool;
-            // .subscribe(resource => {
-                if (resource.description) {
-                    // TODO: should be required
-                    try {
-                        this.form.get('description').setValue(JSON.parse(resource.description));
-                    } catch (e) {
-                        // the description is likely a string if specified from a tool
-                        this.form
-                            .get('description')
-                            .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
-                    }
-                }
-                this.resource = resource;
-            });
+        // this.route.params
+        //     .pipe(
+        //         switchMap(params => this.resourceService.getResource(params.resourceId)),
+        //         switchMap(resource => forkJoin({
+        //             resource: of(resource),
+        //             tool: resource.resourceType === 'State' ? this.toolService.get((<State>resource).tool) : of(null) // TODO Hack
+        //         }))
+        //     )
+        //     .subscribe((res: any) => {
+        //         let resource = res.resource;
+        //         this.tool = res.tool;
+        //     // .subscribe(resource => {
+        //         if (resource.description) {
+        //             // TODO: should be required
+        //             try {
+        //                 this.form.get('description').setValue(JSON.parse(resource.description));
+        //             } catch (e) {
+        //                 // the description is likely a string if specified from a tool
+        //                 this.form
+        //                     .get('description')
+        //                     .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
+        //             }
+        //         }
+        //         this.resource = resource;
+        //     });
     }
 
     ngOnInit() {
@@ -121,6 +124,39 @@ export class ResourcePageComponent implements OnInit {
             .subscribe(data => {
                 this.errors.updateDescription = undefined;
             });
+    }
+
+    @Input()
+    set resource(resource: Resource) {
+        if (resource) {
+            this._resource = resource;
+
+            if (resource.description) {
+                // TODO: should be required
+                try {
+                    this.form.get('description').setValue(JSON.parse(resource.description));
+                } catch (e) {
+                    // the description is likely a string if specified from a tool
+                    this.form
+                        .get('description')
+                        .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
+                }
+            }
+
+            if (resource.resourceType === 'State') {
+                // TODO Refer to Enum
+                this.toolService.get((<State>resource).tool).subscribe(
+                    tool => {
+                        this.tool = tool;
+                    },
+                    err => console.error(err)
+                );
+            }
+        }
+    }
+
+    get resource(): Resource {
+        return this._resource;
     }
 
     getLink(): string {

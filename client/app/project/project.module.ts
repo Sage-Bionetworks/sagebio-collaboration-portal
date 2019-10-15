@@ -49,6 +49,7 @@ import { EntityThreadComponent } from 'components/entity/entity-thread/entity-th
 import { ProjectAuthorizationService } from './project-authorization.service';
 import { ProjectGuard } from './project-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
+import { ProjectResourceComponent } from './project-resource/project-resource.component';
 
 export const ROUTES: Routes = [
     {
@@ -85,7 +86,7 @@ export const ROUTES: Routes = [
                 canActivate: [ProjectGuard],
                 data: { authorization: EntityAuthorizationTypes.WRITE },
             },
-            { path: 'resources/:resourceId', component: ResourcePageComponent },
+            { path: 'resources/:resourceId', component: ProjectResourceComponent },
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'discussion/new', component: ProjectThreadNewComponent },
@@ -145,6 +146,7 @@ export const ROUTES: Routes = [
         ProjectDiscussionComponent,
         ProjectInsightsComponent,
         ProjectResourcesComponent,
+        ProjectResourceComponent,
         ProjectResourceNewComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,

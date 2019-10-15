@@ -1,78 +1,98 @@
-<div *ngIf="resource">
+<ng-container *ngIf="resource">
     <mat-card *ngIf="!showResourceEditTemplate; else showResourceEditForm" class="app-resource">
-
         <mat-card-header class="app-resource-header">
-                <div class="app-resource-left-container">
-            <mat-card-title class="app-resource-title">{{ resource.title }}</mat-card-title>
-            <mat-card-subtitle
-                >{{ resource.resourceType }} created by {{ resource.createdBy.name }} on
-                {{ resource.createdAt | dateAndTime }}</mat-card-subtitle
-            >
-            <mat-card-content class="app-resource-content">
-                <app-quill-editor
-                    [isReadOnly]="true"
-                    [showActions]="false"
-                    [body]="form.controls['description']"
-                ></app-quill-editor>
-            </mat-card-content>
+            <div class="app-resource-left-container">
+                <mat-card-title class="app-resource-title">{{ resource.title }}</mat-card-title>
+                <mat-card-subtitle
+                    >{{ resource.resourceType }} created by {{ resource.createdBy.name }} on
+                    {{ resource.createdAt | dateAndTime }}</mat-card-subtitle
+                >
+                <mat-card-content class="app-resource-content">
+                    <app-quill-editor
+                        [isReadOnly]="true"
+                        [showActions]="false"
+                        [body]="form.controls['description']"
+                    ></app-quill-editor>
+                </mat-card-content>
             </div>
             <div class="app-resource-action-section">
-            <div class="app-resource-actions">
-                <share-button [entity]="resource" [entityType]="entityType"></share-button>
-                <show-activity-button [root]="resource"></show-activity-button>
-                <a
-                    mat-icon-button
-                    [matMenuTriggerFor]="moreActionsMenu"
-                    matTooltip="More actions"
-                    aria-label="More actions"
-                >
-                    <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
-                </a>
-                <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
-                    <button
-                        ngxClipboard
-                        [cbContent]="getLink()"
-                        (cbOnSuccess)="notificationService.info('Link successfully copied')"
-                        (cbOnError)="notificationService.info('Unable to copy the link.')"
-                        mat-menu-item
-                        aria-label="Copy link"
+                <div class="app-resource-actions">
+                    <share-button [entity]="resource" [entityType]="entityType"></share-button>
+                    <show-activity-button [root]="resource"></show-activity-button>
+                    <a
+                        mat-icon-button
+                        [matMenuTriggerFor]="moreActionsMenu"
+                        matTooltip="More actions"
+                        aria-label="More actions"
                     >
-                        <span>Copy Link</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button
-                        mat-menu-item
-                        [attr.aria-label]="'Edit ' + resource.resourceType"
-                        (click)="showResourceEditTemplate = true"
+                        <mat-icon aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                    </a>
+                    <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
+                        <button
+                            ngxClipboard
+                            [cbContent]="getLink()"
+                            (cbOnSuccess)="notificationService.info('Link successfully copied')"
+                            (cbOnError)="notificationService.info('Unable to copy the link.')"
+                            mat-menu-item
+                            aria-label="Copy link"
+                        >
+                            <span>Copy Link</span>
+                        </button>
+                        <mat-divider *ngIf="canEdit || canDelete"></mat-divider>
+                        <button
+                            *ngIf="canEdit"
+                            mat-menu-item
+                            [attr.aria-label]="'Edit ' + resource.resourceType"
+                            (click)="showResourceEditTemplate = true"
+                        >
+                            <span>Edit {{ resource.resourceType }}</span>
+                        </button>
+                        <button
+                            *ngIf="canDelete"
+                            mat-menu-item
+                            [attr.aria-label]="'Delete ' + resource.resourceType"
+                            (click)="deleteResource(resource)"
+                        >
+                            <span class="app-resource-actions-delete-btn-label"
+                                >Delete {{ resource.resourceType }}</span
+                            >
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="app-resource-extra-actions">
+                    <!-- Use enum for State -->
+                    <a
+                        *ngIf="resource.resourceType === 'State'"
+                        mat-raised-button
+                        color="primary"
+                        (click)="openInTool(resource)"
+                        >Open with {{ tool.title }}</a
                     >
-                        <span>Edit {{ resource.resourceType }}</span>
-                    </button>
-                    <button
-                        mat-menu-item
-                        [attr.aria-label]="'Delete ' + resource.resourceType"
-                        (click)="deleteResource(resource)"
-                        disabled
+                    <a
+                        *ngIf="resource.resourceType !== 'State'"
+                        mat-raised-button
+                        color="primary"
+                        (click)="open(resource)"
+                        >Open {{ resource.resourceType }}</a
                     >
-                        <span class="app-resource-actions-delete-btn-label">Delete {{ resource.resourceType }}</span>
-                    </button>
-                </mat-menu>
-
-            </div>
-            <div class="app-resource-extra-actions">
-                <!-- Use enum for State -->
-                <a *ngIf="resource.resourceType === 'State'" mat-raised-button color="primary" (click)="openInTool(resource)">Open with {{ tool.title }}</a>
-                <a *ngIf="resource.resourceType !== 'State'" mat-raised-button color="primary" (click)="open(resource)">Open {{ resource.resourceType }}</a>
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" [disabled]="true">Discuss</a>
+                    <!-- <a
+                        mat-raised-button
+                        color="primary"
+                        (click)="notificationService.info('Not yet implemented')"
+                        [disabled]="true"
+                        >Discuss</a
+                    > -->
                     <!-- <a mat-raised-button color="primary" [routerLink]="'/discussion'">Discuss</a> -->
-                <a mat-raised-button color="primary" (click)="notificationService.info('Not yet implemented')" [disabled]="true">Create Insight</a>
+                    <a
+                        mat-raised-button
+                        color="primary"
+                        (click)="notificationService.info('Not yet implemented')"
+                        [disabled]="true"
+                        >Create Insight</a
+                    >
+                </div>
             </div>
-        </div>
-
         </mat-card-header>
-
-
-
-
     </mat-card>
 
     <ng-template #showResourceEditForm>
@@ -82,4 +102,4 @@
             (cancel)="showResourceEditTemplate = false"
         ></resource-edit>
     </ng-template>
-</div>
+</ng-container>

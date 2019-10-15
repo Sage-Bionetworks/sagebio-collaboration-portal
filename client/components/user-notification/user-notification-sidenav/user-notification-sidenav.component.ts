@@ -84,7 +84,7 @@ export class UserNotificationSidenavComponent implements OnInit, OnDestroy {
             case config.entityTypes.INSIGHT.value:
                 return this.insightService.getInsight(notification.entityId);
             case config.entityTypes.RESOURCE.value:
-                return this.resourceServive.getResource(notification.entityId);
+                return this.resourceServive.get(notification.entityId);
             case config.entityTypes.TOOL.value:
                 return this.toolService.get(notification.entityId);
             case config.entityTypes.DATA_CATALOG.value:
