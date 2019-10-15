@@ -25,9 +25,6 @@ export class UserNotificationDataService implements OnDestroy {
             .authInfo()
             .pipe(
                 map(authInfo => authInfo.isLoggedIn()),
-                tap(isLoggedIn => {
-                    console.log('User notificaiton data logged in changed', isLoggedIn);
-                }),
                 switchMap(isLoggedIn => {
                     if (isLoggedIn) {
                         // TODO: Need an endpoint to get only the archived notifications + paginated + for websocket
@@ -40,13 +37,11 @@ export class UserNotificationDataService implements OnDestroy {
             .subscribe(
                 notifications => {
                     if (notifications) {
-                        console.log('notifications fetched are', notifications);
                         this.notifications_.next(notifications);
                         this.socketService.syncArraySubject(
                             this.notificationSocketModel,
                             this.notifications_,
                             (items: UserNotification[]) => {
-                                console.log('received notifications update from websockets');
                                 // TODO: Remove when listening only to unarchive notifications
                                 return flow(
                                     filter<UserNotification>(n => !n.archived),

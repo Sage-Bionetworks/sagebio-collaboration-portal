@@ -22,7 +22,6 @@ function getModelForNotificationType(notificationType) {
 // Returns the notifications of the user based given by req.query.notificationType
 export function indexMine(req, res) {
     var userId = req.user._id.toString();
-    console.log('Getting notifications for user', userId);
     return Notification.find({
         ...req.query,
         user: userId,
