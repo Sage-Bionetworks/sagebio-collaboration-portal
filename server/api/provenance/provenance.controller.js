@@ -107,6 +107,30 @@ export function getProvenanceGraphByReference(req, res) {
         .catch(handleError(res));
 }
 
+// Returns the provenance activity objects for an entity
+export function getProvenanceActivitiesByReference(req, res) {
+    var referenceId = req.params.referenceId
+    var options = {
+        uri: `${config.provenance.apiServerUrl}/activities/byReference/${referenceId}`,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        qs: {
+            'direction': req.query.direction,
+            'sortBy': req.query.sortBy,
+            'order': req.query.order,
+            'limit': req.query.limit,
+            'q': req.query.filter
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // HELPER FUNCTIONS
 
 export function createActivities(activities) {

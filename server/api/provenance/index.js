@@ -9,5 +9,6 @@ router.post('/batch', controller.createActivitiesBatch);  // auth.hasRole('admin
 router.get('/', controller.getProvenanceGraph);  // auth.hasRole('admin')
 router.get('/byAgent/:agentId', controller.getProvenanceGraphByAgent);
 router.get('/byReference/:referenceId', controller.getProvenanceGraphByReference);
+router.get('/byReference/:referenceId/data', controller.getProvenanceActivitiesByReference);
 
 module.exports = router;
