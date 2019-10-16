@@ -40,12 +40,7 @@ export class ProjectActivityComponent implements OnInit, AfterViewInit {
     ) { }
 
     ngOnInit() {
-        let activityFilters = config.activityTypeFilters;
-        activityFilters.push({
-            'value': 'all',
-            'title': 'All'
-        });
-        this.activityTypeFilters = activityFilters;
+        this.activityTypeFilters = config.activityTypeFilters;
         this.projectDataService.project()
         .subscribe(project => {
             this.root.next(project);
@@ -75,7 +70,7 @@ export class ProjectActivityComponent implements OnInit, AfterViewInit {
                         filter_str = `class:${query.activityType}`;
                     }
                     return (
-                        this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 3, filter_str)
+                        this.provenanceService.getProvenanceGraphByReference(root._id, 'down', 'created_at', 'desc', 100, filter_str)
                     );
                 })
             )

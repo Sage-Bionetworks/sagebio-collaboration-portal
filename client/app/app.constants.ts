@@ -36,4 +36,9 @@ let config = {
     }),
 };
 
+config.activityTypeFilters.push({
+    'value': 'all',
+    'title': 'All'
+})
+
 export default merge(config, shared);
