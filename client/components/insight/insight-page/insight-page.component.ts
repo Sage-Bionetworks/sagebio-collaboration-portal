@@ -102,7 +102,16 @@ export class InsightPageComponent implements OnInit {
 
     deleteInsight(insight: Insight): void {
         if (insight) {
-            this.notificationService.info('Not implemented');
+            this.insightService.remove(insight).subscribe(
+                () => {
+                    this.router.navigate(['..'], { relativeTo: this.route });
+                    this.notificationService.info(`The ${this.entityType} has been successfully deleted.`);
+                },
+                err => {
+                    console.error(err);
+                    this.notificationService.error(`Unable to remove ${this.entityType}.`);
+                }
+            );
         }
     }
 }
