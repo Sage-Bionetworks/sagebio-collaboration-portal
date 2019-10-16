@@ -50,6 +50,7 @@ import { ProjectAuthorizationService } from './project-authorization.service';
 import { ProjectGuard } from './project-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 import { ProjectResourceComponent } from './project-resource/project-resource.component';
+import { ProjectInsightComponent } from './project-insight/project-insight.component';
 
 export const ROUTES: Routes = [
     {
@@ -78,7 +79,7 @@ export const ROUTES: Routes = [
                 canActivate: [ProjectGuard],
                 data: { authorization: EntityAuthorizationTypes.WRITE },
             },
-            { path: 'insights/:insightId', component: InsightPageComponent },
+            { path: 'insights/:insightId', component: ProjectInsightComponent },
             { path: 'resources', component: ProjectResourcesComponent },
             {
                 path: 'resources/new',
@@ -141,13 +142,14 @@ export const ROUTES: Routes = [
         ProjectEditComponent,
         ProjectHeaderComponent,
         ProjectHomeComponent,
+        ProjectInsightComponent,
         ProjectInsightNewComponent,
+        ProjectInsightsComponent,
         ProjectListComponent,
         ProjectDiscussionComponent,
-        ProjectInsightsComponent,
-        ProjectResourcesComponent,
         ProjectResourceComponent,
         ProjectResourceNewComponent,
+        ProjectResourcesComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,
         ProjectThreadNewComponent,

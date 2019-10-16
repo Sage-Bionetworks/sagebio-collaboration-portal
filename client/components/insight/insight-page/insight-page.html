@@ -1,4 +1,4 @@
-<div *ngIf="insight">
+<ng-container *ngIf="insight">
     <mat-card *ngIf="!showInsightEditTemplate; else showInsightEditForm" class="app-insight">
         <mat-card-header class="app-insight-header">
             <mat-card-title class="app-insight-title">{{ insight.title }}</mat-card-title>
@@ -28,8 +28,9 @@
                     >
                         <span>Copy Link</span>
                     </button>
-                    <mat-divider></mat-divider>
+                    <mat-divider *ngIf="canEdit || canDelete"></mat-divider>
                     <button
+                        *ngIf="canEdit"
                         mat-menu-item
                         [attr.aria-label]="'Edit ' + insight.insightType"
                         (click)="showInsightEditTemplate = true"
@@ -37,10 +38,10 @@
                         <span>Edit {{ insight.insightType }}</span>
                     </button>
                     <button
+                        *ngIf="canDelete"
                         mat-menu-item
                         [attr.aria-label]="'Delete ' + insight.insightType"
                         (click)="deleteInsight(insight)"
-                        disabled
                     >
                         <span class="app-insight-actions-delete-btn-label">Delete {{ insight.insightType }}</span>
                     </button>
@@ -66,4 +67,4 @@
             (cancel)="showInsightEditTemplate = false"
         ></insight-edit>
     </ng-template>
-</div>
+</ng-container>

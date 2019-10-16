@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
-import { Resource } from 'models/entities/resources/resource.model';
+import { Insight } from 'models/entities/insights/insight.model';
 import { Project } from 'models/entities/project.model';
 import { AuthService } from 'components/auth/auth.service';
-import { ResourceService } from 'components/resource/resource.service';
+import { InsightService } from 'components/insight/insight.service';
 import { ProjectAuthorizationService } from '../project-authorization.service';
 import { ProjectDataService } from '../project-data.service';
 
 @Component({
-    selector: 'project-resource',
-    template: require('./project-resource.html'),
-    styles: [require('./project-resource.scss')],
+    selector: 'project-insight',
+    template: require('./project-insight.html'),
+    styles: [require('./project-insight.scss')],
 })
-export class ProjectResourceComponent implements OnInit {
+export class ProjectInsightComponent implements OnInit {
     private project$: Observable<Project>;
-    private resource$: Observable<Resource>;
+    private insight$: Observable<Insight>;
 
     private canEdit = false; // used in html
     private canDelete = false; // used in html
@@ -26,7 +26,7 @@ export class ProjectResourceComponent implements OnInit {
         ActivatedRoute,
         ProjectDataService,
         ProjectAuthorizationService,
-        ResourceService,
+        InsightService,
         AuthService,
     ];
     constructor(
@@ -34,7 +34,7 @@ export class ProjectResourceComponent implements OnInit {
         private route: ActivatedRoute,
         private projectDataService: ProjectDataService,
         private projectAuthorizationService: ProjectAuthorizationService,
-        private resourceService: ResourceService,
+        private insightService: InsightService,
         private authService: AuthService
     ) {
         this.project$ = this.projectDataService.project();
@@ -45,8 +45,8 @@ export class ProjectResourceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.resource$ = this.route.params.pipe(
-            switchMap(params => this.resourceService.get(params.resourceId)),
+        this.insight$ = this.route.params.pipe(
+            switchMap(params => this.insightService.get(params.insightId)),
             take(1)
         );
 
@@ -57,10 +57,10 @@ export class ProjectResourceComponent implements OnInit {
         // TODO Check that the author has Write access
         const isAuthor$ = forkJoin({
             authInfo: this.authService.authInfo().pipe(take(1)),
-            resource: this.resource$,
+            insight: this.insight$,
         }).pipe(
             map(res => {
-                return res.authInfo.user._id.toString() === res.resource.createdBy._id.toString();
+                return res.authInfo.user._id.toString() === res.insight.createdBy._id.toString();
             })
         );
 

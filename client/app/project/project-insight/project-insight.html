@@ -1,0 +1,3 @@
+<ng-container *ngIf="insight$ | async as insight">
+    <insight-page [insight]="insight" [canEdit]="canEdit" [canDelete]="canDelete"></insight-page>
+</ng-container>
