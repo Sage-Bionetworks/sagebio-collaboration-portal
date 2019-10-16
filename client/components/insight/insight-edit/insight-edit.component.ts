@@ -71,7 +71,7 @@ export class InsightEditComponent implements OnInit {
 
     updateInsight(): void {
         let editedInsight = this.editForm.value;
-        // editedTool.slug = slugify(this.editForm.value.name).toLowerCase();
+
         const patches = map(editedInsight, (value, key) => ({
             op: 'replace',
             path: `/${key}`,

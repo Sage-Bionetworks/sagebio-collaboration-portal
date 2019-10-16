@@ -135,6 +135,8 @@ export function hasEntityPermission(
             return resolve(false);
         }
 
+        console.log('hasEntityPermission', allowedAccesses);
+
         return isAdmin(userId)
             .then(isAuthorized => {
                 if (!isAuthorized) {

@@ -28,10 +28,6 @@ export function indexMine(req, res) {
     })
         .sort({ createdAt: 'desc' })
         .exec()
-        .then(items => {
-            console.log(items);
-            return items;
-        })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

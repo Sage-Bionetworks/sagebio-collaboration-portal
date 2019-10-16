@@ -71,9 +71,7 @@ export function create(req, res) {
 
 // Updates an existing Insight in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
+    Reflect.deleteProperty(req.body, '_id');
     return Insight.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))

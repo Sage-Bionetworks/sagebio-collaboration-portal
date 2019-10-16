@@ -70,36 +70,38 @@ export class ResourceEditComponent implements OnInit {
                 title: this.resource.title,
                 description: JSON.parse(this.resource.description),
                 resourceType: this.resource.resourceType,
-                url: this.resource.url
+                url: this.resource.url,
             });
             this.editForm.markAllAsTouched();
         }
     }
 
     updateResource(): void {
-        this.notificationService.info('No implemented yet');
-        // let editedResource = this.editForm.value;
-        // // editedTool.slug = slugify(this.editForm.value.name).toLowerCase();
-        // const patches = map(editedResource, (value, key) => ({
-        //     op: 'replace',
-        //     path: `/${key}`,
-        //     value: value,
-        // }));
+        console.log('Start update resource');
+        let editedResource = this.editForm.value;
 
-        // // need to convert the quill-based description
-        // let patchIndex = patches.findIndex(patch => patch.path === '/description');
-        // patches[patchIndex].value = JSON.stringify(patches[patchIndex].value);
+        const patches = map(editedResource, (value, key) => ({
+            op: 'replace',
+            path: `/${key}`,
+            value: value,
+        }));
 
-        // this.resourceService.update(this.resource._id, patches).subscribe(
-        //     resource => {
-        //         console.log('INSIGHT RECEIVED', resource);
-        //         this.resourceEdit.emit(resource);
-        //         this.cancel.emit(null);
-        //     },
-        //     err => {
-        //         console.error(err);
-        //         this.errors.editResource = err.message || err;
-        //     }
-        // );
+        // need to convert the quill-based description
+        let patchIndex = patches.findIndex(patch => patch.path === '/description');
+        patches[patchIndex].value = JSON.stringify(patches[patchIndex].value);
+
+        console.log('patches', patches);
+
+        this.resourceService.update(this.resource._id, patches).subscribe(
+            resource => {
+                console.log('resource updated', resource);
+                this.resourceEdit.emit(resource);
+                this.cancel.emit(null);
+            },
+            err => {
+                console.error(err);
+                this.errors.editResource = err.message || err;
+            }
+        );
     }
 }

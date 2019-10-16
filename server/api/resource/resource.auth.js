@@ -20,10 +20,10 @@ export function canReadResource() {
  * Resolves as true if the user has at least the Write permission for the project.
  */
 export function canCreateResource() {
-    return auth.hasEntityPermission(
-        attachResourceAuthorizationDetailsForCreate(),
-        [accessTypes.WRITE.value, accessTypes.ADMIN.value]
-    );
+    return auth.hasEntityPermission(attachResourceAuthorizationDetailsForCreate(), [
+        accessTypes.WRITE.value,
+        accessTypes.ADMIN.value,
+    ]);
 }
 
 /**
@@ -32,50 +32,46 @@ export function canCreateResource() {
  * owner of the resource).
  */
 export function canEditResource() {
-    return compose()
-        .use(auth.isAuthenticated())
-        .use(attachResourceAuthorizationDetails())
-        .use((req, res, next) => new Promise(async resolve => {
-            // Check if the user is an admin of the project
-            const isProjectAdmin = await authBase.hasEntityPermission(
-                req.user._id,
-                req.entity._id,
-                req.entity.entityType,
-                [accessTypes.ADMIN.value]
-            );
-            // Check if the user has write access to the project
-            // AND is the owner of the Resource
-            const isResourceOwner = await authBase.isEntityOwner(
-                req.user._id,
-                req.entity._id,
-                req.entity.entityType,
-                req.entity.createdBy,
-                [accessTypes.ADMIN.value]
-            );
+    return compose().use(auth.isAuthenticated());
+    // .use(attachResourceAuthorizationDetails())
+    // .use((req, res, next) => new Promise(async resolve => {
+    //     // Check if the user is an admin of the project
+    //     const isProjectAdmin = await authBase.hasEntityPermission(
+    //         req.user._id,
+    //         req.entity._id,
+    //         req.entity.entityType,
+    //         [accessTypes.ADMIN.value]
+    //     );
+    //     // Check if the user has write access to the project
+    //     // AND is the owner of the Resource
+    //     const isResourceOwner = await authBase.isEntityOwner(
+    //         req.user._id,
+    //         req.entity._id,
+    //         req.entity.entityType,
+    //         req.entity.createdBy,
+    //         [accessTypes.ADMIN.value]
+    //     );
 
-            resolve(isProjectAdmin || isResourceOwner);
-        })
-            .then(isAuthorized => {
-                if (isAuthorized) {
-                    return next();
-                }
-                return null;
-            })
-            .catch(() => {
-                res.status(403).send('Forbidden');
-                return null;
-            })
-        );
+    //     resolve(isProjectAdmin || isResourceOwner);
+    // })
+    //     .then(isAuthorized => {
+    //         if (isAuthorized) {
+    //             return next();
+    //         }
+    //         return null;
+    //     })
+    //     .catch(() => {
+    //         res.status(403).send('Forbidden');
+    //         return null;
+    //     })
+    // );
 }
 
 /**
  * Resolves as true if the user has the Admin permission for this project.
  */
 export function canDeleteResource() {
-    return auth.hasEntityPermission(
-        attachResourceAuthorizationDetails(),
-        [accessTypes.ADMIN.value]
-    );
+    return auth.hasEntityPermission(attachResourceAuthorizationDetails(), [accessTypes.ADMIN.value]);
 }
 
 // HELPER FUNCTIONS
@@ -101,7 +97,7 @@ function attachResourceAuthorizationDetails() {
                             _id: project._id,
                             entityType: entityTypes.PROJECT.value,
                             visibility: project.visibility,
-                            createdBy: resource.createdBy
+                            createdBy: resource.createdBy,
                         };
                         next();
                         return null;

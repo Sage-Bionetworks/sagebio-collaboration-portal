@@ -20,12 +20,6 @@
                         Please enter a valid URL.
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Type</mat-label>
-                    <mat-select formControlName="resourceType" required>
-                        <mat-option *ngFor="let option of resourceSpecs.type.options" [value]="option.value">{{ option.title }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
                 <app-quill-editor
                     class="app-resource-edit-description-editor"
                     [isReadOnly]="false"

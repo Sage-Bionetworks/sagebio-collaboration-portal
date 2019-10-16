@@ -67,9 +67,8 @@ export function create(req, res) {
 
 // Updates an existing Resource in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        Reflect.deleteProperty(req.body, '_id');
-    }
+    Reflect.deleteProperty(req.body, '_id');
+
     return Resource.findById(req.params.id)
         .exec()
         .then(handleEntityNotFound(res))
