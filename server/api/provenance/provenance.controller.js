@@ -64,6 +64,7 @@ export function getProvenanceGraph(req, res) {
 export function getProvenanceGraphByAgent(req, res) {
     var agentId = req.params.agentId
     var options = {
+        method: 'GET',
         uri: `${config.provenance.apiServerUrl}/activities/byAgent/${agentId}/graph`,
         headers: {
             'User-Agent': 'Request-Promise'
@@ -87,6 +88,7 @@ export function getProvenanceGraphByAgent(req, res) {
 export function getProvenanceGraphByReference(req, res) {
     var referenceId = req.params.referenceId
     var options = {
+        method: 'GET',
         uri: `${config.provenance.apiServerUrl}/activities/byReference/${referenceId}/graph`,
         headers: {
             'User-Agent': 'Request-Promise'
@@ -111,6 +113,7 @@ export function getProvenanceGraphByReference(req, res) {
 export function getProvenanceActivitiesByReference(req, res) {
     var referenceId = req.params.referenceId
     var options = {
+        method: 'GET',
         uri: `${config.provenance.apiServerUrl}/activities/byReference/${referenceId}`,
         headers: {
             'User-Agent': 'Request-Promise'
@@ -121,6 +124,45 @@ export function getProvenanceActivitiesByReference(req, res) {
             'order': req.query.order,
             'limit': req.query.limit,
             'q': req.query.filter
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Add 'used' reference entity to a provenance activity
+export function addProvenanceActivityUsed(req, res) {
+    var activityId = req.params.activityId
+    var options = {
+        method: 'PUT',
+        uri: `${config.provenance.apiServerUrl}/activities/${activityId}/used`,
+        body: req.body,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    rp(options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+// Remove 'used' reference entity from a provenance activity
+export function removeProvenanceActivityUsed(req, res) {
+    var activityId = req.params.activityId
+    var referenceId = req.params.referenceId
+
+    var options = {
+        method: 'DELETE',
+        uri: `${config.provenance.apiServerUrl}/activities/${activityId}/used/${referenceId}`,
+        headers: {
+            'User-Agent': 'Request-Promise'
         },
         json: true
     };
