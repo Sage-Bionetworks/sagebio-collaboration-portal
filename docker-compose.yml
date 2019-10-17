@@ -66,7 +66,7 @@ services:
         - phccp-prov
 
   phccp-mongo:
-    image: docker.synapse.org/syn18489221/phccp-mongo
+    image: docker.synapse.org/syn18489221/phccp-mongo:4.2.0v2
     command: mongod --port ${MONGODB_PORT} --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
     container_name: phccp-mongo
     ports:
@@ -83,7 +83,7 @@ services:
         # - /home/tschaffter/mongodb:/data/db
 
   phccp-neo4j:
-    image: docker.synapse.org/syn18489221/phccp-neo4j
+    image: docker.synapse.org/syn18489221/phccp-neo4j:3.5.11
     container_name: phccp-neo4j
     ports:
       - 7687:7687
