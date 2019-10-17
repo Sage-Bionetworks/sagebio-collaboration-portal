@@ -51,6 +51,7 @@ import { ProjectGuard } from './project-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
 import { ProjectResourceComponent } from './project-resource/project-resource.component';
 import { ProjectInsightComponent } from './project-insight/project-insight.component';
+import { ProjectThreadComponent } from './project-thread/project-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -91,7 +92,7 @@ export const ROUTES: Routes = [
             { path: 'activity', component: ProjectActivityComponent },
             { path: 'discussion', component: ProjectDiscussionComponent },
             { path: 'discussion/new', component: ProjectThreadNewComponent },
-            { path: 'discussion/:threadId', component: EntityThreadComponent },
+            { path: 'discussion/:threadId', component: ProjectThreadComponent },
             {
                 path: 'settings',
                 component: ProjectSettingsComponent,
@@ -152,6 +153,7 @@ export const ROUTES: Routes = [
         ProjectResourcesComponent,
         ProjectSettingsComponent,
         ProjectSidenavComponent,
+        ProjectThreadComponent,
         ProjectThreadNewComponent,
     ],
     exports: [],

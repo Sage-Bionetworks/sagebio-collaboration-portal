@@ -16,6 +16,8 @@ import { orderBy } from 'lodash/fp';
 })
 export class ThreadComponent implements OnInit, OnDestroy {
     @Input() threadId: string;
+    @Input() private canEdit = false;
+    @Input() private canDelete = false;
     @Output() deleted: EventEmitter<Thread> = new EventEmitter<Thread>();
 
     private showThreadEditTemplate = false; // used in html
