@@ -1,20 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { InsightService } from 'components/insight/insight.service';
-// import { StateService } from '../../state/state.service';
-import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
-
-// import { EntityAttachmentMode } from 'models/entities/entity.model';
-import { Insight } from 'models/entities/insights/insight.model';
-
-import { PageTitleService } from 'components/page-title/page-title.service';
-import { NotificationService } from 'components/notification/notification.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Insight } from 'models/entities/insights/insight.model';
+import { InsightService } from 'components/insight/insight.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { NotificationService } from 'components/notification/notification.service';
+import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
 import config from '../../../app/app.constants';
-import { ObjectValidators } from 'components/validation/object-validators';
 
 @Component({
     selector: 'insight-page',
@@ -23,16 +17,15 @@ import { ObjectValidators } from 'components/validation/object-validators';
     encapsulation: ViewEncapsulation.None,
 })
 export class InsightPageComponent implements OnInit {
-    private insight: Insight;
+    private _insight: Insight;
+    @Input() private canEdit = false;
+    @Input() private canDelete = false;
+
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
     };
     private entityType: string;
-
-    private isAdmin = false;
-    private userPermissionsSub: Subscription;
-    private permissions: Observable<UserPermissions>;
 
     static parameters = [
         Router,
@@ -54,42 +47,10 @@ export class InsightPageComponent implements OnInit {
         private userPermissionDataService: UserPermissionDataService
     ) {
         this.entityType = config.entityTypes.INSIGHT.value;
+
         this.form = formBuilder.group({
             description: ['', []],
         });
-
-        this.router.routeReuseStrategy.shouldReuseRoute = function() {
-            return false;
-        };
-
-        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
-            userPermissions => {
-                this.isAdmin = userPermissions.isAdmin();
-
-                // TODO: Apply permissions so that users other than Admin can edit
-                // if (this.isAdmin) {
-                //     this.mode = EntityAttachmentMode.EDIT;
-                // }
-            },
-            err => console.log(err)
-        );
-
-        this.route.params
-            .pipe(switchMap(params => this.insightService.getInsight(params.insightId)))
-            .subscribe(insight => {
-                if (insight.description) {
-                    // TODO: should be required
-                    try {
-                        this.form.get('description').setValue(JSON.parse(insight.description));
-                    } catch (e) {
-                        // the description is likely a string if specified from a tool
-                        this.form
-                            .get('description')
-                            .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
-                    }
-                }
-                this.insight = insight;
-            });
     }
 
     ngOnInit() {
@@ -101,6 +62,29 @@ export class InsightPageComponent implements OnInit {
             .subscribe(data => {
                 this.errors.updateDescription = undefined;
             });
+    }
+
+    @Input()
+    set insight(insight: Insight) {
+        if (insight) {
+            this._insight = insight;
+
+            if (insight.description) {
+                // TODO: should be required
+                try {
+                    this.form.get('description').setValue(JSON.parse(insight.description));
+                } catch (e) {
+                    // the description is likely a string if specified from a tool
+                    this.form
+                        .get('description')
+                        .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${insight.description}\"}]}`));
+                }
+            }
+        }
+    }
+
+    get insight(): Insight {
+        return this._insight;
     }
 
     getLink(): string {
@@ -118,7 +102,16 @@ export class InsightPageComponent implements OnInit {
 
     deleteInsight(insight: Insight): void {
         if (insight) {
-            this.notificationService.info('Not implemented');
+            this.insightService.remove(insight).subscribe(
+                () => {
+                    this.router.navigate(['..'], { relativeTo: this.route });
+                    this.notificationService.info(`The ${this.entityType} has been successfully deleted.`);
+                },
+                err => {
+                    console.error(err);
+                    this.notificationService.error(`Unable to remove ${this.entityType}.`);
+                }
+            );
         }
     }
 }

@@ -21,25 +21,23 @@ export function register(spark) {
 
 function createListener(namespace, event, spark) {
     return function (doc) {
-        // TODO Fix authorization
-        // authBase.canReadEntity(
-        //     spark.userId,
-        //     doc.entityId,
-        //     entityTypes.PROJECT.value,
-        //     doc.visibility,
-        //     Object.values(accessTypes).map(access => access.value),
-        //     [
-        //         inviteStatusTypes.ACCEPTED.value,
-        //         inviteStatusTypes.PENDING.value
-        //     ]
-        // )
-        //     .then(hasAccess => {
-                // if (hasAccess) {
-                    spark.emit(`${namespace}:${event}`, doc);
-                    spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
-            //     }
-            // })
-            // .catch(err => console.error(`Unable to create listener: ${err}`));
+        // For now we only support entity-permission for PROJECT
+        // ENTITY-PERMISSION ARE NO LONGER USED AS NOTIFICATIONS (SEE NEW USER-NOTIFICATION).
+        // TODO Use authentication implementation from project api (no duplicated code)
+        if (doc.entityType === entityTypes.PROJECT.value) {
+            const isTargetUser = doc.user._id === spark.userId;
+            const isProjectAdmin = authBase.hasEntityPermission(
+                spark.userId,
+                doc.entityId,
+                entityTypes.PROJECT.value,
+                [accessTypes.ADMIN.value],
+                [inviteStatusTypes.ACCEPTED.value]
+            );
+            if (isTargetUser || isProjectAdmin) {
+                spark.emit(`${namespace}:${event}`, doc);
+                spark.emit(`entity:${doc.entityId}:${namespace}:${event}`, doc);
+            }
+        }
     };
 }
 

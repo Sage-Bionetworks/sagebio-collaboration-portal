@@ -1,7 +1,7 @@
 import { QueryListResponse } from './../../../shared/interfaces/query-list-response.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap, take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { stringifyQuery } from 'components/util';
 import { Project } from 'models/entities/project.model';
@@ -103,9 +103,9 @@ export class ResourceService implements EntityService<Resource> {
     //     return this.httpClient.get<Resource[]>(`/api/resources${stringifyQuery(query)}`);
     // }
 
-    getResource(resourceId: string): Observable<Resource> {
-        return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
-    }
+    // getResource(resourceId: string): Observable<Resource> {
+    //     return this.httpClient.get<Resource>(`/api/resources/${resourceId}`);
+    // }
 
     updateResourceDescription(resource: Resource, description: string): Observable<Resource> {
         return this.httpClient.patch<Resource>(

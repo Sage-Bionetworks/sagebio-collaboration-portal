@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -29,6 +29,7 @@ import { UserNotification } from 'models/user-notification/user-notification.mod
 import { SocketService } from 'components/socket/socket.service';
 import { Entity } from 'models/entities/entity.model';
 import { EntityPermission } from 'models/auth/entity-permission.model';
+import { UserNotificationDataService } from '../user-notification-data.service';
 // ---------------------------------------------------------------
 
 @Component({
@@ -36,15 +37,15 @@ import { EntityPermission } from 'models/auth/entity-permission.model';
     template: require('./user-notification-sidenav.html'),
     styles: [require('./user-notification-sidenav.scss')],
 })
-export class UserNotificationSidenavComponent implements OnDestroy {
+export class UserNotificationSidenavComponent implements OnInit, OnDestroy {
     // private socketEventName: string;
     private notificationTypes = config.notificationTypes;
     private notificationBundles$ = new BehaviorSubject<UserNotificationBundle<UserNotification>[]>([]);
-    private notifications$ = new BehaviorSubject<UserNotification[]>([]);
+    // private notifications$ = new BehaviorSubject<UserNotification[]>([]);
 
     static parameters = [
         SecondarySidenavService,
-        UserNotificationService,
+        UserNotificationDataService,
         EntityPermissionService,
         ProjectService,
         InsightService,
@@ -52,27 +53,27 @@ export class UserNotificationSidenavComponent implements OnDestroy {
         ToolService,
         DataCatalogService,
         Router,
-        SocketService,
     ];
     constructor(
         private sidenavService: SecondarySidenavService,
-        private userNotificationService: UserNotificationService,
+        private userNotificationDataService: UserNotificationDataService,
         private entityPermissionService: EntityPermissionService,
         private projectService: ProjectService,
         private insightService: InsightService,
         private resourceServive: ResourceService,
         private toolService: ToolService,
         private dataCatalogService: DataCatalogService,
-        private router: Router,
-        private socketService: SocketService
-    ) {
+        private router: Router
+    ) {}
+
+    ngOnInit() {
         this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(_ => this.close());
 
-        this.socketService.syncArraySubject('notifications', this.notifications$, (items: UserNotification[]) => {
-            return _fp.flow(
-                _fp.filter<UserNotification>(n => !n.archived),
-                _fp.orderBy('createdAt', 'desc')
-            )(items);
+        // TODO After a websocket update, should ideally create bundle only of the new notification, not all of them
+        this.userNotificationDataService.notifications().subscribe(notifications => {
+            const notificationBundlesPromises = notifications.map(this.buildBundleByType);
+
+            Promise.all(notificationBundlesPromises).then(bundles => this.notificationBundles$.next(bundles));
         });
     }
 
@@ -83,7 +84,7 @@ export class UserNotificationSidenavComponent implements OnDestroy {
             case config.entityTypes.INSIGHT.value:
                 return this.insightService.getInsight(notification.entityId);
             case config.entityTypes.RESOURCE.value:
-                return this.resourceServive.getResource(notification.entityId);
+                return this.resourceServive.get(notification.entityId);
             case config.entityTypes.TOOL.value:
                 return this.toolService.get(notification.entityId);
             case config.entityTypes.DATA_CATALOG.value:
@@ -132,20 +133,6 @@ export class UserNotificationSidenavComponent implements OnDestroy {
                 return await this.buildEntityAccessNotificationBundle(notification as EntityAccessNotification);
         }
     };
-
-    ngOnInit() {
-        this.userNotificationService
-            .queryNotifications({ archived: false })
-            .subscribe(notifications => this.notifications$.next(notifications));
-
-        this.notifications$.subscribe(notifications => {
-            const notificationBundlesPromises = notifications.map(this.buildBundleByType);
-
-            Promise.all(notificationBundlesPromises).then(notifications =>
-                this.notificationBundles$.next(notifications)
-            );
-        });
-    }
 
     ngOnDestroy() {
         // this.socketService.unsyncUpdates(this.notifications$);

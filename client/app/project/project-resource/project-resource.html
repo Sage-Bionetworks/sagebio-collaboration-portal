@@ -1,0 +1,3 @@
+<ng-container *ngIf="resource$ | async as resource">
+    <resource-page [resource]="resource" [canEdit]="canEdit" [canDelete]="canDelete"></resource-page>
+</ng-container>

@@ -1,44 +1,35 @@
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { ResourceService } from 'components/resource/resource.service';
-// import { StateService } from '../../state/state.service';
-import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
-
-// import { EntityAttachmentMode } from 'models/entities/entity.model';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Resource } from 'models/entities/resources/resource.model';
-
-import { PageTitleService } from 'components/page-title/page-title.service';
-import { NotificationService } from 'components/notification/notification.service';
-import { Observable, Subscription, forkJoin, of } from 'rxjs';
-import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import config from '../../../app/app.constants';
-import { ObjectValidators } from 'components/validation/object-validators';
-import { ToolService } from '../../../app/tool/tool.service';
 import { State } from 'models/entities/resources/state.model';
 import { Tool } from 'models/entities/tool.model';
+import { NotificationService } from 'components/notification/notification.service';
+import { PageTitleService } from 'components/page-title/page-title.service';
+import { ResourceService } from 'components/resource/resource.service';
 import { TokenService } from 'components/auth/token.service';
+import { UserPermissionDataService, UserPermissions } from 'components/auth/user-permission-data.service';
+import { ToolService } from '../../../app/tool/tool.service';
+import config from '../../../app/app.constants';
 
 @Component({
     selector: 'resource-page',
     template: require('./resource-page.html'),
     styles: [require('./resource-page.scss')],
-    // providers: [ToolService],
     encapsulation: ViewEncapsulation.None,
 })
 export class ResourcePageComponent implements OnInit {
-    private resource: Resource;
+    private _resource: Resource;
+    @Input() private canEdit = false;
+    @Input() private canDelete = false;
+
     private form: FormGroup;
     private errors = {
         updateDescription: undefined,
     };
     private entityType: string;
-
-    private isAdmin = false;
-    private userPermissionsSub: Subscription;
-    private permissions: Observable<UserPermissions>;
-
     private tool: Tool;
 
     static parameters = [
@@ -50,7 +41,7 @@ export class ResourcePageComponent implements OnInit {
         ToolService,
         NotificationService,
         UserPermissionDataService,
-        TokenService
+        TokenService,
     ];
 
     constructor(
@@ -65,51 +56,10 @@ export class ResourcePageComponent implements OnInit {
         private tokenService: TokenService
     ) {
         this.entityType = config.entityTypes.RESOURCE.value;
+
         this.form = formBuilder.group({
             description: ['', []],
         });
-
-        this.router.routeReuseStrategy.shouldReuseRoute = function() {
-            return false;
-        };
-
-        this.userPermissionsSub = this.userPermissionDataService.permissions().subscribe(
-            userPermissions => {
-                this.isAdmin = userPermissions.isAdmin();
-
-                // TODO: Apply permissions so that users other than Admin can edit
-                // if (this.isAdmin) {
-                //     this.mode = EntityAttachmentMode.EDIT;
-                // }
-            },
-            err => console.log(err)
-        );
-
-        this.route.params
-            .pipe(
-                switchMap(params => this.resourceService.getResource(params.resourceId)),
-                switchMap(resource => forkJoin({
-                    resource: of(resource),
-                    tool: resource.resourceType === 'State' ? this.toolService.get((<State>resource).tool) : of(null) // TODO Hack
-                }))
-            )
-            .subscribe((res: any) => {
-                let resource = res.resource;
-                this.tool = res.tool;
-            // .subscribe(resource => {
-                if (resource.description) {
-                    // TODO: should be required
-                    try {
-                        this.form.get('description').setValue(JSON.parse(resource.description));
-                    } catch (e) {
-                        // the description is likely a string if specified from a tool
-                        this.form
-                            .get('description')
-                            .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
-                    }
-                }
-                this.resource = resource;
-            });
     }
 
     ngOnInit() {
@@ -121,6 +71,39 @@ export class ResourcePageComponent implements OnInit {
             .subscribe(data => {
                 this.errors.updateDescription = undefined;
             });
+    }
+
+    @Input()
+    set resource(resource: Resource) {
+        if (resource) {
+            this._resource = resource;
+
+            if (resource.description) {
+                // TODO: should be required
+                try {
+                    this.form.get('description').setValue(JSON.parse(resource.description));
+                } catch (e) {
+                    // the description is likely a string if specified from a tool
+                    this.form
+                        .get('description')
+                        .setValue(JSON.parse(`{\"ops\":[{\"insert\":\"${resource.description}\"}]}`));
+                }
+            }
+
+            if (resource.resourceType === 'State') {
+                // TODO Refer to Enum
+                this.toolService.get((<State>resource).tool).subscribe(
+                    tool => {
+                        this.tool = tool;
+                    },
+                    err => console.error(err)
+                );
+            }
+        }
+    }
+
+    get resource(): Resource {
+        return this._resource;
     }
 
     getLink(): string {
@@ -138,7 +121,16 @@ export class ResourcePageComponent implements OnInit {
 
     deleteResource(resource: Resource): void {
         if (resource) {
-            this.notificationService.info('Not implemented');
+            this.resourceService.remove(resource).subscribe(
+                () => {
+                    this.router.navigate(['..'], { relativeTo: this.route });
+                    this.notificationService.info(`The ${this.entityType} has been successfully deleted.`);
+                },
+                err => {
+                    console.error(err);
+                    this.notificationService.error(`Unable to remove ${this.entityType}.`);
+                }
+            );
         }
     }
 

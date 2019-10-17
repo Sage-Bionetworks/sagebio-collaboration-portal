@@ -19,7 +19,9 @@ export function register(spark) {
 
 function createListener(event, spark) {
     return doc => {
-        spark.emit(event, doc);
+        if (doc && doc.user._id.toString() === spark.userId) {
+            spark.emit(event, doc);
+        }
     };
 }
 
