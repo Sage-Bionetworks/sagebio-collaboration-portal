@@ -121,13 +121,16 @@ export class ResourcePageComponent implements OnInit {
 
     deleteResource(resource: Resource): void {
         if (resource) {
-            this.resourceService.remove(resource).subscribe(() => {
-                this.router.navigate(['..'], { relativeTo: this.route });
-                this.notificationService.info(`The ${this.entityType} has been successfully deleted.`);
-            }, err => {
-                console.error(err);
-                this.notificationService.error(`Unable to remove ${this.entityType}.`);
-            });
+            this.resourceService.remove(resource).subscribe(
+                () => {
+                    this.router.navigate(['..'], { relativeTo: this.route });
+                    this.notificationService.info(`The ${this.entityType} has been successfully deleted.`);
+                },
+                err => {
+                    console.error(err);
+                    this.notificationService.error(`Unable to remove ${this.entityType}.`);
+                }
+            );
         }
     }
 
