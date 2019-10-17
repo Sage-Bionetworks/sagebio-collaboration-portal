@@ -9,6 +9,7 @@ import { get } from 'lodash';
 })
 export class ReferenceNodeComponent extends ProvenanceNodeComponent {
   private classIconMap = {
+    'Project': this.iconDictionary.suitcase,
     'Insight': this.iconDictionary.lightbulb,
     'Resource': this.iconDictionary.cube,
     'Tool': this.iconDictionary.gear,
@@ -32,7 +33,11 @@ export class ReferenceNodeComponent extends ProvenanceNodeComponent {
   }
 
   get color() {
-      return this.colorDictionary.green;
+      if (this.node.nodeClass === 'Project') {
+          return this.colorDictionary.gray;
+      } else {
+          return this.colorDictionary.green;
+      }
   }
 
   get subclassImage() {

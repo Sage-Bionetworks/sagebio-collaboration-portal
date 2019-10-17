@@ -11,10 +11,11 @@ export interface Activity {
 }
 
 export enum ActivityClass {
-    RESOURCE_GENERATION = 'ResourceGeneration',
-    MEMOIZATION = 'Memoization',
+    REPORT_CREATION = 'ReportCreation',
+    MEMO_CREATION = 'MemoCreation',
     MENTION = 'Mention',
-    TOOL_SESSION = 'ToolSession'
+    TOOL_SESSION = 'ToolSession',
+    RESOURCE_REGISTRATION = 'ResourceRegistration',
 }
 
 /**
@@ -29,5 +30,6 @@ export enum ActivityClass {
  */
 export enum ReferenceClass {
     INSIGHT = 'Insight',
-    RESOURCE = 'Resource'
+    RESOURCE = 'Resource',
+    PROJECT = 'Project'
 }

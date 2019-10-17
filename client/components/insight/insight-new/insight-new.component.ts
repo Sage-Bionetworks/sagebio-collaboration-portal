@@ -42,7 +42,7 @@ export class InsightNewComponent {
         this.attachmentTypes = [
             config.entityTypes.INSIGHT,
             config.entityTypes.RESOURCE,
-            config.entityTypes.PROJECT,
+            // config.entityTypes.PROJECT,
             config.entityTypes.DATA_CATALOG,
             config.entityTypes.TOOL,
         ];
@@ -90,6 +90,14 @@ export class InsightNewComponent {
                 switchMap((res: any) => {
                     let insight = res.insight;
                     let attachments = res.attachments;
+                    attachments.push({
+                        'attachment': {
+                            'entityId': this.project._id,
+                            'entityType': config.entityTypes.PROJECT.value,
+                            'parentEntityId': insight._id
+                        },
+                        'entity': this.project
+                    });
 
                     let usedEntities = attachments.map(att => ({
                         name: att.entity.title,

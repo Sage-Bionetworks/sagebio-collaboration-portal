@@ -7,6 +7,7 @@ import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.co
 import { buildEntityIndexQuery } from '../entity-util';
 import Resource from './models/resource.model';
 import Tool from '../tool/tool.model';
+import ProjectSchema from '../project/project.model';
 import User from '../user/user.model';
 import { entityTypes, resourceTypes, activityTypes, provenance } from '../../config/environment';
 
@@ -182,6 +183,16 @@ function createNewResourceActivity(user, toolId) {
                     'name': `Creation of ${resource.title}`, // TODO should not be provided to provenance
                     'used': []
                 };
+
+                let project = await ProjectSchema.findById(resource.projectId, '_id title');
+                activity.used.push({
+                    'name': project.title,
+                    'role': '',
+                    'targetId': project._id,
+                    'targetVersionId': '1',
+                    'class': entityTypes.PROJECT.value,
+                    'subclass': entityTypes.PROJECT.value
+                });
 
                 if (resource.resourceType === resourceTypes.STATE.value) {
                     if (!toolId) {
