@@ -45,7 +45,6 @@ import { EntityModule as EntityListModule } from '../../components/entity/entity
 import { ShareModule } from 'components/share/share.module';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ProjectThreadNewComponent } from './project-thread-new/project-thread-new.component';
-import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ProjectAuthorizationService } from './project-authorization.service';
 import { ProjectGuard } from './project-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';

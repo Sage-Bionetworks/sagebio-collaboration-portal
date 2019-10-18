@@ -29,7 +29,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { ToolHeaderComponent } from './tool-header/tool-header.component';
 import { ToolHeaderService } from './tool-header/tool-header.service';
-import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
 import { ToolAuthorizationService } from './tool-authorization.service';
 import { ToolGuard } from './tool-guard.service';
