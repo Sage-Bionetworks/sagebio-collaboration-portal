@@ -90,10 +90,20 @@ hr {
     text-align: center;
     flex-direction: column;
     padding: 0 25px;
+    height: 275px;
 
     h4 {
         margin: 5px auto;
     }
+}
+
+.app-info-card {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-grow: 2;
+    height: 100%;
 }
 
 .info-box-icon {
