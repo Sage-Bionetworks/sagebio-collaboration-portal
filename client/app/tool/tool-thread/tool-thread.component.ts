@@ -3,11 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
 import { Project } from 'models/entities/project.model';
+import { Thread } from 'models/messaging/thread.model';
 import { AuthService } from 'components/auth/auth.service';
+import { MessagingService } from 'components/messaging/messaging.service';
 import { ToolAuthorizationService } from '../tool-authorization.service';
 import { ToolDataService } from '../tool-data.service';
-import { Thread } from 'models/messaging/thread.model';
-import { MessagingService } from 'components/messaging/messaging.service';
 
 @Component({
     selector: 'tool-thread',
@@ -71,7 +71,6 @@ export class ToolThreadComponent implements OnInit {
     }
 
     onThreadDeletion(thread: Thread): void {
-        console.log('PROJECT-THREAD deleted');
         this.router.navigate(['..'], { relativeTo: this.route });
     }
 }
