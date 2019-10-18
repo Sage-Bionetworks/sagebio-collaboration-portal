@@ -17,7 +17,7 @@ module.exports = {
     },
     servers: [
         {
-            url: 'plop/api', // `${config.domain}/api`,
+            url: 'https://localhost/api', // `${config.domain}/api`,
             description: 'This app',
         },
     ],
