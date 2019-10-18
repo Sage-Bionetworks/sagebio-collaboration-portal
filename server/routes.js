@@ -46,31 +46,33 @@ export default app => {
             contact: {
                 name: 'API Support',
                 url: 'https://www.synapse.org',
-                email: 'thomas.schaffter@sagebase.org'
+                email: 'thomas.schaffter@sagebase.org',
             },
             license: {
                 name: 'CC BY-NC 3.0',
-                url: 'https://creativecommons.org/licenses/by-nc/3.0/'
-            }
+                url: 'https://creativecommons.org/licenses/by-nc/3.0/',
+            },
         },
-        servers: [{
-            url: `${config.domain}/api`,
-            description: 'This app'
-        }],
+        servers: [
+            {
+                url: `${config.domain}/api`,
+                description: 'This app',
+            },
+        ],
         components: {
             securitySchemes: {
                 BearerAuth: {
                     type: 'http',
                     scheme: 'bearer',
-                    bearerFormat: 'JWT'
-                }
+                    bearerFormat: 'JWT',
+                },
             },
             responses: {
                 UnauthorizedError: {
-                    description: 'Access token is missing or invalid'
-                }
-            }
-        }
+                    description: 'Access token is missing or invalid',
+                },
+            },
+        },
     };
 
     const swaggerOptions = {
@@ -81,29 +83,29 @@ export default app => {
 
     // options for the swagger docs
     var swaggerJSDocOptions = {
-        swaggerDefinition: swaggerDefinition,
-        apis: [
-            './**/api/**/index.js',
-            './**/auth/**/*.js',
-            './shared/interfaces/**/*.ts'
-            // './**/swagger/**/*.ts'
-        ]
+        swaggerDefinition,
+        apis: ['./**/api/**/index.js', './**/auth/**/*.js', './shared/interfaces/**/*.ts'],
     };
 
-    // initialize swagger-jsdoc
-    const swaggerSpec = swaggerJSDoc(swaggerJSDocOptions);
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerOptions));
+    let swaggerDocument = {};
+    if (config.env === 'development') {
+        swaggerDocument = swaggerJSDoc(swaggerJSDocOptions);
+    } else if (config.env === 'production') {
+        swaggerDocument = require('../client/swagger.json');
+    }
 
-    // Swagger
-    // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    // https://github.com/scottie1984/swagger-ui-express/issues/94
+    // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+    const swaggerSetup = swaggerUi.setup(swaggerDocument, swaggerOptions);
+    app.get('/api-docs/index.html', swaggerSetup);
+    app.use('/api-docs', swaggerUi.serve);
+    app.get('/api-docs', swaggerSetup);
 
     // All undefined asset or api routes should return a 404
-    app.route('/:url(api|auth|components|app|bower_components|assets|api-docs)/*')
-        .get(errors[404]);
+    app.route('/:url(api|auth|components|app|bower_components|assets|api-docs)/*').get(errors[404]);
 
     // All other routes should redirect to the app.html
-    app.route('/*')
-        .get((req, res) => {
-            res.sendFile(path.resolve(`${app.get('appPath')}/app.html`));
-        });
+    app.route('/*').get((req, res) => {
+        res.sendFile(path.resolve(`${app.get('appPath')}/app.html`));
+    });
 };
