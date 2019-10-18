@@ -15,7 +15,9 @@
                     matTooltip="More actions"
                     aria-label="More actions"
                 >
-                    <mat-icon class="app-message-thread-ellipses" aria-label="Icon of three horizontal dots">more_horiz</mat-icon>
+                    <mat-icon class="app-message-thread-ellipses" aria-label="Icon of three horizontal dots"
+                        >more_horiz</mat-icon
+                    >
                 </a>
                 <mat-menu #moreActionsMenu="matMenu" [overlapTrigger]="false">
                     <button
@@ -28,11 +30,16 @@
                     >
                         <span>Copy Link</span>
                     </button>
-                    <mat-divider></mat-divider>
-                    <button mat-menu-item aria-label="Edit Thread" (click)="showThreadEditTemplate = true">
+                    <mat-divider *ngIf="canEdit || canDelete"></mat-divider>
+                    <button
+                        *ngIf="canEdit"
+                        mat-menu-item
+                        aria-label="Edit Thread"
+                        (click)="showThreadEditTemplate = true"
+                    >
                         <span>Edit Thread</span>
                     </button>
-                    <button mat-menu-item aria-label="Delete Thread" (click)="deleteThread(thread)">
+                    <button *ngIf="canDelete" mat-menu-item aria-label="Delete Thread" (click)="deleteThread(thread)">
                         <span class="app-thread-actions-delete-btn-label">Delete Thread</span>
                     </button>
                 </mat-menu>

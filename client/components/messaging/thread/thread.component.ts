@@ -92,8 +92,10 @@ export class ThreadComponent implements OnInit, OnDestroy {
     }
 
     deleteThread(thread: Thread): void {
+        console.log('Deleting thread');
         this.messagingService.removeThread(thread).subscribe(
             () => {
+                console.log('thread deleted');
                 this.deleted.emit(thread);
             },
             err => {

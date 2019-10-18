@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
-import { Insight } from 'models/entities/insights/insight.model';
 import { Project } from 'models/entities/project.model';
 import { AuthService } from 'components/auth/auth.service';
-import { InsightService } from 'components/insight/insight.service';
 import { ProjectAuthorizationService } from '../project-authorization.service';
 import { ProjectDataService } from '../project-data.service';
 import { Thread } from 'models/messaging/thread.model';
@@ -27,20 +25,18 @@ export class ProjectThreadComponent implements OnInit {
         Router,
         ActivatedRoute,
         ProjectDataService,
+        ProjectAuthorizationService,
+        AuthService,
         MessagingService,
-        // ProjectAuthorizationService,
-        // InsightService,
-        // AuthService,
     ];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private projectDataService: ProjectDataService,
+        private projectAuthorizationService: ProjectAuthorizationService,
+        private authService: AuthService,
         private messagingService: MessagingService
-    ) // private projectAuthorizationService: ProjectAuthorizationService,
-    // private insightService: InsightService,
-    // private authService: AuthService
-    {
+    ) {
         this.project$ = this.projectDataService.project();
 
         this.router.routeReuseStrategy.shouldReuseRoute = function() {
@@ -54,23 +50,28 @@ export class ProjectThreadComponent implements OnInit {
             take(1)
         );
 
-        // const canAdminProject$ = this.project$.pipe(
-        //     switchMap(project => this.projectAuthorizationService.canAdmin(project._id))
-        // );
+        const canAdminProject$ = this.project$.pipe(
+            switchMap(project => this.projectAuthorizationService.canAdmin(project._id))
+        );
 
-        // // TODO Check that the author has Write access
-        // const isAuthor$ = forkJoin({
-        //     authInfo: this.authService.authInfo().pipe(take(1)),
-        //     insight: this.insight$,
-        // }).pipe(
-        //     map(res => {
-        //         return res.authInfo.user._id.toString() === res.insight.createdBy._id.toString();
-        //     })
-        // );
+        // TODO Check that the author has Write access
+        const isAuthor$ = forkJoin({
+            authInfo: this.authService.authInfo().pipe(take(1)),
+            thread: this.thread$,
+        }).pipe(
+            map(res => {
+                return res.authInfo.user._id.toString() === res.thread.createdBy._id.toString();
+            })
+        );
 
-        // combineLatest(canAdminProject$, isAuthor$).subscribe(([canAdminProject, isAuthor]) => {
-        //     this.canEdit = canAdminProject || isAuthor;
-        //     this.canDelete = canAdminProject || isAuthor;
-        // });
+        combineLatest(canAdminProject$, isAuthor$).subscribe(([canAdminProject, isAuthor]) => {
+            this.canEdit = canAdminProject || isAuthor;
+            this.canDelete = canAdminProject || isAuthor;
+        });
+    }
+
+    onThreadDeletion(thread: Thread): void {
+        console.log('PROJECT-THREAD deleted');
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }
