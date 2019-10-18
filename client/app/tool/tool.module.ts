@@ -29,11 +29,11 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { MessagingModule } from 'components/messaging/messaging.module';
 import { ToolHeaderComponent } from './tool-header/tool-header.component';
 import { ToolHeaderService } from './tool-header/tool-header.service';
-import { EntityThreadComponent } from 'components/entity/entity-thread/entity-thread.component';
 import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.component';
 import { ToolAuthorizationService } from './tool-authorization.service';
 import { ToolGuard } from './tool-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
+import { ToolThreadComponent } from './tool-thread/tool-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -58,7 +58,7 @@ export const ROUTES: Routes = [
             { path: 'activity', component: ToolActivityComponent },
             { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'discussion/new', component: ToolThreadNewComponent },
-            { path: 'discussion/:threadId', component: EntityThreadComponent },
+            { path: 'discussion/:threadId', component: ToolThreadComponent },
             {
                 path: 'settings',
                 component: ToolSettingsComponent,
@@ -96,6 +96,7 @@ export const ROUTES: Routes = [
         ToolSidenavComponent,
         ToolViewComponent,
         ToolHeaderComponent,
+        ToolThreadComponent,
         ToolThreadNewComponent,
     ],
     providers: [

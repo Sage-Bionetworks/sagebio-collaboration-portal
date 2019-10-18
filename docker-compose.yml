@@ -67,7 +67,7 @@ services:
 
   phccp-mongo:
     image: docker.synapse.org/syn18489221/phccp-mongo:4.2.0v2
-    command: mongod --port ${MONGODB_PORT} --sslMode requireSSL --sslPEMKeyFile /etc/ssl/mongodb.pem
+    command: mongod --port ${MONGODB_PORT} --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/mongodb.pem
     container_name: phccp-mongo
     ports:
         - ${MONGODB_PORT}:${MONGODB_PORT}

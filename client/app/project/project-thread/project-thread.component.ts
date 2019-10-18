@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
-import { switchMap, map, take, mapTo } from 'rxjs/operators';
+import { switchMap, map, take } from 'rxjs/operators';
 import { Project } from 'models/entities/project.model';
 import { Thread } from 'models/messaging/thread.model';
 import { AuthService } from 'components/auth/auth.service';
 import { MessagingService } from 'components/messaging/messaging.service';
-import { DataCatalogAuthorizationService } from '../data-catalog-authorization.service';
-import { DataCatalog } from 'models/entities/data-catalog.model';
-import { DataCatalogService } from '../data-catalog.service';
+import { ProjectAuthorizationService } from '../project-authorization.service';
+import { ProjectDataService } from '../project-data.service';
 
 @Component({
-    selector: 'data-catalog-thread',
-    template: require('./data-catalog-thread.html'),
-    styles: [require('./data-catalog-thread.scss')],
+    selector: 'project-thread',
+    template: require('./project-thread.html'),
+    styles: [require('./project-thread.scss')],
 })
-export class DataCatalogThreadComponent implements OnInit {
-    private dataCatalog$: Observable<DataCatalog>;
+export class ProjectThreadComponent implements OnInit {
+    private project$: Observable<Project>;
     private thread$: Observable<Thread>;
 
     private canEdit = false; // used in html
@@ -25,19 +24,21 @@ export class DataCatalogThreadComponent implements OnInit {
     static parameters = [
         Router,
         ActivatedRoute,
-        DataCatalogService,
-        DataCatalogAuthorizationService,
+        ProjectDataService,
+        ProjectAuthorizationService,
         AuthService,
         MessagingService,
     ];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private dataCatalogService: DataCatalogService,
-        private dataCatalogAuthorizationService: DataCatalogAuthorizationService,
+        private projectDataService: ProjectDataService,
+        private projectAuthorizationService: ProjectAuthorizationService,
         private authService: AuthService,
         private messagingService: MessagingService
     ) {
+        this.project$ = this.projectDataService.project();
+
         this.router.routeReuseStrategy.shouldReuseRoute = function() {
             return false;
         };
@@ -49,13 +50,8 @@ export class DataCatalogThreadComponent implements OnInit {
             take(1)
         );
 
-        this.dataCatalog$ = this.route.params.pipe(
-            switchMap(params => this.dataCatalogService.get(params.id)),
-            take(1)
-        );
-
-        const canAdminDataCatalog$ = this.dataCatalog$.pipe(
-            switchMap(dataCatalog => this.dataCatalogAuthorizationService.canAdmin(dataCatalog._id))
+        const canAdminProject$ = this.project$.pipe(
+            switchMap(project => this.projectAuthorizationService.canAdmin(project._id))
         );
 
         // TODO Check that the author has Write access
@@ -68,7 +64,7 @@ export class DataCatalogThreadComponent implements OnInit {
             })
         );
 
-        combineLatest(canAdminDataCatalog$, isAuthor$).subscribe(([canAdminProject, isAuthor]) => {
+        combineLatest(canAdminProject$, isAuthor$).subscribe(([canAdminProject, isAuthor]) => {
             this.canEdit = canAdminProject || isAuthor;
             this.canDelete = canAdminProject || isAuthor;
         });
