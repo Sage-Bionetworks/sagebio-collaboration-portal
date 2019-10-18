@@ -49,7 +49,10 @@ export class DataCatalogThreadComponent implements OnInit {
             take(1)
         );
 
-        this.dataCatalog$ = this.route.params.pipe(switchMap(params => this.dataCatalogService.get(params.id)));
+        this.dataCatalog$ = this.route.params.pipe(
+            switchMap(params => this.dataCatalogService.get(params.id)),
+            take(1)
+        );
 
         const canAdminDataCatalog$ = this.dataCatalog$.pipe(
             switchMap(dataCatalog => this.dataCatalogAuthorizationService.canAdmin(dataCatalog._id))
