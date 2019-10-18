@@ -34,6 +34,7 @@ import { ToolThreadNewComponent } from './tool-thread-new/tool-thread-new.compon
 import { ToolAuthorizationService } from './tool-authorization.service';
 import { ToolGuard } from './tool-guard.service';
 import { EntityAuthorizationTypes } from 'components/authorization/entity-guard.service';
+import { ToolThreadComponent } from './tool-thread/tool-thread.component';
 
 export const ROUTES: Routes = [
     {
@@ -58,7 +59,7 @@ export const ROUTES: Routes = [
             { path: 'activity', component: ToolActivityComponent },
             { path: 'discussion', component: ToolDiscussionComponent },
             { path: 'discussion/new', component: ToolThreadNewComponent },
-            { path: 'discussion/:threadId', component: EntityThreadComponent },
+            { path: 'discussion/:threadId', component: ToolThreadComponent },
             {
                 path: 'settings',
                 component: ToolSettingsComponent,
@@ -96,6 +97,7 @@ export const ROUTES: Routes = [
         ToolSidenavComponent,
         ToolViewComponent,
         ToolHeaderComponent,
+        ToolThreadComponent,
         ToolThreadNewComponent,
     ],
     providers: [

@@ -1,0 +1,8 @@
+<ng-container *ngIf="thread$ | async as thread">
+    <thread
+        [threadId]="thread._id"
+        [canEdit]="canEdit"
+        [canDelete]="canDelete"
+        (deleted)="onThreadDeletion($event)"
+    ></thread>
+</ng-container>
