@@ -64,7 +64,7 @@
                 class="message-date-separator"
                 [isoDate]="message.createdAt"
             ></message-date-separator>
-            <message [thread]="thread" [message]="message"></message>
+            <message [thread]="thread" [message]="message" [canEdit]="canEditMessage(message) | async" [canDelete]="canDeleteMessage(message) | async"></message>
         </ng-template>
         <message-new class="app-messaging-new" [thread]="thread" (newMessage)="onNewMessage($event)"></message-new>
     </mat-card>

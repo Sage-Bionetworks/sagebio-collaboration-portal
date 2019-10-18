@@ -22,6 +22,8 @@ const MESSAGE_EDITED_DELTA_T = 1000; // 1 second
 })
 export class MessageComponent implements OnInit {
     @Input() private thread: Thread;
+    @Input() private canEdit = false;
+    @Input() private canDelete = false;
     private _message: Message;
 
     @ViewChild('editor', { static: false }) editor: AppQuillEditorComponent;
@@ -30,8 +32,6 @@ export class MessageComponent implements OnInit {
     private form: FormGroup;
     private edited = false; // used in html
     private avatarSize: number; // used in html
-    private canDeleteMessage = false; // used in html
-    private canEditMessage = false; // used in html
 
     static parameters = [FormBuilder, NotificationService, AuthService, UserPermissionDataService, MessagingService];
     constructor(
@@ -43,6 +43,7 @@ export class MessageComponent implements OnInit {
     ) {
         this.messageSpecs = config.models.message;
         this.avatarSize = config.avatar.size.mini;
+
         this.form = this.formBuilder.group({
             _id: [''],
             body: [
@@ -65,21 +66,7 @@ export class MessageComponent implements OnInit {
         this.setMessage(message);
     }
 
-    ngOnInit() {
-        combineLatest(this.authService.authInfo(), this.userPermissionDataService.permissions()).subscribe(
-            ([authInfo, permissions]) => {
-                const canAdminEntity =
-                    this.thread && permissions.canAdminEntity(this.thread.entityId, this.thread.entityType);
-                const canReadEntity =
-                    this.thread && permissions.canReadEntity(this.thread.entityId, this.thread.entityType);
-                const isMessageOwner =
-                    this.message && authInfo.user && this.message.createdBy._id === authInfo.user._id;
-                this.canDeleteMessage = canAdminEntity;
-                this.canEditMessage = canAdminEntity || (canReadEntity && isMessageOwner);
-            },
-            err => console.error(err)
-        );
-    }
+    ngOnInit() {}
 
     setMessage(message: Message): void {
         this._message = message;

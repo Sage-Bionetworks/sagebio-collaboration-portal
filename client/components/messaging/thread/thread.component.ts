@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, forkJoin, of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, map, take } from 'rxjs/operators';
 import { Message } from 'models/messaging/message.model';
 import { Thread } from 'models/messaging/thread.model';
 import { NotificationService } from 'components/notification/notification.service';
 import { MessagingService } from '../messaging.service';
 import { SocketService } from 'components/socket/socket.service';
 import { orderBy } from 'lodash/fp';
+import { AuthService } from 'components/auth/auth.service';
 
 @Component({
     selector: 'thread',
@@ -28,13 +29,14 @@ export class ThreadComponent implements OnInit, OnDestroy {
     private threadSocketModel: string;
     private messagesSocketModel: string;
 
-    static parameters = [Router, ActivatedRoute, SocketService, NotificationService, MessagingService];
+    static parameters = [Router, ActivatedRoute, SocketService, NotificationService, MessagingService, AuthService];
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private socketService: SocketService,
         private notificationService: NotificationService,
-        private messagingService: MessagingService
+        private messagingService: MessagingService,
+        private authService: AuthService
     ) {}
 
     get thread$(): Observable<Thread> {
@@ -114,5 +116,27 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
     onNewMessage(message: Message): void {
         console.log('THREAD: NEW MESSAGE');
+    }
+
+    canEditMessage(message: Message): Observable<boolean> {
+        const isMessageAuthor$ = this.authService.authInfo().pipe(
+            take(1),
+            map(authInfo => {
+                return authInfo.user._id.toString() === message.createdBy._id.toString();
+            })
+        );
+
+        return forkJoin({
+            isMessageAuthor: isMessageAuthor$,
+            canEditThread: of(this.canEdit),
+        }).pipe(
+            map(res => {
+                return res.isMessageAuthor;
+            })
+        );
+    }
+
+    canDeleteMessage(message: Message): Observable<boolean> {
+        return this.canEditMessage(message);
     }
 }
