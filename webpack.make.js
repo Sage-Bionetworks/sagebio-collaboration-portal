@@ -11,6 +11,7 @@ const webpack = require('webpack');
 var GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const SwaggerJSDocWebpackPlugin = require('swagger-jsdoc-webpack-plugin');
 const fs = require('fs');
 
 module.exports = function makeWebpackConfig(options) {
@@ -288,9 +289,9 @@ module.exports = function makeWebpackConfig(options) {
         apply(compiler) {
             compiler.hooks.done.tap('TestCompilationErrorHandlerPlugin', stats => {
                 if (
-                    stats.compilation.errors
-                    && stats.compilation.errors.length
-                    && process.argv.indexOf('--watch') == -1
+                    stats.compilation.errors &&
+                    stats.compilation.errors.length &&
+                    process.argv.indexOf('--watch') == -1
                 ) {
                     console.log(stats.compilation.errors);
                     throw new Error('An error occurred during TestCompilationErrorHandlerPlugin');
@@ -315,10 +316,15 @@ module.exports = function makeWebpackConfig(options) {
             // ("en" is built into Moment and can’t be removed)
             new MomentLocalesPlugin({
                 // localesToKeep: ['fr'],
-            })
+            }),
             // new BundleAnalyzerPlugin({
             //     generateStatsFile: true,
             // }),
+
+            new SwaggerJSDocWebpackPlugin({
+                swaggerDefinition: require('./server/config/swagger-definition.js'),
+                apis: ['./server/**/api/**/index.js', './server/**/auth/**/*.js', './shared/interfaces/**/*.ts'],
+            })
         );
     }
 
