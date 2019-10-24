@@ -6,6 +6,7 @@ import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
 import EntityAttachment from '../entity-attachment/entity-attachment.model';
+import { getProvenanceActivitiesByReferenceCore, removeProvenanceActivityUsedCore } from '../provenance/provenance.controller';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -135,10 +136,25 @@ export function destroyAttachment(req, res) {
             // OUTPUT: returns an array of objects (but length id) [item._id]
             // - referenceId: attachmentId
             .then(attachment => {
+                console.log('Deleting attachment', attachment);
                 if (attachment) {
+                    let activityId = attachment.parentEntityId;
+                    let referenceId = attachment._id;
 
+                    let options = {
+                        direction: 'up',
+                        sortBy: 'created_at',
+                        order: 'desc',
+                        limit: 1,
+                        filter: '*:*',
+                    };
+                    return getProvenanceActivitiesByReferenceCore(activityId, options)
+                        .then(activity => {
+                            console.log('ACTIVITY FOUND:', activity);
+                            return removeProvenanceActivityUsedCore(activityId, referenceId);
+                        })
+                        .then(() => attachment);
                 }
-                return attachment;
             })
             .then(removeEntity(res))
             .catch(handleError(res))

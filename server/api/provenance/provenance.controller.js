@@ -194,6 +194,13 @@ export function removeProvenanceActivityUsed(req, res) {
     var activityId = req.params.activityId;
     var referenceId = req.params.referenceId;
 
+    removeProvenanceActivityUsedCore(activityId, referenceId)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function removeProvenanceActivityUsedCore(activityId, referenceId) {
     var options = {
         method: 'DELETE',
         uri: `${config.provenance.apiServerUrl}/activities/${activityId}/used/${referenceId}`,
@@ -203,10 +210,7 @@ export function removeProvenanceActivityUsed(req, res) {
         json: true,
     };
 
-    rp(options)
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    return rp(options);
 }
 
 // HELPER FUNCTIONS
