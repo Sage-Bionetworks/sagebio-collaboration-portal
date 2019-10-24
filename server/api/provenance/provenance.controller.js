@@ -104,27 +104,70 @@ export function getProvenanceGraphByReference(req, res) {
 
 // Returns the provenance activity objects for an entity
 export function getProvenanceActivitiesByReference(req, res) {
-    var referenceId = req.params.referenceId;
-    var options = {
+    // var referenceId = req.params.referenceId;
+    // var options = {
+    //     method: 'GET',
+    //     uri: `${config.provenance.apiServerUrl}/activities/byReference/${referenceId}`,
+    //     headers: {
+    //         'User-Agent': 'Request-Promise',
+    //     },
+    //     qs: {
+    //         direction: req.query.direction,
+    //         sortBy: req.query.sortBy,
+    //         order: req.query.order,
+    //         limit: req.query.limit,
+    //         q: req.query.filter,
+    //     },
+    //     json: true,
+    // };
+
+    // rp(options)
+    //     .then(handleEntityNotFound(res))
+    //     .then(respondWithResult(res))
+    //     .catch(handleError(res));
+
+    let referenceId = req.params.referenceId;
+    let options = {
+        direction: req.query.direction,
+        sortBy: req.query.sortBy,
+        order: req.query.order,
+        limit: req.query.limit,
+        filter: req.query.filter,
+    };
+
+    getProvenanceActivitiesByReferenceCore(referenceId, options)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function getProvenanceActivitiesByReferenceCore(
+    referenceId,
+    options = {
+        direction: 'up',
+        sortBy: 'created_at',
+        order: 'desc',
+        limit: 1,
+        filter: '*:*',
+    }
+) {
+    var request = {
         method: 'GET',
         uri: `${config.provenance.apiServerUrl}/activities/byReference/${referenceId}`,
         headers: {
             'User-Agent': 'Request-Promise',
         },
         qs: {
-            direction: req.query.direction,
-            sortBy: req.query.sortBy,
-            order: req.query.order,
-            limit: req.query.limit,
-            q: req.query.filter,
+            direction: options.direction,
+            sortBy: options.sortBy,
+            order: options.order,
+            limit: options.limit,
+            q: options.filter,
         },
         json: true,
     };
 
-    rp(options)
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    return rp(request);
 }
 
 // Add 'used' reference entity to a provenance activity

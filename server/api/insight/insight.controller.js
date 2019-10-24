@@ -106,34 +106,43 @@ export function indexAttachments(req, res) {
 }
 
 export function createAttachments(req, res) {
-    return EntityAttachment.create(req.body)
+    return (
+        EntityAttachment.create(req.body)
 
         // addProvenanceActivityUsed()
 
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+            .then(respondWithResult(res, 201))
+            .catch(handleError(res))
+    );
 }
 
 // Deletes an EntityAttachment from the DB.
 export function destroyAttachment(req, res) {
-    return EntityAttachment.findById(req.params.attachmentId)
-        .exec()
-        .then(handleEntityNotFound(res))
-
-        // removeProvenanceActivityUsed
-        // INPUT:
-        // - activityId: getProvenanceActivitiesByReference()
-        //   INPUT:
-        //   - ID of the insight
-                // direction: req.query.direction, => 'up'
-                // sortBy: req.query.sortBy, => 'created_at'
-                // order: req.query.order, => 'desc'
-                // limit: req.query.limit, => 1
-                // q: req.query.filter, => '*:*'
+    return (
+        EntityAttachment.findById(req.params.attachmentId)
+            .exec()
+            .then(handleEntityNotFound(res))
+            // removeProvenanceActivityUsed
+            // INPUT:
+            // - activityId: getProvenanceActivitiesByReference()
+            //   INPUT:
+            //   - ID of the insight
+            // direction: req.query.direction, => 'up'
+            // sortBy: req.query.sortBy, => 'created_at'
+            // order: req.query.order, => 'desc'
+            // limit: req.query.limit, => 1
+            // q: req.query.filter, => '*:*'
             // OUTPUT: returns an array of objects (but length id) [item._id]
-        // - referenceId: attachmentId
-        .then(removeEntity(res))
-        .catch(handleError(res));
+            // - referenceId: attachmentId
+            .then(attachment => {
+                if (attachment) {
+
+                }
+                return attachment;
+            })
+            .then(removeEntity(res))
+            .catch(handleError(res))
+    );
 }
 
 // HELPER FUNCTIONS
