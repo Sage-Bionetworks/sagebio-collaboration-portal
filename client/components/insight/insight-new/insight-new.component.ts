@@ -86,45 +86,48 @@ export class InsightNewComponent {
                         ),
                     })
                 ),
+                map((res: any) => res.insight),
                 // Save activity
-                switchMap((res: any) => {
-                    let insight = res.insight;
-                    let attachments = res.attachments;
-                    attachments.push({
-                        'attachment': {
-                            'entityId': this.project._id,
-                            'entityType': config.entityTypes.PROJECT.value,
-                            'parentEntityId': insight._id
-                        },
-                        'entity': this.project
-                    });
+                // switchMap((res: any) => {
+                //     let insight = res.insight;
+                //     let attachments = res.attachments;
+                //     // attachments.push({
+                //     //     'attachment': {
+                //     //         'entityId': this.project._id,
+                //     //         'entityType': config.entityTypes.PROJECT.value,
+                //     //         'parentEntityId': insight._id
+                //     //     },
+                //     //     'entity': this.project
+                //     // });
 
-                    let usedEntities = attachments.map(att => ({
-                        name: att.entity.title,
-                        role: '',
-                        targetId: att.attachment.entityId,
-                        targetVersionId: '1',
-                        class: att.attachment.entityType,
-                        subsclass: att.attachment.entitySubType,
-                    }));
+                //     // let usedEntities = attachments.map(att => ({
+                //     //     name: att.entity.title,
+                //     //     role: '',
+                //     //     targetId: att.attachment.entityId,
+                //     //     targetVersionId: '1',
+                //     //     class: att.attachment.entityType,
+                //     //     subsclass: att.attachment.entitySubType,
+                //     // }));
 
-                    return this.activityService
-                        .save({
-                            generatedName: insight.title,
-                            generatedTargetId: insight._id,
-                            generatedClass: ReferenceClass.INSIGHT,
-                            generatedSubClass: insight.insightType,
-                            usedEntities,
-                        })
-                        .pipe(
-                            map(() => insight),
-                            catchError(err => {
-                                console.error('Unable to create a provenance activity', err);
-                                this.notificationService.error('Unable to create a provenance activity');
-                                return of(<Insight>undefined);
-                            })
-                        );
-                })
+                //     // let usedEntities = []; // TODO: Remove commented code once implementation finalized on server side.
+
+                //     // return this.activityService
+                //     //     .save({
+                //     //         generatedName: insight.title,
+                //     //         generatedTargetId: insight._id,
+                //     //         generatedClass: ReferenceClass.INSIGHT,
+                //     //         generatedSubClass: insight.insightType,
+                //     //         usedEntities,
+                //     //     })
+                //     //     .pipe(
+                //     //         map(() => insight),
+                //     //         catchError(err => {
+                //     //             console.error('Unable to create a provenance activity', err);
+                //     //             this.notificationService.error('Unable to create a provenance activity');
+                //     //             return of(<Insight>undefined);
+                //     //         })
+                //     //     );
+                // })
             )
             .subscribe(
                 insight => {

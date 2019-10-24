@@ -6,20 +6,26 @@ import { respondWithResult, handleEntityNotFound, handleError } from '../util';
 
 // Creates a new activity
 export function createProvenanceActivity(req, res) {
+    let activity = req.body;
+
+    createProvenanceActivityCore(activity)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function createProvenanceActivityCore(activity) {
     var options = {
         method: 'POST',
         uri: `${config.provenance.apiServerUrl}/activities`,
-        body: req.body,
+        body: activity,
         headers: {
             'User-Agent': 'Request-Promise',
         },
         json: true,
     };
 
-    rp(options)
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    return rp(options);
 }
 
 // Creates multiple activities
@@ -172,21 +178,28 @@ export function getProvenanceActivitiesByReferenceCore(
 
 // Add 'used' reference entity to a provenance activity
 export function addProvenanceActivityUsed(req, res) {
-    var activityId = req.params.activityId;
+    let activityId = req.params.activityId;
+    let usedEntity = req.body;
+
+    addProvenanceActivityUsedCore(activityId, usedEntity)
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function addProvenanceActivityUsedCore(activityId, usedEntity) {
+    console.log(`Calling ${config.provenance.apiServerUrl}/activities/${activityId}/used`);
     var options = {
         method: 'PUT',
         uri: `${config.provenance.apiServerUrl}/activities/${activityId}/used`,
-        body: req.body,
+        body: usedEntity,
         headers: {
             'User-Agent': 'Request-Promise',
         },
         json: true,
     };
 
-    rp(options)
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    return rp(options);
 }
 
 // Remove 'used' reference entity from a provenance activity
