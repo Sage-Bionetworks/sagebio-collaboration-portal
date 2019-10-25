@@ -102,6 +102,7 @@ export class ActivitySidenavComponent implements OnInit, AfterViewInit {
 
     close(): void {
         this.sidenavService.close();
+        this.sidenavService.destroyContentComponent();
     }
 
     onResized(event: ResizedEvent) {

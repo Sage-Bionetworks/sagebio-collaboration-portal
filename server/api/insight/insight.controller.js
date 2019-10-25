@@ -15,6 +15,8 @@ import {
 import DataCatalog from '../data-catalog/data-catalog.model';
 import Tool from '../tool/tool.model';
 import Resource from '../resource/models/resource.model';
+import { entityTypes } from '../../config/environment';
+import Project from '../project/project.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -78,31 +80,44 @@ export function create(req, res) {
     })
         .then(insight => {
             if (insight) {
-                let activity = {
-                    agents: [
-                        {
-                            userId: user._id,
-                            name: user.name,
-                            role: user.role,
-                        },
-                    ],
-                    description: '',
-                    class: `${insight.insightType}Creation`, // TODO Use enum
-                    generated: [
-                        {
-                            name: insight.title,
-                            role: '',
-                            targetId: insight._id,
-                            targetVersionId: '1',
-                            class: 'Insight', // TODO Use enum
-                            subclass: insight.insightType,
-                        },
-                    ],
-                    name: `Creation of ${insight.title}`,
-                    used: [],
-                };
+                // TODO Hopefully getting the project name will no longer be needed in the future (no duplicated data)
+                return Project.findById(insight.projectId)
+                    .then(project => {
+                        let activity = {
+                            agents: [
+                                {
+                                    userId: user._id,
+                                    name: user.name,
+                                    role: user.role,
+                                },
+                            ],
+                            description: '',
+                            class: `${insight.insightType}Creation`, // TODO Use enum
+                            generated: [
+                                {
+                                    name: insight.title,
+                                    role: '',
+                                    targetId: insight._id,
+                                    targetVersionId: '1',
+                                    class: 'Insight', // TODO Use enum
+                                    subclass: insight.insightType,
+                                },
+                            ],
+                            name: `Creation of ${insight.title}`,
+                            used: [
+                                {
+                                    name: project.title,
+                                    role: '',
+                                    targetId: insight.projectId,
+                                    targetVersionId: '1',
+                                    class: entityTypes.PROJECT.value,
+                                    subsclass: '',
+                                },
+                            ],
+                        };
 
-                return createProvenanceActivityCore(activity).then(() => insight);
+                        return createProvenanceActivityCore(activity).then(() => insight);
+                    });
             }
             return null;
         })
