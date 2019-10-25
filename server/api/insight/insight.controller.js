@@ -6,6 +6,17 @@ import { isAdmin } from '../../auth/auth';
 import { getPublicProjectIds, getPrivateProjectIds } from '../project/project.controller';
 import { buildEntityIndexQuery } from '../entity-util';
 import EntityAttachment from '../entity-attachment/entity-attachment.model';
+import {
+    getProvenanceActivitiesByReferenceCore,
+    removeProvenanceActivityUsedCore,
+    addProvenanceActivityUsedCore,
+    createProvenanceActivityCore,
+} from '../provenance/provenance.controller';
+import DataCatalog from '../data-catalog/data-catalog.model';
+import Tool from '../tool/tool.model';
+import Resource from '../resource/models/resource.model';
+import { entityTypes } from '../../config/environment';
+import Project from '../project/project.model';
 
 // Returns the Resources visible to the user.
 export function index(req, res) {
@@ -61,10 +72,55 @@ export function show(req, res) {
 
 // Creates a new Insight in the DB
 export function create(req, res) {
+    let user = req.user;
+
     return Insight.create({
         ...req.body,
         createdBy: req.user._id,
     })
+        .then(insight => {
+            if (insight) {
+                // TODO Hopefully getting the project name will no longer be needed in the future (no duplicated data)
+                return Project.findById(insight.projectId)
+                    .then(project => {
+                        let activity = {
+                            agents: [
+                                {
+                                    userId: user._id,
+                                    name: user.name,
+                                    role: user.role,
+                                },
+                            ],
+                            description: '',
+                            class: `${insight.insightType}Creation`, // TODO Use enum
+                            generated: [
+                                {
+                                    name: insight.title,
+                                    role: '',
+                                    targetId: insight._id,
+                                    targetVersionId: '1',
+                                    class: 'Insight', // TODO Use enum
+                                    subclass: insight.insightType,
+                                },
+                            ],
+                            name: `Creation of ${insight.title}`,
+                            used: [
+                                {
+                                    name: project.title,
+                                    role: '',
+                                    targetId: insight.projectId,
+                                    targetVersionId: '1',
+                                    class: entityTypes.PROJECT.value,
+                                    subsclass: '',
+                                },
+                            ],
+                        };
+
+                        return createProvenanceActivityCore(activity).then(() => insight);
+                    });
+            }
+            return null;
+        })
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
@@ -106,18 +162,121 @@ export function indexAttachments(req, res) {
 }
 
 export function createAttachments(req, res) {
-    return EntityAttachment.create(req.body)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+    return (
+        EntityAttachment.create(req.body)
+            // addProvenanceActivityUsed()
+            .then(attachments => {
+                if (attachments) {
+                    console.log('ATTACHMENTS', attachments);
+                    // TODO: The current implementation of provenance requires
+                    // to specify the entity name. Need to do an extra query to
+                    // get this information (will no longer be needed hopefully
+                    // in the future).
+
+                    let promises = attachments.map(attachment => {
+                        let model = null;
+                        switch (attachment.entityType) {
+                        case 'DataCatalog':
+                            model = DataCatalog;
+                            break;
+                        case 'Tool':
+                            model = Tool;
+                            break;
+                        case 'Insight':
+                            model = Insight;
+                            break;
+                        case 'Resource':
+                            model = Resource;
+                            break;
+                        default:
+                            throw new Error('Unsupported type of attachment');
+                        }
+
+                        model
+                            .findById(attachment.entityId)
+                            .then(entity => {
+                                if (entity) {
+                                    return {
+                                        name: entity.title,
+                                        role: '',
+                                        targetId: attachment.entityId,
+                                        targetVersionId: '1',
+                                        class: attachment.entityType,
+                                        subsclass: attachment.entitySubType,
+                                    };
+                                }
+                                throw new Error('Entity not found', attachment.entityId);
+                            })
+                            .then(usedEntity => {
+                                console.log('usedEntity', usedEntity);
+                                let options = {
+                                    direction: 'up',
+                                    sortBy: 'created_at',
+                                    order: 'desc',
+                                    limit: 1,
+                                    filter: '*:*',
+                                };
+                                return getProvenanceActivitiesByReferenceCore(attachment.parentEntityId, options)
+                                    .then(activities => {
+                                        let activity = activities[0];
+                                        console.log('ACTIVITY FOUND:', activity);
+                                        return addProvenanceActivityUsedCore(activity.id, usedEntity);
+                                    })
+                                    .then(() => attachment);
+                            });
+                    });
+
+                    return Promise.all(promises).then(() => {
+                        console.log('Success');
+                        return attachments;
+                    });
+                }
+            })
+            .then(respondWithResult(res, 201))
+            .catch(handleError(res))
+    );
 }
 
 // Deletes an EntityAttachment from the DB.
 export function destroyAttachment(req, res) {
-    return EntityAttachment.findById(req.params.attachmentId)
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
+    return (
+        EntityAttachment.findById(req.params.attachmentId)
+            .exec()
+            .then(handleEntityNotFound(res))
+            // removeProvenanceActivityUsed
+            // INPUT:
+            // - activityId: getProvenanceActivitiesByReference()
+            //   INPUT:
+            //   - ID of the insight
+            // direction: req.query.direction, => 'up'
+            // sortBy: req.query.sortBy, => 'created_at'
+            // order: req.query.order, => 'desc'
+            // limit: req.query.limit, => 1
+            // q: req.query.filter, => '*:*'
+            // OUTPUT: returns an array of objects (but length id) [item._id]
+            // - referenceId: attachmentId
+            .then(attachment => {
+                console.log('Deleting attachment', attachment);
+                if (attachment) {
+                    let options = {
+                        direction: 'up',
+                        sortBy: 'created_at',
+                        order: 'desc',
+                        limit: 1,
+                        filter: '*:*',
+                    };
+                    return getProvenanceActivitiesByReferenceCore(attachment.parentEntityId, options)
+                        .then(activities => {
+                            let activity = activities[0];
+                            console.log('ACTIVITY FOUND:', activity);
+                            return removeProvenanceActivityUsedCore(activity.id, attachment.entityId);
+                        })
+                        .then(() => attachment);
+                }
+            })
+            .then(removeEntity(res))
+            .catch(handleError(res))
+    );
 }
 
 // HELPER FUNCTIONS
