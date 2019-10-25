@@ -31,7 +31,7 @@ export class InsightEditComponent implements OnInit {
         this.attachmentTypes = [
             config.entityTypes.INSIGHT,
             config.entityTypes.RESOURCE,
-            config.entityTypes.PROJECT,
+            // config.entityTypes.PROJECT,
             config.entityTypes.DATA_CATALOG,
             config.entityTypes.TOOL,
         ];
