@@ -254,7 +254,7 @@ export function destroyAttachment(req, res) {
                         .then(activities => {
                             let activity = activities[0];
                             console.log('ACTIVITY FOUND:', activity);
-                            return removeProvenanceActivityUsedCore(activity.id, attachment._id);
+                            return removeProvenanceActivityUsedCore(activity.id, attachment.entityId);
                         })
                         .then(() => attachment);
                 }
