@@ -1,12 +1,12 @@
-# PHC Collaboration Portal
+# SageBio Collaboration Portal
+
+Collaboration Portal developed by Sage Bionetworks
 
 
  CI | Branch  | Build Status | Coverage
  ---|---------|--------------|----------------
 Travis | develop | [![Build Status develop branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal) | [![codecov](https://codecov.io/gh/Sage-Bionetworks/PHCCollaborationPortal/branch/develop/graph/badge.svg?token=ApC9zY6G1B)](https://codecov.io/gh/Sage-Bionetworks/PHCCollaborationPortal)
 Travis | master  | [![Build Status master branch](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal.svg?token=yP6gcHRqAyiNe3nCgxVR&branch=develop)](https://travis-ci.com/Sage-Bionetworks/PHCCollaborationPortal)
-
-Personalized Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roche/Genentech
 
 ## Getting Started
 
@@ -18,4 +18,4 @@ Personalized Health Care (PHC) Collaboration Portal by Sage Bionetworks for Roch
 
 ### Developing
 
-See the section [Deploying the portal](https://github.com/Sage-Bionetworks/PHCCollaborationPortal/wiki/Deploying-the-portal).
+See the section [Deploying the portal](https://github.com/Sage-Bionetworks/sagebio-collaboration-portal/wiki/Deploying-the-portal).
