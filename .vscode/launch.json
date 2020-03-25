@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "attach",
-            "name": "[NODE] Attach to PHCCP back-end",
+            "name": "[NODE] Attach to SBCP back-end",
             "processId": "${command:PickProcess}",
             "restart": true,
             "protocol": "inspector",
@@ -15,7 +15,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "[CHROME] PHCCP front-end",
+            "name": "[CHROME] SBCP front-end",
             "url": "https://localhost/home",
             "webRoot": "${workspaceFolder}"
         },

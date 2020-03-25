@@ -30,7 +30,7 @@ let activities = [
                 subclass: 'Project'
             },
             {
-                name: 'PHCCP Shiny Tool Example',
+                name: 'SBCP Shiny Tool Example',
                 role: '',
                 targetId: '5cb7acb3167e4f14b29dfb1b',
                 targetVersionId: '1',
