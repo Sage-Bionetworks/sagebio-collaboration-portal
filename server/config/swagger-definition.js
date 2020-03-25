@@ -1,9 +1,9 @@
 module.exports = {
     openapi: '3.0.2',
     info: {
-        title: 'PHC Collaboration Portal API',
+        title: 'SageBio Collaboration Portal API',
         version: '1.0.0', // TODO Get version from config
-        description: `Personalized Health Care (PHC) Collaboration Portal
+        description: `Personalized Health Care (SageBio) Collaboration Portal
                 developed by Sage Bionetworks and Roche/Genentech`,
         contact: {
             name: 'API Support',

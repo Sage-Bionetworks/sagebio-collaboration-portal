@@ -56,8 +56,8 @@ let tools = [
     },
     {
         _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874fd98'),
-        title: 'PHC Advanced Analytics',
-        description: `PHC Advanced Analytics Platform is a scalable analytics ` +
+        title: 'SageBio Advanced Analytics',
+        description: `SageBio Advanced Analytics Platform is a scalable analytics ` +
             `platform allowing users (Data Scientists, Clinical/Statistical ` +
             `Programmers, Statisticians and Epidemiologists) to establish their own ` +
             `baseline analytics environments ("containers"). The containerized, ` +

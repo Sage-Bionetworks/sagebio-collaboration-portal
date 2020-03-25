@@ -43,8 +43,8 @@ let dataCatalogs = [
     },
     {
         _id: new mongoose.Types.ObjectId('5cb6a048e7bdc7740874f356'),
-        title: 'PHC-IX Data Catalog',
-        description: 'A PHC-IX Advanced Analytics data source',
+        title: 'SageBio-IX Data Catalog',
+        description: 'A SageBio-IX Advanced Analytics data source',
         apiType: dataCatalogApiTypes.CKAN.value,
         picture: 'assets/images/320px-Roche_Logo.svg.png',
         apiServerUrl: 'http://phc-ckan.aws.science.roche.com/api/3',

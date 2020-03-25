@@ -14,7 +14,7 @@ export class PageTitleService implements OnDestroy {
             ([title, numNotifications]) => {
                 title = title !== '' ? `${title} | ` : '';
                 let notification = numNotifications > 0 ? `(${numNotifications}) ` : '';
-                this.bodyTitle.setTitle(`${notification}${title}PHC Collaboration Portal`);
+                this.bodyTitle.setTitle(`${notification}${title}SageBio Collaboration Portal`);
             },
             err => console.error(err)
         );

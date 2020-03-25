@@ -194,7 +194,7 @@ export const defaultTools = [
     },
     {
         value: '5cb6a048e7bdc7740874fd98',
-        title: 'PHC Advanced Analytics',
+        title: 'SageBio Advanced Analytics',
     },
     {
         value: '5cb7acb3167e4f14b29dfb1b',
