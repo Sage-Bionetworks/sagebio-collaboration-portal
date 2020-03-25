@@ -198,7 +198,7 @@ export const defaultTools = [
     },
     {
         value: '5cb7acb3167e4f14b29dfb1b',
-        title: 'PHCCP Shiny Tool Example',
+        title: 'SBCP Shiny Tool Example',
     },
 ];
 

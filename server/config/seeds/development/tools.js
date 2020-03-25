@@ -5,7 +5,7 @@ import config from '../../environment';
 
 const phccpShinyToolExample = {
     _id: new mongoose.Types.ObjectId('5cb7acb3167e4f14b29dfb1b'),
-    title: 'PHCCP Shiny Tool Example',
+    title: 'SBCP Shiny Tool Example',
     description: `A Shiny App for demonstrating features of this collaboration ` +
         `portal.`,
     picture: 'assets/images/320px-shinyLogo.png',
