@@ -2,15 +2,15 @@
 version: '3.2'
 
 services:
-  phccp:
-    build:
-        context: .
-        dockerfile: Dockerfile
-    image: phccp
+  sbcp:
+    # build:
+    #     context: .
+    #     dockerfile: Dockerfile
+    # image: sbcp
     # OR comment the above `build` and `image` sections and uncomment
     # the following line to use the official docker image:
-    # image: docker.synapse.org/syn18489221/phc-collaboration-portal:1.0.0-alpha.6
-    container_name: phccp
+    image: sagebionetworks/sagebio-collaboration-portal
+    container_name: sbcp
     ports:
         - ${PORT}:${PORT}
     environment:
@@ -24,7 +24,7 @@ services:
         SSL_CERT: ${SSL_CERT}
         # Configuring MongoDB
         MONGODB_PROTOCOL: ${MONGODB_PROTOCOL}
-        MONGODB_IP: phccp-mongo
+        MONGODB_IP: sbcp-mongo
         MONGODB_PORT: ${MONGODB_PORT}
         MONGODB_PATH: ${MONGODB_PATH}
         MONGODB_USER: ${MONGODB_USER}
@@ -55,20 +55,20 @@ services:
         ROCHE_AZURE_AD_CLIENT_SECRET: ${ROCHE_AZURE_AD_CLIENT_SECRET}
         # Provenance service
         PROVENANCE_API_SERVER_PROTOCOL: ${PROVENANCE_API_SERVER_PROTOCOL}
-        PROVENANCE_API_SERVER_IP: phccp-prov
+        PROVENANCE_API_SERVER_IP: sbcp-prov
         PROVENANCE_API_SERVER_PORT: ${PROVENANCE_API_SERVER_PORT}
         PROVENANCE_API_SERVER_PATH: ${PROVENANCE_API_SERVER_PATH}
     volumes:
         - ./certs/server.key:/usr/src/app/certs/server.key:ro
         - ./certs/server.cert:/usr/src/app/certs/server.cert:ro
     depends_on:
-        - phccp-mongo
-        - phccp-prov
+        - sbcp-mongo
+        - sbcp-prov
 
-  phccp-mongo:
-    image: docker.synapse.org/syn18489221/phccp-mongo:4.2.0v2
+  sbcp-mongo:
+    image: sagebionetworks/sbcp-mongo
     command: mongod --port ${MONGODB_PORT} --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/mongodb.pem
-    container_name: phccp-mongo
+    container_name: sbcp-mongo
     ports:
         - ${MONGODB_PORT}:${MONGODB_PORT}
     environment:
@@ -82,9 +82,9 @@ services:
         - ./certs/mongodb.pem:/etc/ssl/mongodb.pem:ro
         # - /home/tschaffter/mongodb:/data/db
 
-  phccp-neo4j:
-    image: docker.synapse.org/syn18489221/phccp-neo4j:3.5.11
-    container_name: phccp-neo4j
+  sbcp-neo4j:
+    image: graphfoundation/ongdb:3.5
+    container_name: sbcp-neo4j
     ports:
       - 7687:7687
       - 7474:7474
@@ -94,18 +94,18 @@ services:
       - /tmp/neo4j/data:/var/lib/neo4j/data
       - /tmp/neo4j/logs:/logs
 
-  phccp-prov:
-    image: docker.synapse.org/syn18489221/prov-service:1.0.0-alpha.1
+  sbcp-prov:
+    image: sagebionetworks/prov-service
     command: python3 -m synprov
-    container_name: phccp-prov
+    container_name: sbcp-prov
     ports:
       - ${PROVENANCE_API_SERVER_PORT}:${PROVENANCE_API_SERVER_PORT}
     environment:
       NEO4J_SCHEME: bolt
-      NEO4J_HOST: phccp-neo4j
+      NEO4J_HOST: sbcp-neo4j
       NEO4J_PORT: 7687
       NEO4J_USERNAME: ${NEO4J_USERNAME}
       NEO4J_PASSWORD: ${NEO4J_PASSWORD}
       FLASK_HOST: "0.0.0.0"
     depends_on:
-      - phccp-neo4j
+      - sbcp-neo4j
